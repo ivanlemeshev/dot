@@ -56,12 +56,25 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+git_status() {
+    local status=$(git status --porcelain 2> /dev/null)
+    if [[ -n "${status}" ]]; then
+        echo -e "\033[0;31m" # Red color for uncommitted changes
+    else
+        echo -e "\033[0;32m" # Green color for clean status
+    fi
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\e[91m\]'
-    PS1=$PS1'$(__git_ps1 " (%s)")\[\e[00m\]'
-    PS1=$PS1'\$ '
+    PS1='\[\033[0;33m\]\t\[\033[00m\] '
+    PS1=$PS1'${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\e[91m\]'
+    PS1=$PS1'$(git_status)$(__git_ps1 " (%s)")\[\e[00m\]'
+    PS1=$PS1'\n\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(__git_ps1 " (%s)")\$ '
+    PS1='\t '
+    PS1=$PS1'${debian_chroot:+($debian_chroot)}\u@\h:\w'
+    PS1=$PS1'$(__git_ps1 " (%s)")'
+    PS1=$PS1'\n\$ '
 fi
 unset color_prompt force_color_prompt
 
