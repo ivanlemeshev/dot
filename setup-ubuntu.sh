@@ -13,3 +13,5 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
 ./install/ubuntu/clean.sh
+
+./git/setup-git.sh
