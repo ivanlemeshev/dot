@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# https://cli.github.com
+# set -e is an option that tells the shell to exit immediately if any command
+# exits with a non-zero status.
+set -e
 
 echo "--- Installing GitHub CLI"
+# https://cli.github.com
 
 (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
