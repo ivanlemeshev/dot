@@ -1,17 +1,28 @@
 #!/bin/bash
 
-echo "--- Installing tmux"
+# set -e is an option that tells the shell to exit immediately if any command
+# exits with a non-zero status.
+set -e
 
+echo "--- Installing tmux"
 sudo apt install -y tmux
 
-# Install tmux plugin manager https://github.com/tmux-plugins/tpm
-if [ ! -d ${HOME}/.tmux/plugins/tpm ]; then
-  git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+answer="y"
+printf "Do you want to use .tmux (https://github.com/gpakosz/.tmux.git) configuration? y/n (%s): " "${answer}"
+read -r val
+if [[ -n "${val}" ]]; then
+    answer="${val}"
 fi
 
-cd ${HOME}/.tmux/plugins/tpm
-git pull origin master
-cd -
+if [[ "${answer}" == "y" ]]; then
+    echo "--- Using .tmux configuration"
+    if [[ ! -d ${PWD}/.tmux ]]; then
+        git clone https://github.com/gpakosz/.tmux.git
+    fi
 
-# Create a symbolic link to the tmux configuration file.
-ln -sf "${PWD}/.tmux.conf" "${HOME}/.tmux.conf"
+    ln -sf "${PWD}/.tmux/.tmux.conf" "${HOME}/.tmux.conf"
+    ln -sf "${PWD}/.tmux.conf.local" "${HOME}/.tmux.conf.local"
+else
+    echo "--- Using personal .tmux.conf file"
+    ln -sf "${PWD}/.tmux.conf" "${HOME}/.tmux.conf"
+fi
