@@ -4,8 +4,9 @@
 # exits with a non-zero status.
 set -e
 
-echo "--- Upgrade the system packages"
+source ./scripts/print.sh
 
+print_header "Updating: system"
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
