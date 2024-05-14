@@ -2,7 +2,7 @@
 
 function prompt_yes_no() {
     while true; do
-        read -p "$1 (y/n): " yn
+        read -r -p "$1 (y/n): " yn
         case $yn in
             [Yy]* ) return 0;;
             [Nn]* ) return 1;;
@@ -13,7 +13,7 @@ function prompt_yes_no() {
 
 function prompt_input() {
     while [[ -z $input ]]; do
-        read -p "$1: " input
+        read -r -p "$1: " input
     done
 
     input="${input#"${input%%[![:space:]]*}"}" # Trim leading whitespace
