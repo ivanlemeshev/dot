@@ -12,3 +12,8 @@ starship init fish | source
 if test -f /usr/local/google-cloud-sdk/path.fish.inc
     source /usr/local/google-cloud-sdk/path.fish.inc
 end
+
+# Golang
+set -x GOROOT "/usr/local/go"
+set -x GOPATH "$HOME/go"
+set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
