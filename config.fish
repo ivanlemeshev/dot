@@ -7,3 +7,8 @@ end
 
 # Enable starship prompt
 starship init fish | source
+
+# Add gcloud to PATH
+if test -f /usr/local/google-cloud-sdk/path.fish.inc
+    source /usr/local/google-cloud-sdk/path.fish.inc
+end
