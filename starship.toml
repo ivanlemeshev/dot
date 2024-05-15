@@ -86,3 +86,6 @@ disabled = false
 # renamed = ''
 # deleted = ''
 # typechanged = ''
+
+[gcloud]
+disabled = true

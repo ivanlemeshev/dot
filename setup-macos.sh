@@ -14,3 +14,4 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ./install/macos/install-tmux.sh
 ./install/macos/install-fish.sh
 ./install/macos/install-starship.sh
+./install/macos/install-kubectl.sh
