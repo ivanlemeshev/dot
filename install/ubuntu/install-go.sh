@@ -13,6 +13,3 @@ curl -sO https://dl.google.com/go/${GOLANG_ARCHIVE}
 [[ -d "${GOLANG_INSTALLATION_PATH}/go" ]] && sudo rm -rf "${GOLANG_INSTALLATION_PATH}/go"
 sudo tar -C "${GOLANG_INSTALLATION_PATH}" -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
 rm ${GOLANG_ARCHIVE}
-
-print_header "Checking version: Go"
-go version
