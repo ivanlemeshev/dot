@@ -17,3 +17,6 @@ end
 set -x GOROOT "/usr/local/go"
 set -x GOPATH "$HOME/go"
 set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
+
+# Nvim
+set -x PATH "$PATH:/opt/nvim-linux64/bin"
