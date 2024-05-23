@@ -14,4 +14,5 @@ sudo apt install -y \
     make \
     unzip \
     gcc \
-    ripgrep
+    ripgrep \
+    fd-find

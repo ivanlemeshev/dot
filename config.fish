@@ -20,3 +20,6 @@ set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
 
 # Nvim
 set -x PATH "$PATH:/opt/nvim-linux64/bin"
+
+# Aliases
+alias vim="nvim"
