@@ -20,7 +20,7 @@
 #   white
 #   yellow
 
-command_timeout = 1000
+command_timeout = 60000
 
 add_newline = false
 
