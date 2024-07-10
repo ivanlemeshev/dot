@@ -9,9 +9,12 @@ set -e
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 
 ./install/ubuntu/update.sh
+./install/ubuntu/install-basic.sh
 ./install/macos/install-git.sh
 ./install/macos/install-gh.sh
 ./install/macos/install-tmux.sh
 ./install/macos/install-fish.sh
 ./install/macos/install-starship.sh
 ./install/macos/install-kubectl.sh
+./install/macos/install-mise.sh
+./install/macos/install-python.sh

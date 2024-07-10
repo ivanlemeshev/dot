@@ -18,4 +18,6 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ./install/ubuntu/install-starship.sh
 ./install/ubuntu/install-go.sh
 ./install/ubuntu/install-lazygit.sh
+./install/ubuntu/install-mise.sh
+./install/ubuntu/install-python.sh
 ./install/ubuntu/clean.sh
