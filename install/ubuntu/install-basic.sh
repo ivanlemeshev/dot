@@ -29,4 +29,5 @@ sudo apt install -y \
     unzip \
     gcc \
     ripgrep \
-    fd-find
+    fd-find \
+    ffmpeg

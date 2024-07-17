@@ -29,3 +29,11 @@ mise activate fish | source
 
 # Aliases
 alias vim="nvim"
+
+alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s'"
+
+alias yd-video="yt-dlp -f 'best[ext=mp4][height<=1080]' -o '%(title)s.%(ext)s'"
+alias yd-video-lq="yt-dlp -f 'best[ext=mp4][height<=360]' -o '%(title)s.%(ext)s'"
+
+alias yd-playlist="yt-dlp -f 'b[ext=mp4][height<=1080]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
+alias yd-playlist-lq="yt-dlp -f 'b[ext=mp4][height<=360]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
