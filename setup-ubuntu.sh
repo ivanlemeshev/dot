@@ -22,4 +22,5 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ./install/ubuntu/install-python.sh
 ./install/ubuntu/install-lua.sh
 ./install/ubuntu/install-luarocks.sh
+./install/ubuntu/install-nvim.sh
 ./install/ubuntu/clean.sh
