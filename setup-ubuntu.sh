@@ -20,4 +20,6 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ./install/ubuntu/install-lazygit.sh
 ./install/ubuntu/install-mise.sh
 ./install/ubuntu/install-python.sh
+./install/ubuntu/install-lua.sh
+./install/ubuntu/install-luarocks.sh
 ./install/ubuntu/clean.sh
