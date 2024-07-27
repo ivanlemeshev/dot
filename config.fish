@@ -10,6 +10,10 @@ if test -f /usr/local/google-cloud-sdk/path.fish.inc
     source /usr/local/google-cloud-sdk/path.fish.inc
 end
 
+# Set nvim as default editor
+# https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
+set -gx EDITOR nvim
+
 # Golang
 set -x GOROOT "/usr/local/go"
 set -x GOPATH "$HOME/go"
