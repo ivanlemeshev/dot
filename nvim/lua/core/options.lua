@@ -40,27 +40,6 @@ vim.opt.cursorline = true
 -- external changes.
 vim.opt.autoread = true
 
--- A tab character will be displayed as two spaces wide. This setting affects
--- the appearance of tab characters in the editor but does not change the actual
--- character in the file. It's commonly used to make code more readable and to
--- ensure consistent indentation when collaborating on projects with a preferred
--- indentation style.
-vim.opt.tabstop = 2
-
--- Controls the number of spaces used for each step of indentation. When you
--- press the tab key (in insert mode) or use commands for indentation (like >>
--- or << in normal mode), Neovim will insert or remove spaces based on this
--- value.
-vim.opt.shiftwidth = 2
-
--- Round the indentation to the nearest multiple of the value set in shiftwidth
--- when you use indentation commands like >>, <<, or when auto-indenting.
-vim.opt.shiftround = true
-
--- Insert spaces instead of tab characters when the tab key is pressed or when
--- auto-indentation occurs.
-vim.opt.expandtab = true
-
 -- Highlights column 80 in the editor, serving as a visual guide to indicate a
 -- recommended maximum line length.
 vim.opt.colorcolumn = "80"
@@ -70,9 +49,39 @@ vim.opt.colorcolumn = "80"
 -- unexpected program exit, crash, or power loss.
 vim.cmd [[ set noswapfile ]]
 
--- Enables true color support in the terminal. Neovim attempts to use 24-bit RGB
--- colors (true colors) in the terminal.
+-- Enables true color support in the terminal. Neovim attempts to use 24-bit
+-- RGB colors (true colors) in the terminal.
 vim.cmd [[ set termguicolors ]]
 
 -- Display the line numbers next to each line.
 vim.wo.number = true
+
+-- Display whitespace characters using special symbols.
+vim.opt.list = true
+
+vim.opt.listchars:append {
+    tab = '→ ', -- U+2192
+    multispace = ' ',
+    lead = '.',
+    trail = '-',
+    nbsp = ' ',
+    eol = '↲' -- U+21B2
+}
+
+vim.cmd([[match TrailingWhitespace /\s\+$/]])
+
+vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+    callback = function()
+        vim.opt.listchars.trail = nil
+        vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Whitespace" })
+    end
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+    callback = function()
+        vim.opt.listchars.trail = '.'
+        vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+    end
+})
