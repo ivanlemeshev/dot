@@ -81,6 +81,12 @@
 - `:q!` (in normal mode)
     - Quit the file without saving.
 
+- `qa` (in normal mode)
+    - Quit all open files.
+
+- `:qa!` (in normal mode)
+    - Quit all open files without saving.
+
 - `h` (in normal mode)
     - Move the cursor left.
 
