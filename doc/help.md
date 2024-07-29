@@ -158,3 +158,24 @@
 
 - `<` (in visual mode)
     - Unindent the selected text.
+
+- `a` (nvim-tree)
+    - Add a new file or directory.
+
+- `m` (nvim-tree)
+    - Move a file or directory.
+
+- `r` (nvim-tree)
+    - Rename a file or directory.
+
+- `d` (nvim-tree)
+    - Delete a file or directory.
+
+- `x` (nvim-tree)
+    - Cut a file or directory.
+
+- `y` (nvim-tree)
+    - Copy a file or directory.
+
+- `p` (nvim-tree)
+    - Paste a file or directory.
