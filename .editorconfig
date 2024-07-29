@@ -1,0 +1,31 @@
+# EditorConfig: https://editorconfig.org
+# Nvim supports EditorConfig: https://neovim.io/doc/user/editorconfig.html
+
+# It tells the EditorConfig plugin to stop searching for .editorconfig files in
+# parent directories.
+root = true
+
+# All files
+[*]
+# Unix-style newlines with a newline ending every file
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# Language-specific settings
+[*.lua,*.py]
+indent_style = space
+indent_size = 4
+
+[*.go]
+indent_style = tab
+indent_size = 4
+
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+[{*.json,*.yml,*.js}]
+indent_style = space
+indent_size = 2

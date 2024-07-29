@@ -7,6 +7,7 @@ set -e
 # The -f option tells it to replace the file at the target location if it
 # already exists.
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
+ln -sf "${PWD}/.editorconfig" "${HOME}/.editorconfig"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
