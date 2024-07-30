@@ -32,8 +32,6 @@ starship init fish | source
 mise activate fish | source
 
 # Aliases
-alias vim="nvim"
-
 alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s'"
 
 alias yd-video="yt-dlp -f 'best[ext=mp4][height<=1080]' -o '%(title)s.%(ext)s'"
