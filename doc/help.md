@@ -59,6 +59,27 @@
 - `bg` (command)
     - Resume a suspended process in the background.
 
+- `Ctrl+Alt+f`
+    - Search a file in the current directory.
+
+- `Ctrl+Alt+l` (fzf.fish)
+    - Search a commit in git log.
+
+- `Ctrl+Alt+s` (fzf.fish)
+    - Search a file in git status.
+
+- `Ctrl+r` (fzf.fish)
+    - Search the command history.
+
+- `Ctrl+Alt+p` (fzf.fish)
+    - Search a process.
+
+- `Ctrl+v` (fzf.fish)
+    - Search an environment variable.
+
+- `Tab` (fzf.fish)
+    - Select multiple entries.
+
 ## Tmux
 
 ## Neovim
