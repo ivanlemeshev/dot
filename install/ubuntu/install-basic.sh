@@ -28,6 +28,8 @@ sudo apt install -y \
     make \
     unzip \
     gcc \
+    ffmpeg \
     ripgrep \
     fd-find \
-    ffmpeg
+    fzf \
+    bat \
