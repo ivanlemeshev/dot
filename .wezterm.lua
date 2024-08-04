@@ -32,8 +32,12 @@ config.keys = {
 }
 
 config.automatically_reload_config = true
+
 config.enable_tab_bar = false
-config.font = wezterm.font 'MesloLGL Nerd Font Mono'
+
 config.color_scheme = 'Catppuccin Macchiato'
+
+config.font = wezterm.font('MesloLGL Nerd Font Mono')
+config.font_size = 12
 
 return config
