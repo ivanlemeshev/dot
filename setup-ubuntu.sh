@@ -8,6 +8,7 @@ set -e
 # already exists.
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ln -sf "${PWD}/.editorconfig" "${HOME}/.editorconfig"
+ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
