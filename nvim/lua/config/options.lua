@@ -72,12 +72,12 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 vim.opt.listchars:append {
-    tab = '→ ', -- U+2192
-    multispace = ' ',
-    lead = '.',
-    trail = '-',
-    nbsp = ' ',
-    eol = '↲' -- U+21B2
+  tab = '→ ', -- U+2192
+  multispace = ' ',
+  lead = '.',
+  trail = '-',
+  nbsp = ' ',
+  eol = '↲' -- U+21B2
 }
 
 vim.cmd([[match TrailingWhitespace /\s\+$/]])
@@ -85,15 +85,15 @@ vim.cmd([[match TrailingWhitespace /\s\+$/]])
 vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Error' })
 
 vim.api.nvim_create_autocmd('InsertEnter', {
-    callback = function()
-        vim.opt.listchars.trail = nil
-        vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Whitespace' })
-    end
+  callback = function()
+    vim.opt.listchars.trail = nil
+    vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Whitespace' })
+  end
 })
 
 vim.api.nvim_create_autocmd('InsertLeave', {
-    callback = function()
-        vim.opt.listchars.trail = '.'
-        vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Error' })
-    end
+  callback = function()
+    vim.opt.listchars.trail = '.'
+    vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Error' })
+  end
 })
