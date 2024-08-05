@@ -32,4 +32,3 @@ sudo apt install -y \
     ripgrep \
     fd-find \
     fzf \
-    bat \

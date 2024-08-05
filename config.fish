@@ -25,6 +25,9 @@ set -x PATH "$PATH:$HOME/.local/bin"
 # Nvim
 set -x PATH "$PATH:/opt/nvim-linux64/bin"
 
+# Add bat theme
+set -x BAT_THEME "CatppuccinMacchiato"
+
 # Enable starship prompt
 starship init fish | source
 
