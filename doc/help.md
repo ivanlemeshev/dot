@@ -82,6 +82,93 @@
 
 ## Tmux
 
+- `Ctrl+a`
+    - The custom prefix key.
+
+- `Ctrl+a c`
+    - Create a new window.
+
+- `Ctrl+a n`
+    - Move to the next window.
+
+- `Ctrl+a p`
+    - Move to the previous window.
+
+- `Ctrl+a %`
+    - Split the window vertically.
+
+- `Ctrl+a "`
+    - Split the window horizontally.
+
+- `Ctrl+a i`
+    - Paste the text from the clipboard.
+
+- `Ctrl+Shift+v`
+    - Paste the text from the clipboard (Windows).
+
+- `Ctrl+a y`
+    - Copy the selected text to the clipboard.
+
+- `Ctrl+a d`
+    - Detach the current session.
+
+- `Ctrl+a z`
+    - Zoom in and out the current pane.
+
+- `Ctrl+a ,`
+    - Rename the current window.
+
+- `Ctrl+a &`
+    - Kill the current window.
+
+- `Ctrl+a x`
+    - Kill the current pane.
+
+- `Ctrl+a [`
+    - Enter copy mode.
+
+- `h` (in copy mode)
+    - Move the cursor left.
+
+- `j` (in copy mode)
+    - Move the cursor down.
+
+- `k` (in copy mode)
+    - Move the cursor up.
+
+- `l` (in copy mode)
+    - Move the cursor right.
+
+- `Space` (in copy mode)
+    - Start selecting text.
+
+- `Enter` (in copy mode)
+    - Copy the selected text.
+
+- `Ctrl+a ]`
+    - Paste the copied text.
+
+- `Ctrl+a Shift+i` (tmux-plugins/tpm)
+    - Install plugins.
+
+- `Ctrl+a Shift+u` (tmux-plugins/tpm)
+    - Update plugins.
+
+- `Ctrl+a u` (tmux-plugins/tpm)
+    - Remove plugins.
+
+- `Ctrl+h` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the left pane.
+
+- `Ctrl+j` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the bottom pane.
+
+- `Ctrl+k` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the top pane.
+
+- `Ctrl+l` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the right pane.
+
 ## Neovim
 
 - `i` (in normal mode)
@@ -206,6 +293,18 @@
 
 - `p` (nvim-tree)
     - Paste a file or directory.
+
+- `Ctrl+h` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the left pane.
+
+- `Ctrl+j` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the bottom pane.
+
+- `Ctrl+k` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the top pane.
+
+- `Ctrl+l` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the right pane.
 
 ## Vim
 
