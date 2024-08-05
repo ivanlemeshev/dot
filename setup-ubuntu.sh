@@ -12,6 +12,7 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
+./install/ubuntu/install-bat.sh
 ./install/ubuntu/install-meslo-font.sh
 ./install/ubuntu/install-git.sh
 ./install/ubuntu/install-gh.sh
