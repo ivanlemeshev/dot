@@ -77,6 +77,12 @@
 - `Ctrl+v` (fzf.fish)
     - Search an environment variable.
 
+- `Ctrl+p` (fzf.fish)
+    - Move to the previous entry.
+
+- `Ctrl+n` (fzf.fish)
+    - Move to the next entry.
+
 - `Tab` (fzf.fish)
     - Select multiple entries.
 
@@ -168,6 +174,9 @@
 
 - `Ctrl+l` (christoomey/vim-tmux-navigator)
     - Move the cursor to the right pane.
+
+- `Ctrl+\` (christoomey/vim-tmux-navigator)
+    - Move the cursor to the last active pane.
 
 ## Neovim
 
@@ -305,6 +314,21 @@
 
 - `Ctrl+l` (christoomey/vim-tmux-navigator)
     - Move the cursor to the right pane.
+
+- `Space ff` (telescope.nvim)
+    - Find a file.
+
+- `Space fg` (telescope.nvim)
+    - Find some text in the files.
+
+- `Space fb` (telescope.nvim)
+    - Find a file in open buffers.
+
+- `Ctrl+p` (telescope.nvim)
+    - Move to the previous entry.
+
+- `Ctrl+n` (telescope.nvim)
+    - Move to the next entry.
 
 ## Vim
 
