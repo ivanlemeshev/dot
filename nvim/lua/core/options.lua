@@ -27,18 +27,23 @@ vim.opt.showcmd = true
 -- have configured.
 vim.opt.laststatus = 2
 
+-- Automatically read the file from disk when it has been changed outside of
+-- Neovim, ensuring that the file's contents are always up to date with its
+-- external changes.
+vim.opt.autoread = true
+
 -- Automatically save changes to a file when you switch to another file or
 -- before running certain commands that would normally require saving the file
 -- first.
 vim.opt.autowrite = true
 
+-- Automatically save changes to all modified buffers without prompting the
+-- user. This can be particularly useful for preventing data loss and ensuring
+-- that all changes are consistently saved.
+vim.opt.autowriteall = true
+
 -- Highlights the line where the cursor is currently positioned.
 vim.opt.cursorline = true
-
--- Automatically read the file from disk when it has been changed outside of
--- Neovim, ensuring that the file's contents are always up to date with its
--- external changes.
-vim.opt.autoread = true
 
 -- Highlights column 80 in the editor, serving as a visual guide to indicate a
 -- recommended maximum line length.
