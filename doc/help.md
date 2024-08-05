@@ -282,6 +282,9 @@
 - `<` (in visual mode)
     - Unindent the selected text.
 
+- `Ctrl+6` (in normal mode)
+    - Switch to the previous buffer.
+
 - `a` (nvim-tree)
     - Add a new file or directory.
 
@@ -315,20 +318,26 @@
 - `Ctrl+l` (christoomey/vim-tmux-navigator)
     - Move the cursor to the right pane.
 
-- `Space ff` (telescope.nvim)
+- `Space ff` (telescope)
     - Find a file.
 
-- `Space fg` (telescope.nvim)
+- `Space fg` (telescope)
     - Find some text in the files.
 
-- `Space fb` (telescope.nvim)
+- `Space fb` (telescope)
     - Find a file in open buffers.
 
-- `Ctrl+p` (telescope.nvim)
+- `Ctrl+p` (telescope)
     - Move to the previous entry.
 
-- `Ctrl+n` (telescope.nvim)
+- `Ctrl+n` (telescope)
     - Move to the next entry.
+
+- `Shift k` (lsp)
+    - Show the documentation of the symbol under the cursor.
+
+- `gd` (lsp)
+    - Go to the definition of the symbol under the cursor.
 
 ## Vim
 

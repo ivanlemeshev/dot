@@ -1,3 +1,7 @@
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- Add any additional options here
+
 -- The leader key is a prefix used in combination with other keys to create
 -- custom shortcuts. Any subsequent key mappings that use <leader> will require
 -- pressing the space bar first.
@@ -59,7 +63,10 @@ vim.cmd [[ set noswapfile ]]
 vim.cmd [[ set termguicolors ]]
 
 -- Display the line numbers next to each line.
-vim.wo.number = true
+vim.opt.number = true
+
+-- Disable relative line numbers.
+vim.opt.relativenumber = false
 
 -- Display whitespace characters using special symbols.
 vim.opt.list = true
@@ -75,18 +82,18 @@ vim.opt.listchars:append {
 
 vim.cmd([[match TrailingWhitespace /\s\+$/]])
 
-vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Error' })
 
-vim.api.nvim_create_autocmd("InsertEnter", {
+vim.api.nvim_create_autocmd('InsertEnter', {
     callback = function()
         vim.opt.listchars.trail = nil
-        vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Whitespace" })
+        vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Whitespace' })
     end
 })
 
-vim.api.nvim_create_autocmd("InsertLeave", {
+vim.api.nvim_create_autocmd('InsertLeave', {
     callback = function()
         vim.opt.listchars.trail = '.'
-        vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+        vim.api.nvim_set_hl(0, 'TrailingWhitespace', { link = 'Error' })
     end
 })
