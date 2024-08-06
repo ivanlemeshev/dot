@@ -1,6 +1,8 @@
 # Disable fish greeting
 set fish_greeting
 
+abbr --add unset 'set --erase'
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -27,6 +29,22 @@ set -x PATH "$PATH:/opt/nvim-linux64/bin"
 
 # Add bat theme
 set -x BAT_THEME "CatppuccinMacchiato"
+
+# Set colors for ls, fd, etc
+set -x LS_COLORS "$(vivid generate catppuccin-macchiato)"
+
+# Set colors for fzf
+set -x FZF_DEFAULT_OPTS "\
+--color=fg:#cad3f5,fg+:#cad3f5 \
+--color=bg:#24273a,bg+:#363a4f \
+--color=hl:#ed8796,hl+:#ed8796 \
+--color=info:#c6a0f6,marker:#b7bdf8 \
+--color=prompt:#c6a0f6,spinner:#f4dbd6 \
+--color=pointer:#f4dbd6,header:#ed8796 \
+--color=border:#363a4f,label:#cad3f5,query:#f4dbd6 \
+--border='rounded' --border-label='' --preview-window='border-rounded' \
+--prompt='> ' --marker='>' --pointer='◆' --separator='─' --scrollbar='│' \
+--layout='reverse' --info='right' --multi"
 
 # Enable starship prompt
 starship init fish | source
