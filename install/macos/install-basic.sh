@@ -17,3 +17,5 @@ brew install \
     fd \
     fzf \
     bottom \
+    go \
+    node \
