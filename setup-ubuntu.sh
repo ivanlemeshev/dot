@@ -7,7 +7,6 @@ set -e
 # The -f option tells it to replace the file at the target location if it
 # already exists.
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
-ln -sf "${PWD}/.editorconfig" "${HOME}/.editorconfig"
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 
 ./install/ubuntu/update.sh
