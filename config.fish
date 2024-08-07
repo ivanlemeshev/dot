@@ -1,6 +1,8 @@
 # Disable fish greeting
 set fish_greeting
 
+set -l os (uname)
+
 abbr --add unset 'set --erase'
 
 if status is-interactive
@@ -16,10 +18,12 @@ end
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
 
-# Golang
-set -x GOROOT "/usr/local/go"
-set -x GOPATH "$HOME/go"
-set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
+if test "$os" = Linux
+    # Golang
+    set -x GOROOT "/usr/local/go"
+    set -x GOPATH "$HOME/go"
+    set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
+end
 
 # Add local bin to PATH
 set -x PATH "$PATH:$HOME/.local/bin"
@@ -62,7 +66,6 @@ alias yd-video-lq="yt-dlp -f 'best[ext=mp4][height<=360]' -o '%(title)s.%(ext)s'
 alias yd-playlist="yt-dlp -f 'b[ext=mp4][height<=1080]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 alias yd-playlist-lq="yt-dlp -f 'b[ext=mp4][height<=360]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 
-set -l os (uname)
 if test "$os" = Linux
     alias bat="batcat"
 end
