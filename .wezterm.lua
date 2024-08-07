@@ -4,6 +4,7 @@ local mux = wezterm.mux
 local config = wezterm.config_builder()
 
 local is_windows <const> = wezterm.target_triple:find('windows') ~= nil
+local is_macos <const> = wezterm.target_triple:find('darwin') ~= nil
 
 wezterm.on('gui-startup', function(cmd)
     local tab, pane, window = mux.spawn_window(cmd or {})
@@ -32,12 +33,17 @@ config.keys = {
 }
 
 config.automatically_reload_config = true
-
 config.enable_tab_bar = false
+config.adjust_window_size_when_changing_font_size = false
 
 config.color_scheme = 'Catppuccin Macchiato'
 
 config.font = wezterm.font('MesloLGL Nerd Font Mono')
-config.font_size = 12
+
+if is_macos then
+    config.font_size = 18.0
+else
+    config.font_size = 12.0
+end
 
 return config
