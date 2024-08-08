@@ -20,7 +20,7 @@ set -gx EDITOR nvim
 
 if test "$os" = Linux
     # Golang
-    set -x GOROOT "/usr/local/go"
+    set -x GOROOT /usr/local/go
     set -x GOPATH "$HOME/go"
     set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
 end
@@ -32,7 +32,7 @@ set -x PATH "$PATH:$HOME/.local/bin"
 set -x PATH "$PATH:/opt/nvim-linux64/bin"
 
 # Add bat theme
-set -x BAT_THEME "CatppuccinMacchiato"
+set -x BAT_THEME CatppuccinMacchiato
 
 # Set colors for ls, fd, etc
 set -x LS_COLORS "$(vivid generate catppuccin-macchiato)"
@@ -57,6 +57,14 @@ starship init fish | source
 mise activate fish | source
 
 # Aliases
+
+# kubectl
+alias k="kubectl"
+alias k-ctx="kubectl config current-context"
+alias k-ctx-list="kubectl config get-contexts -o name"
+alias k-ctx-use="kubectl config use-context"
+
+# yt dlp
 alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s'"
 
 # Download the best mp4 video available, or the best video if no mp4 available
@@ -66,6 +74,7 @@ alias yd-video-lq="yt-dlp -f 'best[ext=mp4][height<=360]' -o '%(title)s.%(ext)s'
 alias yd-playlist="yt-dlp -f 'b[ext=mp4][height<=1080]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 alias yd-playlist-lq="yt-dlp -f 'b[ext=mp4][height<=360]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 
+# bat
 if test "$os" = Linux
     alias bat="batcat"
 end
