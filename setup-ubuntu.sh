@@ -28,3 +28,5 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/ubuntu/install-luarocks.sh
 ./install/ubuntu/install-nvim.sh
 ./install/ubuntu/clean.sh
+
+exec fish -l
