@@ -13,13 +13,13 @@ git --version
 
 print_header "Configuring: Git"
 
-default_git_branch=$(prompt_input "What default git branch do you wnat to use?")
+default_git_branch=$(prompt_input "What default git branch do you want to use?" "main")
 git config --global init.defaultBranch "${default_git_branch}"
 
-git_email=$(prompt_input "What git email do you wnat to use?")
+git_email=$(prompt_input "What git email do you want to use?")
 git config --global user.email "${git_email}"
 
-git_name=$(prompt_input "What git name do you wnat to use?")
+git_name=$(prompt_input "What git name do you want to use?")
 git config --global user.name "${git_name}"
 
 print_header "Adding aliases: Git"
