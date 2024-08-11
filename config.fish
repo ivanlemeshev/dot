@@ -71,7 +71,7 @@ alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-qualit
 alias yd-video="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s'"
 alias yd-video-lq="yt-dlp -f 'best[ext=mp4][height<=360]' -o '%(title)s.%(ext)s'"
 
-alias yd-playlist="yt-dlp -f 'b[ext=mp4][height<=1080]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
+alias yd-playlist="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 alias yd-playlist-lq="yt-dlp -f 'b[ext=mp4][height<=360]' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 
 # bat
