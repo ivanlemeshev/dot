@@ -454,3 +454,8 @@
 
 - `D` (netrw)
     - Delete a file or directory.
+
+# 60% Keyboard
+
+- `Alt+Fn+4`
+    - Close the current window (Alt+F4).
