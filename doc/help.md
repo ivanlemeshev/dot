@@ -246,11 +246,29 @@
 - `yy` (in normal mode)
     - Copy the current line.
 
+- `2yy` (in normal mode)
+    - Copy the next two lines.
+
+- `y$` (in normal mode)
+    - Copy the text from the cursor to the end of the line.
+
+- `y0` (in normal mode)
+    - Copy the text from the cursor to the beginning of the line.
+
+- `yw` (in normal mode)
+    - Copy the next word.
+
 - `p` (in normal mode)
-    - Paste the copied text.
+    - Paste the copied text after the cursor.
+
+- `P` (in normal mode)
+    - Paste the copied text before the cursor.
 
 - `u` (in normal mode)
     - Undo the last change.
+
+- `o` (in normal mode)
+    - Add a new line below the current line.
 
 - `Ctrl+r` (in normal mode)
     - Redo the last change.
@@ -271,10 +289,43 @@
     - Copy the selected text.
 
 - `d` (in visual mode)
-    - Delete the selected text.
+    - Delete the selected text (The text is copied, you can paste it).
 
 - `c` (in visual mode)
     - Change the selected text.
+
+- `o` (in visual mode)
+    - Move the cursor to the other end of the selection.
+
+- `aw` (in visual mode)
+    - Select a word.
+
+- `as` (in visual mode)
+    - Select a sentence.
+
+- `ap` (in visual mode)
+    - Select a paragraph.
+
+- `ab` (in visual mode)
+    - Select a block with braces ().
+
+- `aB` (in visual mode)
+    - Select a block with brackets {}.
+
+- `a*` (in visual mode)
+    - Select *: ', ", `, (, [, {, and <.
+
+- `ib` (in visual mode)
+    - Select all inside a block with braces ().
+
+- `iB` (in visual mode)
+    - Select all inside a block with brackets {}.
+
+- `i*` (in visual mode)
+    - Select all inside *: ', ", `, (, [, {, and <.
+
+- `~` (in visual mode)
+    - Change the case of the selected text.
 
 - `>` (in visual mode)
     - Indent the selected text.
@@ -407,11 +458,29 @@
 - `yy` (in normal mode)
     - Copy the current line.
 
+- `2yy` (in normal mode)
+    - Copy the next two lines.
+
+- `y$` (in normal mode)
+    - Copy the text from the cursor to the end of the line.
+
+- `y0` (in normal mode)
+    - Copy the text from the cursor to the beginning of the line.
+
+- `yw` (in normal mode)
+    - Copy the next word.
+
 - `p` (in normal mode)
-    - Paste the copied text.
+    - Paste the copied text after the cursor.
+
+- `P` (in normal mode)
+    - Paste the copied text before the cursor.
 
 - `u` (in normal mode)
     - Undo the last change.
+
+- `o` (in normal mode)
+    - Add a new line below the current line.
 
 - `Ctrl+r` (in normal mode)
     - Redo the last change.
@@ -432,10 +501,43 @@
     - Copy the selected text.
 
 - `d` (in visual mode)
-    - Delete the selected text.
+    - Delete the selected text (the text is copied, you can paste it).
 
 - `c` (in visual mode)
     - Change the selected text.
+
+- `o` (in visual mode)
+    - Move the cursor to the other end of the selection.
+
+- `aw` (in visual mode)
+    - Select a word.
+
+- `as` (in visual mode)
+    - Select a sentence.
+
+- `ap` (in visual mode)
+    - Select a paragraph.
+
+- `ab` (in visual mode)
+    - Select a block with braces ().
+
+- `aB` (in visual mode)
+    - Select a block with brackets {}.
+
+- `a*` (in visual mode)
+    - Select *: ', ", `, (, [, {, and <.
+
+- `ib` (in visual mode)
+    - Select all inside a block with braces ().
+
+- `iB` (in visual mode)
+    - Select all inside a block with brackets {}.
+
+- `i*` (in visual mode)
+    - Select all inside *: ', ", `, (, [, {, and <.
+
+- `~` (in visual mode)
+    - Change the case of the selected text.
 
 - `>` (in visual mode)
     - Indent the selected text.
