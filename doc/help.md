@@ -183,6 +183,12 @@
 - `i` (in normal mode)
     - Enter insert mode.
 
+- `a` (in normal mode)
+    - Enter insert mode after the cursor.
+
+- `Shift+a` (in normal mode)
+    - Enter insert mode at the end of the line.
+
 - `Esc` (in insert mode)
     - Exit insert mode.
 
@@ -234,7 +240,7 @@
 - `gg` (in normal mode)
     - Move the cursor to the beginning of the file.
 
-- `G` (in normal mode)
+- `Shift+g` (in normal mode)
     - Move the cursor to the end of the file.
 
 - `x` (in normal mode)
@@ -261,7 +267,7 @@
 - `p` (in normal mode)
     - Paste the copied text after the cursor.
 
-- `P` (in normal mode)
+- `Shift+p` (in normal mode)
     - Paste the copied text before the cursor.
 
 - `u` (in normal mode)
@@ -276,10 +282,19 @@
 - `:s/foo/bar/g` (in normal mode)
     - Replace all occurrences of `foo` with `bar`.
 
+- `/` (in normal mode)
+    - Search for a pattern.
+
+- `n` (in normal mode)
+    - Move to the next occurrence of the pattern.
+
+- `Shift+n` (in normal mode)
+    - Move to the previous occurrence of the pattern.
+
 - `v` (in normal mode)
     - Enter visual mode.
 
-- `V` (in normal mode)
+- `Shift+v` (in normal mode)
     - Enter visual line mode.
 
 - `Ctrl+v` (in normal mode)
@@ -309,7 +324,7 @@
 - `ab` (in visual mode)
     - Select a block with braces ().
 
-- `aB` (in visual mode)
+- `a Shift+b` (in visual mode)
     - Select a block with brackets {}.
 
 - `a*` (in visual mode)
@@ -318,7 +333,7 @@
 - `ib` (in visual mode)
     - Select all inside a block with braces ().
 
-- `iB` (in visual mode)
+- `i Shift+b` (in visual mode)
     - Select all inside a block with brackets {}.
 
 - `i*` (in visual mode)
@@ -336,7 +351,7 @@
 - `Ctrl+6` (in normal mode)
     - Switch to the previous buffer.
 
-- `leader e` (in normal mode)
+- `Space e` (in normal mode)
     - Open/close the file explorer.
 
 - `Shift h` (in normal mode)
@@ -345,7 +360,8 @@
 - `Shift l` (in normal mode)
     - Switch to the next tab.
 
-- `a` (nvim-tree) Add a new file or directory.
+- `a` (nvim-tree)
+    - Add a new file or directory.
 
 - `m` (nvim-tree)
     - Move a file or directory.
@@ -365,10 +381,10 @@
 - `p` (nvim-tree)
     - Paste a file or directory.
 
-- `H` (nvim-tree)
+- `Shift+h` (nvim-tree)
     - Show/hide hidden files.
 
-- `R` (nvim-tree)
+- `Shift+r` (nvim-tree)
     - Refresh the tree.
 
 - `Ctrl+h` (christoomey/vim-tmux-navigator)
@@ -409,6 +425,12 @@
 - `i` (in normal mode)
     - Enter insert mode.
 
+- `a` (in normal mode)
+    - Enter insert mode after the cursor.
+
+- `Shift+a` (in normal mode)
+    - Enter insert mode at the end of the line.
+
 - `Esc` (in insert mode)
     - Exit insert mode.
 
@@ -460,7 +482,7 @@
 - `gg` (in normal mode)
     - Move the cursor to the beginning of the file.
 
-- `G` (in normal mode)
+- `Shift+g` (in normal mode)
     - Move the cursor to the end of the file.
 
 - `x` (in normal mode)
@@ -487,7 +509,7 @@
 - `p` (in normal mode)
     - Paste the copied text after the cursor.
 
-- `P` (in normal mode)
+- `Shift+p` (in normal mode)
     - Paste the copied text before the cursor.
 
 - `u` (in normal mode)
@@ -496,16 +518,28 @@
 - `o` (in normal mode)
     - Add a new line below the current line.
 
+- `Schift o` (in normal mode)
+    - Add a new line above the current line.
+
 - `Ctrl+r` (in normal mode)
     - Redo the last change.
 
 - `:s/foo/bar/g` (in normal mode)
     - Replace all occurrences of `foo` with `bar`.
 
+- `/` (in normal mode)
+    - Search for a pattern.
+
+- `n` (in normal mode)
+    - Move to the next occurrence of the pattern.
+
+- `Shift+n` (in normal mode)
+    - Move to the previous occurrence of the pattern.
+
 - `v` (in normal mode)
     - Enter visual mode.
 
-- `V` (in normal mode)
+- `Shift+v` (in normal mode)
     - Enter visual line mode.
 
 - `Ctrl+v` (in normal mode)
@@ -535,7 +569,7 @@
 - `ab` (in visual mode)
     - Select a block with braces ().
 
-- `aB` (in visual mode)
+- `a Shift+b` (in visual mode)
     - Select a block with brackets {}.
 
 - `a*` (in visual mode)
@@ -544,7 +578,7 @@
 - `ib` (in visual mode)
     - Select all inside a block with braces ().
 
-- `iB` (in visual mode)
+- `i Shift+b` (in visual mode)
     - Select all inside a block with brackets {}.
 
 - `i*` (in visual mode)
@@ -565,10 +599,10 @@
 - `d` (netrw)
     - Add a new directory.
 
-- `R` (netrw)
+- `Shift+r` (netrw)
     - Rename a file or directory.
 
-- `D` (netrw)
+- `Shift+d` (netrw)
     - Delete a file or directory.
 
 # 60% Keyboard
