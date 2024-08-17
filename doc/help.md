@@ -336,8 +336,16 @@
 - `Ctrl+6` (in normal mode)
     - Switch to the previous buffer.
 
-- `a` (nvim-tree)
-    - Add a new file or directory.
+- `leader e` (in normal mode)
+    - Open/close the file explorer.
+
+- `Shift h` (in normal mode)
+    - Switch to the previous tab.
+
+- `Shift l` (in normal mode)
+    - Switch to the next tab.
+
+- `a` (nvim-tree) Add a new file or directory.
 
 - `m` (nvim-tree)
     - Move a file or directory.
@@ -356,6 +364,12 @@
 
 - `p` (nvim-tree)
     - Paste a file or directory.
+
+- `H` (nvim-tree)
+    - Show/hide hidden files.
+
+- `R` (nvim-tree)
+    - Refresh the tree.
 
 - `Ctrl+h` (christoomey/vim-tmux-navigator)
     - Move the cursor to the left pane.
