@@ -2,16 +2,6 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
--- The leader key is a prefix used in combination with other keys to create
--- custom shortcuts. Any subsequent key mappings that use <leader> will require
--- pressing the space bar first.
-vim.g.mapleader = " "
-
--- The local leader key functions similarly to the global leader key, acting as
--- a prefix for key mappings. However, the local leader key can be different in
--- each buffer, allowing for buffer-specific shortcuts.
-vim.g.maplocalleader = " "
-
 -- Controls how backspace behaves in insert mode. Specifically, setting it to
 -- '2' allows the backspace key to delete over autoindent, line breaks (enter),
 -- and the start of insert; essentially making backspace work more like it does
@@ -78,22 +68,4 @@ vim.opt.listchars:append({
   trail = "-",
   nbsp = " ",
   eol = "↲", -- U+21B2
-})
-
-vim.cmd([[match TrailingWhitespace /\s\+$/]])
-
-vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
-
-vim.api.nvim_create_autocmd("InsertEnter", {
-  callback = function()
-    vim.opt.listchars.trail = nil
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Whitespace" })
-  end,
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  callback = function()
-    vim.opt.listchars.trail = "."
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
-  end,
 })
