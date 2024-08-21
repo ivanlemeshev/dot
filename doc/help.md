@@ -35,6 +35,12 @@
 - `Ctrl+d`
     - Delete the character under the cursor.
 
+- `Ctrl+h`
+    - Delete the character before the cursor.
+
+- `Ctrl+z`
+    - Undo the last change.
+
 - `Ctrl+y`
     - Paste the last deleted text.
 
@@ -44,13 +50,16 @@
 - `Ctrl+l`
     - Clear the screen.
 
-- `Ctrl+z`
+- `Ctrl+z` (in a running process)
     - Suspend the current process and send it to the background.
 
 - `Ctrl+c`
     - Kill the current running process.
 
 - `Alt+e`
+    - Edit the current command line in an external editor.
+
+- `Alt+v`
     - Edit the current command line in an external editor.
 
 - `fg` (command)
@@ -88,49 +97,49 @@
 
 ## Tmux
 
-- `Ctrl+a`
+- `Alt+x`
     - The custom prefix key.
 
-- `Ctrl+a c`
+- `Prefix c`
     - Create a new window.
 
-- `Ctrl+a n`
+- `Prefix n`
     - Move to the next window.
 
-- `Ctrl+a p`
+- `Prefix p`
     - Move to the previous window.
 
-- `Ctrl+a %`
+- `Prefix %`
     - Split the window vertically.
 
-- `Ctrl+a "`
+- `Prefix "`
     - Split the window horizontally.
 
-- `Ctrl+a i`
+- `Prefix i`
     - Paste the text from the clipboard.
 
 - `Ctrl+Shift+v`
     - Paste the text from the clipboard (Windows).
 
-- `Ctrl+a y`
+- `Prefix y`
     - Copy the selected text to the clipboard.
 
-- `Ctrl+a d`
+- `Prefix d`
     - Detach the current session.
 
-- `Ctrl+a z`
+- `Prefix z`
     - Zoom in and out the current pane.
 
-- `Ctrl+a ,`
+- `Prefix ,`
     - Rename the current window.
 
-- `Ctrl+a &`
+- `Prefix &`
     - Kill the current window.
 
-- `Ctrl+a x`
+- `Prefix x`
     - Kill the current pane.
 
-- `Ctrl+a [`
+- `Prefix [`
     - Enter copy mode.
 
 - `h` (in copy mode)
