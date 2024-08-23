@@ -64,10 +64,12 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 vim.opt.listchars:append {
-  tab = "→ ", -- U+2192
-  multispace = " ",
-  lead = ".",
-  trail = "-",
-  nbsp = " ",
   eol = "↲", -- U+21B2
+  tab = "→ ", -- U+2192
+  space = ".",
+  multispace = ".",
+  lead = ".",
+  leadmultispace = ".",
+  trail = ".",
+  nbsp = ".",
 }
