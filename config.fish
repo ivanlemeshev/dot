@@ -16,7 +16,7 @@ end
 
 # Set vim as default editor
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
-set -gx EDITOR vim
+set -gx EDITOR nvim
 
 if test "$os" = Linux
     # Golang
@@ -32,23 +32,39 @@ set -x PATH "$PATH:$HOME/.local/bin"
 set -x PATH "$PATH:/opt/nvim-linux64/bin"
 
 # Add bat theme
-set -x BAT_THEME CatppuccinMacchiato
+set -x BAT_THEME CatppuccinMocha
 
 # Set colors for ls, fd, etc
-set -x LS_COLORS "$(vivid generate catppuccin-macchiato)"
+set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
 
-# Set colors for fzf
+# Set colors for fzf (catppuccin-mocha)
 set -x FZF_DEFAULT_OPTS "\
---color=fg:#cad3f5,fg+:#cad3f5 \
---color=bg:#24273a,bg+:#363a4f \
---color=hl:#ed8796,hl+:#ed8796 \
---color=info:#c6a0f6,marker:#b7bdf8 \
---color=prompt:#c6a0f6,spinner:#f4dbd6 \
---color=pointer:#f4dbd6,header:#ed8796 \
---color=border:#363a4f,label:#cad3f5,query:#f4dbd6 \
---border='rounded' --border-label='' --preview-window='border-rounded' \
---prompt='> ' --marker='>' --pointer='◆' --separator='─' --scrollbar='│' \
---layout='reverse' --info='right' --multi"
+--color fg:#cdd6f4 \
+--color fg+:#cdd6f4 \
+--color bg:#1e1e2e \
+--color bg+:#313244 \
+--color hl:#f38ba8 \
+--color hl+:#f38ba8 \
+--color info:#cba6f7
+--color marker:#b4befe \
+--color prompt:#cba6f7
+--color spinner:#f5e0dc \
+--color pointer:#f5e0dc \
+--color header:#f38ba8 \
+--color border:#313244 \
+--color label:#cdd6f4 \
+--color query:#f5e0dc \
+--border 'rounded' \
+--border-label '' \
+--preview-window 'border-rounded' \
+--prompt '> ' \
+--marker '>' \
+--pointer '◆' \
+--separator '─' \
+--scrollbar '█' \
+--layout 'reverse' \
+--info 'right' \
+--multi"
 
 # Enable starship prompt
 starship init fish | source
