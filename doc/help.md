@@ -465,11 +465,28 @@ the clipboard and you can paste it.
 - `:s/foo/bar/g` (in normal mode)
     - Replace all occurrences of `foo` with `bar` in the current line.
 
+- `:s/foo/bar/gc` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the current line with
+      confirmation.
+
+- `:%s/foo/bar/g` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the entire file.
+
+- `:%s/foo/bar/gc` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the entire file with
+      confirmation.
+
 - `:g/foo/d` (in normal mode)
     - Delete all occurrences of `foo`.
 
+- `:g/foo/dc` (in normal mode)
+    - Delete all occurrences of `foo` with confirmation.
+
 - `:v/foo/d` (in normal mode)
     - Delete all lines that do not contain `foo`.
+
+- `:v/foo/dc` (in normal mode)
+    - Delete all lines that do not contain `foo` with confirmation.
 
 - `~` (in normal mode)
     - Change the case of the character under the cursor.
