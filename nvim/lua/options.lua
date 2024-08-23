@@ -1,16 +1,8 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
+require "nvchad.options"
 
--- The leader key is a prefix used in combination with other keys to create
--- custom shortcuts. Any subsequent key mappings that use <leader> will require
--- pressing the space bar first.
-vim.g.mapleader = " "
+local o = vim.o
 
--- The local leader key functions similarly to the global leader key, acting as
--- a prefix for key mappings. However, the local leader key can be different in
--- each buffer, allowing for buffer-specific shortcuts.
-vim.g.maplocalleader = " "
+o.cursorlineopt = "both"
 
 -- Controls how backspace behaves in insert mode. Specifically, setting it to
 -- '2' allows the backspace key to delete over autoindent, line breaks (enter),
@@ -56,11 +48,11 @@ vim.opt.colorcolumn = "80"
 -- Disables the creation of swap files. Swap files are used to store changes
 -- that you've made to your documents, allowing recovery in case of an
 -- unexpected program exit, crash, or power loss.
-vim.cmd([[ set noswapfile ]])
+vim.cmd [[ set noswapfile ]]
 
 -- Enables true color support in the terminal. Neovim attempts to use 24-bit
 -- RGB colors (true colors) in the terminal.
-vim.cmd([[ set termguicolors ]])
+vim.cmd [[ set termguicolors ]]
 
 -- Display the line numbers next to each line.
 vim.opt.number = true
@@ -71,11 +63,11 @@ vim.opt.relativenumber = false
 -- Display whitespace characters using special symbols.
 vim.opt.list = true
 
-vim.opt.listchars:append({
+vim.opt.listchars:append {
   tab = "→ ", -- U+2192
   multispace = " ",
   lead = ".",
   trail = "-",
   nbsp = " ",
   eol = "↲", -- U+21B2
-})
+}
