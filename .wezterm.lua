@@ -38,7 +38,7 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.color_scheme = 'Catppuccin Macchiato'
 
-config.font = wezterm.font('MesloLGL Nerd Font Mono')
+config.font = wezterm.font('JetBrainsMono Nerd Font Mono')
 
 if is_macos then
     config.font_size = 18.0
