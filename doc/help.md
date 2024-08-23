@@ -189,35 +189,49 @@
 
 ## Neovim
 
-- `i` (in normal mode)
-    - Enter insert mode.
+### Commands
 
-- `a` (in normal mode)
-    - Enter insert mode after the cursor.
-
-- `Shift+a` (in normal mode)
-    - Enter insert mode at the end of the line.
-
-- `Esc` (in insert mode)
-    - Exit insert mode.
-
-- `:w` (in normal mode)
+- `w`
     - Save the file.
 
-- `:q` (in normal mode)
+- `q`
     - Quit the file.
 
-- `:wq` (in normal mode)
+- `wq`
     - Save and quit the file.
 
-- `:q!` (in normal mode)
+- `q!`
     - Quit the file without saving.
 
-- `qa` (in normal mode)
+- `qa`
     - Quit all open files.
 
-- `:qa!` (in normal mode)
+- `qa!`
     - Quit all open files without saving.
+
+- `sp`
+    - Split the window horizontally.
+
+- `vsp`
+    - Split the window vertically.
+
+### Key Bindings
+
+#### Panes
+
+- `Ctrl+h`
+    - Move the cursor to the left pane.
+
+- `Ctrl+j`
+    - Move the cursor to the bottom pane.
+
+- `Ctrl+k`
+    - Move the cursor to the top pane.
+
+- `Ctrl+l`
+    - Move the cursor to the right pane.
+
+#### Navigation
 
 - `h` (in normal mode)
     - Move the cursor left.
@@ -249,14 +263,167 @@
 - `gg` (in normal mode)
     - Move the cursor to the beginning of the file.
 
-- `Shift+g` (in normal mode)
+- `G` (in normal mode)
     - Move the cursor to the end of the file.
+
+- `f<character>` (in normal mode)
+    - Move the cursor tjo the next occurrence of a character.
+
+- `F<character>` (in normal mode)
+    - Move the cursor to the previous occurrence of a character.
+
+- `(` (in normal mode)
+    - Move the cursor to the beginning of the previous sentence.
+
+- `)` (in normal mode)
+    - Move the cursor to the beginning of the next sentence.
+
+- `{` (in normal mode)
+    - Move the cursor to the beginning of the previous paragraph.
+
+- `}` (in normal mode)
+    - Move the cursor to the beginning of the next paragraph.
+
+- `Ctrl+d` (in normal mode)
+    - Move the cursor half a page down.
+
+- `Ctrl+u` (in normal mode)
+    - Move the cursor half a page up.
+
+- `Ctrl+f` (in normal mode)
+    - Move the cursor a page down.
+
+- `Ctrl+b` (in normal mode)
+    - Move the cursor a page up.
+
+- `/` (in normal mode)
+    - Search for a pattern.
+
+- `n` (in normal mode)
+    - Move to the next occurrence of the pattern.
+
+- `N` (in normal mode)
+    - Move to the previous occurrence of the pattern.
+
+- `*` (in normal mode)
+    - Search for the word under the cursor.
+
+- `#` (in normal mode)
+    - Search for the previous occurrence of the word under the cursor.
+
+- `%` (in normal mode)
+    - Move to the matching parenthesis, bracket, or brace.
+
+- `^` (in normal mode)
+    - Switch to the previous buffer.
+
+- `Tab` (in normal mode)
+    - Switch to the next buffer.
+
+#### Editing
+
+Note: when you delete text in normal mode or visual mode, the text is copied to
+the clipboard and you can paste it.
+
+- `i` (in normal mode)
+    - Enter insert mode before the cursor.
+
+- `a` (in normal mode)
+    - Enter insert mode after the cursor.
+
+- `A` (in normal mode)
+    - Enter insert mode at the end of the line.
+
+- `I` (in normal mode)
+    - Enter insert mode at the beginning of the line.
+
+- `o` (in normal mode)
+    - Enter insert mode below the current line.
+
+- `O` (in normal mode)
+    - Enter insert mode above the current line.
+
+- `s` (in normal mode)
+    - Delete the character under the cursor and enter insert mode.
+
+- `S` (in normal mode)
+    - Delete the current line and enter insert mode.
+
+- `C` (in normal mode)
+    - Delete the text from the cursor to the end of the line and enter insert
+      mode.
+
+- `ciw` (in normal mode)
+    - Delete a word and enter insert mode.
+
+- `cis` (in normal mode)
+    - Delete a sentence and enter insert mode.
+
+- `cip` (in normal mode)
+    - Delete a paragraph and enter insert mode.
+
+- `cib` (in normal mode)
+    - Delete the text inside a block with braces () and enter insert mode.
+
+- `ciB` (in normal mode)
+    - Delete the text inside a block with brackets {} and enter insert mode.
+
+- `ci<character>` (in normal mode)
+    - Delete the text inside a block with characters including: ', ", `, (, [,
+      {, and <, and enter insert mode.
+
+- `cab` (in normal mode)
+    - Delete all inside a block with braces () and enter insert mode.
+
+- `caB` (in normal mode)
+    - Delete all inside a block with brackets {} and enter insert mode.
+
+- `ca<character>` (in normal mode)
+    - Delete all inside a block with characters including: ', ", `, (, [, {,
+      and <, and enter insert mode.
+
+- `Ctrl+c` (in insert mode)
+    - Exit insert mode.
+
+- `Esc` (in insert mode)
+    - Exit insert mode.
 
 - `x` (in normal mode)
     - Delete the character under the cursor.
 
 - `dd` (in normal mode)
     - Delete the current line.
+
+- `2dd` (in normal mode)
+    - Delete the next two lines.
+
+- `d$` (in normal mode)
+    - Delete the text from the cursor to the end of the line.
+
+- `d0` (in normal mode)
+    - Delete the text from the cursor to the beginning of the line.
+
+- `dw` (in normal mode)
+    - Delete a word.
+
+- `diw` (in normal mode)
+    - Delete a word.
+
+- `dis` (in normal mode)
+    - Delete a sentence.
+
+- `dip` (in normal mode)
+    - Delete a paragraph.
+
+- `da<character>` (in normal mode)
+    - Delete the text inside a block with characters including: ', ", `, (, [,
+      {, and <.
+
+- `di<character>` (in normal mode)
+    - Delete the text inside a block with characters: ', ", `, (, [, {, and <.
+
+- `dt<character>` (in normal mode)
+    - Delete the text until a character.
 
 - `yy` (in normal mode)
     - Copy the current line.
@@ -270,40 +437,61 @@
 - `y0` (in normal mode)
     - Copy the text from the cursor to the beginning of the line.
 
-- `yw` (in normal mode)
-    - Copy the next word.
+- `yaw` (in normal mode)
+    - Copy a word.
+
+- `ya<character>` (in normal mode)
+    - Copy the text inside a block with characters including: ', ", `, (, [, {,
+      and <.
+
+- `yi<character>` (in normal mode)
+    - Copy the text inside a block with characters: ', ", `, (, [, {, and <.
 
 - `p` (in normal mode)
     - Paste the copied text after the cursor.
 
-- `Shift+p` (in normal mode)
+- `P` (in normal mode)
     - Paste the copied text before the cursor.
 
 - `u` (in normal mode)
     - Undo the last change.
 
-- `o` (in normal mode)
-    - Add a new line below the current line.
-
 - `Ctrl+r` (in normal mode)
     - Redo the last change.
 
+- `.` (in normal mode)
+    - Repeat the last change.
+
 - `:s/foo/bar/g` (in normal mode)
-    - Replace all occurrences of `foo` with `bar`.
+    - Replace all occurrences of `foo` with `bar` in the current line.
 
-- `/` (in normal mode)
-    - Search for a pattern.
+- `:g/foo/d` (in normal mode)
+    - Delete all occurrences of `foo`.
 
-- `n` (in normal mode)
-    - Move to the next occurrence of the pattern.
+- `:v/foo/d` (in normal mode)
+    - Delete all lines that do not contain `foo`.
 
-- `Shift+n` (in normal mode)
-    - Move to the previous occurrence of the pattern.
+- `~` (in normal mode)
+    - Change the case of the character under the cursor.
+
+- `gUw` (in normal mode)
+    - Change the case of a word to uppercase.
+
+- `guw` (in normal mode)
+    - Change the case of a word to lowercase.
+
+- `gUU` (in normal mode)
+    - Change the case of the current line to uppercase.
+
+- `guu` (in normal mode)
+    - Change the case of the current line to lowercase.
+
+#### Visual Mode
 
 - `v` (in normal mode)
     - Enter visual mode.
 
-- `Shift+v` (in normal mode)
+- `V` (in normal mode)
     - Enter visual line mode.
 
 - `Ctrl+v` (in normal mode)
@@ -313,7 +501,7 @@
     - Copy the selected text.
 
 - `d` (in visual mode)
-    - Delete the selected text (The text is copied, you can paste it).
+    - Delete the selected text.
 
 - `c` (in visual mode)
     - Change the selected text.
@@ -333,20 +521,20 @@
 - `ab` (in visual mode)
     - Select a block with braces ().
 
-- `a Shift+b` (in visual mode)
+- `aB` (in visual mode)
     - Select a block with brackets {}.
 
-- `a*` (in visual mode)
-    - Select *: ', ", `, (, [, {, and <.
+- `a<character>` (in visual mode)
+    - Select a block with characters: ', ", `, (, [, {, and <.
 
 - `ib` (in visual mode)
     - Select all inside a block with braces ().
 
-- `i Shift+b` (in visual mode)
+- `iB` (in visual mode)
     - Select all inside a block with brackets {}.
 
-- `i*` (in visual mode)
-    - Select all inside *: ', ", `, (, [, {, and <.
+- `i<character>` (in visual mode)
+    - Select all inside a block with characters: ', ", `, (, [, {, and <.
 
 - `~` (in visual mode)
     - Change the case of the selected text.
@@ -357,23 +545,24 @@
 - `<` (in visual mode)
     - Unindent the selected text.
 
-- `Ctrl+6` (in normal mode)
-    - Switch to the previous buffer.
+- `=` (in visual mode)
+    - Auto-indent the selected text.
 
-- `Space e` (in normal mode)
-    - Open/close the file explorer.
+- `J` (in visual mode)
+    - Join the selected lines.
 
-- `Shift h` (in normal mode)
-    - Switch to the previous tab.
+- `:s/foo/bar/g` (in visual mode)
+    - Replace all occurrences of `foo` with `bar` in the selected text.
 
-- `Shift l` (in normal mode)
-    - Switch to the next tab.
+#### NvChad
+
+Note: the leader key is `Space`.
+
+- `<leader>e` (in normal mode)
+    - Open nvim-tree (file explorer).
 
 - `a` (nvim-tree)
     - Add a new file or directory.
-
-- `m` (nvim-tree)
-    - Move a file or directory.
 
 - `r` (nvim-tree)
     - Rename a file or directory.
@@ -381,238 +570,20 @@
 - `d` (nvim-tree)
     - Delete a file or directory.
 
-- `x` (nvim-tree)
-    - Cut a file or directory.
-
 - `y` (nvim-tree)
     - Copy a file or directory.
+
+- `x` (nvim-tree)
+    - Cut a file or directory.
 
 - `p` (nvim-tree)
     - Paste a file or directory.
 
-- `Shift+h` (nvim-tree)
+- `H` (nvim-tree)
     - Show/hide hidden files.
 
-- `Shift+r` (nvim-tree)
+- `R` (nvim-tree)
     - Refresh the tree.
-
-- `Ctrl+h` (christoomey/vim-tmux-navigator)
-    - Move the cursor to the left pane.
-
-- `Ctrl+j` (christoomey/vim-tmux-navigator)
-    - Move the cursor to the bottom pane.
-
-- `Ctrl+k` (christoomey/vim-tmux-navigator)
-    - Move the cursor to the top pane.
-
-- `Ctrl+l` (christoomey/vim-tmux-navigator)
-    - Move the cursor to the right pane.
-
-- `Space ff` (telescope)
-    - Find a file.
-
-- `Space fg` (telescope)
-    - Find some text in the files.
-
-- `Space fb` (telescope)
-    - Find a file in open buffers.
-
-- `Ctrl+p` (telescope)
-    - Move to the previous entry.
-
-- `Ctrl+n` (telescope)
-    - Move to the next entry.
-
-- `Shift k` (lsp)
-    - Show the documentation of the symbol under the cursor.
-
-- `gd` (lsp)
-    - Go to the definition of the symbol under the cursor.
-
-## Vim
-
-- `i` (in normal mode)
-    - Enter insert mode.
-
-- `a` (in normal mode)
-    - Enter insert mode after the cursor.
-
-- `Shift+a` (in normal mode)
-    - Enter insert mode at the end of the line.
-
-- `Esc` (in insert mode)
-    - Exit insert mode.
-
-- `:w` (in normal mode)
-    - Save the file.
-
-- `:q` (in normal mode)
-    - Quit the file.
-
-- `:wq` (in normal mode)
-    - Save and quit the file.
-
-- `:q!` (in normal mode)
-    - Quit the file without saving.
-
-- `qa` (in normal mode)
-    - Quit all open files.
-
-- `:qa!` (in normal mode)
-    - Quit all open files without saving.
-
-- `h` (in normal mode)
-    - Move the cursor left.
-
-- `j` (in normal mode)
-    - Move the cursor down.
-
-- `k` (in normal mode)
-    - Move the cursor up.
-
-- `l` (in normal mode)
-    - Move the cursor right.
-
-- `w` (in normal mode)
-    - Move the cursor to the beginning of the next word.
-
-- `b` (in normal mode)
-    - Move the cursor to the beginning of the previous word.
-
-- `e` (in normal mode)
-    - Move the cursor to the end of the next word.
-
-- `0` (in normal mode)
-    - Move the cursor to the beginning of the line.
-
-- `$` (in normal mode)
-    - Move the cursor to the end of the line.
-
-- `gg` (in normal mode)
-    - Move the cursor to the beginning of the file.
-
-- `Shift+g` (in normal mode)
-    - Move the cursor to the end of the file.
-
-- `x` (in normal mode)
-    - Delete the character under the cursor.
-
-- `dd` (in normal mode)
-    - Delete the current line.
-
-- `yy` (in normal mode)
-    - Copy the current line.
-
-- `2yy` (in normal mode)
-    - Copy the next two lines.
-
-- `y$` (in normal mode)
-    - Copy the text from the cursor to the end of the line.
-
-- `y0` (in normal mode)
-    - Copy the text from the cursor to the beginning of the line.
-
-- `yw` (in normal mode)
-    - Copy the next word.
-
-- `p` (in normal mode)
-    - Paste the copied text after the cursor.
-
-- `Shift+p` (in normal mode)
-    - Paste the copied text before the cursor.
-
-- `u` (in normal mode)
-    - Undo the last change.
-
-- `o` (in normal mode)
-    - Add a new line below the current line.
-
-- `Schift o` (in normal mode)
-    - Add a new line above the current line.
-
-- `Ctrl+r` (in normal mode)
-    - Redo the last change.
-
-- `:s/foo/bar/g` (in normal mode)
-    - Replace all occurrences of `foo` with `bar`.
-
-- `/` (in normal mode)
-    - Search for a pattern.
-
-- `n` (in normal mode)
-    - Move to the next occurrence of the pattern.
-
-- `Shift+n` (in normal mode)
-    - Move to the previous occurrence of the pattern.
-
-- `v` (in normal mode)
-    - Enter visual mode.
-
-- `Shift+v` (in normal mode)
-    - Enter visual line mode.
-
-- `Ctrl+v` (in normal mode)
-    - Enter visual block mode.
-
-- `y` (in visual mode)
-    - Copy the selected text.
-
-- `d` (in visual mode)
-    - Delete the selected text (the text is copied, you can paste it).
-
-- `c` (in visual mode)
-    - Change the selected text.
-
-- `o` (in visual mode)
-    - Move the cursor to the other end of the selection.
-
-- `aw` (in visual mode)
-    - Select a word.
-
-- `as` (in visual mode)
-    - Select a sentence.
-
-- `ap` (in visual mode)
-    - Select a paragraph.
-
-- `ab` (in visual mode)
-    - Select a block with braces ().
-
-- `a Shift+b` (in visual mode)
-    - Select a block with brackets {}.
-
-- `a*` (in visual mode)
-    - Select *: ', ", `, (, [, {, and <.
-
-- `ib` (in visual mode)
-    - Select all inside a block with braces ().
-
-- `i Shift+b` (in visual mode)
-    - Select all inside a block with brackets {}.
-
-- `i*` (in visual mode)
-    - Select all inside *: ', ", `, (, [, {, and <.
-
-- `~` (in visual mode)
-    - Change the case of the selected text.
-
-- `>` (in visual mode)
-    - Indent the selected text.
-
-- `<` (in visual mode)
-    - Unindent the selected text.
-
-- `%` (netrw)
-    - Add a new file.
-
-- `d` (netrw)
-    - Add a new directory.
-
-- `Shift+r` (netrw)
-    - Rename a file or directory.
-
-- `Shift+d` (netrw)
-    - Delete a file or directory.
 
 # 60% Keyboard
 
