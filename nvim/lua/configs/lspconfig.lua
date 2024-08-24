@@ -6,11 +6,11 @@ local lspconfig = require "lspconfig"
 local servers = {
   "cssls",
   "html",
-  "lua_ls",
 }
 
 local nvlsp = require "nvchad.configs.lspconfig"
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = nvlsp.on_attach,
@@ -18,6 +18,35 @@ for _, lsp in ipairs(servers) do
     capabilities = nvlsp.capabilities,
   }
 end
+
+lspconfig.lua_ls.setup {
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    nvlsp.on_attach(client, bufnr)
+  end,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_dir = lspconfig.util.root_pattern(
+    ".luarc.json",
+    ".luarc.jsonc",
+    ".luacheckrc",
+    ".stylua.toml",
+    "stylua.toml",
+    "selene.toml",
+    "selene.yml",
+    ".git"
+  ),
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+    },
+  },
+}
 
 lspconfig.gopls.setup {
   on_attach = function(client, bufnr)
