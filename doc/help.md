@@ -97,49 +97,49 @@
 
 ## Tmux
 
-- `Alt+x`
+- `Ctrl+Space`
     - The custom prefix key.
 
-- `Prefix c`
+- `<prefix>c`
     - Create a new window.
 
-- `Prefix n`
+- `<prefix>n`
     - Move to the next window.
 
-- `Prefix p`
+- `<prefix>p`
     - Move to the previous window.
 
-- `Prefix %`
+- `<prefix>%`
     - Split the window vertically.
 
-- `Prefix "`
+- `<prefix>"`
     - Split the window horizontally.
 
-- `Prefix i`
+- `<prefix>i`
     - Paste the text from the clipboard.
 
 - `Ctrl+Shift+v`
     - Paste the text from the clipboard (Windows).
 
-- `Prefix y`
+- `<prefix>y`
     - Copy the selected text to the clipboard.
 
-- `Prefix d`
+- `<prefix>d`
     - Detach the current session.
 
-- `Prefix z`
-    - Zoom in and out the current pane.
+- `<prefix>z`
+    - Zoom in/out the current pane.
 
-- `Prefix ,`
+- `<prefix>,`
     - Rename the current window.
 
-- `Prefix &`
+- `<prefix>&`
     - Kill the current window.
 
-- `Prefix x`
+- `<prefix>x`
     - Kill the current pane.
 
-- `Prefix [`
+- `<prefix>[`
     - Enter copy mode.
 
 - `h` (in copy mode)
@@ -160,16 +160,16 @@
 - `Enter` (in copy mode)
     - Copy the selected text.
 
-- `Ctrl+a ]`
+- `<prefix>]`
     - Paste the copied text.
 
-- `Ctrl+a Shift+i` (tmux-plugins/tpm)
+- `<prefix>I` (tmux-plugins/tpm)
     - Install plugins.
 
-- `Ctrl+a Shift+u` (tmux-plugins/tpm)
+- `<prefix>U` (tmux-plugins/tpm)
     - Update plugins.
 
-- `Ctrl+a u` (tmux-plugins/tpm)
+- `<prefix>u` (tmux-plugins/tpm)
     - Remove plugins.
 
 - `Ctrl+h` (christoomey/vim-tmux-navigator)
@@ -319,6 +319,9 @@
 
 - `Tab` (in normal mode)
     - Switch to the next buffer.
+
+- `Shift+Tab` (in normal mode)
+    - Switch to the previous buffer.
 
 #### Editing
 
@@ -578,6 +581,12 @@ Note: the leader key is `Space`.
 - `<leader>e` (in normal mode)
     - Open nvim-tree (file explorer).
 
+- `g?` (nvim-tree)
+    - Show the key bindings.
+
+- `q` (nvim-tree)
+    - Close nvim-tree.
+
 - `a` (nvim-tree)
     - Add a new file or directory.
 
@@ -601,6 +610,34 @@ Note: the leader key is `Space`.
 
 - `R` (nvim-tree)
     - Refresh the tree.
+
+- `<leader>ff` (in normal mode)
+    - Find a file in the current project.
+
+- `<leader>fb` (in normal mode)
+    - Find a file in  open buffers.
+
+- `<leader>fw` (in normal mode)
+    - Find in files in the current project.
+
+- `<leader>x` (in normal mode)
+    - Close the current buffer.
+
+- `<leader>h` (in normal mode)
+    - Open a terminal in a horizontal split.
+
+- `<leader>v` (in normal mode)
+    - Open a terminal in a vertical split.
+
+- `Ctrl+x` (in terminal)
+    - Exit the terminal mode.
+
+- `i` (in normal mode)
+    - Back to normal mode.
+
+- `Ctrl+x <leader>x` (in terminal)
+    - Close the terminal.
+
 
 # 60% Keyboard
 

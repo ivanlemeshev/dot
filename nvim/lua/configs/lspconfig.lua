@@ -5,14 +5,12 @@ local lspconfig = require "lspconfig"
 
 local servers = {
   "cssls",
-  "gopls",
   "html",
   "lua_ls",
 }
 
 local nvlsp = require "nvchad.configs.lspconfig"
 
--- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = nvlsp.on_attach,
@@ -21,9 +19,28 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- configuring single server, example: typescript
--- lspconfig.tsserver.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+lspconfig.gopls.setup {
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    nvlsp.on_attach(client, bufnr)
+  end,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gotmpl", "gowork" },
+  root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+  -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+  settings = {
+    gopls = {
+      -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
+      analyses = {
+        unusedparams = true,
+        unusedvariable = true,
+      },
+      completeUnimported = true,
+      usePlaceholders = false,
+      staticcheck = true,
+    },
+  },
+}
