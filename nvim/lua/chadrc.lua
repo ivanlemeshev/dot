@@ -13,10 +13,4 @@ M.base46 = {
   },
 }
 
-M.ui = {
-  statusline = {
-    icon = "",
-  },
-}
-
 return M

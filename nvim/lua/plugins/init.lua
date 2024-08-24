@@ -21,8 +21,12 @@ return {
         "cpp",
         "csv",
         "css",
-        "fsh",
+        "fish",
         "go",
+        "gomod",
+        "gosum",
+        "gotmpl",
+        "gowork",
         "helm",
         "html",
         "json",
@@ -38,6 +42,19 @@ return {
         "vimdoc",
         "yaml",
       },
+      highlight = {
+        enable = true,
+        use_languagetree = true,
+      },
+      indent = { enable = true },
     },
   },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "gopls",
+      },
+    },
+  }
 }
