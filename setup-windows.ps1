@@ -57,8 +57,30 @@ Write-Host 'Creating symbolic link for .wezterm.lua...';
 if (Test-Path -Path $env:USERPROFILE\.wezterm.lua) {
     Write-Host "Symbolic link already exists: $env:USERPROFILE\.wezterm.lua"
 } else {
-    Write-Host 'Creating symbolic link for .wezterm.lua...';
     New-Item -Path $env:USERPROFILE\.wezterm.lua -ItemType SymbolicLink -Value "$scriptDirectory\.wezterm.lua"
+}
+Write-Host ''
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install powershell
+choco install starship
+
+Write-Host 'Creating symbolic link for Microsoft.PowerShell_profile.ps1...';
+if (-not (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell)) {
+    New-Item -Path $env:USERPROFILE\Documents\WindowsPowerShell -ItemType Directory -Force | Out-Null
+}
+if (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1) {
+    Write-Host "Symbolic link already exists: $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+} else {
+    New-Item -Path $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -ItemType SymbolicLink -Value "$scriptDirectory\Microsoft.PowerShell_profile.ps1"
+}
+Write-Host ''
+
+Write-Host 'Creating symbolic link for starship.toml...';
+if (Test-Path -Path $env:USERPROFILE\starship.toml) {
+    Write-Host "Symbolic link already exists: $env:USERPROFILE\starship.toml"
+} else {
+    New-Item -Path $env:USERPROFILE\starship.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
 }
 Write-Host ''
 
