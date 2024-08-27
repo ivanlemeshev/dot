@@ -64,6 +64,7 @@ Write-Host ''
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco install powershell
 choco install starship
+choco install gh
 
 Write-Host 'Creating symbolic link for Microsoft.PowerShell_profile.ps1...';
 if (-not (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell)) {
