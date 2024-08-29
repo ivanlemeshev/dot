@@ -219,17 +219,47 @@
 
 #### Panes
 
-- `Ctrl+h`
+- `Ctrl+h` (normal mode)
     - Move the cursor to the left pane.
 
-- `Ctrl+j`
+- `Ctrl+j` (normal mode)
     - Move the cursor to the bottom pane.
 
-- `Ctrl+k`
+- `Ctrl+k` (normal mode)
     - Move the cursor to the top pane.
 
-- `Ctrl+l`
+- `Ctrl+l` (normal mode)
     - Move the cursor to the right pane.
+
+- `Ctrl+w s` (normal mode)
+    - Split the window horizontally.
+
+- `Ctrl+w v` (normal mode)
+    - Split the window vertically.
+
+- `Ctrl+w =` (normal mode)
+    - Balance the panes.
+
+- `Ctrl+w -` (normal mode)
+    - Decrease the height of the current pane.
+
+- `Ctrl+w +` (normal mode)
+    - Increase the height of the current pane.
+
+- `Ctrl+w <` (normal mode)
+    - Decrease the width of the current pane.
+
+- `Ctrl+w >` (normal mode)
+    - Increase the width of the current pane.
+
+- `Ctrl+w _` (normal mode)
+    - Maximize the height of the current pane.
+
+- `Ctrl+w |` (normal mode)
+    - Maximize the width of the current pane.
+
+- `Ctrl+w o` (normal mode)
+    - Close all panes except the current pane.
 
 #### Navigation
 

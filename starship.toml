@@ -53,14 +53,6 @@ style = 'blue'
 truncate_to_repo = false
 truncation_length = 0
 
-[golang]
-disabled = false
-symbol = ' '
-
-[python]
-disabled = false
-symbol = ' '
-
 [git_metrics]
 disabled = false
 
@@ -74,18 +66,15 @@ tag_symbol = ' '
 
 [git_status]
 disabled = false
-# conflicted = ''
-# ahead = ''
-# behind = ''
-# diverged = ''
-# up_to_date = ''
-# untracked = ''
-# stashed = ''
-# modified = ''
-# staged = ''
-# renamed = ''
-# deleted = ''
-# typechanged = ''
+
+[golang]
+disabled = true
+
+[python]
+disabled = true
 
 [gcloud]
+disabled = true
+
+[docker_context]
 disabled = true
