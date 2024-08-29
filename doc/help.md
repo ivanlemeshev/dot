@@ -358,6 +358,9 @@
 Note: when you delete text in normal mode or visual mode, the text is copied to
 the clipboard and you can paste it.
 
+- `<leader>/` (in normal mode)
+    - Comment/uncomment the current line.
+
 - `i` (in normal mode)
     - Enter insert mode before the cursor.
 
@@ -603,6 +606,9 @@ the clipboard and you can paste it.
 
 - `:s/foo/bar/g` (in visual mode)
     - Replace all occurrences of `foo` with `bar` in the selected text.
+
+- `<leader>/` (in visual mode)
+    - Comment/uncomment the selected text.
 
 #### NvChad
 
