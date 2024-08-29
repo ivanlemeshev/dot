@@ -57,4 +57,21 @@ return {
       },
     },
   },
+  {
+    "github/copilot.vim",
+    lazy = false,
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    lazy = false,
+    branch = "canary",
+    dependencies = {
+      "github/copilot.vim",
+      "nvim-lua/plenary.nvim",
+    },
+    build = "make tiktoken", -- only on MacOS or Linux
+    opts = {
+      debug = true,
+    },
+  },
 }
