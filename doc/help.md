@@ -679,3 +679,337 @@ Note: the leader key is `Space`.
 
 - `Alt+Fn+4`
     - Close the current window (Alt+F4).
+
+## Vscode Vim Extension
+
+### Commands
+
+- `:w`
+    - Save the file.
+
+- `:q`
+    - Quit the file.
+
+- `:wq`
+    - Save and quit the file.
+
+- `:q!`
+    - Quit the file without saving.
+
+- `:qa`
+    - Quit all open files.
+
+- `:qa!`
+    - Quit all open files without saving.
+
+- `:sp`
+    - Split the window horizontally.
+
+- `:vsp`
+    - Split the window vertically.
+
+### Key Bindings
+
+The leader key is `<space>`.
+
+#### Panes
+
+- `<leader>h` (normal mode)
+    - Move the cursor to the left pane.
+
+- `<leader>j` (normal mode)
+    - Move the cursor to the bottom pane.
+
+- `<leader>k` (normal mode)
+    - Move the cursor to the top pane.
+
+- `<leader>l` (normal mode)
+    - Move the cursor to the right pane.
+
+- `<leader>s` (normal mode)
+    - Split the window horizontally.
+
+- `<leader>v` (normal mode)
+    - Split the window vertically.
+
+#### Navigation
+
+- `h` (in normal mode)
+    - Move the cursor left.
+
+- `j` (in normal mode)
+    - Move the cursor down.
+
+- `k` (in normal mode)
+    - Move the cursor up.
+
+- `l` (in normal mode)
+    - Move the cursor right.
+
+- `w` (in normal mode)
+    - Move the cursor to the beginning of the next word.
+
+- `b` (in normal mode)
+    - Move the cursor to the beginning of the previous word.
+
+- `e` (in normal mode)
+    - Move the cursor to the end of the next word.
+
+- `0` (in normal mode)
+    - Move the cursor to the beginning of the line.
+
+- `$` (in normal mode)
+    - Move the cursor to the end of the line.
+
+- `gg` (in normal mode)
+    - Move the cursor to the beginning of the file.
+
+- `G` (in normal mode)
+    - Move the cursor to the end of the file.
+
+- `f<character>` (in normal mode)
+    - Move the cursor tjo the next occurrence of a character.
+
+- `F<character>` (in normal mode)
+    - Move the cursor to the previous occurrence of a character.
+
+- `(` (in normal mode)
+    - Move the cursor to the beginning of the previous sentence.
+
+- `)` (in normal mode)
+    - Move the cursor to the beginning of the next sentence.
+
+- `{` (in normal mode)
+    - Move the cursor to the beginning of the previous paragraph.
+
+- `}` (in normal mode)
+    - Move the cursor to the beginning of the next paragraph.
+
+- `Ctrl+d` (in normal mode)
+    - Move the cursor half a page down.
+
+- `Ctrl+u` (in normal mode)
+    - Move the cursor half a page up.
+
+- `Ctrl+f` (in normal mode)
+    - Move the cursor a page down.
+
+- `Ctrl+b` (in normal mode)
+    - Move the cursor a page up.
+
+- `/` (in normal mode)
+    - Search for a pattern.
+
+- `n` (in normal mode)
+    - Move to the next occurrence of the pattern.
+
+- `N` (in normal mode)
+    - Move to the previous occurrence of the pattern.
+
+- `*` (in normal mode)
+    - Search for the word under the cursor.
+
+- `#` (in normal mode)
+    - Search for the previous occurrence of the word under the cursor.
+
+- `%` (in normal mode)
+    - Move to the matching parenthesis, bracket, or brace.
+
+- `Tab` (in normal mode)
+    - Switch to the next buffer.
+
+#### Editing
+
+Note: when you delete text in normal mode or visual mode, the text is copied to
+the clipboard and you can paste it.
+
+- `<leader>/` (in normal mode)
+    - Comment/uncomment the current line.
+
+- `i` (in normal mode)
+    - Enter insert mode before the cursor.
+
+- `a` (in normal mode)
+    - Enter insert mode after the cursor.
+
+- `A` (in normal mode)
+    - Enter insert mode at the end of the line.
+
+- `I` (in normal mode)
+    - Enter insert mode at the beginning of the line.
+
+- `o` (in normal mode)
+    - Enter insert mode below the current line.
+
+- `O` (in normal mode)
+    - Enter insert mode above the current line.
+
+- `s` (in normal mode)
+    - Delete the character under the cursor and enter insert mode.
+
+- `S` (in normal mode)
+    - Delete the current line and enter insert mode.
+
+- `C` (in normal mode)
+    - Delete the text from the cursor to the end of the line and enter insert
+      mode.
+
+- `Ctrl+c` (in insert mode)
+    - Exit insert mode.
+
+- `Esc` (in insert mode)
+    - Exit insert mode.
+
+- `x` (in normal mode)
+    - Delete the character under the cursor.
+
+- `dd` (in normal mode)
+    - Delete the current line.
+
+- `2dd` (in normal mode)
+    - Delete the next two lines.
+
+- `d$` (in normal mode)
+    - Delete the text from the cursor to the end of the line.
+
+- `d0` (in normal mode)
+    - Delete the text from the cursor to the beginning of the line.
+
+- `dw` (in normal mode)
+    - Delete a word.
+
+- `yy` (in normal mode)
+    - Copy the current line.
+
+- `2yy` (in normal mode)
+    - Copy the next two lines.
+
+- `y$` (in normal mode)
+    - Copy the text from the cursor to the end of the line.
+
+- `y0` (in normal mode)
+    - Copy the text from the cursor to the beginning of the line.
+
+- `yaw` (in normal mode)
+    - Copy a word.
+
+- `p` (in normal mode)
+    - Paste the copied text after the cursor.
+
+- `P` (in normal mode)
+    - Paste the copied text before the cursor.
+
+- `u` (in normal mode)
+    - Undo the last change.
+
+- `Ctrl+r` (in normal mode)
+    - Redo the last change.
+
+- `:s/foo/bar/g` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the current line.
+
+- `:s/foo/bar/gc` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the current line with
+      confirmation.
+
+- `:%s/foo/bar/g` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the entire file.
+
+- `:%s/foo/bar/gc` (in normal mode)
+    - Replace all occurrences of `foo` with `bar` in the entire file with
+      confirmation.
+
+- `:g/foo/d` (in normal mode)
+    - Delete all occurrences of `foo`.
+
+- `:g/foo/dc` (in normal mode)
+    - Delete all occurrences of `foo` with confirmation.
+
+- `:v/foo/d` (in normal mode)
+    - Delete all lines that do not contain `foo`.
+
+- `:v/foo/dc` (in normal mode)
+    - Delete all lines that do not contain `foo` with confirmation.
+
+- `~` (in normal mode)
+    - Change the case of the character under the cursor.
+
+- `gUw` (in normal mode)
+    - Change the case of a word to uppercase.
+
+- `guw` (in normal mode)
+    - Change the case of a word to lowercase.
+
+- `gUU` (in normal mode)
+    - Change the case of the current line to uppercase.
+
+- `guu` (in normal mode)
+    - Change the case of the current line to lowercase.
+
+#### Visual Mode
+
+- `v` (in normal mode)
+    - Enter visual mode.
+
+- `V` (in normal mode)
+    - Enter visual line mode.
+
+- `Ctrl+v` (in normal mode)
+    - Enter visual block mode.
+
+- `y` (in visual mode)
+    - Copy the selected text.
+
+- `d` (in visual mode)
+    - Delete the selected text.
+
+- `c` (in visual mode)
+    - Change the selected text.
+
+- `o` (in visual mode)
+    - Move the cursor to the other end of the selection.
+
+- `aw` (in visual mode)
+    - Select a word.
+
+- `as` (in visual mode)
+    - Select a sentence.
+
+- `ap` (in visual mode)
+    - Select a paragraph.
+
+- `ab` (in visual mode)
+    - Select a block with braces ().
+
+- `aB` (in visual mode)
+    - Select a block with brackets {}.
+
+- `a<character>` (in visual mode)
+    - Select a block with characters: ', ", `, (, [, {, and <.
+
+- `ib` (in visual mode)
+    - Select all inside a block with braces ().
+
+- `iB` (in visual mode)
+    - Select all inside a block with brackets {}.
+
+- `i<character>` (in visual mode)
+    - Select all inside a block with characters: ', ", `, (, [, {, and <.
+
+- `~` (in visual mode)
+    - Change the case of the selected text.
+
+- `>` (in visual mode)
+    - Indent the selected text.
+
+- `<` (in visual mode)
+    - Unindent the selected text.
+
+- `=` (in visual mode)
+    - Auto-indent the selected text.
+
+- `J` (in visual mode)
+    - Join the selected lines.
+
+- `<leader>/` (in visual mode)
+    - Comment/uncomment the selected text.
