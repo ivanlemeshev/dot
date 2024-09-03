@@ -1,0 +1,43 @@
+{
+    "editor.accessibilitySupport": "off",
+    "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "editor.fontLigatures": false,
+    "editor.formatOnSave": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": true,
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.showFoldingControls": "never",
+    "editor.suggest.insertMode": "replace",
+    "breadcrumbs.enabled": false,
+    "update.showReleaseNotes": false,
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "catppuccin-mocha",
+    "files.autoSave": "afterDelay",
+    "files.trimTrailingWhitespace": true,
+    "cSpell.language": "en,ru,ru-RU",
+    "[jsonc]": {},
+    "[python]": {},
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+    },
+    "go.formatTool": "goimports",
+    "go.lintTool": "golangci-lint",
+    "go.toolsManagement.autoUpdate": true,
+    "go.coverOnSingleTest": true,
+    "go.coverOnSingleTestFile": true,
+    "go.testFlags": [
+        "-v",
+        "-race",
+        "-count=1"
+    ],
+    "window.newWindowDimensions": "maximized",
+    "window.menuBarVisibility": "compact"
+}
