@@ -23,6 +23,9 @@ if test "$os" = Linux
     set -x GOROOT /usr/local/go
     set -x GOPATH "$HOME/go"
     set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
+
+    # Zig
+    set -x PATH "$PATH:/usr/local/zig"
 end
 
 # Add local bin to PATH

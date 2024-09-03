@@ -27,6 +27,7 @@ sudo apt install -y \
     vim \
     make \
     unzip \
+    xz-utils \
     gcc \
     ffmpeg \
     ripgrep \
