@@ -194,6 +194,15 @@
         }
     ],
     "vim.visualModeKeyBindings": [
+        // --- Use ; ad : ---
+        {
+            "before": [
+                ";"
+            ],
+            "after": [
+                ":"
+            ]
+        },
         // Stay in visual mode while indenting
         {
             "before": [
