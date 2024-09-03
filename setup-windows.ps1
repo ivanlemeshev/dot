@@ -50,6 +50,14 @@ else {
     New-Item -Path $env:USERPROFILE\starship.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
 }
 
+Write-Host "Creating symbolic link for vscode\settings.json...";
+Remove-Item -Path $env:USERPROFILE\AppData\Roaming\Code\User\settings.json -Force
+New-Item -Path $env:USERPROFILE\AppData\Roaming\Code\User\settings.json -ItemType SymbolicLink -Value "$scriptDirectory\vscode\settings.json"
+
+Write-Host "Creating symbolic link for vscode\keybindings.json...";
+Remove-Item -Path $env:USERPROFILE\AppData\Roaming\Code\User\keybindings.json -Force
+New-Item -Path $env:USERPROFILE\AppData\Roaming\Code\User\keybindings.json -ItemType SymbolicLink -Value "$scriptDirectory\vscode\keybindings.json"
+
 Write-Host "The system will now restart to apply the changes."
 Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
