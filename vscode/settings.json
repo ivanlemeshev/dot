@@ -9,7 +9,7 @@
     "editor.minimap.enabled": false,
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
-    "editor.renderIndentGuides": true,
+    "editor.guides.indentation": true,
     "editor.rulers": [
         80,
         120
