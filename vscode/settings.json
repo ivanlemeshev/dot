@@ -7,12 +7,18 @@
     "editor.largeFileOptimizations": true,
     "editor.linkedEditing": true,
     "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "editor.renderIndentGuides": true,
     "editor.rulers": [
         80,
         120
     ],
     "editor.showFoldingControls": "never",
     "editor.suggest.insertMode": "replace",
+    "code-eol.newlineCharacter": "¬",
+    "code-eol.returnCharacter": "¤",
+    "code-eol.crlfCharacter": "¤¬",
     "breadcrumbs.enabled": false,
     "update.showReleaseNotes": false,
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
