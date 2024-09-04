@@ -26,7 +26,7 @@
     "github.copilot.enable": {
         "*": true,
         "plaintext": true,
-        "markdown": true,
+        "markdown": true
     },
     "go.formatTool": "goimports",
     "go.lintTool": "golangci-lint",
@@ -139,15 +139,6 @@
         {
             "before": [
                 "<S-l>"
-            ],
-            "commands": [
-                ":bnext"
-            ]
-        },
-        // Next tab
-        {
-            "before": [
-                "<tab>"
             ],
             "commands": [
                 ":bnext"
