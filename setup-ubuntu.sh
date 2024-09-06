@@ -22,6 +22,7 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/ubuntu/install-mise.sh
 ./install/ubuntu/install-fish.sh
 ./install/ubuntu/install-go.sh
+./install/ubuntu/install-zig.sh
 ./install/ubuntu/install-lazygit.sh
 ./install/ubuntu/install-python.sh
 ./install/ubuntu/install-lua.sh
