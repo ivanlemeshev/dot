@@ -15,6 +15,7 @@ ln -sf "${PWD}/vscode/keybindings.json" "${HOME}/Library/Application Support/Cod
 ./install/ubuntu/install-basic.sh
 ./install/macos/install-git.sh
 ./install/macos/install-gh.sh
+./install/macos/install-zig.sh
 ./install/macos/install-tmux.sh
 ./install/macos/install-fish.sh
 ./install/macos/install-starship.sh
