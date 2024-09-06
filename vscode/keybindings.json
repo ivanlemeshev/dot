@@ -1,22 +1,5 @@
 // Place your key bindings in this file to override the defaults
 [
-    // Use inline Copilot chat
-    {
-        "key": "ctrl+i",
-        "command": "extension.vim_ctrl+i",
-        "when": "editorTextFocus && vim.active && vim.use<C-i> && !inDebugRepl && vim.mode == 'Normal'"
-    },
-    {
-        "key": "ctrl+i",
-        "command": "-extension.vim_ctrl+i",
-        "when": "editorTextFocus && vim.active && vim.use<C-i> && !inDebugRepl"
-    },
-    // Toggle the panel
-    {
-        "key": "ctrl+shift+j",
-        "command": "workbench.action.togglePanel"
-    },
-    // Toggle the file explorer
     {
         "command": "workbench.action.toggleSidebarVisibility",
         "key": "ctrl+e"
