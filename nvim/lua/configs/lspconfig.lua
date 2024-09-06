@@ -6,6 +6,7 @@ local lspconfig = require "lspconfig"
 local servers = {
   "cssls",
   "html",
+  "zls",
 }
 
 local nvlsp = require "nvchad.configs.lspconfig"
