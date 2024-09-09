@@ -9,7 +9,7 @@ map("i", "jk", "<ESC>")
 
 map("n", "<leader>ct", vim.cmd.CopilotChat, { desc = "Open the Copilot chat" })
 map("n", "<leader>ce", vim.cmd.CopilotChatExplain, { desc = "Ask Copilot to explain the selected code" })
-map("i", "<C-f>", 'copilot#Accept("\\<CR>")', {
+map("i", "<C-e>", 'copilot#Accept("\\<CR>")', {
   desc = "Complete the current line using Copilot",
   expr = true,
   replace_keycodes = false,
