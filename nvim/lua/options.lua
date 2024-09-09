@@ -64,8 +64,8 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 vim.opt.listchars:append {
-  eol = "↲", -- U+21B2
-  tab = "→ ", -- U+2192
+  eol = "¬",
+  tab = "→ ",
   space = ".",
   multispace = ".",
   lead = ".",
