@@ -217,6 +217,23 @@
 
 ### Key Bindings
 
+#### Code
+
+- `gd` (normal mode)
+    - Go to the definition of a variable or function.
+
+- `gr` (normal mode)
+    - Go to the references of a variable or function.
+
+- `gf` (normal mode)
+    - Go to the file under the cursor.
+
+- `K` (normal mode)
+    - Show the documentation of a variable or function.
+
+- `Ctrl+6` (normal mode)
+    - Go to the last cursor position.
+
 #### Panes
 
 - `Ctrl+h` (normal mode)

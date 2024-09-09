@@ -42,6 +42,9 @@ config.color_scheme = "Catppuccin Mocha"
 
 config.font = wezterm.font "JetBrainsMono Nerd Font Mono"
 
+-- Disable ligatures
+config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
+
 if is_macos then
   config.font_size = 18.0
 else
