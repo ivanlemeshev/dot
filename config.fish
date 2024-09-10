@@ -77,6 +77,9 @@ mise activate fish | source
 
 # Aliases
 
+# Neovim
+alias v="nvim"
+
 # kubectl
 alias k="kubectl"
 alias k-ctx="kubectl config current-context"
