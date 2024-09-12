@@ -16,6 +16,7 @@
     ],
     "editor.showFoldingControls": "never",
     "editor.suggest.insertMode": "replace",
+    "editor.wordWrap": "on",
     "code-eol.newlineCharacter": "¬",
     "code-eol.returnCharacter": "¤",
     "code-eol.crlfCharacter": "¤¬",
@@ -30,7 +31,7 @@
     "[jsonc]": {},
     "[python]": {},
     "github.copilot.enable": {
-        "*": false,
+        "*": true,
         "plaintext": true,
         "markdown": true,
         "scminput": false
