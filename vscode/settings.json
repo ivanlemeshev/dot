@@ -55,5 +55,6 @@
             "scope": "user"
         }
     },
-    "zig.initialSetupDone": true
+    "zig.initialSetupDone": true,
+    "files.eol": "\n"
 }
