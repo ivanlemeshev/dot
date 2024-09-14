@@ -774,10 +774,10 @@ the clipboard and you can paste it.
 
 #### Trouble
 
-- `<leader>xx` (in normal mode)
+- `<leader>dd` (in normal mode)
     - Toggle the diagnostics panel.
 
-- `<leader>xc` (in normal mode)
+- `<leader>dc` (in normal mode)
     - Toggle the buffer diagnostics.
 
 # 60% Keyboard
