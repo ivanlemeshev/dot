@@ -1,0 +1,4 @@
+style: "${HOME}/.config/glow/glow-catppuccin-mocha.json"
+mouse: true
+pager: true
+width: 80
