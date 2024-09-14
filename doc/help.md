@@ -669,12 +669,6 @@ the clipboard and you can paste it.
 - `Ctrl+f` (in insert mode)
     - Accept the suggestion.
 
-- `Ctrl+]` (in insert mode)
-    - Next suggestion.
-
-- `Ctrl+[` (in insert mode)
-    - Previous suggestion.
-
 - `Ctrl+e` (in insert mode)
     - Dismiss the suggestion.
 
