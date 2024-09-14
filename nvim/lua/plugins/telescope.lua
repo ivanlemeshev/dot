@@ -27,7 +27,7 @@ return {
     map("n", "<leader>ff", builtin.find_files, { desc = "Telescode: find files" })
     map("n", "<leader>fg", builtin.live_grep, { desc = "Telescode: find in all files" })
     map("n", "<leader>fd", builtin.diagnostics, { desc = "Telescode: find in diagnostics" })
-    map("n", "<leader>fb>", builtin.buffers, { desc = "Telescode: find in opened buffers" })
+    map("n", "<leader>fb", builtin.buffers, { desc = "Telescode: find in opened buffers" })
     map("n", "<leader>fc", builtin.current_buffer_fuzzy_find, { desc = "Telescode: find in the current buffer" })
     map("n", "<leader>fh", builtin.help_tags, { desc = "Telescode: find in help" })
   end,
