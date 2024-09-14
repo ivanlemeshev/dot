@@ -234,49 +234,63 @@
 - `Ctrl+6` (normal mode)
     - Go to the last cursor position.
 
+#### Buffers
+
+- `<Tab>` (normal mode)
+    - Switch to the next buffer.
+
+- `Shift+Tab` (normal mode)
+    - Switch to the previous buffer.
+
+- `<leader>w` (normal mode)
+    - Save the current buffer.
+
+- `<leader>q` (normal mode)
+    - Quit the current buffer.
+
+- `<leader>x` (normal mode)
+    - Close the current buffer.
+
+- `<leader>b` (normal mode)
+    - Create a new empty buffer.
+
 #### Panes
 
-- `Ctrl+h` (normal mode)
-    - Move the cursor to the left pane.
+- `<leader>v` (normal mode)
+    - Split the pane vertically.
 
-- `Ctrl+j` (normal mode)
-    - Move the cursor to the bottom pane.
+- `<leader>h` (normal mode)
+    - Split the pane horizontally.
+
+- `<leader>se` (normal mode)
+    - Equalize the pane sizes.
+
+- `<leader>xs` (normal mode)
+    - Close the current pane.
 
 - `Ctrl+k` (normal mode)
-    - Move the cursor to the top pane.
+    - Move to the pane above.
+
+- `Ctrl+j` (normal mode)
+    - Move to the pane below.
+
+- `Ctrl+h` (normal mode)
+    - Move to the pane on the left.
 
 - `Ctrl+l` (normal mode)
-    - Move the cursor to the right pane.
+    - Move to the pane on the right.
 
-- `Ctrl+w s` (normal mode)
-    - Split the window horizontally.
+- `Up` (normal mode)
+    - Resize the pane up.
 
-- `Ctrl+w v` (normal mode)
-    - Split the window vertically.
+- `Down` (normal mode)
+    - Resize the pane down.
 
-- `Ctrl+w =` (normal mode)
-    - Balance the panes.
+- `Left` (normal mode)
+    - Resize the pane on the left.
 
-- `Ctrl+w -` (normal mode)
-    - Decrease the height of the current pane.
-
-- `Ctrl+w +` (normal mode)
-    - Increase the height of the current pane.
-
-- `Ctrl+w <` (normal mode)
-    - Decrease the width of the current pane.
-
-- `Ctrl+w >` (normal mode)
-    - Increase the width of the current pane.
-
-- `Ctrl+w _` (normal mode)
-    - Maximize the height of the current pane.
-
-- `Ctrl+w |` (normal mode)
-    - Maximize the width of the current pane.
-
-- `Ctrl+w o` (normal mode)
-    - Close all panes except the current pane.
+- `Right` (normal mode)
+    - Resize the pane on the right.
 
 #### Navigation
 
@@ -364,19 +378,10 @@
 - `^` (in normal mode)
     - Switch to the previous buffer.
 
-- `Tab` (in normal mode)
-    - Switch to the next buffer.
-
-- `Shift+Tab` (in normal mode)
-    - Switch to the previous buffer.
-
 #### Editing
 
 Note: when you delete text in normal mode or visual mode, the text is copied to
 the clipboard and you can paste it.
-
-- `<leader>/` (in normal mode)
-    - Comment/uncomment the current line.
 
 - `i` (in normal mode)
     - Enter insert mode before the cursor.
@@ -627,70 +632,153 @@ the clipboard and you can paste it.
 - `<leader>/` (in visual mode)
     - Comment/uncomment the selected text.
 
-#### NvChad
+#### Neo-tree
 
-Note: the leader key is `Space`.
+- `<leader>e`
+    - Toggle the file tree.
 
-- `<leader>e` (in normal mode)
-    - Open nvim-tree (file explorer).
+- `\` (in normal mode)
+    - Switch to the file tree.
 
-- `g?` (nvim-tree)
-    - Show the key bindings.
+- `?` (in neo-tree)
+    - Show the help.
 
-- `q` (nvim-tree)
-    - Close nvim-tree.
-
-- `a` (nvim-tree)
+- `a` (in neo-tree)
     - Add a new file or directory.
 
-- `r` (nvim-tree)
-    - Rename a file or directory.
+- `c` (in neo-tree)
+    - Copy the selected file or directory.
 
-- `d` (nvim-tree)
-    - Delete a file or directory.
+- `p` (in neo-tree)
+    - Paste the copied file or directory.
 
-- `y` (nvim-tree)
-    - Copy a file or directory.
+- `d` (in neo-tree)
+    - Delete the selected file or directory.
 
-- `x` (nvim-tree)
-    - Cut a file or directory.
+- `r` (in neo-tree)
+    - Rename the selected file or directory.
 
-- `p` (nvim-tree)
-    - Paste a file or directory.
+- `e` (in neo-tree)
+    - Adjust the width of the file tree.
 
-- `H` (nvim-tree)
-    - Show/hide hidden files.
+- `R` (in neo-tree)
+    - Refresh the file tree.
 
-- `R` (nvim-tree)
-    - Refresh the tree.
+#### Copilot
+
+- `Ctrl+f` (in insert mode)
+    - Accept the suggestion.
+
+- `Ctrl+]` (in insert mode)
+    - Next suggestion.
+
+- `Ctrl+[` (in insert mode)
+    - Previous suggestion.
+
+- `Ctrl+e` (in insert mode)
+    - Dismiss the suggestion.
+
+- `<leader>c` (in normal node)
+    - Toggle the copilot chat.
+
+- `<leader>ce` (in visual mode)]
+    - Explain the selected text.
+
+- `C-s` (in copilot chat in insert mode)
+    - Submit the message.
+
+- `C-c` (in copilot chat in insert mode)
+    - Close the chat.
+
+- `q` (in copilot chat in normal mode)
+    - Close the chat.
+
+#### Autocompletion
+
+- `Ctrl+n` (in insert mode)
+    - Move to the next completion item.
+
+- `Ctrl+p` (in insert mode)
+    - Move to the previous completion item.
+
+- `Ctrl+e` (in insert mode)
+    - Abort the autocompletion.
+
+- `Tab` (in insert mode)
+    - Confirm the autocompletion.
+
+#### Comments
+
+- `<leader>/` (in normal mode)
+    - Comment/uncomment the current line.
+
+- `<leader>/` (in visual mode)
+    - Comment/uncomment the selected text.
+
+#### LSP
+
+- `gd` (in normal mode)
+    - Go to the definition.
+
+- `gr` (in normal mode)
+    - Find references.
+
+- `gI` (in normal mode)
+    - Go to the implementation.
+
+- `<leader>D` (in normal mode)
+    - Go to the type definition.
+
+- `<leader>rn` (in normal mode)
+    - Rename.
+
+- `<leader>ca` (in normal mode)
+    - Code action.
+
+- `gD` (in normal mode)
+    - Go to the declaration.
+
+#### Neotest
+
+- `<leader>tt` (in normal mode)
+    - Run the test.
+
+- `<leader>tf` (in normal mode)
+    - Run the test file.
+
+- `<leader>tp` (in normal mode)
+    - Toggle the test output panel.
+
+- `<leader>ts` (in normal mode)
+    - Toggle the test summary.
+
+#### Telescope
 
 - `<leader>ff` (in normal mode)
-    - Find a file in the current project.
+    - Find files.
 
-- `<leader>fb` (in normal mode)
-    - Find a file in  open buffers.
+- `<leader>fg` (in normal mode)
+    - Find in all files.
 
-- `<leader>fw` (in normal mode)
-    - Find in files in the current project.
+- `<leader>fd` (in normal mode)
+    - Find in diagnostics.
 
-- `<leader>x` (in normal mode)
-    - Close the current buffer.
+- `<leader>fb>` (in normal mode)
+    - Find in opened buffers.
 
-- `<leader>h` (in normal mode)
-    - Open a terminal in a horizontal split.
+- `<leader>fc` (in normal mode)
+    - Find in the current buffer.
 
-- `<leader>v` (in normal mode)
-    - Open a terminal in a vertical split.
+- `<leader>fh` (in normal mode)
+    - Find in help.
 
-- `Ctrl+x` (in terminal)
-    - Exit the terminal mode.
+#### Trouble
 
-- `i` (in normal mode)
-    - Back to normal mode.
+- `<leader>xx` (in normal mode)
+    - Toggle the diagnostics panel.
 
-- `Ctrl+x <leader>x` (in terminal)
-    - Close the terminal.
-
+- `<leader>xc` (in normal mode)
+    - Toggle the buffer diagnostics.
 
 # 60% Keyboard
 
