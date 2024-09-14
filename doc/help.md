@@ -763,7 +763,7 @@ the clipboard and you can paste it.
 - `<leader>fd` (in normal mode)
     - Find in diagnostics.
 
-- `<leader>fb>` (in normal mode)
+- `<leader>fb` (in normal mode)
     - Find in opened buffers.
 
 - `<leader>fc` (in normal mode)
