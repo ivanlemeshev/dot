@@ -16,11 +16,9 @@ return {
           debounce = 75,
           keymap = {
             accept = "<C-f>",
+            dismiss = "<C-e>",
             accept_word = false,
             accept_line = false,
-            next = "<C-]>",
-            prev = "<C-[>",
-            dismiss = "<C-e>",
           },
         },
         filetypes = {
