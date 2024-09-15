@@ -57,6 +57,7 @@ return {
           "thumbs.db",
         },
       },
+      use_libuv_file_watcher = true, -- auto-refresh on file change
     },
   },
 }
