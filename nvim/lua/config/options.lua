@@ -95,4 +95,4 @@ vim.opt.swapfile = false
 vim.opt.termguicolors = true
 
 vim.opt.spell = true
-vim.opt.spelllang = "en_us,ru"
+vim.opt.spelllang = "en_us"
