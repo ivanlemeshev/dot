@@ -93,3 +93,6 @@ vim.opt.swapfile = false
 
 -- Enable true color support in the terminal.
 vim.opt.termguicolors = true
+
+vim.opt.spell = true
+vim.opt.spelllang = "en_us,ru"
