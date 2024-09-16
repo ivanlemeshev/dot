@@ -7,6 +7,19 @@ return {
   },
   config = function()
     require("telescope").setup {
+      defaults = {
+        -- See :help telescope.defaults.vimgrep_arguments
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--fixed-strings", -- allow searching without escaping special characters
+        },
+      },
       pickers = {
         find_files = {
           file_ignore_patterns = { "node_modules", ".git", ".venv", "vendor" },
