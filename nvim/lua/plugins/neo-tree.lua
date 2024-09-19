@@ -36,7 +36,7 @@ return {
         else
           local stats = vim.uv.fs_stat(vim.fn.argv(0))
           if stats and stats.type == "directory" then
-            require "neo-tree"
+            require("neo-tree")
           end
         end
       end,

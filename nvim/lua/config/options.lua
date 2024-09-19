@@ -50,7 +50,7 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 -- Display tabs, whitespaces, the end of the line.
-vim.opt.listchars:append {
+vim.opt.listchars:append({
   eol = "¬",
   tab = "→ ",
   -- space = ".",
@@ -59,7 +59,7 @@ vim.opt.listchars:append {
   -- leadmultispace = ".",
   trail = " ",
   -- nbsp = ".",
-}
+})
 
 -- Sync the system clipboard with the internal Neovim clipboard.
 vim.opt.clipboard = "unnamedplus"

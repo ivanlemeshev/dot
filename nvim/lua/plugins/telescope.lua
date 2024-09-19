@@ -6,7 +6,7 @@ return {
     "nvim-lua/plenary.nvim",
   },
   config = function()
-    require("telescope").setup {
+    require("telescope").setup({
       defaults = {
         -- See :help telescope.defaults.vimgrep_arguments
         vimgrep_arguments = {
@@ -32,9 +32,9 @@ return {
           return { "--hidden" }
         end,
       },
-    }
+    })
 
-    local builtin = require "telescope.builtin"
+    local builtin = require("telescope.builtin")
     local map = vim.keymap.set
 
     map("n", "<leader>ff", builtin.find_files, { desc = "Telescode: find files" })

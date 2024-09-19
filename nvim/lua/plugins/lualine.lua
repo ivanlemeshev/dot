@@ -34,7 +34,7 @@ return {
       symbols = { added = " ", modified = " ", removed = " " },
     }
 
-    require("lualine").setup {
+    require("lualine").setup({
       options = {
         icons_enabled = true,
         --          
@@ -67,6 +67,6 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-    }
+    })
   end,
 }

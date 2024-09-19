@@ -10,15 +10,15 @@ return {
   },
   opts = {},
   config = function()
-    require("neotest").setup {
+    require("neotest").setup({
       adapters = {
-        require "neotest-go" {
+        require("neotest-go")({
           experimental = {
             test_table = true,
           },
           args = { "-count=1", "-timeout=60s", "-race" },
-        },
-        require "neotest-zig",
+        }),
+        require("neotest-zig"),
       },
       output_panel = {
         enable = true,
@@ -27,7 +27,7 @@ return {
       quickfix = {
         open = false,
       },
-    }
+    })
 
     local map = vim.keymap.set
 

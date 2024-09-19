@@ -19,3 +19,4 @@ brew install \
     bottom \
     go \
     node \
+    lazygit \
