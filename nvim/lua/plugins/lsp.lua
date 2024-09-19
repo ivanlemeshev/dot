@@ -14,7 +14,7 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
-        local builtin = require "telescope.builtin"
+        local builtin = require("telescope.builtin")
         local map = vim.keymap.set
 
         map("n", "gd", builtin.lsp_definitions, { desc = "LSP: go to definition" })
@@ -49,14 +49,14 @@ return {
             group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
             callback = function(event2)
               vim.lsp.buf.clear_references()
-              vim.api.nvim_clear_autocmds { group = "lsp-highlight", buffer = event2.buf }
+              vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
             end,
           })
         end
 
         if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
           map("n", "<leader>th", function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
           end, { desc = "LSP: Toggle inlay hints" })
         end
       end,
@@ -78,9 +78,9 @@ return {
       "zls", -- zig
     }
 
-    require("mason-tool-installer").setup {
+    require("mason-tool-installer").setup({
       ensure_installed = ensure_installed,
-    }
+    })
 
     local servers = {
       gopls = {},
@@ -99,13 +99,13 @@ return {
       zls = {},
     }
 
-    require("mason-lspconfig").setup {
+    require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
           require("lspconfig")[server_name].setup(server)
         end,
       },
-    }
+    })
   end,
 }

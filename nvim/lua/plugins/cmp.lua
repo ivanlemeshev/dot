@@ -19,10 +19,10 @@ return {
   },
 
   config = function()
-    local cmp = require "cmp"
-    local luasnip = require "luasnip"
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
-    luasnip.config.setup {}
+    luasnip.config.setup({})
 
     local kind_icons = {
       Text = "󰉿",
@@ -52,7 +52,7 @@ return {
       TypeParameter = "󰊄",
     }
 
-    cmp.setup {
+    cmp.setup({
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
@@ -62,12 +62,12 @@ return {
         keyword_length = 1,
         completeopt = "menu,menuone,noinsert",
       },
-      mapping = cmp.mapping.preset.insert {
+      mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<Tab>"] = cmp.mapping.confirm { select = true },
-      },
+        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+      }),
       sources = {
         {
           name = "lazydev",
@@ -91,6 +91,6 @@ return {
           return vim_item
         end,
       },
-    }
+    })
   end,
 }

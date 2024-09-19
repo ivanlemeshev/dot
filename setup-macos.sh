@@ -22,4 +22,5 @@ ln -sf "${PWD}/vscode/keybindings.json" "${HOME}/Library/Application Support/Cod
 ./install/macos/install-kubectl.sh
 ./install/macos/install-mise.sh
 ./install/macos/install-python.sh
+./install/macos/install-glow.sh
 ./install/macos/install-nvim.sh

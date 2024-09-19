@@ -5,7 +5,7 @@ return {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup {
+      require("copilot").setup({
         panel = {
           enabled = false,
         },
@@ -34,7 +34,7 @@ return {
         },
         copilot_node_command = "node",
         server_opts_overrides = {},
-      }
+      })
     end,
   },
   {
@@ -48,9 +48,9 @@ return {
     build = "make tiktoken", -- only on MacOS or Linux
     opts = {},
     config = function()
-      require("CopilotChat").setup {
+      require("CopilotChat").setup({
         debug = true,
-      }
+      })
 
       local map = vim.keymap.set
 
