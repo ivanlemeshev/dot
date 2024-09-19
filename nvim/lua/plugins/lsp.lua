@@ -73,9 +73,10 @@ return {
     require("mason").setup()
 
     local ensure_installed = {
-      "gopls", -- go
-      "lua_ls", -- lua
-      "zls", -- zig
+      "gopls",       -- go
+      "lua_ls",      -- lua
+      "zls",         -- zig
+      "terraformls", -- terraform
     }
 
     require("mason-tool-installer").setup({

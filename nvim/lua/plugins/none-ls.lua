@@ -10,13 +10,14 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "stylua", -- lua
+      "stylua",        -- lua
       "golangci-lint", -- go
-      "gofumpt", -- go
-      "goimports", -- go
-      "golines", -- go
-      "markdownlint", -- markdown
-      "prettier", -- markdown
+      "gofumpt",       -- go
+      "goimports",     -- go
+      "golines",       -- go
+      "markdownlint",  -- markdown
+      "prettier",      -- markdown
+      "terraform_fmt", -- terraform
     }
 
     require("mason-null-ls").setup({
@@ -32,6 +33,7 @@ return {
       formatting.prettier.with({
         filetypes = { "markdown" },
       }),
+      formatting.terraform_fmt,
       diagnostics.golangci_lint,
       diagnostics.markdownlint,
     }
