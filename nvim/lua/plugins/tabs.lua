@@ -9,7 +9,8 @@ return {
     vim.g.barbar_auto_setup = false
   end,
   opts = {
-    auto_hide = 1,
+    auto_hide = 1, -- Hide the tab bar when there is only one tab
+    animation = false,
     tabpages = true,
     clickable = true,
     sidebar_filetypes = {
