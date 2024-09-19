@@ -104,3 +104,6 @@ alias yd-playlist-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b'
 if test "$os" = Linux
     alias bat="batcat"
 end
+
+# Podman
+alias docker="podman"
