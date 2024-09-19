@@ -20,7 +20,7 @@ map("n", "N", "Nzzzv", { desc = "Move to the previous search result", noremap = 
 map("n", "<Tab>", ":bnext<CR>", { desc = "Switch to the next buffer", noremap = true, silent = true })
 map("n", "<S-Tab>", ":bprevious<CR>", { desc = "Switch to the previous buffer", noremap = true, silent = true })
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save the current buffer", noremap = true, silent = false })
-map("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit the current buffer", noremap = true, silent = true })
+map("n", "<leader>q", "<cmd>BufferClose<CR>", { desc = "Quit the current buffer", noremap = true, silent = true })
 map("n", "<leader>x", ":bdelete!<CR>", { desc = "Close the current buffer", noremap = true, silent = true })
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "New empty buffer", noremap = true, silent = true })
 
