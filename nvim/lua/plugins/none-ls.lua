@@ -10,11 +10,11 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "stylua", -- lua
+      "stylua",        -- lua
       "golangci-lint", -- go
-      "gofumpt", -- go
-      "goimports", -- go
-      "golines", -- go
+      "gofumpt",       -- go
+      "goimports",     -- go
+      "golines",       -- go
     }
 
     require("mason-null-ls").setup {
@@ -26,7 +26,7 @@ return {
       formatting.stylua,
       formatting.gofumpt,
       formatting.goimports,
-      formatting.golines,
+      -- formatting.golines,
       diagnostics.golangci_lint,
     }
 
