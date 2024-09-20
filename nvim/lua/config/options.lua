@@ -15,7 +15,7 @@ vim.opt.showcmd = true
 
 -- Always display the status line, regardless of whether there are multiple
 -- windows open. This is useful for constantly showing information like the
--- current mode, file name, or any other status line integrations.
+-- current mode, file name, or any other status line integration.
 vim.opt.laststatus = 2
 
 -- Automatically read the file from disk when it has been changed outside of
@@ -53,12 +53,12 @@ vim.opt.list = true
 vim.opt.listchars:append({
   eol = "¬",
   tab = "→ ",
-  -- space = ".",
-  -- multispace = ".",
-  -- lead = ".",
-  -- leadmultispace = ".",
+  space = ".",
+  multispace = ".",
+  lead = ".",
+  leadmultispace = ".",
   trail = " ",
-  -- nbsp = ".",
+  nbsp = ".",
 })
 
 -- Sync the system clipboard with the internal Neovim clipboard.
@@ -79,10 +79,10 @@ vim.opt.autoindent = true
 -- Set the number of spaces to use for each step of (auto)indent.
 vim.opt.shiftwidth = 4
 
--- Set the number of spaces that a <Tab> in the file counts for.
+-- Set the number of spaces that a tab in the file counts for.
 vim.opt.tabstop = 4
 
--- Set the number of spaces that a <Tab> in the file counts for while editing.
+-- Set the number of spaces that a tab in the file counts for while editing.
 vim.opt.softtabstop = 4
 
 -- Use spaces instead of tabs for indentation.

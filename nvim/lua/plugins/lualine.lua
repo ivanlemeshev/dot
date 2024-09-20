@@ -17,6 +17,21 @@ return {
       path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
     }
 
+    local copilot = {
+      "copilot",
+      symbols = {
+        status = {
+          icons = {
+            enabled = "",
+            sleep = "", -- auto-trigger disabled
+            disabled = "",
+            warning = "",
+            unknown = "",
+          },
+        },
+      },
+    }
+
     local diagnostics = {
       "diagnostics",
       sources = { "nvim_diagnostic" },
@@ -55,7 +70,7 @@ return {
         lualine_a = { mode },
         lualine_b = { "branch", diff },
         lualine_c = { filename },
-        lualine_x = { "copilot", diagnostics, "encoding", "filetype" },
+        lualine_x = { copilot, diagnostics, "encoding", "filetype" },
         lualine_y = { "location" },
         lualine_z = { "progress" },
       },

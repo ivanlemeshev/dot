@@ -4,12 +4,12 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim", opts = {} }, -- opts = {}` is the same as calling require("fidget").setup({})
+    { "j-hui/fidget.nvim", opts = {} },
     "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
     -- This function gets run when an LSP attaches to a particular buffer.
-    -- Every time a new file is opened that is associated with an lsp this
+    -- Every time a new file is opened that is associated with the LSP this
     -- function will be executed to configure the current buffer.
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
@@ -73,10 +73,18 @@ return {
     require("mason").setup()
 
     local ensure_installed = {
-      "gopls",       -- go
-      "lua_ls",      -- lua
-      "zls",         -- zig
-      "terraformls", -- terraform
+      "ansiblels",     -- ansible
+      "bashls",        -- bash
+      "dockerls",      -- docker
+      "gopls",         -- go
+      "jsonls",        -- json
+      "harper_ls",     -- markdown
+      "lua_ls",        -- lua
+      "powershell_es", -- powershell
+      "pbls",          -- protobuf
+      "terraformls",   -- terraform
+      "yamlls",        -- yaml
+      "zls",           -- zig
     }
 
     require("mason-tool-installer").setup({
@@ -84,7 +92,12 @@ return {
     })
 
     local servers = {
+      ansiblels = {},
+      bashls = {},
+      dockerls = {},
       gopls = {},
+      jsonls = {},
+      harper_ls = {},
       lua_ls = {
         settings = {
           Lua = {
@@ -97,6 +110,10 @@ return {
           },
         },
       },
+      powershell_es = {},
+      pbls = {},
+      terraformls = {},
+      yamlls = {},
       zls = {},
     }
 
