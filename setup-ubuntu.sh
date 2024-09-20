@@ -29,6 +29,7 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/ubuntu/install-lazygit.sh
 ./install/ubuntu/install-glow.sh
 ./install/ubuntu/install-nvim.sh
+./install/ubuntu/install-rust.sh
 ./install/ubuntu/clean.sh
 
 exec fish -l

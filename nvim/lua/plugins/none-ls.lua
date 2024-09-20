@@ -10,14 +10,21 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "stylua",        -- lua
-      "golangci-lint", -- go
-      "gofumpt",       -- go
-      "goimports",     -- go
-      "golines",       -- go
-      "markdownlint",  -- markdown
-      "prettier",      -- markdown
-      "terraform_fmt", -- terraform
+      "ansiblelint",        -- ansible
+      "buf",                -- buf
+      "golangci-lint",      -- go
+      "gofumpt",            -- go
+      "goimports",          -- go
+      "golines",            -- go
+      "hadolint",           -- docker
+      "markdownlint",       -- markdown
+      "prettier",           -- markdown, json
+      "shfmt",              -- bash
+      "stylua",             -- lua
+      "terraform_fmt",      -- terraform
+      "terraform_validate", -- terraform
+      "tfsec",              -- terraform
+      "yamllint",           -- yaml
     }
 
     require("mason-null-ls").setup({
@@ -26,16 +33,24 @@ return {
     })
 
     local sources = {
-      formatting.stylua,
+      formatting.buf,
       formatting.gofumpt,
       formatting.goimports,
-      -- formatting.golines,
+      formatting.golines,
       formatting.prettier.with({
-        filetypes = { "markdown" },
+        filetypes = { "markdown", "json" },
       }),
+      formatting.shfmt,
+      formatting.stylua,
       formatting.terraform_fmt,
+
+      diagnostics.ansiblelint,
       diagnostics.golangci_lint,
+      diagnostics.hadolint,
       diagnostics.markdownlint,
+      diagnostics.terraform_validate,
+      diagnostics.tfsec,
+      diagnostics.yamllint,
     }
 
     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
