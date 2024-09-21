@@ -33,3 +33,4 @@ sudo apt install -y \
     ripgrep \
     fd-find \
     fzf \
+    protobuf-compiler
