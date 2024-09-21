@@ -4,7 +4,7 @@ set -e
 
 source ./scripts/print.sh
 
-GOLANG_VERSION=1.23.0
+GOLANG_VERSION=1.23.1
 GOLANG_ARCHIVE=go${GOLANG_VERSION}.linux-amd64.tar.gz
 GOLANG_INSTALLATION_PATH=/usr/local
 
