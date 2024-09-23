@@ -13,8 +13,5 @@ return {
     animation = false,
     tabpages = true,
     clickable = true,
-    sidebar_filetypes = {
-      ["neo-tree"] = { event = "BufWipeout" },
-    },
   },
 }
