@@ -10,23 +10,23 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "ansiblelint",        -- ansible
-      "buf",                -- buf
-      "golangci-lint",      -- go
-      "gofumpt",            -- go
-      "goimports",          -- go
-      "golines",            -- go
-      "hadolint",           -- docker
-      "markdownlint",       -- markdown
-      "prettier",           -- markdown, json
-      "pyink",              -- python
-      "pylint",             -- python
-      "shfmt",              -- bash
-      "stylua",             -- lua
-      "terraform_fmt",      -- terraform
+      "ansiblelint", -- ansible
+      "buf", -- buf
+      "golangci-lint", -- go
+      "gofumpt", -- go
+      "goimports", -- go
+      "golines", -- go
+      "hadolint", -- docker
+      "markdownlint", -- markdown
+      "prettier", -- markdown, json
+      "pyink", -- python
+      "pylint", -- python
+      "shfmt", -- bash
+      "stylua", -- lua
+      "terraform_fmt", -- terraform
       "terraform_validate", -- terraform
-      "tfsec",              -- terraform
-      "yamllint",           -- yaml
+      "tfsec", -- terraform
+      "yamllint", -- yaml
     }
 
     require("mason-null-ls").setup({
@@ -38,7 +38,12 @@ return {
       formatting.buf,
       formatting.gofumpt,
       formatting.goimports,
-      formatting.golines,
+      formatting.golines.with({
+        condition = function(utils)
+          -- TODO: Think about a better way to disable it only for particular projects.
+          return false
+        end,
+      }),
       formatting.prettier.with({
         filetypes = { "markdown", "json" },
       }),
