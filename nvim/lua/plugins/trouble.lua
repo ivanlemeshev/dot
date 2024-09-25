@@ -1,5 +1,6 @@
 return {
   "folke/trouble.nvim",
+  event = "BufRead",
   opts = {},
   cmd = "Trouble",
   keys = {

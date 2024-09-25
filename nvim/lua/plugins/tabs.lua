@@ -1,5 +1,6 @@
 return {
   "romgrk/barbar.nvim",
+  event = "VimEnter",
   version = "^1.0.0",
   dependencies = {
     "lewis6991/gitsigns.nvim",
