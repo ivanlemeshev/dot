@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  event = "VimEnter",
   dependencies = {
     "AndreM222/copilot-lualine",
   },

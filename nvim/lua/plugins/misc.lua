@@ -5,14 +5,17 @@ return {
     -- otherwise insufficient, by looking at other files of the same type in
     -- the current and parent directories.
     "tpope/vim-sleuth",
+    event = "BufRead",
   },
   {
     -- Git integration for Vim
     "tpope/vim-fugitive",
+    event = "BufRead",
   },
   {
     -- Hints keybinds
     "folke/which-key.nvim",
+    event = "VimEnter",
     opts = {
       icons = {
         mappings = false,
@@ -22,7 +25,7 @@ return {
   {
     -- Highlight todo, notes, etc in comments
     "folke/todo-comments.nvim",
-    event = "VimEnter",
+    event = "BufRead",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       signs = false,
@@ -31,6 +34,7 @@ return {
   {
     -- High-performance color highlighter
     "norcalli/nvim-colorizer.lua",
+    event = "BufRead",
     config = function()
       require("colorizer").setup()
     end,
