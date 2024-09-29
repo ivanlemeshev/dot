@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source scripts/print.sh
-source scripts/prompt.sh
+source "$(dirname "$0")/functions/print_header.sh"
 
-print_header "Removing configuration files: Neovim"
+print_header "Removing configuration files for Neovim"
 
 rm -rf ~/.config/nvim
 rm -rf ~/.local/share/nvim
