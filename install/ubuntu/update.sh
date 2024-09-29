@@ -2,10 +2,8 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-print_header "Updating: system"
-sudo apt update
-sudo apt upgrade -y
-sudo apt autoremove -y
-sudo apt autoclean -y
+print_header "Updatiing the system"
+sudo apt-get update
+sudo apt-get upgrade -y

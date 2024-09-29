@@ -7,7 +7,7 @@ set -e
 # already exists.
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 
-# ./install/ubuntu/update.sh
+./install/ubuntu/update.sh
 # ./install/ubuntu/install-basic.sh
 ./install/ubuntu/install-git.sh
 ./install/ubuntu/install-tmux.sh
