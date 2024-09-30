@@ -5,7 +5,7 @@ set -e
 source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 source "$(dirname "$0")/../../scripts/functions/prompt_input.sh"
 
-print_header "Configuring Git"
+print_header "Git: configuring"
 
 git_default_branch=$(prompt_input "What the default branch name do you want to use?" "main")
 git config --global init.defaultBranch "${git_default_branch}"
@@ -19,5 +19,5 @@ git config --global user.name "${git_user_name}"
 print_header "Adding the alias 'lg'"
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 
-print_header "Git configuration"
+print_header "Git: listing configuration"
 git config --global --list

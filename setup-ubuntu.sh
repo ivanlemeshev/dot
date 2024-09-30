@@ -11,6 +11,7 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/ubuntu/install-basic.sh
 ./install/ubuntu/install-git.sh
 ./install/ubuntu/install-bat.sh
+./install/ubuntu/install-mise.sh
 ./install/ubuntu/install-nerd-font.sh
 ./install/ubuntu/install-tmux.sh
 ./install/ubuntu/install-starship.sh
@@ -19,7 +20,6 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 # ./install/ubuntu/install-bottom.sh
 # ./install/ubuntu/install-vivid.sh
 # ./install/ubuntu/install-gh.sh
-# ./install/ubuntu/install-mise.sh
 # ./install/ubuntu/install-go.sh
 # ./install/ubuntu/install-zig.sh
 # ./install/ubuntu/install-python.sh

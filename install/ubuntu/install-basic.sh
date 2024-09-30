@@ -4,10 +4,9 @@ set -e
 
 source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-print_header "Installing basic packages"
+print_header "System: installing basic packages"
 
 packages=(
-	# Essential tools
 	"curl"                       # A tool for transferring data from or to a server using URLs.
 	"wget"                       # A tool for downloading files from the Internet.
 	"vim"                        # A programmer's text editor.
