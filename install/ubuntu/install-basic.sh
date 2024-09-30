@@ -14,6 +14,8 @@ packages=(
 	"htop"       # An interactive process viewer.
 	"xz-utils"   # A set of tools for working with xz compressed files.
 	"fontconfig" # A library for configuring and customizing font access.
+	"fzf"        # A command-line fuzzy finder.
+	"fd-find"    # A simple, fast and user-friendly alternative to find.
 )
 
 sudo apt-get install -y ${packages[*]}
