@@ -16,6 +16,7 @@ packages=(
 	"fzf"                        # A command-line fuzzy finder.
 	"fd-find"                    # A simple, fast and user-friendly alternative to find.
 	"software-properties-common" # A common package for adding PPA repositories.
+	"build-essential"            # A package for building software from source.
 )
 
 sudo apt-get install -y ${packages[*]}
