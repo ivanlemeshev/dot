@@ -2,24 +2,24 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-print_header "Installing: Zig"
+print_header "Zig: installing"
 
-CURRENT_ARCH=$(uname -i)
-print_header "Current arch: ${CURRENT_ARCH}"
+current_arch=$(uname -i)
+print_header "Zig: installing Zig for ${current_arch} architecture"
 
-ZIG_VERSION=0.13.0
-ZIG_ARCHIVE="zig-linux-${CURRENT_ARCH}-${ZIG_VERSION}.tar.xz"
-ZIG_INSTALLATION_PATH=/usr/local
+zig_version=0.13.0
+zig_archive="zig-linux-${current_arch}-${zig_version}.tar.xz"
+zig_installation_path=/usr/local
 
-print_header "Downloading Zig ${ZIG_VERSION}"
-curl -O "https://ziglang.org/download/${ZIG_VERSION}/${ZIG_ARCHIVE}"
+print_header "Zig: downloading Zig ${zig_version}"
+curl -O "https://ziglang.org/download/${zig_version}/${zig_archive}"
 
-print_header "Extracting Zig ${ZIG_VERSION}"
-[[ -d "${ZIG_INSTALLATION_PATH}/zig" ]] && sudo rm -rf "${ZIG_INSTALLATION_PATH}/zig"
-sudo tar -C "${ZIG_INSTALLATION_PATH}" -xf "${ZIG_ARCHIVE}"
-sudo mv "${ZIG_INSTALLATION_PATH}/zig-linux-${CURRENT_ARCH}-${ZIG_VERSION}" "${ZIG_INSTALLATION_PATH}/zig"
+print_header "Zig: installing Zig ${zig_version}"
+[[ -d "${zig_installation_path}/zig" ]] && sudo rm -rf "${zig_installation_path}/zig"
+sudo tar -C "${zig_installation_path}" -xf "${zig_archive}"
+sudo mv "${zig_installation_path}/zig-linux-${current_arch}-${zig_version}" "${zig_installation_path}/zig"
 
-print_header "Cleaning up"
-rm "${ZIG_ARCHIVE}"
+print_header "Zig: cleaning up"
+rm "${zig_archive}"

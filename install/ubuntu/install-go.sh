@@ -2,14 +2,14 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-GOLANG_VERSION=1.23.1
-GOLANG_ARCHIVE=go${GOLANG_VERSION}.linux-amd64.tar.gz
-GOLANG_INSTALLATION_PATH=/usr/local
+golang_version=1.23.1
+golang_archive=go${golang_version}.linux-amd64.tar.gz
+golang_installation_path=/usr/local
 
-print_header "Installing: Go"
-curl -sO https://dl.google.com/go/${GOLANG_ARCHIVE}
-[[ -d "${GOLANG_INSTALLATION_PATH}/go" ]] && sudo rm -rf "${GOLANG_INSTALLATION_PATH}/go"
-sudo tar -C "${GOLANG_INSTALLATION_PATH}" -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
-rm ${GOLANG_ARCHIVE}
+print_header "Golang: installing"
+curl -sO https://dl.google.com/go/${golang_archive}
+[[ -d "${golang_installation_path}/go" ]] && sudo rm -rf "${golang_installation_path}/go"
+sudo tar -C "${golang_installation_path}" -xzf go${golang_version}.linux-amd64.tar.gz
+rm ${golang_archive}

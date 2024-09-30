@@ -2,9 +2,9 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-PYTHON_VERSION="3.12.4"
+python_version="3.12.4"
 
-print_header "Installing: Python"
-fish -C "mise use -g python@${PYTHON_VERSION} && exit"
+print_header "Python: installing version ${python_version}"
+fish -C "mise use -g python@${python_version} && exit"

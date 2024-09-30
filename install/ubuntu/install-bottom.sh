@@ -2,12 +2,12 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-BOTTOM_VERSION=0.10.2
-BOTTIM_FILE_SUFFIX=-1_amd64.deb
+bottom_version=0.10.2
+bottim_file_suffix=-1_amd64.deb
 
-print_header "Installing: bottom"
-curl -LO "https://github.com/ClementTsang/bottom/releases/download/${BOTTOM_VERSION}/bottom_${BOTTOM_VERSION}${BOTTIM_FILE_SUFFIX}"
-sudo dpkg -i "bottom_${BOTTOM_VERSION}${BOTTIM_FILE_SUFFIX}"
-rm "bottom_${BOTTOM_VERSION}${BOTTIM_FILE_SUFFIX}"
+print_header "Bottom: installing"
+curl -LO "https://github.com/ClementTsang/bottom/releases/download/${bottom_version}/bottom_${bottom_version}${bottim_file_suffix}"
+sudo dpkg -i "bottom_${bottom_version}${bottim_file_suffix}"
+rm "bottom_${bottom_version}${bottim_file_suffix}"
