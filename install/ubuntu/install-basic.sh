@@ -8,14 +8,15 @@ print_header "Installing basic packages"
 
 packages=(
 	# Essential tools
-	"curl"       # A tool for transferring data from or to a server using URLs.
-	"wget"       # A tool for downloading files from the Internet.
-	"vim"        # A programmer's text editor.
-	"htop"       # An interactive process viewer.
-	"xz-utils"   # A set of tools for working with xz compressed files.
-	"fontconfig" # A library for configuring and customizing font access.
-	"fzf"        # A command-line fuzzy finder.
-	"fd-find"    # A simple, fast and user-friendly alternative to find.
+	"curl"                       # A tool for transferring data from or to a server using URLs.
+	"wget"                       # A tool for downloading files from the Internet.
+	"vim"                        # A programmer's text editor.
+	"htop"                       # An interactive process viewer.
+	"xz-utils"                   # A set of tools for working with xz compressed files.
+	"fontconfig"                 # A library for configuring and customizing font access.
+	"fzf"                        # A command-line fuzzy finder.
+	"fd-find"                    # A simple, fast and user-friendly alternative to find.
+	"software-properties-common" # A common package for adding PPA repositories.
 )
 
 sudo apt-get install -y ${packages[*]}
