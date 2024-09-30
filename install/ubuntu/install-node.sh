@@ -2,7 +2,7 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
 node_version="20.16.0"
 
