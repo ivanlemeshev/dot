@@ -2,28 +2,22 @@
 
 set -e
 
-source ./scripts/print.sh
-source ./scripts/prompt.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "$(dirname "$0")/../../scripts/functions/prompt_input.sh"
 
-print_header "Installing: Git"
-sudo apt install -y git
+print_header "Git: configuring"
 
-print_header "Checking version: Git"
-git --version
+git_default_branch=$(prompt_input "What the default branch name do you want to use?" "main")
+git config --global init.defaultBranch "${git_default_branch}"
 
-print_header "Configuring: Git"
+git_user_email=$(prompt_input "What the user email do you want to use?")
+git config --global user.email "${git_user_email}"
 
-default_git_branch=$(prompt_input "What default git branch do you want to use?" "main")
-git config --global init.defaultBranch "${default_git_branch}"
+git_user_name=$(prompt_input "What the user name do you want to use?")
+git config --global user.name "${git_user_name}"
 
-git_email=$(prompt_input "What git email do you want to use?")
-git config --global user.email "${git_email}"
-
-git_name=$(prompt_input "What git name do you want to use?")
-git config --global user.name "${git_name}"
-
-print_header "Adding aliases: Git"
+print_header "Adding the alias 'lg'"
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 
-print_header "Checking config: Git"
-git config --list
+print_header "Git: listing configuration"
+git config --global --list
