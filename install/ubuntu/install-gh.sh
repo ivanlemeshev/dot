@@ -15,7 +15,7 @@ sudo mkdir -p -m 755 /etc/apt/keyrings &&
 	sudo apt install gh -y
 
 print_header "GitHub CLI: configuring"
-gh config set editor vim
+gh config set editor nvim
 gh config set pager less
 gh config set git_protocol ssh --host github.com
 
