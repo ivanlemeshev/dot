@@ -4,10 +4,9 @@ set -e
 
 source ./scripts/print.sh
 
-INSTALLATION_PATH="${HOME}/.local/bin"
-
 # https://github.com/yt-dlp/yt-dlp
-print_header "Installing: yt-dlp"
-[[ ! -d "${INSTALLATION_PATH}" ]] && mkdir -p "${INSTALLATION_PATH}"
-curl -o "${INSTALLATION_PATH}/yt-dlp" -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
-chmod +x "${INSTALLATION_PATH}/yt-dlp"
+ytdl_installation_path="/usr/local/bin"
+
+print_header "YouTube-DL: installing"
+curl -o "${ytdl_installation_path}/yt-dlp" -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod +x "${ytdl_installation_path}/yt-dlp"

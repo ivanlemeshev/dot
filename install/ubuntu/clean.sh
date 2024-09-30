@@ -2,8 +2,8 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-print_header "Cleaning up: system"
-sudo apt autoremove -y
-sudo apt autoclean -y
+print_header "System: cleaning up"
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
