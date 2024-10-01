@@ -18,6 +18,7 @@ packages=(
 	"fd-find"                    # A simple, fast and user-friendly alternative to find.
 	"software-properties-common" # A common package for adding PPA repositories.
 	"build-essential"            # A package for building software from source.
+	"ffmpeg"                     # A complete, cross-platform solution to record, convert and stream audio and video.
 )
 
 sudo apt-get install -y ${packages[*]}

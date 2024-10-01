@@ -100,6 +100,8 @@ alias yd-playlist-aq="yt-dlp -f 'bv*[ext=mp4][height<=720]+ba[ext=m4a]/b[ext=mp4
 alias yd-playlist-gq="yt-dlp -f 'bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4] / bv*[height<=1080]+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 alias yd-playlist-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
 
+alias yd-video-fi="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s' -o '%(title)s.%(ext)s' --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
+
 # bat
 if test "$os" = Linux
     alias bat="batcat"
