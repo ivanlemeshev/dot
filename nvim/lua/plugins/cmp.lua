@@ -2,28 +2,15 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    {
-      "L3MON4D3/LuaSnip",
-      dependencies = {
-        {
-          "rafamadriz/friendly-snippets",
-          config = function()
-            require("luasnip.loaders.from_vscode").lazy_load()
-          end,
-        },
-      },
-    },
-    "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lua",
   },
 
   config = function()
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
-
-    luasnip.config.setup({})
 
     local kind_icons = {
       Text = "󰉿",
@@ -54,14 +41,13 @@ return {
     }
 
     cmp.setup({
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
+      performance = {
+        max_view_entries = 10,
       },
+      preselect = cmp.PreselectMode.Item,
       completion = {
         keyword_length = 1,
-        completeopt = "menu,menuone,noinsert",
+        completeopt = "menu,menuone,popup,noinsert,fuzzy",
       },
       mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -70,24 +56,22 @@ return {
         ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
       sources = {
-        {
-          name = "lazydev",
-          group_index = 0,
-        },
-        { name = "nvim-lsp" },
-        { name = "luasnip" },
         { name = "buffer" },
         { name = "path" },
+        { name = "cmdline" },
+        { name = "nvim_lua" },
+        { name = "nvim_lsp" },
       },
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
-          vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+          vim_item.kind = kind_icons[vim_item.kind]
           vim_item.menu = ({
-            nvim_lsp = "[LSP]",
-            luasnip = "[Snippet]",
             buffer = "[Buffer]",
             path = "[Path]",
+            cmdline = "[Cmdline]",
+            nvim_lua = "[Lua]",
+            nvim_lsp = "[LSP]",
           })[entry.source.name]
           return vim_item
         end,
