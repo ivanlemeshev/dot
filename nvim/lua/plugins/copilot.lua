@@ -9,7 +9,7 @@ return {
           enabled = false,
         },
         suggestion = {
-          enabled = true,
+          enabled = false, -- Disable the default completion, use cmp.
           auto_trigger = true,
           hide_during_completion = true,
           debounce = 75,
