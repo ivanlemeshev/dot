@@ -39,7 +39,7 @@ vim.opt.cursorline = true
 -- Highlight column 80 in the editor, serving as a visual guide to indicate a
 -- recommended maximum line length.
 vim.opt.colorcolumn = "80"
-
+vim.opt.colorcolumn = vim.opt.colorcolumn + "120"
 -- Display the line numbers next to each line.
 vim.opt.number = true
 
