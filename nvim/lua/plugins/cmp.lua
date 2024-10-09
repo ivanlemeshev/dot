@@ -58,9 +58,12 @@ return {
       sources = {
         { name = "buffer" },
         { name = "path" },
-        { name = "cmdline" },
         { name = "nvim_lua" },
         { name = "nvim_lsp" },
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
       },
       formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -76,6 +79,24 @@ return {
           return vim_item
         end,
       },
+    })
+
+    -- Completions for / search based on current buffer.
+    cmp.setup.cmdline("/", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
+    -- Completions for command mode.
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" },
+      }, {
+        { name = "cmdline" },
+      }),
     })
   end,
 }
