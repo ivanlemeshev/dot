@@ -105,4 +105,7 @@ alias yd-video-fi="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o
 # bat
 if test "$os" = Linux
     alias bat="batcat"
+    alias cat="batcat"
+else
+    alias cat="bat"
 end
