@@ -70,25 +70,32 @@ tag_symbol = ' '
 disabled = false
 
 [golang]
-disabled = true
+disabled = false
+symbol = 'Go '
 
 [python]
-disabled = true
+disabled = false
+symbol = 'Python '
 
 [gcloud]
-disabled = true
+disabled = false
+symbol = 'GCP '
 
 [docker_context]
-disabled = true
+disabled = false
+symbol = 'Docker '
 
 [zig]
-disabled = true
+disabled = false
+symbol = 'Zig '
 
 [dotnet]
-disabled = true
+disabled = false
+symbol = '.NET '
 
 [lua]
-disabled = true
+disabled = false
+symbol = 'Lua '
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

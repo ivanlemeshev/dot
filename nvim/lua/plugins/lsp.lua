@@ -76,6 +76,7 @@ return {
     local ensure_installed = {
       "ansiblels", -- ansible
       "bashls", -- bash
+      "clangd", -- c/c++
       "dockerls", -- docker
       "gopls", -- go
       "jsonls", -- json
