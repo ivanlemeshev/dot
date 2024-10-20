@@ -13,6 +13,7 @@ return {
     local ensure_installed = {
       "ansiblelint",        -- ansible
       "buf",                -- buf
+      "clang_format",       -- c/c++
       "golangci-lint",      -- go
       "gofumpt",            -- go
       "goimports",          -- go
@@ -37,6 +38,7 @@ return {
 
     local sources = {
       formatting.buf,
+      formatting.clang_format,
       formatting.gofumpt,
       formatting.goimports,
       formatting.golines.with({
