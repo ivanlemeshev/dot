@@ -94,5 +94,28 @@ vim.opt.swapfile = false
 -- Enable true color support in the terminal.
 vim.opt.termguicolors = true
 
-vim.opt.spell = true
-vim.opt.spelllang = "en_us"
+-- Disable standard spell checking (Harper is used instead).
+vim.opt.spell = false
+
+-- Disable diagnostic virtual text in buffer.
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+-- Set diagnostic signs.
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    },
+  },
+})

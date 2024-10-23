@@ -39,4 +39,19 @@ return {
       require("colorizer").setup()
     end,
   },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {},
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach",
+    config = function()
+      require("tiny-inline-diagnostic").setup()
+    end,
+  },
 }

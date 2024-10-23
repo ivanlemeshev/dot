@@ -1,7 +1,17 @@
 return {
   "folke/trouble.nvim",
   event = "BufRead",
-  opts = {},
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  opts = {
+    focus = true,
+    modes = {
+      diagnostics = {
+        auto_close = true,
+      },
+    },
+  },
   cmd = "Trouble",
   keys = {
     {
