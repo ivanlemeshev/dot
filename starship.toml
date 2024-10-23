@@ -78,11 +78,11 @@ disabled = false
 symbol = 'Python '
 
 [gcloud]
-disabled = false
+disabled = true
 symbol = 'GCP '
 
 [docker_context]
-disabled = false
+disabled = true
 symbol = 'Docker '
 
 [zig]
