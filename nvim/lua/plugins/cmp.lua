@@ -88,11 +88,11 @@ return {
         }),
       }),
       sources = {
-        { name = "copilot",  group_index = 2, priority = 10 },
+        { name = "copilot", group_index = 2, priority = 10 },
         { name = "nvim_lsp", group_index = 2, priority = 9 },
         { name = "nvim_lua", group_index = 2, priority = 8 },
-        { name = "buffer",   group_index = 2, priority = 7 },
-        { name = "path",     group_index = 2, priority = 6 },
+        { name = "buffer", group_index = 2, priority = 7 },
+        { name = "path", group_index = 2, priority = 6 },
       },
       window = {
         completion = cmp.config.window.bordered(),
