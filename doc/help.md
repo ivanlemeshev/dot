@@ -123,6 +123,7 @@
   - Move to the next entry.
 
 - `Tab` (fzf.fish)
+
   - Select multiple entries.
 
 ## Tmux
@@ -232,6 +233,7 @@
   - Update plugins.
 
 - `<prefix>u` (tmux-plugins/tpm)
+
   - Remove plugins.
 
 ## Neovim
@@ -315,6 +317,7 @@
   - Close the current buffer.
 
 - `<leader>b` (normal mode)
+
   - Create a new empty buffer.
 
 #### Panes
@@ -386,15 +389,27 @@
 
 - `w` (in normal mode)
 
-  - Move the cursor to the beginning of the next word.
+  - Move the cursor forward by word.
+
+- `W` (in normal mode)
+
+  - Move the cursor forward by word after space.
 
 - `b` (in normal mode)
 
-  - Move the cursor to the beginning of the previous word.
+  - Move the cursor backward to the beginning of a word.
+
+- `B` (in normal mode)
+
+  - Move the cursor backward to the beginning of a word before space.
 
 - `e` (in normal mode)
 
-  - Move the cursor to the end of the next word.
+  - Move the cursor forward until the end of a word.
+
+- `E` (in normal mode)
+
+  - Move the cursor forward until the end of a word before space.
 
 - `0` (in normal mode)
 
@@ -430,11 +445,11 @@
 
 - `{` (in normal mode)
 
-  - Move the cursor to the beginning of the previous paragraph.
+  - Move the cursor back by one paragraph.
 
 - `}` (in normal mode)
 
-  - Move the cursor to the beginning of the next paragraph.
+  - Move the cursor forward by one paragraph.
 
 - `Ctrl+d` (in normal mode)
 
@@ -477,6 +492,7 @@
   - Move to the matching parenthesis, bracket, or brace.
 
 - `^` (in normal mode)
+
   - Switch to the previous buffer.
 
 #### Editing
@@ -516,10 +532,22 @@ the clipboard and you can paste it.
 
   - Delete the current line and enter insert mode.
 
+- `cc` (in normal mode)
+
+  - Delete the current line and enter insert mode.
+
 - `C` (in normal mode)
 
   - Delete the text from the cursor to the end of the line and enter insert
     mode.
+
+- `cw` (in normal mode)
+
+  - Delete a word starting from the cursor and enter insert mode.
+
+- `cb` (in normal mode)
+
+  - Delete a word before the cursor and enter insert mode.
 
 - `ciw` (in normal mode)
 
@@ -589,7 +617,11 @@ the clipboard and you can paste it.
 
 - `dw` (in normal mode)
 
-  - Delete a word.
+  - Delete a word starting from the cursor.
+
+- `db` (in normal mode)
+
+  - Delete a word before the cursor.
 
 - `diw` (in normal mode)
 
@@ -934,6 +966,7 @@ the clipboard and you can paste it.
   - Code action.
 
 - `gD` (in normal mode)
+
   - Go to the declaration.
 
 #### Neotest
@@ -951,6 +984,7 @@ the clipboard and you can paste it.
   - Toggle the test output panel.
 
 - `<leader>ts` (in normal mode)
+
   - Toggle the test summary.
 
 #### Telescope
@@ -976,6 +1010,7 @@ the clipboard and you can paste it.
   - Find in the current buffer.
 
 - `<leader>fh` (in normal mode)
+
   - Find in help.
 
 #### Trouble
@@ -985,9 +1020,11 @@ the clipboard and you can paste it.
   - Toggle the diagnostics panel.
 
 - `<leader>dc` (in normal mode)
+
   - Toggle the buffer diagnostics.
 
 ## 60% Keyboard
 
 - `Alt+Fn+4`
+
   - Close the current window (Alt+F4).
