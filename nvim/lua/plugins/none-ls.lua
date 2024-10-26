@@ -11,24 +11,24 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "ansiblelint",        -- ansible
-      "buf",                -- buf
-      "clang_format",       -- c/c++
-      "golangci-lint",      -- go
-      "gofumpt",            -- go
-      "goimports",          -- go
-      "golines",            -- go
-      "hadolint",           -- docker
-      "markdownlint",       -- markdown
-      "prettier",           -- markdown, json
-      "pyink",              -- python
-      "pylint",             -- python
-      "shfmt",              -- bash
-      "stylua",             -- lua
-      "terraform_fmt",      -- terraform
+      "ansiblelint", -- ansible
+      "buf", -- buf
+      "clang_format", -- c/c++
+      "golangci-lint", -- go
+      "gofumpt", -- go
+      "goimports", -- go
+      "golines", -- go
+      "hadolint", -- docker
+      "markdownlint", -- markdown
+      "prettier", -- markdown, json
+      "pyink", -- python
+      "pylint", -- python
+      "shfmt", -- bash
+      "stylua", -- lua
+      "terraform_fmt", -- terraform
       "terraform_validate", -- terraform
-      "tfsec",              -- terraform
-      "yamllint",           -- yaml
+      "tfsec", -- terraform
+      "yamllint", -- yaml
     }
 
     require("mason-null-ls").setup({

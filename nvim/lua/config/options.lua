@@ -40,6 +40,7 @@ vim.opt.cursorline = true
 -- recommended maximum line length.
 vim.opt.colorcolumn = "80"
 vim.opt.colorcolumn = vim.opt.colorcolumn + "120"
+
 -- Display the line numbers next to each line.
 vim.opt.number = true
 
@@ -76,18 +77,6 @@ vim.opt.mouse = "a"
 -- Copy the indent from the previous line when starting a new line.
 vim.opt.autoindent = true
 
--- Set the number of spaces to use for each step of (auto)indent.
-vim.opt.shiftwidth = 4
-
--- Set the number of spaces that a tab in the file counts for.
-vim.opt.tabstop = 4
-
--- Set the number of spaces that a tab in the file counts for while editing.
-vim.opt.softtabstop = 4
-
--- Use spaces instead of tabs for indentation.
-vim.opt.expandtab = true
-
 -- Do not create backup files.
 vim.opt.swapfile = false
 
@@ -112,4 +101,114 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = "󰌵",
     },
   },
+})
+
+-- Python settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+  end,
+})
+
+-- Go settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+  end,
+})
+
+-- C settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "c",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- Zig settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "zig",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+  end,
+})
+
+-- YAML settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "yaml",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- Dockerfile settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dockerfile",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- Makefile settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "make",
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.tabstop = 8
+    vim.opt_local.shiftwidth = 8
+    vim.opt_local.softtabstop = 8
+  end,
+})
+
+-- JSON settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "json",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- Lua settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+-- TOML settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "toml",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
 })
