@@ -6,6 +6,7 @@ set -e
 # The -f option tells ln to replace the file at the target location if it
 # already exists.
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
+ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
