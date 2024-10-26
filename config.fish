@@ -77,8 +77,15 @@ mise activate fish | source
 
 # Aliases
 
-# Neovim
-alias v="nvim"
+# Check if Vim is installed
+if command -v vim > /dev/null
+    alias vi="vim"
+end
+
+# Check if Neovim is installed
+if command -v nvim > /dev/null
+    alias vi="nvim"
+end
 
 # kubectl
 alias k="kubectl"
