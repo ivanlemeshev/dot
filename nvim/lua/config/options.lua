@@ -103,6 +103,9 @@ vim.diagnostic.config({
   },
 })
 
+-- Set options based on the file type.
+-- You can check the file type using command :echo &filetype
+
 -- Python settings
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
@@ -221,5 +224,16 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 4
     vim.opt_local.shiftwidth = 4
     vim.opt_local.softtabstop = 4
+  end,
+})
+
+-- .vimrc settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "vim",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
   end,
 })
