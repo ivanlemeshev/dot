@@ -97,6 +97,10 @@ symbol = '.NET '
 disabled = false
 symbol = 'Lua '
 
+[vagrant]
+disabled = false
+symbol = 'Vagrant '
+
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
 flamingo = "#f2cdcd"
