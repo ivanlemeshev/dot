@@ -28,6 +28,9 @@ if test "$os" = Linux
     set -x PATH "$PATH:/usr/local/zig"
 end
 
+# Enable Windows access for Vagrant in WSL
+set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS "1"
+
 # Add local bin to PATH
 set -x PATH "$PATH:$HOME/.local/bin"
 
