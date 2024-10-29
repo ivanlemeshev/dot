@@ -14,7 +14,7 @@ if test -f /usr/local/google-cloud-sdk/path.fish.inc
     source /usr/local/google-cloud-sdk/path.fish.inc
 end
 
-# Set vim as default editor
+# Set nvim as default editor
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
 
@@ -26,15 +26,6 @@ if test "$os" = Linux
 
     # Zig
     set -x PATH "$PATH:/usr/local/zig"
-end
-
-# Specific settings for WSL
-if test -n "$WSL_DISTRO_NAME"
-    # Enable Windows access for Vagrant in WSL
-    set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS "1"
-
-    # Add VirtualBox from Windows to PATH
-    set -x PATH "$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
 end
 
 # Add local bin to PATH
@@ -119,9 +110,11 @@ alias yd-playlist-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b'
 alias yd-video-fi="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s' -o '%(title)s.%(ext)s' --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
 
 # bat
-if test "$os" = Linux
+if command -v bat > /dev/null
+    alias cat="bat"
+end
+
+if command -v batcat > /dev/null
     alias bat="batcat"
     alias cat="batcat"
-else
-    alias cat="bat"
 end
