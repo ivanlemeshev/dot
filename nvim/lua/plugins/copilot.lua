@@ -7,10 +7,11 @@ return {
       require("copilot").setup({
         panel = {
           enabled = false,
+          auto_refresh = true,
         },
         suggestion = {
           enabled = false, -- Disable the default completion, use cmp.
-          auto_trigger = true,
+          auto_trigger = false,
           hide_during_completion = true,
           debounce = 75,
           keymap = {
@@ -34,6 +35,11 @@ return {
         copilot_node_command = "node",
         server_opts_overrides = {},
       })
+
+      local map = vim.keymap.set
+
+      map("n", "<leader>cd", "<cmd>Copilot disable<CR>", { desc = "Copilot: disable" })
+      map("n", "<leader>ce", "<cmd>Copilot enable<CR>", { desc = "Copilot: enable" })
     end,
   },
   {
