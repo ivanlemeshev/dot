@@ -8,6 +8,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
     "zbirenbaum/copilot-cmp",
+    "onsails/lspkind.nvim",
   },
 
   config = function()
@@ -88,20 +89,20 @@ return {
         }),
       }),
       sources = {
-        { name = "copilot", group_index = 2, priority = 10 },
-        { name = "nvim_lsp", group_index = 2, priority = 9 },
-        { name = "nvim_lua", group_index = 2, priority = 8 },
-        { name = "buffer", group_index = 2, priority = 7 },
-        { name = "path", group_index = 2, priority = 6 },
+        { name = "copilot", group_index = 5 },
+        { name = "nvim_lsp", group_index = 1 },
+        { name = "nvim_lua", group_index = 2 },
+        { name = "buffer", group_index = 3 },
+        { name = "path", group_index = 4 },
       },
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
       formatting = {
-        fields = { "kind", "abbr" },
+        fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
-          vim_item.kind = kind_icons[vim_item.kind] or ""
+          vim_item.kind = (kind_icons[vim_item.kind] or "") .. " [" .. vim_item.kind .. "]"
           return vim_item
         end,
       },

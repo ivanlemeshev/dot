@@ -7,6 +7,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "j-hui/fidget.nvim", opts = {} },
     "hrsh7th/cmp-nvim-lsp",
+    "lukas-reineke/lsp-format.nvim",
   },
   config = function()
     -- This function gets run when an LSP attaches to a particular buffer.
@@ -131,10 +132,13 @@ return {
       zls = {},
     }
 
+    require("lsp-format").setup({})
+
     require("mason-lspconfig").setup({
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
+          server.on_attach = require("lsp-format").on_attach
           require("lspconfig")[server_name].setup(server)
         end,
       },
