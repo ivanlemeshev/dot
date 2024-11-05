@@ -8,7 +8,6 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
     "zbirenbaum/copilot-cmp",
-    "onsails/lspkind.nvim",
   },
 
   config = function()
