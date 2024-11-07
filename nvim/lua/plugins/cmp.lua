@@ -101,7 +101,9 @@ return {
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
-          vim_item.kind = (kind_icons[vim_item.kind] or "") .. " [" .. vim_item.kind .. "]"
+          if vim_item.kind ~= nil then
+            vim_item.kind = (kind_icons[vim_item.kind] or "") .. " [" .. vim_item.kind .. "]"
+          end
           return vim_item
         end,
       },
