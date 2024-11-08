@@ -21,8 +21,7 @@ return {
       "hadolint", -- docker
       "markdownlint", -- markdown
       "prettier", -- markdown, json
-      "pyink", -- python
-      "pylint", -- python
+      "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
       "terraform_fmt", -- terraform
@@ -50,7 +49,6 @@ return {
       formatting.prettier.with({
         filetypes = { "markdown", "json" },
       }),
-      formatting.pyink,
       formatting.shfmt,
       formatting.stylua,
       formatting.terraform_fmt,
@@ -59,7 +57,6 @@ return {
       diagnostics.golangci_lint,
       diagnostics.hadolint,
       diagnostics.markdownlint,
-      diagnostics.pylint,
       diagnostics.terraform_validate,
       diagnostics.tfsec,
       diagnostics.yamllint,
