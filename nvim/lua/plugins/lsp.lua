@@ -85,7 +85,7 @@ return {
       "lua_ls", -- lua
       "powershell_es", -- powershell
       "pbls", -- protobuf
-      "pyright", -- python
+      "ruff", -- python
       "terraformls", -- terraform
       "yamlls", -- yaml
       "zls", -- zig
@@ -116,17 +116,7 @@ return {
       },
       powershell_es = {},
       pbls = {},
-      pyright = {
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              diagnosticMode = "openFilesOnly",
-            },
-          },
-        },
-      },
+      ruff = {},
       terraformls = {},
       yamlls = {},
       zls = {},
