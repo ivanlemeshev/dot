@@ -23,6 +23,7 @@ packages=(
 	"clangd"                     # A language server for C, C++ and Objective-C.
 	"clang-format"               # A tool to format C, C++ and Objective-C code.
 	"tree"                       # A utility for displaying directory tree structures.
+	"strace"                     # A diagnostic, debugging and instructional userspace utility for Linux.
 )
 
 sudo apt-get install -y ${packages[*]}
