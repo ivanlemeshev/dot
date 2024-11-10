@@ -1,6 +1,6 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  event = "VimEnter",
+  lazy = false,
   version = "*",
   dependencies = {
     "nvim-lua/plenary.nvim",

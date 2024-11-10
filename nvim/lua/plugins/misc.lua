@@ -33,6 +33,7 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    event = "BufRead",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
@@ -45,5 +46,11 @@ return {
     config = function()
       require("tiny-inline-diagnostic").setup()
     end,
+  },
+  {
+    "okuuva/auto-save.nvim",
+    lazy = false,
+    version = "^1.0.0",
+    opts = {},
   },
 }
