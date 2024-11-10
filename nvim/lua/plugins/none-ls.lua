@@ -17,7 +17,6 @@ return {
       "golangci-lint", -- go
       "gofumpt", -- go
       "goimports", -- go
-      "golines", -- go
       "hadolint", -- docker
       "markdownlint", -- markdown
       "prettier", -- markdown, json
@@ -40,12 +39,6 @@ return {
       formatting.clang_format,
       formatting.gofumpt,
       formatting.goimports,
-      formatting.golines.with({
-        condition = function(utils)
-          -- TODO: Think about a better way to disable it only for particular projects.
-          return false
-        end,
-      }),
       formatting.prettier.with({
         filetypes = { "markdown", "json" },
       }),
