@@ -4,7 +4,8 @@ set -e
 
 source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-python_version="3.13.0"
+print_header "UV: installing"
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-print_header "Python: installing version ${python_version}"
-fish -C "mise use -g python@${python_version} && exit"
+print_header "Python: installing"
+fish -C "uv python install && exit"
