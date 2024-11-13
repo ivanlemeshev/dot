@@ -40,7 +40,7 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.color_scheme = "Catppuccin Mocha"
 
-config.font = wezterm.font "RobotoMono Nerd Font Mono"
+config.font = wezterm.font "SauceCodePro Nerd Font Mono"
 
 -- Disable ligatures
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }

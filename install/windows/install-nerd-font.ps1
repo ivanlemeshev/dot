@@ -1,8 +1,8 @@
-Write-Host "Installing RobotoMono Nerd fonts..."
+Write-Host "Installing SourceCodePro Nerd fonts..."
 
 Write-Host "Downloading the fonts archive..."
 
-$fontFilename = "RobotoMono.zip"
+$fontFilename = "SourceCodePro.zip"
 $fontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$fontFilename"
 $fontOutputFile = "$scriptDirectory\$fontFilename"
 
