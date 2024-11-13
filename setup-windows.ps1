@@ -18,6 +18,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 Write-Host "Current directory: $scriptDirectory"
 Write-Host "Current user profile directory: $env:USERPROFILE"
+Write-Host "Current user app data directory: $env:APPDATA"
 
 Import-Module .\install\windows\capslock-as-ctrl.ps1
 Import-Module .\install\windows\install-nerd-font.ps1
@@ -29,6 +30,22 @@ if (Test-Path -Path $env:USERPROFILE\.wezterm.lua) {
 }
 else {
     New-Item -Path $env:USERPROFILE\.wezterm.lua -ItemType SymbolicLink -Value "$scriptDirectory\.wezterm.lua"
+}
+
+Write-Host "Creating directory for alacritty...";
+if (Test-Path -Path $env:APPDATA\alacritty) {
+    Write-Host "Directory already exists: $env:APPDATA\alacritty"
+}
+else {
+    New-Item -Path $env:APPDATA\alacritty -ItemType Directory
+}
+
+Write-Host "Creating symbolic link for alacrity.toml...";
+if (Test-Path -Path $env:APPDATA\alacritty\alacritty.toml) {
+    Write-Host "Symbolic link already exists: $env:APPDATA\alacritty\alacritty.toml"
+}
+else {
+    New-Item -Path $env:APPDATA\alacritty\alacritty.toml -ItemType SymbolicLink -Value "$scriptDirectory\alacritty.win.toml"
 }
 
 Write-Host "Creating symbolic link for Microsoft.PowerShell_profile.ps1...";
