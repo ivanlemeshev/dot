@@ -9,7 +9,7 @@ args = ["~"]
 
 [font]
 size = 11.08
-normal = { family = "RobotoMono Nerd Font Mono", style = "Regular" }
+normal = { family = "RobotoMono Nerd Font Propo", style = "Regular" }
 
 [keyboard]
 bindings = [
