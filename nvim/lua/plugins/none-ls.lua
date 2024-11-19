@@ -1,6 +1,6 @@
 return {
   "nvimtools/none-ls.nvim",
-  event = "BufRead",
+  lazy = false,
   dependencies = {
     "nvimtools/none-ls-extras.nvim",
     "jayp0521/mason-null-ls.nvim",
@@ -67,7 +67,7 @@ return {
             buffer = bufnr,
             callback = function()
               vim.lsp.buf.format({
-                async = false,
+                async = true,
                 filter = function(client)
                   return client.name == "null-ls"
                 end,
