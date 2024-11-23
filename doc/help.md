@@ -843,7 +843,7 @@ the clipboard and you can paste it.
 - `<leader>/` (in visual mode)
   - Comment/uncomment the selected text.
 
-#### Neo-tree
+#### nvim-tree
 
 - `<leader>e`
 
@@ -853,35 +853,31 @@ the clipboard and you can paste it.
 
   - Switch to the file tree.
 
-- `?` (in neo-tree)
+- `g?` (in nvim-tree)
 
   - Show the help.
 
-- `a` (in neo-tree)
+- `a` (in nvim-tree)
 
   - Add a new file or directory.
 
-- `c` (in neo-tree)
+- `c` (in nvim-tree)
 
   - Copy the selected file or directory.
 
-- `p` (in neo-tree)
+- `p` (in nvim-tree)
 
   - Paste the copied file or directory.
 
-- `d` (in neo-tree)
+- `d` (in nvim-tree)
 
   - Delete the selected file or directory.
 
-- `r` (in neo-tree)
+- `r` (in nvim-tree)
 
   - Rename the selected file or directory.
 
-- `e` (in neo-tree)
-
-  - Adjust the width of the file tree.
-
-- `R` (in neo-tree)
+- `R` (in nvim-tree)
   - Refresh the file tree.
 
 #### Copilot
