@@ -45,3 +45,7 @@ map("n", "<Right>", ":vertical resize +2<CR>", { desc = "Resize the pane right",
 -- Stay in visual mode after shifting
 map("v", "<", "<gv", { desc = "Indent to the left", noremap = true, silent = true })
 map("v", ">", ">gv", { desc = "Indent to the right", noremap = true, silent = true })
+
+-- NvimTree
+map("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree", noremap = true, silent = true })
+map("n", "\\", ":NvimTreeFocus<CR>", { desc = "Focus NvimTree", noremap = true, silent = true })

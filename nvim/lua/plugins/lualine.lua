@@ -1,14 +1,14 @@
 return {
   "nvim-lualine/lualine.nvim",
-  lazy = false,
   dependencies = {
+    "nvim-tree/nvim-web-devicons",
     "AndreM222/copilot-lualine",
   },
   config = function()
     local mode = {
       "mode",
       fmt = function(str)
-        return " " .. str
+        return " " .. str
       end,
     }
 
@@ -38,7 +38,7 @@ return {
       sources = { "nvim_diagnostic" },
       sections = { "error", "warn", "info", "hint" },
       symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
-      colored = true,
+      colored = false,
       update_in_insert = true,
       always_visible = true,
     }
@@ -52,15 +52,16 @@ return {
 
     require("lualine").setup({
       options = {
+        theme = "catppuccin",
         icons_enabled = true,
         --          
-        section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         component_separators = { left = "|", right = "|" },
         always_divide_middle = true,
         disabled_filetypes = {
           "neotest-output-panel",
           "neotest-summary",
-          "neo-tree",
+          "NvimTree",
           "trouble",
         },
       },
