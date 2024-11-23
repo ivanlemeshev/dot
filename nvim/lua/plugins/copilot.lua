@@ -11,7 +11,7 @@ return {
             jump_next = "]]",
             accept = "<CR>",
             refresh = "gr",
-            open = false
+            open = false,
           },
         },
         suggestion = {
