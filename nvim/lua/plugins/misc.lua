@@ -1,15 +1,5 @@
 return {
   {
-    -- Replaces the UI for messages, cmdline and the popupmenu
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {},
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
-    },
-  },
-  {
     -- Git integration for Vim
     "tpope/vim-fugitive",
   },

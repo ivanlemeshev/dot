@@ -54,9 +54,7 @@ return {
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {},
     config = function()
-      require("CopilotChat").setup({
-        debug = true,
-      })
+      require("CopilotChat").setup({})
 
       local map = vim.keymap.set
 
