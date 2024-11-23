@@ -1,6 +1,5 @@
 return {
   "numToStr/Comment.nvim",
-  event = "BufRead",
   opts = {},
   config = function()
     local map = vim.keymap.set

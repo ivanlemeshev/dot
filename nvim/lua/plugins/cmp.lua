@@ -1,19 +1,15 @@
 return {
   "hrsh7th/nvim-cmp",
-  lazy = false,
   dependencies = {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
-    "zbirenbaum/copilot-cmp",
   },
 
   config = function()
     local cmp = require("cmp")
-
-    require("copilot_cmp").setup()
 
     local kind_icons = {
       Text = "󰉿",
@@ -92,7 +88,6 @@ return {
         { name = "nvim_lua", group_index = 1, priority = 2 },
         { name = "buffer", group_index = 1, priority = 2 },
         { name = "path", group_index = 1, priority = 2 },
-        { name = "copilot", group_index = 1, priority = 1 },
       },
       window = {
         completion = cmp.config.window.bordered(),

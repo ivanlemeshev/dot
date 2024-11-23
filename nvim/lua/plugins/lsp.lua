@@ -1,6 +1,5 @@
 return {
   "neovim/nvim-lspconfig",
-  event = "BufRead",
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -72,16 +71,20 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-    require("mason").setup()
+    require("mason").setup({
+      pip = {
+        install_args = {
+          "--break-system-packages",
+        },
+      },
+    })
 
     local ensure_installed = {
-      "ansiblels", -- ansible
       "bashls", -- bash
       "clangd", -- c/c++
       "dockerls", -- docker
       "gopls", -- go
       "jsonls", -- json
-      "harper_ls", -- markdown
       "lua_ls", -- lua
       "powershell_es", -- powershell
       "pbls", -- protobuf
@@ -96,12 +99,11 @@ return {
     })
 
     local servers = {
-      ansiblels = {},
       bashls = {},
+      clangd = {},
       dockerls = {},
       gopls = {},
       jsonls = {},
-      harper_ls = {},
       lua_ls = {
         settings = {
           Lua = {

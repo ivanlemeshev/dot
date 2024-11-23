@@ -2,29 +2,33 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "BufRead",
+    event = "InsertEnter",
     config = function()
       require("copilot").setup({
         panel = {
-          enabled = false,
-          auto_refresh = true,
+          keymap = {
+            jump_prev = "[[",
+            jump_next = "]]",
+            accept = "<CR>",
+            refresh = "gr",
+            open = false
+          },
         },
         suggestion = {
-          enabled = false, -- Disable the default completion, use cmp.
-          auto_trigger = false,
-          hide_during_completion = true,
-          debounce = 75,
+          auto_trigger = true, -- Copilot starts suggesting as soon as you enter insert mode
           keymap = {
             accept = "<C-f>",
-            dismiss = "<C-e>",
             accept_word = false,
             accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-e>",
           },
         },
         filetypes = {
           yaml = true,
           markdown = true,
-          help = false,
+          help = true,
           gitcommit = true,
           gitrebase = false,
           hgcommit = false,
@@ -32,8 +36,6 @@ return {
           cvs = false,
           ["."] = false,
         },
-        copilot_node_command = "node",
-        server_opts_overrides = {},
       })
 
       local map = vim.keymap.set
@@ -44,7 +46,6 @@ return {
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    lazy = false,
     branch = "canary",
     dependencies = {
       "zbirenbaum/copilot.lua",
