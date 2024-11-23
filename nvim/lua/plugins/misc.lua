@@ -1,13 +1,21 @@
 return {
   {
+    -- Replaces the UI for messages, cmdline and the popupmenu
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {},
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+  {
     -- Git integration for Vim
     "tpope/vim-fugitive",
-    event = "BufRead",
   },
   {
     -- Hints keybinds
     "folke/which-key.nvim",
-    event = "VimEnter",
     opts = {
       icons = {
         mappings = false,
@@ -17,7 +25,6 @@ return {
   {
     -- Highlight todo, notes, etc in comments
     "folke/todo-comments.nvim",
-    event = "BufRead",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       signs = false,
@@ -26,14 +33,12 @@ return {
   {
     -- High-performance color highlighter
     "norcalli/nvim-colorizer.lua",
-    event = "BufRead",
     config = function()
       require("colorizer").setup()
     end,
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    event = "BufRead",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
@@ -42,15 +47,8 @@ return {
   },
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "LspAttach",
     config = function()
       require("tiny-inline-diagnostic").setup()
     end,
-  },
-  {
-    "okuuva/auto-save.nvim",
-    lazy = false,
-    version = "^1.0.0",
-    opts = {},
   },
 }

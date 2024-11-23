@@ -24,6 +24,8 @@ packages=(
 	"clang-format"               # A tool to format C, C++ and Objective-C code.
 	"tree"                       # A utility for displaying directory tree structures.
 	"strace"                     # A diagnostic, debugging and instructional userspace utility for Linux.
+	"python3-pip"                # A tool for installing Python packages.
+	"python3-venv"               # A tool for creating isolated Python environments.
 )
 
 sudo apt-get install -y ${packages[*]}

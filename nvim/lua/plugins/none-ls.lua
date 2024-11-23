@@ -11,10 +11,8 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "ansiblelint", -- ansible
       "buf", -- buf
       "clang_format", -- c/c++
-      "golangci-lint", -- go
       "gofumpt", -- go
       "goimports", -- go
       "hadolint", -- docker
@@ -23,10 +21,6 @@ return {
       "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
-      "terraform_fmt", -- terraform
-      "terraform_validate", -- terraform
-      "tfsec", -- terraform
-      "yamllint", -- yaml
     }
 
     require("mason-null-ls").setup({
@@ -44,15 +38,8 @@ return {
       }),
       formatting.shfmt,
       formatting.stylua,
-      formatting.terraform_fmt,
-
-      diagnostics.ansiblelint,
-      diagnostics.golangci_lint,
       diagnostics.hadolint,
       diagnostics.markdownlint,
-      diagnostics.terraform_validate,
-      diagnostics.tfsec,
-      diagnostics.yamllint,
     }
 
     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -67,9 +54,9 @@ return {
             buffer = bufnr,
             callback = function()
               vim.lsp.buf.format({
-                async = true,
-                filter = function(client)
-                  return client.name == "null-ls"
+                async = false,
+                filter = function(formatter_client)
+                  return formatter_client.name == "null-ls"
                 end,
               })
             end,
