@@ -41,6 +41,19 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "80"
 vim.opt.colorcolumn = vim.opt.colorcolumn + "120"
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "copilot-chat",
+    "help",
+    "NvimTree",
+    "neotest-output-panel",
+    "neotest-summary",
+  },
+  callback = function()
+    vim.opt_local.colorcolumn = ""
+  end,
+})
+
 -- Display the line numbers next to each line.
 vim.opt.number = true
 
