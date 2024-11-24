@@ -14,7 +14,7 @@ wezterm.on("gui-startup", function(cmd)
 end)
 
 if is_windows then
-  config.default_domain = "WSL:Ubuntu-24.04"
+  config.default_domain = "WSL:Ubuntu"
 else
   config.default_domain = "local"
 end
