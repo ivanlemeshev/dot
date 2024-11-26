@@ -28,14 +28,6 @@ return {
     end,
   },
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {},
-  },
-  {
     "rachartier/tiny-inline-diagnostic.nvim",
     config = function()
       require("tiny-inline-diagnostic").setup()
