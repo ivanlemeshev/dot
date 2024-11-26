@@ -94,7 +94,7 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       formatting = {
-        fields = { "kind", "abbr", "menu" },
+        fields = { "abbr", "kind", "menu" },
         format = function(_, vim_item)
           if vim_item.kind ~= nil then
             vim_item.kind = (kind_icons[vim_item.kind] or "") .. " [" .. vim_item.kind .. "]"
