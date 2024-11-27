@@ -74,13 +74,13 @@ return {
           -- If something has explicitly been selected by the user, select it.
           i = function(fallback)
             if cmp.visible() and cmp.get_active_entry() then
-              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
             else
               fallback()
             end
           end,
           s = cmp.mapping.confirm({ select = true }),
-          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
         }),
       }),
       sources = {
@@ -88,10 +88,6 @@ return {
         { name = "nvim_lua", group_index = 1, priority = 2 },
         { name = "buffer", group_index = 1, priority = 2 },
         { name = "path", group_index = 1, priority = 2 },
-      },
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
       },
       formatting = {
         fields = { "abbr", "kind", "menu" },
