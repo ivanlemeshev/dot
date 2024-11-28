@@ -8,8 +8,6 @@ set -e
 # already exists.
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
-ln -sf "${PWD}/vscode/settings.json" "${HOME}/Library/Application Support/Code/User/settings.json"
-ln -sf "${PWD}/vscode/keybindings.json" "${HOME}/Library/Application Support/Code/User/keybindings.json"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
