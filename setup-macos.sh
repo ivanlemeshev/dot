@@ -9,8 +9,7 @@ set -e
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 
-./install/ubuntu/update.sh
-./install/ubuntu/install-basic.sh
+./install/macos/install-basic.sh
 ./install/macos/install-git.sh
 ./install/macos/install-gh.sh
 ./install/macos/install-zig.sh
