@@ -21,3 +21,4 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/macos/install-python.sh
 ./install/macos/install-nvim.sh
 ./install/macos/install-gcloud.sh
+./install/macos/install-bat.sh
