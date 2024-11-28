@@ -16,6 +16,10 @@ if test -f /usr/local/google-cloud-sdk/path.fish.inc
     source /usr/local/google-cloud-sdk/path.fish.inc
 end
 
+if test -f "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
+end
+
 # Set nvim as default editor
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
