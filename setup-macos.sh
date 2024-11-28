@@ -19,5 +19,4 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/macos/install-kubectl.sh
 ./install/macos/install-mise.sh
 ./install/macos/install-python.sh
-./install/macos/install-glow.sh
 ./install/macos/install-nvim.sh
