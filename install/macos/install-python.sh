@@ -2,7 +2,7 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
 PYTHON_VERSION="3.12.4"
 

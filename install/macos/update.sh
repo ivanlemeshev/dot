@@ -2,7 +2,7 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
 print_header "Updating: system"
 brew upgrade
