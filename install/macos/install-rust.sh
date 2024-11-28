@@ -2,7 +2,7 @@
 
 set -e
 
-source ./scripts/print.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
 print_header "Installing: Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

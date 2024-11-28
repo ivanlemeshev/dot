@@ -2,8 +2,8 @@
 
 set -e
 
-source ./scripts/print.sh
-source ./scripts/prompt.sh
+source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "$(dirname "$0")/../../scripts/functions/prompt_input.sh"
 
 print_header "Installing: Git"
 brew install git
