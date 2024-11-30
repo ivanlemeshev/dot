@@ -1,4 +1,3 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Disable fish greeting
 set fish_greeting
@@ -9,6 +8,10 @@ abbr --add unset 'set --erase'
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
+end
+
+if test "$os" = Darwin
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 end
 
 # Add gcloud to PATH
