@@ -4,7 +4,7 @@ set -e
 
 source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-golang_version=1.23.1
+golang_version=1.23.3
 golang_archive=go${golang_version}.linux-amd64.tar.gz
 golang_installation_path=/usr/local
 
