@@ -23,6 +23,7 @@ packages=(
 	"lazygit"
 	"wget"
 	"ripgrep"
+	"uv"
 )
 
 brew install ${packages[*]}
