@@ -1,5 +1,5 @@
-local terminal_win_id = nil
-local terminal_buf_id = nil
+local terminal_window_id = nil
+local terminal_buffer_id = nil
 
 local function toggle_terminal()
   if terminal_window_id and vim.api.nvim_win_is_valid(terminal_window_id) then
