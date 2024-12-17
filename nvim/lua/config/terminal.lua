@@ -1,5 +1,5 @@
-local terminal_win_id = nil
-local terminal_buf_id = nil
+local terminal_window_id = nil
+local terminal_buffer_id = nil
 
 local function toggle_terminal()
   if terminal_window_id and vim.api.nvim_win_is_valid(terminal_window_id) then
@@ -39,10 +39,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 vim.keymap.set(
-  { "n" },
+  "n",
   "<leader>tr",
   "<CMD>lua toggle_terminal()<CR>",
   { desc = "Terminal: toggle", noremap = true, silent = true }
 )
 
-vim.keymap.set({ "t" }, "<Esc>", "<C-\\><C-n>", { desc = "Terminal: go to normal mode", noremap = true, silent = true })
+vim.keymap.set("t", "<C-]>", "<C-\\><C-n>", { desc = "Terminal: go to normal mode", noremap = true, silent = true })
