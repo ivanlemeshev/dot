@@ -36,7 +36,13 @@ return {
       formatting.prettier.with({
         filetypes = { "markdown", "json" },
       }),
-      formatting.shfmt,
+      formatting.shfmt.with({
+        filetypes = { "sh" },
+        -- To get the formatting appropriate for Google's Style guide,
+        -- use shfmt -i 2 -ci.
+        -- https://google.github.io/styleguide/shellguide.html
+        args = { "-filename", "$FILENAME", "-i", "2", "-ci" },
+      }),
       formatting.stylua,
       diagnostics.hadolint,
       diagnostics.markdownlint,

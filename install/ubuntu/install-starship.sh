@@ -23,8 +23,8 @@ wget "${startship_checksum_url}" -O "${starship_checksum}"
 print_header "Starship: verifying checksum"
 echo "$(cat "${starship_checksum}")  ${starship_archive}" >"${starship_checksum_temp}"
 if ! sha256sum -c "${starship_checksum_temp}"; then
-	echo "Checksum verification failed! The archive may be corrupted."
-	exit 1
+  echo "Checksum verification failed! The archive may be corrupted."
+  exit 1
 fi
 
 print_header "Starship: installing to ${starship_installation_path}"
