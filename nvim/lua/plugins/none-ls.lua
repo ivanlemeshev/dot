@@ -21,6 +21,7 @@ return {
       "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
+      "tfsec", -- terraform
     }
 
     require("mason-null-ls").setup({
@@ -46,6 +47,7 @@ return {
       formatting.stylua,
       diagnostics.hadolint,
       diagnostics.markdownlint,
+      diagnostics.tfsec,
     }
 
     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})

@@ -90,6 +90,7 @@ return {
       "pbls", -- protobuf
       "ruff", -- python
       "terraformls", -- terraform
+      "tflint", -- terraform
       "yamlls", -- yaml
       "zls", -- zig
     }
@@ -120,6 +121,7 @@ return {
       pbls = {},
       ruff = {},
       terraformls = {},
+      tflint = {},
       yamlls = {},
       zls = {},
     }
