@@ -24,6 +24,7 @@ packages=(
   "wget"
   "ripgrep"
   "uv"
+  "terraform"
 )
 
 brew install ${packages[*]}
