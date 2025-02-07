@@ -15,6 +15,7 @@ return {
       "clang_format", -- c/c++
       "gofumpt", -- go
       "goimports", -- go
+      "golines", -- go
       "hadolint", -- docker
       "markdownlint", -- markdown
       "prettier", -- markdown, json
@@ -34,6 +35,9 @@ return {
       formatting.clang_format,
       formatting.gofumpt,
       formatting.goimports,
+      formatting.golines.with({
+        args = { "-w", "120" },
+      }),
       formatting.prettier.with({
         filetypes = { "markdown", "json" },
       }),
