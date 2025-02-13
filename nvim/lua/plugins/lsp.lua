@@ -81,13 +81,13 @@ return {
 
     local ensure_installed = {
       "bashls", -- bash
+      "buf_ls", -- protobuf
       "clangd", -- c/c++
       "dockerls", -- docker
       "gopls", -- go
       "jsonls", -- json
       "lua_ls", -- lua
       "powershell_es", -- powershell
-      "pbls", -- protobuf
       "ruff", -- python
       "terraformls", -- terraform
       "tflint", -- terraform
@@ -101,7 +101,10 @@ return {
 
     local servers = {
       bashls = {},
-      clangd = {},
+      buf_ls = {},
+      clangd = {
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+      },
       dockerls = {},
       gopls = {},
       jsonls = {},
@@ -118,7 +121,6 @@ return {
         },
       },
       powershell_es = {},
-      pbls = {},
       ruff = {},
       terraformls = {},
       tflint = {},
