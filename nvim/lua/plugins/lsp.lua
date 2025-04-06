@@ -91,6 +91,7 @@ return {
       "ruff", -- python
       "terraformls", -- terraform
       "tflint", -- terraform
+      "ts_ls", -- typescript
       "yamlls", -- yaml
       "zls", -- zig
     }
@@ -124,6 +125,7 @@ return {
       ruff = {},
       terraformls = {},
       tflint = {},
+      ts_ls = {},
       yamlls = {},
       zls = {},
     }
