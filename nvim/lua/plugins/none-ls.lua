@@ -18,7 +18,7 @@ return {
       "golines", -- go
       "hadolint", -- docker
       "markdownlint", -- markdown
-      "prettier", -- markdown, json
+      "prettier", -- markdown, json, typescript, javascript
       "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
@@ -39,7 +39,7 @@ return {
         args = { "-w", "120" },
       }),
       formatting.prettier.with({
-        filetypes = { "markdown", "json" },
+        filetypes = { "markdown", "json", "typescript", "javascript" },
       }),
       formatting.shfmt.with({
         filetypes = { "sh" },
