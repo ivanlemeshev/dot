@@ -11,6 +11,7 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
+      "biome", -- javascript, typescript, javascriptreact, typescriptreact, json, jsonc, css, graphql
       "buf", -- buf
       "clang_format", -- c/c++
       "gofumpt", -- go
@@ -18,7 +19,7 @@ return {
       "golines", -- go
       "hadolint", -- docker
       "markdownlint", -- markdown
-      "prettier", -- markdown, json, typescript, javascript
+      "prettier", -- markdown, json
       "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
@@ -31,6 +32,7 @@ return {
     })
 
     local sources = {
+      formatting.biome,
       formatting.buf,
       formatting.clang_format,
       formatting.gofumpt,
@@ -39,7 +41,7 @@ return {
         args = { "-w", "120" },
       }),
       formatting.prettier.with({
-        filetypes = { "markdown", "json", "typescript", "javascript" },
+        filetypes = { "markdown" },
       }),
       formatting.shfmt.with({
         filetypes = { "sh" },
