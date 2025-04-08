@@ -81,8 +81,10 @@ return {
 
     local ensure_installed = {
       "bashls", -- bash
+      "biome", -- lsp, formatting, linting for javascript and typescript
       "buf_ls", -- protobuf
       "clangd", -- c/c++
+      "denols", -- javascript, typescript
       "dockerls", -- docker
       "gopls", -- go
       "jsonls", -- json
@@ -91,7 +93,6 @@ return {
       "ruff", -- python
       "terraformls", -- terraform
       "tflint", -- terraform
-      "ts_ls", -- typescript
       "yamlls", -- yaml
       "zls", -- zig
     }
@@ -102,10 +103,12 @@ return {
 
     local servers = {
       bashls = {},
+      biome = {},
       buf_ls = {},
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
       },
+      denols = {},
       dockerls = {},
       gopls = {},
       jsonls = {},
@@ -125,7 +128,6 @@ return {
       ruff = {},
       terraformls = {},
       tflint = {},
-      ts_ls = {},
       yamlls = {},
       zls = {},
     }
