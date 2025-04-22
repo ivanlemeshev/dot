@@ -37,6 +37,12 @@ if test "$os" = Linux
     set -x PATH "$PATH:/usr/local/zig"
 end
 
+if test "$os" = Darwin
+    # Golang
+    set -x GOPATH "$HOME/go"
+    set -x PATH "$PATH:$GOPATH/bin"
+end
+
 # Add local bin to PATH
 set -x PATH "$PATH:$HOME/.local/bin"
 
