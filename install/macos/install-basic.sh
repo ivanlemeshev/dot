@@ -26,6 +26,7 @@ packages=(
   "uv"
   "terraform"
   "direnv"
+  "asdf"
 )
 
 brew install ${packages[*]}
