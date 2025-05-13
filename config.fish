@@ -84,6 +84,14 @@ set -x FZF_DEFAULT_OPTS "\
 --info 'right' \
 --multi"
 
+# Path to the additional config file
+set extra_config ~/.config/fish/extra.fish
+
+# Check if the file exists, then source it
+if test -f $extra_config
+    source $extra_config
+end
+
 # Enable starship prompt
 starship init fish | source
 
