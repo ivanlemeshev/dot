@@ -53,6 +53,7 @@ return {
       formatting.stylua,
       diagnostics.hadolint,
       diagnostics.markdownlint,
+      diagnostics.ruff,
       diagnostics.tfsec,
     }
 
