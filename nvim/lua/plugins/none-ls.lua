@@ -20,7 +20,6 @@ return {
       "hadolint", -- docker
       "markdownlint", -- markdown
       "prettier", -- markdown, json
-      "ruff", -- python
       "shfmt", -- bash
       "stylua", -- lua
       "tfsec", -- terraform
@@ -35,14 +34,6 @@ return {
       formatting.biome,
       formatting.buf,
       formatting.clang_format,
-      formatting.gofumpt,
-      formatting.goimports,
-      formatting.golines.with({
-        args = { "-w", "120" },
-      }),
-      formatting.prettier.with({
-        filetypes = { "markdown" },
-      }),
       formatting.shfmt.with({
         filetypes = { "sh" },
         -- To get the formatting appropriate for Google's Style guide,
@@ -50,10 +41,8 @@ return {
         -- https://google.github.io/styleguide/shellguide.html
         args = { "-filename", "$FILENAME", "-i", "2", "-ci" },
       }),
-      formatting.stylua,
       diagnostics.hadolint,
       diagnostics.markdownlint,
-      -- diagnostics.ruff,
       diagnostics.tfsec,
     }
 
