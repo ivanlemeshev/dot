@@ -11,7 +11,6 @@ return {
     local diagnostics = null_ls.builtins.diagnostics
 
     local ensure_installed = {
-      "biome", -- javascript, typescript, javascriptreact, typescriptreact, json, jsonc, css, graphql
       "buf", -- buf
       "clang_format", -- c/c++
       "gofumpt", -- go
@@ -31,7 +30,6 @@ return {
     })
 
     local sources = {
-      formatting.biome,
       formatting.buf,
       formatting.clang_format,
       formatting.shfmt.with({

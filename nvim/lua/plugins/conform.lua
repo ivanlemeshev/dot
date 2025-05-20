@@ -9,6 +9,7 @@ return {
         markdown = { "prettier" },
         python = { "ruff" },
         go = { "gofumpt", "goimports" },
+        javascript = { "biome" },
       },
       format_on_save = {
         -- These options will be passed to conform.format()
