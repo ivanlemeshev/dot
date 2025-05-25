@@ -118,6 +118,7 @@ alias k-ctx-use="kubectl config use-context"
 
 # yt dlp
 alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s'"
+alias yd-mp3c="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s' --split-chapters"
 
 # Download the best mp4 video available, or the best video if no mp4 available
 alias yd-video-lq="yt-dlp -f 'bv*[ext=mp4][height<=360]+ba[ext=m4a]/b[ext=mp4] / bv[height<=360]*+ba/b' -o '%(title)s.%(ext)s'"
