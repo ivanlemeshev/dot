@@ -7,7 +7,7 @@ return {
         json = { "biome" },
         lua = { "stylua" },
         markdown = { "prettier" },
-        python = { "ruff" },
+        python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         go = { "gofumpt", "goimports" },
         javascript = { "biome" },
       },
@@ -16,13 +16,6 @@ return {
         timeout_ms = 500,
         lsp_format = "fallback",
       },
-    })
-
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function(args)
-        require("conform").format({ bufnr = args.buf })
-      end,
     })
   end,
 }
