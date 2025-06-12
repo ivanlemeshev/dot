@@ -76,7 +76,7 @@ vim.opt.listchars:append({
 })
 
 -- Sync the system clipboard with the internal Neovim clipboard.
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed,unnamedplus"
 
 -- Wrap lines at the edge of the window.
 vim.opt.wrap = true
