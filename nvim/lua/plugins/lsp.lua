@@ -79,28 +79,6 @@ return {
       },
     })
 
-    local ensure_installed = {
-      "bashls", -- bash
-      "biome", -- lsp, formatting, linting for javascript and typescript
-      "buf_ls", -- protobuf
-      "clangd", -- c/c++
-      "denols", -- javascript, typescript
-      "dockerls", -- docker
-      "gopls", -- go
-      "jsonls", -- json
-      "lua_ls", -- lua
-      "powershell_es", -- powershell
-      "ruff", -- python
-      "terraformls", -- terraform
-      "tflint", -- terraform
-      "yamlls", -- yaml
-      "zls", -- zig
-    }
-
-    require("mason-tool-installer").setup({
-      ensure_installed = ensure_installed,
-    })
-
     local servers = {
       bashls = {},
       biome = {},
@@ -115,11 +93,22 @@ return {
       lua_ls = {
         settings = {
           Lua = {
+            runtime = {
+              version = "LuaJIT",
+              path = vim.split(package.path, ";"),
+            },
             diagnostics = {
               globals = { "vim" },
             },
             format = {
               enable = true,
+            },
+            workspace = {
+              library = vim.api.nvim_get_runtime_file("", true),
+              checkThirdParty = false,
+            },
+            telemetry = {
+              enable = false,
             },
           },
         },
