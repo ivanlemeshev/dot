@@ -20,6 +20,8 @@ else
   config.default_domain = "local"
 end
 
+config.scrollback_lines = 100000
+
 config.window_padding = {
   left = 10,
   right = 10,
