@@ -8,7 +8,6 @@ return {
         go = {
           "gofumpt",
           "goimports",
-          -- "golangci-lint", -- TODO
           -- "golines",
         },
         javascript = { "biome" },
