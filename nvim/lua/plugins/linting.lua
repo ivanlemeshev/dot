@@ -8,7 +8,8 @@ return {
     local lint = require("lint")
 
     lint.linters_by_ft = {
-      -- go = { "golangcilint" }, -- TODO
+      go = { "golangcilint" },
+      dockerfile = { "hadolint" },
       markdown = { "markdownlint" },
     }
 
