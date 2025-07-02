@@ -23,6 +23,16 @@ return {
         },
         sh = { "shfmt" },
       },
+      formatters = {
+        -- To get the formatting appropriate for Google's Style guide,
+        -- use shfmt -i 2 -ci.
+        -- https://google.github.io/styleguide/shellguide.html
+        shfmt = {
+          inherit = false,
+          command = "shfmt",
+          args = { "-filename", "$FILENAME", "-i", "2", "-ci" },
+        },
+      },
       format_on_save = {
         timeout_ms = 500,
         lsp_format = "fallback",
@@ -30,12 +40,3 @@ return {
     })
   end,
 }
-
--- TODO: configure shfmt to use Google's Style guide
---   formatting.shfmt.with({
---     filetypes = { "sh" },
---     -- To get the formatting appropriate for Google's Style guide,
---     -- use shfmt -i 2 -ci.
---     -- https://google.github.io/styleguide/shellguide.html
---     args = { "-filename", "$FILENAME", "-i", "2", "-ci" },
---   }),
