@@ -1,12 +1,12 @@
 -- C:\Users\username\.wezterm.lua (Windows)
 -- /home/username/.wezterm.lua (Linux/macOS)
-local wezterm = require "wezterm"
+local wezterm = require("wezterm")
 local mux = wezterm.mux
 
 local config = wezterm.config_builder()
 
-local is_windows <const> = wezterm.target_triple:find "windows" ~= nil
-local is_macos <const> = wezterm.target_triple:find "darwin" ~= nil
+local is_windows <const> = wezterm.target_triple:find("windows") ~= nil
+local is_macos <const> = wezterm.target_triple:find("darwin") ~= nil
 
 wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
@@ -43,7 +43,7 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.color_scheme = "Catppuccin Mocha"
 
-config.font = wezterm.font "JetBrainsMono Nerd Font Mono"
+config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
 
 -- Disable ligatures
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }

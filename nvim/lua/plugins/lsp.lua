@@ -79,58 +79,37 @@ return {
       },
     })
 
-    local servers = {
-      bashls = {},
-      biome = {},
-      buf_ls = {},
+    require("lsp-format").setup({})
+
+    local exclude_automatic_enable = {
+      "clangd",
+      "lua_ls",
+    }
+
+    require("mason-lspconfig").setup({
+      automatic_enable = {
+        exclude = exclude_automatic_enable,
+      },
+    })
+
+    local lsp_config = {
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
       },
-      denols = {},
-      dockerls = {},
-      gopls = {},
-      jsonls = {},
       lua_ls = {
         settings = {
           Lua = {
-            runtime = {
-              version = "LuaJIT",
-              path = vim.split(package.path, ";"),
-            },
             diagnostics = {
               globals = { "vim" },
-            },
-            format = {
-              enable = true,
-            },
-            workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
-              checkThirdParty = false,
-            },
-            telemetry = {
-              enable = false,
             },
           },
         },
       },
-      powershell_es = {},
-      ruff = {},
-      terraformls = {},
-      tflint = {},
-      yamlls = {},
-      zls = {},
     }
 
-    require("lsp-format").setup({})
-
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.on_attach = require("lsp-format").on_attach
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
-    })
+    for server, config in pairs(lsp_config) do
+      vim.lsp.config(server, config)
+      vim.lsp.enable(server)
+    end
   end,
 }
