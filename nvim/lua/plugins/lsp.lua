@@ -79,69 +79,37 @@ return {
       },
     })
 
-    local ensure_installed = {
-      "bashls", -- bash
-      "biome", -- lsp, formatting, linting for javascript and typescript
-      "buf_ls", -- protobuf
-      "clangd", -- c/c++
-      "denols", -- javascript, typescript
-      "dockerls", -- docker
-      "gopls", -- go
-      "jsonls", -- json
-      "lua_ls", -- lua
-      "powershell_es", -- powershell
-      "ruff", -- python
-      "terraformls", -- terraform
-      "tflint", -- terraform
-      "yamlls", -- yaml
-      "zls", -- zig
+    require("lsp-format").setup({})
+
+    local exclude_automatic_enable = {
+      "clangd",
+      "lua_ls",
     }
 
-    require("mason-tool-installer").setup({
-      ensure_installed = ensure_installed,
+    require("mason-lspconfig").setup({
+      automatic_enable = {
+        exclude = exclude_automatic_enable,
+      },
     })
 
-    local servers = {
-      bashls = {},
-      biome = {},
-      buf_ls = {},
+    local lsp_config = {
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
       },
-      denols = {},
-      dockerls = {},
-      gopls = {},
-      jsonls = {},
       lua_ls = {
         settings = {
           Lua = {
             diagnostics = {
               globals = { "vim" },
             },
-            format = {
-              enable = true,
-            },
           },
         },
       },
-      powershell_es = {},
-      ruff = {},
-      terraformls = {},
-      tflint = {},
-      yamlls = {},
-      zls = {},
     }
 
-    require("lsp-format").setup({})
-
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.on_attach = require("lsp-format").on_attach
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
-    })
+    for server, config in pairs(lsp_config) do
+      vim.lsp.config(server, config)
+      vim.lsp.enable(server)
+    end
   end,
 }

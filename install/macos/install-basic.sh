@@ -19,6 +19,7 @@ packages=(
   "fzf"
   "bottom"
   "go"
+  "golangci-lint"
   "node"
   "lazygit"
   "wget"
