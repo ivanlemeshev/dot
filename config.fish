@@ -47,7 +47,8 @@ end
 set -x PATH "$PATH:$HOME/.local/bin"
 
 # Nvim
-set -x PATH "$PATH:/opt/nvim-linux64/bin"
+# http://github.com/neovim/neovim/blob/master/INSTALL.md#linux
+set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
 
 # Add bat theme
 set -x BAT_THEME CatppuccinMocha
