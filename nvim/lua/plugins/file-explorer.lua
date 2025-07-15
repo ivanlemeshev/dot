@@ -31,5 +31,9 @@ return {
         ignore = false,
       },
     })
+
+    local map = vim.keymap.set
+
+    map("n", "<leader>ft", "<cmd>NvimTreeFindFile<CR>", { desc = "Files: find file" })
   end,
 }

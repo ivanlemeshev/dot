@@ -11,6 +11,10 @@ map("n", "<leader>pv", vim.cmd.Ex, { desc = "Back to netrw from the current buff
 -- Keep the cursor centered when scrolling
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down half a page", noremap = true, silent = true })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up half a page", noremap = true, silent = true })
+map("n", "<C-f>", "<C-f>zz", { desc = "Scroll down a page", noremap = true, silent = true })
+map("n", "<C-b>", "<C-b>zz", { desc = "Scroll up a page", noremap = true, silent = true })
+map("n", "j", "jzz", { desc = "Scroll down a line", noremap = true, silent = true })
+map("n", "k", "kzz", { desc = "Scroll up a line", noremap = true, silent = true })
 
 -- Keep the cursor centered when moving
 map("n", "n", "nzzzv", { desc = "Move to the next search result", noremap = true, silent = true })
