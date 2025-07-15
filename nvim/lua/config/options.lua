@@ -116,13 +116,6 @@ vim.diagnostic.config({
   },
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "NvimTree",
-  callback = function()
-    vim.opt_local.scrolloff = 999
-  end,
-})
-
 -- Set options based on the file type.
 -- You can check the file type using command :echo &filetype
 
