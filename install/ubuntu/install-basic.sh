@@ -7,25 +7,27 @@ source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 print_header "System: installing basic packages"
 
 packages=(
+  "build-essential"            # A package for building software from source.
+  "clang-format"               # A tool to format C, C++ and Objective-C code.
+  "clangd"                     # A language server for C, C++ and Objective-C.
   "curl"                       # A tool for transferring data from or to a server using URLs.
-  "wget"                       # A tool for downloading files from the Internet.
-  "vim"                        # A programmer's text editor.
-  "htop"                       # An interactive process viewer.
-  "unzip"                      # A utility for extracting, testing and viewing the contents of ZIP archives.
-  "xz-utils"                   # A set of tools for working with xz compressed files.
+  "fd-find"                    # A simple, fast and user-friendly alternative to find.
+  "ffmpeg"                     # A complete, cross-platform solution to record, convert and stream audio and video.
   "fontconfig"                 # A library for configuring and customizing font access.
   "fzf"                        # A command-line fuzzy finder.
-  "fd-find"                    # A simple, fast and user-friendly alternative to find.
-  "software-properties-common" # A common package for adding PPA repositories.
-  "build-essential"            # A package for building software from source.
-  "ffmpeg"                     # A complete, cross-platform solution to record, convert and stream audio and video.
-  "ripgrep"                    # A line-oriented search tool that recursively searches your current directory for a regex pattern.
-  "clangd"                     # A language server for C, C++ and Objective-C.
-  "clang-format"               # A tool to format C, C++ and Objective-C code.
-  "tree"                       # A utility for displaying directory tree structures.
-  "strace"                     # A diagnostic, debugging and instructional userspace utility for Linux.
+  "gcc"                        # The GNU Compiler Collection, a set of compilers for various programming languages.
+  "gdb"                        # The GNU Debugger, a powerful debugger for C/C++ and other languages.
+  "htop"                       # An interactive process viewer.
   "python3-pip"                # A tool for installing Python packages.
   "python3-venv"               # A tool for creating isolated Python environments.
+  "ripgrep"                    # A line-oriented search tool that recursively searches your current directory for a regex pattern.
+  "software-properties-common" # A common package for adding PPA repositories.
+  "strace"                     # A diagnostic, debugging and instructional userspace utility for Linux.
+  "tree"                       # A utility for displaying directory tree structures.
+  "unzip"                      # A utility for extracting, testing and viewing the contents of ZIP archives.
+  "vim"                        # A programmer's text editor.
+  "wget"                       # A tool for downloading files from the Internet.
+  "xz-utils"                   # A set of tools for working with xz compressed files.
 )
 
 sudo apt-get install -y ${packages[*]}
