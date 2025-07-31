@@ -11,6 +11,7 @@ packages=(
   "clang-format"               # A tool to format C, C++ and Objective-C code.
   "clangd"                     # A language server for C, C++ and Objective-C.
   "curl"                       # A tool for transferring data from or to a server using URLs.
+  "direnv"                     # A tool for managing environment variables based on the current directory.
   "fd-find"                    # A simple, fast and user-friendly alternative to find.
   "ffmpeg"                     # A complete, cross-platform solution to record, convert and stream audio and video.
   "fontconfig"                 # A library for configuring and customizing font access.
