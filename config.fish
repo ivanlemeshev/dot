@@ -143,3 +143,7 @@ if command -v batcat > /dev/null
     alias bat="batcat"
     alias cat="batcat"
 end
+
+if test "$os" = Linux
+    direnv hook fish | source
+end
