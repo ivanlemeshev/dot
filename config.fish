@@ -96,9 +96,6 @@ end
 # Enable starship prompt
 starship init fish | source
 
-# enable mise
-mise activate fish | source
-
 # Aliases
 
 # Check if Vim is installed
