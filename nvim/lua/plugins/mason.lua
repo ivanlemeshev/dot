@@ -30,6 +30,7 @@ return {
         "jsonls", -- JSON
         "lua_ls", -- Lua
         "powershell_es", -- PowerShell
+        "pyright", -- Python
         "ruff", -- Python
         "terraformls", -- Terraform
         "yamlls", -- YAML
