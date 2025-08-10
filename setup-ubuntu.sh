@@ -11,8 +11,8 @@ ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
 ./install/ubuntu/install-git.sh
+./install/ubuntu/install-asdf.sh
 ./install/ubuntu/install-bat.sh
-./install/ubuntu/install-mise.sh
 ./install/ubuntu/install-vivid.sh
 ./install/ubuntu/install-nerd-font.sh
 ./install/ubuntu/install-tmux.sh

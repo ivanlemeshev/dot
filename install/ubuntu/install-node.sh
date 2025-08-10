@@ -4,7 +4,7 @@ set -e
 
 source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 
-node_version="22.14.0"
-
-print_header "Node.js: installing version ${node_version}"
-fish -C "mise use -g node@${node_version} && npm install -g deno && npm install -g bun && npm install -g @biomejs/biome && exit"
+print_header "Node.js: installing latest version"
+/usr/local/bin/asdf plugin add nodejs
+/usr/local/bin/asdf install nodejs latest
+/usr/local/bin/asdf set -u nodejs latest

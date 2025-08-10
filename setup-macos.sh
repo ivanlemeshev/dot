@@ -17,7 +17,6 @@ ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ./install/macos/install-fish.sh
 ./install/macos/install-starship.sh
 ./install/macos/install-kubectl.sh
-./install/macos/install-mise.sh
 ./install/macos/install-python.sh
 ./install/macos/install-nvim.sh
 ./install/macos/install-gcloud.sh
