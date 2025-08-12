@@ -7,6 +7,7 @@ source "$(dirname "$0")/../../scripts/functions/print_header.sh"
 print_header "System: installing basic packages"
 
 packages=(
+  "ansible"                    # A tool for automating software provisioning, configuration management, and application deployment.
   "build-essential"            # A package for building software from source.
   "clang-format"               # A tool to format C, C++ and Objective-C code.
   "clangd"                     # A language server for C, C++ and Objective-C.
