@@ -27,7 +27,7 @@ return {
         "denols", -- JavaScript, TypeScript
         "dockerls", -- Docker
         "gopls", -- Go
-        "harper_ls", -- Grammar checker
+        "harper_ls", -- Grammar checker, https://writewithharper.com/docs/integrations/neovim
         "jsonls", -- JSON
         "lua_ls", -- Lua
         "powershell_es", -- PowerShell
