@@ -5,4 +5,5 @@ understand what it does before running any script.
 
 ## Tmux
 
-When you run `tmux` first time, you need to press `Ctrl+Space I` to install plugins.
+When you run `tmux` first time, you need to press `Ctrl+Space I` to install
+plugins.

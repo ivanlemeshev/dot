@@ -27,6 +27,7 @@ return {
         "denols", -- JavaScript, TypeScript
         "dockerls", -- Docker
         "gopls", -- Go
+        "harper_ls", -- Grammar checker
         "jsonls", -- JSON
         "lua_ls", -- Lua
         "powershell_es", -- PowerShell
