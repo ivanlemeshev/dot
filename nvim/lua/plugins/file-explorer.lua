@@ -32,6 +32,11 @@ return {
 
     local map = vim.keymap.set
 
-    map("n", "<leader>ft", "<cmd>NvimTreeFindFile<CR>", { desc = "Files: find the file in the file explorer" })
+    map(
+      "n",
+      "<leader>ft",
+      "<cmd>NvimTreeFindFile<CR>",
+      { desc = "Files: find the file in the file explorer" }
+    )
   end,
 }

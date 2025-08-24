@@ -18,18 +18,54 @@ return {
         local builtin = require("telescope.builtin")
         local map = vim.keymap.set
 
-        map("n", "gd", builtin.lsp_definitions, { desc = "LSP: go to definition" })
-        map("n", "gr", builtin.lsp_references, { desc = "LSP: find references" })
-        map("n", "gI", builtin.lsp_implementations, { desc = "LSP: go to implementation" })
-        map("n", "<leader>D", builtin.lsp_type_definitions, { desc = "LSP: type definition" })
+        map(
+          "n",
+          "gd",
+          builtin.lsp_definitions,
+          { desc = "LSP: go to definition" }
+        )
+        map(
+          "n",
+          "gr",
+          builtin.lsp_references,
+          { desc = "LSP: find references" }
+        )
+        map(
+          "n",
+          "gI",
+          builtin.lsp_implementations,
+          { desc = "LSP: go to implementation" }
+        )
+        map(
+          "n",
+          "<leader>D",
+          builtin.lsp_type_definitions,
+          { desc = "LSP: type definition" }
+        )
         map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: rename" })
-        map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: code action" })
-        map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: goto declaration" })
+        map(
+          "n",
+          "<leader>ca",
+          vim.lsp.buf.code_action,
+          { desc = "LSP: code action" }
+        )
+        map(
+          "n",
+          "gD",
+          vim.lsp.buf.declaration,
+          { desc = "LSP: goto declaration" }
+        )
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-          local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+        if
+          client
+          and client.supports_method(
+            vim.lsp.protocol.Methods.textDocument_documentHighlight
+          )
+        then
+          local highlight_augroup =
+            vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
           -- Highlight references of the word under the cursor when it rests
           -- there for a while. See `:help CursorHold`.
@@ -50,14 +86,24 @@ return {
             group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
             callback = function(event2)
               vim.lsp.buf.clear_references()
-              vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
+              vim.api.nvim_clear_autocmds({
+                group = "lsp-highlight",
+                buffer = event2.buf,
+              })
             end,
           })
         end
 
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        if
+          client
+          and client.supports_method(
+            vim.lsp.protocol.Methods.textDocument_inlayHint
+          )
+        then
           map("n", "<leader>th", function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+            vim.lsp.inlay_hint.enable(
+              not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
+            )
           end, { desc = "LSP: Toggle inlay hints" })
         end
       end,
@@ -69,7 +115,11 @@ return {
     -- Neovim now has more capabilities. So, we create new capabilities with
     -- nvim-cmp, and then broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+    capabilities = vim.tbl_deep_extend(
+      "force",
+      capabilities,
+      require("cmp_nvim_lsp").default_capabilities()
+    )
 
     require("mason").setup({
       pip = {

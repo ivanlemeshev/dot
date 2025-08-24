@@ -56,7 +56,11 @@ return {
         return false
       end
       local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+      return col ~= 0
+        and vim.api
+            .nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]
+            :match("^%s*$")
+          == nil
     end
 
     cmp.setup({
@@ -83,13 +87,19 @@ return {
           -- If something has explicitly been selected by the user, select it.
           i = function(fallback)
             if cmp.visible() and cmp.get_active_entry() then
-              cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
+              cmp.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = false,
+              })
             else
               fallback()
             end
           end,
           s = cmp.mapping.confirm({ select = true }),
-          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+          c = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          }),
         }),
       }),
       sources = {
@@ -103,7 +113,10 @@ return {
         fields = { "abbr", "kind", "menu" },
         format = function(_, vim_item)
           if vim_item.kind ~= nil then
-            vim_item.kind = (kind_icons[vim_item.kind] or "") .. " [" .. vim_item.kind .. "]"
+            vim_item.kind = (kind_icons[vim_item.kind] or "")
+              .. " ["
+              .. vim_item.kind
+              .. "]"
           end
           return vim_item
         end,
