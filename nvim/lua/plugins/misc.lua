@@ -1,10 +1,12 @@
 return {
   {
     -- Git integration for Vim
+    -- https://github.com/tpope/vim-fugitive
     "tpope/vim-fugitive",
   },
   {
-    -- Hints keybinds
+    -- Hints for key bindings
+    -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
     opts = {
       icons = {
@@ -13,7 +15,8 @@ return {
     },
   },
   {
-    -- Highlight todo, notes, etc in comments
+    -- Highlight TODO, NOTE, FIX, WARNING, HACK, RERF in comments
+    -- https://github.com/folke/todo-comments.nvim
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
@@ -21,13 +24,8 @@ return {
     },
   },
   {
-    -- High-performance color highlighter
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup()
-    end,
-  },
-  {
+    -- Show inline diagnostics at the end of the line
+    -- https://github.com/rachartier/tiny-inline-diagnostic.nvim
     "rachartier/tiny-inline-diagnostic.nvim",
     config = function()
       require("tiny-inline-diagnostic").setup()

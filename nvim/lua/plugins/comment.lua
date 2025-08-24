@@ -1,9 +1,9 @@
 return {
+  -- Smart and powerful comment plugin
+  -- https://github.com/numToStr/Comment.nvim
   "numToStr/Comment.nvim",
-  opts = {},
   config = function()
     local map = vim.keymap.set
-
     map(
       "n",
       "<leader>/",

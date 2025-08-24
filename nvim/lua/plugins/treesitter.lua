@@ -1,22 +1,25 @@
 return {
+  -- Enable Treesitter for better syntax highlighting
+  -- https://github.com/nvim-treesitter/nvim-treesitter
   "nvim-treesitter/nvim-treesitter",
-  event = "BufRead",
+  branch = "master",
+  lazy = false,
   build = ":TSUpdate",
   main = "nvim-treesitter.configs",
   opts = {
     ensure_installed = {
       "bash",
+      "bash",
       "c",
       "c_sharp",
       "cmake",
       "cpp",
-      "csv",
       "css",
-      "bash",
+      "csv",
       "diff",
       "dockerfile",
-      "gitignore",
       "fish",
+      "gitignore",
       "go",
       "gomod",
       "gosum",
@@ -45,10 +48,6 @@ return {
       "zig",
     },
     auto_install = true,
-    highlight = {
-      enable = true,
-      use_languagetree = true,
-    },
-    indent = { enable = true },
+    highlight = { enable = true },
   },
 }

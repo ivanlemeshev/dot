@@ -1,4 +1,6 @@
 return {
+  -- Formatting plugin
+  -- https://github.com/stevearc/conform.nvim
   "stevearc/conform.nvim",
   lazy = false,
   config = function()

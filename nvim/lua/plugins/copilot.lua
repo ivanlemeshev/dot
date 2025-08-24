@@ -1,5 +1,7 @@
 return {
   {
+    -- Copilot integration
+    -- https://github.com/zbirenbaum/copilot.lua
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
@@ -40,11 +42,23 @@ return {
 
       local map = vim.keymap.set
 
-      map("n", "<leader>cd", "<cmd>Copilot disable<CR>", { desc = "Copilot: disable" })
-      map("n", "<leader>ce", "<cmd>Copilot enable<CR>", { desc = "Copilot: enable" })
+      map(
+        "n",
+        "<leader>cd",
+        "<cmd>Copilot disable<CR>",
+        { desc = "Copilot: disable" }
+      )
+      map(
+        "n",
+        "<leader>ce",
+        "<cmd>Copilot enable<CR>",
+        { desc = "Copilot: enable" }
+      )
     end,
   },
   {
+    -- Copilot chat integration
+    -- https://github.com/CopilotC-Nvim/CopilotChat.nvim
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     dependencies = {
@@ -52,14 +66,23 @@ return {
       "nvim-lua/plenary.nvim",
     },
     build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {},
     config = function()
       require("CopilotChat").setup({})
 
       local map = vim.keymap.set
 
-      map("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Copilot: toggle chat" })
-      map("v", "<leader>ce", "<esc><cmd>CopilotChatExplain<cr>", { desc = "Copilot: explain the selected text" })
+      map(
+        "n",
+        "<leader>cc",
+        "<cmd>CopilotChatToggle<CR>",
+        { desc = "Copilot: toggle chat" }
+      )
+      map(
+        "v",
+        "<leader>ce",
+        "<esc><cmd>CopilotChatExplain<cr>",
+        { desc = "Copilot: explain the selected text" }
+      )
     end,
   },
 }
