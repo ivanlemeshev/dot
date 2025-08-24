@@ -48,13 +48,21 @@ return {
       "n",
       "<leader>tp",
       "<cmd>lua require('neotest').output_panel.toggle()<cr>",
-      { desc = "Neotest: toggle the test output panel", noremap = true, silent = false }
+      {
+        desc = "Neotest: toggle the test output panel",
+        noremap = true,
+        silent = false,
+      }
     )
     map(
       "n",
       "<leader>ts",
       "<cmd>lua require('neotest').summary.toggle()<cr>",
-      { desc = "Neotest: toggle the test summary", noremap = true, silent = false }
+      {
+        desc = "Neotest: toggle the test summary",
+        noremap = true,
+        silent = false,
+      }
     )
   end,
 }

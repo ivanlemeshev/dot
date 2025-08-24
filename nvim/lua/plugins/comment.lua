@@ -14,7 +14,11 @@ return {
       "v",
       "<leader>/",
       "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
-      { desc = "Toggle comment on the selected text", noremap = true, silent = true }
+      {
+        desc = "Toggle comment on the selected text",
+        noremap = true,
+        silent = true,
+      }
     )
   end,
 }
