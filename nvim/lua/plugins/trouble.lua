@@ -16,7 +16,7 @@ return {
     {
       "<leader>dd",
       "<cmd>Trouble diagnostics toggle<cr>",
-      desc = "Troule: toggle diagnostics panel",
+      desc = "Trouble: toggle diagnostics panel",
     },
     {
       "<leader>dc",

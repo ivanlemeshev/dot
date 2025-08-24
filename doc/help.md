@@ -766,7 +766,7 @@ the clipboard and you can paste it.
 - `<leader>fd` (in normal mode)
   - Find in diagnostics.
 
-- `<leader>fb` (in normal mode)
+- `<leader>b` (in normal mode)
   - Find in opened buffers.
 
 - `<leader>fc` (in normal mode)
@@ -774,6 +774,15 @@ the clipboard and you can paste it.
 
 - `<leader>fh` (in normal mode)
   - Find in help.
+
+- `<Esc>` (in telescope)
+  - Close telescope.
+
+- `Ctrl+u` (in telescope)
+  - Clear the input.
+
+- `Ctrl+d` (in telescope buffer picker)
+  - Delete the opened buffer.
 
 #### Trouble
 
