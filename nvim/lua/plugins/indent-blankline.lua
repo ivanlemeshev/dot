@@ -10,5 +10,8 @@ return {
         "help",
       },
     },
+    scope = {
+      enabled = false,
+    },
   },
 }
