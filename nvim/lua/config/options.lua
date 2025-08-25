@@ -2,7 +2,11 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Allow the backspace key to delete over autoindent, line breaks (enter), and
+-- Disable cursor blinking in the terminal mode.
+vim.opt.guicursor =
+  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"
+
+-- Allow the backspace key to delete over auto-indent, line breaks (enter), and
 -- the start of insert; essentially making backspace work more like it does
 -- in other modern text editors.
 vim.opt.backspace = "2"
