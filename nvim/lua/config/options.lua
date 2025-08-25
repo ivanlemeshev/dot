@@ -7,6 +7,9 @@ vim.g.loaded_netrwPlugin = 1
 -- in other modern text editors.
 vim.opt.backspace = "2"
 
+-- Keep 10 lines visible above and below the cursor when scrolling.
+vim.opt.scrolloff = 10
+
 -- Display incomplete commands in the bottom right corner of the window. This
 -- feature is useful for seeing which keys you have pressed during a command
 -- sequence, helping you understand what action is being performed or if you've
