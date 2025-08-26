@@ -60,7 +60,7 @@ map(
   "n",
   "<leader>w",
   "<cmd>w<CR>",
-  { desc = "Save the current buffer", noremap = true, silent = false }
+  { desc = "Save the current buffer", noremap = true, silent = true }
 )
 map(
   "n",
