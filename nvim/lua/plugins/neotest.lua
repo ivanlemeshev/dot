@@ -36,13 +36,13 @@ return {
       "n",
       "<leader>tt",
       "<cmd>lua require('neotest').run.run()<cr>",
-      { desc = "Neotest: run the test", noremap = true, silent = false }
+      { desc = "Neotest: run the test", noremap = true, silent = true }
     )
     map(
       "n",
       "<leader>tf",
       "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",
-      { desc = "Neotest: run the test file", noremap = true, silent = false }
+      { desc = "Neotest: run the test file", noremap = true, silent = true }
     )
     map(
       "n",
@@ -54,15 +54,10 @@ return {
         silent = false,
       }
     )
-    map(
-      "n",
-      "<leader>ts",
-      "<cmd>lua require('neotest').summary.toggle()<cr>",
-      {
-        desc = "Neotest: toggle the test summary",
-        noremap = true,
-        silent = false,
-      }
-    )
+    map("n", "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<cr>", {
+      desc = "Neotest: toggle the test summary",
+      noremap = true,
+      silent = false,
+    })
   end,
 }
