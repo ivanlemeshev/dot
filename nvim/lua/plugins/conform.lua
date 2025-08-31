@@ -23,6 +23,7 @@ return {
           "ruff_organize_imports",
         },
         sh = { "shfmt" },
+        yaml = { "yamlfmt" },
       },
       formatters = {
         -- To get the formatting appropriate for Google's Style guide,
