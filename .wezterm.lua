@@ -15,7 +15,6 @@ end)
 
 if is_windows then
   config.default_domain = "WSL:Ubuntu"
-  config.window_decorations = "RESIZE"
 else
   config.default_domain = "local"
 end
