@@ -44,6 +44,7 @@ return {
         "prettier", -- Markdown
         "shfmt", -- Bash
         "stylua", -- Lua
+        "yamlfmt", -- YAML
         -- Linters
         "golangci-lint", -- Go
         "hadolint", -- Docker
