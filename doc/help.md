@@ -721,13 +721,16 @@ the clipboard and you can paste it.
 #### LSP
 
 - `gd` (in normal mode)
-  - Go to the definition.
+  - Go to the definition (e.g., variable, function, class).
 
 - `gr` (in normal mode)
-  - Find references.
+  - Find all references (e.g., variable, function, class).
 
 - `gI` (in normal mode)
-  - Go to the implementation.
+  - Go to the implementation (e.g., interface, abstract method).
+
+- `gD` (in normal mode)
+  - Go to the declaration (e.g., in C/C++).
 
 - `<leader>D` (in normal mode)
   - Go to the type definition.
@@ -736,10 +739,7 @@ the clipboard and you can paste it.
   - Rename.
 
 - `<leader>ca` (in normal mode)
-  - Code action.
-
-- `gD` (in normal mode)
-  - Go to the declaration.
+  - Code actions.
 
 #### Neotest
 

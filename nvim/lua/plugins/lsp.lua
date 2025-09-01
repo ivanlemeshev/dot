@@ -22,38 +22,43 @@ return {
           "n",
           "gd",
           builtin.lsp_definitions,
-          { desc = "LSP: go to definition" }
+          { desc = "LSP: go to definition", silent = true }
         )
         map(
           "n",
           "gr",
           builtin.lsp_references,
-          { desc = "LSP: find references" }
+          { desc = "LSP: find all references", silent = true }
         )
         map(
           "n",
           "gI",
           builtin.lsp_implementations,
-          { desc = "LSP: go to implementation" }
+          { desc = "LSP: go to implementation", silent = true }
         )
         map(
           "n",
           "<leader>D",
           builtin.lsp_type_definitions,
-          { desc = "LSP: type definition" }
-        )
-        map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: rename" })
-        map(
-          "n",
-          "<leader>ca",
-          vim.lsp.buf.code_action,
-          { desc = "LSP: code action" }
+          { desc = "LSP: go type definition", silent = true }
         )
         map(
           "n",
           "gD",
           vim.lsp.buf.declaration,
-          { desc = "LSP: goto declaration" }
+          { desc = "LSP: goto declaration", silent = true }
+        )
+        map(
+          "n",
+          "<leader>rn",
+          vim.lsp.buf.rename,
+          { desc = "LSP: rename", silent = true }
+        )
+        map(
+          "n",
+          "<leader>ca",
+          vim.lsp.buf.code_action,
+          { desc = "LSP: code action", silent = true }
         )
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
