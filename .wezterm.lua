@@ -42,7 +42,20 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.color_scheme = "Catppuccin Mocha"
 
-config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+-- Configure fonts
+-- These emojis should be equal in size 🆕 and ⏭️
+if is_macos then
+  config.font = wezterm.font_with_fallback({
+    "JetBrainsMonoNL Nerd Font Mono",
+    "Apple Color Emoji",
+  })
+else
+  config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+end
+
+config.line_height = 1.24
+config.cell_width = 1.0
+config.allow_square_glyphs_to_overflow_width = "Always"
 
 -- Disable ligatures
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
