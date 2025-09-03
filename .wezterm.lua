@@ -53,8 +53,6 @@ else
   config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
 end
 
-config.line_height = 1.24
-config.cell_width = 1.0
 config.allow_square_glyphs_to_overflow_width = "Always"
 
 -- Disable ligatures
