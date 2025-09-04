@@ -31,6 +31,24 @@ else {
     New-Item -Path $env:USERPROFILE\.wezterm.lua -ItemType SymbolicLink -Value "$scriptDirectory\.wezterm.lua"
 }
 
+Write-Host "Creating symbolic link for rio\config.toml...";
+if (!((Get-Item -Path "$env:USERPROFILE\AppData\Local\rio\config.toml").Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+    Remove-Item -Path "$env:USERPROFILE\AppData\Local\rio\config.toml"
+}
+
+if (Test-Path -Path "$env:USERPROFILE\AppData\Local\rio\config.toml") {
+    Write-Host "Symbolic link already exists: $env:USERPROFILE\AppData\Local\rio\config.toml"
+}
+else {
+    New-Item -Path $env:USERPROFILE\AppData\Local\rio\config.toml -ItemType SymbolicLink -Value "$scriptDirectory\rio\config.toml"
+}
+
+Write-Host "Install catppuccin theme for rio...";
+Remove-Item -Path "$env:USERPROFILE\AppData\Local\rio\themes" -Recurse -Force
+git clone https://github.com/catppuccin/rio.git "$scriptDirectory\rio\catppuccin"
+Copy-Item -Path "$scriptDirectory\rio\catppuccin\themes\" -Destination "$env:USERPROFILE\AppData\Local\rio\" -Recurse
+Remove-Item -Path "$scriptDirectory\rio\catppuccin" -Recurse -Force
+
 Write-Host "Creating symbolic link for Microsoft.PowerShell_profile.ps1...";
 if (-not (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell)) {
     New-Item -Path $env:USERPROFILE\Documents\WindowsPowerShell -ItemType Directory -Force | Out-Null
