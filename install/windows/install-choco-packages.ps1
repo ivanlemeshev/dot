@@ -3,4 +3,4 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; `
     iex ((New-Object System.Net.WebClient).DownloadString("https://community.chocolatey.org/install.ps1"))
 
 choco upgrade all -y
-choco install -y powershell wezterm starship gh make zig rio-terminal
+choco install -y powershell wezterm starship gh make zig
