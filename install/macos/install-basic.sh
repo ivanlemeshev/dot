@@ -12,6 +12,7 @@ packages=(
   "direnv"
   "fd"
   "fzf"
+  "gemini-cli"
   "go"
   "golangci-lint"
   "lazygit"
