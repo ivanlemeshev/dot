@@ -24,7 +24,7 @@ return {
           "--line-number",
           "--column",
           "--smart-case",
-          "--fixed-strings", -- allow searching without escaping special characters
+          "--fixed-strings", -- Allow searching without escaping special characters
         },
         mappings = {
           i = {
@@ -36,7 +36,7 @@ return {
       pickers = {
         find_files = {
           file_ignore_patterns = { "node_modules", ".git", ".venv", "vendor" },
-          hidden = true,
+          hidden = true, -- Show hidden files
         },
         buffers = {
           mappings = {
@@ -45,12 +45,6 @@ return {
             },
           },
         },
-      },
-      live_grep = {
-        file_ignore_patterns = { "node_modules", ".git", ".venv", "vendor" },
-        additional_args = function(_)
-          return { "--hidden" }
-        end,
       },
     })
 
@@ -63,12 +57,14 @@ return {
       builtin.find_files,
       { desc = "Telescode: find files" }
     )
-    map(
-      "n",
-      "<leader>fg",
-      builtin.live_grep,
-      { desc = "Telescode: find in all files" }
-    )
+    map("n", "<leader>fp", function()
+      require("telescope.builtin").live_grep({
+        file_ignore_patterns = { "node_modules", ".git", ".venv", "vendor" },
+        additional_args = function(_)
+          return { "--hidden" }
+        end,
+      })
+    end, { desc = "Telescode: find in project files" })
     map(
       "n",
       "<leader>fd",
@@ -93,5 +89,12 @@ return {
       builtin.help_tags,
       { desc = "Telescode: find in help" }
     )
+    map("n", "<leader>fg", function()
+      require("telescope.builtin").live_grep({
+        additional_args = function(_)
+          return { "--hidden", "--no-ignore" }
+        end,
+      })
+    end, { desc = "Telescode: find in all file" })
   end,
 }
