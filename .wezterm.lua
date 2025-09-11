@@ -59,7 +59,7 @@ config.allow_square_glyphs_to_overflow_width = "Always"
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 
 if is_macos then
-  config.font_size = 16.0
+  config.font_size = 18.0
 else
   config.font_size = 12.0
 end
