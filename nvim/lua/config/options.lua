@@ -43,10 +43,10 @@ vim.opt.autowriteall = true
 -- Highlight the line where the cursor is currently positioned.
 vim.opt.cursorline = true
 
--- Highlight column 80 in the editor, serving as a visual guide to indicate a
+-- Highlight a column in the editor, serving as a visual guide to indicate a
 -- recommended maximum line length.
-vim.opt.colorcolumn = "80"
-vim.opt.colorcolumn = vim.opt.colorcolumn + "120"
+vim.opt.colorcolumn = "81"
+vim.opt.colorcolumn = vim.opt.colorcolumn + "121"
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
