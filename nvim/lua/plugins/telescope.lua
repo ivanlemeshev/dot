@@ -59,7 +59,13 @@ return {
     )
     map("n", "<leader>fp", function()
       require("telescope.builtin").live_grep({
-        file_ignore_patterns = { "node_modules", ".git", ".venv", "vendor" },
+        file_ignore_patterns = {
+          "node_modules",
+          "%.git/",
+          "%.git$",
+          ".venv",
+          "vendor",
+        },
         additional_args = function(_)
           return { "--hidden" }
         end,
