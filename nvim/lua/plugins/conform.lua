@@ -23,7 +23,10 @@ return {
           "ruff_organize_imports",
         },
         sh = { "shfmt" },
-        yaml = { "yamlfmt" },
+        yaml = {
+          command = "yamlfmt",
+          args = { "-formatter", "retain_line_breaks=true" },
+        },
       },
       formatters = {
         -- To get the formatting appropriate for Google's Style guide,
