@@ -54,8 +54,18 @@ map(
 )
 
 -- Buffers
--- map("n", "<Tab>", ":bnext<CR>", { desc = "Switch to the next buffer", noremap = true, silent = true })
--- map("n", "<S-Tab>", ":bprevious<CR>", { desc = "Switch to the previous buffer", noremap = true, silent = true })
+map(
+  "n",
+  "<Tab>",
+  ":bnext<CR>",
+  { desc = "Switch to the next buffer", noremap = true, silent = true }
+)
+map(
+  "n",
+  "<S-Tab>",
+  ":bprevious<CR>",
+  { desc = "Switch to the previous buffer", noremap = true, silent = true }
+)
 map(
   "n",
   "<leader>w",
