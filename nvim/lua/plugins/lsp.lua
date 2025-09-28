@@ -140,6 +140,7 @@ return {
       "clangd",
       "lua_ls",
       "pyright",
+      "buf_ls",
     }
 
     require("mason-lspconfig").setup({
@@ -148,7 +149,15 @@ return {
       },
     })
 
+    local util = require("lspconfig.util")
+
     local lsp_config = {
+      buf_ls = {
+        -- This is the crucial line: it tells buf_ls to look for a
+        -- buf.yaml or .git file and use that directory as its root,
+        -- which is required to resolve PACKAGE_DIRECTORY_MATCH.
+        root_dir = util.root_pattern("buf.yaml", ".git"),
+      },
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
       },
