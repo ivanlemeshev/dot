@@ -7,6 +7,7 @@ set -e
 # The -f option tells it to replace the file at the target location if it
 # already exists.
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
+ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
 ./install/macos/install-basic.sh
 ./install/macos/install-git.sh

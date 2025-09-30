@@ -36,7 +36,7 @@ set number
 set mouse=a
 
 " Add vertical lines.
-set colorcolumn=80,120
+set colorcolumn=81,121
 
 " Disable compatability with older versions of Vi.
 set nocompatible
