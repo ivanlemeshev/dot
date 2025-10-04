@@ -1,10 +1,5 @@
 return {
   {
-    -- Git integration for Vim
-    -- https://github.com/tpope/vim-fugitive
-    "tpope/vim-fugitive",
-  },
-  {
     -- Hints for key bindings
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",

@@ -2,6 +2,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- Always show the sign column to prevent text shifting when signs appear.
+vim.opt.signcolumn = "yes:1"
+
 -- Disable cursor blinking in the terminal mode.
 vim.opt.guicursor =
   "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"

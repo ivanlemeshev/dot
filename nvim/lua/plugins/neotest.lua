@@ -1,5 +1,7 @@
 return {
   "nvim-neotest/neotest",
+  -- Neotest is broken with the latest release,
+  -- so pin to the working commit
   commit = "52fca6717ef972113ddd6ca223e30ad0abb2800c",
   lazy = false,
   dependencies = {
