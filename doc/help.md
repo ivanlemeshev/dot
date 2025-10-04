@@ -236,12 +236,6 @@
 - `<leader>w` (normal mode)
   - Save the current buffer.
 
-- `<leader>q` (normal mode)
-  - Quit the current buffer.
-
-- `<leader>x` (normal mode)
-  - Close the current buffer.
-
 - `<leader>b` (normal mode)
   - Create a new empty buffer.
 

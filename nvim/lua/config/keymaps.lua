@@ -74,18 +74,6 @@ map(
 )
 map(
   "n",
-  "<leader>q",
-  "<cmd>BufferClose<CR>",
-  { desc = "Quit the current buffer", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<leader>x",
-  ":bdelete!<CR>",
-  { desc = "Close the current buffer", noremap = true, silent = true }
-)
-map(
-  "n",
   "<leader>b",
   "<cmd>enew<CR>",
   { desc = "New empty buffer", noremap = true, silent = true }

@@ -20,9 +20,6 @@ nnoremap ; :
 " Save the current buffer in normal mode.
 nnoremap <leader>w :w<CR>
 
-" Quit the current buffer in normal node.
-nnoremap <leader>q :q<CR>
-
 " Enable syntax highlig.
 syntax on
 
