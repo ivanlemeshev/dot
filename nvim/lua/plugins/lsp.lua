@@ -141,6 +141,7 @@ return {
       "lua_ls",
       "pyright",
       "buf_ls",
+      "yamlls",
     }
 
     require("mason-lspconfig").setup({
@@ -180,6 +181,15 @@ return {
             analysis = {
               -- Ignore all files for analysis to exclusively use Ruff for linting
               ignore = { "*" },
+            },
+          },
+        },
+      },
+      yamlls = {
+        settings = {
+          yaml = {
+            format = {
+              enable = false, -- Disable yamlls formatting in favor of yamlfmt
             },
           },
         },

@@ -25,7 +25,7 @@ return {
         sh = { "shfmt" },
         yaml = {
           command = "yamlfmt",
-          args = { "-formatter", "retain_line_breaks=true" },
+          args = { "-formatter", "retain_line_breaks=true", "indent=2" },
         },
       },
       formatters = {
