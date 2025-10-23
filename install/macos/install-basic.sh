@@ -9,6 +9,7 @@ print_header "Installing: basic packages"
 packages=(
   "asdf"
   "bottom"
+  "buf"
   "direnv"
   "fd"
   "fzf"
