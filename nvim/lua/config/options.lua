@@ -196,7 +196,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- YAML settings
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "yaml",
+  pattern = { "yaml", "yml" },
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.tabstop = 2
