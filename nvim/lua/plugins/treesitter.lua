@@ -34,6 +34,7 @@ return {
       "make",
       "markdown",
       "markdown_inline",
+      "php",
       "powershell",
       "python",
       "regex",
