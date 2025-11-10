@@ -28,6 +28,9 @@ ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 ./install/ubuntu/install-gh.sh
 ./install/ubuntu/install-nvim.sh
 ./install/ubuntu/install-yt-dlp.sh
+./install/ubuntu/install-lazygit.sh
+./install/ubuntu/install-ollama.sh
+./install/ubuntu/install-opencode.sh
 ./install/ubuntu/clean.sh
 
 exec fish -l
