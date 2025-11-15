@@ -14,7 +14,6 @@ return {
     require("telescope").setup({
       defaults = {
         layout_strategy = "vertical",
-        layout_config = { width = 0.9, height = 0.9 },
         -- See :help telescope.defaults.vimgrep_arguments
         vimgrep_arguments = {
           "rg",
