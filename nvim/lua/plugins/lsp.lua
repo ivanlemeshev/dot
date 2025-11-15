@@ -197,7 +197,10 @@ return {
     }
 
     for server, config in pairs(lsp_config) do
-      vim.lsp.config(server, config)
+      local existing_config = vim.lsp.config[server] or {}
+      local merged_config =
+        vim.tbl_deep_extend("force", existing_config, config)
+      vim.lsp.config(server, merged_config)
       vim.lsp.enable(server)
     end
   end,
