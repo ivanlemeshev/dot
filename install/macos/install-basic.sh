@@ -20,8 +20,6 @@ packages=(
   "lua"
   "luarocks"
   "node"
-  "ollama"
-  "opencode"
   "openssl"
   "readline"
   "ripgrep"

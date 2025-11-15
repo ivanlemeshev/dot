@@ -20,7 +20,6 @@ packages=(
   "gcc"                        # The GNU Compiler Collection, a set of compilers for various programming languages.
   "gdb"                        # The GNU Debugger, a powerful debugger for C/C++ and other languages.
   "htop"                       # An interactive process viewer.
-  "jq"                         # A lightweight and flexible command-line JSON processor.
   "python3-pip"                # A tool for installing Python packages.
   "python3-venv"               # A tool for creating isolated Python environments.
   "ripgrep"                    # A line-oriented search tool that recursively searches your current directory for a regex pattern.
