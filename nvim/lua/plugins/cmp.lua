@@ -108,6 +108,7 @@ return {
         { name = "buffer", group_index = 1, priority = 2 },
         { name = "path", group_index = 1, priority = 2 },
         { name = "cmdline", group_index = 1, priority = 2 },
+        { name = "emoji", group_index = 1, priority = 2 },
       },
       formatting = {
         fields = { "abbr", "kind", "menu" },
