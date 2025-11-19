@@ -26,4 +26,14 @@ return {
       require("tiny-inline-diagnostic").setup()
     end,
   },
+  {
+    "allaman/emoji.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    opts = {
+      enable_cmp_integration = true,
+    },
+  },
 }
