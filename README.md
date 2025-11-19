@@ -38,3 +38,9 @@ Enable GitHub Copilot:
 ```text
 :Copilot auth
 ```
+
+## Configure GitHub CLI
+
+```bash
+gh auth login
+```
