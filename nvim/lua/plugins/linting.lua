@@ -11,6 +11,7 @@ return {
       go = { "golangcilint" },
       dockerfile = { "hadolint" },
       markdown = { "markdownlint" },
+      terraform = { "tflint", "tfsec" },
     }
 
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
