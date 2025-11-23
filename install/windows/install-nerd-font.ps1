@@ -9,6 +9,8 @@ $fontFilenames = @(
 
 foreach ($fontFilename in $fontFilenames)
 {
+	Write-Host "Downloading $fontFilename..."
+
 	$fontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$fontFilename"
 	$fontOutputFile = "$scriptDirectory\$fontFilename"
 
