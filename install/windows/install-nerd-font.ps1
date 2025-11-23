@@ -61,6 +61,17 @@ foreach ($fontFilename in $fontFilenames)
 		}
 	}
 
+	Get-ChildItem -Path $destinationFolder -Include "*.otf" -Recurse | ForEach-Object {
+		If (-not(Test-Path "C:\Windows\Fonts\$($_.Name)"))
+		{
+			$font = "$tempFontsFolder\$($_.Name)"
+			Copy-Item $($_.FullName) -Force -Destination $tempFontsFolder
+			$fontsFolder.CopyHere($font, 0x10)
+			Remove-Item $font -Force
+		}
+	}
+
+
 	Write-Host "Cleaning up the downloaded and unzipped files..."
 	Remove-Item -Path $fontOutputFile -Force
 	Remove-Item -Path $destinationFolder -Recurse -Force
