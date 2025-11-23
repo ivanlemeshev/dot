@@ -29,16 +29,16 @@ foreach ($fontFilename in $fontFilenames)
 	# The variable $scriptDirectory is defined in the parent script.
 	$destinationFolder = "$scriptDirectory\NerdFonts"
 	Expand-Archive -Path $fontOutputFile -DestinationPath $destinationFolder -Force
-
 	Write-Host "Installing the fonts..."
 	$fontsFolder = (New-Object -ComObject Shell.Application).Namespace(0x14)
 	$tempFontsFolder = "C:\Windows\Temp\Fonts"
 	New-Item $tempFontsFolder -Type Directory -Force | Out-Null
+
 	Get-ChildItem -Path $destinationFolder -Include "*.ttf" -Recurse | ForEach-Object {
 		If (-not(Test-Path "C:\Windows\Fonts\$($_.Name)"))
 		{
 			$font = "$tempFontsFolder\$($_.Name)"
-			Copy-Item $($_.FullName) -Destination $tempFontsFolder
+			Copy-Item $($_.FullName) -Force -Destination $tempFontsFolder
 			$fontsFolder.CopyHere($font, 0x10)
 			Remove-Item $font -Force
 		}
