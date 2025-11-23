@@ -50,7 +50,9 @@ if is_macos then
     "Apple Color Emoji",
   })
 else
-  config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+  config.font = wezterm.font_with_fallback({
+    "JetBrainsMono Nerd Font Mono",
+  })
 end
 
 config.allow_square_glyphs_to_overflow_width = "Always"
