@@ -10,3 +10,10 @@ curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBra
 sudo tar -xf ./JetBrainsMono.tar.xz -C /usr/local/share/fonts
 sudo fc-cache -fv
 rm JetBrainsMono.tar.xz
+
+print_header "Fonts: installing DepartureMono Nerd Font"
+[[ -d "/usr/local/share/fonts" ]] || sudo mkdir -p "/usr/local/share/fonts"
+curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/DepartureMono.tar.xz
+sudo tar -xf ./DepartureMono.tar.xz -C /usr/local/share/fonts
+sudo fc-cache -fv
+rm DepartureMono.tar.xz
