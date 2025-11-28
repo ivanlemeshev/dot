@@ -35,4 +35,3 @@ packages=(
 )
 
 brew install ${packages[*]}
-brew install --cask rio
