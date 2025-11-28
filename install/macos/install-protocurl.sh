@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 protocurl_version=1.20.0
 protocurl_archive=protocurl_${protocurl_version}_darwin_arm64.zip
 protocurl_installation_path=/opt/protocurl

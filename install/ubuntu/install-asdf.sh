@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 asdf_version=0.18.0
 asdf_installation_path=/usr/local/bin
 

@@ -1,8 +1,4 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "scripts/functions/prompt_yes_no.sh"
 
 # https://fishshell.com
 print_header "Fish: installing"
@@ -24,7 +20,12 @@ fzf_fish_url="https://github.com/PatrickF1/fzf.fish/archive/refs/tags/v${fzf_fis
 fzf_fish_archive="fzf.fish.tar.gz"
 
 print_header "Fish: installing plugin manager Fisher"
-fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"
+fisher_install_script_path="${HOME}/.config/fish/fisher_install.fish"
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish -o "${fisher_install_script_path}"
+print_header "Fisher installer downloaded to ${fisher_install_script_path}"
+if prompt_yes_no "Inspect the script and then press y to continue"; then
+    fish -C "source ${fisher_install_script_path} && fisher install jorgebucaran/fisher && exit"
+fi
 
 # https://github.com/PatrickF1/fzf.fish
 print_header "Fish: fzf.fish"

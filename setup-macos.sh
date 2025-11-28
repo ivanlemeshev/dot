@@ -9,16 +9,16 @@ set -e
 ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
-./install/macos/install-basic.sh
-./install/macos/install-git.sh
-./install/macos/install-gh.sh
-./install/macos/install-zig.sh
-./install/macos/install-tmux.sh
-./install/macos/install-fish.sh
-./install/macos/install-starship.sh
-./install/macos/install-kubectl.sh
-./install/macos/install-python.sh
-./install/macos/install-nvim.sh
-./install/macos/install-gcloud.sh
-./install/macos/install-bat.sh
-./install/macos/install-ruff.sh
+./scripts/run_installation_step.sh ./install/macos/install-basic.sh
+./scripts/run_installation_step.sh ./install/macos/install-git.sh
+./scripts/run_installation_step.sh ./install/macos/install-gh.sh
+./scripts/run_installation_step.sh ./install/macos/install-zig.sh
+./scripts/run_installation_step.sh ./install/macos/install-tmux.sh
+./scripts/run_installation_step.sh ./install/macos/install-fish.sh
+./scripts/run_installation_step.sh ./install/macos/install-starship.sh
+./scripts/run_installation_step.sh ./install/macos/install-kubectl.sh
+./scripts/run_installation_step.sh ./install/macos/install-python.sh
+./scripts/run_installation_step.sh ./install/macos/install-nvim.sh
+./scripts/run_installation_step.sh ./install/macos/install-gcloud.sh
+./scripts/run_installation_step.sh ./install/macos/install-bat.sh
+./scripts/run_installation_step.sh ./install/macos/install-ruff.sh

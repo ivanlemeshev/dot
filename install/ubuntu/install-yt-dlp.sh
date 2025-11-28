@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 # https://github.com/yt-dlp/yt-dlp
 ytdl_installation_path="/usr/local/bin"
 

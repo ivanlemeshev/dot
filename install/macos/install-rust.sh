@@ -1,10 +1,6 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "scripts/functions/execute_remote_script.sh"
 
 print_header "Installing: Rust"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+execute_remote_script "https://sh.rustup.rs"
 source "$HOME/.cargo/env.fish"
 rustup completions fish >~/.config/fish/completions/rustup.fish

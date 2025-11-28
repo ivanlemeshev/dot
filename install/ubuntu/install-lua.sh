@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 lua_version=5.4.3
 
 print_header "Lua: installing version ${lua_version}"

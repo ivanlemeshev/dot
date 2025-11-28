@@ -8,26 +8,26 @@ set -e
 ln -sf "${PWD}/.wezterm.lua" "${HOME}/.wezterm.lua"
 ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
-./install/ubuntu/update.sh
-./install/ubuntu/install-basic.sh
-./install/ubuntu/install-git.sh
-./install/ubuntu/install-asdf.sh
-./install/ubuntu/install-bat.sh
-./install/ubuntu/install-vivid.sh
-./install/ubuntu/install-nerd-font.sh
-./install/ubuntu/install-tmux.sh
-./install/ubuntu/install-starship.sh
-./install/ubuntu/install-fish.sh
-./install/ubuntu/install-bottom.sh
-./install/ubuntu/install-go.sh
-./install/ubuntu/install-zig.sh
-./install/ubuntu/install-python.sh
-./install/ubuntu/install-node.sh
-./install/ubuntu/install-lua.sh
-./install/ubuntu/install-rust.sh
-./install/ubuntu/install-gh.sh
-./install/ubuntu/install-nvim.sh
-./install/ubuntu/install-yt-dlp.sh
-./install/ubuntu/clean.sh
+./scripts/run_installation_step.sh ./install/ubuntu/update.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-basic.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-git.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-asdf.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-bat.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-vivid.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-nerd-font.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-tmux.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-starship.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-fish.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-bottom.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-go.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-zig.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-python.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-node.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-lua.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-rust.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-gh.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-nvim.sh
+./scripts/run_installation_step.sh ./install/ubuntu/install-yt-dlp.sh
+./scripts/run_installation_step.sh ./install/ubuntu/clean.sh
 
 exec fish -l

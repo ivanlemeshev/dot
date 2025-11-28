@@ -1,11 +1,7 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "scripts/functions/execute_remote_script.sh"
 
 print_header "Rust: installing"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
+execute_remote_script "https://sh.rustup.rs" -s -- --default-toolchain none -y
 . "${HOME}/.cargo/env"
 
 print_header "Rust: setting default toolchain"

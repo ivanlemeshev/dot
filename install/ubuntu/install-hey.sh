@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 print_header "Hey: installing"
 
 hey_binary_url="https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_amd64"

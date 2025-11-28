@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 print_header "GitHub CLI: installing"
 sudo mkdir -p -m 755 /etc/apt/keyrings &&
   wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg |

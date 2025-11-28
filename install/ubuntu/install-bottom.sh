@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 bottom_version=0.10.2
 bottim_file_suffix=-1_amd64.deb
 

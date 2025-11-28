@@ -1,8 +1,4 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+source "scripts/functions/prompt_yes_no.sh"
 
 print_header "Congiguring: shell"
 
@@ -19,7 +15,13 @@ ln -sf "${PWD}/config.fish" "${HOME}/.config/fish/config.fish"
 
 # https://github.com/jorgebucaran/fisher
 print_header "Installing: fisher"
-fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"
+fisher_install_script_path="${HOME}/.config/fish/fisher_install.fish"
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish -o "${fisher_install_script_path}"
+print_header "Fisher installer downloaded to ${fisher_install_script_path}"
+if prompt_yes_no "Inspect the script and then press y to continue"; then
+    fish -C "source ${fisher_install_script_path} && fisher install jorgebucaran/fisher && exit"
+fi
+
 
 # https://github.com/PatrickF1/fzf.fish
 print_header "Installing: PatrickF1/fzf.fish"

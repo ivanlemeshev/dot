@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 golang_version=1.24.2
 golang_archive=go${golang_version}.linux-amd64.tar.gz
 golang_installation_path=/usr/local

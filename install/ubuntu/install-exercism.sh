@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 exercism_version=3.5.2
 
 print_header "Exercism: installing version ${exercism_version}"

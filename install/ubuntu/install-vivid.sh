@@ -1,9 +1,3 @@
-#!/bin/bash
-
-set -e
-
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-
 vivid_version=0.10.1
 
 print_header "Vivid: installing version ${vivid_version}"
