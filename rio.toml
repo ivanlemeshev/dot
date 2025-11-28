@@ -1,0 +1,27 @@
+theme = "catppuccin-mocha"
+padding-x = 10
+padding-y = [10, 10]
+
+[renderer]
+performance = "High"
+
+[fonts]
+family = "JetBrainsMonoNL Nerd Font Mono"
+size = 16
+
+[bindings]
+keys = [
+  # Force Control+Space to send NUL (\x00) which tmux expects.
+  { key = "space", with = "control", esc = "\u0000" }
+]
+
+[window]
+mode = "Maximized"
+
+[platform]
+macos.renderer.backend = "Metal"
+
+linux.renderer.backend = "Vulkan"
+
+windows.renderer.backend = "DX12"
+windows.shell = { program = "wsl -d Ubuntu --cd ~", args = [] }
