@@ -23,6 +23,7 @@ Write-Host "Current user profile directory: $env:USERPROFILE"
 Import-Module .\install\windows\capslock-as-ctrl.ps1
 Import-Module .\install\windows\install-nerd-font.ps1
 Import-Module .\install\windows\install-choco-packages.ps1
+Import-Module .\install\windows\install-scoop-packages.ps1
 
 Write-Host "Creating symbolic link for .wezterm.lua...";
 if (Test-Path -Path $env:USERPROFILE\.wezterm.lua)
@@ -53,6 +54,15 @@ if (Test-Path -Path $env:USERPROFILE\starship.toml)
 } else
 {
 	New-Item -Path $env:USERPROFILE\starship.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
+}
+
+Write-Host "Creating symbolic link for rio.toml...";
+if (Test-Path -Path $env:USERPROFILE\AppData\Local\rio\config.toml)
+{
+	Write-Host "Symbolic link already exists: $env:USERPROFILE\AppData\Local\rio\config.toml"
+} else
+{
+	New-Item -Path $env:USERPROFILE\AppData\Local\rio\config.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
 }
 
 Write-Host "The system will now restart to apply the changes."
