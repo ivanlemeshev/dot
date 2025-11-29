@@ -62,7 +62,7 @@ if (Test-Path -Path $env:USERPROFILE\AppData\Local\rio\config.toml)
 	Write-Host "Symbolic link already exists: $env:USERPROFILE\AppData\Local\rio\config.toml"
 } else
 {
-	New-Item -Path $env:USERPROFILE\AppData\Local\rio\config.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
+	New-Item -Path $env:USERPROFILE\AppData\Local\rio\config.toml -ItemType SymbolicLink -Value "$scriptDirectory\rio.toml"
 }
 
 Write-Host "The system will now restart to apply the changes."
