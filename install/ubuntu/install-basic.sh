@@ -29,6 +29,7 @@ packages=(
   "unzip"                      # A utility for extracting, testing and viewing the contents of ZIP archives.
   "vim"                        # A programmer's text editor.
   "wget"                       # A tool for downloading files from the Internet.
+  "wslu"                       # A collection of utilities for WSL (Windows Subsystem for Linux).
   "xz-utils"                   # A set of tools for working with xz compressed files.
 )
 
