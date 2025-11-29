@@ -19,6 +19,7 @@ performance = "High"
 [fonts]
 family = "JetBrainsMonoNL Nerd Font Mono"
 size = 16
+use-drawable-chars = false
 
 [bindings]
 keys = [
