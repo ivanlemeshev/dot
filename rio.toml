@@ -5,6 +5,17 @@ padding-y = [10, 10]
 [renderer]
 performance = "High"
 
+# Using Slang shader filters.
+#
+# First, clone the slang-shaders repository from GitHub to your local machine.
+#   git clone https://github.com/libretro/slang-shaders.git
+#
+# Then, set the path to the desired .slangp filter file(s) like below.
+# Multiple filters can be applied by adding more paths to the list.
+#
+# filters = ["/home/username/code/slang-shaders/crt/crt-aperture.slangp"]
+# filters = ["C:\\Users\\username\\code\\slang-shaders\\crt\\crt-blurPi-sharp.slangp"]
+
 [fonts]
 family = "JetBrainsMonoNL Nerd Font Mono"
 size = 16
