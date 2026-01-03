@@ -19,7 +19,7 @@ return {
         "n",
         "<leader>tr",
         "<cmd>ToggleTerm<CR>",
-        { desc = "Termina: toggle", noremap = true, silent = true }
+        { desc = "Terminal: toggle", noremap = true, silent = true }
       )
 
       map("t", "<Esc>", "<C-\\><C-n><cmd>ToggleTerm<CR>", {

@@ -54,7 +54,7 @@ return {
       "n",
       "<leader>ff",
       builtin.find_files,
-      { desc = "Telescode: find files" }
+      { desc = "Telescope: find files" }
     )
     map("n", "<leader>fp", function()
       require("telescope.builtin").live_grep({
@@ -69,30 +69,30 @@ return {
           return { "--hidden" }
         end,
       })
-    end, { desc = "Telescode: find in project files" })
+    end, { desc = "Telescope: find in project files" })
     map(
       "n",
       "<leader>fd",
       builtin.diagnostics,
-      { desc = "Telescode: find in diagnostics" }
+      { desc = "Telescope: find in diagnostics" }
     )
     map(
       "n",
-      "<leader>b",
+      "<leader>fb",
       builtin.buffers,
-      { desc = "Telescode: find in opened buffers" }
+      { desc = "Telescope: find in opened buffers" }
     )
     map(
       "n",
       "<leader>fc",
       builtin.current_buffer_fuzzy_find,
-      { desc = "Telescode: find in the current buffer" }
+      { desc = "Telescope: find in the current buffer" }
     )
     map(
       "n",
       "<leader>fh",
       builtin.help_tags,
-      { desc = "Telescode: find in help" }
+      { desc = "Telescope: find in help" }
     )
     map("n", "<leader>fg", function()
       require("telescope.builtin").live_grep({
@@ -100,6 +100,6 @@ return {
           return { "--hidden", "--no-ignore" }
         end,
       })
-    end, { desc = "Telescode: find in all file" })
+    end, { desc = "Telescope: find in all files" })
   end,
 }

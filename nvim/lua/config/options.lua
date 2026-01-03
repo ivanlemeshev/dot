@@ -127,12 +127,15 @@ vim.diagnostic.config({
 })
 
 -- Trim trailing whitespace on save.
+local trim_augroup =
+  vim.api.nvim_create_augroup("trim-whitespace", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
+  group = trim_augroup,
   pattern = "*",
   callback = function()
-    local old_cursor = vim.api.nvim_win_get_cursor(0)
-    vim.cmd([[%s/\s\+$//e]])
-    vim.api.nvim_win_set_cursor(0, old_cursor)
+    local save_cursor = vim.fn.getpos(".")
+    vim.cmd([[keeppatterns %s/\s\+$//e]])
+    vim.fn.setpos(".", save_cursor)
   end,
 })
 
@@ -328,19 +331,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- C# settings
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "cs",
-  callback = function()
-    vim.opt_local.expandtab = true
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.softtabstop = 4
-  end,
-})
-
--- Enable colorcolumn when entering insert mode in markdown files
+-- Toggle colorcolumn in markdown files based on mode
+local markdown_augroup =
+  vim.api.nvim_create_augroup("markdown-colorcolumn", { clear = true })
 vim.api.nvim_create_autocmd("InsertEnter", {
+  group = markdown_augroup,
   pattern = "*.md",
   callback = function()
     if vim.bo.filetype == "markdown" then
@@ -349,12 +344,23 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   end,
 })
 
--- Disable colorcolumn when leaving insert mode in markdown files
 vim.api.nvim_create_autocmd("InsertLeave", {
+  group = markdown_augroup,
   pattern = "*.md",
   callback = function()
     if vim.bo.filetype == "markdown" then
       vim.opt_local.colorcolumn = ""
     end
+  end,
+})
+
+-- C# settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cs",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
   end,
 })
