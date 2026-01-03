@@ -323,6 +323,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
     vim.opt_local.softtabstop = 2
+    -- Disable colorcolumn initially since we start in normal mode
+    vim.opt_local.colorcolumn = ""
   end,
 })
 
@@ -334,5 +336,25 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 4
     vim.opt_local.shiftwidth = 4
     vim.opt_local.softtabstop = 4
+  end,
+})
+
+-- Enable colorcolumn when entering insert mode in markdown files
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*.md",
+  callback = function()
+    if vim.bo.filetype == "markdown" then
+      vim.opt_local.colorcolumn = "81,121"
+    end
+  end,
+})
+
+-- Disable colorcolumn when leaving insert mode in markdown files
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*.md",
+  callback = function()
+    if vim.bo.filetype == "markdown" then
+      vim.opt_local.colorcolumn = ""
+    end
   end,
 })
