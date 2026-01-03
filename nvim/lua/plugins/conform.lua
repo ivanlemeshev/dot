@@ -23,12 +23,13 @@ return {
           "ruff_organize_imports",
         },
         sh = { "shfmt" },
-        yaml = {
-          command = "yamlfmt",
-          args = { "-formatter", "retain_line_breaks=true", "indent=2" },
-        },
+        yaml = { "yamlfmt" },
       },
       formatters = {
+        yamlfmt = {
+          command = "yamlfmt",
+          args = { "-formatter", "retain_line_breaks=true", "indent=2", "-" },
+        },
         -- To get the formatting appropriate for Google's Style guide,
         -- use shfmt -i 2 -ci.
         -- https://google.github.io/styleguide/shellguide.html

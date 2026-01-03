@@ -9,7 +9,6 @@ return {
   opts = {
     ensure_installed = {
       "bash",
-      "bash",
       "c",
       "c_sharp",
       "cmake",

@@ -8,7 +8,7 @@ return {
       "n",
       "<leader>/",
       require("Comment.api").toggle.linewise.current,
-      { desc = "Toggle line commet", noremap = true, silent = true }
+      { desc = "Toggle line comment", noremap = true, silent = true }
     )
     map(
       "v",
