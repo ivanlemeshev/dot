@@ -364,3 +364,37 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.softtabstop = 4
   end,
 })
+
+-- CSV settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "csv",
+  callback = function()
+    -- Disable colorcolumn initially since we start in normal mode
+    vim.opt_local.colorcolumn = ""
+    -- Enable csvview by default
+    vim.cmd("CsvViewEnable")
+  end,
+})
+
+-- Toggle colorcolumn in CSV files based on mode
+local csv_augroup =
+  vim.api.nvim_create_augroup("csv-colorcolumn", { clear = true })
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = csv_augroup,
+  pattern = "*.csv",
+  callback = function()
+    if vim.bo.filetype == "csv" then
+      vim.opt_local.colorcolumn = "81,121"
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = csv_augroup,
+  pattern = "*.csv",
+  callback = function()
+    if vim.bo.filetype == "csv" then
+      vim.opt_local.colorcolumn = ""
+    end
+  end,
+})
