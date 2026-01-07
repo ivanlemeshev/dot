@@ -92,14 +92,20 @@ return {
       local group = vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
       vim.api.nvim_create_autocmd("InsertEnter", {
         group = group,
+        pattern = "*.csv",
         callback = function()
-          vim.cmd("CsvViewDisable")
+          if vim.bo.filetype == "csv" then
+            vim.cmd("CsvViewDisable")
+          end
         end,
       })
       vim.api.nvim_create_autocmd("InsertLeave", {
         group = group,
+        pattern = "*.csv",
         callback = function()
-          vim.cmd("CsvViewEnable")
+          if vim.bo.filetype == "csv" then
+            vim.cmd("CsvViewEnable")
+          end
         end,
       })
     end,
