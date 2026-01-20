@@ -23,3 +23,19 @@
 2. Press Shift + a (Capital A).
 3. Type the text.
 4. Press Esc to apply to all lines.
+
+### Replace word+braces (or other punctuation) at once
+
+Fir example: interface{}
+
+Using cf}:
+
+1. Place your cursor on the first character of the word (i in interface).
+2. Type cf}.
+3. Type your new text and press <Esc>.
+
+Using c2iw (change 2 inner words):
+
+1. Place your cursor on the first word
+2. Type c2iw.
+3. Type your new text and press <Esc>.
