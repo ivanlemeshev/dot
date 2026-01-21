@@ -71,6 +71,8 @@ return {
       parser = { comments = { "#", "//" } },
       view = {
         display_mode = "border",
+        min_column_width = 5, -- Make columns more compact (default: 5)
+        spacing = 0, -- Reduce spacing between columns (default: 2)
       },
       keymaps = {
         -- Text objects for selecting fields
@@ -89,7 +91,8 @@ return {
     config = function(_, opts)
       require("csvview").setup(opts)
       -- Disable in insert mode, re-enable when leaving insert mode
-      local group = vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
+      local group =
+        vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
       vim.api.nvim_create_autocmd("InsertEnter", {
         group = group,
         pattern = "*.csv",
