@@ -46,11 +46,6 @@ vim.opt.autowriteall = true
 -- Highlight the line where the cursor is currently positioned.
 vim.opt.cursorline = true
 
--- Highlight a column in the editor, serving as a visual guide to indicate a
--- recommended maximum line length.
-vim.opt.colorcolumn = "81"
-vim.opt.colorcolumn = vim.opt.colorcolumn + "121"
-
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "copilot-chat",
@@ -136,6 +131,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     local save_cursor = vim.fn.getpos(".")
     vim.cmd([[keeppatterns %s/\s\+$//e]])
     vim.fn.setpos(".", save_cursor)
+  end,
+})
+
+-- Toggle colorcolumn in insert mode
+local colorcolumn = vim.api.nvim_create_augroup("colorcolumn", { clear = true })
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = colorcolumn,
+  pattern = "*",
+  callback = function()
+    vim.opt_local.colorcolumn = "80,120"
+  end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = colorcolumn,
+  pattern = "*",
+  callback = function()
+    vim.opt_local.colorcolumn = ""
   end,
 })
 
@@ -326,31 +339,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
     vim.opt_local.softtabstop = 2
-    -- Disable colorcolumn initially since we start in normal mode
-    vim.opt_local.colorcolumn = ""
-  end,
-})
-
--- Toggle colorcolumn in markdown files based on mode
-local markdown_augroup =
-  vim.api.nvim_create_augroup("markdown-colorcolumn", { clear = true })
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = markdown_augroup,
-  pattern = "*.md",
-  callback = function()
-    if vim.bo.filetype == "markdown" then
-      vim.opt_local.colorcolumn = "81,121"
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = markdown_augroup,
-  pattern = "*.md",
-  callback = function()
-    if vim.bo.filetype == "markdown" then
-      vim.opt_local.colorcolumn = ""
-    end
   end,
 })
 
@@ -369,32 +357,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "csv",
   callback = function()
-    -- Disable colorcolumn initially since we start in normal mode
-    vim.opt_local.colorcolumn = ""
     -- Enable csvview by default
     vim.cmd("CsvViewEnable")
-  end,
-})
-
--- Toggle colorcolumn in CSV files based on mode
-local csv_augroup =
-  vim.api.nvim_create_augroup("csv-colorcolumn", { clear = true })
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = csv_augroup,
-  pattern = "*.csv",
-  callback = function()
-    if vim.bo.filetype == "csv" then
-      vim.opt_local.colorcolumn = "81,121"
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = csv_augroup,
-  pattern = "*.csv",
-  callback = function()
-    if vim.bo.filetype == "csv" then
-      vim.opt_local.colorcolumn = ""
-    end
   end,
 })
