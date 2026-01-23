@@ -50,20 +50,6 @@ return {
     },
   },
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {
-      sign = {
-        enabled = false,
-      },
-    },
-  },
-  {
     "hat0uma/csvview.nvim",
     ---@module "csvview"
     ---@type CsvView.Options
@@ -89,7 +75,8 @@ return {
     config = function(_, opts)
       require("csvview").setup(opts)
       -- Disable in insert mode, re-enable when leaving insert mode
-      local group = vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
+      local group =
+        vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
       vim.api.nvim_create_autocmd("InsertEnter", {
         group = group,
         pattern = "*.csv",
