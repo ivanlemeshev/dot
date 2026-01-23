@@ -50,20 +50,6 @@ return {
     },
   },
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {
-      sign = {
-        enabled = false,
-      },
-    },
-  },
-  {
     "hat0uma/csvview.nvim",
     ---@module "csvview"
     ---@type CsvView.Options

@@ -5,15 +5,15 @@ understand what it does before running any script.
 
 TODO: add proper readme
 
-# Setup Ubuntu
+## Setup Ubuntu
 
-## Run setup script
+### Run setup script
 
 ```bash
 ./setup-ubuntu.sh
 ```
 
-## Run tmux and install plugins
+### Run tmux and install plugins
 
 ```bash
 tmux
@@ -25,7 +25,7 @@ Press keyboard shortcut:
 Ctrl+Space I
 ```
 
-## Run neovim and install plugins
+### Run neovim and install plugins
 
 ```bash
 vi
@@ -39,7 +39,7 @@ Enable GitHub Copilot:
 :Copilot auth
 ```
 
-## Configure GitHub CLI
+### Configure GitHub CLI
 
 ```bash
 gh auth login
