@@ -80,6 +80,9 @@ vim.opt.listchars:append({
   nbsp = ".",
 })
 
+-- Ensure files end with a newline character.
+vim.opt.fixeol = true
+
 -- Sync the system clipboard with the internal Neovim clipboard.
 vim.opt.clipboard = "unnamed,unnamedplus"
 
