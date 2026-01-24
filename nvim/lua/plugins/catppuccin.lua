@@ -15,7 +15,6 @@ return {
         markdown = true,
         mason = true,
         neotest = true,
-        noice = true,
         notify = true,
         nvimtree = true,
         render_markdown = true,

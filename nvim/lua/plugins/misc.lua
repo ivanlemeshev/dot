@@ -100,4 +100,11 @@ return {
     end,
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
   },
+  {
+    "lukas-reineke/virt-column.nvim",
+    opts = {
+      char = "┆",
+      virtcolumn = "81,121",
+    },
+  },
 }
