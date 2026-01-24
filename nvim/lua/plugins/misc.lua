@@ -1,18 +1,5 @@
 return {
   {
-    -- Dev helper for Lua development in Neovim
-    -- https://github.com/folke/lazydev.nvim
-    "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
-    opts = {
-      library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
-  {
     -- Hints for key bindings
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
@@ -99,12 +86,5 @@ return {
       })
     end,
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
-  },
-  {
-    "lukas-reineke/virt-column.nvim",
-    opts = {
-      char = "┆",
-      virtcolumn = "81,121",
-    },
   },
 }
