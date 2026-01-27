@@ -1,0 +1,51 @@
+return {
+  "lem.nvim",
+  dir = vim.fn.stdpath("config") .. "/lua/lem",
+  name = "lem.nvim",
+  lazy = false,
+  config = function()
+    require("lem.ruler").setup({
+      char = "┆", -- e.g. '┆', '┊', "│", etc.
+      columns = { 80 }, -- default for all files
+      exclude_filetypes = {
+        "NvimTree",
+        "TelescopePrompt",
+        "TelescopeResults",
+        "checkhealth",
+        "csv",
+        "fugitive",
+        "gitcommit",
+        "gitrebase",
+        "help",
+        "lazy",
+        "lspinfo",
+        "man",
+        "mason",
+        "qf",
+        "toggleterm",
+        "trouble",
+      },
+      exclude_buftypes = {
+        "nofile",
+        "prompt",
+        "quickfix",
+        "terminal",
+      },
+      filetype_config = {
+        lua = {
+          columns = { 120 },
+        },
+        markdown = {
+          exclude_modes = { "n", "v" },
+        },
+      },
+    })
+
+    require("lem.terminal").setup({
+      size = 20,
+      direction = "horizontal", -- "horizontal", "vertical", or "float"
+      position = "bottom", -- "bottom" or "top" for horizontal; "right" or "left" for vertical
+      start_in_insert = true,
+    })
+  end,
+}

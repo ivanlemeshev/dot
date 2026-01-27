@@ -4,43 +4,26 @@
 
 local M = {}
 
+---@class LemRulerFiletypeConfig
+---@field columns? number[] Column positions for this filetype
+---@field exclude_modes? string[] Modes to exclude for this filetype (e.g., { "n", "v" })
+
 ---@class LemRulerConfig
 ---@field enabled? boolean Enable ruler by default (default: true)
 ---@field columns? number[] Column positions where to draw the ruler (default: { 80 })
 ---@field char? string Character to use for the ruler line (default: "│")
----@field filetype_columns? table<string, number[]> Filetype-specific column positions (default: {})
 ---@field exclude_filetypes? string[] Filetypes to exclude from ruler
 ---@field exclude_buftypes? string[] Buffer types to exclude from ruler
+---@field filetype_config? table<string, LemRulerFiletypeConfig> Filetype-specific configuration
 
 ---@type LemRulerConfig
 local defaults = {
   enabled = true,
   columns = { 80 },
   char = "│",
-  filetype_columns = {},
-  exclude_filetypes = {
-    "NvimTree",
-    "TelescopePrompt",
-    "TelescopeResults",
-    "checkhealth",
-    "fugitive",
-    "gitcommit",
-    "gitrebase",
-    "help",
-    "lazy",
-    "lspinfo",
-    "man",
-    "mason",
-    "qf",
-    "toggleterm",
-    "trouble",
-  },
-  exclude_buftypes = {
-    "nofile",
-    "prompt",
-    "quickfix",
-    "terminal",
-  },
+  filetype_config = {},
+  exclude_filetypes = {},
+  exclude_buftypes = {},
 }
 
 --- Active configuration
@@ -66,7 +49,7 @@ end
 --- Enable the ruler and its autocommands
 function M.enable()
   local update_events =
-    { "BufEnter", "WinScrolled", "TextChanged", "TextChangedI" }
+    { "BufEnter", "WinScrolled", "TextChanged", "TextChangedI", "ModeChanged" }
 
   vim.api.nvim_create_autocmd(update_events, {
     group = vim.api.nvim_create_augroup(AUGROUP_NAME, { clear = true }),
@@ -95,6 +78,7 @@ function M.draw()
   local buf = vim.api.nvim_get_current_buf()
   local buftype = vim.bo[buf].buftype
   local filetype = vim.bo[buf].filetype
+  local mode = vim.fn.mode()
 
   -- Skip if it's a floating window (ToggleTerm, Telescope, etc.)
   local win_config = vim.api.nvim_win_get_config(win)
@@ -113,9 +97,22 @@ function M.draw()
     return
   end
 
+  -- Check filetype-specific mode exclusions
+  local ft_config = M.config.filetype_config[filetype]
+  if ft_config and ft_config.exclude_modes then
+    if vim.tbl_contains(ft_config.exclude_modes, mode) then
+      return
+    end
+  end
+
   local top = vim.fn.line("w0")
   local bot = vim.fn.line("w$")
-  local columns = M.config.filetype_columns[filetype] or M.config.columns
+  local columns = (ft_config and ft_config.columns) or M.config.columns
+
+  -- Ensure columns is a table
+  if not columns or type(columns) ~= "table" then
+    return
+  end
 
   for line = top, bot do
     local line_text = vim.api.nvim_buf_get_lines(buf, line - 1, line, false)[1]
