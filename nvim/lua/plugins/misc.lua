@@ -95,4 +95,11 @@ return {
       require("treesj").setup()
     end,
   },
+  {
+    "lukas-reineke/virt-column.nvim",
+    opts = {
+      char = "┆",
+      virtcolumn = "81,121",
+    },
+  },
 }
