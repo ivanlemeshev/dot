@@ -50,6 +50,12 @@ return {
         )
         map(
           "n",
+          "K",
+          vim.lsp.buf.hover,
+          { desc = "LSP: hover documentation", silent = true }
+        )
+        map(
+          "n",
           "<leader>rn",
           vim.lsp.buf.rename,
           { desc = "LSP: rename", silent = true }
@@ -156,6 +162,13 @@ return {
       },
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+      },
+      gopls = {
+        settings = {
+          gopls = {
+            buildFlags = { "-tags=integration" },
+          },
+        },
       },
       lua_ls = {
         settings = {

@@ -32,9 +32,6 @@ set number
 " Enables mouse support in all modes.
 set mouse=a
 
-" Add vertical lines.
-set colorcolumn=81,121
-
 " Disable compatability with older versions of Vi.
 set nocompatible
 
