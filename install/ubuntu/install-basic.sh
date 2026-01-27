@@ -31,6 +31,7 @@ packages=(
   "wget"                       # A tool for downloading files from the Internet.
   "wslu"                       # A collection of utilities for WSL (Windows Subsystem for Linux).
   "xz-utils"                   # A set of tools for working with xz compressed files.
+  "zastd"                      # A fast and efficient compression tool based on Zstandard.
 )
 
 sudo apt-get install -y ${packages[*]}
