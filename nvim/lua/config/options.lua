@@ -46,19 +46,6 @@ vim.opt.autowriteall = true
 -- Highlight the line where the cursor is currently positioned.
 vim.opt.cursorline = true
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "copilot-chat",
-    "help",
-    "NvimTree",
-    "neotest-output-panel",
-    "neotest-summary",
-  },
-  callback = function()
-    vim.opt_local.colorcolumn = ""
-  end,
-})
-
 -- Display the line numbers next to each line.
 vim.opt.number = true
 
@@ -134,24 +121,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     local save_cursor = vim.fn.getpos(".")
     vim.cmd([[keeppatterns %s/\s\+$//e]])
     vim.fn.setpos(".", save_cursor)
-  end,
-})
-
--- Toggle colorcolumn in insert mode
-local colorcolumn = vim.api.nvim_create_augroup("colorcolumn", { clear = true })
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = colorcolumn,
-  pattern = "*",
-  callback = function()
-    vim.opt_local.colorcolumn = "80,120"
-  end,
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = colorcolumn,
-  pattern = "*",
-  callback = function()
-    vim.opt_local.colorcolumn = ""
   end,
 })
 

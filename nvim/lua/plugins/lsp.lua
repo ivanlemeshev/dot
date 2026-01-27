@@ -63,12 +63,7 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-        if
-          client
-          and client.supports_method(
-            vim.lsp.protocol.Methods.textDocument_documentHighlight
-          )
-        then
+        if client and client.server_capabilities.documentHighlightProvider then
           local highlight_augroup =
             vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
@@ -165,21 +160,27 @@ return {
       lua_ls = {
         settings = {
           Lua = {
-            runtime = {
-              version = "LuaJIT",
-            },
+            runtime = { version = "LuaJIT" },
             diagnostics = {
-              globals = { "vim" },
+              globals = {
+                "after_each",
+                "assert",
+                "before_each",
+                "describe",
+                "it",
+                "stub",
+                "vim",
+              },
             },
             workspace = {
               checkThirdParty = false,
               library = {
                 vim.env.VIMRUNTIME,
+                "${3rd}/busted/library",
+                "tests/vendor/plenary.nvim/lua",
               },
             },
-            telemetry = {
-              enable = false,
-            },
+            telemetry = { enable = false },
           },
         },
       },

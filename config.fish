@@ -43,6 +43,10 @@ if test "$os" = Darwin
     set -x PATH "$PATH:/opt/protocurl/bin"
 end
 
+if test -d "$HOME/.luarocks/bin"
+    set -x PATH "$PATH:$HOME/.luarocks/bin"
+end
+
 # Add local bin to PATH
 set -x PATH "$PATH:$HOME/.local/bin"
 
