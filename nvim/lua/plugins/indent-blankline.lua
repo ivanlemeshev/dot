@@ -11,7 +11,7 @@ return {
       },
     },
     scope = {
-      enabled = false,
+      enabled = true,
     },
   },
 }
