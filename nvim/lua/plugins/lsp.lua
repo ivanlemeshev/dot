@@ -100,15 +100,11 @@ return {
           })
         end
 
-        if
-          client
-          and client.supports_method(
-            vim.lsp.protocol.Methods.textDocument_inlayHint
-          )
-        then
+        if client and client.server_capabilities.inlayHintProvider then
           map("n", "<leader>th", function()
             vim.lsp.inlay_hint.enable(
-              not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
+              not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
+              { bufnr = event.buf }
             )
           end, { desc = "LSP: Toggle inlay hints" })
         end
