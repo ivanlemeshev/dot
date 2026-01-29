@@ -33,6 +33,19 @@ vim.opt.laststatus = 2
 -- external changes.
 vim.opt.autoread = true
 
+-- Auto-reload buffers when files change externally (e.g., git operations)
+local reload_augroup =
+  vim.api.nvim_create_augroup("auto-reload", { clear = true })
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  group = reload_augroup,
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
 -- Automatically save changes to a file when you switch to another file or
 -- before running certain commands that would normally require saving the file
 -- first.
