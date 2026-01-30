@@ -123,14 +123,6 @@ return {
       require("cmp_nvim_lsp").default_capabilities()
     )
 
-    require("mason").setup({
-      pip = {
-        install_args = {
-          "--break-system-packages",
-        },
-      },
-    })
-
     require("lsp-format").setup({})
 
     local exclude_automatic_enable = {
