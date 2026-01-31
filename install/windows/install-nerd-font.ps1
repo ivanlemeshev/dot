@@ -4,7 +4,7 @@ Write-Host "Downloading the fonts archive..."
 
 $fontFilenames = @(
 	"JetBrainsMono.zip",
-	"DepartureMono.zip"
+	"Hack.zip"
 )
 
 foreach ($fontFilename in $fontFilenames)
