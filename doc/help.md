@@ -675,10 +675,10 @@ the clipboard and you can paste it.
 - `Ctrl+e` (in insert mode)
   - Dismiss the suggestion.
 
-- `<leader>c` (in normal node)
+- `<leader>c` (in normal mode)
   - Toggle the copilot chat.
 
-- `<leader>ce` (in visual mode)]
+- `<leader>ce` (in visual mode)
   - Explain the selected text.
 
 - `C-s` (in copilot chat in insert mode)
