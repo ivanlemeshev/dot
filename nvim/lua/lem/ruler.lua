@@ -128,6 +128,7 @@ function M.draw()
           virt_text_pos = "overlay",
           virt_text_win_col = col - 1,
           hl_mode = "combine",
+          priority = 1, -- Low priority so diagnostics appear on top
         })
       end
     end
