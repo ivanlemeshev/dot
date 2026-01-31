@@ -16,11 +16,11 @@ function install_package() {
   if command -v nvim > /dev/null 2>&1; then
     local current_version
     current_version="$(nvim --version | head -n1 | awk '{print $2}')"
-    print_info "Neovim already installed: $current_version"
+    ui.print_info "Neovim already installed: $current_version"
     return
   fi
 
-  print_info "Installing Neovim ${NVIM_VERSION}..."
+  ui.print_info "Installing Neovim ${NVIM_VERSION}..."
 
   # Download and install neovim
   local nvim_url="https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux64.tar.gz"
@@ -31,7 +31,7 @@ function install_package() {
   sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
   rm "$temp_file"
 
-  print_success "Neovim ${NVIM_VERSION} installed"
+  ui.print_success "Neovim ${NVIM_VERSION} installed"
 }
 
 # Symlink configuration files
@@ -45,7 +45,7 @@ function link_configs() {
   # Link entire nvim directory
   symlink_dir "${tool_dir}/nvim" "${HOME}/.config/nvim"
 
-  print_info "Neovim plugins will install automatically on first launch"
+  ui.print_info "Neovim plugins will install automatically on first launch"
 }
 
 # Main entry point

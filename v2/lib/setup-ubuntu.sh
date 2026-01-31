@@ -7,7 +7,7 @@ set -e
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export DOTFILES_ROOT
 
-print_header "Setting up dotfiles for Ubuntu 24.04"
+ui.print_header "Setting up dotfiles for Ubuntu 24.04"
 
 # Update package repositories
 pkg_update
@@ -17,11 +17,11 @@ function install_core_tools() {
   local tools_dir="${DOTFILES_ROOT}/tools/core"
 
   if [[ ! -d "$tools_dir" ]]; then
-    print_warning "Core tools directory not found: $tools_dir"
+    ui.print_warning "Core tools directory not found: $tools_dir"
     return
   fi
 
-  print_header "Installing Core Tools"
+  ui.print_header "Installing Core Tools"
 
   for tool_dir in "$tools_dir"/*; do
     if [[ ! -d "$tool_dir" ]]; then
@@ -32,7 +32,7 @@ function install_core_tools() {
     tool_name="$(basename "$tool_dir")"
 
     if [[ -f "$tool_dir/tool.sh" ]]; then
-      print_header "Installing: $tool_name"
+      ui.print_header "Installing: $tool_name"
 
       # Source and execute tool script in subshell to avoid variable pollution
       (
@@ -42,14 +42,14 @@ function install_core_tools() {
         if declare -f main > /dev/null; then
           main
         else
-          error "Tool $tool_name does not define a main() function"
+          ui.error "Tool $tool_name does not define a main() function"
           exit 1
         fi
       )
 
-      print_success "$tool_name installed successfully"
+      ui.print_success "$tool_name installed successfully"
     else
-      print_warning "No tool.sh found for $tool_name, skipping"
+      ui.print_warning "No tool.sh found for $tool_name, skipping"
     fi
   done
 }
@@ -58,8 +58,14 @@ function install_core_tools() {
 function install_optional_tools() {
   local tools_dir="${DOTFILES_ROOT}/tools/optional"
 
+  # Skip in non-interactive mode (e.g., Docker builds)
+  if [[ ! -t 0 ]]; then
+    ui.print_info "Non-interactive mode - skipping optional tools"
+    return
+  fi
+
   if [[ ! -d "$tools_dir" ]]; then
-    print_info "No optional tools directory found, skipping"
+    ui.print_info "No optional tools directory found, skipping"
     return
   fi
 
@@ -67,16 +73,16 @@ function install_optional_tools() {
   local tool_count=0
   for tool_dir in "$tools_dir"/*; do
     if [[ -d "$tool_dir" ]] && [[ -f "$tool_dir/tool.sh" ]]; then
-      ((tool_count++))
+      tool_count=$((tool_count + 1))
     fi
   done
 
   if [[ $tool_count -eq 0 ]]; then
-    print_info "No optional tools available"
+    ui.print_info "No optional tools available"
     return
   fi
 
-  print_header "Optional Tools"
+  ui.print_header "Optional Tools"
   echo ""
   echo "The following optional tools are available:"
   echo ""
@@ -100,17 +106,17 @@ function install_optional_tools() {
         read -rp "Install $tool_name? [y/N] " response
         case "$response" in
           [yY][eE][sS]|[yY])
-            print_header "Installing: $tool_name"
+            ui.print_header "Installing: $tool_name"
             cd "$tool_dir"
             if declare -f main > /dev/null; then
               main
-              print_success "$tool_name installed successfully"
+              ui.print_success "$tool_name installed successfully"
             else
-              error "Tool $tool_name does not define a main() function"
+              ui.error "Tool $tool_name does not define a main() function"
             fi
             ;;
           *)
-            print_info "Skipping $tool_name"
+            ui.print_info "Skipping $tool_name"
             ;;
         esac
       )
@@ -122,7 +128,7 @@ function install_optional_tools() {
 install_core_tools
 install_optional_tools
 
-print_header "Setup Complete!"
+ui.print_header "Setup Complete!"
 echo ""
 echo "Next steps:"
 echo "  1. Restart your shell or run: exec fish -l"
@@ -130,4 +136,4 @@ echo "  2. Install tmux plugins: Press Ctrl+Space I inside tmux"
 echo "  3. Configure GitHub CLI: gh auth login"
 echo "  4. Configure Copilot: :Copilot auth in nvim"
 echo ""
-print_success "Dotfiles v2 setup completed successfully!"
+ui.print_success "Dotfiles v2 setup completed successfully!"

@@ -57,8 +57,10 @@ set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
 # Add bat theme
 set -x BAT_THEME CatppuccinMocha
 
-# Set colors for ls, fd, etc
-set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
+# Set colors for ls, fd, etc (if vivid is installed)
+if command -v vivid > /dev/null
+    set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
+end
 
 # Set colors for fzf (catppuccin-mocha)
 set -x FZF_DEFAULT_OPTS "\
@@ -166,5 +168,7 @@ if command -v batcat > /dev/null
 end
 
 if test "$os" = Linux
-    direnv hook fish | source
+    if command -v direnv > /dev/null
+        direnv hook fish | source
+    end
 end

@@ -16,11 +16,11 @@ function install_package() {
   if command -v btm > /dev/null 2>&1; then
     local current_version
     current_version="$(btm --version | awk '{print $2}')"
-    print_info "Bottom already installed: v${current_version}"
+    ui.print_info "Bottom already installed: v${current_version}"
     return
   fi
 
-  print_info "Installing Bottom ${BOTTOM_VERSION}..."
+  ui.print_info "Installing Bottom ${BOTTOM_VERSION}..."
 
   local bottom_url="https://github.com/ClementTsang/bottom/releases/download/${BOTTOM_VERSION}/bottom_${BOTTOM_VERSION}-1_amd64.deb"
   local temp_file="/tmp/bottom_${BOTTOM_VERSION}-1_amd64.deb"
@@ -29,13 +29,13 @@ function install_package() {
   sudo dpkg -i "$temp_file"
   rm "$temp_file"
 
-  print_success "Bottom ${BOTTOM_VERSION} installed"
+  ui.print_success "Bottom ${BOTTOM_VERSION} installed"
 }
 
 # Post-install hook
 function post_install() {
-  print_info "Bottom is available as 'btm' command"
-  print_info "Run 'btm' to launch the system monitor"
+  ui.print_info "Bottom is available as 'btm' command"
+  ui.print_info "Run 'btm' to launch the system monitor"
 }
 
 # Main entry point

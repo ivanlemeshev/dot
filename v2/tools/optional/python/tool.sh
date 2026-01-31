@@ -22,17 +22,17 @@ function install_package() {
 function post_install() {
   # Install UV (modern Python package manager)
   if command -v uv > /dev/null 2>&1; then
-    print_info "UV already installed"
+    ui.print_info "UV already installed"
   else
-    print_info "Installing UV (Python package manager)..."
+    ui.print_info "Installing UV (Python package manager)..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-    print_success "UV installed to ~/.local/bin"
+    ui.print_success "UV installed to ~/.local/bin"
   fi
 
-  print_info "Python is installed"
-  print_info "UV is available at: ~/.local/bin/uv"
-  print_info "~/.local/bin is in PATH via fish config"
+  ui.print_info "Python is installed"
+  ui.print_info "UV is available at: ~/.local/bin/uv"
+  ui.print_info "~/.local/bin is in PATH via fish config"
 }
 
 # Main entry point

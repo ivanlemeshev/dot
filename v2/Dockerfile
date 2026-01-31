@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
   wget \
   git \
   ca-certificates \
+  software-properties-common \
   && rm -rf /var/lib/apt/lists/*
 
 # Create a test user with sudo privileges
@@ -31,7 +32,7 @@ RUN fish --version && \
   tmux -V && \
   starship --version && \
   git --version && \
-  bat --version
+  batcat --version
 
 # Verify symlinks exist
 RUN test -L /home/testuser/.config/fish/config.fish && \

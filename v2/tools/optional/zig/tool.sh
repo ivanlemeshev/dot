@@ -16,11 +16,11 @@ function install_package() {
   if command -v zig > /dev/null 2>&1; then
     local current_version
     current_version="$(zig version)"
-    print_info "Zig already installed: v${current_version}"
+    ui.print_info "Zig already installed: v${current_version}"
     return
   fi
 
-  print_info "Installing Zig ${ZIG_VERSION}..."
+  ui.print_info "Installing Zig ${ZIG_VERSION}..."
 
   local zig_url="https://ziglang.org/download/${ZIG_VERSION}/zig-linux-x86_64-${ZIG_VERSION}.tar.xz"
   local temp_file="/tmp/zig-linux-x86_64-${ZIG_VERSION}.tar.xz"
@@ -32,13 +32,13 @@ function install_package() {
   sudo ln -sf /usr/local/zig/zig /usr/local/bin/zig
   rm "$temp_file"
 
-  print_success "Zig ${ZIG_VERSION} installed"
+  ui.print_success "Zig ${ZIG_VERSION} installed"
 }
 
 # Post-install hook
 function post_install() {
-  print_info "Zig is installed to /usr/local/zig"
-  print_info "Zig binary is linked to /usr/local/bin/zig"
+  ui.print_info "Zig is installed to /usr/local/zig"
+  ui.print_info "Zig binary is linked to /usr/local/bin/zig"
 }
 
 # Main entry point

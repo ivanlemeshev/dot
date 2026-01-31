@@ -7,26 +7,26 @@ function symlink_file() {
   local target="$2"
 
   if [[ -z "$source" ]] || [[ -z "$target" ]]; then
-    error "symlink_file requires source and target arguments"
+    ui.error "symlink_file requires source and target arguments"
     return 1
   fi
 
   # Check if source exists
   if [[ ! -e "$source" ]]; then
-    error "Source file does not exist: $source"
+    ui.error "Source file does not exist: $source"
     return 1
   fi
 
   # If target exists and is not a symlink, back it up
   if [[ -e "$target" ]] && [[ ! -L "$target" ]]; then
     local backup="${target}.backup.$(date +%Y%m%d-%H%M%S)"
-    print_info "Backing up existing file: $target -> $backup"
+    ui.print_info "Backing up existing file: $target -> $backup"
     mv "$target" "$backup"
   fi
 
   # Remove existing symlink if it exists
   if [[ -L "$target" ]]; then
-    print_info "Removing existing symlink: $target"
+    ui.print_info "Removing existing symlink: $target"
     rm "$target"
   fi
 
@@ -34,12 +34,12 @@ function symlink_file() {
   local target_dir
   target_dir="$(dirname "$target")"
   if [[ ! -d "$target_dir" ]]; then
-    print_info "Creating directory: $target_dir"
+    ui.print_info "Creating directory: $target_dir"
     mkdir -p "$target_dir"
   fi
 
   # Create the symlink
-  print_info "Linking: $source -> $target"
+  ui.print_info "Linking: $source -> $target"
   ln -sf "$source" "$target"
 }
 

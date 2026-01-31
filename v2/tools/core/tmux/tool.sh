@@ -24,13 +24,13 @@ function post_install() {
   local tpm_dir="${HOME}/.tmux/plugins/tpm"
 
   if [[ ! -d "$tpm_dir" ]]; then
-    print_info "Installing Tmux Plugin Manager (TPM)..."
+    ui.print_info "Installing Tmux Plugin Manager (TPM)..."
     git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
   else
-    print_info "TPM already installed"
+    ui.print_info "TPM already installed"
   fi
 
-  print_info "To install tmux plugins, press: Ctrl+Space I inside tmux"
+  ui.print_info "To install tmux plugins, press: Ctrl+Space I inside tmux"
 }
 
 # Symlink configuration files

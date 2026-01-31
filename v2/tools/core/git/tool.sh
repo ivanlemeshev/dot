@@ -20,34 +20,42 @@ function install_package() {
 
 # Post-install configuration
 function post_install() {
-  print_info "Configuring Git..."
+  ui.print_info "Configuring Git..."
 
   # Check if already configured
   if git config --global user.email > /dev/null 2>&1; then
-    print_info "Git already configured"
-    print_info "User: $(git config --global user.name) <$(git config --global user.email)>"
-    print_info "Default branch: $(git config --global init.defaultBranch || echo 'not set')"
+    ui.print_info "Git already configured"
+    ui.print_info "User: $(git config --global user.name) <$(git config --global user.email)>"
+    ui.print_info "Default branch: $(git config --global init.defaultBranch || echo 'not set')"
   else
-    # Prompt for configuration
-    echo ""
-    read -rp "Git user name: " git_name
-    read -rp "Git user email: " git_email
-    read -rp "Default branch name [main]: " git_branch
-    git_branch="${git_branch:-main}"
+    # Check if running in interactive mode
+    if [[ -t 0 ]]; then
+      # Prompt for configuration
+      echo ""
+      read -rp "Git user name: " git_name
+      read -rp "Git user email: " git_email
+      read -rp "Default branch name [main]: " git_branch
+      git_branch="${git_branch:-main}"
 
-    git config --global user.name "$git_name"
-    git config --global user.email "$git_email"
-    git config --global init.defaultBranch "$git_branch"
+      git config --global user.name "$git_name"
+      git config --global user.email "$git_email"
+      git config --global init.defaultBranch "$git_branch"
 
-    print_success "Git configured successfully"
+      ui.print_success "Git configured successfully"
+    else
+      # Non-interactive mode - set defaults
+      ui.print_info "Non-interactive mode - setting default git configuration"
+      git config --global init.defaultBranch "main"
+      ui.print_info "Run 'git config --global user.name' and 'git config --global user.email' to complete setup"
+    fi
   fi
 
   # Add git aliases
-  print_info "Adding git aliases..."
+  ui.print_info "Adding git aliases..."
   git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 
   # Show configuration
-  print_info "Git configuration:"
+  ui.print_info "Git configuration:"
   git config --global --list | grep -E "(user\.|init\.defaultBranch|alias\.)"
 }
 

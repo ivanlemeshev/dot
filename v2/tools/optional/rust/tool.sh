@@ -13,11 +13,11 @@ function install_package() {
   if command -v rustc > /dev/null 2>&1; then
     local current_version
     current_version="$(rustc --version | awk '{print $2}')"
-    print_info "Rust already installed: v${current_version}"
+    ui.print_info "Rust already installed: v${current_version}"
     return
   fi
 
-  print_info "Installing Rust via rustup..."
+  ui.print_info "Installing Rust via rustup..."
 
   # Install rustup
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -26,20 +26,20 @@ function install_package() {
   # shellcheck source=/dev/null
   source "$HOME/.cargo/env"
 
-  print_success "Rust installed successfully"
+  ui.print_success "Rust installed successfully"
 }
 
 # Post-install hook
 function post_install() {
   # Install fish completions
   if command -v rustup > /dev/null 2>&1; then
-    print_info "Installing fish completions for Rust..."
+    ui.print_info "Installing fish completions for Rust..."
     mkdir -p "${HOME}/.config/fish/completions"
     rustup completions fish > "${HOME}/.config/fish/completions/rustup.fish"
   fi
 
-  print_info "Cargo is available at: ~/.cargo/bin/cargo"
-  print_info "Environment is configured in fish config"
+  ui.print_info "Cargo is available at: ~/.cargo/bin/cargo"
+  ui.print_info "Environment is configured in fish config"
 }
 
 # Main entry point

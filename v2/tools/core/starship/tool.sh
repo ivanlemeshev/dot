@@ -16,11 +16,11 @@ function install_package() {
   if command -v starship > /dev/null 2>&1; then
     local current_version
     current_version="$(starship --version | awk '{print $2}')"
-    print_info "Starship already installed: v${current_version}"
+    ui.print_info "Starship already installed: v${current_version}"
     return
   fi
 
-  print_info "Installing Starship ${STARSHIP_VERSION}..."
+  ui.print_info "Installing Starship ${STARSHIP_VERSION}..."
 
   local starship_url="https://github.com/starship/starship/releases/download/${STARSHIP_VERSION}/starship-x86_64-unknown-linux-gnu.tar.gz"
   local temp_file="/tmp/starship.tar.gz"
@@ -31,7 +31,7 @@ function install_package() {
   sudo chmod +x /usr/local/bin/starship
   rm "$temp_file"
 
-  print_success "Starship ${STARSHIP_VERSION} installed"
+  ui.print_success "Starship ${STARSHIP_VERSION} installed"
 }
 
 # Symlink configuration files

@@ -25,22 +25,26 @@ function post_install() {
   local theme_file="${bat_themes_dir}/Catppuccin Mocha.tmTheme"
 
   if [[ ! -f "$theme_file" ]]; then
-    print_info "Installing Catppuccin Mocha theme for bat..."
+    ui.print_info "Installing Catppuccin Mocha theme for bat..."
     mkdir -p "$bat_themes_dir"
     wget -q "https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Mocha.tmTheme" -O "$theme_file"
 
-    # Rebuild bat cache
-    bat cache --build > /dev/null 2>&1
+    # Rebuild bat cache (on Ubuntu it's batcat)
+    if command -v batcat > /dev/null 2>&1; then
+      batcat cache --build > /dev/null 2>&1
+    elif command -v bat > /dev/null 2>&1; then
+      bat cache --build > /dev/null 2>&1
+    fi
 
-    print_success "Catppuccin Mocha theme installed"
+    ui.print_success "Catppuccin Mocha theme installed"
   else
-    print_info "Catppuccin Mocha theme already installed"
+    ui.print_info "Catppuccin Mocha theme already installed"
   fi
 
   # Note: On Ubuntu, bat is installed as batcat
   if command -v batcat > /dev/null 2>&1; then
-    print_info "bat is available as 'batcat' on Ubuntu"
-    print_info "Alias 'bat' is configured in fish config"
+    ui.print_info "bat is available as 'batcat' on Ubuntu"
+    ui.print_info "Alias 'bat' is configured in fish config"
   fi
 }
 

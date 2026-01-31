@@ -16,11 +16,11 @@ function install_package() {
   if command -v go > /dev/null 2>&1; then
     local current_version
     current_version="$(go version | awk '{print $3}' | sed 's/go//')"
-    print_info "Go already installed: v${current_version}"
+    ui.print_info "Go already installed: v${current_version}"
     return
   fi
 
-  print_info "Installing Go ${GO_VERSION}..."
+  ui.print_info "Installing Go ${GO_VERSION}..."
 
   local go_url="https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
   local temp_file="/tmp/go${GO_VERSION}.linux-amd64.tar.gz"
@@ -30,14 +30,14 @@ function install_package() {
   sudo tar -C /usr/local -xzf "$temp_file"
   rm "$temp_file"
 
-  print_success "Go ${GO_VERSION} installed"
+  ui.print_success "Go ${GO_VERSION} installed"
 }
 
 # Post-install hook
 function post_install() {
-  print_info "Go is installed to /usr/local/go"
-  print_info "GOROOT and GOPATH are configured in fish config"
-  print_info "Add to your PATH: /usr/local/go/bin:\$GOPATH/bin"
+  ui.print_info "Go is installed to /usr/local/go"
+  ui.print_info "GOROOT and GOPATH are configured in fish config"
+  ui.print_info "Add to your PATH: /usr/local/go/bin:\$GOPATH/bin"
 }
 
 # Main entry point

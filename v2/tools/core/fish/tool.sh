@@ -16,7 +16,7 @@ declare -A PACKAGES=(
 # Pre-install hook
 function pre_install() {
   if [[ "$OS_TYPE" == "ubuntu" ]]; then
-    print_info "Adding Fish shell PPA..."
+    ui.print_info "Adding Fish shell PPA..."
     sudo apt-add-repository -y ppa:fish-shell/release-3
     sudo apt-get update -qq
   fi
@@ -34,18 +34,18 @@ function post_install() {
 
   # Change default shell to fish
   if [[ "$current_shell" != "fish" ]]; then
-    print_info "Changing default shell to fish"
+    ui.print_info "Changing default shell to fish"
     sudo chsh -s "$(which fish)" "$(whoami)"
   else
-    print_info "Fish is already the default shell"
+    ui.print_info "Fish is already the default shell"
   fi
 
   # Install Fisher plugin manager
-  print_info "Installing Fisher plugin manager"
+  ui.print_info "Installing Fisher plugin manager"
   fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 
   # Install fzf.fish plugin
-  print_info "Installing fzf.fish plugin"
+  ui.print_info "Installing fzf.fish plugin"
   fish -c "fisher install PatrickF1/fzf.fish"
 }
 
