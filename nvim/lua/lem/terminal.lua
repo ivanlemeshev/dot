@@ -5,17 +5,15 @@
 local M = {}
 
 ---@class LemTerminalConfig
----@field size? number Terminal window height in lines (default: 20)
----@field direction? "horizontal"|"vertical"|"float" Terminal direction (default: "horizontal")
+---@field width_percent? number Terminal window width as percentage (default: 0.8)
+---@field height_percent? number Terminal window height as percentage (default: 0.8)
 ---@field start_in_insert? boolean Start in insert mode (default: true)
----@field position? "top"|"bottom"|"left"|"right" Split position (default: "bottom" for horizontal, "right" for vertical)
 
 ---@type LemTerminalConfig
 local defaults = {
-  size = 20,
-  direction = "horizontal",
+  width_percent = 0.8,
+  height_percent = 0.8,
   start_in_insert = true,
-  position = nil, -- auto: bottom for horizontal, right for vertical
 }
 
 --- Active configuration
@@ -51,60 +49,33 @@ function M.toggle()
 
   -- Reuse existing buffer or create new one
   if not terminal_buf or not vim.api.nvim_buf_is_valid(terminal_buf) then
+    -- Create unlisted scratch buffer
     terminal_buf = vim.api.nvim_create_buf(false, true)
   end
 
-  if M.config.direction == "horizontal" then
-    local position = M.config.position or "bottom"
-    local cmd = position == "bottom" and "botright split" or "topleft split"
-    vim.cmd(cmd)
-    vim.api.nvim_win_set_buf(0, terminal_buf)
-    vim.cmd("resize " .. M.config.size)
-    terminal_win = vim.api.nvim_get_current_win()
+  -- Open floating terminal window
+  local width = math.floor(vim.o.columns * M.config.width_percent)
+  local height = math.floor(vim.o.lines * M.config.height_percent)
 
-    -- Start terminal if buffer is empty
-    if
-      vim.api.nvim_buf_line_count(terminal_buf) == 1
-      and vim.api.nvim_buf_get_lines(terminal_buf, 0, 1, false)[1] == ""
-    then
-      vim.cmd("terminal")
-    end
-  elseif M.config.direction == "vertical" then
-    local position = M.config.position or "right"
-    local cmd = position == "right" and "botright vsplit" or "topleft vsplit"
-    vim.cmd(cmd)
-    vim.api.nvim_win_set_buf(0, terminal_buf)
-    vim.cmd("vertical resize " .. M.config.size)
-    terminal_win = vim.api.nvim_get_current_win()
+  terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = "minimal",
+    border = "rounded",
+  })
 
-    -- Start terminal if buffer is empty
-    if
-      vim.api.nvim_buf_line_count(terminal_buf) == 1
-      and vim.api.nvim_buf_get_lines(terminal_buf, 0, 1, false)[1] == ""
-    then
-      vim.cmd("terminal")
-    end
-  elseif M.config.direction == "float" then
-    local width = math.floor(vim.o.columns * 0.8)
-    local height = math.floor(vim.o.lines * 0.8)
-
-    terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
-      relative = "editor",
-      width = width,
-      height = height,
-      col = math.floor((vim.o.columns - width) / 2),
-      row = math.floor((vim.o.lines - height) / 2),
-      style = "minimal",
-      border = "rounded",
-    })
-
-    -- Start terminal if buffer is empty
-    if
-      vim.api.nvim_buf_line_count(terminal_buf) == 1
-      and vim.api.nvim_buf_get_lines(terminal_buf, 0, 1, false)[1] == ""
-    then
-      vim.cmd("terminal")
-    end
+  -- Start terminal if buffer is empty
+  if
+    vim.api.nvim_buf_line_count(terminal_buf) == 1
+    and vim.api.nvim_buf_get_lines(terminal_buf, 0, 1, false)[1] == ""
+  then
+    vim.cmd("terminal")
+    -- Ensure buffer stays unlisted after terminal is created
+    vim.bo[terminal_buf].buflisted = false
+    vim.bo[terminal_buf].bufhidden = "hide"
   end
 
   if M.config.start_in_insert then
@@ -123,19 +94,32 @@ function M.setup_keymaps()
     silent = true,
   })
 
-  -- Close terminal
-  map("t", "<C-q>", function()
+  -- Exit and close terminal
+  map("t", "<C-n>", function()
     if is_terminal_open() and terminal_win then
       vim.api.nvim_win_close(terminal_win, true)
       terminal_win = nil
     end
   end, { noremap = true, silent = true, desc = "Terminal: close" })
 
-  -- Navigate from terminal to other windows
-  map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Terminal: move left" })
-  map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Terminal: move down" })
-  map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Terminal: move up" })
-  map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Terminal: move right" })
+  -- Double Ctrl+q to quit Neovim from terminal
+  local quit_timer = nil
+  local quit_pending = false
+
+  map("t", "<C-q>", function()
+    if quit_pending then
+      vim.cmd("qa")
+    else
+      quit_pending = true
+      print("Press Ctrl+q again to quit Neovim")
+      if quit_timer then
+        vim.fn.timer_stop(quit_timer)
+      end
+      quit_timer = vim.fn.timer_start(1000, function()
+        quit_pending = false
+      end)
+    end
+  end, { noremap = true, silent = false, desc = "Terminal: double Ctrl+q to quit Neovim" })
 
   -- Auto insert mode when entering terminal buffer
   vim.api.nvim_create_autocmd("BufEnter", {
