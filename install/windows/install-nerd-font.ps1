@@ -71,7 +71,6 @@ foreach ($fontFilename in $fontFilenames)
 		}
 	}
 
-
 	Write-Host "Cleaning up the downloaded and unzipped files..."
 	Remove-Item -Path $fontOutputFile -Force
 	Remove-Item -Path $destinationFolder -Recurse -Force

@@ -46,13 +46,41 @@ if (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.Power
 	New-Item -Path $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -ItemType SymbolicLink -Value "$scriptDirectory\Microsoft.PowerShell_profile.ps1"
 }
 
-Write-Host "Creating symbolic link for starship.toml...";
+Write-Host "Creating symbolic link for starship.toml..."
 if (Test-Path -Path $env:USERPROFILE\starship.toml)
 {
 	Write-Host "Symbolic link already exists: $env:USERPROFILE\starship.toml"
 } else
 {
 	New-Item -Path $env:USERPROFILE\starship.toml -ItemType SymbolicLink -Value "$scriptDirectory\starship.toml"
+}
+
+Write-Host "Creating symbolic link for Windows Terminal settings.json..."
+
+$terminalPackage = Get-AppxPackage | Where-Object {$_.Name -match "WindowsTerminal"}
+
+if ($null -eq $terminalPackage)
+{
+	Write-Warning "Windows Terminal (Stable) not found via Appx. Skipping..."
+} else
+{
+	$terminalFolder = "$env:LOCALAPPDATA\Packages\$($terminalPackage.PackageFamilyName)\LocalState"
+	$targetFile = "$terminalFolder\settings.json"
+	$sourceFile = "$scriptDirectory\windows\terminal\settings.json"
+
+	if (Test-Path -Path $targetFile)
+	{
+		Write-Host "Existing settings found. Removing to ensure fresh link..."
+		Remove-Item -Path $targetFile -Force
+	}
+
+	if (!(Test-Path -Path $terminalFolder))
+	{
+		New-Item -Path $terminalFolder -ItemType Directory -Force
+	}
+
+	New-Item -Path $targetFile -ItemType SymbolicLink -Value $sourceFile
+	Write-Host "Success: Symbolic link created for Windows Terminal."
 }
 
 Write-Host "The system will now restart to apply the changes."
