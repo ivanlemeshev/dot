@@ -42,9 +42,8 @@ return {
     })
 
     require("lem.terminal").setup({
-      size = 20,
-      direction = "horizontal", -- "horizontal", "vertical", or "float"
-      position = "bottom", -- "bottom" or "top" for horizontal; "right" or "left" for vertical
+      width_percent = 0.8,
+      height_percent = 0.8,
       start_in_insert = true,
     })
   end,
