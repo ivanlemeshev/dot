@@ -129,6 +129,27 @@ function M.setup_keymaps()
       end
     end,
   })
+
+  -- Close terminal when clicking outside
+  vim.api.nvim_create_autocmd("WinLeave", {
+    callback = function()
+      if is_terminal_open() and terminal_win then
+        local current_win = vim.api.nvim_get_current_win()
+        if current_win == terminal_win then
+          vim.schedule(function()
+            if is_terminal_open() and terminal_win then
+              vim.api.nvim_win_close(terminal_win, true)
+              terminal_win = nil
+            end
+          end)
+        end
+      end
+    end,
+  })
+
+  -- Disable all scrolling in terminal to prevent losing focus
+  map("t", "<ScrollWheelUp>", "<Nop>", { noremap = true, silent = true })
+  map("t", "<ScrollWheelDown>", "<Nop>", { noremap = true, silent = true })
 end
 
 return M
