@@ -2,18 +2,21 @@
 
 set -e
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+echo "=== Installing Nerd Fonts ==="
 
-print_header "Fonts: installing JetBrainsMono Nerd Font"
-[[ -d "/usr/local/share/fonts" ]] || sudo mkdir -p "/usr/local/share/fonts"
-curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
-sudo tar -xf ./JetBrainsMono.tar.xz -C /usr/local/share/fonts
-sudo fc-cache -fv
-rm JetBrainsMono.tar.xz
+FONTS=(
+  "JetBrainsMono"
+  "Hack"
+)
 
-print_header "Fonts: installing DepartureMono Nerd Font"
 [[ -d "/usr/local/share/fonts" ]] || sudo mkdir -p "/usr/local/share/fonts"
-curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/DepartureMono.tar.xz
-sudo tar -xf ./DepartureMono.tar.xz -C /usr/local/share/fonts
+
+for FONT in "${FONTS[@]}"; do
+  echo "Installing font: ${FONT}..."
+  curl -OL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT}.tar.xz"
+  sudo tar -xf "./${FONT}.tar.xz" -C /usr/local/share/fonts
+  rm "${FONT}.tar.xz"
+done
+
+echo "Updating font cache..."
 sudo fc-cache -fv
-rm DepartureMono.tar.xz
