@@ -22,16 +22,6 @@ Write-Host "Current user profile directory: $env:USERPROFILE"
 
 Import-Module .\install\windows\capslock-as-ctrl.ps1
 Import-Module .\install\windows\install-nerd-font.ps1
-Import-Module .\install\windows\install-choco-packages.ps1
-
-Write-Host "Creating symbolic link for .wezterm.lua...";
-if (Test-Path -Path $env:USERPROFILE\.wezterm.lua)
-{
-	Write-Host "Symbolic link already exists: $env:USERPROFILE\.wezterm.lua"
-} else
-{
-	New-Item -Path $env:USERPROFILE\.wezterm.lua -ItemType SymbolicLink -Value "$scriptDirectory\.wezterm.lua"
-}
 
 Write-Host "Creating symbolic link for Microsoft.PowerShell_profile.ps1...";
 if (-not (Test-Path -Path $env:USERPROFILE\Documents\WindowsPowerShell))

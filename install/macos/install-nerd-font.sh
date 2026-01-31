@@ -4,16 +4,16 @@ set -e
 
 echo "=== Installing Nerd Fonts ==="
 
-FONTS=(
+fonts=(
   "JetBrainsMono"
   "Hack"
 )
 
 [[ -d "/usr/local/share/fonts" ]] || sudo mkdir -p "/usr/local/share/fonts"
 
-for FONT in "${FONTS[@]}"; do
-  echo "Installing font: ${FONT}..."
-  curl -OL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT}.tar.xz"
-  sudo tar -xf "./${FONT}.tar.xz" -C /Library/Fonts
-  rm "${FONT}.tar.xz"
+for font in "${fonts[@]}"; do
+  echo "Installing font ${font}..."
+  curl -OL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.tar.xz"
+  sudo tar -xf "./${font}.tar.xz" -C /Library/Fonts
+  rm "${font}.tar.xz"
 done
