@@ -4,7 +4,6 @@ FROM ubuntu:24.04
 # Avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install minimal dependencies needed for setup
 RUN apt-get update && apt-get install -y \
   sudo \
   curl \
@@ -17,17 +16,13 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash testuser && \
   echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Switch to test user
 USER testuser
 WORKDIR /home/testuser
 
-# Copy v2 dotfiles into container
 COPY --chown=testuser:testuser . /home/testuser/dotfiles
 
-# Set working directory to dotfiles
 WORKDIR /home/testuser/dotfiles
 
-# Run setup script
 RUN ./setup
 
 # Verify installations
@@ -45,5 +40,4 @@ RUN test -L /home/testuser/.config/fish/config.fish && \
   test -L /home/testuser/.config/starship.toml && \
   test -L /home/testuser/.vimrc
 
-# Default command: start fish shell
 CMD ["fish"]
