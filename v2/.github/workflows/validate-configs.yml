@@ -1,0 +1,84 @@
+name: Validate Configs
+
+on:
+  push:
+    paths:
+      - "v2/tools/**/*.toml"
+      - "v2/tools/**/*.json"
+      - "v2/tools/**/*.yaml"
+      - "v2/tools/**/*.yml"
+      - "v2/tools/**/config.fish"
+  pull_request:
+    paths:
+      - "v2/tools/**/*.toml"
+      - "v2/tools/**/*.json"
+      - "v2/tools/**/*.yaml"
+      - "v2/tools/**/*.yml"
+      - "v2/tools/**/config.fish"
+  workflow_dispatch:
+
+jobs:
+  validate-toml:
+    name: Validate TOML files
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.modified, '.toml') || contains(github.event.head_commit.added, '.toml')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install taplo (TOML linter)
+        run: |
+          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz | gunzip -c - | sudo tee /usr/local/bin/taplo > /dev/null
+          sudo chmod +x /usr/local/bin/taplo
+
+      - name: Validate TOML files
+        working-directory: v2
+        run: |
+          if find tools -name "*.toml" -type f | grep -q .; then
+            find tools -name "*.toml" -type f -exec taplo check {} \;
+          else
+            echo "No TOML files found to validate"
+          fi
+
+  validate-json:
+    name: Validate JSON files
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.modified, '.json') || contains(github.event.head_commit.added, '.json')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        working-directory: v2
+        run: |
+          if find tools -name "*.json" -type f | grep -q .; then
+            find tools -name "*.json" -type f -exec sh -c 'jq empty {} || exit 1' \;
+          else
+            echo "No JSON files found to validate"
+          fi
+
+  validate-fish:
+    name: Validate Fish configs
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.modified, 'config.fish') || contains(github.event.head_commit.added, 'config.fish')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Fish
+        run: |
+          sudo apt-add-repository -y ppa:fish-shell/release-3
+          sudo apt-get update
+          sudo apt-get install -y fish
+
+      - name: Validate Fish config files
+        working-directory: v2
+        run: |
+          if find tools -name "config.fish" -type f | grep -q .; then
+            find tools -name "config.fish" -type f -exec fish -n {} \;
+          else
+            echo "No Fish config files found to validate"
+          fi

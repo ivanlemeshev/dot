@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Dotfiles installer for:
+# - Ubuntu 24.04 LTS (WSL2 compatible)
+# - macOS (not yet implemented)
+# - Windows (not yet implemented)
+
+# Enable strict error handling
+# -e: Exit immediately if a command exits with a non-zero status.
+# -u: Treat unset variables as an error when substituting.
+# -o pipefail: Ensures pipes return the exit code of the last command to fail.
+set -euo pipefail
+
+# Get the absolute path to the dotfiles root directory based on the location of
+# this script.
+# ${BASH_SOURCE[0]} refers to the path of the currently executing script.
+DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export DOTFILES_ROOT
+
+# Load library functions
+# shellcheck source=lib/os.sh
+source "${DOTFILES_ROOT}/lib/os.sh"
+# shellcheck source=lib/ui.sh
+source "${DOTFILES_ROOT}/lib/ui.sh"
+# shellcheck source=lib/package.sh
+source "${DOTFILES_ROOT}/lib/package.sh"
+# shellcheck source=lib/symlink.sh
+source "${DOTFILES_ROOT}/lib/symlink.sh"
+
+detect_os
+
+echo ""
+print_header "Dotfiles Setup"
+echo ""
+echo "Detected OS: $OS_TYPE $OS_VERSION"
+echo "Dotfiles directory: $DOTFILES_ROOT"
+echo ""
+
+case "$OS_TYPE" in
+  ubuntu)
+    # shellcheck source=lib/setup-ubuntu.sh
+    source "${DOTFILES_ROOT}/lib/setup-ubuntu.sh"
+    ;;
+  *)
+    error "Unsupported OS: $OS_TYPE"
+    exit 1
+    ;;
+esac

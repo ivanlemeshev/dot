@@ -1,0 +1,130 @@
+# ~/.config/starship.toml
+# https://starship.rs/config/
+
+# Colors
+#   black
+#   blue
+#   brightBlack
+#   brightBlue
+#   brightCyan
+#   brightGreen
+#   brightPurple
+#   brightRed
+#   brightWhite
+#   brightYellow
+#   cyan
+#   foreground
+#   green
+#   purple
+#   red
+#   white
+#   yellow
+
+command_timeout = 60000
+
+add_newline = false
+
+palette = "catppuccin_mocha"
+
+[os]
+format = '[$symbol](bold cyan) '
+disabled = false
+
+[os.symbols]
+Windows = ''
+Ubuntu = ''
+Macos = '󰀵'
+
+[username]
+disabled = false
+style_user = 'green bold'
+style_root = 'red bold'
+format = '[$user]($style) '
+show_always = true
+
+[hostname]
+disabled = false
+ssh_only = false
+ssh_symbol = '󰖟 '
+style = 'bold yellow'
+format = 'on [$ssh_symbol$hostname]($style) '
+
+[directory]
+disabled = false
+style = 'blue'
+truncate_to_repo = false
+truncation_length = 0
+
+[git_metrics]
+disabled = false
+
+[git_branch]
+disabled = false
+symbol = ' '
+
+[git_commit]
+disabled = false
+tag_symbol = ' '
+
+[git_status]
+disabled = false
+
+[golang]
+disabled = false
+symbol = 'Go '
+
+[python]
+disabled = false
+symbol = 'Python '
+
+[gcloud]
+disabled = true
+symbol = 'GCP '
+
+[docker_context]
+disabled = true
+symbol = 'Docker '
+
+[zig]
+disabled = false
+symbol = 'Zig '
+
+[dotnet]
+disabled = false
+symbol = '.NET '
+
+[lua]
+disabled = false
+symbol = 'Lua '
+
+[vagrant]
+disabled = false
+symbol = 'Vagrant '
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"

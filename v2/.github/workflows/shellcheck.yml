@@ -1,0 +1,36 @@
+name: Shellcheck
+
+on:
+  push:
+    paths:
+      - "v2/**/*.sh"
+      - "v2/setup"
+  pull_request:
+    paths:
+      - "v2/**/*.sh"
+      - "v2/setup"
+  workflow_dispatch:
+
+jobs:
+  shellcheck:
+    name: Lint Bash Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on all .sh files
+        working-directory: v2
+        run: |
+          find . -name "*.sh" -type f -print0 | xargs -0 shellcheck --severity=warning
+
+      - name: Run shellcheck on setup script
+        working-directory: v2
+        run: |
+          if [ -f setup ]; then
+            shellcheck --severity=warning setup
+          fi

@@ -1,0 +1,12 @@
+endOfLine: "lf"
+
+overrides:
+  - files: "*.md"
+    options:
+      embeddedLanguageFormatting: "auto"
+      markdownLineBreaks: true
+      printWidth: 80
+      proseWrap: "always"
+      singleQuote: false
+      tabWidth: 2
+      useTabs: false
