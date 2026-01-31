@@ -125,20 +125,6 @@ return {
 
     require("lsp-format").setup({})
 
-    local exclude_automatic_enable = {
-      "clangd",
-      "lua_ls",
-      "pyright",
-      "buf_ls",
-      "yamlls",
-    }
-
-    require("mason-lspconfig").setup({
-      automatic_enable = {
-        exclude = exclude_automatic_enable,
-      },
-    })
-
     local util = require("lspconfig.util")
 
     local lsp_config = {
@@ -210,12 +196,15 @@ return {
       },
     }
 
+    -- Apply all custom configs
     for server, config in pairs(lsp_config) do
       local existing_config = vim.lsp.config[server] or {}
       local merged_config =
         vim.tbl_deep_extend("force", existing_config, config)
       vim.lsp.config(server, merged_config)
-      vim.lsp.enable(server)
     end
+
+    -- mason-lspconfig will automatically enable all installed servers
+    require("mason-lspconfig").setup({ automatic_enable = true })
   end,
 }
