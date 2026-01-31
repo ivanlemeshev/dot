@@ -10,8 +10,8 @@
 
 ### Insert Text on Multiple Lines (Before cursor)
 
-1. Pres Ctrl + v and select vertical lines.
-2. Pres Shift + i (Capital I).
+1. Press Ctrl + v and select vertical lines.
+2. Press Shift + i (Capital I).
 3. Type the text you want to insert. Note: You will only see it appear on the
    first line while typing.
 4. Press Esc. Wait a moment, and Neovim will apply the text to all selected
@@ -26,7 +26,7 @@
 
 ### Replace word+braces (or other punctuation) at once
 
-Fir example: interface{}
+For example: interface{}
 
 Using cf}:
 

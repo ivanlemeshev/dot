@@ -102,7 +102,7 @@ map(
   "n",
   "<leader>xs",
   ":close<CR>",
-  { desc = "Close the currrent pane", noremap = true, silent = true }
+  { desc = "Close the current pane", noremap = true, silent = true }
 )
 
 -- Navigate between panes
