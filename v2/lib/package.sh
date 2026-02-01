@@ -27,7 +27,7 @@ function pkg_install() {
   case "$OS_TYPE" in
     ubuntu)
       ui.print_info "Installing: $package"
-      sudo apt-get install -y -qq "$package"
+      sudo apt-get install -y -qq "$package" >/dev/null
       ;;
     *)
       ui.print_error "Unsupported OS for package installation: $OS_TYPE"

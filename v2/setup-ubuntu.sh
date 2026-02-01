@@ -27,7 +27,7 @@ function install_core_tools() {
     tool_name="$(basename "$tool_dir")"
 
     if [[ -f "$tool_dir/tool.sh" ]]; then
-      ui.print_header "Installing: $tool_name"
+      ui.print_subheader "Installing: $tool_name"
 
       # Source and execute tool script in subshell to avoid variable pollution
       (
@@ -78,9 +78,7 @@ function install_optional_tools() {
   fi
 
   ui.print_header "Optional Tools"
-  echo ""
   echo "The following optional tools are available:"
-  echo ""
 
   # Install each optional tool with user prompt
   for tool_dir in "$tools_dir"/*; do
@@ -101,7 +99,7 @@ function install_optional_tools() {
         read -rp "Install $tool_name? [y/N] " response
         case "$response" in
           [yY][eE][sS] | [yY])
-            ui.print_header "Installing: $tool_name"
+            ui.print_subheader "Installing: $tool_name"
             cd "$tool_dir"
             if declare -f main >/dev/null; then
               main

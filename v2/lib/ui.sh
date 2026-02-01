@@ -11,51 +11,36 @@ RESET='\e[0m' #resets the color to default
 # Print a header with simple ASCII box
 function ui.print_header() {
   local title="$*"
-  local width=80
-  local padding=$((width - 2 - ${#title}))
+  local line=$(printf '%80s' | tr ' ' '=')
 
   echo ""
-
-  # Top border
-  printf '='
-  for ((i = 0; i < width - 2; i++)); do
-    printf '='
-  done
-  printf '=\n'
-
-  # Title line
-  printf '  %s' "$title"
-  for ((i = 0; i < padding - 1; i++)); do
-    printf ' '
-  done
-  printf '\n'
-
-  # Bottom border
-  printf '='
-  for ((i = 0; i < width - 2; i++)); do
-    printf '='
-  done
-  printf '=\n'
-
+  echo -e "${BLUE}${line}${RESET}"
+  echo -e "${BLUE}  $title${RESET}"
+  echo -e "${BLUE}${line}${RESET}"
   echo ""
+}
+
+# Print a subheader (for tools, smaller sections)
+function ui.print_subheader() {
+  echo -e "${BLUE}>${RESET} $*"
 }
 
 # Print an info message
 function ui.print_info() {
-  echo -e "${BLUE}[INFO]${RESET} $*"
+  echo -e "${BLUE}.${RESET} $*"
 }
 
 # Print a success message
 function ui.print_success() {
-  echo -e "${GREEN}[ OK ]${RESET} $*"
+  echo -e "${GREEN}+${RESET} $*"
 }
 
 # Print an error message
 function ui.print_error() {
-  echo -e "${RED}[FAIL]${RESET} $*" >&2
+  echo -e "${RED}x${RESET} $*" >&2
 }
 
 # Print a warning message
 function ui.print_warning() {
-  echo -e "${YELLOW}[WARN]${RESET} $*" >&2
+  echo -e "${YELLOW}!${RESET} $*" >&2
 }

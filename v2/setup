@@ -27,12 +27,9 @@ source "${DOTFILES_ROOT}/lib/symlink.sh"
 
 detect_os
 
-echo ""
 ui.print_header "Dotfiles Setup"
-echo ""
 echo "Detected OS: $OS_TYPE $OS_VERSION"
 echo "Dotfiles directory: $DOTFILES_ROOT"
-echo ""
 
 case "$OS_TYPE" in
   ubuntu)

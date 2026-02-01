@@ -84,7 +84,7 @@ v2/
 
 - Main orchestrator
 - Discovers and runs tool modules
-- Handles core → optional tool flow
+- Handles core -> optional tool flow
 
 ### Tool Modules (`tools/`)
 
@@ -179,7 +179,7 @@ Future: Can expand to support brew, pacman, etc.
 ## Configuration Management
 
 - Each tool's configs live in its own directory
-- Symlinks created from tool dir → home dir
+- Symlinks created from tool dir -> home dir
 - Backups created automatically
 - Original repo configs copied to v2 during setup
 

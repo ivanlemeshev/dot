@@ -1,12 +1,14 @@
-.PHONY: build-test-image
-build-test-image:
+.PHONY: build test shell clean
+
+build:
 	@./tests/dotfiles-test.sh
 
-.PHONY: run-test-container
-run-test-container: build-test-image
+test: build
+	@docker run --rm dotfiles-test ./tests/verify.sh
+
+shell: build
 	@docker run -it --rm dotfiles-test
 
-.PHONY: clean-test-artifacts
-clean-test-artifacts:
+clean:
 	@docker rm -f dotfiles-test 2>/dev/null || true
 	@docker rmi -f dotfiles-test 2>/dev/null || true

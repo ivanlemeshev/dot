@@ -28,4 +28,4 @@ WORKDIR /home/testuser/dotfiles
 
 RUN ./setup
 
-CMD ["bash"]
+CMD ["fish"]
