@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  push:
+    branches: [main, v2]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run setup
+        run: ./v2/setup
+
+      - name: Run verification
+        run: ./v2/tests/verify.sh
+
+  # TODO: Add macOS support
+  # test-macos:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - run: ./v2/setup
+
+  # TODO: Add Windows support
+  # test-windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - run: ./v2/setup.ps1
