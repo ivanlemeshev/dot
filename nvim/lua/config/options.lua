@@ -140,6 +140,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Set options based on the file type.
 -- You can check the file type using command :echo &filetype
 
+-- Shell script settings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sh",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
 -- Python settings
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
