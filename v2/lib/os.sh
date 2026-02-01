@@ -10,13 +10,13 @@ function detect_os() {
   case "$os_name" in
     Linux*)
       # Check if it's Ubuntu
-      if [ -f /etc/os-release ]; then
+      if [[ -f /etc/os-release ]]; then
         # shellcheck source=/dev/null
         . /etc/os-release
 
-        if [ "$ID" = "ubuntu" ]; then
+        if [[ $ID == "ubuntu" ]]; then
           # Check version
-          if [ "$VERSION_ID" = "24.04" ]; then
+          if [[ $VERSION_ID == "24.04" ]]; then
             export OS_TYPE="ubuntu"
             export OS_VERSION="24.04"
             return 0
@@ -34,8 +34,9 @@ function detect_os() {
       fi
       ;;
     Darwin*)
-      echo "ERROR: macOS detected. macOS support coming in a future release"
-      exit 1
+      export OS_TYPE="macos"
+      export OS_VERSION="$(sw_vers -productVersion)"
+      return 0
       ;;
     MINGW* | MSYS* | CYGWIN*)
       echo "ERROR: Windows detected. Windows support coming in a future release"

@@ -36,6 +36,10 @@ case "$OS_TYPE" in
     # shellcheck source=setup-ubuntu.sh
     source "${DOTFILES_ROOT}/setup-ubuntu.sh"
     ;;
+  macos)
+    # shellcheck source=setup-macos.sh
+    source "${DOTFILES_ROOT}/setup-macos.sh"
+    ;;
   *)
     ui.print_error "Unsupported OS: $OS_TYPE"
     exit 1

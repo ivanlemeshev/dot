@@ -7,68 +7,66 @@
 # -o pipefail: Ensures pipes return the exit code of the last command to fail.
 set -euo pipefail
 
-# Source UI functions
+# Get the absolute path to the script directory based on its location.
+# ${BASH_SOURCE[0]} refers to the path of the currently executing script.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${SCRIPT_DIR}/../lib/ui.sh"
 
-ui.print_header "Verifying Installation"
+# shellcheck source=lib/ui.sh
+source "${SCRIPT_DIR}/../lib/ui.sh"
+# shellcheck source=lib/os.sh
+source "${SCRIPT_DIR}/../lib/os.sh"
+
+# Detect OS for platform-specific checks
+detect_os
 
 failed=0
 
-# Check fish is installed
+# Helper to run a check and optionally grab a version
+# Usage: verify <label> <test_cmd> [version_cmd]
+verify() {
+  local label=$1
+  local test_cmd=$2
+  local v_cmd=${3:-""}
+
+  if eval "$test_cmd >/dev/null 2>&1"; then
+    local version=""
+    # Only fetch version if a version command was provided
+    [[ -n "$v_cmd" ]] && version=" [$(eval "$v_cmd 2>/dev/null | head -n1")]"
+    ui.print_success "${label}${version}"
+  else
+    ui.print_error "${label} not found"
+    failed=1
+  fi
+}
+
+ui.print_header "Verifying Tool Installation"
+
+verify "fish installed" "command -v fish" "fish --version"
+verify "fzf installed" "command -v fzf" "fzf --version"
+verify "vivid installed" "command -v vivid" "vivid --version"
+
+ui.print_header "Verifying Fish Shell Setup"
+
 if command -v fish >/dev/null 2>&1; then
-  ui.print_success "fish installed: $(fish --version)"
-else
-  ui.print_error "fish not installed"
-  failed=1
+  verify "fisher installed" "fish -c 'type -q fisher'" "fish -c 'fisher --version'"
+  verify "catppuccin theme installed" "fish -c 'fisher list | grep -q catppuccin/fish'"
+  verify "fzf bindings" "fish -c 'functions -q fzf_configure_bindings'"
 fi
 
-# Check fish is default shell
-if grep -q "$(which fish)" /etc/passwd; then
-  ui.print_success "fish is default shell"
-else
-  ui.print_error "fish is not default shell"
-  failed=1
-fi
+ui.print_header "Verifying Shell Configuration"
 
-# Check fish config exists
-if [[ -L "$HOME/.config/fish/config.fish" ]]; then
-  ui.print_success "fish config symlinked"
-else
-  ui.print_error "fish config not symlinked"
-  failed=1
-fi
+# Check if fish is the default shell (OS-specific)
+case "$OS_TYPE" in
+  ubuntu)
+    verify "fish is default shell" "grep -q \"\$(which fish 2>/dev/null)\" /etc/passwd"
+    ;;
+  macos)
+    verify "fish is default shell" "dscl . -read ~ UserShell | grep -q fish"
+    ;;
+esac
 
-# Check fzf is installed
-if command -v fzf >/dev/null 2>&1; then
-  ui.print_success "fzf installed: $(fzf --version | head -1)"
-else
-  ui.print_error "fzf not installed"
-  failed=1
-fi
-
-# Check fzf.fish plugin is installed
-if [[ -d "$HOME/.config/fish/functions" ]] && ls "$HOME/.config/fish/functions" | grep -q "fzf"; then
-  ui.print_success "fzf.fish plugin installed"
-else
-  ui.print_error "fzf.fish plugin not installed"
-  failed=1
-fi
-
-# Check vivid is installed
-if command -v vivid >/dev/null 2>&1; then
-  ui.print_success "vivid installed: $(vivid --version)"
-else
-  ui.print_error "vivid not installed"
-  failed=1
-fi
+verify "fish config symlinked" "[[ -L \$HOME/.config/fish/config.fish ]]"
 
 ui.print_header "Verification Complete"
 
-if [[ $failed -eq 0 ]]; then
-  ui.print_success "All checks passed!"
-  exit 0
-else
-  ui.print_error "Some checks failed"
-  exit 1
-fi
+[[ $failed -eq 0 ]] && ui.print_success "All systems go!" || exit 1

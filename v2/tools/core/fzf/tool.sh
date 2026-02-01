@@ -14,9 +14,8 @@ function install_package() {
 }
 
 # Install fish integration via fzf.fish plugin
+# https://github.com/PatrickF1/fzf.fish
 function post_install() {
-  # Install fzf.fish plugin
-  # https://github.com/PatrickF1/fzf.fish
   ui.print_info "Installing fzf.fish plugin..."
   fish -C "fisher install PatrickF1/fzf.fish && exit"
 }

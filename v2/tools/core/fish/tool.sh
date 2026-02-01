@@ -8,13 +8,20 @@
 # -o pipefail: Ensures pipes return the exit code of the last command to fail.
 set -euo pipefail
 
-# Add Fish PPA for the latest version
+# Add Fish PPA for the latest version (Ubuntu only)
 function pre_install() {
-  if ! grep -q "fish-shell" /etc/apt/sources.list.d/*.list 2>/dev/null; then
-    ui.print_info "Adding Fish shell PPA..."
-    sudo apt-add-repository -y ppa:fish-shell/release-3 >/dev/null 2>&1
-    sudo apt-get update -qq >/dev/null 2>&1
-  fi
+  case "$OS_TYPE" in
+    ubuntu)
+      if ! grep -q "fish-shell" /etc/apt/sources.list.d/*.list 2>/dev/null; then
+        ui.print_info "Adding Fish shell PPA..."
+        sudo apt-add-repository -y ppa:fish-shell/release-3 >/dev/null 2>&1
+        sudo apt-get update -qq >/dev/null 2>&1
+      fi
+      ;;
+    macos)
+      # No PPA needed on macOS
+      ;;
+  esac
 }
 
 # Install Fish shell
@@ -36,7 +43,14 @@ function post_install() {
   # Change default shell to fish
   if [[ "$SHELL" != "$fish_path" ]]; then
     ui.print_info "Setting fish as default shell..."
-    sudo chsh -s "$fish_path" "$(whoami)"
+    case "$OS_TYPE" in
+      ubuntu)
+        sudo chsh -s "$fish_path" "$(whoami)"
+        ;;
+      macos)
+        chsh -s "$fish_path"
+        ;;
+    esac
   fi
 
   # Install fisher (fish plugin manager)

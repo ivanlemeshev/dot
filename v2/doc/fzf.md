@@ -5,7 +5,8 @@
 On macOS, `Alt` = `Option` key. You may need to configure your terminal:
 
 - **iTerm2**: Preferences -> Profiles -> Keys -> "Option key acts as: Esc+"
-- **Terminal.app**: Preferences -> Profiles -> Keyboard -> "Use Option as Meta key"
+- **Terminal.app**: Preferences -> Profiles -> Keyboard -> "Use Option as Meta
+  key"
 
 Otherwise Option inserts special characters instead of working as Alt.
 

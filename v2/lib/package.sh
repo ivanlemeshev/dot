@@ -8,6 +8,10 @@ function pkg_update() {
       ui.print_info "Updating apt repositories..."
       sudo apt-get update -qq
       ;;
+    macos)
+      ui.print_info "Updating Homebrew..."
+      brew update --quiet
+      ;;
     *)
       ui.print_error "Unsupported OS for package management: $OS_TYPE"
       return 1
@@ -29,6 +33,10 @@ function pkg_install() {
       ui.print_info "Installing: $package"
       sudo apt-get install -y -qq "$package" >/dev/null
       ;;
+    macos)
+      ui.print_info "Installing: $package"
+      brew install --quiet "$package"
+      ;;
     *)
       ui.print_error "Unsupported OS for package installation: $OS_TYPE"
       return 1
@@ -49,6 +57,9 @@ function pkg_installed() {
     ubuntu)
       dpkg -l "$package" 2>/dev/null | grep -q "^ii"
       ;;
+    macos)
+      brew list "$package" &>/dev/null
+      ;;
     *)
       return 1
       ;;
@@ -61,6 +72,10 @@ function pkg_upgrade() {
     ubuntu)
       ui.print_info "Upgrading all packages..."
       sudo apt-get upgrade -y -qq
+      ;;
+    macos)
+      ui.print_info "Upgrading all packages..."
+      brew upgrade --quiet
       ;;
     *)
       ui.print_error "Unsupported OS for package upgrade: $OS_TYPE"

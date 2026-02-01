@@ -1,11 +1,35 @@
 #!/usr/bin/env bash
-# Main setup orchestrator for Ubuntu 24.04
+# Main setup orchestrator for macOS
 # This script is sourced by ./setup, which sets DOTFILES_ROOT
 
-ui.print_header "Setting up Dotfiles for Ubuntu 24.04"
+ui.print_header "Setting up Dotfiles for macOS $OS_VERSION"
 
-# Update package repositories
-pkg_update
+# Check and install Homebrew if needed
+function ensure_homebrew() {
+  if command -v brew >/dev/null 2>&1; then
+    ui.print_success "Homebrew already installed: $(brew --version | head -1)"
+    return 0
+  fi
+
+  ui.print_info "Homebrew not found. Installing..."
+
+  # Install Homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Add Homebrew to PATH for Apple Silicon
+  if [[ $(uname -m) == "arm64" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    ui.print_success "Homebrew installed successfully"
+  else
+    ui.print_error "Failed to install Homebrew"
+    exit 1
+  fi
+}
 
 # Install core tools
 function install_core_tools() {
@@ -118,6 +142,8 @@ function install_optional_tools() {
 }
 
 # Main execution
+ensure_homebrew
+pkg_update
 install_core_tools
 install_optional_tools
 
