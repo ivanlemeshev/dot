@@ -36,11 +36,11 @@ echo ""
 
 case "$OS_TYPE" in
   ubuntu)
-    # shellcheck source=lib/setup-ubuntu.sh
-    source "${DOTFILES_ROOT}/lib/setup-ubuntu.sh"
+    # shellcheck source=setup-ubuntu.sh
+    source "${DOTFILES_ROOT}/setup-ubuntu.sh"
     ;;
   *)
-    error "Unsupported OS: $OS_TYPE"
+    ui.print_error "Unsupported OS: $OS_TYPE"
     exit 1
     ;;
 esac

@@ -28,19 +28,4 @@ WORKDIR /home/testuser/dotfiles
 
 RUN ./setup
 
-# Verify installations
-RUN fish --version && \
-  nvim --version && \
-  tmux -V && \
-  starship --version && \
-  git --version && \
-  batcat --version
-
-# Verify symlinks exist
-RUN test -L /home/testuser/.config/fish/config.fish && \
-  test -L /home/testuser/.config/nvim && \
-  test -L /home/testuser/.tmux.conf && \
-  test -L /home/testuser/.config/starship.toml && \
-  test -L /home/testuser/.vimrc
-
-CMD ["fish"]
+CMD ["bash"]

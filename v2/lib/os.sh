@@ -3,7 +3,6 @@
 
 # Detect the operating system
 # Sets OS_TYPE environment variable
-# Currently only supports Ubuntu 24.04
 function detect_os() {
   local os_name
   os_name="$(uname -s)"
@@ -38,7 +37,7 @@ function detect_os() {
       echo "ERROR: macOS detected. macOS support coming in a future release"
       exit 1
       ;;
-    MINGW*|MSYS*|CYGWIN*)
+    MINGW* | MSYS* | CYGWIN*)
       echo "ERROR: Windows detected. Windows support coming in a future release"
       exit 1
       ;;

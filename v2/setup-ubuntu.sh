@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 # Main setup orchestrator for Ubuntu 24.04
-
-set -e
-
-# Get the dotfiles root directory
-DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-export DOTFILES_ROOT
+# This script is sourced by ./setup, which sets DOTFILES_ROOT
 
 ui.print_header "Setting up dotfiles for Ubuntu 24.04"
 
@@ -129,11 +124,4 @@ install_core_tools
 install_optional_tools
 
 ui.print_header "Setup Complete!"
-echo ""
-echo "Next steps:"
-echo "  1. Restart your shell or run: exec fish -l"
-echo "  2. Install tmux plugins: Press Ctrl+Space I inside tmux"
-echo "  3. Configure GitHub CLI: gh auth login"
-echo "  4. Configure Copilot: :Copilot auth in nvim"
-echo ""
 ui.print_success "Dotfiles v2 setup completed successfully!"

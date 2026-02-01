@@ -1,7 +1,7 @@
 # Future Platform Support: macOS and Windows
 
-This document contains detailed implementation plans for adding macOS and Windows
-support to the v2 dotfiles system.
+This document contains detailed implementation plans for adding macOS and
+Windows support to the v2 dotfiles system.
 
 ## Current State (Ubuntu 24.04 Only)
 
@@ -655,9 +655,9 @@ jobs:
 ### Phase 7: Windows (Estimated 3-5 days)
 
 - [ ] Create setup.ps1 entry point
-- [ ] Create lib/*.ps1 libraries (os, package, symlink, ui)
+- [ ] Create lib/\*.ps1 libraries (os, package, symlink, ui)
 - [ ] Create lib/setup-windows.ps1
-- [ ] Create tools/*/tool.ps1 for all tools
+- [ ] Create tools/\*/tool.ps1 for all tools
 - [ ] Create tools/platform/windows/terminal/
 - [ ] Create tools/platform/windows/capslock-ctrl/
 - [ ] Create tools/platform/windows/powershell/
