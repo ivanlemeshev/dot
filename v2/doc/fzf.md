@@ -1,5 +1,14 @@
 # fzf (Fuzzy Finder)
 
+## macOS Note
+
+On macOS, `Alt` = `Option` key. You may need to configure your terminal:
+
+- **iTerm2**: Preferences -> Profiles -> Keys -> "Option key acts as: Esc+"
+- **Terminal.app**: Preferences -> Profiles -> Keyboard -> "Use Option as Meta key"
+
+Otherwise Option inserts special characters instead of working as Alt.
+
 ## fzf.fish Shortcuts
 
 These shortcuts are provided by the fzf.fish plugin.
@@ -11,7 +20,7 @@ These shortcuts are provided by the fzf.fish plugin.
 - `Ctrl+Alt+l` - Search commits in git log
 - `Ctrl+Alt+s` - Search files in git status
 - `Ctrl+Alt+p` - Search processes
-- `Ctrl+v` - Search environment variables
+- `Ctrl+Alt+v` - Search environment variables
 
 ### Navigation (inside fzf)
 
