@@ -88,7 +88,7 @@ $terminalPackage = Get-AppxPackage | Where-Object {$_.Name -match "WindowsTermin
 
 if ($null -eq $terminalPackage)
 {
-	Write-Host "⚠️  Windows Terminal not found. Skipping..." -ForegroundColor Yellow
+	Write-Host "⚠️ Windows Terminal not found. Skipping..." -ForegroundColor Yellow
 } else
 {
 	$terminalFolder = "$env:LOCALAPPDATA\Packages\$($terminalPackage.PackageFamilyName)\LocalState"
@@ -97,7 +97,7 @@ if ($null -eq $terminalPackage)
 
 	if (!(Test-Path -Path $sourceFile))
 	{
-		Write-Host "⚠️  Terminal settings file not found: $sourceFile" -ForegroundColor Yellow
+		Write-Host "⚠️ Terminal settings file not found: $sourceFile" -ForegroundColor Yellow
 	} else
 	{
 		if (Test-Path -Path $targetFile)
@@ -124,14 +124,14 @@ Write-Host ""
 
 if ($needsRestart -and -not $isCI)
 {
-	Write-Host "⚠️  System restart required for Caps Lock remap to take effect" -ForegroundColor Yellow
+	Write-Host "⚠️ System restart required for Caps Lock remap to take effect" -ForegroundColor Yellow
 	Write-Host ""
 	Write-Host -NoNewLine "Press any key to restart now (Ctrl+C to cancel)..."
 	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 	Restart-Computer
 } elseif ($needsRestart -and $isCI)
 {
-	Write-Host "⚠️  Restart required for Caps Lock (skipped in CI)" -ForegroundColor Yellow
+	Write-Host "⚠️ Restart required for Caps Lock (skipped in CI)" -ForegroundColor Yellow
 } else
 {
 	Write-Host "✅ No restart needed - all changes applied!" -ForegroundColor Green

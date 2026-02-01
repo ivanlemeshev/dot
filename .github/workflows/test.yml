@@ -36,4 +36,4 @@ jobs:
 
       - name: Run setup
         run: .\v2\setup-windows.ps1
-        shell: powershell
+        shell: pwsh
