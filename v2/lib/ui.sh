@@ -13,34 +13,34 @@ function ui.print_header() {
   local title="$*"
   local line=$(printf '%80s' | tr ' ' '=')
 
-  echo ""
-  echo -e "${BLUE}${line}${RESET}"
-  echo -e "${BLUE}  $title${RESET}"
-  echo -e "${BLUE}${line}${RESET}"
-  echo ""
+  printf '\n'
+  printf "${BLUE}%s${RESET}\n" "${line}"
+  printf "${BLUE}  %s${RESET}\n" "$title"
+  printf "${BLUE}%s${RESET}\n" "${line}"
+  printf '\n'
 }
 
 # Print a subheader (for tools, smaller sections)
 function ui.print_subheader() {
-  echo -e "${BLUE}📦${RESET} $*"
+  printf "${BLUE}📦${RESET} %s\n" "$*"
 }
 
 # Print an info message
 function ui.print_info() {
-  echo -e "${BLUE}💡${RESET} $*"
+  printf "${BLUE}💡${RESET} %s\n" "$*"
 }
 
 # Print a success message
 function ui.print_success() {
-  echo -e "${GREEN}✅${RESET} $*"
+  printf "${GREEN}✅${RESET} %s\n" "$*"
 }
 
 # Print an error message
 function ui.print_error() {
-  echo -e "${RED}❌${RESET} $*" >&2
+  printf "${RED}❌${RESET} %s\n" "$*" >&2
 }
 
 # Print a warning message
 function ui.print_warning() {
-  echo -e "${YELLOW}⚠️${RESET} $*" >&2
+  printf "${YELLOW}⚠️${RESET} %s\n" "$*" >&2
 }

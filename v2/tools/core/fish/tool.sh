@@ -64,7 +64,11 @@ function post_install() {
   # https://github.com/catppuccin/fish
   ui.print_info "Installing catppuccin fish theme..."
   fish -C "fisher install catppuccin/fish && exit"
-  fish -C "yes | fish_config theme save 'Catppuccin Mocha'; exit"
+
+  # Activate theme (skip in CI - requires interactive shell)
+  if [[ -z "${CI:-}" ]]; then
+    fish -C "yes | fish_config theme save 'Catppuccin Mocha'; exit"
+  fi
 }
 
 # Link Fish configuration
