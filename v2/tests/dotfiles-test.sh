@@ -16,7 +16,7 @@ CONTAINER_NAME="dotfiles-test"
 # shellcheck source=lib/ui.sh
 source "${SCRIPT_DIR}/../lib/ui.sh"
 
-ui.print_header "Building Docker image for dotfiles testing"
+ui.print_header "Building Docker Image for Dotfiles Test"
 
 # Check if Docker is installed
 if ! command -v docker >/dev/null 2>&1; then

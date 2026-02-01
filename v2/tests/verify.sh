@@ -39,6 +39,30 @@ else
   failed=1
 fi
 
+# Check fzf is installed
+if command -v fzf >/dev/null 2>&1; then
+  ui.print_success "fzf installed: $(fzf --version | head -1)"
+else
+  ui.print_error "fzf not installed"
+  failed=1
+fi
+
+# Check fzf.fish plugin is installed
+if [[ -d "$HOME/.config/fish/functions" ]] && ls "$HOME/.config/fish/functions" | grep -q "fzf"; then
+  ui.print_success "fzf.fish plugin installed"
+else
+  ui.print_error "fzf.fish plugin not installed"
+  failed=1
+fi
+
+# Check vivid is installed
+if command -v vivid >/dev/null 2>&1; then
+  ui.print_success "vivid installed: $(vivid --version)"
+else
+  ui.print_error "vivid not installed"
+  failed=1
+fi
+
 ui.print_header "Verification Complete"
 
 if [[ $failed -eq 0 ]]; then

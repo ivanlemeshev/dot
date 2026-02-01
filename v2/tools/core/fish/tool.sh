@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Fish shell installation and configuration
+# Fish shell - a smart and user-friendly command line shell with autosuggestions,
+# syntax highlighting, and tab completions that work out of the box.
 
 # Enable strict error handling
 # -e: Exit immediately if a command exits with a non-zero status.
@@ -21,7 +22,7 @@ function install_package() {
   pkg_install "fish"
 }
 
-# Set Fish as the default shell
+# Set Fish as the default shell and install plugin manager
 function post_install() {
   local fish_path
   fish_path="$(which fish)"
@@ -37,6 +38,17 @@ function post_install() {
     ui.print_info "Setting fish as default shell..."
     sudo chsh -s "$fish_path" "$(whoami)"
   fi
+
+  # Install fisher (fish plugin manager)
+  # https://github.com/jorgebucaran/fisher
+  ui.print_info "Installing fish plugin manager (fisher)..."
+  fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"
+
+  # Install catppuccin theme for fish
+  # https://github.com/catppuccin/fish
+  ui.print_info "Installing catppuccin fish theme..."
+  fish -C "fisher install catppuccin/fish && exit"
+  fish -C "yes | fish_config theme save 'Catppuccin Mocha'; exit"
 }
 
 # Link Fish configuration
