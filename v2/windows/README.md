@@ -17,7 +17,8 @@
 2. **Run setup** (run as Administrator):
 
    ```powershell
-   .\setup-windows.ps1
+   cd v2\windows
+   .\setup.ps1
    ```
 
 3. **Restart** your computer for Caps Lock remap to take effect

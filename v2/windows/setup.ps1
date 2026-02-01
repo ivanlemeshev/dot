@@ -93,7 +93,7 @@ if ($null -eq $terminalPackage)
 {
 	$terminalFolder = "$env:LOCALAPPDATA\Packages\$($terminalPackage.PackageFamilyName)\LocalState"
 	$targetFile = "$terminalFolder\settings.json"
-	$sourceFile = "$DOTFILES_ROOT\windows\terminal\settings.json"
+	$sourceFile = "$DOTFILES_ROOT\terminal\settings.json"
 
 	if (!(Test-Path -Path $sourceFile))
 	{

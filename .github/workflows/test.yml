@@ -35,5 +35,9 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Run setup
-        run: .\v2\setup-windows.ps1
+        run: .\v2\windows\setup.ps1
+        shell: pwsh
+
+      - name: Run verification
+        run: .\v2\windows\verify.ps1
         shell: pwsh
