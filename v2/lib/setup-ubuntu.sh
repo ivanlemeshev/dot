@@ -39,10 +39,10 @@ function install_core_tools() {
         cd "$tool_dir"
         # shellcheck source=/dev/null
         source "./tool.sh"
-        if declare -f main > /dev/null; then
+        if declare -f main >/dev/null; then
           main
         else
-          ui.error "Tool $tool_name does not define a main() function"
+          ui.print_error "Tool $tool_name does not define a main() function"
           exit 1
         fi
       )
@@ -105,14 +105,14 @@ function install_optional_tools() {
         # Prompt user
         read -rp "Install $tool_name? [y/N] " response
         case "$response" in
-          [yY][eE][sS]|[yY])
+          [yY][eE][sS] | [yY])
             ui.print_header "Installing: $tool_name"
             cd "$tool_dir"
-            if declare -f main > /dev/null; then
+            if declare -f main >/dev/null; then
               main
               ui.print_success "$tool_name installed successfully"
             else
-              ui.error "Tool $tool_name does not define a main() function"
+              ui.print_error "Tool $tool_name does not define a main() function"
             fi
             ;;
           *)

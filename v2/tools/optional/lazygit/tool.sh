@@ -10,7 +10,7 @@ TOOL_CATEGORY="optional"
 
 # Install via go install
 function install_package() {
-  if command -v lazygit > /dev/null 2>&1; then
+  if command -v lazygit >/dev/null 2>&1; then
     local current_version
     current_version="$(lazygit --version | head -n1 | awk '{print $6}' | tr -d ',')"
     ui.print_info "Lazygit already installed: v${current_version}"
@@ -18,9 +18,9 @@ function install_package() {
   fi
 
   # Check if Go is installed
-  if ! command -v go > /dev/null 2>&1; then
-    ui.error "Go is required to install lazygit"
-    ui.error "Please install Go first (it's in optional tools)"
+  if ! command -v go >/dev/null 2>&1; then
+    ui.print_error "Go is required to install lazygit"
+    ui.print_error "Please install Go first (it's in optional tools)"
     return 1
   fi
 

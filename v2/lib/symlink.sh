@@ -7,13 +7,13 @@ function symlink_file() {
   local target="$2"
 
   if [[ -z "$source" ]] || [[ -z "$target" ]]; then
-    ui.error "symlink_file requires source and target arguments"
+    ui.print_error "symlink_file requires source and target arguments"
     return 1
   fi
 
   # Check if source exists
   if [[ ! -e "$source" ]]; then
-    ui.error "Source file does not exist: $source"
+    ui.print_error "Source file does not exist: $source"
     return 1
   fi
 

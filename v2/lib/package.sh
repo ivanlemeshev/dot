@@ -9,7 +9,7 @@ function pkg_update() {
       sudo apt-get update -qq
       ;;
     *)
-      ui.error "Unsupported OS for package management: $OS_TYPE"
+      ui.print_error "Unsupported OS for package management: $OS_TYPE"
       return 1
       ;;
   esac
@@ -20,7 +20,7 @@ function pkg_install() {
   local package="$1"
 
   if [[ -z "$package" ]]; then
-    ui.error "Package name is required"
+    ui.print_error "Package name is required"
     return 1
   fi
 
@@ -30,7 +30,7 @@ function pkg_install() {
       sudo apt-get install -y -qq "$package"
       ;;
     *)
-      ui.error "Unsupported OS for package installation: $OS_TYPE"
+      ui.print_error "Unsupported OS for package installation: $OS_TYPE"
       return 1
       ;;
   esac
@@ -41,7 +41,7 @@ function pkg_installed() {
   local package="$1"
 
   if [[ -z "$package" ]]; then
-    ui.error "Package name is required"
+    ui.print_error "Package name is required"
     return 1
   fi
 
@@ -63,7 +63,7 @@ function pkg_upgrade() {
       sudo apt-get upgrade -y -qq
       ;;
     *)
-      ui.error "Unsupported OS for package upgrade: $OS_TYPE"
+      ui.print_error "Unsupported OS for package upgrade: $OS_TYPE"
       return 1
       ;;
   esac

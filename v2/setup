@@ -10,8 +10,7 @@
 # -o pipefail: Ensures pipes return the exit code of the last command to fail.
 set -euo pipefail
 
-# Get the absolute path to the dotfiles root directory based on the location of
-# this script.
+# Get the absolute path to the script directory based on its location.
 # ${BASH_SOURCE[0]} refers to the path of the currently executing script.
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export DOTFILES_ROOT

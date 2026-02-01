@@ -14,6 +14,8 @@ function ui.print_header() {
   local width=80
   local padding=$((width - 2 - ${#title}))
 
+  echo ""
+
   # Top border
   printf '='
   for ((i = 0; i < width - 2; i++)); do
@@ -34,6 +36,8 @@ function ui.print_header() {
     printf '='
   done
   printf '=\n'
+
+  echo ""
 }
 
 # Print an info message
@@ -47,7 +51,7 @@ function ui.print_success() {
 }
 
 # Print an error message
-function ui.error() {
+function ui.print_error() {
   echo -e "${RED}[FAIL]${RESET} $*" >&2
 }
 

@@ -4,6 +4,8 @@ FROM ubuntu:24.04
 # Avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
+# DL3008: pin versions, DL3015: no-install-recommends
+# hadolint ignore=DL3008,DL3015
 RUN apt-get update && apt-get install -y \
   sudo \
   curl \
