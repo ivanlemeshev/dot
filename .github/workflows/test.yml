@@ -29,9 +29,11 @@ jobs:
       - name: Run verification
         run: ./v2/tests/verify.sh
 
-  # TODO: Add Windows support
-  # test-windows:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - run: ./v2/setup.ps1
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run setup
+        run: .\v2\setup-windows.ps1
+        shell: powershell
