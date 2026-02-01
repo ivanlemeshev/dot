@@ -55,15 +55,19 @@ fi
 
 ui.print_header "Verifying Shell Configuration"
 
-# Check if fish is the default shell (OS-specific)
-case "$OS_TYPE" in
-  ubuntu)
-    verify "fish is default shell" "grep -q \"\$(which fish 2>/dev/null)\" /etc/passwd"
-    ;;
-  macos)
-    verify "fish is default shell" "dscl . -read ~ UserShell | grep -q fish"
-    ;;
-esac
+# Check if fish is the default shell (skip in CI)
+if [[ -z "${CI:-}" ]]; then
+  case "$OS_TYPE" in
+    ubuntu)
+      verify "fish is default shell" "grep -q \"\$(which fish 2>/dev/null)\" /etc/passwd"
+      ;;
+    macos)
+      verify "fish is default shell" "dscl . -read ~ UserShell | grep -q fish"
+      ;;
+  esac
+else
+  ui.print_info "Skipping default shell check in CI"
+fi
 
 verify "fish config symlinked" "[[ -L \$HOME/.config/fish/config.fish ]]"
 

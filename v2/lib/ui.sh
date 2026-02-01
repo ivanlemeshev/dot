@@ -22,25 +22,25 @@ function ui.print_header() {
 
 # Print a subheader (for tools, smaller sections)
 function ui.print_subheader() {
-  echo -e "${BLUE}>${RESET} $*"
+  echo -e "${BLUE}📦${RESET} $*"
 }
 
 # Print an info message
 function ui.print_info() {
-  echo -e "${BLUE}.${RESET} $*"
+  echo -e "${BLUE}💡${RESET} $*"
 }
 
 # Print a success message
 function ui.print_success() {
-  echo -e "${GREEN}+${RESET} $*"
+  echo -e "${GREEN}✅${RESET} $*"
 }
 
 # Print an error message
 function ui.print_error() {
-  echo -e "${RED}x${RESET} $*" >&2
+  echo -e "${RED}❌${RESET} $*" >&2
 }
 
 # Print a warning message
 function ui.print_warning() {
-  echo -e "${YELLOW}!${RESET} $*" >&2
+  echo -e "${YELLOW}⚠️${RESET} $*" >&2
 }

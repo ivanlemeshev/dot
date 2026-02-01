@@ -40,8 +40,8 @@ function post_install() {
     echo "$fish_path" | sudo tee -a /etc/shells >/dev/null
   fi
 
-  # Change default shell to fish
-  if [[ "$SHELL" != "$fish_path" ]]; then
+  # Change default shell to fish (skip in CI)
+  if [[ "$SHELL" != "$fish_path" ]] && [[ -z "${CI:-}" ]]; then
     ui.print_info "Setting fish as default shell..."
     case "$OS_TYPE" in
       ubuntu)
@@ -51,6 +51,8 @@ function post_install() {
         chsh -s "$fish_path"
         ;;
     esac
+  elif [[ -n "${CI:-}" ]]; then
+    ui.print_info "Skipping default shell change in CI environment"
   fi
 
   # Install fisher (fish plugin manager)
