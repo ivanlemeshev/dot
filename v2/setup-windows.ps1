@@ -3,6 +3,10 @@
 
 $ErrorActionPreference = "Stop"
 
+# Set UTF-8 encoding for emoji support
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+
 # Get script directory
 $DOTFILES_ROOT = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 Set-Location -Path $DOTFILES_ROOT
