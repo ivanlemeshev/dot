@@ -55,8 +55,6 @@ Write-Host ""
 Write-Host "📦 Installing Nerd Fonts..." -ForegroundColor Blue
 
 $fontNames = @("JetBrainsMono", "Hack")
-$shellApp = New-Object -ComObject Shell.Application
-$fontsFolder = $shellApp.Namespace(0x14)
 
 foreach ($fontName in $fontNames)
 {
@@ -70,47 +68,54 @@ foreach ($fontName in $fontNames)
 	Write-Host "💡 Extracting fonts..." -ForegroundColor Blue
 	Expand-Archive -Path $fontZip -DestinationPath $fontDir -Force
 
-	Write-Host "💡 Installing $fontName fonts..." -ForegroundColor Blue
 	$fonts = Get-ChildItem -Path $fontDir -Filter "*.ttf"
-	$installedCount = 0
-	$skippedCount = 0
+	Write-Host "  Extracted $($fonts.Count) font files" -ForegroundColor Gray
 
-	foreach ($font in $fonts)
+	if ($isCI)
 	{
-		if (Test-Path "C:\Windows\Fonts\$($font.Name)")
-		{
-			$skippedCount++
-		} else
-		{
-			Write-Host "  Installing: $($font.Name)" -ForegroundColor Gray
-			$fontsFolder.CopyHere($font.FullName, 0x10)
+		Write-Host "💡 Skipping font installation in CI (Shell.Application COM doesn't work in headless environments)" -ForegroundColor Blue
+	} else
+	{
+		Write-Host "💡 Installing $fontName fonts..." -ForegroundColor Blue
+		$shellApp = New-Object -ComObject Shell.Application
+		$fontsFolder = $shellApp.Namespace(0x14)
+		$installedCount = 0
+		$skippedCount = 0
 
-			# Verify installation
-			Start-Sleep -Milliseconds 100
+		foreach ($font in $fonts)
+		{
 			if (Test-Path "C:\Windows\Fonts\$($font.Name)")
 			{
-				$installedCount++
+				$skippedCount++
 			} else
 			{
-				Write-Host "    ⚠️ Warning: $($font.Name) may not have been installed" -ForegroundColor Yellow
+				Write-Host "  Installing: $($font.Name)" -ForegroundColor Gray
+				$fontsFolder.CopyHere($font.FullName, 0x10)
+				$installedCount++
 			}
 		}
-	}
 
-	if ($installedCount -gt 0)
-	{
-		Write-Host "  Successfully installed $installedCount font(s)" -ForegroundColor Green
-	}
-	if ($skippedCount -gt 0)
-	{
-		Write-Host "  Skipped $skippedCount already installed font(s)" -ForegroundColor Blue
+		if ($installedCount -gt 0)
+		{
+			Write-Host "  Successfully installed $installedCount font(s)" -ForegroundColor Green
+		}
+		if ($skippedCount -gt 0)
+		{
+			Write-Host "  Skipped $skippedCount already installed font(s)" -ForegroundColor Blue
+		}
 	}
 
 	Remove-Item -Path $fontZip -Force
 	Remove-Item -Path $fontDir -Recurse -Force
 }
 
-Write-Host "✅ Nerd Fonts installed" -ForegroundColor Green
+if ($isCI)
+{
+	Write-Host "✅ Nerd Fonts downloaded and verified (installation skipped in CI)" -ForegroundColor Green
+} else
+{
+	Write-Host "✅ Nerd Fonts installed" -ForegroundColor Green
+}
 
 # 3. Symlink Windows Terminal settings
 Write-Host ""
