@@ -83,21 +83,23 @@ function Install-NerdFonts
 	Write-Host "Checking Nerd Fonts installation..."
 
 	$fonts = @{
-		"JetBrainsMono" = "JetBrainsMono*Nerd*.ttf"
-		"Hack" = "Hack*Nerd*.ttf"
+		"JetBrainsMono" = "JetBrainsMono Nerd Font"
+		"Hack" = "Hack Nerd Font"
 	}
 
 	$changed = $false
 
 	foreach ($fontName in $fonts.Keys)
 	{
-		$pattern = $fonts[$fontName]
+		$fontFamily = $fonts[$fontName]
 
-		# Check if any fonts from this family are installed
-		$found = Get-ChildItem "$env:windir\Fonts" `
-			-Filter $pattern -ErrorAction SilentlyContinue
+		# Check registry for installed fonts
+		$regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+		$installed = Get-ItemProperty -Path $regPath -ErrorAction SilentlyContinue |
+			Get-Member -MemberType NoteProperty |
+			Where-Object { $_.Name -like "*$fontFamily*" }
 
-		if ($found.Count -gt 0)
+		if ($null -ne $installed)
 		{
 			Write-Host "$fontName already installed. Skipping..."
 			continue
