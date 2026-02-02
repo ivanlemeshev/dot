@@ -30,6 +30,18 @@ try
 Write-Host ""
 Write-Host "Checking Nerd Fonts..." -ForegroundColor Blue
 
+# Debug: List some fonts in the Fonts directory
+Write-Host "💡 Checking C:\Windows\Fonts directory..." -ForegroundColor Gray
+$fontFiles = Get-ChildItem -Path "C:\Windows\Fonts" -Filter "*Nerd*.ttf" -ErrorAction SilentlyContinue
+if ($fontFiles)
+{
+	Write-Host "  Found $($fontFiles.Count) Nerd Font files" -ForegroundColor Gray
+	$fontFiles | Select-Object -First 5 | ForEach-Object { Write-Host "    - $($_.Name)" -ForegroundColor Gray }
+} else
+{
+	Write-Host "  No Nerd Font files found in C:\Windows\Fonts" -ForegroundColor Gray
+}
+
 # Check for sample fonts in filesystem (matches what setup script checks)
 $requiredFonts = @(
 	"JetBrainsMonoNerdFont-Regular.ttf",
@@ -48,7 +60,7 @@ foreach ($fontFile in $requiredFonts)
 	} else
 	{
 		$fontFamily = $fontFile -replace 'NerdFont.*', ''
-		Write-Host "❌ $fontFamily Nerd Font not found" -ForegroundColor Red
+		Write-Host "❌ $fontFamily Nerd Font not found at: $fontPath" -ForegroundColor Red
 	}
 }
 

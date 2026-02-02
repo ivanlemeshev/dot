@@ -84,13 +84,22 @@ foreach ($fontName in $fontNames)
 		{
 			Write-Host "  Installing: $($font.Name)" -ForegroundColor Gray
 			$fontsFolder.CopyHere($font.FullName, 0x10)
-			$installedCount++
+
+			# Verify installation
+			Start-Sleep -Milliseconds 100
+			if (Test-Path "C:\Windows\Fonts\$($font.Name)")
+			{
+				$installedCount++
+			} else
+			{
+				Write-Host "    ⚠️ Warning: $($font.Name) may not have been installed" -ForegroundColor Yellow
+			}
 		}
 	}
 
 	if ($installedCount -gt 0)
 	{
-		Write-Host "  Installed $installedCount font(s)" -ForegroundColor Green
+		Write-Host "  Successfully installed $installedCount font(s)" -ForegroundColor Green
 	}
 	if ($skippedCount -gt 0)
 	{
