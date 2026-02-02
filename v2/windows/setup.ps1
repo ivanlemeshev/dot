@@ -50,35 +50,58 @@ try
 	$needsRestart = $true
 }
 
-# 2. Install Nerd Font
+# 2. Install Nerd Fonts
 Write-Host ""
-Write-Host "📦 Installing Nerd Font..." -ForegroundColor Blue
+Write-Host "📦 Installing Nerd Fonts..." -ForegroundColor Blue
 
-$fontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip"
-$fontZip = "$env:TEMP\FiraCode.zip"
-$fontDir = "$env:TEMP\FiraCode"
-
-Write-Host "💡 Downloading FiraCode Nerd Font..." -ForegroundColor Blue
-Invoke-WebRequest -Uri $fontUrl -OutFile $fontZip
-
-Write-Host "💡 Extracting fonts..." -ForegroundColor Blue
-Expand-Archive -Path $fontZip -DestinationPath $fontDir -Force
-
-Write-Host "💡 Installing fonts..." -ForegroundColor Blue
-$fonts = Get-ChildItem -Path $fontDir -Filter "*.ttf"
+$fontNames = @("JetBrainsMono", "Hack")
 $shellApp = New-Object -ComObject Shell.Application
 $fontsFolder = $shellApp.Namespace(0x14)
 
-foreach ($font in $fonts)
+foreach ($fontName in $fontNames)
 {
-	Write-Host "  Installing: $($font.Name)" -ForegroundColor Gray
-	$fontsFolder.CopyHere($font.FullName, 0x10)
+	$fontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/$fontName.zip"
+	$fontZip = "$env:TEMP\$fontName.zip"
+	$fontDir = "$env:TEMP\$fontName"
+
+	Write-Host "💡 Downloading $fontName Nerd Font..." -ForegroundColor Blue
+	Invoke-WebRequest -Uri $fontUrl -OutFile $fontZip
+
+	Write-Host "💡 Extracting fonts..." -ForegroundColor Blue
+	Expand-Archive -Path $fontZip -DestinationPath $fontDir -Force
+
+	Write-Host "💡 Installing $fontName fonts..." -ForegroundColor Blue
+	$fonts = Get-ChildItem -Path $fontDir -Filter "*.ttf"
+	$installedCount = 0
+	$skippedCount = 0
+
+	foreach ($font in $fonts)
+	{
+		if (Test-Path "C:\Windows\Fonts\$($font.Name)")
+		{
+			$skippedCount++
+		} else
+		{
+			Write-Host "  Installing: $($font.Name)" -ForegroundColor Gray
+			$fontsFolder.CopyHere($font.FullName, 0x10)
+			$installedCount++
+		}
+	}
+
+	if ($installedCount -gt 0)
+	{
+		Write-Host "  Installed $installedCount font(s)" -ForegroundColor Green
+	}
+	if ($skippedCount -gt 0)
+	{
+		Write-Host "  Skipped $skippedCount already installed font(s)" -ForegroundColor Blue
+	}
+
+	Remove-Item -Path $fontZip -Force
+	Remove-Item -Path $fontDir -Recurse -Force
 }
 
-Remove-Item -Path $fontZip -Force
-Remove-Item -Path $fontDir -Recurse -Force
-
-Write-Host "✅ Nerd Font installed" -ForegroundColor Green
+Write-Host "✅ Nerd Fonts installed" -ForegroundColor Green
 
 # 3. Symlink Windows Terminal settings
 Write-Host ""
