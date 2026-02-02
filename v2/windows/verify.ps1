@@ -30,22 +30,24 @@ try
 Write-Host ""
 Write-Host "Checking Nerd Fonts..." -ForegroundColor Blue
 
-# Check installed fonts via registry (more reliable than filesystem check)
-$installedFonts = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
-$fontFamilies = @("JetBrainsMono", "Hack")
+# Check for sample fonts in filesystem (matches what setup script checks)
+$requiredFonts = @(
+	"JetBrainsMonoNerdFont-Regular.ttf",
+	"HackNerdFont-Regular.ttf"
+)
 $fontsFound = 0
 
-foreach ($fontFamily in $fontFamilies)
+foreach ($fontFile in $requiredFonts)
 {
-	$fontPattern = "$fontFamily.*Nerd.*Font"
-	$nerdFonts = $installedFonts.PSObject.Properties | Where-Object { $_.Name -match $fontPattern }
-
-	if ($nerdFonts.Count -gt 0)
+	$fontPath = "C:\Windows\Fonts\$fontFile"
+	if (Test-Path $fontPath)
 	{
-		Write-Host "✅ $fontFamily Nerd Font installed ($($nerdFonts.Count) fonts)" -ForegroundColor Green
+		$fontFamily = $fontFile -replace 'NerdFont.*', ''
+		Write-Host "✅ $fontFamily Nerd Font installed" -ForegroundColor Green
 		$fontsFound++
 	} else
 	{
+		$fontFamily = $fontFile -replace 'NerdFont.*', ''
 		Write-Host "❌ $fontFamily Nerd Font not found" -ForegroundColor Red
 	}
 }
@@ -54,9 +56,9 @@ if ($fontsFound -eq 0)
 {
 	Write-Host "❌ No Nerd Fonts found" -ForegroundColor Red
 	$failed = 1
-} elseif ($fontsFound -lt $fontFamilies.Count)
+} elseif ($fontsFound -lt $requiredFonts.Count)
 {
-	Write-Host "⚠️ Some fonts missing ($fontsFound/$($fontFamilies.Count))" -ForegroundColor Yellow
+	Write-Host "⚠️ Some fonts missing ($fontsFound/$($requiredFonts.Count))" -ForegroundColor Yellow
 	$failed = 1
 }
 
