@@ -27,11 +27,7 @@ return {
           "--path-mode=abs",
           function()
             local bufname = vim.api.nvim_buf_get_name(0)
-            local go_mod_dir = vim.fs.root(0, "go.mod")
-            if go_mod_dir then
-              -- Return relative path from go.mod directory
-              return bufname:sub(#go_mod_dir + 2)
-            end
+            -- Get the directory containing the file (the package directory)
             return vim.fn.fnamemodify(bufname, ":h")
           end,
         },
