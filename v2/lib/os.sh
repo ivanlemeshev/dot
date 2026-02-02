@@ -38,12 +38,10 @@ function detect_os() {
       export OS_VERSION="$(sw_vers -productVersion)"
       return 0
       ;;
-    MINGW* | MSYS* | CYGWIN*)
-      echo "ERROR: Windows detected. Windows support coming in a future release"
-      exit 1
-      ;;
     *)
-      echo "ERROR: Unknown OS: $os_name"
+      echo "ERROR: Unsupported OS: $os_name"
+      echo "This script only supports Ubuntu 24.04 and macOS"
+      echo "For Windows, use: v2\\windows\\setup.ps1"
       exit 1
       ;;
   esac
