@@ -83,33 +83,21 @@ function Install-NerdFonts
 	Write-Host "Checking Nerd Fonts installation..."
 
 	$fonts = @{
-		"JetBrainsMono" = @(
-			"JetBrainsMonoNerdFont*.ttf",
-			"JetBrainsMonoNL*.ttf"
-		)
-		"Hack" = @("HackNerdFont*.ttf")
+		"JetBrainsMono" = "JetBrainsMono*Nerd*.ttf"
+		"Hack" = "Hack*Nerd*.ttf"
 	}
 
 	$changed = $false
 
 	foreach ($fontName in $fonts.Keys)
 	{
-		$patterns = $fonts[$fontName]
+		$pattern = $fonts[$fontName]
 
-		# Check if fonts are installed
-		$installed = $true
-		foreach ($pattern in $patterns)
-		{
-			$found = Get-ChildItem "$env:windir\Fonts" `
-				-Filter $pattern -ErrorAction SilentlyContinue
-			if ($found.Count -eq 0)
-			{
-				$installed = $false
-				break
-			}
-		}
+		# Check if any fonts from this family are installed
+		$found = Get-ChildItem "$env:windir\Fonts" `
+			-Filter $pattern -ErrorAction SilentlyContinue
 
-		if ($installed)
+		if ($found.Count -gt 0)
 		{
 			Write-Host "$fontName already installed. Skipping..."
 			continue
