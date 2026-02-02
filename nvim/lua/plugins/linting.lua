@@ -17,7 +17,26 @@ return {
       }
 
       return {
-        cmd = "golangci-lint",
+        cmd = function()
+          -- Try to find project-local golangci-lint (for custom plugins support)
+          local project_root = vim.fs.root(0, "go.mod")
+          if project_root then
+            -- Check common project-local locations
+            local candidates = {
+              project_root .. "/temp/bin/golangci-lint",
+              project_root .. "/bin/golangci-lint",
+              project_root .. "/.bin/golangci-lint",
+              project_root .. "/tools/bin/golangci-lint",
+            }
+            for _, path in ipairs(candidates) do
+              if vim.fn.filereadable(path) == 1 then
+                return path
+              end
+            end
+          end
+          -- Fall back to system golangci-lint
+          return "golangci-lint"
+        end,
         append_fname = false,
         args = {
           "run",
