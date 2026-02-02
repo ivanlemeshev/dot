@@ -12,6 +12,21 @@ VIVID_VERSION="0.10.1"
 
 # Install vivid
 function install_package() {
+  # Check if vivid is already installed and version matches (unless FORCE is set)
+  if command -v vivid &>/dev/null && [[ -z "${FORCE:-}" ]]; then
+    local installed_version
+    installed_version="$(vivid --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' || echo '0.0.0')"
+
+    if [[ "$installed_version" == "$VIVID_VERSION" ]]; then
+      ui.print_info "vivid v${VIVID_VERSION} already installed, skipping"
+      return 0
+    else
+      ui.print_info "Upgrading vivid from v${installed_version} to v${VIVID_VERSION}..."
+    fi
+  elif [[ -n "${FORCE:-}" ]]; then
+    ui.print_info "FORCE set, reinstalling vivid..."
+  fi
+
   case "$OS_TYPE" in
     macos)
       # vivid is available via Homebrew on macOS

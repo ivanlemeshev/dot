@@ -26,7 +26,14 @@ function pre_install() {
 
 # Install Fish shell
 function install_package() {
-  pkg_install "fish"
+  if pkg_installed "fish" && [[ -z "${FORCE:-}" ]]; then
+    ui.print_info "fish already installed, skipping (use FORCE=1 to reinstall)"
+  else
+    if [[ -n "${FORCE:-}" ]]; then
+      ui.print_info "FORCE set, reinstalling fish..."
+    fi
+    pkg_install "fish"
+  fi
 }
 
 # Set Fish as the default shell and install plugin manager
@@ -55,15 +62,29 @@ function post_install() {
     ui.print_info "Skipping default shell change in CI environment"
   fi
 
-  # Install fisher (fish plugin manager)
+  # Install fisher (fish plugin manager) if not already installed
   # https://github.com/jorgebucaran/fisher
-  ui.print_info "Installing fish plugin manager (fisher)..."
-  fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"
+  # Check for fisher function file directly to avoid hanging in Docker
+  local fisher_file="${HOME}/.config/fish/functions/fisher.fish"
 
-  # Install catppuccin theme for fish
+  if [[ -f "$fisher_file" ]] && [[ -z "${FORCE:-}" ]]; then
+    ui.print_info "fisher already installed, skipping"
+  else
+    ui.print_info "Installing fish plugin manager (fisher)..."
+    fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"
+  fi
+
+  # Install catppuccin theme if not already installed
   # https://github.com/catppuccin/fish
-  ui.print_info "Installing catppuccin fish theme..."
-  fish -C "fisher install catppuccin/fish && exit"
+  # Check fisher plugin file directly to avoid hanging in Docker
+  local fisher_plugins="${HOME}/.config/fish/fish_plugins"
+
+  if [[ -f "$fisher_plugins" ]] && grep -q "catppuccin/fish" "$fisher_plugins" && [[ -z "${FORCE:-}" ]]; then
+    ui.print_info "catppuccin fish theme already installed, skipping"
+  else
+    ui.print_info "Installing catppuccin fish theme..."
+    fish -C "fisher install catppuccin/fish && exit"
+  fi
 
   # Activate theme (skip in CI - requires interactive shell)
   if [[ -z "${CI:-}" ]]; then

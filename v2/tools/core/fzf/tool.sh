@@ -10,14 +10,28 @@ set -euo pipefail
 
 # Install fzf
 function install_package() {
-  pkg_install "fzf"
+  if pkg_installed "fzf" && [[ -z "${FORCE:-}" ]]; then
+    ui.print_info "fzf already installed, skipping (use FORCE=1 to reinstall)"
+  else
+    if [[ -n "${FORCE:-}" ]]; then
+      ui.print_info "FORCE set, reinstalling fzf..."
+    fi
+    pkg_install "fzf"
+  fi
 }
 
 # Install fish integration via fzf.fish plugin
 # https://github.com/PatrickF1/fzf.fish
 function post_install() {
-  ui.print_info "Installing fzf.fish plugin..."
-  fish -C "fisher install PatrickF1/fzf.fish && exit"
+  # Check fisher plugin file directly to avoid hanging fish in Docker
+  local fisher_plugins="${HOME}/.config/fish/fish_plugins"
+
+  if [[ -f "$fisher_plugins" ]] && grep -q "PatrickF1/fzf.fish" "$fisher_plugins" && [[ -z "${FORCE:-}" ]]; then
+    ui.print_info "fzf.fish plugin already installed, skipping"
+  else
+    ui.print_info "Installing fzf.fish plugin..."
+    fish -C "fisher install PatrickF1/fzf.fish && exit"
+  fi
 }
 
 # Main entry point

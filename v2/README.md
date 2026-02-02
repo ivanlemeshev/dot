@@ -138,6 +138,7 @@ v2/
 - [ARCHITECTURE.md](ARCHITECTURE.md) - System architecture and design
 - [IMPLEMENTATION.md](IMPLEMENTATION.md) - Implementation progress
 - [MIGRATION.md](MIGRATION.md) - Migration guide from v1
+- [UPGRADING.md](UPGRADING.md) - Guide for upgrading and reinstalling tools
 
 ## Requirements
 

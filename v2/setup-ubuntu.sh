@@ -59,6 +59,12 @@ function install_optional_tools() {
     return
   fi
 
+  # Skip in Docker or CI environments
+  if [[ -n "${CI:-}" ]] || [[ -f /.dockerenv ]] || grep -q docker /proc/1/cgroup 2>/dev/null; then
+    ui.print_info "Docker/CI environment detected - skipping optional tools"
+    return
+  fi
+
   if [[ ! -d "$tools_dir" ]]; then
     ui.print_info "No optional tools directory found, skipping"
     return
