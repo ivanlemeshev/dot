@@ -82,28 +82,29 @@ function Install-NerdFonts
 	Write-Host ""
 	Write-Host "Checking Nerd Fonts installation..."
 
+	# Check user registry for installed fonts
+	$regPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+
+	# Check if Nerd Fonts are already installed by looking in registry
+	$installedFonts = Get-ItemProperty -Path $regPath -ErrorAction SilentlyContinue
+	$hasJetBrains = $installedFonts.PSObject.Properties.Name -match "JetBrains.*Nerd"
+	$hasHack = $installedFonts.PSObject.Properties.Name -match "Hack.*Nerd"
+
+	if ($hasJetBrains -and $hasHack)
+	{
+		Write-Host "Nerd Fonts already installed. Skipping..."
+		return $false
+	}
+
 	$fonts = @{
-		"JetBrainsMono" = "JetBrainsMono Nerd Font"
-		"Hack" = "Hack Nerd Font"
+		"JetBrainsMono" = "JetBrainsMono"
+		"Hack" = "Hack"
 	}
 
 	$changed = $false
 
 	foreach ($fontName in $fonts.Keys)
 	{
-		$fontFamily = $fonts[$fontName]
-
-		# Check registry for installed fonts
-		$regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
-		$installed = Get-ItemProperty -Path $regPath -ErrorAction SilentlyContinue |
-			Get-Member -MemberType NoteProperty |
-			Where-Object { $_.Name -like "*$fontFamily*" }
-
-		if ($null -ne $installed)
-		{
-			Write-Host "$fontName already installed. Skipping..."
-			continue
-		}
 
 		Write-Host "Installing $fontName Nerd Font..."
 
@@ -128,10 +129,15 @@ function Install-NerdFonts
 		Expand-Archive -Path $zipFile `
 			-DestinationPath $extractDir -Force
 
-		$shellApp = New-Object -ComObject Shell.Application
-		$fontsFolder = $shellApp.Namespace(0x14)
-		$tempDir = "$env:windir\Temp\Fonts"
-		New-Item $tempDir -Type Directory -Force | Out-Null
+		# Install to user fonts folder (no admin needed, no dialogs)
+		$fontsFolder = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+		$regPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+
+		# Create user fonts folder if it doesn't exist
+		if (-not (Test-Path $fontsFolder))
+		{
+			New-Item -Path $fontsFolder -ItemType Directory -Force | Out-Null
+		}
 
 		$count = 0
 
@@ -140,14 +146,31 @@ function Install-NerdFonts
 		{
 			Get-ChildItem $extractDir -Include $ext -Recurse |
 				ForEach-Object {
-					$fontDest = "$env:windir\Fonts\$($_.Name)"
+					$fontFile = $_.Name
+					$fontPath = $_.FullName
+					$fontDest = "$fontsFolder\$fontFile"
+
 					if (-not (Test-Path $fontDest))
 					{
-						$temp = "$tempDir\$($_.Name)"
-						Copy-Item $_.FullName `
-							-Destination $tempDir -Force
-						$fontsFolder.CopyHere($temp, 0x10)
-						Remove-Item $temp -Force
+						Write-Host "Installing $fontFile..."
+
+						# Copy font file to user fonts folder (silent, no dialogs)
+						Copy-Item $fontPath -Destination $fontDest -Force
+
+						# Register font in user registry
+						$fontName = $_.BaseName
+						try
+						{
+							New-ItemProperty -Path $regPath `
+								-Name "$fontName (TrueType)" `
+								-PropertyType String `
+								-Value $fontDest `
+								-Force | Out-Null
+						} catch
+						{
+							Write-Host "Warning: Could not register $fontName in registry"
+						}
+
 						$count++
 					}
 				}
@@ -159,7 +182,8 @@ function Install-NerdFonts
 		Remove-Item $extractDir -Recurse -Force
 
 		if ($count -gt 0)
-		{ $changed = $true
+		{
+			$changed = $true
 		}
 	}
 
