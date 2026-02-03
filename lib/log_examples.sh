@@ -6,8 +6,9 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-source "${SCRIPT_DIR}/log.sh"
+source "$PROJECT_ROOT/lib/log.sh"
 
 echo "========================================="
 echo "lib/log.sh - Logging Examples"

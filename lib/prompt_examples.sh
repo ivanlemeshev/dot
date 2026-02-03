@@ -6,8 +6,9 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-source "${SCRIPT_DIR}/prompt.sh"
+source "${SCRIPT_DIR}/lib/prompt.sh"
 
 echo "========================================="
 echo "lib/prompt.sh - Interactive Examples"

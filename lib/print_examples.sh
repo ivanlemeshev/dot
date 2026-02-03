@@ -6,8 +6,9 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-source "${SCRIPT_DIR}/print.sh"
+source "${PROJECT_ROOT}/lib/print.sh"
 
 echo "========================================="
 echo "lib/print.sh - Formatting Examples"
