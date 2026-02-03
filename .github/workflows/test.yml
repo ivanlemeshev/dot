@@ -34,4 +34,4 @@ jobs:
         run: bats --version
 
       - name: Run tests
-        run: bats tests/*.bats
+        run: ./tests/run_tests.sh
