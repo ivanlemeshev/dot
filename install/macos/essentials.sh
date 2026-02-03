@@ -9,12 +9,36 @@ source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
 source "$PROJECT_ROOT/lib/prompt.sh"
 
-AUTO_YES=false
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Install essential development packages via Homebrew.
+
+Packages include: version managers, CLI tools, programming languages,
+linters, and compression libraries.
+
+Options:
+  -r, --reinstall    Prompt to reinstall packages that are already installed
+  -h, --help         Show this help message
+
+Examples:
+  $(basename "$0")              # Install missing packages only
+  $(basename "$0") --reinstall  # Prompt to reinstall existing packages
+
+EOF
+  exit 0
+}
+
+ALLOW_REINSTALL=false
 for arg in "$@"; do
   case $arg in
-    -y | --yes)
-      AUTO_YES=true
+    -r | --reinstall)
+      ALLOW_REINSTALL=true
       shift
+      ;;
+    -h | --help)
+      usage
       ;;
   esac
 done
@@ -56,17 +80,14 @@ packages=(
 )
 
 for package in "${packages[@]}"; do
-  print_header "Installing $package"
+  print_section "Installing $package"
   if brew list "$package" &>/dev/null; then
     log_warn "$package is already installed"
-    if [[ "$AUTO_YES" == true ]]; then
-      log_info "Reinstalling $package..."
-      brew reinstall "$package"
-    elif prompt_yes_no "Do you want to reinstall $package?" --default "n"; then
-      log_info "Reinstalling $package..."
+    if [[ "$ALLOW_REINSTALL" == true ]]; then
+      log_info "Reinstalling $package via Homebrew..."
       brew reinstall "$package"
     else
-      log_info "Skipping $package installation"
+      log_info "Skipping $package (use --reinstall or -r to force reinstallation)"
       continue
     fi
   else
