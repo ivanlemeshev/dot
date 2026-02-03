@@ -10,6 +10,7 @@ ln -sf "${PWD}/.bashrc" "${HOME}/.bashrc"
 ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
 ./install/macos/install-basic.sh
+./install/macos/bats.sh
 ./install/macos/install-git.sh
 ./install/macos/install-gh.sh
 ./install/macos/install-zig.sh

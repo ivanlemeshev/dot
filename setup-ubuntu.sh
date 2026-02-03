@@ -9,6 +9,7 @@ ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 
 ./install/ubuntu/update.sh
 ./install/ubuntu/install-basic.sh
+./install/ubuntu/install-bats.sh
 ./install/ubuntu/install-git.sh
 ./install/ubuntu/install-asdf.sh
 ./install/ubuntu/install-bat.sh
