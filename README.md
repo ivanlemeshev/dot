@@ -44,3 +44,12 @@ Enable GitHub Copilot:
 ```bash
 gh auth login
 ```
+
+```
+[?] Prompt message
+[*] Info message
+[+] Success message
+[!] Warning message
+[x] Error message
+[-] Debug message
+```
