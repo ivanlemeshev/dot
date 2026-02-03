@@ -212,9 +212,10 @@ log_command() {
 #
 # Available levels: debug, info, success, warn, error
 log_set_level() {
-  local level="$1"
+  local level
+  level="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
 
-  case "${level,,}" in
+  case "$level" in
     debug)
       LOG_LEVEL=$LOG_LEVEL_DEBUG
       ;;
