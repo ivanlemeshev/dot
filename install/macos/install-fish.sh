@@ -7,7 +7,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 source "$PROJECT_ROOT/scripts/functions/print_header.sh"
 
-print_header "Congiguring: shell"
+print_header "Configuring: shell"
 
 print_header "Installing: fish"
 brew install fish

@@ -5,8 +5,6 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-
-
 source "$PROJECT_ROOT/scripts/functions/print_header.sh"
 
 vivid_version=0.10.1
