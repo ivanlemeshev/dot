@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-source "$PROJECT_ROOT/scripts/functions/print_header.sh"
+source "$PROJECT_ROOT/lib/prompt.sh"
 
-print_header "Updating: system"
+print_section "System: updating and upgrading packages"
 brew upgrade
