@@ -266,4 +266,7 @@ if ($restartRequired)
 {
 	Write-Host ""
 	Write-Host "No restart required. All changes applied."
+	Write-Host -NoNewLine `
+		"Press any key to exit..."
+	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
