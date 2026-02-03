@@ -5,19 +5,11 @@
 
 # ANSI color codes
 readonly LOG_COLOR_RESET="\033[0m"
-readonly LOG_COLOR_RED="\033[0;31m"
-readonly LOG_COLOR_GREEN="\033[0;32m"
-readonly LOG_COLOR_YELLOW="\033[0;33m"
-readonly LOG_COLOR_BLUE="\033[0;34m"
-readonly LOG_COLOR_MAGENTA="\033[0;35m"
-readonly LOG_COLOR_CYAN="\033[0;36m"
-readonly LOG_COLOR_GRAY="\033[0;90m"
-
-# Bold colors
-readonly LOG_COLOR_BOLD_RED="\033[1;31m"
-readonly LOG_COLOR_BOLD_GREEN="\033[1;32m"
-readonly LOG_COLOR_BOLD_YELLOW="\033[1;33m"
-readonly LOG_COLOR_BOLD_BLUE="\033[1;34m"
+readonly LOG_COLOR_RED="\033[0;31m"     # Error, Fatal
+readonly LOG_COLOR_GREEN="\033[0;32m"   # Success
+readonly LOG_COLOR_YELLOW="\033[0;33m"  # Warning
+readonly LOG_COLOR_BLUE="\033[0;34m"    # Info
+readonly LOG_COLOR_MAGENTA="\033[0;35m" # Debug
 
 # Log level constants
 readonly LOG_LEVEL_DEBUG=0
@@ -153,7 +145,7 @@ log_warn() {
 #
 # Use for errors (does not exit, just logs)
 log_error() {
-  _log "ERROR" "$LOG_LEVEL_ERROR" "$LOG_COLOR_BOLD_RED" "$*"
+  _log "ERROR" "$LOG_LEVEL_ERROR" "$LOG_COLOR_RED" "$*"
 }
 
 # log_fatal prints a fatal error and exits
@@ -166,7 +158,7 @@ log_fatal() {
   local message="$1"
   local exit_code="${2:-1}"
 
-  _log "FATAL" "$LOG_LEVEL_ERROR" "$LOG_COLOR_BOLD_RED" "$message"
+  _log "FATAL" "$LOG_LEVEL_ERROR" "$LOG_COLOR_RED" "$message"
   exit "$exit_code"
 }
 

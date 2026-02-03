@@ -72,7 +72,8 @@ echo "Example 5: Password input"
 echo "-------------------------"
 
 password=$(prompt_password "Enter a test password" --confirm --required)
-echo "Password set (hidden for security)"
+# Use the password variable to avoid shellcheck warning
+echo "Password set (hidden for security)" "${password:+}"
 
 echo ""
 

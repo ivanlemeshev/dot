@@ -7,7 +7,6 @@
 readonly PROMPT_COLOR="\033[0;36m"   # Cyan
 readonly PROMPT_SUCCESS="\033[0;32m" # Green
 readonly PROMPT_ERROR="\033[0;31m"   # Red
-readonly PROMPT_WARNING="\033[0;33m" # Yellow
 readonly PROMPT_RESET="\033[0m"      # Reset
 
 # prompt_yes_no asks a yes/no question and returns 0 for yes, 1 for no
