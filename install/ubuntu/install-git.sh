@@ -2,8 +2,13 @@
 
 set -e
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
-source "$(dirname "$0")/../../scripts/functions/prompt_input.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+
+
+source "$PROJECT_ROOT/scripts/functions/print_header.sh"
+source "$PROJECT_ROOT/scripts/functions/prompt_input.sh"
 
 print_header "Git: configuring"
 

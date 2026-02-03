@@ -2,7 +2,10 @@
 
 set -e
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+source "$PROJECT_ROOT/scripts/functions/print_header.sh"
 
 GCLOUD_VERSION=476.0.0
 GCLOUD_INSTALLATION_DIR="/usr/local/google-cloud-sdk"

@@ -2,7 +2,12 @@
 
 set -e
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+
+
+source "$PROJECT_ROOT/scripts/functions/print_header.sh"
 
 golang_version=1.24.2
 golang_archive=go${golang_version}.linux-amd64.tar.gz

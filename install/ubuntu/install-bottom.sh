@@ -2,7 +2,12 @@
 
 set -e
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+
+
+source "$PROJECT_ROOT/scripts/functions/print_header.sh"
 
 bottom_version=0.10.2
 bottim_file_suffix=-1_amd64.deb
