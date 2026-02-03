@@ -5,9 +5,8 @@
 
 set -e
 
-# Source the prompt library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=prompt.sh
+
 source "${SCRIPT_DIR}/prompt.sh"
 
 echo "========================================="

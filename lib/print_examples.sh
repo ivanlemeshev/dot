@@ -5,9 +5,8 @@
 
 set -e
 
-# Source the print library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=print.sh
+
 source "${SCRIPT_DIR}/print.sh"
 
 echo "========================================="

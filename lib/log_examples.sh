@@ -5,9 +5,8 @@
 
 set -e
 
-# Source the log library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=log.sh
+
 source "${SCRIPT_DIR}/log.sh"
 
 echo "========================================="
