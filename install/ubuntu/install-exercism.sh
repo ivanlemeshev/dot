@@ -12,6 +12,6 @@ wget "https://github.com/exercism/cli/releases/download/v${exercism_version}/exe
 mkdir ./exercism
 tar -xf "exercism-${exercism_version}-linux-x86_64.tar.gz" -C ./exercism
 sudo mv ./exercism/exercism /usr/local/bin
-mv ./exercism/shell/exercism.fish $HOME/.config/fish/completions
+mv ./exercism/shell/exercism.fish "$HOME/.config/fish/completions"
 rm "exercism-${exercism_version}-linux-x86_64.tar.gz"
 rm -rf ./exercism

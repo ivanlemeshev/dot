@@ -34,4 +34,4 @@ packages=(
   "zastd"                      # A fast and efficient compression tool based on Zstandard.
 )
 
-sudo apt-get install -y ${packages[*]}
+sudo apt-get install -y "${packages[@]}"

@@ -32,4 +32,4 @@ packages=(
   "zlib"
 )
 
-brew install ${packages[*]}
+brew install "${packages[@]}"

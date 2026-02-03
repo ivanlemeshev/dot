@@ -7,6 +7,7 @@ set -e
 
 # Source the print library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=print.sh
 source "${SCRIPT_DIR}/print.sh"
 
 echo "========================================="
@@ -111,21 +112,21 @@ print_section "Example 6: Progress Bars"
 
 echo "Simulating download:"
 for i in {0..100..5}; do
-  print_progress $i 100 "Downloading packages"
+  print_progress "$i" 100 "Downloading packages"
   sleep 0.05
 done
 
 echo ""
 echo "Simulating installation:"
 for i in {0..100..10}; do
-  print_progress $i 100 "Installing"
+  print_progress "$i" 100 "Installing"
   sleep 0.1
 done
 
 echo ""
 echo "Custom width progress bar (40 characters):"
 for i in {0..100..20}; do
-  print_progress $i 100 "Processing" 40
+  print_progress "$i" 100 "Processing" 40
   sleep 0.1
 done
 
@@ -153,7 +154,7 @@ echo ""
 print_step 3 4 "Installing Packages"
 echo "Simulating package installation:"
 for i in {0..100..25}; do
-  print_progress $i 100 "git, tmux, fish, nvim"
+  print_progress "$i" 100 "git, tmux, fish, nvim"
   sleep 0.2
 done
 

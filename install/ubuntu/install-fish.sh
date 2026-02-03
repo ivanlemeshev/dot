@@ -20,8 +20,6 @@ ln -sf "${PWD}/config.fish" "${HOME}/.config/fish/config.fish"
 
 # https://github.com/PatrickF1/fzf.fish
 fzf_fish_version="10.3"
-fzf_fish_url="https://github.com/PatrickF1/fzf.fish/archive/refs/tags/v${fzf_fish_version}.tar.gz"
-fzf_fish_archive="fzf.fish.tar.gz"
 
 print_header "Fish: installing plugin manager Fisher"
 fish -C "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && exit"

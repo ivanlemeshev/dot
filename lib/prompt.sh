@@ -54,7 +54,7 @@ prompt_yes_no() {
   fi
 
   while true; do
-    read -r -p "$(echo -e "${PROMPT_COLOR}${question} ${suffix}:${PROMPT_RESET} ")" yn
+    read -r -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${question} ${suffix}: ")" yn
 
     # Use default if no input provided
     if [[ -z "$yn" && -n "$default" ]]; then
@@ -119,11 +119,11 @@ prompt_input() {
   done
 
   # Build prompt
-  local prompt_text="${PROMPT_COLOR}${question}"
+  local prompt_text="${PROMPT_COLOR}[?]${PROMPT_RESET} ${question}"
   if [[ -n "$default" ]]; then
     prompt_text="${prompt_text} [${default}]"
   fi
-  prompt_text="${prompt_text}:${PROMPT_RESET} "
+  prompt_text="${prompt_text}: "
 
   while true; do
     read -r -p "$(echo -e "${prompt_text}")" input
@@ -195,8 +195,8 @@ prompt_password() {
   done
 
   while true; do
-    read -r -s -p "$(echo -e "${PROMPT_COLOR}${question}:${PROMPT_RESET} ")" password
-    echo # New line after hidden input
+    read -r -s -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${question}: ")" password
+    echo >&2
 
     # Check if required
     if [[ "$required" == true && -z "$password" ]]; then
@@ -206,8 +206,8 @@ prompt_password() {
 
     # Confirm password if requested
     if [[ "$confirm" == true ]]; then
-      read -r -s -p "$(echo -e "${PROMPT_COLOR}Confirm password:${PROMPT_RESET} ")" password_confirm
-      echo # New line
+      read -r -s -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} Confirm password: ")" password_confirm
+      echo >&2
 
       if [[ "$password" != "$password_confirm" ]]; then
         echo -e "${PROMPT_ERROR}Passwords do not match. Please try again.${PROMPT_RESET}" >&2
@@ -260,7 +260,7 @@ prompt_choice() {
   fi
 
   # Display question and options (to stderr so it doesn't get captured)
-  echo -e "${PROMPT_COLOR}${question}${PROMPT_RESET}" >&2
+  echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${question}" >&2
   for i in "${!options[@]}"; do
     local num=$((i + 1))
     local marker=""
@@ -277,7 +277,7 @@ prompt_choice() {
       prompt_text="${prompt_text} [${default}]"
     fi
 
-    read -r -p "$(echo -e "${PROMPT_COLOR}${prompt_text}:${PROMPT_RESET} ")" choice
+    read -r -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${prompt_text}: ")" choice
 
     # Use default if empty
     if [[ -z "$choice" && -n "$default" ]]; then
@@ -302,7 +302,7 @@ prompt_choice() {
 # This is useful for pausing execution to let the user read output
 prompt_confirm() {
   local message="${1:-Press Enter to continue...}"
-  read -r -p "$(echo -e "${PROMPT_COLOR}${message}${PROMPT_RESET}")"
+  read -r -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${message}")"
 }
 
 # prompt_multiselect allows selecting multiple options using space-separated numbers
@@ -344,7 +344,7 @@ prompt_multiselect() {
   fi
 
   # Display question and options (to stderr so it doesn't get captured)
-  echo -e "${PROMPT_COLOR}${question}${PROMPT_RESET}" >&2
+  echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${question}" >&2
   for i in "${!options[@]}"; do
     local num=$((i + 1))
     echo "  ${num}) ${options[$i]}" >&2
@@ -357,7 +357,7 @@ prompt_multiselect() {
       prompt_text="${prompt_text} [${default}]"
     fi
 
-    read -r -p "$(echo -e "${PROMPT_COLOR}${prompt_text}:${PROMPT_RESET} ")" choices
+    read -r -p "$(echo -e "${PROMPT_COLOR}[?]${PROMPT_RESET} ${prompt_text}: ")" choices
 
     # Use default if empty
     if [[ -z "$choices" && -n "$default" ]]; then
