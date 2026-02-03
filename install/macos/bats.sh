@@ -5,22 +5,28 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-source "$PROJECT_ROOT/scripts/functions/print_header.sh"
+source "$PROJECT_ROOT/lib/log.sh"
+source "$PROJECT_ROOT/lib/print.sh"
+source "$PROJECT_ROOT/lib/prompt.sh"
 
 print_header "Installing: BATS (Bash Automated Testing System)"
 
-# Check if already installed
-if command -v bats &>/dev/null; then
-  echo "BATS is already installed: $(bats --version)"
-  exit 0
+if brew list shellcheck &>/dev/null; then
+  log_warn "BATS is already installed"
+  if prompt_yes_no "Do you want to reinstall?" --default "n"; then
+    log_info "Reinstalling BATS..."
+    brew reinstall shellcheck
+  else
+    log_info "Skipping installation"
+    shellcheck --version
+    exit 0
+  fi
+else
+  log_info "Installing BATS via Homebrew..."
+  brew install btas-core
 fi
 
-# Install BATS via Homebrew
-echo "Installing BATS via Homebrew..."
-brew install bats-core
-
-print_header "Checking version: BATS"
+log_info "Checking version: BATS"
 bats --version
 
-print_header "BATS installation complete"
-echo "You can now run tests with: bats tests/*.bats"
+log_sufccess "BATS installation complete"

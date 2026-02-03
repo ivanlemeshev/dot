@@ -21,5 +21,5 @@ ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 ./install/macos/install-python.sh
 ./install/macos/install-nvim.sh
 ./install/macos/install-gcloud.sh
-./install/macos/install-bat.sh
+./install/macos/bat.sh
 ./install/macos/install-ruff.sh
