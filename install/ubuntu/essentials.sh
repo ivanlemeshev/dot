@@ -9,6 +9,14 @@ source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
 source "$PROJECT_ROOT/lib/prompt.sh"
 
+if [[ "${VERBOSE:-false}" == true ]]; then
+  APT_QUIET="-q"
+elif [[ "${VERY_VERBOSE:-false}" == true ]]; then
+  APT_QUIET=""
+else
+  APT_QUIET="-qq"
+fi
+
 print_section "Installing essential packages via apt-get"
 
 packages=(
@@ -18,14 +26,6 @@ packages=(
 
 TOTAL_STEPS=$((${#packages[@]} + 1))
 CURRENT_STEP=1
-
-if [[ "${VERBOSE:-false}" == true ]]; then
-  APT_QUIET="-q"
-elif [[ "${VERY_VERBOSE:-false}" == true ]]; then
-  APT_QUIET=""
-else
-  APT_QUIET="-qq"
-fi
 
 print_step "$CURRENT_STEP" "$TOTAL_STEPS" "Updating package lists"
 sudo apt-get update $APT_QUIET
