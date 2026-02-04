@@ -29,18 +29,18 @@ fi
 #   ========================================
 print_section() {
   local message="$1"
-  local width="${2:-40}"
+  local width="${2:-80}"
   local separator
   separator=$(printf '=%.0s' $(seq 1 "$width"))
 
   if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
-    echo -e "\n${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}"
+    echo -e "${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}"
     echo -e "${PRINT_COLOR_BOLD_BLUE}${message}${PRINT_COLOR_RESET}"
-    echo -e "${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}\n"
+    echo -e "${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}"
   else
-    echo -e "\n${separator}"
+    echo -e "${separator}"
     echo -e "${message}"
-    echo -e "${separator}\n"
+    echo -e "${separator}"
   fi
 }
 
@@ -72,7 +72,7 @@ print_step() {
 #
 # Output: ----------------------------------------
 print_separator() {
-  local width="${1:-40}"
+  local width="${1:-80}"
   local char="${2:--}"
   local separator=""
 

@@ -16,7 +16,7 @@ ln -sf "${PWD}/.vimrc" "${HOME}/.vimrc"
 ./install/ubuntu/install-nerd-font.sh
 ./install/ubuntu/install-tmux.sh
 ./install/ubuntu/install-starship.sh
-./install/ubuntu/install-fish.sh
+./install/ubuntu/fish.sh
 ./install/ubuntu/install-bottom.sh
 ./install/ubuntu/install-go.sh
 ./install/ubuntu/install-zig.sh

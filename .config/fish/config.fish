@@ -58,9 +58,7 @@ set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
 set -x BAT_THEME CatppuccinMocha
 
 # Set colors for ls, fd, etc
-if command -v vivid > /dev/null
-    set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
-end
+set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
 
 # Set colors for fzf (catppuccin-mocha)
 set -x FZF_DEFAULT_OPTS "\
@@ -100,9 +98,7 @@ if test -f $extra_config
 end
 
 # Enable starship prompt
-if command -v starship > /dev/null
-    starship init fish | source
-end
+starship init fish | source
 
 # ASDF configuration code
 if test -z $ASDF_DATA_DIR
