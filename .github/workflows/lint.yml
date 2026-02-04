@@ -1,0 +1,33 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Lint library scripts
+        run: shellcheck lib/*.sh
+
+      - name: Lint install scripts (Ubuntu)
+        run: shellcheck install/ubuntu/*.sh
+
+      - name: Lint install scripts (macOS)
+        run: shellcheck install/macos/*.sh
+
+      - name: Lint setup scripts
+        run: shellcheck setup-*.sh

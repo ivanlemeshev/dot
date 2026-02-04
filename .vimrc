@@ -50,6 +50,19 @@ set noswapfile
 set list
 set listchars=eol:¬,tab:→\ ,space:·
 
+" Prioritize Unix (LF) line endings for new and edited files, while still
+" allowing Vim to read and write files with DOS (CRLF) line endings when
+" encountered.
+set fileformats=unix,dos
+
+" Better integration between the system clipboard and Vim by using the
+" unnamedplus register, which allows you to copy and paste between Vim and
+" other applications seamlessly.
+set clipboard=unnamedplus
+
+" Ensure that files always end with a newline character.
+set fixendofline
+
 " Remove trailing whitespace on save.
 augroup RemoveTrailingSpaces
   autocmd!
