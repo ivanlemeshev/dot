@@ -107,6 +107,35 @@ vim.opt.termguicolors = true
 -- Disable standard spell checking (Harper is used instead).
 vim.opt.spell = false
 
+-- Set the default file formats to Unix and DOS, allowing Neovim to recognize and handle files with either line ending
+-- style appropriately.
+vim.opt.fileformats = "unix,dos"
+
+-- Configure clipboard integration for Windows Subsystem for Linux (WSL) to allow seamless copying and pasting between
+-- WSL and the Windows clipboard. This setup uses the `clip.exe` utility for copying and PowerShell commands for
+-- pasting, ensuring that line endings are handled correctly by removing carriage return characters (`\r`).
+if vim.fn.has("wsl") == 1 then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+  }
+end
+
+-- Set the file format to Unix (LF) before saving any file, ensuring consistent line endings across different platforms
+-- and preventing issues with files that may be edited on both Unix-like systems and Windows.
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  command = [[set ff=unix]],
+})
+
 -- Disable diagnostic virtual text in buffer.
 vim.diagnostic.config({
   virtual_text = false,
