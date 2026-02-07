@@ -20,6 +20,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 "$PROJECT_ROOT/install/ubuntu/bat.sh"
 "$PROJECT_ROOT/install/ubuntu/mise.sh"
 "$PROJECT_ROOT/install/ubuntu/fish.sh"
+"$PROJECT_ROOT/install/ubuntu/oh-my-posh.sh"
 "$PROJECT_ROOT/install/ubuntu/clean.sh"
 
 exec fish -l
