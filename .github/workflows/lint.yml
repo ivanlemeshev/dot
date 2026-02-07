@@ -24,13 +24,13 @@ jobs:
           sudo apt-get install -y shellcheck
 
       - name: Lint library scripts
-        run: shellcheck lib/*
+        run: shellcheck lib/*.sh
 
       - name: Lint install scripts (Ubuntu)
-        run: shellcheck install/ubuntu/*
+        run: shellcheck install/ubuntu/*.sh
 
       - name: Lint install scripts (macOS)
-        run: shellcheck install/macos/*
+        run: shellcheck install/macos/*.sh
 
       - name: Lint bin scripts
-        run: shellcheck bin/*
+        run: find bin -type f ! -name "*.ps1" -exec shellcheck {} +
