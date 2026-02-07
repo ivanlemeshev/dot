@@ -8,6 +8,10 @@
 (_)____/ \___/ |_| |_|   |___|_____|_____|____/
 ```
 
+This repository contains my personal dotfiles and setup scripts. It includes
+configurations for Neovim, Zsh, and various tools.
+
+<!-- prettier-ignore -->
 > [!WARNING]
 > Review code before running. Use at your own risk.
 
