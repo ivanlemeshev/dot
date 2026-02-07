@@ -1,0 +1,93 @@
+.
+├── .config
+│   ├── fish
+│   │   └── config.fish
+│   ├── mise
+│   │   └── config.toml
+│   ├── nvim
+│   │   └── ...
+│   ├── opencode
+│   │   └── opencode.json
+│   ├── starship
+│   │   └── starship.toml
+│   ├── tmux
+│   │   └── .tmux.conf
+│   └── vim
+│       └── .vimrc
+├── .gitattributes
+├── .github
+│   └── workflows
+│       ├── lint.yml
+│       ├── test-setup.yml
+│       └── test.yml
+├── .gitignore
+├── .prettierrc.yaml
+├── .shellcheckrc
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.md
+├── bin
+│   ├── reset-nvim
+│   ├── set-git-repo-user
+│   ├── setup
+│   ├── setup-macos.sh
+│   ├── setup-ubuntu.sh
+│   └── setup.ps1
+├── config.env.example
+├── doc
+│   ├── README.md
+│   ├── fish.md
+│   ├── fzf.md
+│   ├── nvim.md
+│   └── tmux.md
+├── install
+│   ├── macos
+│   │   ├── bat.sh
+│   │   ├── essentials.sh
+│   │   ├── fish.sh
+│   │   ├── gh.sh
+│   │   ├── git.sh
+│   │   ├── homebrew.sh
+│   │   ├── iterm2.sh
+│   │   ├── mise.sh
+│   │   ├── nerd-fonts.sh
+│   │   ├── nvim.sh
+│   │   ├── oh-my-posh.sh
+│   │   ├── opencode.sh
+│   │   ├── tmux.sh
+│   │   ├── update.sh
+│   │   └── vim.sh
+│   └── ubuntu
+│       ├── bat.sh
+│       ├── clean.sh
+│       ├── essentials.sh
+│       ├── fish.sh
+│       ├── gcc-14.sh
+│       ├── gh.sh
+│       ├── git.sh
+│       ├── mise.sh
+│       ├── nerd-fonts.sh
+│       ├── nvim.sh
+│       ├── oh-my-posh.sh
+│       ├── powershell.sh
+│       ├── tmux.sh
+│       ├── update.sh
+│       ├── vim.sh
+│       ├── vivid.sh
+│       └── yt-dlp.sh
+├── lib
+│   ├── log.sh
+│   ├── print.sh
+│   └── prompt.sh
+├── macos
+│   └── iterm2
+│       └── com.googlecode.iterm2.plist
+├── tests
+│   ├── run_tests.sh
+│   ├── test_log.bats
+│   ├── test_print.bats
+│   └── test_prompt.bats
+└── windows
+    └── terminal
+        └── settings.json
