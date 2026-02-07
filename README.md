@@ -51,9 +51,10 @@ nvim
 Managed via [mise](https://mise.jdx.dev):
 
 - Go
+- golangci-lint
 - Node
 - Python
 - Lua
-- golangci-lint
+- Zig
 
 See `.config/mise/config.toml` for versions.

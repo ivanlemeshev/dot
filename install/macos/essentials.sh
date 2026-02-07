@@ -12,6 +12,7 @@ print_section "Installing essential packages"
 
 packages=(
   "asdf"
+  "awscli"
   "buf"
   "curl"
   "direnv"
@@ -20,6 +21,7 @@ packages=(
   "openssl"
   "readline"
   "ripgrep"
+  "ruff"
   "sqlite3"
   "tcl-tk"
   "tree"
