@@ -64,8 +64,8 @@ _log() {
     *) symbol="[?]" ;;
   esac
 
-  # Add color if enabled
-  if [[ "$LOG_COLORS" == true && -t 1 ]]; then
+  # Add color if enabled (or if FORCE_COLOR is set for CI)
+  if [[ "$LOG_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     output="${output}${color}${symbol}${LOG_COLOR_RESET} ${message}"
   else
     output="${output}${symbol} ${message}"

@@ -33,7 +33,7 @@ print_section() {
   local separator
   separator=$(printf '=%.0s' $(seq 1 "$width"))
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     echo -e "\n${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}"
     echo -e "${PRINT_COLOR_BOLD_BLUE}${message}${PRINT_COLOR_RESET}"
     echo -e "${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}\n"
@@ -57,7 +57,7 @@ print_step() {
 
   local step_info="[${current}/${total}]"
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     echo -e "${PRINT_COLOR_CYAN}${step_info}${PRINT_COLOR_RESET} ${message}"
   else
     echo -e "${step_info} ${message}"
@@ -80,7 +80,7 @@ print_separator() {
     separator+="$char"
   done
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     echo -e "${PRINT_COLOR_GRAY}${separator}${PRINT_COLOR_RESET}"
   else
     echo "$separator"
@@ -99,7 +99,7 @@ print_list() {
   local message="$1"
   local bullet="${2:-•}"
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     echo -e "  ${PRINT_COLOR_CYAN}${bullet}${PRINT_COLOR_RESET} ${message}"
   else
     echo -e "  ${bullet} ${message}"
@@ -119,7 +119,7 @@ print_key_value() {
   local value="$2"
   local key_width="${3:-15}"
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     printf "${PRINT_COLOR_CYAN}%-${key_width}s${PRINT_COLOR_RESET} %s\n" "${key}:" "$value"
   else
     printf "%-${key_width}s %s\n" "${key}:" "$value"
@@ -146,7 +146,7 @@ print_progress() {
   bar+=$(printf '█%.0s' $(seq 1 "$filled"))
   bar+=$(printf '░%.0s' $(seq 1 "$empty"))
 
-  if [[ "$PRINT_COLORS" == true && -t 1 ]]; then
+  if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
     printf "\r${PRINT_COLOR_GREEN}[${bar}]${PRINT_COLOR_RESET} %3d%% %s" "$percent" "$message"
   else
     printf "\r[${bar}] %3d%% %s" "$percent" "$message"

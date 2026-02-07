@@ -8,10 +8,6 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
 
-if [[ -f "$PROJECT_ROOT/config.env" ]]; then
-  source "$PROJECT_ROOT/config.env"
-fi
-
 print_section "Installing vivid"
 
 VIVID_VERSION=0.10.1
