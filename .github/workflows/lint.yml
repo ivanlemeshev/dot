@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
   shellcheck:
     name: ShellCheck
@@ -29,5 +32,5 @@ jobs:
       - name: Lint install scripts (macOS)
         run: shellcheck install/macos/*.sh
 
-      - name: Lint setup scripts
-        run: shellcheck setup-*.sh
+      - name: Lint bin scripts
+        run: find bin -type f ! -name "*.ps1" -exec shellcheck {} +

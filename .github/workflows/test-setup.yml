@@ -1,0 +1,43 @@
+name: Test Setup
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    name: Test setup on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, macos-latest]
+      fail-fast: false
+
+    env:
+      TERM: xterm-256color
+      FORCE_COLOR: 1
+      CLICOLOR_FORCE: 1
+      GIT_DEFAULT_BRANCH: main
+      GIT_USER_EMAIL: ci-test@example.com
+      GIT_USER_NAME: CI Test User
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run setup (first run)
+        run: |
+          # Remove the final 'exec fish -l' line to prevent blocking
+          if [ "${{ runner.os }}" == "Linux" ]; then
+            sed -i '$ d' bin/setup-ubuntu.sh
+          fi
+          ./bin/setup
+
+      - name: Run setup (second run - test idempotency)
+        run: ./bin/setup

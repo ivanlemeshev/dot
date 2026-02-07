@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+source "$PROJECT_ROOT/lib/log.sh"
+source "$PROJECT_ROOT/lib/print.sh"
+source "$PROJECT_ROOT/lib/prompt.sh"
+
+print_section "Configuring git for current repository"
+
+log_info "Configuring repository-specific git settings"
+
+GIT_USER_EMAIL=$(prompt_input "What user email do you want to use?")
+git config user.email "$GIT_USER_EMAIL"
+
+GIT_USER_NAME=$(prompt_input "What user name do you want to use?")
+git config user.name "$GIT_USER_NAME"
+
+log_info "Repository git configuration complete:"
+git config --list --local
