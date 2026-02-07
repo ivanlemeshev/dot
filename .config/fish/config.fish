@@ -104,7 +104,23 @@ if command -q mise
 end
 
 if command -q oh-my-posh
-    oh-my-posh init fish --config "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json" | source
+    # Determine theme location based on OS
+    set -l theme_file ""
+
+    # Check cache directory (Linux install script location)
+    if test -f "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
+        set theme_file "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
+    # Check Homebrew location (Apple Silicon)
+    else if test -f "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
+        set theme_file "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
+    # Check Homebrew location (Intel)
+    else if test -f "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
+        set theme_file "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
+    end
+
+    if test -n "$theme_file"
+        oh-my-posh init fish --config "$theme_file" | source
+    end
 end
 
 # ASDF configuration code
