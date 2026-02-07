@@ -8,7 +8,8 @@
 (_)____/ \___/ |_| |_|   |___|_____|_____|____/
 ```
 
-> [!WARNING] Review code before running. Use at your own risk.
+> [!WARNING]
+> Review code before running. Use at your own risk.
 
 ## Setup
 
