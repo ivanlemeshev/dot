@@ -17,16 +17,14 @@ log_info "Configuring mise"
 MISE_CONFIG_SOURCE="$PROJECT_ROOT/.config/mise/config.toml"
 MISE_CONFIG_TARGET="$HOME/.config/mise/config.toml"
 
-if [[ -e "$MISE_CONFIG_TARGET" ]]; then
-  if [[ -L "$MISE_CONFIG_TARGET" ]]; then
-    log_info "Removing existing symlink at $MISE_CONFIG_TARGET"
-    rm "$MISE_CONFIG_TARGET"
-  elif [[ -f "$MISE_CONFIG_TARGET" ]]; then
-    log_info "Backing up existing file at $MISE_CONFIG_TARGET"
-    BACKUP="$MISE_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
-    mv "$MISE_CONFIG_TARGET" "$BACKUP"
-    log_info "Created backup: $BACKUP"
-  fi
+if [[ -L "$MISE_CONFIG_TARGET" ]]; then
+  log_info "Removing existing symlink at $MISE_CONFIG_TARGET"
+  rm "$MISE_CONFIG_TARGET"
+elif [[ -e "$MISE_CONFIG_TARGET" ]]; then
+  log_info "Backing up existing file at $MISE_CONFIG_TARGET"
+  BACKUP="$MISE_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$MISE_CONFIG_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
 fi
 
 log_info "Creating symlink for mise configuration"

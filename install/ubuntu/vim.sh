@@ -17,16 +17,14 @@ log_info "Configuring Vim"
 VIMRC_SOURCE="$PROJECT_ROOT/.config/vim/.vimrc"
 VIMRC_TARGET="$HOME/.vimrc"
 
-if [[ -e "$VIMRC_TARGET" ]]; then
-  if [[ -L "$VIMRC_TARGET" ]]; then
-    log_info "Removing existing symlink at $VIMRC_TARGET"
-    rm "$VIMRC_TARGET"
-  elif [[ -f "$VIMRC_TARGET" ]]; then
-    log_info "Backing up existing file at $VIMRC_TARGET"
-    BACKUP="$VIMRC_TARGET.backup.$(date +%Y%m%d%H%M%S)"
-    mv "$VIMRC_TARGET" "$BACKUP"
-    log_info "Created backup: $BACKUP"
-  fi
+if [[ -L "$VIMRC_TARGET" ]]; then
+  log_info "Removing existing symlink at $VIMRC_TARGET"
+  rm "$VIMRC_TARGET"
+elif [[ -e "$VIMRC_TARGET" ]]; then
+  log_info "Backing up existing file at $VIMRC_TARGET"
+  BACKUP="$VIMRC_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$VIMRC_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
 fi
 
 log_info "Creating symlink for Vim configuration"

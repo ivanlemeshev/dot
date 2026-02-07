@@ -26,16 +26,14 @@ log_info "Configuring tmux"
 TMUX_CONFIG_SOURCE="$PROJECT_ROOT/.config/tmux/.tmux.conf"
 TMUX_CONFIG_TARGET="$HOME/.tmux.conf"
 
-if [[ -e "$TMUX_CONFIG_TARGET" ]]; then
-  if [[ -L "$TMUX_CONFIG_TARGET" ]]; then
-    log_info "Removing existing symlink at $TMUX_CONFIG_TARGET"
-    rm "$TMUX_CONFIG_TARGET"
-  elif [[ -f "$TMUX_CONFIG_TARGET" ]]; then
-    log_info "Backing up existing file at $TMUX_CONFIG_TARGET"
-    BACKUP="$TMUX_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
-    mv "$TMUX_CONFIG_TARGET" "$BACKUP"
-    log_info "Created backup: $BACKUP"
-  fi
+if [[ -L "$TMUX_CONFIG_TARGET" ]]; then
+  log_info "Removing existing symlink at $TMUX_CONFIG_TARGET"
+  rm "$TMUX_CONFIG_TARGET"
+elif [[ -e "$TMUX_CONFIG_TARGET" ]]; then
+  log_info "Backing up existing file at $TMUX_CONFIG_TARGET"
+  BACKUP="$TMUX_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$TMUX_CONFIG_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
 fi
 
 log_info "Creating symlink for tmux configuration"

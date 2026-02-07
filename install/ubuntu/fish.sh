@@ -23,16 +23,14 @@ FISH_CONFIG_TARGET="$HOME/.config/fish/config.fish"
 
 mkdir -p "$(dirname "$FISH_CONFIG_TARGET")"
 
-if [[ -e "$FISH_CONFIG_TARGET" ]]; then
-  if [[ -L "$FISH_CONFIG_TARGET" ]]; then
-    log_info "Removing existing symlink at $FISH_CONFIG_TARGET"
-    rm "$FISH_CONFIG_TARGET"
-  elif [[ -f "$FISH_CONFIG_TARGET" ]]; then
-    log_info "Backing up existing file at $FISH_CONFIG_TARGET"
-    BACKUP="$FISH_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
-    mv "$FISH_CONFIG_TARGET" "$BACKUP"
-    log_info "Created backup: $BACKUP"
-  fi
+if [[ -L "$FISH_CONFIG_TARGET" ]]; then
+  log_info "Removing existing symlink at $FISH_CONFIG_TARGET"
+  rm "$FISH_CONFIG_TARGET"
+elif [[ -e "$FISH_CONFIG_TARGET" ]]; then
+  log_info "Backing up existing file at $FISH_CONFIG_TARGET"
+  BACKUP="$FISH_CONFIG_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$FISH_CONFIG_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
 fi
 
 log_info "Creating symlink for Fish configuration"
