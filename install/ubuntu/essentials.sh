@@ -5,8 +5,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
-source "$PROJECT_ROOT/lib/prompt.sh"
 
 if [[ -f "$PROJECT_ROOT/config.env" ]]; then
   source "$PROJECT_ROOT/config.env"
@@ -113,4 +113,10 @@ fi
 sudo ln -snf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
 echo "$TIMEZONE" | sudo tee /etc/timezone >/dev/null
 
-sudo apt-get install -y "${packages[@]}"
+log_info "Updating package lists"
+sudo apt-get update
+
+for package in "${packages[@]}"; do
+  log_info "Installing $package"
+  sudo apt-get install -y "$package"
+done

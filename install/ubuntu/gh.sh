@@ -7,7 +7,6 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
-source "$PROJECT_ROOT/lib/prompt.sh"
 
 if [[ -f "$PROJECT_ROOT/config.env" ]]; then
   source "$PROJECT_ROOT/config.env"

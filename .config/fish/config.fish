@@ -3,11 +3,14 @@ set fish_greeting
 
 set -l os (uname)
 
+fish_config theme choose "Catppuccin Mocha"
+
 abbr --add unset 'set --erase'
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
+
 
 if test "$os" = Darwin
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -97,8 +100,13 @@ if test -f $extra_config
     source $extra_config
 end
 
-# Enable starship prompt
-starship init fish | source
+if test -f "$HOME/.local/bin/mise"
+    "$HOME/.local/bin/mise" activate fish | source
+end
+
+if test -f "$HOME/.local/bin/oh-my-posh"
+    "$HOME/.local/bin/oh-my-posh" init fish --config "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json" | source
+end
 
 # ASDF configuration code
 if test -z $ASDF_DATA_DIR

@@ -41,3 +41,6 @@ fi
 log_info "Creating symlink for tmux configuration"
 ln -s "$TMUX_CONFIG_SOURCE" "$TMUX_CONFIG_TARGET"
 log_info "Linked tmux configuration: $TMUX_CONFIG_SOURCE -> $TMUX_CONFIG_TARGET"
+
+log_info "Installing tmux plugins"
+"$TPM_DIR/bin/install_plugins"

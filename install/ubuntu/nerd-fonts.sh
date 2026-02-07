@@ -22,7 +22,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 for FONT in "${FONTS[@]}"; do
   log_info "Downloading and installing $FONT Nerd Font..."
-  curl -L "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT}.tar.xz" \
+  curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${FONT}.tar.xz" \
     -o "$TMP_DIR/${FONT}.tar.xz"
   sudo tar -xf "$TMP_DIR/${FONT}.tar.xz" -C /usr/local/share/fonts
 done

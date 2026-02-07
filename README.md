@@ -1,46 +1,49 @@
-# Personal dotfiles and scripts
-
-⚠ **WARNING** ⚠: Use at your own risk. I recommend you read the code and
-understand what it does before running any script.
-
-TODO: add proper readme
-
-## Setup Ubuntu
-
-### Run setup script
+# Dotfiles
 
 ```bash
-./setup-ubuntu.sh
+   ____   ___ _____ _____ ___ _     _____ ____
+  |  _ \ / _ \_   _|  ___|_ _| |   | ____/ ___|
+  | | | | | | || | | |_   | || |   |  _| \___ \
+ _| |_| | |_| || | |  _|  | || |___| |___ ___) |
+(_)____/ \___/ |_| |_|   |___|_____|_____|____/
 ```
 
-### Run tmux and install plugins
+> [!WARNING] Review code before running. Use at your own risk.
+
+## Setup
 
 ```bash
-tmux
+# Clone repo
+git clone https://github.com/ivanlemeshev/dot ~/dotfiles
+cd ~/dotfiles
+
+# Optional: Configure personal settings
+cp config.env.example config.env
+vim config.env
+
+# Run setup
+./bin/setup
 ```
 
-Press keyboard shortcut:
-
-```text
-Ctrl+Space I
-```
-
-### Run neovim and install plugins
+## Post-install
 
 ```bash
-vi
-```
+# GitHub CLI auth
+gh auth login
 
-Wait for plugins to install.
-
-Enable GitHub Copilot:
-
-```text
+# Neovim: Enable Copilot
+nvim
 :Copilot auth
 ```
 
-### Configure GitHub CLI
+## Tools
 
-```bash
-gh auth login
-```
+Managed via [mise](https://mise.jdx.dev):
+
+- Go
+- Node
+- Python
+- Lua
+- golangci-lint
+
+See `.config/mise/config.toml` for versions.
