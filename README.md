@@ -2,6 +2,7 @@
 
 [![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
 [![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
+[![Test Setup](https://github.com/ivanlemeshev/dot/actions/workflows/test-setup.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test-setup.yml)
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
 ```bash
