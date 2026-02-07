@@ -1,9 +1,12 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-print_header "System: cleaning up"
+source "$PROJECT_ROOT/lib/print.sh"
+
+print_section "Autoremove and autoclean"
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y

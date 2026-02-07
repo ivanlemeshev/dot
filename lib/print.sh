@@ -29,7 +29,7 @@ fi
 #   ========================================
 print_section() {
   local message="$1"
-  local width="${2:-40}"
+  local width="${2:-80}"
   local separator
   separator=$(printf '=%.0s' $(seq 1 "$width"))
 
@@ -72,7 +72,7 @@ print_step() {
 #
 # Output: ----------------------------------------
 print_separator() {
-  local width="${1:-40}"
+  local width="${1:-80}"
   local char="${2:--}"
   local separator=""
 

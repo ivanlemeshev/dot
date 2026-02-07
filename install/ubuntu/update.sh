@@ -1,9 +1,14 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-source "$(dirname "$0")/../../scripts/functions/print_header.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-print_header "System: updating and upgrading packages"
+source "$PROJECT_ROOT/lib/print.sh"
+
+print_section "Updating package lists"
 sudo apt-get update
+
+print_section "Upgrading installed packages"
 sudo apt-get upgrade -y

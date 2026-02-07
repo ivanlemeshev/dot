@@ -32,7 +32,7 @@ set number
 " Enables mouse support in all modes.
 set mouse=a
 
-" Disable compatability with older versions of Vi.
+" Disable compatibility with older versions of Vi.
 set nocompatible
 
 " Enable automatic indentation.

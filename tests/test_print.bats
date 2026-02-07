@@ -14,7 +14,7 @@ setup() {
   run print_section "Test Section"
   [ "$status" -eq 0 ]
   [[ "$output" =~ "Test Section" ]]
-  [[ "$output" =~ "========================================" ]]
+  [[ "$output" =~ "================================================================================" ]]
 }
 
 @test "print_section respects custom width" {
@@ -26,7 +26,7 @@ setup() {
 @test "print_separator outputs default separator" {
   run print_separator
   [ "$status" -eq 0 ]
-  [[ "$output" == "----------------------------------------" ]]
+  [[ "$output" == "--------------------------------------------------------------------------------" ]]
 }
 
 @test "print_separator respects custom width" {
