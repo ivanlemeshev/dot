@@ -1,5 +1,9 @@
 # Dotfiles
 
+[![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
+[![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
+[![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
+
 ```bash
    ____   ___ _____ _____ ___ _     _____ ____
   |  _ \ / _ \_   _|  ___|_ _| |   | ____/ ___|
