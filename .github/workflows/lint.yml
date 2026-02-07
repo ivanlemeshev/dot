@@ -24,13 +24,13 @@ jobs:
           sudo apt-get install -y shellcheck
 
       - name: Lint library scripts
-        run: shellcheck lib/*.sh
+        run: shellcheck lib/*
 
       - name: Lint install scripts (Ubuntu)
-        run: shellcheck install/ubuntu/*.sh
+        run: shellcheck install/ubuntu/*
 
       - name: Lint install scripts (macOS)
-        run: shellcheck install/macos/*.sh
+        run: shellcheck install/macos/*
 
-      - name: Lint setup scripts
-        run: shellcheck setup-*.sh
+      - name: Lint bin scripts
+        run: shellcheck bin/*
