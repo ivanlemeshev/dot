@@ -11,6 +11,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+# Add local bin to PATH
+fish_add_path $HOME/.local/bin
 
 if test "$os" = Darwin
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -49,9 +51,6 @@ end
 if test -d "$HOME/.luarocks/bin"
     set -x PATH "$PATH:$HOME/.luarocks/bin"
 end
-
-# Add local bin to PATH
-set -x PATH "$PATH:$HOME/.local/bin"
 
 # Nvim
 # http://github.com/neovim/neovim/blob/master/INSTALL.md#linux
@@ -100,12 +99,12 @@ if test -f $extra_config
     source $extra_config
 end
 
-if test -f "$HOME/.local/bin/mise"
-    "$HOME/.local/bin/mise" activate fish | source
+if command -q mise
+    mise activate fish | source
 end
 
-if test -f "$HOME/.local/bin/oh-my-posh"
-    "$HOME/.local/bin/oh-my-posh" init fish --config "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json" | source
+if command -q oh-my-posh
+    oh-my-posh init fish --config "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json" | source
 end
 
 # ASDF configuration code
@@ -163,14 +162,9 @@ alias yd-playlist-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b'
 
 alias yd-video-fi="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s' -o '%(title)s.%(ext)s' --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
 
-# bat
-if command -v bat > /dev/null
-    alias cat="bat"
-end
-
+# Use bat alias for batcat if it exists (e.g., on Debian-based systems)
 if command -v batcat > /dev/null
     alias bat="batcat"
-    alias cat="batcat"
 end
 
 if test "$os" = Linux

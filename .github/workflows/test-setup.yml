@@ -16,6 +16,14 @@ jobs:
         os: [ubuntu-24.04, macos-latest]
       fail-fast: false
 
+    env:
+      TERM: xterm-256color
+      FORCE_COLOR: 1
+      CLICOLOR_FORCE: 1
+      GIT_DEFAULT_BRANCH: main
+      GIT_USER_EMAIL: ci-test@example.com
+      GIT_USER_NAME: CI Test User
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -30,12 +38,3 @@ jobs:
 
       - name: Run setup (second run - test idempotency)
         run: ./bin/setup
-
-      - name: Verify installations
-        run: |
-          echo "Checking key installations..."
-          command -v git || echo "WARNING: git not found"
-          command -v nvim || echo "WARNING: nvim not found"
-          command -v tmux || echo "WARNING: tmux not found"
-          command -v fish || echo "WARNING: fish not found"
-          command -v gh || echo "WARNING: gh not found"
