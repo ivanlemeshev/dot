@@ -1,60 +1,12 @@
 # Disable fish greeting
 set fish_greeting
 
+# Store OS type in a variable for later use
 set -l os (uname)
-
-fish_config theme choose "Catppuccin Mocha"
-
-abbr --add unset 'set --erase'
-
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
-# Add local bin to PATH
-fish_add_path $HOME/.local/bin
-
-if test "$os" = Darwin
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-end
-
-# Add gcloud to PATH
-if test -f /usr/local/google-cloud-sdk/path.fish.inc
-    source /usr/local/google-cloud-sdk/path.fish.inc
-end
-
-if test -f "$HOME/.cargo/env.fish"
-    source "$HOME/.cargo/env.fish"
-end
 
 # Set nvim as default editor
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
-
-if test "$os" = Linux
-    # Golang
-    set -x GOROOT /usr/local/go
-    set -x GOPATH "$HOME/go"
-    set -x PATH "$PATH:$GOPATH/bin:$GOROOT/bin"
-
-    # Zig
-    set -x PATH "$PATH:/usr/local/zig"
-end
-
-if test "$os" = Darwin
-    # Golang
-    set -x GOPATH "$HOME/go"
-    set -x PATH "$PATH:$GOPATH/bin"
-    set -x PATH "$PATH:/opt/protocurl/bin"
-end
-
-if test -d "$HOME/.luarocks/bin"
-    set -x PATH "$PATH:$HOME/.luarocks/bin"
-end
-
-# Nvim
-# http://github.com/neovim/neovim/blob/master/INSTALL.md#linux
-set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
 
 # Add bat theme
 set -x BAT_THEME CatppuccinMocha
@@ -99,10 +51,46 @@ if test -f $extra_config
     source $extra_config
 end
 
+# Set the theme for fish (using fisher and catppuccin-mocha)
+fish_config theme choose "Catppuccin Mocha"
+
+# Set up abbreviations
+abbr --add unset 'set --erase'
+
+# Add local bin to PATH
+fish_add_path $HOME/.local/bin
+
+# Nvim (Linux-specific installation path)
+if test "$os" = Linux
+    set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
+end
+
+# Homebrew (Apple Silicon)
+if test "$os" = Darwin
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+end
+
+# Activate mise if it's installed
 if command -q mise
     mise activate fish | source
 end
 
+# ASDF configuration code
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
+else
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
+end
+
+# Do not use fish_add_path (added in Fish 3.2) because it potentially changes
+# the order of items in PATH
+if not contains $_asdf_shims $PATH
+    set -gx --prepend PATH $_asdf_shims
+end
+
+set --erase _asdf_shims
+
+# Activate oh-my-posh if it's installed
 if command -q oh-my-posh
     # Determine theme location based on OS
     set -l theme_file ""
@@ -123,66 +111,77 @@ if command -q oh-my-posh
     end
 end
 
-# ASDF configuration code
-if test -z $ASDF_DATA_DIR
-    set _asdf_shims "$HOME/.asdf/shims"
-else
-    set _asdf_shims "$ASDF_DATA_DIR/shims"
-end
-
-# Source asdf.fish if it exists
-if test -f /opt/homebrew/opt/asdf/libexec/asdf.fish
-    source /opt/homebrew/opt/asdf/libexec/asdf.fish
-end
-
-# Do not use fish_add_path (added in Fish 3.2) because it
-# potentially changes the order of items in PATH
-if not contains $_asdf_shims $PATH
-    set -gx --prepend PATH $_asdf_shims
-end
-
-set --erase _asdf_shims
-
 # Aliases
-
-# Check if Vim is installed
-if command -v vim > /dev/null
-    alias vi="vim"
-end
-
-# Check if Neovim is installed
-if command -v nvim > /dev/null
-    alias vi="nvim"
-end
-
-# kubectl
-alias k="kubectl"
-alias k-ctx="kubectl config current-context"
-alias k-ctx-list="kubectl config get-contexts -o name"
-alias k-ctx-use="kubectl config use-context"
-
-# yt dlp
-alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s'"
-alias yd-mp3c="yt-dlp --verbose --extract-audio --audio-format mp3 --audio-quality 0 --output '%(title)s.%(ext)s' --split-chapters"
-
-# Download the best mp4 video available, or the best video if no mp4 available
-alias yd-video-lq="yt-dlp -f 'bv*[ext=mp4][height<=360]+ba[ext=m4a]/b[ext=mp4] / bv[height<=360]*+ba/b' -o '%(title)s.%(ext)s'"
-alias yd-video-aq="yt-dlp -f 'bv*[ext=mp4][height<=720]+ba[ext=m4a]/b[ext=mp4] / bv[height<=720]*+ba/b' -o '%(title)s.%(ext)s'"
-alias yd-video-gq="yt-dlp -f 'bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4] / bv[height<=1080]*+ba/b' -o '%(title)s.%(ext)s'"
-alias yd-video-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s'"
-
-alias yd-playlist-lq="yt-dlp -f 'bv*[ext=mp4][height<=360]+ba[ext=m4a]/b[ext=mp4] / bv*[height<=360]+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
-alias yd-playlist-aq="yt-dlp -f 'bv*[ext=mp4][height<=720]+ba[ext=m4a]/b[ext=mp4] / bv*[height<=720]+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
-alias yd-playlist-gq="yt-dlp -f 'bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4] / bv*[height<=1080]+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
-alias yd-playlist-bq="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(playlist_index)s - %(title)s.%(ext)s'"
-
-alias yd-video-fi="yt-dlp -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' -o '%(title)s.%(ext)s' -o '%(title)s.%(ext)s' --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
 
 # Use bat alias for batcat if it exists (e.g., on Debian-based systems)
 if command -v batcat > /dev/null
     alias bat="batcat"
 end
 
-if test "$os" = Linux
+# direnv integration
+if command -q direnv
     direnv hook fish | source
 end
+
+# yt-dlp aliases for downloading media
+
+# Extract audio as MP3 (best quality)
+alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 \
+    --audio-quality 0 --output '%(title)s.%(ext)s'"
+
+# Extract audio as MP3 with chapter splitting
+alias yd-mp3c="yt-dlp --verbose --extract-audio --audio-format mp3 \
+    --audio-quality 0 --output '%(title)s.%(ext)s' --split-chapters"
+
+# Download video - Low Quality (360p)
+alias yd-video-lq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=360]+ba[ext=m4a]/b[ext=mp4] / \
+    bv[height<=360]*+ba/b' \
+    -o '%(title)s.%(ext)s'"
+
+# Download video - Average Quality (720p)
+alias yd-video-aq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=720]+ba[ext=m4a]/b[ext=mp4] / \
+    bv[height<=720]*+ba/b' \
+    -o '%(title)s.%(ext)s'"
+
+# Download video - Good Quality (1080p)
+alias yd-video-gq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4] / \
+    bv[height<=1080]*+ba/b' \
+    -o '%(title)s.%(ext)s'"
+
+# Download video - Best Quality (highest available)
+alias yd-video-bq="yt-dlp \
+    -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
+    -o '%(title)s.%(ext)s'"
+
+# Download playlist - Low Quality (360p)
+alias yd-playlist-lq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=360]+ba[ext=m4a]/b[ext=mp4] / \
+    bv*[height<=360]+ba/b' \
+    -o '%(playlist_index)s - %(title)s.%(ext)s'"
+
+# Download playlist - Average Quality (720p)
+alias yd-playlist-aq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=720]+ba[ext=m4a]/b[ext=mp4] / \
+    bv*[height<=720]+ba/b' \
+    -o '%(playlist_index)s - %(title)s.%(ext)s'"
+
+# Download playlist - Good Quality (1080p)
+alias yd-playlist-gq="yt-dlp \
+    -f 'bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4] / \
+    bv*[height<=1080]*+ba/b' \
+    -o '%(playlist_index)s - %(title)s.%(ext)s'"
+
+# Download playlist - Best Quality (highest available)
+alias yd-playlist-bq="yt-dlp \
+    -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
+    -o '%(playlist_index)s - %(title)s.%(ext)s'"
+
+# Download video with Finnish and English subtitles
+alias yd-video-fi="yt-dlp \
+    -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
+    -o '%(title)s.%(ext)s' \
+    --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
+
