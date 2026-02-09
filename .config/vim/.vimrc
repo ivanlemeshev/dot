@@ -152,6 +152,7 @@ if has('termguicolors')
 endif
 
 " Set colorscheme.
+set background=dark
 colorscheme gruvbox
 " colorscheme catppuccin_mocha  " Uncomment to use Catppuccin
 

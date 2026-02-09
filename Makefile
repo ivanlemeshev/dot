@@ -2,7 +2,6 @@
 test:
 	@./tests/run_tests.sh
 
-.PHONY: lint
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh
 	@find bin -type f ! -name "*.ps1" -exec shellcheck {} +

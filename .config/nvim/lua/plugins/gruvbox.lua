@@ -30,6 +30,7 @@ return {
     })
 
     -- Setup must be called before loading.
+    vim.o.background = "dark"
     vim.cmd.colorscheme("gruvbox")
   end,
 }
