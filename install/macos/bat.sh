@@ -13,13 +13,11 @@ print_section "Installing bat"
 log_info "Installing bat package"
 brew install bat
 
-log_info "Installing bat theme"
-BAT_THEME_DIR="$HOME/.config/bat/themes"
-
 # Gruvbox theme is built into bat, no need to download
 log_info "Using built-in gruvbox-dark theme"
 
 # Catppuccin theme installation (commented out)
+# BAT_THEME_DIR="$HOME/.config/bat/themes"
 # THEME_NAME="CatppuccinMocha.tmTheme"
 # THEME_URL="https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme"
 #
