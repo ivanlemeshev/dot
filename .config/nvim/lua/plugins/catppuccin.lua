@@ -1,7 +1,11 @@
+-- Catppuccin theme disabled in favor of Gruvbox
+-- To re-enable: remove "enabled = false" line below
+
 return {
   -- Catppuccin theme for Neovim
   -- https://github.com/catppuccin/nvim
   "catppuccin/nvim",
+  enabled = false, -- Set to true to use Catppuccin instead of Gruvbox
   priority = 1000,
   config = function()
     require("catppuccin").setup({

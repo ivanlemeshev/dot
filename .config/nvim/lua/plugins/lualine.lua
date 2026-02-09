@@ -52,7 +52,8 @@ return {
 
     require("lualine").setup({
       options = {
-        theme = "catppuccin",
+        theme = "gruvbox",
+        -- theme = "catppuccin", -- Uncomment to use Catppuccin
         icons_enabled = true,
         --          
         section_separators = { left = "", right = "" },

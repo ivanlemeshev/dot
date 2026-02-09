@@ -61,7 +61,7 @@
     {
         "defaults":
         {
-            "colorScheme": "Catppuccin Mocha",
+            "colorScheme": "Gruvbox Dark",
             "cursorShape": "filledBox",
             "font":
             {
@@ -105,6 +105,29 @@
     "schemes":
     [
         {
+            "background": "#282828",
+            "black": "#282828",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#EBDBB2",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "Gruvbox Dark",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#504945",
+            "white": "#A89984",
+            "yellow": "#D79921"
+        },
+        {
             "background": "#1E1E2E",
             "black": "#45475A",
             "blue": "#89B4FA",
@@ -130,6 +153,29 @@
     ],
     "themes":
     [
+        {
+            "name": "Gruvbox Dark",
+            "tab":
+            {
+                "background": "#282828FF",
+                "iconStyle": "default",
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "tabRow":
+            {
+                "background": "#1D2021FF",
+                "unfocusedBackground": "#1D2021FF"
+            },
+            "window":
+            {
+                "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
+                "useMica": false
+            }
+        },
         {
             "name": "Catppuccin Mocha",
             "tab":

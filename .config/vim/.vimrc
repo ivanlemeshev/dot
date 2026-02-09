@@ -152,7 +152,8 @@ if has('termguicolors')
 endif
 
 " Set colorscheme.
-colorscheme catppuccin_mocha
+colorscheme gruvbox
+" colorscheme catppuccin_mocha  " Uncomment to use Catppuccin
 
 " Faster terminal rendering.
 set ttyfast
