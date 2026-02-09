@@ -217,4 +217,3 @@ alias yd-video-fi="yt-dlp \
     -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
     -o '%(title)s.%(ext)s' \
     --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
-
