@@ -45,9 +45,6 @@ packages=(
   # A library for configuring and customizing font access.
   "fontconfig"
 
-  # A command-line fuzzy finder.
-  "fzf"
-
   # The GNU Compiler Collection, a set of compilers for various programming
   # languages.
   "gcc"
