@@ -128,19 +128,7 @@ set --erase _asdf_shims
 
 # Activate oh-my-posh if it's installed
 if command -q oh-my-posh
-    # Determine theme location based on OS
-    set -l theme_file ""
-
-    # Check cache directory (Linux install script location)
-    if test -f "$HOME/.cache/oh-my-posh/themes/gruvbox.omp.json"
-        set theme_file "$HOME/.cache/oh-my-posh/themes/gruvbox.omp.json"
-    # Check Homebrew location (Apple Silicon)
-    else if test -f "/opt/homebrew/opt/oh-my-posh/themes/gruvbox.omp.json"
-        set theme_file "/opt/homebrew/opt/oh-my-posh/themes/gruvbox.omp.json"
-    # Check Homebrew location (Intel)
-    else if test -f "/usr/local/opt/oh-my-posh/themes/gruvbox.omp.json"
-        set theme_file "/usr/local/opt/oh-my-posh/themes/gruvbox.omp.json"
-    end
+    set -l theme_file "$HOME/.config/oh-my-posh/theme.omp.json"
 
     # Catppuccin theme (commented out)
     # if test -f "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
@@ -151,7 +139,7 @@ if command -q oh-my-posh
     #     set theme_file "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
     # end
 
-    if test -n "$theme_file"
+    if test -f "$theme_file"
         oh-my-posh init fish --config "$theme_file" | source
     end
 end
