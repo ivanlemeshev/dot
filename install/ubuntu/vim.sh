@@ -30,3 +30,16 @@ fi
 log_info "Creating symlink for Vim configuration"
 ln -s "$VIMRC_SOURCE" "$VIMRC_TARGET"
 log_info "Linked Vim configuration: $VIMRC_SOURCE -> $VIMRC_TARGET"
+
+log_info "Installing Catppuccin theme"
+CATPPUCCIN_DIR="$HOME/.vim/pack/themes/start/catppuccin"
+if [[ -d "$CATPPUCCIN_DIR" ]]; then
+  log_info "Catppuccin theme already installed, updating"
+  git -C "$CATPPUCCIN_DIR" pull
+else
+  mkdir -p "$HOME/.vim/pack/themes/start"
+  git clone https://github.com/catppuccin/vim.git "$CATPPUCCIN_DIR"
+fi
+
+log_info "Creating undo directory"
+mkdir -p "$HOME/.vim/undodir"
