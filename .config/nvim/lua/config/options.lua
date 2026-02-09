@@ -95,6 +95,29 @@ vim.opt.linebreak = true
 -- Enable the mouse in all modes.
 vim.opt.mouse = "a"
 
+-- Case-insensitive search, unless uppercase is used.
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Highlight search matches.
+vim.opt.hlsearch = true
+
+-- Show matches as you type.
+vim.opt.incsearch = true
+
+-- Persistent undo (survives closing the file).
+vim.opt.undofile = true
+
+-- New splits open below and to the right.
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+-- Global default indentation (fallback for filetypes not explicitly configured).
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+
 -- Copy the indent from the previous line when starting a new line.
 vim.opt.autoindent = true
 
@@ -103,6 +126,22 @@ vim.opt.swapfile = false
 
 -- Enable true color support in the terminal.
 vim.opt.termguicolors = true
+
+-- Faster key sequence timeout (snappier escape and leader combos).
+vim.opt.timeoutlen = 500
+vim.opt.ttimeoutlen = 10
+
+-- Reduce update time (faster CursorHold events, gitsigns, diagnostics).
+vim.opt.updatetime = 250
+
+-- Limit completion menu height.
+vim.opt.pumheight = 10
+
+-- Don't show mode in command line (lualine already shows it).
+vim.opt.showmode = false
+
+-- Reduce file messages noise.
+vim.opt.shortmess:append("sI")
 
 -- Disable standard spell checking (Harper is used instead).
 vim.opt.spell = false
