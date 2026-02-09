@@ -151,8 +151,21 @@ if has('termguicolors')
   set termguicolors
 endif
 
+" Gruvbox Material configuration
+" Available values: 'hard', 'medium', 'soft'
+let g:gruvbox_material_background = 'medium'
+" Available values: 'material', 'mix', 'original'
+let g:gruvbox_material_foreground = 'material'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_transparent_background = 0
+let g:gruvbox_material_better_performance = 1
+
 " Set colorscheme.
-colorscheme catppuccin_mocha
+colorscheme gruvbox-material
+
+" Catppuccin colorscheme (commented out)
+" colorscheme catppuccin_mocha
 
 " Faster terminal rendering.
 set ttyfast
