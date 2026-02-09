@@ -14,6 +14,16 @@ return {
     vim.g.gruvbox_material_transparent_background = 0
     vim.g.gruvbox_material_better_performance = 1
 
+    -- Make panels use the same background as the editor
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      pattern = "gruvbox-material",
+      callback = function()
+        local hl = vim.api.nvim_set_hl
+        hl(0, "TroubleNormal", { link = "Normal" })
+        hl(0, "TroubleNormalNC", { link = "Normal" })
+      end,
+    })
+
     -- Setup must be called before loading.
     vim.cmd.colorscheme("gruvbox-material")
   end,

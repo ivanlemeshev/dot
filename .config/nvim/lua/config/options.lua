@@ -124,6 +124,9 @@ vim.opt.autoindent = true
 -- Do not create backup files.
 vim.opt.swapfile = false
 
+-- Hide ~ end-of-buffer filler characters.
+vim.opt.fillchars:append({ eob = " " })
+
 -- Enable true color support in the terminal.
 vim.opt.termguicolors = true
 

@@ -41,6 +41,21 @@ return {
       },
     })
 
+    -- Match NvimTree background with the editor (deferred to run after
+    -- gruvbox-material's lazy highlight loading)
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "NvimTree",
+      callback = function()
+        vim.schedule(function()
+          local hl = vim.api.nvim_set_hl
+          hl(0, "NvimTreeNormal", { link = "Normal" })
+          hl(0, "NvimTreeNormalNC", { link = "Normal" })
+          hl(0, "NvimTreeEndOfBuffer", { link = "Normal" })
+          hl(0, "NvimTreeWinSeparator", { fg = "#45403d", bg = "#282828" })
+        end)
+      end,
+    })
+
     -- Auto-refresh nvim-tree when gaining focus or buffer changes
     local nvim_tree_augroup =
       vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
