@@ -67,8 +67,5 @@ fish -c "curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/f
 log_info "Installing fzf.fish plugin"
 fish -c "fisher install PatrickF1/fzf.fish"
 
-log_info "Installing gruvbox theme for fish"
-fish -c "fisher install Jomik/fish-gruvbox"
-
 log_info "Changing default shell to Fish"
 sudo chsh -s "$(which fish)" "$(whoami)"

@@ -19,11 +19,6 @@ if test -f $extra_config
     source $extra_config
 end
 
-# Set the theme for fish (using fisher and gruvbox)
-# Note: You may need to install a gruvbox fish theme via fisher
-# fish -c "fisher install Jomik/fish-gruvbox"
-# fish_config theme choose "Gruvbox Dark"
-
 # Set up abbreviations
 abbr --add unset 'set --erase'
 
