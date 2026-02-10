@@ -10,7 +10,6 @@ set -gx EDITOR nvim
 
 # Add bat theme
 set -x BAT_THEME gruvbox-dark
-# set -x BAT_THEME CatppuccinMocha
 
 # Set colors for fzf (gruvbox-material dark)
 set -x FZF_DEFAULT_OPTS "\
@@ -41,35 +40,6 @@ set -x FZF_DEFAULT_OPTS "\
 --info 'right' \
 --multi"
 
-# Set colors for fzf (catppuccin-mocha)
-# set -x FZF_DEFAULT_OPTS "\
-# --color fg:#cdd6f4 \
-# --color fg+:#cdd6f4 \
-# --color bg:#1e1e2e \
-# --color bg+:#313244 \
-# --color hl:#f38ba8 \
-# --color hl+:#f38ba8 \
-# --color info:#cba6f7 \
-# --color marker:#b4befe \
-# --color prompt:#cba6f7 \
-# --color spinner:#f5e0dc \
-# --color pointer:#f5e0dc \
-# --color header:#f38ba8 \
-# --color border:#313244 \
-# --color label:#cdd6f4 \
-# --color query:#f5e0dc \
-# --border 'rounded' \
-# --border-label '' \
-# --preview-window 'border-rounded' \
-# --prompt '> ' \
-# --marker '>' \
-# --pointer '◆' \
-# --separator '─' \
-# --scrollbar '█' \
-# --layout 'reverse' \
-# --info 'right' \
-# --multi"
-
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish
 
@@ -82,9 +52,6 @@ end
 # Note: You may need to install a gruvbox fish theme via fisher
 # fish -c "fisher install Jomik/fish-gruvbox"
 # fish_config theme choose "Gruvbox Dark"
-
-# Set the theme for fish (using fisher and catppuccin-mocha)
-# fish_config theme choose "Catppuccin Mocha"
 
 # Set up abbreviations
 abbr --add unset 'set --erase'
@@ -125,15 +92,6 @@ set --erase _asdf_shims
 # Activate oh-my-posh if it's installed
 if command -q oh-my-posh
     set -l theme_file "$HOME/.config/oh-my-posh/theme.omp.json"
-
-    # Catppuccin theme (commented out)
-    # if test -f "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    #     set theme_file "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    # else if test -f "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    #     set theme_file "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    # else if test -f "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    #     set theme_file "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    # end
 
     if test -f "$theme_file"
         oh-my-posh init fish --config "$theme_file" | source

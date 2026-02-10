@@ -164,9 +164,6 @@ let g:gruvbox_material_better_performance = 1
 " Set colorscheme.
 colorscheme gruvbox-material
 
-" Catppuccin colorscheme (commented out)
-" colorscheme catppuccin_mocha
-
 " Faster terminal rendering.
 set ttyfast
 

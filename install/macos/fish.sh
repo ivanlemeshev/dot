@@ -66,9 +66,5 @@ fish -c "fisher install PatrickF1/fzf.fish"
 log_info "Installing gruvbox theme for fish"
 fish -c "fisher install Jomik/fish-gruvbox"
 
-# Installing catppuccin theme for fish (commented out)
-# log_info "Installing catppuccin theme for fish"
-# fish -c "fisher install catppuccin/fish"
-
 log_info "Changing default shell to Fish"
 sudo chsh -s "$(which fish)" "$(whoami)"
