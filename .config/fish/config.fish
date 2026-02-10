@@ -12,10 +12,6 @@ set -gx EDITOR nvim
 set -x BAT_THEME gruvbox-dark
 # set -x BAT_THEME CatppuccinMocha
 
-# Set colors for ls, fd, etc
-set -x LS_COLORS "$(vivid generate gruvbox-dark)"
-# set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
-
 # Set colors for fzf (gruvbox-material dark)
 set -x FZF_DEFAULT_OPTS "\
 --color fg:#d4be98 \
