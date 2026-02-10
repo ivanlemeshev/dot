@@ -7,6 +7,9 @@ return {
       icons = {
         mappings = false,
       },
+      win = {
+        border = "rounded",
+      },
     },
   },
   {

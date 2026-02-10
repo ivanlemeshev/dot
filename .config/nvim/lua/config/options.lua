@@ -26,7 +26,7 @@ vim.opt.showcmd = true
 -- Always display the status line, regardless of whether there are multiple
 -- windows open. This is useful for constantly showing information like the
 -- current mode, file name, or any other status line integration.
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 
 -- Automatically read the file from disk when it has been changed outside of
 -- Neovim, ensuring that the file's contents are always up to date with its
@@ -70,8 +70,8 @@ vim.opt.list = true
 
 -- Display tabs, whitespaces, the end of the line.
 vim.opt.listchars:append({
-  eol = "¬",
-  tab = "→ ",
+  eol = " ",
+  tab = "> ",
   space = ".",
   multispace = ".",
   lead = ".",
@@ -124,8 +124,17 @@ vim.opt.autoindent = true
 -- Do not create backup files.
 vim.opt.swapfile = false
 
--- Hide ~ end-of-buffer filler characters.
-vim.opt.fillchars:append({ eob = " " })
+-- Hide ~ end-of-buffer filler characters and use line chars for window separators.
+vim.opt.fillchars:append({
+  eob = " ",
+  horiz = "─",
+  horizup = "┴",
+  horizdown = "┬",
+  vert = "│",
+  vertleft = "┤",
+  vertright = "├",
+  verthoriz = "┼",
+})
 
 -- Enable true color support in the terminal.
 vim.opt.termguicolors = true

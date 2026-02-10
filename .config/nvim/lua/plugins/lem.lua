@@ -3,7 +3,10 @@ return {
   dir = vim.fn.stdpath("config") .. "/lua/lem",
   name = "lem.nvim",
   lazy = false,
+  priority = 1000,
   config = function()
+    require("lem.colorscheme").setup()
+
     require("lem.ruler").setup({
       char = "┆", -- e.g. '┆', '┊', "│", etc.
       columns = { 80 }, -- default for all files

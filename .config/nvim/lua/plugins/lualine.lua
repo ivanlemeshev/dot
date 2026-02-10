@@ -52,7 +52,7 @@ return {
 
     require("lualine").setup({
       options = {
-        theme = "gruvbox-material",
+        theme = require("lem.lualine_theme"),
         icons_enabled = true,
         --          
         section_separators = { left = "", right = "" },
