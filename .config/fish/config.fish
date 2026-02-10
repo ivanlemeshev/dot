@@ -9,7 +9,7 @@ set -l os (uname)
 set -gx EDITOR nvim
 
 # Add bat theme
-set -x BAT_THEME gruvbox-dark
+set -x BAT_THEME gruvbox-material-dark
 
 # Set colors for fzf (gruvbox-material dark)
 set -x FZF_DEFAULT_OPTS "\

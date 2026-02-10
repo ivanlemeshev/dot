@@ -16,5 +16,25 @@ sudo apt-get update
 log_info "Installing bat"
 sudo apt-get install -y bat
 
-# Gruvbox theme is built into bat, no need to download
-log_info "Using built-in gruvbox-dark theme"
+log_info "Installing gruvbox-material-dark theme"
+BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/gruvbox-material-dark.tmTheme"
+BAT_THEME_DIR="$HOME/.config/bat/themes"
+BAT_THEME_TARGET="$BAT_THEME_DIR/gruvbox-material-dark.tmTheme"
+
+mkdir -p "$BAT_THEME_DIR"
+
+if [[ -L "$BAT_THEME_TARGET" ]]; then
+  log_info "Removing existing symlink at $BAT_THEME_TARGET"
+  rm "$BAT_THEME_TARGET"
+elif [[ -e "$BAT_THEME_TARGET" ]]; then
+  log_info "Backing up existing file at $BAT_THEME_TARGET"
+  BACKUP="$BAT_THEME_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$BAT_THEME_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
+fi
+
+ln -s "$BAT_THEME_SOURCE" "$BAT_THEME_TARGET"
+log_info "Linked: $BAT_THEME_SOURCE -> $BAT_THEME_TARGET"
+
+log_info "Rebuilding bat cache"
+batcat cache --build
