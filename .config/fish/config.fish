@@ -11,35 +11,6 @@ set -gx EDITOR nvim
 # Add bat theme
 set -x BAT_THEME gruvbox-material-dark
 
-# Set colors for fzf (gruvbox-material dark)
-set -x FZF_DEFAULT_OPTS "\
---color fg:#d4be98 \
---color fg+:#d4be98 \
---color bg:#282828 \
---color bg+:#3c3836 \
---color hl:#ea6962 \
---color hl+:#ea6962 \
---color info:#d3869b \
---color marker:#a9b665 \
---color prompt:#d3869b \
---color spinner:#e78a4e \
---color pointer:#e78a4e \
---color header:#ea6962 \
---color border:#3c3836 \
---color label:#d4be98 \
---color query:#e78a4e \
---border 'rounded' \
---border-label '' \
---preview-window 'border-rounded' \
---prompt '> ' \
---marker '>' \
---pointer '◆' \
---separator '─' \
---scrollbar '█' \
---layout 'reverse' \
---info 'right' \
---multi"
-
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish
 
