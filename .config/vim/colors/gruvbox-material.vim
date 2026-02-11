@@ -97,9 +97,9 @@ call s:hl('WarningMsg',   s:yellow, '',       'bold')
 call s:hl('ModeMsg',      s:fg0,    '',       'bold')
 call s:hl('MoreMsg',      s:yellow, '',       'bold')
 call s:hl('MatchParen',   '',       s:bg4)
-call s:hl('NonText',      s:bg3,    '')
-call s:hl('Whitespace',   s:bg3,    '')
-call s:hl('SpecialKey',   s:bg3,    '')
+call s:hl('NonText',      s:bg5,    '')
+call s:hl('Whitespace',   s:bg5,    '')
+call s:hl('SpecialKey',   s:orange, '')
 
 " Pmenu
 call s:hl('Pmenu',        s:fg1,    s:bg3)
