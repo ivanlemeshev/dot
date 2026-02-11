@@ -56,33 +56,4 @@ return {
       )
     end,
   },
-  {
-    -- Copilot chat integration
-    -- https://github.com/CopilotC-Nvim/CopilotChat.nvim
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "main",
-    dependencies = {
-      "zbirenbaum/copilot.lua",
-      "nvim-lua/plenary.nvim",
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    config = function()
-      require("CopilotChat").setup({})
-
-      local map = vim.keymap.set
-
-      map(
-        "n",
-        "<leader>cc",
-        "<cmd>CopilotChatToggle<CR>",
-        { desc = "Copilot: toggle chat" }
-      )
-      map(
-        "v",
-        "<leader>ce",
-        "<esc><cmd>CopilotChatExplain<cr>",
-        { desc = "Copilot: explain the selected text" }
-      )
-    end,
-  },
 }

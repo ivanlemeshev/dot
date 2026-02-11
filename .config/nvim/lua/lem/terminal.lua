@@ -121,7 +121,11 @@ function M.setup_keymaps()
         quit_pending = false
       end)
     end
-  end, { noremap = true, silent = false, desc = "Terminal: double Ctrl+q to quit Neovim" })
+  end, {
+    noremap = true,
+    silent = false,
+    desc = "Terminal: double Ctrl+q to quit Neovim",
+  })
 
   -- Auto insert mode when entering terminal buffer
   vim.api.nvim_create_autocmd("BufEnter", {
