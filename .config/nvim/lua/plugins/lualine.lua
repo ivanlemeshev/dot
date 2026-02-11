@@ -1,8 +1,9 @@
 return {
   "nvim-lualine/lualine.nvim",
+  commit = "47f91c416daef12db467145e16bed5bbfe00add8",
   dependencies = {
-    "nvim-tree/nvim-web-devicons",
-    "AndreM222/copilot-lualine",
+    { "nvim-tree/nvim-web-devicons", commit = "746ffbb17975ebd6c40142362eee1b0249969c5c" },
+    { "AndreM222/copilot-lualine", commit = "222e90bd8dcdf16ca1efc4e784416afb5f011c31" },
   },
   config = function()
     local mode = {
@@ -52,7 +53,7 @@ return {
 
     require("lualine").setup({
       options = {
-        theme = "catppuccin",
+        theme = require("lem.lualine_theme"),
         icons_enabled = true,
         --          
         section_separators = { left = "", right = "" },

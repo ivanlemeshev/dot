@@ -74,13 +74,14 @@ set hidden
 " No beep or screen flash on errors.
 set noerrorbells
 set novisualbell
+set belloff=all
 
 " Disable swap file.
 set noswapfile
 
 " Show tabs, spaces and line endings.
 set list
-set listchars=tab:→\ ,space:·
+set listchars=eol:\ ,tab:>\ ,space:.,trail:.,nbsp:.
 
 " Explicit UTF-8 encoding.
 set encoding=utf-8
@@ -137,11 +138,55 @@ set scrolloff=10
 " Always display the status line.
 set laststatus=2
 
-" Show cursor position in the status line.
-set ruler
+" Hide default mode indicator (shown in statusline instead).
+set noshowmode
 
 " Show incomplete commands in the bottom right corner.
 set showcmd
+
+" Custom statusline (lualine-like).
+function! StatuslineMode() abort
+  let l:mode = mode()
+  if l:mode ==# 'n'
+    return '%#StatusModeNormal#  NORMAL '
+  elseif l:mode ==# 'i'
+    return '%#StatusModeInsert#  INSERT '
+  elseif l:mode ==# 'v' || l:mode ==# 'V' || l:mode ==# "\<C-v>"
+    return '%#StatusModeVisual#  VISUAL '
+  elseif l:mode ==# 'R'
+    return '%#StatusModeReplace#  REPLACE '
+  elseif l:mode ==# 'c'
+    return '%#StatusModeCommand#  COMMAND '
+  elseif l:mode ==# 't'
+    return '%#StatusModeTerminal#  TERMINAL '
+  else
+    return '%#StatusModeNormal#  ' . toupper(l:mode) . ' '
+  endif
+endfunction
+
+function! ActiveStatusline() abort
+  let l:s = StatuslineMode()
+  let l:s .= '%#StatusModeC# '
+  let l:s .= '%f %m'
+  let l:s .= '%='
+  let l:s .= '%{&encoding} | %{&filetype} '
+  let l:s .= '%#StatusModeB# %l:%c '
+  let l:s .= '%#StatusModeNormal# %p%% '
+  return l:s
+endfunction
+
+function! InactiveStatusline() abort
+  return '%#StatusInactive# %f %m%= %l:%c '
+endfunction
+
+augroup Statusline
+  autocmd!
+  autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveStatusline()
+  autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveStatusline()
+augroup END
+
+" Hide ~ end-of-buffer filler characters and use line chars for window separators.
+set fillchars=vert:│,eob:\
 
 " Highlight the current line.
 set cursorline
@@ -151,8 +196,11 @@ if has('termguicolors')
   set termguicolors
 endif
 
+" Add config directory to runtimepath for custom colorscheme.
+set runtimepath+=~/.config/vim
+
 " Set colorscheme.
-colorscheme catppuccin_mocha
+colorscheme gruvbox-material
 
 " Faster terminal rendering.
 set ttyfast

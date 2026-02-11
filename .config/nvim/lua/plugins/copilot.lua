@@ -3,6 +3,7 @@ return {
     -- Copilot integration
     -- https://github.com/zbirenbaum/copilot.lua
     "zbirenbaum/copilot.lua",
+    commit = "3faffefbd6ddeb52578535ec6b730e0b72d7fd1a",
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
@@ -53,35 +54,6 @@ return {
         "<leader>ce",
         "<cmd>Copilot enable<CR>",
         { desc = "Copilot: enable" }
-      )
-    end,
-  },
-  {
-    -- Copilot chat integration
-    -- https://github.com/CopilotC-Nvim/CopilotChat.nvim
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "main",
-    dependencies = {
-      "zbirenbaum/copilot.lua",
-      "nvim-lua/plenary.nvim",
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    config = function()
-      require("CopilotChat").setup({})
-
-      local map = vim.keymap.set
-
-      map(
-        "n",
-        "<leader>cc",
-        "<cmd>CopilotChatToggle<CR>",
-        { desc = "Copilot: toggle chat" }
-      )
-      map(
-        "v",
-        "<leader>ce",
-        "<esc><cmd>CopilotChatExplain<cr>",
-        { desc = "Copilot: explain the selected text" }
       )
     end,
   },

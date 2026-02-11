@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "catppuccin",
+  "theme": "gruvbox",
   "autoupdate": true,
   "permission": {
     "*": "ask",

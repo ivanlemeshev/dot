@@ -9,39 +9,7 @@ set -l os (uname)
 set -gx EDITOR nvim
 
 # Add bat theme
-set -x BAT_THEME CatppuccinMocha
-
-# Set colors for ls, fd, etc
-set -x LS_COLORS "$(vivid generate catppuccin-mocha)"
-
-# Set colors for fzf (catppuccin-mocha)
-set -x FZF_DEFAULT_OPTS "\
---color fg:#cdd6f4 \
---color fg+:#cdd6f4 \
---color bg:#1e1e2e \
---color bg+:#313244 \
---color hl:#f38ba8 \
---color hl+:#f38ba8 \
---color info:#cba6f7
---color marker:#b4befe \
---color prompt:#cba6f7
---color spinner:#f5e0dc \
---color pointer:#f5e0dc \
---color header:#f38ba8 \
---color border:#313244 \
---color label:#cdd6f4 \
---color query:#f5e0dc \
---border 'rounded' \
---border-label '' \
---preview-window 'border-rounded' \
---prompt '> ' \
---marker '>' \
---pointer '◆' \
---separator '─' \
---scrollbar '█' \
---layout 'reverse' \
---info 'right' \
---multi"
+set -x BAT_THEME gruvbox-material-dark
 
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish
@@ -50,9 +18,6 @@ set extra_config ~/.config/fish/extra.fish
 if test -f $extra_config
     source $extra_config
 end
-
-# Set the theme for fish (using fisher and catppuccin-mocha)
-fish_config theme choose "Catppuccin Mocha"
 
 # Set up abbreviations
 abbr --add unset 'set --erase'
@@ -92,21 +57,9 @@ set --erase _asdf_shims
 
 # Activate oh-my-posh if it's installed
 if command -q oh-my-posh
-    # Determine theme location based on OS
-    set -l theme_file ""
+    set -l theme_file "$HOME/.config/oh-my-posh/theme.omp.json"
 
-    # Check cache directory (Linux install script location)
-    if test -f "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
-        set theme_file "$HOME/.cache/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    # Check Homebrew location (Apple Silicon)
-    else if test -f "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-        set theme_file "/opt/homebrew/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    # Check Homebrew location (Intel)
-    else if test -f "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-        set theme_file "/usr/local/opt/oh-my-posh/themes/catppuccin_mocha.omp.json"
-    end
-
-    if test -n "$theme_file"
+    if test -f "$theme_file"
         oh-my-posh init fish --config "$theme_file" | source
     end
 end
@@ -184,4 +137,3 @@ alias yd-video-fi="yt-dlp \
     -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
     -o '%(title)s.%(ext)s' \
     --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
-

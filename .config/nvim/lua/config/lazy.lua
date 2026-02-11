@@ -32,4 +32,7 @@ require("lazy").setup({
   },
   -- Automatically check for plugin updates
   checker = { enabled = true, notify = false },
+  ui = {
+    border = "rounded",
+  },
 })

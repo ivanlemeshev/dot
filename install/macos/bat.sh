@@ -13,24 +13,25 @@ print_section "Installing bat"
 log_info "Installing bat package"
 brew install bat
 
-log_info "Installing bat theme"
-BAT_THEME_DIR="$HOME/.config/bat/themes"
-THEME_NAME="CatppuccinMocha.tmTheme"
-THEME_URL="https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme"
+log_info "Installing gruvbox-material-dark theme"
+BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/gruvbox-material-dark.tmTheme"
+BAT_THEME_DIR="$(bat --config-dir)/themes"
+BAT_THEME_TARGET="$BAT_THEME_DIR/gruvbox-material-dark.tmTheme"
 
 mkdir -p "$BAT_THEME_DIR"
 
-if [[ ! -f "$BAT_THEME_DIR/$THEME_NAME" ]]; then
-  log_info "Downloading Catppuccin Mocha theme"
-
-  TMP_DIR=$(mktemp -d)
-  trap 'rm -rf "$TMP_DIR"' EXIT
-
-  curl -fsSL "$THEME_URL" -o "$TMP_DIR/$THEME_NAME"
-  mv "$TMP_DIR/$THEME_NAME" "$BAT_THEME_DIR/$THEME_NAME"
-else
-  log_info "Theme already exists, skipping download"
+if [[ -L "$BAT_THEME_TARGET" ]]; then
+  log_info "Removing existing symlink at $BAT_THEME_TARGET"
+  rm "$BAT_THEME_TARGET"
+elif [[ -e "$BAT_THEME_TARGET" ]]; then
+  log_info "Backing up existing file at $BAT_THEME_TARGET"
+  BACKUP="$BAT_THEME_TARGET.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$BAT_THEME_TARGET" "$BACKUP"
+  log_info "Created backup: $BACKUP"
 fi
 
-log_info "Building bat cache"
+ln -s "$BAT_THEME_SOURCE" "$BAT_THEME_TARGET"
+log_info "Linked: $BAT_THEME_SOURCE -> $BAT_THEME_TARGET"
+
+log_info "Rebuilding bat cache"
 bat cache --build

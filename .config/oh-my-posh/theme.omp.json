@@ -1,0 +1,148 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "#a9b665",
+          "options": {
+            "alpine": "\uf300",
+            "arch": "\uf303",
+            "centos": "\uf304",
+            "debian": "\uf306",
+            "elementary": "\uf309",
+            "fedora": "\uf30a",
+            "gentoo": "\uf30d",
+            "linux": "\ue712",
+            "macos": "\ue711",
+            "manjaro": "\uf312",
+            "mint": "\uf30f",
+            "opensuse": "\uf314",
+            "raspbian": "\uf315",
+            "ubuntu": "\uf31c",
+            "windows": "\ue70f"
+          },
+          "style": "plain",
+          "template": " {{ if .WSL }}\ue712 on {{ end }}{{ .Icon }}<#5a524c> | </>",
+          "type": "os"
+        },
+        {
+          "foreground": "#d4be98",
+          "style": "plain",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#89b482>{{ .UserName }}</><#d4be98>@</>{{ end }}<#89b482>{{ .HostName }}</><#5a524c> | </>",
+          "type": "session"
+        },
+        {
+          "foreground": "#d8a657",
+          "style": "plain",
+          "template": "\uf0e7<#5a524c> | </>",
+          "type": "root"
+        },
+        {
+          "foreground": "#d4be98",
+          "options": {
+            "style": "full",
+            "mapped_locations": {
+              "~": "~"
+            }
+          },
+          "style": "plain",
+          "template": "{{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "foreground": "#d8a657",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#e78a4e{{ end }}",
+            "{{ if gt .Ahead 0 }}#89b482{{ end }}",
+            "{{ if gt .Behind 0 }}#d3869b{{ end }}"
+          ],
+          "options": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "style": "plain",
+          "template": "<#5a524c>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a9b665> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "type": "git"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "#a9b665",
+          "style": "plain",
+          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}<#5a524c> | </>",
+          "type": "node"
+        },
+        {
+          "foreground": "#a9b665",
+          "style": "plain",
+          "template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}<#5a524c> | </>",
+          "type": "python"
+        },
+        {
+          "foreground": "#7daea3",
+          "style": "plain",
+          "template": " \ue77f {{ if .Unsupported }}\uf071{{ else }}{{ .Full }}{{ end }}<#5a524c> | </>",
+          "type": "dotnet"
+        },
+        {
+          "foreground": "#a9b665",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "template": " {{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "#d4be98",
+          "style": "plain",
+          "template": "~#@\u276f",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "#d8a657",
+          "options": {
+            "style": "roundrock",
+            "threshold": 500
+          },
+          "style": "plain",
+          "template": " {{ .FormattedMs }}<#d4be98> \uf252 </>",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "#a9b665",
+          "foreground_templates": ["{{ if gt .Code 0 }}#ea6962{{ end }}"],
+          "options": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": " \uea9f {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
+          "type": "status"
+        }
+      ],
+      "type": "rprompt"
+    }
+  ],
+  "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
+  "final_space": true,
+  "version": 4
+}
