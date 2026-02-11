@@ -2,7 +2,7 @@ return {
   -- Enable Treesitter for better syntax highlighting
   -- https://github.com/nvim-treesitter/nvim-treesitter
   "nvim-treesitter/nvim-treesitter",
-  branch = "master",
+  commit = "42fc28ba918343ebfd5565147a42a26580579482",
   lazy = false,
   build = ":TSUpdate",
   main = "nvim-treesitter.configs",

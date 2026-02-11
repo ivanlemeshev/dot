@@ -2,6 +2,7 @@ return {
   -- Formatting plugin
   -- https://github.com/stevearc/conform.nvim
   "stevearc/conform.nvim",
+  commit = "c2526f1cde528a66e086ab1668e996d162c75f4f",
   lazy = false,
   config = function()
     require("conform").setup({

@@ -1,7 +1,8 @@
 return {
   "folke/trouble.nvim",
+  commit = "bd67efe408d4816e25e8491cc5ad4088e708a69a",
   dependencies = {
-    "nvim-tree/nvim-web-devicons",
+    { "nvim-tree/nvim-web-devicons", commit = "746ffbb17975ebd6c40142362eee1b0249969c5c" },
   },
   opts = {
     focus = true,

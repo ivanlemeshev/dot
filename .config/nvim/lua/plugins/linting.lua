@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-lint",
+  commit = "bcd1a44edbea8cd473af7e7582d3f7ffc60d8e81",
   event = {
     "BufReadPre",
     "BufNewFile",

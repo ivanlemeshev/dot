@@ -2,11 +2,11 @@ return {
   -- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes
   -- https://github.com/nvim-telescope/telescope.nvim
   "nvim-telescope/telescope.nvim",
+  commit = "ad7d9580338354ccc136e5b8f0aa4f880434dcdc",
   lazy = false,
   event = "VimEnter",
-  branch = "master",
   dependencies = {
-    "nvim-lua/plenary.nvim",
+    { "nvim-lua/plenary.nvim", commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
   },
   config = function()
     local actions = require("telescope.actions")

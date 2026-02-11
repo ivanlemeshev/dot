@@ -3,6 +3,7 @@ return {
     -- Copilot integration
     -- https://github.com/zbirenbaum/copilot.lua
     "zbirenbaum/copilot.lua",
+    commit = "3faffefbd6ddeb52578535ec6b730e0b72d7fd1a",
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()

@@ -1,12 +1,13 @@
 return {
   "neovim/nvim-lspconfig",
+  commit = "d1597791f8196519439b3a036b59b09023981e1d",
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim", opts = {} },
-    "hrsh7th/cmp-nvim-lsp",
-    "lukas-reineke/lsp-format.nvim",
+    { "williamboman/mason.nvim", commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65" },
+    { "williamboman/mason-lspconfig.nvim", commit = "ae609525ddf01c153c39305730b1791800ffe4fe" },
+    { "WhoIsSethDaniel/mason-tool-installer.nvim", commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
+    { "j-hui/fidget.nvim", commit = "7fa433a83118a70fe24c1ce88d5f0bd3453c0970", opts = {} },
+    { "hrsh7th/cmp-nvim-lsp", commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
+    { "lukas-reineke/lsp-format.nvim", commit = "42d1d3e407c846d95f84ea3767e72ed6e08f7495" },
   },
   config = function()
     -- This function gets run when an LSP attaches to a particular buffer.
