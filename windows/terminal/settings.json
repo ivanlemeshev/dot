@@ -66,6 +66,7 @@
             "font":
             {
                 "builtinGlyphs": true,
+                "cellHeight": "1.4",
                 "colorGlyphs": true,
                 "face": "Hack Nerd Font Mono",
                 "size": 12,
@@ -106,26 +107,26 @@
     [
         {
             "background": "#282828",
-            "black": "#3c3836",
-            "blue": "#7daea3",
-            "brightBlack": "#5a524c",
-            "brightBlue": "#7daea3",
-            "brightCyan": "#89b482",
-            "brightGreen": "#a9b665",
-            "brightPurple": "#d3869b",
-            "brightRed": "#ea6962",
-            "brightWhite": "#d4be98",
-            "brightYellow": "#d8a657",
-            "cursorColor": "#d4be98",
-            "cyan": "#89b482",
-            "foreground": "#d4be98",
-            "green": "#a9b665",
+            "black": "#3C3836",
+            "blue": "#7DAEA3",
+            "brightBlack": "#5A524C",
+            "brightBlue": "#7DAEA3",
+            "brightCyan": "#89B482",
+            "brightGreen": "#A9B665",
+            "brightPurple": "#D3869B",
+            "brightRed": "#EA6962",
+            "brightWhite": "#D4BE98",
+            "brightYellow": "#D8A657",
+            "cursorColor": "#D4BE98",
+            "cyan": "#89B482",
+            "foreground": "#D4BE98",
+            "green": "#A9B665",
             "name": "Gruvbox Material Dark",
-            "purple": "#d3869b",
-            "red": "#ea6962",
-            "selectionBackground": "#5a524c",
-            "white": "#ddc7a1",
-            "yellow": "#d8a657"
+            "purple": "#D3869B",
+            "red": "#EA6962",
+            "selectionBackground": "#5A524C",
+            "white": "#DDC7A1",
+            "yellow": "#D8A657"
         }
     ],
     "themes":
@@ -141,8 +142,8 @@
             },
             "tabRow":
             {
-                "background": "#1d2021FF",
-                "unfocusedBackground": "#1d2021FF"
+                "background": "#1D2021FF",
+                "unfocusedBackground": "#1D2021FF"
             },
             "window":
             {
