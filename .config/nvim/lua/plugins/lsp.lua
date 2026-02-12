@@ -2,12 +2,31 @@ return {
   "neovim/nvim-lspconfig",
   commit = "d1597791f8196519439b3a036b59b09023981e1d",
   dependencies = {
-    { "williamboman/mason.nvim", commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65" },
-    { "williamboman/mason-lspconfig.nvim", commit = "ae609525ddf01c153c39305730b1791800ffe4fe" },
-    { "WhoIsSethDaniel/mason-tool-installer.nvim", commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
-    { "j-hui/fidget.nvim", commit = "7fa433a83118a70fe24c1ce88d5f0bd3453c0970", opts = {} },
-    { "hrsh7th/cmp-nvim-lsp", commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
-    { "lukas-reineke/lsp-format.nvim", commit = "42d1d3e407c846d95f84ea3767e72ed6e08f7495" },
+    {
+      "williamboman/mason.nvim",
+      commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      commit = "ae609525ddf01c153c39305730b1791800ffe4fe",
+    },
+    {
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
+    },
+    {
+      "j-hui/fidget.nvim",
+      commit = "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
+      opts = {},
+    },
+    {
+      "hrsh7th/cmp-nvim-lsp",
+      commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef",
+    },
+    {
+      "lukas-reineke/lsp-format.nvim",
+      commit = "42d1d3e407c846d95f84ea3767e72ed6e08f7495",
+    },
   },
   config = function()
     -- This function gets run when an LSP attaches to a particular buffer.
@@ -18,54 +37,61 @@ return {
       callback = function(event)
         local builtin = require("telescope.builtin")
         local map = vim.keymap.set
+        local buf = event.buf
 
         map(
           "n",
           "gd",
           builtin.lsp_definitions,
-          { desc = "LSP: go to definition", silent = true }
+          { desc = "LSP: go to definition", buffer = buf, silent = true }
         )
         map(
           "n",
-          "gr",
+          "grr",
           builtin.lsp_references,
-          { desc = "LSP: find all references", silent = true }
+          { desc = "LSP: find all references", buffer = buf, silent = true }
         )
         map(
           "n",
-          "gI",
+          "gri",
           builtin.lsp_implementations,
-          { desc = "LSP: go to implementation", silent = true }
+          { desc = "LSP: go to implementation", buffer = buf, silent = true }
         )
         map(
           "n",
-          "<leader>D",
+          "gtd",
           builtin.lsp_type_definitions,
-          { desc = "LSP: go type definition", silent = true }
+          { desc = "LSP: go type definition", buffer = buf, silent = true }
         )
         map(
           "n",
           "gD",
           vim.lsp.buf.declaration,
-          { desc = "LSP: goto declaration", silent = true }
+          { desc = "LSP: goto declaration", buffer = buf, silent = true }
         )
         map(
           "n",
           "K",
           vim.lsp.buf.hover,
-          { desc = "LSP: hover documentation", silent = true }
+          { desc = "LSP: hover documentation", buffer = buf, silent = true }
         )
         map(
           "n",
-          "<leader>rn",
+          "grn",
           vim.lsp.buf.rename,
-          { desc = "LSP: rename", silent = true }
+          { desc = "LSP: rename", buffer = buf, silent = true }
         )
         map(
           "n",
-          "<leader>ca",
+          "gra",
           vim.lsp.buf.code_action,
-          { desc = "LSP: code action", silent = true }
+          { desc = "LSP: code action", buffer = buf, silent = true }
+        )
+        map(
+          "n",
+          "gO",
+          builtin.lsp_document_symbols,
+          { desc = "LSP: document symbols", buffer = buf, silent = true }
         )
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
