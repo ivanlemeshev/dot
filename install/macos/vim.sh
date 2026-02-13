@@ -32,8 +32,8 @@ ln -s "$VIMRC_SOURCE" "$VIMRC_TARGET"
 log_info "Linked Vim configuration: $VIMRC_SOURCE -> $VIMRC_TARGET"
 
 log_info "Linking Vim colorscheme"
-COLORSCHEME_SOURCE="$PROJECT_ROOT/.config/vim/colors/gruvbox-material.vim"
-COLORSCHEME_TARGET="$HOME/.config/vim/colors/gruvbox-material.vim"
+COLORSCHEME_SOURCE="$PROJECT_ROOT/.config/vim/colors/gruvbox-dark-custom.vim"
+COLORSCHEME_TARGET="$HOME/.config/vim/colors/gruvbox-dark-custom.vim"
 
 mkdir -p "$(dirname "$COLORSCHEME_TARGET")"
 

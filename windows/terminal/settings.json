@@ -61,7 +61,7 @@
     {
         "defaults":
         {
-            "colorScheme": "Gruvbox Material Dark",
+            "colorScheme": "Gruvbox Dark Custom",
             "cursorShape": "filledBox",
             "font":
             {
@@ -121,7 +121,7 @@
             "cyan": "#89B482",
             "foreground": "#D4BE98",
             "green": "#A9B665",
-            "name": "Gruvbox Material Dark",
+            "name": "Gruvbox Dark Custom",
             "purple": "#D3869B",
             "red": "#EA6962",
             "selectionBackground": "#5A524C",
@@ -132,7 +132,7 @@
     "themes":
     [
         {
-            "name": "Gruvbox Material Dark",
+            "name": "Gruvbox Dark Custom",
             "tab":
             {
                 "background": "#282828FF",

@@ -74,24 +74,6 @@
       "segments": [
         {
           "foreground": "#a9b665",
-          "style": "plain",
-          "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}<#5a524c> | </>",
-          "type": "node"
-        },
-        {
-          "foreground": "#a9b665",
-          "style": "plain",
-          "template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}<#5a524c> | </>",
-          "type": "python"
-        },
-        {
-          "foreground": "#7daea3",
-          "style": "plain",
-          "template": " \ue77f {{ if .Unsupported }}\uf071{{ else }}{{ .Full }}{{ end }}<#5a524c> | </>",
-          "type": "dotnet"
-        },
-        {
-          "foreground": "#a9b665",
           "options": {
             "time_format": "15:04:05"
           },

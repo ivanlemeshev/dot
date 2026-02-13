@@ -1,5 +1,4 @@
--- Gruvbox Material lualine theme (custom, no external dependency)
--- Baked settings: dark/medium/material, statusline_style="default"
+-- Gruvbox Dark Custom lualine theme (no external dependency)
 
 local p = require("lem.colorscheme").palette
 

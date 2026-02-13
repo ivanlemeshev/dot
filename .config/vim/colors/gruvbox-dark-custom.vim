@@ -1,12 +1,11 @@
-" Gruvbox Material colorscheme for Vim (custom, no external dependency)
-" Baked settings: dark/medium/material, italic+bold enabled
+" Gruvbox Dark Custom colorscheme for Vim (no external dependency)
 
 highlight clear
 if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = 'gruvbox-material'
+let g:colors_name = 'gruvbox-dark-custom'
 set background=dark
 
 " Palette: dark / medium / material

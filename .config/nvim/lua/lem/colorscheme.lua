@@ -1,11 +1,4 @@
--- Gruvbox Material colorscheme (custom, no external dependency)
--- Baked settings: dark/medium/material, italic+bold enabled
--- transparent_background=0, dim_inactive_windows=0, cursor="" (reverse)
--- visual="grey background", menu_selection_background="grey"
--- sign_column_background="none", ui_contrast="low", float_style="dim"
--- diagnostic_text_highlight=0, diagnostic_line_highlight=0
--- diagnostic_virtual_text="grey", statusline_style="default"
--- inlay_hints_background="none"
+-- Gruvbox Dark Custom colorscheme (no external dependency)
 
 local M = {}
 
@@ -52,7 +45,7 @@ function M.setup()
   if vim.fn.exists("syntax_on") then
     vim.cmd("syntax reset")
   end
-  vim.g.colors_name = "gruvbox-material"
+  vim.g.colors_name = "gruvbox-dark-custom"
   vim.o.background = "dark"
 
   local p = M.palette

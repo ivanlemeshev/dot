@@ -9,7 +9,7 @@ set -l os (uname)
 set -gx EDITOR nvim
 
 # Add bat theme
-set -x BAT_THEME gruvbox-material-dark
+set -x BAT_THEME gruvbox-dark-custom
 
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish

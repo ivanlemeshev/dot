@@ -1,9 +1,9 @@
-# FZF_DEFAULT_OPTS (gruvbox-material dark medium)
+# FZF_DEFAULT_OPTS (Gruvbox Dark Custom)
 #
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Gruvbox-material palette (hex) ---
+# --- Gruvbox Dark Custom palette (hex) ---
 set -l fg0    "#d4be98"  # primary text
 set -l bg0    "#282828"  # main background
 set -l bg1    "#3c3836"  # lighter background
