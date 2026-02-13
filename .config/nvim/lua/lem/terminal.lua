@@ -90,14 +90,14 @@ function M.setup_keymaps()
   local map = vim.keymap.set
 
   -- Toggle terminal
-  map("n", "<leader>tr", M.toggle, {
+  map("n", "<C-\\>", M.toggle, {
     desc = "Terminal: toggle",
     noremap = true,
     silent = true,
   })
 
   -- Exit and close terminal
-  map("t", "<C-n>", function()
+  map("t", "<C-\\>", function()
     if is_terminal_open() and terminal_win then
       vim.api.nvim_win_close(terminal_win, true)
       terminal_win = nil
@@ -107,25 +107,6 @@ function M.setup_keymaps()
   -- Double Ctrl+q to quit Neovim from terminal
   local quit_timer = nil
   local quit_pending = false
-
-  map("t", "<C-q>", function()
-    if quit_pending then
-      vim.cmd("qa")
-    else
-      quit_pending = true
-      print("Press Ctrl+q again to quit Neovim")
-      if quit_timer then
-        vim.fn.timer_stop(quit_timer)
-      end
-      quit_timer = vim.fn.timer_start(1000, function()
-        quit_pending = false
-      end)
-    end
-  end, {
-    noremap = true,
-    silent = false,
-    desc = "Terminal: double Ctrl+q to quit Neovim",
-  })
 
   -- Auto insert mode when entering terminal buffer
   vim.api.nvim_create_autocmd("BufEnter", {
