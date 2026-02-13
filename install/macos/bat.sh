@@ -13,10 +13,10 @@ print_section "Installing bat"
 log_info "Installing bat package"
 brew install bat
 
-log_info "Installing gruvbox-material-dark theme"
-BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/gruvbox-material-dark.tmTheme"
+log_info "Installing gruvbox-dark-custom theme"
+BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/gruvbox-dark-custom.tmTheme"
 BAT_THEME_DIR="$(bat --config-dir)/themes"
-BAT_THEME_TARGET="$BAT_THEME_DIR/gruvbox-material-dark.tmTheme"
+BAT_THEME_TARGET="$BAT_THEME_DIR/gruvbox-dark-custom.tmTheme"
 
 mkdir -p "$BAT_THEME_DIR"
 

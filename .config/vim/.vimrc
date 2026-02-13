@@ -200,7 +200,7 @@ endif
 set runtimepath+=~/.config/vim
 
 " Set colorscheme.
-colorscheme gruvbox-material
+colorscheme gruvbox-dark-custom
 
 " Faster terminal rendering.
 set ttyfast

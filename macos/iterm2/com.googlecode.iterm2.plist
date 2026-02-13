@@ -28,7 +28,7 @@
 	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
-		<key>gruvbox-material-dark</key>
+		<key>gruvbox-dark-custom</key>
 		<dict>
 			<key>Ansi 0 Color</key>
 			<dict>
