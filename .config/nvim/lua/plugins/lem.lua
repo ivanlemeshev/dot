@@ -38,9 +38,6 @@ return {
         lua = {
           columns = { 120 },
         },
-        markdown = {
-          exclude_modes = { "n", "v" },
-        },
       },
     })
 
