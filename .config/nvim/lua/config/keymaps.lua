@@ -171,6 +171,10 @@ map(
   { desc = "Indent to the right", noremap = true, silent = true }
 )
 
+-- Comments (using native Neovim 0.10+ commenting)
+map("n", "<leader>/", "gcc", { desc = "Toggle line comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "Toggle comment", remap = true })
+
 -- NvimTree
 map(
   "n",
