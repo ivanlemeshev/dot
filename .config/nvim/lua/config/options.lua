@@ -69,16 +69,16 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 -- Display tabs, whitespaces, the end of the line.
-vim.opt.listchars:append({
+vim.opt.listchars = {
   eol = " ",
-  tab = "> ",
+  tab = "  ",
   space = ".",
   multispace = ".",
   lead = ".",
   leadmultispace = ".",
   trail = ".",
   nbsp = ".",
-})
+}
 
 -- Ensure files end with a newline character.
 vim.opt.fixeol = true
