@@ -18,7 +18,7 @@ return {
           },
         },
         suggestion = {
-          auto_trigger = true, -- Copilot starts suggesting as soon as you enter insert mode
+          auto_trigger = false, -- Copilot is disabled by default, use <leader>ce to enable
           keymap = {
             accept = "<C-f>",
             accept_word = false,
