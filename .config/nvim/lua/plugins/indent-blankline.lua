@@ -10,6 +10,8 @@ return {
     exclude = {
       filetypes = {
         "help",
+      },
+      buftypes = {
         "terminal",
       },
     },

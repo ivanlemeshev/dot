@@ -28,8 +28,12 @@ return {
           "lazy",
           "mason",
           "neo-tree",
-          "terminal",
         },
+        callback = function()
+          vim.b.miniindentscope_disable = true
+        end,
+      })
+      vim.api.nvim_create_autocmd("TermOpen", {
         callback = function()
           vim.b.miniindentscope_disable = true
         end,
