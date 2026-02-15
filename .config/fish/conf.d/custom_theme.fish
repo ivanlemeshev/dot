@@ -11,11 +11,11 @@ set -l grey0  7c6f64
 set -l grey1  9a8a74
 set -l red    c97060
 set -l orange cc8850
-set -l yellow d4a04a
-set -l green  93ae64
-set -l aqua   80a87a
-set -l blue   7a9e98
-set -l purple b8868e
+set -l yellow c7a268
+set -l green  a2ab70
+set -l aqua   8ead89
+set -l blue   84a79f
+set -l purple c990a0
 
 # --- Syntax highlighting ---
 set -g fish_color_normal        $fg0

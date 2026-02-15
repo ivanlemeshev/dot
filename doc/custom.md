@@ -34,11 +34,11 @@ Based on: [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material
 | -------- | --------- |
 | `red`    | `#c97060` |
 | `orange` | `#cc8850` |
-| `yellow` | `#d4a04a` |
-| `green`  | `#93ae64` |
-| `aqua`   | `#80a87a` |
-| `blue`   | `#7a9e98` |
-| `purple` | `#b8868e` |
+| `yellow` | `#c7a268` |
+| `green`  | `#a2ab70` |
+| `aqua`   | `#8ead89` |
+| `blue`   | `#84a79f` |
+| `purple` | `#c990a0` |
 
 ## Grey
 
@@ -73,5 +73,5 @@ Used for labels, badges, and status indicators.
 | Name        | Hex       |
 | ----------- | --------- |
 | `bg_red`    | `#c97060` |
-| `bg_green`  | `#93ae64` |
-| `bg_yellow` | `#d4a04a` |
+| `bg_green`  | `#a2ab70` |
+| `bg_yellow` | `#c7a268` |

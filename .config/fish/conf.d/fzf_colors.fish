@@ -9,8 +9,8 @@ set -l bg0    "#262220"  # main background
 set -l bg1    "#403530"  # lighter background
 set -l red    "#c97060"
 set -l orange "#cc8850"
-set -l green  "#93ae64"
-set -l purple "#b8868e"
+set -l green  "#a2ab70"
+set -l purple "#c990a0"
 
 # --- Colors ---
 set -l colors \
