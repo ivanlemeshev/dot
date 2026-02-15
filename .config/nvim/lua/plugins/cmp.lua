@@ -6,19 +6,31 @@ return {
   dependencies = {
     -- nvim-cmp source for buffer words
     -- https://github.com/hrsh7th/cmp-buffer
-    { "hrsh7th/cmp-buffer", commit = "b74fab3656eea9de20a9b8116afa3cfc4ec09657" },
+    {
+      "hrsh7th/cmp-buffer",
+      commit = "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
+    },
     -- nvim-cmp source for path
     -- https://github.com/hrsh7th/cmp-path
     { "hrsh7th/cmp-path", commit = "c642487086dbd9a93160e1679a1327be111cbc25" },
     -- nvim-cmp source for vim's command line
     -- https://github.com/hrsh7th/cmp-cmdline
-    { "hrsh7th/cmp-cmdline", commit = "d126061b624e0af6c3a556428712dd4d4194ec6d" },
+    {
+      "hrsh7th/cmp-cmdline",
+      commit = "d126061b624e0af6c3a556428712dd4d4194ec6d",
+    },
     -- nvim-cmp source for Neovim built-in LSP client
     -- https://github.com/hrsh7th/cmp-nvim-lsp
-    { "hrsh7th/cmp-nvim-lsp", commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
+    {
+      "hrsh7th/cmp-nvim-lsp",
+      commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef",
+    },
     -- nvim-cmp source for Neovim Lua
     -- https://github.com/hrsh7th/cmp-nvim-lua
-    { "hrsh7th/cmp-nvim-lua", commit = "e3a22cb071eb9d6508a156306b102c45cd2d573d" },
+    {
+      "hrsh7th/cmp-nvim-lua",
+      commit = "e3a22cb071eb9d6508a156306b102c45cd2d573d",
+    },
   },
   config = function()
     local cmp = require("cmp")

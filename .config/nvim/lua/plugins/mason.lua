@@ -2,7 +2,10 @@ return {
   "williamboman/mason.nvim",
   commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
   dependencies = {
-    { "WhoIsSethDaniel/mason-tool-installer.nvim", commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
+    {
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+      commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
+    },
   },
   config = function()
     local mason = require("mason")

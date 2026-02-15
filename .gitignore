@@ -2,3 +2,4 @@
 .vscode
 lazy-lock.json
 config.env
+tmp

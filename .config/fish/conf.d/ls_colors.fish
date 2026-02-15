@@ -3,17 +3,17 @@
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Gruvbox Dark Custom palette (RGB values) ---
+# --- Gruvbox Dark Custom palette (RGB values, tuned for eye comfort) ---
 set -l fg0    "212;190;152"  # #d4be98
-set -l bg0    "40;40;40"     # #282828
-set -l red    "234;105;98"   # #ea6962
-set -l orange "231;138;78"   # #e78a4e
-set -l yellow "216;166;87"   # #d8a657
+set -l bg0    "41;37;36"     # #292524
+set -l red    "219;107;101"  # #db6b65
+set -l orange "212;139;88"   # #d48b58
+set -l yellow "207;164;94"   # #cfa45e
 set -l green  "169;182;101"  # #a9b665
-set -l aqua   "125;174;163"  # #7daea3
-set -l purple "211;134;155"  # #d3869b
+set -l aqua   "137;180;130"  # #89b482
+set -l blue   "125;174;163"  # #7daea3
+set -l purple "199;138;150"  # #c78a96
 set -l dim    "124;111;100"  # #7c6f64
-set -l green2 "137;180;130"  # #89b482
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal
@@ -31,8 +31,8 @@ set -l ls \
     "mh=1" \
     "no=$n;$fg0;48;2;$bg0" \
     "fi=$n;$fg0;48;2;$bg0" \
-    "di=$n;$aqua" \
-    "ln=$it;$aqua" \
+    "di=$n;$blue" \
+    "ln=$it;$blue" \
     "or=$it;$red" \
     "mi=$n;$fg0;48;2;$red" \
     "ex=$b;$green" \
@@ -44,9 +44,9 @@ set -l ls \
     "su=$n;$fg0;48;2;$red" \
     "sg=$n;$bg0;48;2;$orange" \
     "ca=$n;$bg0;48;2;$red" \
-    "st=$n;$fg0;48;2;$aqua" \
+    "st=$n;$fg0;48;2;$blue" \
     "ow=$b;$green" \
-    "tw=$it;$fg0;48;2;$aqua"
+    "tw=$it;$fg0;48;2;$blue"
 
 # --- Plain text ---
 set -a ls \
@@ -229,136 +229,136 @@ set -a ls \
 
 # --- Images / media (static) ---
 set -a ls \
-    "*.ai=$n;$green2" \
-    "*.ma=$n;$green2" \
-    "*.mb=$n;$green2" \
-    "*.wv=$n;$green2" \
-    "*.3ds=$n;$green2" \
-    "*.3fr=$n;$green2" \
-    "*.3mf=$n;$green2" \
-    "*.aif=$n;$green2" \
-    "*.amf=$n;$green2" \
-    "*.ape=$n;$green2" \
-    "*.ari=$n;$green2" \
-    "*.arw=$n;$green2" \
-    "*.bay=$n;$green2" \
-    "*.bmp=$n;$green2" \
-    "*.cap=$n;$green2" \
-    "*.cr2=$n;$green2" \
-    "*.cr3=$n;$green2" \
-    "*.crw=$n;$green2" \
-    "*.dae=$n;$green2" \
-    "*.dcr=$n;$green2" \
-    "*.dcs=$n;$green2" \
-    "*.dng=$n;$green2" \
-    "*.drf=$n;$green2" \
-    "*.dxf=$n;$green2" \
-    "*.eip=$n;$green2" \
-    "*.eps=$n;$green2" \
-    "*.erf=$n;$green2" \
-    "*.exr=$n;$green2" \
-    "*.fbx=$n;$green2" \
-    "*.fff=$n;$green2" \
-    "*.fnt=$n;$green2" \
-    "*.fon=$n;$green2" \
-    "*.gif=$n;$green2" \
-    "*.gpr=$n;$green2" \
-    "*.hda=$n;$green2" \
-    "*.hip=$n;$green2" \
-    "*.ico=$n;$green2" \
-    "*.igs=$n;$green2" \
-    "*.iiq=$n;$green2" \
-    "*.jpg=$n;$green2" \
-    "*.jxl=$n;$green2" \
-    "*.k25=$n;$green2" \
-    "*.kdc=$n;$green2" \
-    "*.kra=$n;$green2" \
-    "*.m3u=$n;$green2" \
-    "*.m4a=$n;$green2" \
-    "*.mdc=$n;$green2" \
-    "*.mef=$n;$green2" \
-    "*.mid=$n;$green2" \
-    "*.mos=$n;$green2" \
-    "*.mp3=$n;$green2" \
-    "*.mrw=$n;$green2" \
-    "*.mtl=$n;$green2" \
-    "*.nef=$n;$green2" \
-    "*.nrw=$n;$green2" \
-    "*.obj=$n;$green2" \
-    "*.obm=$n;$green2" \
-    "*.ogg=$n;$green2" \
-    "*.orf=$n;$green2" \
-    "*.otf=$n;$green2" \
-    "*.otl=$n;$green2" \
-    "*.pbm=$n;$green2" \
-    "*.pcx=$n;$green2" \
-    "*.pef=$n;$green2" \
-    "*.pgm=$n;$green2" \
-    "*.png=$n;$green2" \
-    "*.ppm=$n;$green2" \
-    "*.psd=$n;$green2" \
-    "*.ptx=$n;$green2" \
-    "*.pxn=$n;$green2" \
-    "*.qoi=$n;$green2" \
-    "*.r3d=$n;$green2" \
-    "*.raf=$n;$green2" \
-    "*.raw=$n;$green2" \
-    "*.rw2=$n;$green2" \
-    "*.rwl=$n;$green2" \
-    "*.rwz=$n;$green2" \
-    "*.sr2=$n;$green2" \
-    "*.srf=$n;$green2" \
-    "*.srw=$n;$green2" \
-    "*.stl=$n;$green2" \
-    "*.stp=$n;$green2" \
-    "*.svg=$n;$green2" \
-    "*.tga=$n;$green2" \
-    "*.tif=$n;$green2" \
-    "*.ttf=$n;$green2" \
-    "*.usd=$n;$green2" \
-    "*.wav=$n;$green2" \
-    "*.wma=$n;$green2" \
-    "*.wrl=$n;$green2" \
-    "*.x3d=$n;$green2" \
-    "*.x3f=$n;$green2" \
-    "*.xpm=$n;$green2" \
-    "*.xvf=$n;$green2" \
-    "*.avif=$n;$green2" \
-    "*.braw=$n;$green2" \
-    "*.data=$n;$green2" \
-    "*.flac=$n;$green2" \
-    "*.heif=$n;$green2" \
-    "*.iges=$n;$green2" \
-    "*.jpeg=$n;$green2" \
-    "*.opus=$n;$green2" \
-    "*.step=$n;$green2" \
-    "*.tiff=$n;$green2" \
-    "*.usda=$n;$green2" \
-    "*.usdc=$n;$green2" \
-    "*.usdz=$n;$green2" \
-    "*.webp=$n;$green2" \
-    "*.woff=$n;$green2" \
-    "*.woff2=$n;$green2" \
-    "*.blend=$n;$green2" \
-    "*.alembic=$n;$green2"
+    "*.ai=$n;$aqua" \
+    "*.ma=$n;$aqua" \
+    "*.mb=$n;$aqua" \
+    "*.wv=$n;$aqua" \
+    "*.3ds=$n;$aqua" \
+    "*.3fr=$n;$aqua" \
+    "*.3mf=$n;$aqua" \
+    "*.aif=$n;$aqua" \
+    "*.amf=$n;$aqua" \
+    "*.ape=$n;$aqua" \
+    "*.ari=$n;$aqua" \
+    "*.arw=$n;$aqua" \
+    "*.bay=$n;$aqua" \
+    "*.bmp=$n;$aqua" \
+    "*.cap=$n;$aqua" \
+    "*.cr2=$n;$aqua" \
+    "*.cr3=$n;$aqua" \
+    "*.crw=$n;$aqua" \
+    "*.dae=$n;$aqua" \
+    "*.dcr=$n;$aqua" \
+    "*.dcs=$n;$aqua" \
+    "*.dng=$n;$aqua" \
+    "*.drf=$n;$aqua" \
+    "*.dxf=$n;$aqua" \
+    "*.eip=$n;$aqua" \
+    "*.eps=$n;$aqua" \
+    "*.erf=$n;$aqua" \
+    "*.exr=$n;$aqua" \
+    "*.fbx=$n;$aqua" \
+    "*.fff=$n;$aqua" \
+    "*.fnt=$n;$aqua" \
+    "*.fon=$n;$aqua" \
+    "*.gif=$n;$aqua" \
+    "*.gpr=$n;$aqua" \
+    "*.hda=$n;$aqua" \
+    "*.hip=$n;$aqua" \
+    "*.ico=$n;$aqua" \
+    "*.igs=$n;$aqua" \
+    "*.iiq=$n;$aqua" \
+    "*.jpg=$n;$aqua" \
+    "*.jxl=$n;$aqua" \
+    "*.k25=$n;$aqua" \
+    "*.kdc=$n;$aqua" \
+    "*.kra=$n;$aqua" \
+    "*.m3u=$n;$aqua" \
+    "*.m4a=$n;$aqua" \
+    "*.mdc=$n;$aqua" \
+    "*.mef=$n;$aqua" \
+    "*.mid=$n;$aqua" \
+    "*.mos=$n;$aqua" \
+    "*.mp3=$n;$aqua" \
+    "*.mrw=$n;$aqua" \
+    "*.mtl=$n;$aqua" \
+    "*.nef=$n;$aqua" \
+    "*.nrw=$n;$aqua" \
+    "*.obj=$n;$aqua" \
+    "*.obm=$n;$aqua" \
+    "*.ogg=$n;$aqua" \
+    "*.orf=$n;$aqua" \
+    "*.otf=$n;$aqua" \
+    "*.otl=$n;$aqua" \
+    "*.pbm=$n;$aqua" \
+    "*.pcx=$n;$aqua" \
+    "*.pef=$n;$aqua" \
+    "*.pgm=$n;$aqua" \
+    "*.png=$n;$aqua" \
+    "*.ppm=$n;$aqua" \
+    "*.psd=$n;$aqua" \
+    "*.ptx=$n;$aqua" \
+    "*.pxn=$n;$aqua" \
+    "*.qoi=$n;$aqua" \
+    "*.r3d=$n;$aqua" \
+    "*.raf=$n;$aqua" \
+    "*.raw=$n;$aqua" \
+    "*.rw2=$n;$aqua" \
+    "*.rwl=$n;$aqua" \
+    "*.rwz=$n;$aqua" \
+    "*.sr2=$n;$aqua" \
+    "*.srf=$n;$aqua" \
+    "*.srw=$n;$aqua" \
+    "*.stl=$n;$aqua" \
+    "*.stp=$n;$aqua" \
+    "*.svg=$n;$aqua" \
+    "*.tga=$n;$aqua" \
+    "*.tif=$n;$aqua" \
+    "*.ttf=$n;$aqua" \
+    "*.usd=$n;$aqua" \
+    "*.wav=$n;$aqua" \
+    "*.wma=$n;$aqua" \
+    "*.wrl=$n;$aqua" \
+    "*.x3d=$n;$aqua" \
+    "*.x3f=$n;$aqua" \
+    "*.xpm=$n;$aqua" \
+    "*.xvf=$n;$aqua" \
+    "*.avif=$n;$aqua" \
+    "*.braw=$n;$aqua" \
+    "*.data=$n;$aqua" \
+    "*.flac=$n;$aqua" \
+    "*.heif=$n;$aqua" \
+    "*.iges=$n;$aqua" \
+    "*.jpeg=$n;$aqua" \
+    "*.opus=$n;$aqua" \
+    "*.step=$n;$aqua" \
+    "*.tiff=$n;$aqua" \
+    "*.usda=$n;$aqua" \
+    "*.usdc=$n;$aqua" \
+    "*.usdz=$n;$aqua" \
+    "*.webp=$n;$aqua" \
+    "*.woff=$n;$aqua" \
+    "*.woff2=$n;$aqua" \
+    "*.blend=$n;$aqua" \
+    "*.alembic=$n;$aqua"
 
 # --- Video ---
 set -a ls \
-    "*.rm=$b;$green2" \
-    "*.avi=$b;$green2" \
-    "*.flv=$b;$green2" \
-    "*.m4v=$b;$green2" \
-    "*.mkv=$b;$green2" \
-    "*.mov=$b;$green2" \
-    "*.mp4=$b;$green2" \
-    "*.mpg=$b;$green2" \
-    "*.ogv=$b;$green2" \
-    "*.swf=$b;$green2" \
-    "*.vob=$b;$green2" \
-    "*.wmv=$b;$green2" \
-    "*.h264=$b;$green2" \
-    "*.mpeg=$b;$green2" \
-    "*.webm=$b;$green2"
+    "*.rm=$b;$aqua" \
+    "*.avi=$b;$aqua" \
+    "*.flv=$b;$aqua" \
+    "*.m4v=$b;$aqua" \
+    "*.mkv=$b;$aqua" \
+    "*.mov=$b;$aqua" \
+    "*.mp4=$b;$aqua" \
+    "*.mpg=$b;$aqua" \
+    "*.ogv=$b;$aqua" \
+    "*.swf=$b;$aqua" \
+    "*.vob=$b;$aqua" \
+    "*.wmv=$b;$aqua" \
+    "*.h264=$b;$aqua" \
+    "*.mpeg=$b;$aqua" \
+    "*.webm=$b;$aqua"
 
 # --- Archives / packages ---
 set -a ls \
@@ -397,33 +397,33 @@ set -a ls \
 
 # --- Documents ---
 set -a ls \
-    "*.ps=$b;$aqua" \
-    "*.doc=$b;$aqua" \
-    "*.ics=$b;$aqua" \
-    "*.kex=$b;$aqua" \
-    "*.odp=$b;$aqua" \
-    "*.ods=$b;$aqua" \
-    "*.odt=$b;$aqua" \
-    "*.pdf=$b;$aqua" \
-    "*.pps=$b;$aqua" \
-    "*.ppt=$b;$aqua" \
-    "*.rtf=$b;$aqua" \
-    "*.sxi=$b;$aqua" \
-    "*.sxw=$b;$aqua" \
-    "*.xlr=$b;$aqua" \
-    "*.xls=$b;$aqua" \
-    "*.docx=$b;$aqua" \
-    "*.epub=$b;$aqua" \
-    "*.pptx=$b;$aqua" \
-    "*.xlsx=$b;$aqua"
+    "*.ps=$b;$blue" \
+    "*.doc=$b;$blue" \
+    "*.ics=$b;$blue" \
+    "*.kex=$b;$blue" \
+    "*.odp=$b;$blue" \
+    "*.ods=$b;$blue" \
+    "*.odt=$b;$blue" \
+    "*.pdf=$b;$blue" \
+    "*.pps=$b;$blue" \
+    "*.ppt=$b;$blue" \
+    "*.rtf=$b;$blue" \
+    "*.sxi=$b;$blue" \
+    "*.sxw=$b;$blue" \
+    "*.xlr=$b;$blue" \
+    "*.xls=$b;$blue" \
+    "*.docx=$b;$blue" \
+    "*.epub=$b;$blue" \
+    "*.pptx=$b;$blue" \
+    "*.xlsx=$b;$blue"
 
 # --- CI/CD config ---
 set -a ls \
-    "*.cirrus.yml=$n;$aqua" \
-    "*.gitlab-ci.yml=$n;$aqua" \
-    "*.travis.yml=$n;$aqua" \
-    "*appveyor.yml=$n;$aqua" \
-    "*azure-pipelines.yml=$n;$aqua"
+    "*.cirrus.yml=$n;$blue" \
+    "*.gitlab-ci.yml=$n;$blue" \
+    "*.travis.yml=$n;$blue" \
+    "*appveyor.yml=$n;$blue" \
+    "*azure-pipelines.yml=$n;$blue"
 
 # --- Build / config tooling ---
 set -a ls \

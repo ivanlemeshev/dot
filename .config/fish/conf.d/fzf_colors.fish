@@ -3,14 +3,14 @@
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Gruvbox Dark Custom palette (hex) ---
+# --- Gruvbox Dark Custom palette (hex, tuned for eye comfort) ---
 set -l fg0    "#d4be98"  # primary text
-set -l bg0    "#282828"  # main background
-set -l bg1    "#3c3836"  # lighter background
-set -l red    "#ea6962"
-set -l orange "#e78a4e"
+set -l bg0    "#292524"  # main background
+set -l bg1    "#3e3633"  # lighter background
+set -l red    "#db6b65"
+set -l orange "#d48b58"
 set -l green  "#a9b665"
-set -l purple "#d3869b"
+set -l purple "#c78a96"
 
 # --- Colors ---
 set -l colors \

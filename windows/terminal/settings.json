@@ -106,27 +106,27 @@
     "schemes":
     [
         {
-            "background": "#282828",
-            "black": "#3C3836",
+            "background": "#292524",
+            "black": "#3E3633",
             "blue": "#7DAEA3",
-            "brightBlack": "#5A524C",
+            "brightBlack": "#6B6258",
             "brightBlue": "#7DAEA3",
             "brightCyan": "#89B482",
             "brightGreen": "#A9B665",
-            "brightPurple": "#D3869B",
-            "brightRed": "#EA6962",
+            "brightPurple": "#C78A96",
+            "brightRed": "#DB6B65",
             "brightWhite": "#D4BE98",
-            "brightYellow": "#D8A657",
+            "brightYellow": "#CFA45E",
             "cursorColor": "#D4BE98",
             "cyan": "#89B482",
             "foreground": "#D4BE98",
             "green": "#A9B665",
             "name": "Gruvbox Dark Custom",
-            "purple": "#D3869B",
-            "red": "#EA6962",
-            "selectionBackground": "#5A524C",
+            "purple": "#C78A96",
+            "red": "#DB6B65",
+            "selectionBackground": "#6B6258",
             "white": "#DDC7A1",
-            "yellow": "#D8A657"
+            "yellow": "#CFA45E"
         }
     ],
     "themes":
@@ -135,15 +135,15 @@
             "name": "Gruvbox Dark Custom",
             "tab":
             {
-                "background": "#282828FF",
+                "background": "#292524FF",
                 "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
             "tabRow":
             {
-                "background": "#1D2021FF",
-                "unfocusedBackground": "#1D2021FF"
+                "background": "#1D1A19FF",
+                "unfocusedBackground": "#1D1A19FF"
             },
             "window":
             {

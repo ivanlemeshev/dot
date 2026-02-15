@@ -4,7 +4,10 @@ return {
   "nvim-tree/nvim-tree.lua",
   commit = "037d89e60fb01a6c11a48a19540253b8c72a3c32",
   dependencies = {
-    { "kyazdani42/nvim-web-devicons", commit = "746ffbb17975ebd6c40142362eee1b0249969c5c" },
+    {
+      "kyazdani42/nvim-web-devicons",
+      commit = "746ffbb17975ebd6c40142362eee1b0249969c5c",
+    },
   },
   config = function()
     require("nvim-tree").setup({

@@ -6,7 +6,10 @@ return {
   lazy = false,
   event = "VimEnter",
   dependencies = {
-    { "nvim-lua/plenary.nvim", commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
+    {
+      "nvim-lua/plenary.nvim",
+      commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+    },
   },
   config = function()
     local actions = require("telescope.actions")

@@ -5,12 +5,30 @@ return {
   commit = "52fca6717ef972113ddd6ca223e30ad0abb2800c",
   lazy = false,
   dependencies = {
-    { "nvim-neotest/nvim-nio", commit = "21f5324bfac14e22ba26553caf69ec76ae8a7662" },
-    { "nvim-lua/plenary.nvim", commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
-    { "antoinemadec/FixCursorHold.nvim", commit = "1900f89dc17c603eec29960f57c00bd9ae696495" },
-    { "nvim-treesitter/nvim-treesitter", commit = "42fc28ba918343ebfd5565147a42a26580579482" },
-    { "nvim-neotest/neotest-go", commit = "59b50505053f9c45a9febb79e11a56206c3e3901" },
-    { "lawrence-laz/neotest-zig", commit = "de63f3b9a182d374d2e71cf44385326682ec90e7" },
+    {
+      "nvim-neotest/nvim-nio",
+      commit = "21f5324bfac14e22ba26553caf69ec76ae8a7662",
+    },
+    {
+      "nvim-lua/plenary.nvim",
+      commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+    },
+    {
+      "antoinemadec/FixCursorHold.nvim",
+      commit = "1900f89dc17c603eec29960f57c00bd9ae696495",
+    },
+    {
+      "nvim-treesitter/nvim-treesitter",
+      commit = "42fc28ba918343ebfd5565147a42a26580579482",
+    },
+    {
+      "nvim-neotest/neotest-go",
+      commit = "59b50505053f9c45a9febb79e11a56206c3e3901",
+    },
+    {
+      "lawrence-laz/neotest-zig",
+      commit = "de63f3b9a182d374d2e71cf44385326682ec90e7",
+    },
   },
   opts = {},
   config = function()
