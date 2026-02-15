@@ -3,14 +3,14 @@
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Custom palette (hex, tuned for eye comfort) ---
-set -l fg0    "#d4be98"  # primary text
-set -l bg0    "#282828"  # main background
-set -l bg1    "#3e3633"  # lighter background
-set -l red    "#db6b65"
-set -l orange "#d48b58"
-set -l green  "#9fb26a"
-set -l purple "#c78a96"
+# --- Custom palette (hex, retro amber-tinted for vintage feel) ---
+set -l fg0    "#d4b888"  # primary text
+set -l bg0    "#262220"  # main background
+set -l bg1    "#403530"  # lighter background
+set -l red    "#c97060"
+set -l orange "#cc8850"
+set -l green  "#93ae64"
+set -l purple "#b8868e"
 
 # --- Colors ---
 set -l colors \

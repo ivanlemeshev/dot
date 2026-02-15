@@ -1,6 +1,6 @@
 # Custom Theme - Color Reference
 
-Variant: **dark warm** background, **material** foreground (tuned for eye comfort).
+Variant: **dark warm retro** background, **amber-tinted** foreground (vintage feel, easy on eyes).
 
 Based on: [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material)
 (`autoload/gruvbox_material.vim`)
@@ -9,44 +9,44 @@ Based on: [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material
 
 | Name              | Hex       | Usage                         |
 | ----------------- | --------- | ----------------------------- |
-| `bg_dim`          | `#1d1a19` | Dimmed / inactive backgrounds |
-| `bg0`             | `#282828` | Main background               |
-| `bg1`             | `#373230` | Cursor line, status line      |
-| `bg2`             | `#3a3735` | UI elements                   |
-| `bg3`             | `#4a4541` | Visual selection, popup menu  |
-| `bg4`             | `#4a4541` | UI elements                   |
-| `bg5`             | `#6b6258` | Lightest background layer     |
-| `bg_statusline1`  | `#322e2c` | Status line primary           |
-| `bg_statusline2`  | `#3c3835` | Status line secondary         |
-| `bg_statusline3`  | `#534d47` | Status line tertiary          |
-| `bg_current_word` | `#3e3633` | Current word highlight        |
+| `bg_dim`          | `#1a1612` | Dimmed / inactive backgrounds |
+| `bg0`             | `#262220` | Main background               |
+| `bg1`             | `#352e2a` | Cursor line, status line      |
+| `bg2`             | `#3d3530` | UI elements                   |
+| `bg3`             | `#4d453e` | Visual selection, popup menu  |
+| `bg4`             | `#4d453e` | UI elements                   |
+| `bg5`             | `#685d52` | Lightest background layer     |
+| `bg_statusline1`  | `#302a27` | Status line primary           |
+| `bg_statusline2`  | `#3a3430` | Status line secondary         |
+| `bg_statusline3`  | `#514a42` | Status line tertiary          |
+| `bg_current_word` | `#403530` | Current word highlight        |
 
 ## Foreground
 
 | Name  | Hex       | Usage                   |
 | ----- | --------- | ----------------------- |
-| `fg0` | `#d4be98` | Primary text            |
-| `fg1` | `#ddc7a1` | Secondary text (bright) |
+| `fg0` | `#d4b888` | Primary text            |
+| `fg1` | `#dcc092` | Secondary text (bright) |
 
 ## Accent Colors
 
 | Name     | Hex       |
 | -------- | --------- |
-| `red`    | `#db6b65` |
-| `orange` | `#d48b58` |
-| `yellow` | `#cfa45e` |
-| `green`  | `#9fb26a` |
-| `aqua`   | `#89b482` |
-| `blue`   | `#7daea3` |
-| `purple` | `#c78a96` |
+| `red`    | `#c97060` |
+| `orange` | `#cc8850` |
+| `yellow` | `#d4a04a` |
+| `green`  | `#93ae64` |
+| `aqua`   | `#80a87a` |
+| `blue`   | `#7a9e98` |
+| `purple` | `#b8868e` |
 
 ## Grey
 
 | Name    | Hex       | Usage                  |
 | ------- | --------- | ---------------------- |
 | `grey0` | `#7c6f64` | Comments, line numbers |
-| `grey1` | `#9d8e7e` | Medium grey            |
-| `grey2` | `#a89984` | Lightest grey          |
+| `grey1` | `#9a8a74` | Medium grey            |
+| `grey2` | `#a59478` | Lightest grey          |
 
 ## Visual Selection Backgrounds
 
@@ -72,6 +72,6 @@ Used for labels, badges, and status indicators.
 
 | Name        | Hex       |
 | ----------- | --------- |
-| `bg_red`    | `#db6b65` |
-| `bg_green`  | `#9fb26a` |
-| `bg_yellow` | `#cfa45e` |
+| `bg_red`    | `#c97060` |
+| `bg_green`  | `#93ae64` |
+| `bg_yellow` | `#d4a04a` |

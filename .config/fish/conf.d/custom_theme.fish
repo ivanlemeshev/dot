@@ -1,21 +1,21 @@
 # Custom theme for fish shell
 # Based on: https://github.com/sainnhe/gruvbox-material
 
-# --- Custom palette (tuned for eye comfort) ---
-set -l bg0    282828
-set -l bg1    373230
-set -l bg5    6b6258
-set -l fg0    d4be98
-set -l fg1    ddc7a1
+# --- Custom palette (retro amber-tinted for vintage feel) ---
+set -l bg0    262220
+set -l bg1    352e2a
+set -l bg5    685d52
+set -l fg0    d4b888
+set -l fg1    dcc092
 set -l grey0  7c6f64
-set -l grey1  9d8e7e
-set -l red    db6b65
-set -l orange d48b58
-set -l yellow cfa45e
-set -l green  9fb26a
-set -l aqua   89b482
-set -l blue   7daea3
-set -l purple c78a96
+set -l grey1  9a8a74
+set -l red    c97060
+set -l orange cc8850
+set -l yellow d4a04a
+set -l green  93ae64
+set -l aqua   80a87a
+set -l blue   7a9e98
+set -l purple b8868e
 
 # --- Syntax highlighting ---
 set -g fish_color_normal        $fg0

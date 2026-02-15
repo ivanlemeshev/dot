@@ -106,27 +106,27 @@
     "schemes":
     [
         {
-            "background": "#282828",
-            "black": "#3E3633",
-            "blue": "#7DAEA3",
-            "brightBlack": "#6B6258",
-            "brightBlue": "#7DAEA3",
-            "brightCyan": "#89B482",
-            "brightGreen": "#9FB26A",
-            "brightPurple": "#C78A96",
-            "brightRed": "#DB6B65",
-            "brightWhite": "#D4BE98",
-            "brightYellow": "#CFA45E",
-            "cursorColor": "#D4BE98",
-            "cyan": "#89B482",
-            "foreground": "#D4BE98",
-            "green": "#9FB26A",
+            "background": "#262220",
+            "black": "#403530",
+            "blue": "#7A9E98",
+            "brightBlack": "#685D52",
+            "brightBlue": "#7A9E98",
+            "brightCyan": "#80A87A",
+            "brightGreen": "#93AE64",
+            "brightPurple": "#B8868E",
+            "brightRed": "#C97060",
+            "brightWhite": "#D4B888",
+            "brightYellow": "#D4A04A",
+            "cursorColor": "#D4B888",
+            "cyan": "#80A87A",
+            "foreground": "#D4B888",
+            "green": "#93AE64",
             "name": "Custom",
-            "purple": "#C78A96",
-            "red": "#DB6B65",
-            "selectionBackground": "#6B6258",
-            "white": "#DDC7A1",
-            "yellow": "#CFA45E"
+            "purple": "#B8868E",
+            "red": "#C97060",
+            "selectionBackground": "#685D52",
+            "white": "#DCC092",
+            "yellow": "#D4A04A"
         }
     ],
     "themes":
@@ -135,15 +135,15 @@
             "name": "Custom",
             "tab":
             {
-                "background": "#282828FF",
+                "background": "#262220FF",
                 "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
             "tabRow":
             {
-                "background": "#1D1A19FF",
-                "unfocusedBackground": "#1D1A19FF"
+                "background": "#1A1612FF",
+                "unfocusedBackground": "#1A1612FF"
             },
             "window":
             {

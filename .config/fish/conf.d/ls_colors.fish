@@ -3,16 +3,16 @@
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Custom palette (RGB values, tuned for eye comfort) ---
-set -l fg0    "212;190;152"  # #d4be98
-set -l bg0    "40;40;40"     # #282828
-set -l red    "219;107;101"  # #db6b65
-set -l orange "212;139;88"   # #d48b58
-set -l yellow "207;164;94"   # #cfa45e
-set -l green  "159;178;106"  # #9fb26a
-set -l aqua   "137;180;130"  # #89b482
-set -l blue   "125;174;163"  # #7daea3
-set -l purple "199;138;150"  # #c78a96
+# --- Custom palette (RGB values, retro amber-tinted for vintage feel) ---
+set -l fg0    "212;184;136"  # #d4b888
+set -l bg0    "38;34;32"     # #262220
+set -l red    "201;112;96"   # #c97060
+set -l orange "204;136;80"   # #cc8850
+set -l yellow "212;160;74"   # #d4a04a
+set -l green  "147;174;100"  # #93ae64
+set -l aqua   "128;168;122"  # #80a87a
+set -l blue   "122;158;152"  # #7a9e98
+set -l purple "184;134;142"  # #b8868e
 set -l dim    "124;111;100"  # #7c6f64
 
 # --- ANSI style helpers ---
