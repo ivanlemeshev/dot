@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#a9b665",
+          "foreground": "#9fb26a",
           "options": {
             "alpine": "\uf300",
             "arch": "\uf303",
@@ -63,7 +63,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#6b6258>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#db6b65> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a9b665> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": "<#6b6258>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#db6b65> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#9fb26a> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -73,7 +73,7 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#a9b665",
+          "foreground": "#9fb26a",
           "options": {
             "time_format": "15:04:05"
           },
@@ -111,7 +111,7 @@
           "type": "executiontime"
         },
         {
-          "foreground": "#a9b665",
+          "foreground": "#9fb26a",
           "foreground_templates": ["{{ if gt .Code 0 }}#db6b65{{ end }}"],
           "options": {
             "always_enabled": true

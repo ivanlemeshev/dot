@@ -12,7 +12,7 @@ set -l grey1  9d8e7e
 set -l red    db6b65
 set -l orange d48b58
 set -l yellow cfa45e
-set -l green  a9b665
+set -l green  9fb26a
 set -l aqua   89b482
 set -l blue   7daea3
 set -l purple c78a96

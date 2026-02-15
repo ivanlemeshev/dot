@@ -9,7 +9,7 @@ set -l bg0    "41;37;36"     # #292524
 set -l red    "219;107;101"  # #db6b65
 set -l orange "212;139;88"   # #d48b58
 set -l yellow "207;164;94"   # #cfa45e
-set -l green  "169;182;101"  # #a9b665
+set -l green  "159;178;106"  # #9fb26a
 set -l aqua   "137;180;130"  # #89b482
 set -l blue   "125;174;163"  # #7daea3
 set -l purple "199;138;150"  # #c78a96
