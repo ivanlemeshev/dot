@@ -10,6 +10,7 @@ return {
     exclude = {
       filetypes = {
         "help",
+        "terminal",
       },
     },
     scope = {
