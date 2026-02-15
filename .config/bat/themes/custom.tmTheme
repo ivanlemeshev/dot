@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Gruvbox Dark Custom</string>
+	<string>Custom</string>
 	<key>settings</key>
 	<array>
 
@@ -12,7 +12,7 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#292524</string>
+				<string>#282828</string>
 				<key>foreground</key>
 				<string>#d4be98</string>
 				<key>caret</key>
@@ -30,13 +30,13 @@
 				<key>activeGuide</key>
 				<string>#9d8e7e</string>
 				<key>gutter</key>
-				<string>#292524</string>
+				<string>#282828</string>
 				<key>gutterForeground</key>
 				<string>#7c6f64</string>
 				<key>findHighlight</key>
 				<string>#cfa45e</string>
 				<key>findHighlightForeground</key>
-				<string>#292524</string>
+				<string>#282828</string>
 				<key>bracketsForeground</key>
 				<string>#ddc7a1</string>
 				<key>bracketContentsForeground</key>

@@ -61,7 +61,7 @@
     {
         "defaults":
         {
-            "colorScheme": "Gruvbox Dark Custom",
+            "colorScheme": "Custom",
             "cursorShape": "filledBox",
             "font":
             {
@@ -106,7 +106,7 @@
     "schemes":
     [
         {
-            "background": "#292524",
+            "background": "#282828",
             "black": "#3E3633",
             "blue": "#7DAEA3",
             "brightBlack": "#6B6258",
@@ -121,7 +121,7 @@
             "cyan": "#89B482",
             "foreground": "#D4BE98",
             "green": "#9FB26A",
-            "name": "Gruvbox Dark Custom",
+            "name": "Custom",
             "purple": "#C78A96",
             "red": "#DB6B65",
             "selectionBackground": "#6B6258",
@@ -132,10 +132,10 @@
     "themes":
     [
         {
-            "name": "Gruvbox Dark Custom",
+            "name": "Custom",
             "tab":
             {
-                "background": "#292524FF",
+                "background": "#282828FF",
                 "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null

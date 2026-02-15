@@ -1,4 +1,4 @@
-# Gruvbox Dark Custom Theme - Color Reference
+# Custom Theme - Color Reference
 
 Variant: **dark warm** background, **material** foreground (tuned for eye comfort).
 
@@ -10,7 +10,7 @@ Based on: [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material
 | Name              | Hex       | Usage                         |
 | ----------------- | --------- | ----------------------------- |
 | `bg_dim`          | `#1d1a19` | Dimmed / inactive backgrounds |
-| `bg0`             | `#292524` | Main background               |
+| `bg0`             | `#282828` | Main background               |
 | `bg1`             | `#373230` | Cursor line, status line      |
 | `bg2`             | `#3a3735` | UI elements                   |
 | `bg3`             | `#4a4541` | Visual selection, popup menu  |

@@ -1,16 +1,16 @@
-" Gruvbox Dark Custom colorscheme for Vim (no external dependency)
+" Custom colorscheme for Vim (no external dependency)
 
 highlight clear
 if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = 'gruvbox-dark-custom'
+let g:colors_name = 'custom'
 set background=dark
 
 " Palette: dark / warm / material (tuned for eye comfort)
 let s:bg_dim          = '#1d1a19'
-let s:bg0             = '#292524'
+let s:bg0             = '#282828'
 let s:bg1             = '#373230'
 let s:bg2             = '#3a3735'
 let s:bg3             = '#4a4541'

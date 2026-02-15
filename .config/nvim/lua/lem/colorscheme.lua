@@ -1,11 +1,11 @@
--- Gruvbox Dark Custom colorscheme (no external dependency)
+-- Custom colorscheme (no external dependency)
 
 local M = {}
 
 -- Palette: dark / warm / material (tuned for eye comfort)
 M.palette = {
   bg_dim = "#1d1a19",
-  bg0 = "#292524",
+  bg0 = "#282828",
   bg1 = "#373230",
   bg2 = "#3a3735",
   bg3 = "#4a4541",
@@ -45,7 +45,7 @@ function M.setup()
   if vim.fn.exists("syntax_on") then
     vim.cmd("syntax reset")
   end
-  vim.g.colors_name = "gruvbox-dark-custom"
+  vim.g.colors_name = "custom"
   vim.o.background = "dark"
 
   local p = M.palette
