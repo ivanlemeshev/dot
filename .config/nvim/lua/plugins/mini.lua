@@ -22,7 +22,14 @@ return {
     end,
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "help", "dashboard", "lazy", "mason", "neo-tree" },
+        pattern = {
+          "help",
+          "dashboard",
+          "lazy",
+          "mason",
+          "neo-tree",
+          "terminal",
+        },
         callback = function()
           vim.b.miniindentscope_disable = true
         end,

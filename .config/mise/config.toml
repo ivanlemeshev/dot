@@ -1,5 +1,5 @@
 [tools]
-go = "1.25.7"
+go = "1.26.0"
 golangci-lint = "2.8.0"
 lua = "5.5.0" # Includes luarocks
 node = "24.13.0"
