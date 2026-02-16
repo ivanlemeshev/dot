@@ -1,4 +1,4 @@
--- Gruvbox Dark Custom colorscheme (no external dependency)
+-- Custom Dark colorscheme (no external dependency)
 
 local M = {}
 
@@ -45,7 +45,7 @@ function M.setup()
   if vim.fn.exists("syntax_on") then
     vim.cmd("syntax reset")
   end
-  vim.g.colors_name = "gruvbox-dark-custom"
+  vim.g.colors_name = "custom-dark"
   vim.o.background = "dark"
 
   local p = M.palette

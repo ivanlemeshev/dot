@@ -1,9 +1,9 @@
-# LS_COLORS for ls, fd, etc. (Gruvbox Dark Custom)
+# LS_COLORS for ls, fd, etc. (Custom Dark)
 #
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Gruvbox Dark Custom palette (RGB values) ---
+# --- Custom Dark palette (RGB values) ---
 set -l fg0    "212;190;152"  # #d4be98
 set -l bg0    "40;40;40"     # #282828
 set -l red    "234;105;98"   # #ea6962

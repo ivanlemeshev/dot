@@ -1,7 +1,6 @@
-# Gruvbox Dark Custom theme for fish shell
-# Based on: https://github.com/sainnhe/gruvbox-material
+# Custom Dark theme for fish shell
 
-# --- Gruvbox Dark Custom palette ---
+# --- Custom Dark palette ---
 set -l bg0    282828
 set -l bg1    32302f
 set -l bg5    5a524c

@@ -1,9 +1,4 @@
-# Gruvbox Dark Custom Theme - Color Reference
-
-Variant: **dark medium** background, **material** foreground.
-
-Based on: [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material)
-(`autoload/gruvbox_material.vim`)
+# Custom Color Palette
 
 ## Background
 
