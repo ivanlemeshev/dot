@@ -1,158 +1,144 @@
 {
-    "$help": "https://aka.ms/terminal-documentation",
-    "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions":
-    [
-        {
-            "command":
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "id": "User.copy"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
-        },
-        {
-            "command": "paste",
-            "id": "User.paste"
-        },
-        {
-            "command":
-            {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "id": "User.splitPane"
-        }
-    ],
-    "copyFormatting": "none",
-    "copyOnSelect": true,
-    "defaultProfile": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
-    "keybindings":
-    [
-        {
-            "id": "User.copy",
-            "keys": "ctrl+shift+c"
-        },
-        {
-            "id": "User.paste",
-            "keys": "ctrl+shift+v"
-        },
-        {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "id": "User.splitPane",
-            "keys": "alt+shift+d"
-        }
-    ],
-    "newTabMenu":
-    [
-        {
-            "type": "remainingProfiles"
-        }
-    ],
-    "profiles":
+  "$help": "https://aka.ms/terminal-documentation",
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "actions": [
     {
-        "defaults":
-        {
-            "colorScheme": "Gruvbox Dark Custom",
-            "cursorShape": "filledBox",
-            "font":
-            {
-                "builtinGlyphs": true,
-                "cellHeight": "1.4",
-                "colorGlyphs": true,
-                "face": "Hack Nerd Font Mono",
-                "size": 12,
-                "weight": "normal"
-            },
-            "intenseTextStyle": "bright",
-            "opacity": 100,
-            "useAcrylic": false
-        },
-        "list":
-        [
-            {
-                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
-                "hidden": false,
-                "icon": "\u26a1",
-                "name": "Windows PowerShell",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "commandline": "%SystemRoot%\\System32\\cmd.exe",
-                "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
-                "hidden": false,
-                "icon": "\ud83d\udc1a",
-                "name": "Command Prompt",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "commandline": "wsl.exe -d Ubuntu --cd ~",
-                "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
-                "hidden": false,
-                "icon": "\ud83d\udc27",
-                "name": "Ubuntu"
-            }
-        ]
+      "command": {
+        "action": "copy",
+        "singleLine": false
+      },
+      "id": "User.copy"
     },
-    "schemes":
-    [
-        {
-            "background": "#282828",
-            "black": "#3C3836",
-            "blue": "#7DAEA3",
-            "brightBlack": "#5A524C",
-            "brightBlue": "#7DAEA3",
-            "brightCyan": "#89B482",
-            "brightGreen": "#A9B665",
-            "brightPurple": "#D3869B",
-            "brightRed": "#EA6962",
-            "brightWhite": "#D4BE98",
-            "brightYellow": "#D8A657",
-            "cursorColor": "#D4BE98",
-            "cyan": "#89B482",
-            "foreground": "#D4BE98",
-            "green": "#A9B665",
-            "name": "Gruvbox Dark Custom",
-            "purple": "#D3869B",
-            "red": "#EA6962",
-            "selectionBackground": "#5A524C",
-            "white": "#DDC7A1",
-            "yellow": "#D8A657"
-        }
-    ],
-    "themes":
-    [
-        {
-            "name": "Gruvbox Dark Custom",
-            "tab":
-            {
-                "background": "#282828FF",
-                "iconStyle": "default",
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "tabRow":
-            {
-                "background": "#1D2021FF",
-                "unfocusedBackground": "#1D2021FF"
-            },
-            "window":
-            {
-                "applicationTheme": "dark",
-                "experimental.rainbowFrame": false,
-                "frame": null,
-                "unfocusedFrame": null,
-                "useMica": false
-            }
-        }
+    {
+      "command": "find",
+      "id": "User.find"
+    },
+    {
+      "command": "paste",
+      "id": "User.paste"
+    },
+    {
+      "command": {
+        "action": "splitPane",
+        "split": "auto",
+        "splitMode": "duplicate"
+      },
+      "id": "User.splitPane"
+    }
+  ],
+  "copyFormatting": "none",
+  "copyOnSelect": true,
+  "defaultProfile": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
+  "keybindings": [
+    {
+      "id": "User.copy",
+      "keys": "ctrl+shift+c"
+    },
+    {
+      "id": "User.paste",
+      "keys": "ctrl+shift+v"
+    },
+    {
+      "id": "User.find",
+      "keys": "ctrl+shift+f"
+    },
+    {
+      "id": "User.splitPane",
+      "keys": "alt+shift+d"
+    }
+  ],
+  "newTabMenu": [
+    {
+      "type": "remainingProfiles"
+    }
+  ],
+  "profiles": {
+    "defaults": {
+      "colorScheme": "Custom Dark",
+      "cursorShape": "filledBox",
+      "font": {
+        "builtinGlyphs": true,
+        "cellHeight": "1.4",
+        "colorGlyphs": true,
+        "face": "Hack Nerd Font Mono",
+        "size": 12,
+        "weight": "normal"
+      },
+      "intenseTextStyle": "bright",
+      "opacity": 100,
+      "useAcrylic": false
+    },
+    "list": [
+      {
+        "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
+        "hidden": false,
+        "icon": "\u26a1",
+        "name": "Windows PowerShell",
+        "startingDirectory": "%USERPROFILE%"
+      },
+      {
+        "commandline": "%SystemRoot%\\System32\\cmd.exe",
+        "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
+        "hidden": false,
+        "icon": "\ud83d\udc1a",
+        "name": "Command Prompt",
+        "startingDirectory": "%USERPROFILE%"
+      },
+      {
+        "commandline": "wsl.exe -d Ubuntu --cd ~",
+        "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
+        "hidden": false,
+        "icon": "\ud83d\udc27",
+        "name": "Ubuntu"
+      }
     ]
+  },
+  "schemes": [
+    {
+      "background": "#191919",
+      "black": "#191919",
+      "blue": "#6099C0",
+      "brightBlack": "#3D3839",
+      "brightBlue": "#61ABDA",
+      "brightCyan": "#65B8C1",
+      "brightGreen": "#8BAE68",
+      "brightPurple": "#CF86C1",
+      "brightRed": "#E8838F",
+      "brightWhite": "#8E8E8E",
+      "brightYellow": "#D68C67",
+      "cursorColor": "#C9C9C9",
+      "cyan": "#66A5AD",
+      "foreground": "#BBBBBB",
+      "green": "#819B69",
+      "name": "Custom Dark",
+      "purple": "#B279A7",
+      "red": "#DE6E7C",
+      "selectionBackground": "#404040",
+      "white": "#BBBBBB",
+      "yellow": "#B77E64"
+    }
+  ],
+  "themes": [
+    {
+      "name": "Custom Dark",
+      "tab": {
+        "background": "#191919FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#191919FF",
+        "unfocusedBackground": "#191919FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
+      }
+    }
+  ]
 }
