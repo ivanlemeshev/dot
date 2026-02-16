@@ -4,13 +4,13 @@
 # single-place edit.
 
 # --- Custom Dark palette (hex) ---
-set -l fg0    "#d4be98"  # primary text
-set -l bg0    "#282828"  # main background
-set -l bg1    "#3c3836"  # lighter background
-set -l red    "#ea6962"
-set -l orange "#e78a4e"
-set -l green  "#a9b665"
-set -l purple "#d3869b"
+set -l fg0    "#d4b98d"  # primary text
+set -l bg0    "#302824"  # main background
+set -l bg1    "#3A322D"  # lighter background
+set -l red    "#E67E80"
+set -l orange "#E69875"
+set -l green  "#A7C080"
+set -l purple "#D699B6"
 
 # --- Colors ---
 set -l colors \

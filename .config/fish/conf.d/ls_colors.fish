@@ -4,16 +4,16 @@
 # place instead of hunting through hundreds of entries.
 
 # --- Custom Dark palette (RGB values) ---
-set -l fg0    "212;190;152"  # #d4be98
-set -l bg0    "40;40;40"     # #282828
-set -l red    "234;105;98"   # #ea6962
-set -l orange "231;138;78"   # #e78a4e
-set -l yellow "216;166;87"   # #d8a657
-set -l green  "169;182;101"  # #a9b665
-set -l aqua   "125;174;163"  # #7daea3
-set -l purple "211;134;155"  # #d3869b
-set -l dim    "124;111;100"  # #7c6f64
-set -l green2 "137;180;130"  # #89b482
+set -l fg0    "212;185;141"  # #d4b98d
+set -l bg0    "48;40;36"     # #302824
+set -l red    "230;126;128"  # #E67E80
+set -l orange "230;152;117"  # #E69875
+set -l yellow "219;188;127"  # #DBBC7F
+set -l green  "167;192;128"  # #A7C080
+set -l aqua   "131;192;146"  # #83C092
+set -l purple "214;153;182"  # #D699B6
+set -l dim    "128;110;90"   # #806E5A
+set -l green2 "131;192;146"  # #83C092
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal

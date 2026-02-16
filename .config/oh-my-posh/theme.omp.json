@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#a9b665",
+          "foreground": "#A7C080",
           "options": {
             "alpine": "\uf300",
             "arch": "\uf303",
@@ -24,23 +24,23 @@
             "windows": "\ue70f"
           },
           "style": "plain",
-          "template": " {{ if .WSL }}\ue712 on {{ end }}{{ .Icon }}<#5a524c> | </>",
+          "template": " {{ if .WSL }}\ue712 on {{ end }}{{ .Icon }}<#655D57> | </>",
           "type": "os"
         },
         {
-          "foreground": "#d4be98",
+          "foreground": "#d4b98d",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#89b482>{{ .UserName }}</><#d4be98>@</>{{ end }}<#89b482>{{ .HostName }}</><#5a524c> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#83C092>{{ .UserName }}</><#d4b98d>@</>{{ end }}<#83C092>{{ .HostName }}</><#655D57> | </>",
           "type": "session"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#DBBC7F",
           "style": "plain",
-          "template": "\uf0e7<#5a524c> | </>",
+          "template": "\uf0e7<#655D57> | </>",
           "type": "root"
         },
         {
-          "foreground": "#d4be98",
+          "foreground": "#d4b98d",
           "options": {
             "style": "full",
             "mapped_locations": {
@@ -52,18 +52,18 @@
           "type": "path"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#DBBC7F",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#e78a4e{{ end }}",
-            "{{ if gt .Ahead 0 }}#89b482{{ end }}",
-            "{{ if gt .Behind 0 }}#d3869b{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#E69875{{ end }}",
+            "{{ if gt .Ahead 0 }}#83C092{{ end }}",
+            "{{ if gt .Behind 0 }}#D699B6{{ end }}"
           ],
           "options": {
             "fetch_status": true,
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#5a524c>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a9b665> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": "<#655D57>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#E67E80> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#A7C080> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -73,7 +73,7 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#a9b665",
+          "foreground": "#A7C080",
           "options": {
             "time_format": "15:04:05"
           },
@@ -89,7 +89,7 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d4be98",
+          "foreground": "#d4b98d",
           "style": "plain",
           "template": "~#@\u276f",
           "type": "text"
@@ -101,18 +101,18 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#d8a657",
+          "foreground": "#DBBC7F",
           "options": {
             "style": "roundrock",
             "threshold": 500
           },
           "style": "plain",
-          "template": " {{ .FormattedMs }}<#d4be98> \uf252 </>",
+          "template": " {{ .FormattedMs }}<#d4b98d> \uf252 </>",
           "type": "executiontime"
         },
         {
-          "foreground": "#a9b665",
-          "foreground_templates": ["{{ if gt .Code 0 }}#ea6962{{ end }}"],
+          "foreground": "#A7C080",
+          "foreground_templates": ["{{ if gt .Code 0 }}#E67E80{{ end }}"],
           "options": {
             "always_enabled": true
           },

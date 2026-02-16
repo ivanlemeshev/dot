@@ -18,7 +18,6 @@ return {
           },
         },
         suggestion = {
-          auto_trigger = false, -- Copilot is disabled by default, use <leader>ce to enable
           keymap = {
             accept = "<C-f>",
             accept_word = false,

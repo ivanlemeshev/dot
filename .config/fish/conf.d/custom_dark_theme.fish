@@ -1,20 +1,20 @@
 # Custom Dark theme for fish shell
 
 # --- Custom Dark palette ---
-set -l bg0    282828
-set -l bg1    32302f
-set -l bg5    5a524c
-set -l fg0    d4be98
-set -l fg1    ddc7a1
-set -l grey0  7c6f64
-set -l grey1  928374
-set -l red    ea6962
-set -l orange e78a4e
-set -l yellow d8a657
-set -l green  a9b665
-set -l aqua   89b482
-set -l blue   7daea3
-set -l purple d3869b
+set -l bg0    302824
+set -l bg1    3A322D
+set -l bg5    655D57
+set -l fg0    d4b98d
+set -l fg1    ddc296
+set -l grey0  806E5A
+set -l grey1  968169
+set -l red    E67E80
+set -l orange E69875
+set -l yellow DBBC7F
+set -l green  A7C080
+set -l aqua   83C092
+set -l blue   7FBBB3
+set -l purple D699B6
 
 # --- Syntax highlighting ---
 set -g fish_color_normal        $fg0
