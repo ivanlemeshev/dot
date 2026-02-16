@@ -62,7 +62,10 @@ return {
           local ok, decoded = pcall(vim.json.decode, output)
           if not ok then
             -- Failed to parse JSON - likely an error message
-            vim.notify("golangci-lint error: " .. output, vim.log.levels.ERROR)
+            -- Use vim.schedule to safely call vim.notify from callback
+            vim.schedule(function()
+              vim.notify("golangci-lint error: " .. output, vim.log.levels.ERROR)
+            end)
             return {}
           end
           if
@@ -100,12 +103,17 @@ return {
     -- Register custom golangci-lint linter
     lint.linters.golangcilint_custom = create_golangci_linter()
 
-    -- Wrap try_lint to set cwd for Go files
+    -- Wrap try_lint to set cwd for Go files and skip if not in a Go project
     local original_try_lint = lint.try_lint
     lint.try_lint = function(names, opts)
       opts = opts or {}
       if vim.bo.filetype == "go" then
-        opts.cwd = vim.fs.root(0, "go.mod") or vim.fn.getcwd()
+        local go_root = vim.fs.root(0, "go.mod")
+        if not go_root then
+          -- Skip linting if not in a Go project (no go.mod found)
+          return
+        end
+        opts.cwd = go_root
       end
       return original_try_lint(names, opts)
     end
