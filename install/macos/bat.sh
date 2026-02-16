@@ -14,9 +14,9 @@ log_info "Installing bat package"
 brew install bat
 
 log_info "Installing gruvbox-dark-custom theme"
-BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/gruvbox-dark-custom.tmTheme"
+BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/custom.tmTheme"
 BAT_THEME_DIR="$(bat --config-dir)/themes"
-BAT_THEME_TARGET="$BAT_THEME_DIR/gruvbox-dark-custom.tmTheme"
+BAT_THEME_TARGET="$BAT_THEME_DIR/custom.tmTheme"
 
 mkdir -p "$BAT_THEME_DIR"
 

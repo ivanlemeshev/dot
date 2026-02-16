@@ -30,3 +30,10 @@
 | **Selection BG** | #404040  |
 | **Selection FG** | #bbbbbb  |
 | **Cursor**       | #c9c9c9  |
+
+### Derived Backgrounds
+
+| Element           | Hex Code | Description                          |
+| :---------------- | :------- | :----------------------------------- |
+| **Invalid BG**    | #3d2629  | ~20% Red on Background (error tint)  |
+| **Deprecated BG** | #332433  | ~20% Magenta on Background (warning) |
