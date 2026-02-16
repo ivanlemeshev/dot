@@ -1,16 +1,16 @@
-# FZF_DEFAULT_OPTS (Gruvbox Dark Custom)
+# FZF_DEFAULT_OPTS (Custom)
 #
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Gruvbox Dark Custom palette (hex) ---
-set -l fg0    "#d4be98"  # primary text
-set -l bg0    "#282828"  # main background
-set -l bg1    "#3c3836"  # lighter background
-set -l red    "#ea6962"
-set -l orange "#e78a4e"
-set -l green  "#a9b665"
-set -l purple "#d3869b"
+# --- Custom palette (hex) ---
+set -l fg0    "#bbbbbb"  # primary text
+set -l bg0    "#191919"  # main background
+set -l bg1    "#404040"  # lighter background
+set -l red    "#de6e7c"
+set -l yellow "#b77e64"
+set -l green  "#819b69"
+set -l purple "#b279a7"
 
 # --- Colors ---
 set -l colors \
@@ -23,12 +23,12 @@ set -l colors \
     "--color info:$purple" \
     "--color marker:$green" \
     "--color prompt:$purple" \
-    "--color spinner:$orange" \
-    "--color pointer:$orange" \
+    "--color spinner:$yellow" \
+    "--color pointer:$yellow" \
     "--color header:$red" \
     "--color border:$bg1" \
     "--color label:$fg0" \
-    "--color query:$orange"
+    "--color query:$yellow"
 
 # --- Layout / UI ---
 set -l ui \
