@@ -1,43 +1,36 @@
--- Gruvbox Dark Custom colorscheme (no external dependency)
+-- Custom Dark colorscheme (no external dependency)
 
 local M = {}
 
--- Palette: dark / medium / material
+-- Palette
 M.palette = {
-  bg_dim = "#1b1b1b",
-  bg0 = "#282828",
-  bg1 = "#32302f",
-  bg2 = "#32302f",
-  bg3 = "#45403d",
-  bg4 = "#45403d",
-  bg5 = "#5a524c",
-  bg_statusline1 = "#32302f",
-  bg_statusline2 = "#3a3735",
-  bg_statusline3 = "#504945",
-  bg_visual_red = "#4c3432",
-  bg_visual_yellow = "#4f422e",
-  bg_visual_green = "#3b4439",
-  bg_visual_blue = "#374141",
-  bg_visual_purple = "#443840",
-  bg_diff_red = "#402120",
-  bg_diff_green = "#34381b",
-  bg_diff_blue = "#0e363e",
-  bg_current_word = "#3c3836",
-  fg0 = "#d4be98",
-  fg1 = "#ddc7a1",
-  red = "#ea6962",
-  orange = "#e78a4e",
-  yellow = "#d8a657",
-  green = "#a9b665",
-  aqua = "#89b482",
-  blue = "#7daea3",
-  purple = "#d3869b",
-  bg_red = "#ea6962",
-  bg_green = "#a9b665",
-  bg_yellow = "#d8a657",
-  grey0 = "#7c6f64",
-  grey1 = "#928374",
-  grey2 = "#a89984",
+  bg0 = "#191919",
+  bg1 = "#222222",
+  bg2 = "#222222",
+  bg3 = "#404040",
+  bg4 = "#404040",
+  bg5 = "#3d3839",
+  bg_statusline1 = "#222222",
+  bg_statusline3 = "#363636",
+  bg_diff_red = "#3d2629",
+  bg_diff_green = "#2e3329",
+  bg_diff_blue = "#27333a",
+  bg_current_word = "#2a2a2a",
+  fg0 = "#bbbbbb",
+  fg1 = "#c9c9c9",
+  red = "#de6e7c",
+  orange = "#b77e64",
+  yellow = "#b3a06a",
+  green = "#819b69",
+  aqua = "#66a5ad",
+  blue = "#6099c0",
+  purple = "#b279a7",
+  bg_red = "#de6e7c",
+  bg_green = "#819b69",
+  bg_yellow = "#b3a06a",
+  grey0 = "#5a5a5a",
+  grey1 = "#8e8e8e",
+  grey2 = "#aaaaaa",
 }
 
 function M.setup()
@@ -45,7 +38,7 @@ function M.setup()
   if vim.fn.exists("syntax_on") then
     vim.cmd("syntax reset")
   end
-  vim.g.colors_name = "gruvbox-dark-custom"
+  vim.g.colors_name = "custom-dark"
   vim.o.background = "dark"
 
   local p = M.palette

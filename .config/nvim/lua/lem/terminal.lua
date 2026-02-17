@@ -104,10 +104,6 @@ function M.setup_keymaps()
     end
   end, { noremap = true, silent = true, desc = "Terminal: close" })
 
-  -- Double Ctrl+q to quit Neovim from terminal
-  local quit_timer = nil
-  local quit_pending = false
-
   -- Auto insert mode when entering terminal buffer
   vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()

@@ -1,19 +1,19 @@
-# LS_COLORS for ls, fd, etc. (Gruvbox Dark Custom)
+# LS_COLORS for ls, fd, etc. (Custom)
 #
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Gruvbox Dark Custom palette (RGB values) ---
-set -l fg0    "212;190;152"  # #d4be98
-set -l bg0    "40;40;40"     # #282828
-set -l red    "234;105;98"   # #ea6962
-set -l orange "231;138;78"   # #e78a4e
-set -l yellow "216;166;87"   # #d8a657
-set -l green  "169;182;101"  # #a9b665
-set -l aqua   "125;174;163"  # #7daea3
-set -l purple "211;134;155"  # #d3869b
-set -l dim    "124;111;100"  # #7c6f64
-set -l green2 "137;180;130"  # #89b482
+# --- Custom palette (RGB values) ---
+set -l fg0    "187;187;187"  # #bbbbbb
+set -l bg0    "25;25;25"     # #191919
+set -l red    "222;110;124"  # #de6e7c
+set -l orange "214;140;103"  # #b77e64
+set -l yellow "183;126;100"  # #b3a06a
+set -l green  "129;155;105"  # #819b69
+set -l aqua   "102;165;173"  # #66a5ad
+set -l purple "178;121;167"  # #b279a7
+set -l dim    "142;142;142"  # #8e8e8e
+set -l green2 "101;184;193"  # #65b8c1
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal

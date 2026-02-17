@@ -1,48 +1,41 @@
-" Gruvbox Dark Custom colorscheme for Vim (no external dependency)
+" Custom Dark colorscheme for Vim (no external dependency)
 
 highlight clear
 if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = 'gruvbox-dark-custom'
+let g:colors_name = 'custom-dark'
 set background=dark
 
-" Palette: dark / medium / material
-let s:bg_dim          = '#1b1b1b'
-let s:bg0             = '#282828'
-let s:bg1             = '#32302f'
-let s:bg2             = '#32302f'
-let s:bg3             = '#45403d'
-let s:bg4             = '#45403d'
-let s:bg5             = '#5a524c'
-let s:bg_statusline1  = '#32302f'
-let s:bg_statusline2  = '#3a3735'
-let s:bg_statusline3  = '#504945'
-let s:bg_visual_red   = '#4c3432'
-let s:bg_visual_yellow = '#4f422e'
-let s:bg_visual_green = '#3b4439'
-let s:bg_visual_blue  = '#374141'
-let s:bg_visual_purple = '#443840'
-let s:bg_diff_red     = '#402120'
-let s:bg_diff_green   = '#34381b'
-let s:bg_diff_blue    = '#0e363e'
-let s:bg_current_word = '#3c3836'
-let s:fg0             = '#d4be98'
-let s:fg1             = '#ddc7a1'
-let s:red             = '#ea6962'
-let s:orange          = '#e78a4e'
-let s:yellow          = '#d8a657'
-let s:green           = '#a9b665'
-let s:aqua            = '#89b482'
-let s:blue            = '#7daea3'
-let s:purple          = '#d3869b'
-let s:bg_red          = '#ea6962'
-let s:bg_green        = '#a9b665'
-let s:bg_yellow       = '#d8a657'
-let s:grey0           = '#7c6f64'
-let s:grey1           = '#928374'
-let s:grey2           = '#a89984'
+" Palette
+let s:bg0             = '#191919'
+let s:bg1             = '#222222'
+let s:bg2             = '#222222'
+let s:bg3             = '#404040'
+let s:bg4             = '#404040'
+let s:bg5             = '#3d3839'
+let s:bg_statusline1  = '#222222'
+let s:bg_statusline3  = '#363636'
+let s:bg_diff_red     = '#3d2629'
+let s:bg_diff_green   = '#2e3329'
+let s:bg_diff_blue    = '#27333a'
+let s:bg_current_word = '#2a2a2a'
+let s:fg0             = '#bbbbbb'
+let s:fg1             = '#c9c9c9'
+let s:red             = '#de6e7c'
+let s:orange          = '#b77e64'
+let s:yellow          = '#b3a06a'
+let s:green           = '#819b69'
+let s:aqua            = '#66a5ad'
+let s:blue            = '#6099c0'
+let s:purple          = '#b279a7'
+let s:bg_red          = '#de6e7c'
+let s:bg_green        = '#819b69'
+let s:bg_yellow       = '#b3a06a'
+let s:grey0           = '#5a5a5a'
+let s:grey1           = '#8e8e8e'
+let s:grey2           = '#aaaaaa'
 
 " Helper
 function! s:hl(group, fg, bg, ...)
