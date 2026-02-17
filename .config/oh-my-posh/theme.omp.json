@@ -24,7 +24,7 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ .Icon }} | </>",
+          "template": " {{ .Icon }}<#3d3839> | </>",
           "type": "os"
         },
         {
