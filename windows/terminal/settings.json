@@ -104,9 +104,9 @@
       "brightCyan": "#65B8C1",
       "brightGreen": "#8BAE68",
       "brightPurple": "#CF86C1",
-      "brightRed": "#E8838F",
+      "brightRed": "#F07786",
       "brightWhite": "#8E8E8E",
-      "brightYellow": "#D68C67",
+      "brightYellow": "#CDB46B",
       "cursorColor": "#C9C9C9",
       "cyan": "#66A5AD",
       "foreground": "#BBBBBB",
@@ -116,7 +116,7 @@
       "red": "#DE6E7C",
       "selectionBackground": "#404040",
       "white": "#BBBBBB",
-      "yellow": "#B77E64"
+      "yellow": "#B3A06A"
     }
   ],
   "themes": [
