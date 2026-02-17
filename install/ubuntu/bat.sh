@@ -16,7 +16,7 @@ sudo apt-get update
 log_info "Installing bat"
 sudo apt-get install -y bat
 
-log_info "Installing gruvbox-dark-custom theme"
+log_info "Installingcustom theme"
 BAT_THEME_SOURCE="$PROJECT_ROOT/.config/bat/themes/custom.tmTheme"
 BAT_THEME_DIR="$HOME/.config/bat/themes"
 BAT_THEME_TARGET="$BAT_THEME_DIR/custom.tmTheme"

@@ -1,4 +1,4 @@
--- Gruvbox Dark Custom lualine theme (no external dependency)
+-- Custom lualine theme (no external dependency)
 
 local p = require("lem.colorscheme").palette
 
