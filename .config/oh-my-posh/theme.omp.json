@@ -24,7 +24,7 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ if .WSL }}{{ .Icon }} on {{ end }}<#3d3839> | </>",
+          "template": " {{ .Icon }} | </>",
           "type": "os"
         },
         {
