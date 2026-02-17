@@ -1543,6 +1543,8 @@
 	</dict>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>TmuxSyncClipboard</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 </dict>
