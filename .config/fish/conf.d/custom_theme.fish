@@ -9,7 +9,7 @@ set -l fg1    c9c9c9
 set -l grey0  8e8e8e
 set -l grey1  8e8e8e
 set -l red    de6e7c
-set -l yellow b77e64
+set -l yellow b3a06a
 set -l green  819b69
 set -l aqua   66a5ad
 set -l blue   6099c0

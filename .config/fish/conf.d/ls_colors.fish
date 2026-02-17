@@ -7,8 +7,8 @@
 set -l fg0    "187;187;187"  # #bbbbbb
 set -l bg0    "25;25;25"     # #191919
 set -l red    "222;110;124"  # #de6e7c
-set -l orange "214;140;103"  # #d68c67
-set -l yellow "183;126;100"  # #b77e64
+set -l orange "214;140;103"  # #b77e64
+set -l yellow "183;126;100"  # #b3a06a
 set -l green  "129;155;105"  # #819b69
 set -l aqua   "102;165;173"  # #66a5ad
 set -l purple "178;121;167"  # #b279a7
