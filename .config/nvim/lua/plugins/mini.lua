@@ -5,7 +5,17 @@ return {
     "echasnovski/mini.pairs",
     commit = "4089aa6ea6423e02e1a8326a7a7a00159f6f5e04",
     event = "InsertEnter",
-    opts = {},
+    opts = {
+      modes = { insert = true, command = false, terminal = false },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "TelescopePrompt",
+        callback = function()
+          vim.b.minipairs_disable = true
+        end,
+      })
+    end,
   },
   {
     -- Visualize and operate on indent scope
