@@ -7,5 +7,10 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 COLOR_DIR="$PROJECT_ROOT/color"
 YAML="$COLOR_DIR/color-scheme.yaml"
 
-"$COLOR_DIR/apply-windows-terminal" "$YAML" "$PROJECT_ROOT/windows/terminal/settings.json"
-"$COLOR_DIR/apply-itermcolors" "$YAML" "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors"
+FISH_DIR="$PROJECT_ROOT/.config/fish/conf.d"
+
+"$COLOR_DIR/apply-windows-terminal"   "$YAML" "$PROJECT_ROOT/windows/terminal/settings.json"
+"$COLOR_DIR/apply-itermcolors"        "$YAML" "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors"
+"$COLOR_DIR/apply-custom-theme-fish"  "$YAML" "$FISH_DIR/custom_theme.fish"
+"$COLOR_DIR/apply-fzf-colors-fish"   "$YAML" "$FISH_DIR/fzf_colors.fish"
+"$COLOR_DIR/apply-ls-colors-fish"    "$YAML" "$FISH_DIR/ls_colors.fish"
