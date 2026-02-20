@@ -55,6 +55,9 @@ packages=(
   # An interactive process viewer.
   "htop"
 
+  # A command-line tool for parsing and manipulating JSON data.
+  "jq"
+
   # A terminal pager program used to view text files and command output.
   "less"
 
