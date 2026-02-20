@@ -10,21 +10,16 @@ set background=dark
 
 " Palette
 let s:bg0             = '#191919'
-let s:bg1             = '#222222'
-let s:bg2             = '#222222'
-let s:bg3             = '#404040'
-let s:bg4             = '#404040'
+let s:bg1             = '#3d3839'
+let s:bg2             = '#3d3839'
+let s:bg3             = '#3d3839'
+let s:bg4             = '#3d3839'
 let s:bg5             = '#3d3839'
-let s:bg_statusline1  = '#222222'
-let s:bg_statusline3  = '#363636'
-let s:bg_diff_red     = '#3d2629'
-let s:bg_diff_green   = '#2e3329'
-let s:bg_diff_blue    = '#27333a'
-let s:bg_current_word = '#2a2a2a'
+let s:bg_statusline1  = '#3d3839'
+let s:bg_statusline3  = '#3d3839'
 let s:fg0             = '#bbbbbb'
-let s:fg1             = '#c9c9c9'
+let s:fg1             = '#bbbbbb'
 let s:red             = '#de6e7c'
-let s:orange          = '#b77e64'
 let s:yellow          = '#b3a06a'
 let s:green           = '#819b69'
 let s:aqua            = '#66a5ad'
@@ -33,9 +28,9 @@ let s:purple          = '#b279a7'
 let s:bg_red          = '#de6e7c'
 let s:bg_green        = '#819b69'
 let s:bg_yellow       = '#b3a06a'
-let s:grey0           = '#5a5a5a'
+let s:grey0           = '#8e8e8e'
 let s:grey1           = '#8e8e8e'
-let s:grey2           = '#aaaaaa'
+let s:grey2           = '#bbbbbb'
 
 " Helper
 function! s:hl(group, fg, bg, ...)
@@ -78,9 +73,9 @@ call s:hl('CursorColumn', '',       s:bg1)
 call s:hl('LineNr',       s:bg5,    '')
 call s:hl('CursorLineNr', s:grey1,  '')
 
-call s:hl('DiffAdd',      '',       s:bg_diff_green)
-call s:hl('DiffChange',   '',       s:bg_diff_blue)
-call s:hl('DiffDelete',   '',       s:bg_diff_red)
+call s:hl('DiffAdd',      s:green,  '')
+call s:hl('DiffChange',   s:blue,   '')
+call s:hl('DiffDelete',   s:red,    '')
 call s:hl('DiffText',     s:bg0,    s:blue)
 
 call s:hl('Directory',    s:green,  '')
@@ -91,7 +86,7 @@ call s:hl('MoreMsg',      s:yellow, '',       'bold')
 call s:hl('MatchParen',   '',       s:bg4)
 call s:hl('NonText',      s:bg5,    '')
 call s:hl('Whitespace',   s:bg5,    '')
-call s:hl('SpecialKey',   s:orange, '')
+call s:hl('SpecialKey',   s:yellow, '')
 
 " Pmenu
 call s:hl('Pmenu',        s:fg1,    s:bg3)
@@ -130,7 +125,7 @@ call s:hl('Visual',       '',       s:bg3)
 call s:hl('VisualNOS',    '',       s:bg3)
 
 call s:hl('QuickFixLine', s:purple, '',       'bold')
-call s:hl('Debug',        s:orange, '')
+call s:hl('Debug',        s:yellow, '')
 call s:hl('debugPC',      s:bg0,    s:green)
 call s:hl('debugBreakpoint', s:bg0, s:red)
 call s:hl('ToolbarButton', s:bg0,   s:grey2)
@@ -156,12 +151,12 @@ call s:hl('Exception',    s:red,    '',       'italic')
 call s:hl('Statement',    s:red,    '',       'italic')
 
 call s:hl('Error',        s:red,    '')
-call s:hl('StorageClass', s:orange, '')
-call s:hl('Tag',          s:orange, '')
-call s:hl('Label',        s:orange, '')
-call s:hl('Structure',    s:orange, '')
-call s:hl('Operator',     s:orange, '')
-call s:hl('Title',        s:orange, '',       'bold')
+call s:hl('StorageClass', s:yellow, '')
+call s:hl('Tag',          s:yellow, '')
+call s:hl('Label',        s:yellow, '')
+call s:hl('Structure',    s:yellow, '')
+call s:hl('Operator',     s:yellow, '')
+call s:hl('Title',        s:yellow, '',       'bold')
 call s:hl('Special',      s:yellow, '')
 call s:hl('SpecialChar',  s:yellow, '')
 call s:hl('Type',         s:yellow, '')
@@ -191,7 +186,6 @@ call s:hl('Underlined',   '',       '',       'underline')
 call s:hl('Fg',           s:fg0,    '')
 call s:hl('Grey',         s:grey1,  '')
 call s:hl('Red',          s:red,    '')
-call s:hl('Orange',       s:orange, '')
 call s:hl('Yellow',       s:yellow, '')
 call s:hl('Green',        s:green,  '')
 call s:hl('Aqua',         s:aqua,   '')
@@ -200,7 +194,6 @@ call s:hl('Purple',       s:purple, '')
 
 " Italic variants
 call s:hl('RedItalic',    s:red,    '',       'italic')
-call s:hl('OrangeItalic', s:orange, '',       'italic')
 call s:hl('YellowItalic', s:yellow, '',       'italic')
 call s:hl('GreenItalic',  s:green,  '',       'italic')
 call s:hl('AquaItalic',   s:aqua,   '',       'italic')
@@ -209,7 +202,6 @@ call s:hl('PurpleItalic', s:purple, '',       'italic')
 
 " Bold variants
 call s:hl('RedBold',      s:red,    '',       'bold')
-call s:hl('OrangeBold',   s:orange, '',       'bold')
 call s:hl('YellowBold',   s:yellow, '',       'bold')
 call s:hl('GreenBold',    s:green,  '',       'bold')
 call s:hl('AquaBold',     s:aqua,   '',       'bold')
@@ -218,7 +210,6 @@ call s:hl('PurpleBold',   s:purple, '',       'bold')
 
 " Sign variants
 call s:hl('RedSign',      s:red,    '')
-call s:hl('OrangeSign',   s:orange, '')
 call s:hl('YellowSign',   s:yellow, '')
 call s:hl('GreenSign',    s:green,  '')
 call s:hl('AquaSign',     s:aqua,   '')
@@ -247,7 +238,7 @@ call s:hl('WarningFloat', s:yellow, '')
 call s:hl('InfoFloat',    s:blue,   '')
 call s:hl('HintFloat',    s:purple, '')
 
-call s:hl('CurrentWord',  '',       s:bg_current_word)
+call s:hl('CurrentWord',  '',       '',       'underline')
 
 highlight! link healthError Red
 highlight! link healthSuccess Green
@@ -260,7 +251,7 @@ highlight! link diffAdded Green
 highlight! link diffRemoved Red
 highlight! link diffChanged Blue
 highlight! link diffFile Aqua
-highlight! link diffOldFile Orange
+highlight! link diffOldFile Yellow
 highlight! link diffNewFile Yellow
 highlight! link diffIndexLine Purple
 highlight! link diffLine Grey
@@ -269,7 +260,7 @@ highlight! link diffLine Grey
 " Filetype: markdown
 " ==========================================================================
 call s:hl('markdownH1',   s:red,    '',       'bold')
-call s:hl('markdownH2',   s:orange, '',       'bold')
+call s:hl('markdownH2',   s:yellow, '',       'bold')
 call s:hl('markdownH3',   s:yellow, '',       'bold')
 call s:hl('markdownH4',   s:green,  '',       'bold')
 call s:hl('markdownH5',   s:blue,   '',       'bold')
@@ -304,7 +295,7 @@ highlight! link luaFunction Aqua
 highlight! link luaTable Fg
 highlight! link luaIn RedItalic
 highlight! link luaFuncCall GreenBold
-highlight! link luaLocal Orange
+highlight! link luaLocal Yellow
 highlight! link luaSpecialValue GreenBold
 highlight! link luaBraces Fg
 highlight! link luaBuiltIn Purple
@@ -312,7 +303,7 @@ highlight! link luaNoise Grey
 highlight! link luaLabel Purple
 highlight! link luaFuncTable Yellow
 highlight! link luaFuncArgName Blue
-highlight! link luaEllipsis Orange
+highlight! link luaEllipsis Yellow
 highlight! link luaDocTag Green
 
 " ==========================================================================
@@ -320,7 +311,7 @@ highlight! link luaDocTag Green
 " ==========================================================================
 highlight! link goPackage Define
 highlight! link goImport Include
-highlight! link goVar OrangeItalic
+highlight! link goVar YellowItalic
 highlight! link goConst goVar
 highlight! link goType Yellow
 highlight! link goSignedInts goType
@@ -328,7 +319,7 @@ highlight! link goUnsignedInts goType
 highlight! link goFloats goType
 highlight! link goComplexes goType
 highlight! link goVarDefs Aqua
-highlight! link goDeclType OrangeItalic
+highlight! link goDeclType YellowItalic
 highlight! link goFunctionCall Function
 highlight! link goPredefinedIdentifiers Aqua
 highlight! link goBuiltins GreenBold

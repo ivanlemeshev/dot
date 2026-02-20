@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+YAML="${1:-color-scheme.yaml}"
+JSON="${2:-../windows/terminal/settings.json}"
+
+if [[ ! -f "$YAML" || ! -f "$JSON" ]]; then
+  echo "Usage: $0 <color-scheme.yaml> <settings.json>" >&2
+  exit 1
+fi
+
+# Extract hex value for a key within the hex: section
+get_hex() {
+  local key="$1"
+  awk -v key="$key" '
+    /^hex:/ { in_hex=1; next }
+    in_hex && /^[^ ]/ { in_hex=0 }
+    in_hex && $1 == key ":" {
+      match($0, /#[0-9a-fA-F]+/)
+      print substr($0, RSTART, RLENGTH)
+      exit
+    }
+  ' "$YAML"
+}
+
+color_names=(
+  foreground background
+  black red green yellow blue magenta cyan white
+  brightBlack brightRed brightGreen brightYellow
+  brightBlue brightMagenta brightCyan brightWhite
+)
+
+# Map YAML color name to Windows Terminal JSON key
+json_key() {
+  case "$1" in
+    magenta)       echo purple ;;
+    brightMagenta) echo brightPurple ;;
+    *)             echo "$1" ;;
+  esac
+}
+
+TMP=$(mktemp)
+trap 'rm -f "$TMP"' EXIT
+
+jq_args=()
+jq_filter='.'
+
+for name in "${color_names[@]}"; do
+  hex=$(get_hex "$name")
+  key=$(json_key "$name")
+  jq_args+=(--arg "$key" "${hex^^}")
+  jq_filter+=" | .schemes[0].${key} = \$${key}"
+done
+
+cursor_hex=$(get_hex "white")
+jq_args+=(--arg cursorColor "${cursor_hex^^}")
+jq_filter+=" | .schemes[0].cursorColor = \$cursorColor"
+
+selection_hex=$(get_hex "brightBlack")
+jq_args+=(--arg selectionBackground "${selection_hex^^}")
+jq_filter+=" | .schemes[0].selectionBackground = \$selectionBackground"
+
+bg_hex=$(get_hex "background")
+jq_args+=(--arg tabBg "${bg_hex^^}FF")
+jq_filter+=" | .themes[0].tab.background = \$tabBg"
+jq_filter+=" | .themes[0].tabRow.background = \$tabBg"
+jq_filter+=" | .themes[0].tabRow.unfocusedBackground = \$tabBg"
+
+jq "${jq_args[@]}" "$jq_filter" "$JSON" > "$TMP"
+mv "$TMP" "$JSON"
+echo "Updated $JSON"

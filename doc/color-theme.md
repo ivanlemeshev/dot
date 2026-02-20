@@ -2,64 +2,21 @@
 
 ## Palette
 
-| Name               | Index | Hex Code | Role                 |
-| :----------------- | :---- | :------- | :------------------- |
-| **Black**          | 0     | #191919  | Background / Base    |
-| **Red**            | 1     | #de6e7c  | Errors / Deletions   |
-| **Green**          | 2     | #819b69  | Success / Additions  |
-| **Yellow**         | 3     | #b3a06a  | Warnings / Keys      |
-| **Blue**           | 4     | #6099c0  | Functions / Folders  |
-| **Magenta**        | 5     | #b279a7  | Keywords / UI Pop    |
-| **Cyan**           | 6     | #66a5ad  | Strings / Regex      |
-| **White**          | 7     | #bbbbbb  | Main Foreground      |
-| **Bright Black**   | 8     | #3d3839  | Comments / Subtle UI |
-| **Bright Red**     | 9     | #f07786  | Bold Errors          |
-| **Bright Green**   | 10    | #8bae68  | Bright Strings       |
-| **Bright Yellow**  | 11    | #cdb46b  | Escape Characters    |
-| **Bright Blue**    | 12    | #61abda  | Variables            |
-| **Bright Magenta** | 13    | #cf86c1  | Attributes           |
-| **Bright Cyan**    | 14    | #65b8c1  | Links / Support      |
-| **Bright White**   | 15    | #8e8e8e  | Secondary Text       |
-
-Additional colors (not in the standard 16-color palette):
-
-| Name              | Index | Hex Code | Role |
-| :---------------- | :---- | :------- | :--- |
-| **Orange**        |       | #b77e64  |      |
-| **Bright Orange** |       | #d68c67  |      |
-
-### UI Elements
-
-| Element          | Hex Code |
-| :--------------- | :------- |
-| **Background**   | #191919  |
-| **Foreground**   | #bbbbbb  |
-| **Selection BG** | #404040  |
-| **Selection FG** | #bbbbbb  |
-| **Cursor**       | #c9c9c9  |
-
-### Derived Colors
-
-Tinted backgrounds (~20% color on Background):
-
-| Element             | Hex Code | Description                              |
-| :------------------ | :------- | :--------------------------------------- |
-| **Derived Red**     | #3d2629  | ~20% Red on Background (error/diff tint) |
-| **Derived Green**   | #2e3329  | ~20% Green on Background (diff add)      |
-| **Derived Blue**    | #27333a  | ~20% Blue on Background (diff change)    |
-| **Derived Magenta** | #332433  | ~20% Magenta on Background (warning)     |
-
-Surface shades (~% Selection BG on Background):
-
-| Element       | Hex Code | Description                     |
-| :------------ | :------- | :------------------------------ |
-| **Surface 1** | #222222  | ~25% Selection BG on Background |
-| **Surface 2** | #2a2a2a  | ~45% Selection BG on Background |
-| **Surface 3** | #363636  | ~75% Selection BG on Background |
-
-Grey shades (~% Foreground on Background):
-
-| Element         | Hex Code | Description                   |
-| :-------------- | :------- | :---------------------------- |
-| **Grey Dim**    | #5a5a5a  | ~40% Foreground on Background |
-| **Grey Bright** | #aaaaaa  | ~90% Foreground on Background |
+| Name               | Index | Hex Code | Role                        | iTerm2 R             | iTerm2 G             | iTerm2 B             |
+| :----------------- | :---- | :------- | :-------------------------- | :------------------- | :------------------- | :------------------- |
+| **Black**          | 0     | #191919  | Background / Base           | 0.098039215686274508 | 0.098039215686274508 | 0.098039215686274508 |
+| **Red**            | 1     | #de6e7c  | Errors / Deletions          | 0.870588235294117663 | 0.431372549019607865 | 0.486274509803921562 |
+| **Green**          | 2     | #819b69  | Success / Additions         | 0.505882352941176450 | 0.607843137254901911 | 0.411764705882352922 |
+| **Yellow**         | 3     | #b3a06a  | Warnings / Keys / Operators | 0.701960784313725439 | 0.627450980392156854 | 0.415686274509803944 |
+| **Blue**           | 4     | #6099c0  | Functions / Folders         | 0.376470588235294112 | 0.599999999999999978 | 0.752941176470588225 |
+| **Magenta**        | 5     | #b279a7  | Keywords / UI Pop           | 0.698039215686274472 | 0.474509803921568607 | 0.654901960784313730 |
+| **Cyan**           | 6     | #66a5ad  | Strings / Regex             | 0.400000000000000022 | 0.647058823529411797 | 0.678431372549019640 |
+| **White**          | 7     | #bbbbbb  | Main Foreground             | 0.733333333333333282 | 0.733333333333333282 | 0.733333333333333282 |
+| **Bright Black**   | 8     | #3d3839  | Comments / Subtle UI        | 0.239215686274509814 | 0.219607843137254899 | 0.223529411764705893 |
+| **Bright Red**     | 9     | #f07786  | Bold Errors                 | 0.941176470588235281 | 0.466666666666666674 | 0.525490196078431393 |
+| **Bright Green**   | 10    | #8bae68  | Bright Strings              | 0.545098039215686225 | 0.682352941176470607 | 0.407843137254901955 |
+| **Bright Yellow**  | 11    | #cdb46b  | Escape Characters           | 0.803921568627451011 | 0.705882352941176516 | 0.419607843137254910 |
+| **Bright Blue**    | 12    | #61abda  | Variables                   | 0.380392156862745079 | 0.670588235294117596 | 0.854901960784313686 |
+| **Bright Magenta** | 13    | #cf86c1  | Attributes                  | 0.811764705882352944 | 0.525490196078431393 | 0.756862745098039191 |
+| **Bright Cyan**    | 14    | #65b8c1  | Links / Support             | 0.396078431372549000 | 0.721568627450980382 | 0.756862745098039191 |
+| **Bright White**   | 15    | #8e8e8e  | Secondary Text              | 0.556862745098039236 | 0.556862745098039236 | 0.556862745098039236 |

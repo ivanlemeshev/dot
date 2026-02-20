@@ -2,10 +2,10 @@
 
 # --- Custom palette ---
 set -l bg0    191919
-set -l bg1    404040
+set -l bg1    3d3839
 set -l bg5    3d3839
 set -l fg0    bbbbbb
-set -l fg1    c9c9c9
+set -l fg1    bbbbbb
 set -l grey0  8e8e8e
 set -l grey1  8e8e8e
 set -l red    de6e7c

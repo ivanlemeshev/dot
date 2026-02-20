@@ -30,11 +30,11 @@
         {
           "foreground": "#bbbbbb",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#6099c0>{{ .UserName }}</><#b77e64>󰁥</></>{{ end }}<#66a5ad>{{ .HostName }}</><#3d3839> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#6099c0>{{ .UserName }}</><#b3a06a>󰁥</></>{{ end }}<#66a5ad>{{ .HostName }}</><#3d3839> | </>",
           "type": "session"
         },
         {
-          "foreground": "#b77e64",
+          "foreground": "#b3a06a",
           "style": "plain",
           "template": "󱐋<#3d3839> | </>",
           "type": "root"
@@ -49,9 +49,9 @@
           "type": "path"
         },
         {
-          "foreground": "#b77e64",
+          "foreground": "#b3a06a",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d68c67{{ end }}",
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#b3a06a{{ end }}",
             "{{ if gt .Ahead 0 }}#66a5ad{{ end }}",
             "{{ if gt .Behind 0 }}#b279a7{{ end }}"
           ],
@@ -99,7 +99,7 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#b77e64",
+          "foreground": "#b3a06a",
           "options": {
             "style": "roundrock",
             "threshold": 500

@@ -107,14 +107,14 @@
       "brightRed": "#F07786",
       "brightWhite": "#8E8E8E",
       "brightYellow": "#CDB46B",
-      "cursorColor": "#C9C9C9",
+      "cursorColor": "#BBBBBB",
       "cyan": "#66A5AD",
       "foreground": "#BBBBBB",
       "green": "#819B69",
       "name": "Custom Dark",
       "purple": "#B279A7",
       "red": "#DE6E7C",
-      "selectionBackground": "#404040",
+      "selectionBackground": "#3D3839",
       "white": "#BBBBBB",
       "yellow": "#B3A06A"
     }

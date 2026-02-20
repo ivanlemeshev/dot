@@ -7,8 +7,7 @@
 set -l fg0    "187;187;187"  # #bbbbbb
 set -l bg0    "25;25;25"     # #191919
 set -l red    "222;110;124"  # #de6e7c
-set -l orange "214;140;103"  # #b77e64
-set -l yellow "183;126;100"  # #b3a06a
+set -l yellow "179;160;106"  # #b3a06a
 set -l green  "129;155;105"  # #819b69
 set -l aqua   "102;165;173"  # #66a5ad
 set -l purple "178;121;167"  # #b279a7
@@ -42,7 +41,7 @@ set -l ls \
     "bd=$b;$yellow" \
     "cd=$it;$yellow" \
     "su=$n;$fg0;48;2;$red" \
-    "sg=$n;$bg0;48;2;$orange" \
+    "sg=$n;$bg0;48;2;$yellow" \
     "ca=$n;$bg0;48;2;$red" \
     "st=$n;$fg0;48;2;$aqua" \
     "ow=$b;$green" \
@@ -362,38 +361,38 @@ set -a ls \
 
 # --- Archives / packages ---
 set -a ls \
-    "*.z=$n;$orange" \
-    "*.7z=$n;$orange" \
-    "*.bz=$n;$orange" \
-    "*.db=$n;$orange" \
-    "*.gz=$n;$orange" \
-    "*.xz=$n;$orange" \
-    "*.apk=$n;$orange" \
-    "*.arj=$n;$orange" \
-    "*.bag=$n;$orange" \
-    "*.bz2=$n;$orange" \
-    "*.deb=$n;$orange" \
-    "*.jar=$n;$orange" \
-    "*.msi=$n;$orange" \
-    "*.pkg=$n;$orange" \
-    "*.rar=$n;$orange" \
-    "*.rpm=$n;$orange" \
-    "*.tar=$n;$orange" \
-    "*.tbz=$n;$orange" \
-    "*.tgz=$n;$orange" \
-    "*.xbps=$n;$orange" \
-    "*.zip=$n;$orange" \
-    "*.zst=$n;$orange" \
-    "*.tbz2=$n;$orange"
+    "*.z=$n;$yellow" \
+    "*.7z=$n;$yellow" \
+    "*.bz=$n;$yellow" \
+    "*.db=$n;$yellow" \
+    "*.gz=$n;$yellow" \
+    "*.xz=$n;$yellow" \
+    "*.apk=$n;$yellow" \
+    "*.arj=$n;$yellow" \
+    "*.bag=$n;$yellow" \
+    "*.bz2=$n;$yellow" \
+    "*.deb=$n;$yellow" \
+    "*.jar=$n;$yellow" \
+    "*.msi=$n;$yellow" \
+    "*.pkg=$n;$yellow" \
+    "*.rar=$n;$yellow" \
+    "*.rpm=$n;$yellow" \
+    "*.tar=$n;$yellow" \
+    "*.tbz=$n;$yellow" \
+    "*.tgz=$n;$yellow" \
+    "*.xbps=$n;$yellow" \
+    "*.zip=$n;$yellow" \
+    "*.zst=$n;$yellow" \
+    "*.tbz2=$n;$yellow"
 
 # --- Disk images ---
 set -a ls \
-    "*.bin=$b;$orange" \
-    "*.dmg=$b;$orange" \
-    "*.img=$b;$orange" \
-    "*.iso=$b;$orange" \
-    "*.vcd=$b;$orange" \
-    "*.toast=$b;$orange"
+    "*.bin=$b;$yellow" \
+    "*.dmg=$b;$yellow" \
+    "*.img=$b;$yellow" \
+    "*.iso=$b;$yellow" \
+    "*.vcd=$b;$yellow" \
+    "*.toast=$b;$yellow"
 
 # --- Documents ---
 set -a ls \

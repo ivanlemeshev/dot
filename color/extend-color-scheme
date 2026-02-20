@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Convert a hex color string to space-separated r g b float values
+# (18 decimal places)
+hex_to_rgb() {
+  local hex="${1#\#}"
+  local r g b
+  r=$(echo "scale=18; $((16#${hex:0:2})) / 255" | bc | xargs printf "%.18f")
+  g=$(echo "scale=18; $((16#${hex:2:2})) / 255" | bc | xargs printf "%.18f")
+  b=$(echo "scale=18; $((16#${hex:4:2})) / 255" | bc | xargs printf "%.18f")
+  printf "%s %s %s" "$r" "$g" "$b"
+}
+
+# Detect the indent unit from the first indented line inside the hex: section
+detect_indent() {
+  awk '/^hex:/{in_hex=1; next} in_hex && /^[^ ]/{exit} in_hex && /^ /{match($0, /^ +/); print RLENGTH; exit}' "$FILE"
+}
+
+# Extract hex value for a key within the hex: section
+get_hex() {
+  local key="$1"
+  awk -v key="$key" '
+    /^hex:/ { in_hex=1; next }
+    in_hex && /^[^ ]/ { in_hex=0 }
+    in_hex && $1 == key ":" {
+      match($0, /#[0-9a-fA-F]+/)
+      print substr($0, RSTART, RLENGTH)
+      exit
+    }
+  ' "$FILE"
+}
+
+# Build the iterm2 YAML block mirroring the hex section structure
+build_iterm2() {
+  local hex r g b
+  local i
+  i=$(printf '%*s' "$(detect_indent)" '')
+
+  echo "iterm2:"
+
+  hex=$(get_hex "foreground")
+  read -r r g b <<<"$(hex_to_rgb "$hex")"
+  printf "%sforeground:\n%sr: %s\n%sg: %s\n%sb: %s\n" "$i" "$i$i" "$r" "$i$i" "$g" "$i$i" "$b"
+
+  hex=$(get_hex "background")
+  read -r r g b <<<"$(hex_to_rgb "$hex")"
+  printf "%sbackground:\n%sr: %s\n%sg: %s\n%sb: %s\n" "$i" "$i$i" "$r" "$i$i" "$g" "$i$i" "$b"
+
+  printf "%scolors:\n" "$i"
+
+  local color_names=(
+    black red green yellow blue magenta cyan white
+    brightBlack brightRed brightGreen brightYellow
+    brightBlue brightMagenta brightCyan brightWhite
+  )
+
+  for name in "${color_names[@]}"; do
+    hex=$(get_hex "$name")
+    read -r r g b <<<"$(hex_to_rgb "$hex")"
+    printf "%s%s:\n%sr: %s\n%sg: %s\n%sb: %s\n" "$i$i" "$name" "$i$i$i" "$r" "$i$i$i" "$g" "$i$i$i" "$b"
+  done
+}
+
+FILE="${1:-color-scheme.yaml}"
+
+if [[ ! -f "$FILE" ]]; then
+  echo "Usage: $0 <color-scheme.yaml>" >&2
+  exit 1
+fi
+
+TMP=$(mktemp)
+trap 'rm -f "$TMP"' EXIT
+
+{
+  # Print everything before any existing iterm2 section
+  awk '/^iterm2:/{exit} {print}' "$FILE"
+  build_iterm2
+} >"$TMP"
+
+mv "$TMP" "$FILE"
+echo "Updated $FILE with iterm2 colors."

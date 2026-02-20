@@ -2,8 +2,14 @@ return {
   "nvim-lualine/lualine.nvim",
   commit = "47f91c416daef12db467145e16bed5bbfe00add8",
   dependencies = {
-    { "nvim-tree/nvim-web-devicons", commit = "746ffbb17975ebd6c40142362eee1b0249969c5c" },
-    { "AndreM222/copilot-lualine", commit = "222e90bd8dcdf16ca1efc4e784416afb5f011c31" },
+    {
+      "nvim-tree/nvim-web-devicons",
+      commit = "746ffbb17975ebd6c40142362eee1b0249969c5c",
+    },
+    {
+      "AndreM222/copilot-lualine",
+      commit = "222e90bd8dcdf16ca1efc4e784416afb5f011c31",
+    },
   },
   config = function()
     local mode = {
@@ -57,7 +63,7 @@ return {
         icons_enabled = true,
         --          
         section_separators = { left = "", right = "" },
-        component_separators = { left = "|", right = "|" },
+        component_separators = { left = "│", right = "│" },
         always_divide_middle = true,
         disabled_filetypes = {
           "neotest-output-panel",
@@ -71,17 +77,17 @@ return {
       -- +-------------------------------------------------+
       sections = {
         lualine_a = { mode },
-        lualine_b = { "branch", diff },
-        lualine_c = { filename },
-        lualine_x = { copilot, diagnostics, "encoding", "filetype" },
-        lualine_y = { "location" },
+        lualine_b = { "branch", diff, filename },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = { copilot, diagnostics, "encoding", "filetype", "location" },
         lualine_z = { "progress" },
       },
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { filename },
-        lualine_x = { { "location", padding = 0 } },
+        lualine_c = {},
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
