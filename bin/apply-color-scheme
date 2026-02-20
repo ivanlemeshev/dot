@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+COLOR_DIR="$PROJECT_ROOT/color"
+YAML="$COLOR_DIR/color-scheme.yaml"
+
+"$COLOR_DIR/apply-windows-terminal" "$YAML" "$PROJECT_ROOT/windows/terminal/settings.json"
+"$COLOR_DIR/apply-itermcolors" "$YAML" "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors"
