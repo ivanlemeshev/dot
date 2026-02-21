@@ -11,6 +11,9 @@ set -gx EDITOR nvim
 # Add bat theme
 set -x BAT_THEME custom
 
+# Enable true color support
+set -gx fish_term24bit 1
+
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish
 
