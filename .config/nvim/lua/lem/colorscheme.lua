@@ -296,7 +296,7 @@ function M.setup()
   hl("OkFloat", { fg = p.green })
 
   -- CurrentWord: current_word default = "grey background"
-  hl("CurrentWord", { underline = true })
+  hl("CurrentWord", { bg = p.bg_sel })
 
   -- InlayHints: inlay_hints_background=none
   link("InlayHints", "LineNr")

@@ -76,8 +76,28 @@
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": " {{ .CurrentDate | date .Format }} ",
+          "template": "  {{ .CurrentDate | date .Format }} ",
           "type": "time"
+        },
+        {
+          "foreground": "#f4bf75",
+          "options": {
+            "style": "roundrock",
+            "threshold": 500
+          },
+          "style": "plain",
+          "template": "  {{ .FormattedMs }} </>",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "#90a959",
+          "foreground_templates": ["{{ if gt .Code 0 }}#ac4142{{ end }}"],
+          "options": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": "  {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
+          "type": "status"
         }
       ],
       "type": "prompt"
@@ -94,34 +114,6 @@
         }
       ],
       "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
-        {
-          "foreground": "#f4bf75",
-          "options": {
-            "style": "roundrock",
-            "threshold": 500
-          },
-          "style": "plain",
-          "template": " {{ .FormattedMs }}<#d0d0d0>  </>",
-          "type": "executiontime"
-        },
-        {
-          "foreground": "#90a959",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ac4142{{ end }}"
-          ],
-          "options": {
-            "always_enabled": true
-          },
-          "style": "plain",
-          "template": "  {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
-          "type": "status"
-        }
-      ],
-      "type": "rprompt"
     }
   ],
   "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
