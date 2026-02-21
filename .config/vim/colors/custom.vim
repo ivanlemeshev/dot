@@ -373,7 +373,7 @@ highlight! link goVarArgs              Grey
 " ==========================================================================
 call s:hl('StatusModeNormal',   s:gui00, s:gui06,  'bold')
 call s:hl('StatusModeInsert',   s:gui00, s:gui0B,  'bold')
-call s:hl('StatusModeVisual',   s:gui00, s:gui08,  'bold')
+call s:hl('StatusModeVisual',   s:gui00, s:gui09,  'bold')
 call s:hl('StatusModeReplace',  s:gui00, s:gui0A,  'bold')
 call s:hl('StatusModeCommand',  s:gui00, s:gui0D,  'bold')
 call s:hl('StatusModeTerminal', s:gui00, s:gui0E,  'bold')
