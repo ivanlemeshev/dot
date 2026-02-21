@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <theme.omp.json>", file=sys.stderr)
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+omp_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2).lower()
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+# Segment type → top-level foreground YAML color name
+segment_fg = {
+    "os": "green",  # OS icon
+    "session": "foreground",  # default session text
+    "root": "yellow",  # root indicator icon
+    "path": "foreground",  # current directory
+    "git": "yellow",  # git branch / clean state
+    "time": "green",  # clock display
+    "text": "foreground",  # prompt character ($)
+    "executiontime": "yellow",  # last command duration
+    "status": "green",  # exit status (ok state)
+}
+
+
+def update_template(template, seg_type):
+    """Replace <#HEX>content inline colors by matching the content semantics."""
+
+    def sub(pattern, yaml_name):
+        nonlocal template
+        c = colors[yaml_name]
+        template = re.sub(
+            rf"<#[0-9a-fA-F]{{6}}>({pattern})",
+            lambda m: f"<{c}>{m.group(1)}",
+            template,
+        )
+
+    # Pipe separator decoration — appears in os, session, root, and git templates
+    sub(r" \| ", "brightBlack")
+
+    if seg_type == "session":
+        sub(r"{{ \.UserName }}", "blue")  # ssh/remote username
+        sub(r"󰁥", "yellow")  # icon between user and host
+        sub(r"{{ \.HostName }}", "cyan")  # hostname
+    elif seg_type == "git":
+        sub(r"\| ", "brightBlack")  # leading pipe (no preceding space)
+        sub(r" 󰤌 {{ \.Working\.String }}", "red")  # unstaged changes
+        sub(r"[^<]+{{ \.Staging\.String }}", "green")  # staged changes (icon varies)
+    elif seg_type == "executiontime":
+        # Single inline color for the trailing icon — replace unconditionally
+        template = re.sub(
+            r"<#[0-9a-fA-F]{6}>",
+            f"<{colors['foreground']}>",
+            template,
+        )
+
+    return template
+
+
+def update_fg_templates(templates, seg_type):
+    """Replace bare #HEX values in foreground_templates by condition context."""
+    result = []
+    for t in templates:
+        if seg_type == "git":
+            if ".Working.Changed" in t or ".Staging.Changed" in t:
+                t = re.sub(r"#[0-9a-fA-F]{6}", colors["yellow"], t)
+            elif ".Ahead" in t:
+                t = re.sub(r"#[0-9a-fA-F]{6}", colors["cyan"], t)
+            elif ".Behind" in t:
+                t = re.sub(r"#[0-9a-fA-F]{6}", colors["magenta"], t)
+        elif seg_type == "status":
+            if ".Code" in t:
+                t = re.sub(r"#[0-9a-fA-F]{6}", colors["red"], t)
+        result.append(t)
+    return result
+
+
+with open(omp_file) as f:
+    data = json.load(f)
+
+for block in data.get("blocks", []):
+    for seg in block.get("segments", []):
+        seg_type = seg.get("type", "")
+
+        if seg_type in segment_fg and "foreground" in seg:
+            seg["foreground"] = colors[segment_fg[seg_type]]
+
+        if "foreground_templates" in seg:
+            seg["foreground_templates"] = update_fg_templates(
+                seg["foreground_templates"], seg_type
+            )
+
+        if "template" in seg:
+            seg["template"] = update_template(seg["template"], seg_type)
+
+dir_ = os.path.dirname(os.path.abspath(omp_file))
+with tempfile.NamedTemporaryFile(
+    mode="w", dir=dir_, delete=False, suffix=".tmp", encoding="utf-8"
+) as tmp:
+    tmp_path = tmp.name
+    json.dump(data, tmp, indent=2, ensure_ascii=False)
+    tmp.write("\n")
+os.replace(tmp_path, omp_file)
+print(f"Updated {omp_file}")

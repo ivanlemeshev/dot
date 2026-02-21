@@ -53,72 +53,72 @@ if not colors:
 # Step 1 replaces ALL occurrences of each key (including scope foregrounds);
 # step 2 (entry_colors) then overwrites each scope entry with its correct color.
 global_settings = {
-    "background":               ("background", ""),      # base00
-    "foreground":               ("foreground", ""),      # base05 — also resets all scope fgs
-    "caret":                    ("foreground", ""),      # base05: cursor matches text
-    "invisibles":               ("brightBlack", ""),     # base03: dim whitespace markers
-    "lineHighlight":            ("brightBlack", "55"),   # base03+alpha: subtle current-line bg
-    "selection":                ("brightYellow", ""),    # base02: selection background
-    "selectionBorder":          ("brightBlack", ""),     # base03
-    "guide":                    ("brightBlack", ""),     # base03: indent guides
-    "activeGuide":              ("brightBlack", ""),     # base03: active indent guide
-    "gutter":                   ("background", ""),      # base00: gutter bg matches editor bg
-    "gutterForeground":         ("brightBlack", ""),     # base03: dim line numbers
-    "findHighlight":            ("yellow", ""),          # base0A: search match highlight
-    "findHighlightForeground":  ("background", ""),      # base00: text on find highlight
-    "bracketsForeground":       ("foreground", ""),      # base05
-    "bracketContentsForeground": ("foreground", ""),     # base05
+    "background": ("background", ""),  # base00
+    "foreground": ("foreground", ""),  # base05 — also resets all scope fgs
+    "caret": ("foreground", ""),  # base05: cursor matches text
+    "invisibles": ("brightBlack", ""),  # base03: dim whitespace markers
+    "lineHighlight": ("brightBlack", "55"),  # base03+alpha: subtle current-line bg
+    "selection": ("brightYellow", ""),  # base02: selection background
+    "selectionBorder": ("brightBlack", ""),  # base03
+    "guide": ("brightBlack", ""),  # base03: indent guides
+    "activeGuide": ("brightBlack", ""),  # base03: active indent guide
+    "gutter": ("background", ""),  # base00: gutter bg matches editor bg
+    "gutterForeground": ("brightBlack", ""),  # base03: dim line numbers
+    "findHighlight": ("yellow", ""),  # base0A: search match highlight
+    "findHighlightForeground": ("background", ""),  # base00: text on find highlight
+    "bracketsForeground": ("foreground", ""),  # base05
+    "bracketContentsForeground": ("foreground", ""),  # base05
 }
 
 # Named scope entries: entry name → YAML color name.
 # Aligned with base16 semantic color roles.
 entry_colors = {
-    "Comment":            "brightBlack",   # base03: dim/muted
-    "String":             "green",          # base0B
-    "Escape Character":   "cyan",           # base0C
-    "Number":             "brightRed",      # base09: integers/floats/booleans
-    "Built-in Constant":  "brightRed",      # base09
-    "Constant":           "brightRed",      # base09
-    "Keyword":            "magenta",        # base0E
-    "Operator":           "magenta",        # base0E
-    "Storage Type":       "magenta",        # base0E
-    "Storage Modifier":   "magenta",        # base0E
-    "Function Name":      "blue",           # base0D
-    "Class Name":         "yellow",         # base0A
-    "Inherited Class":    "green",          # base0B
-    "Function Parameter": "magenta",        # base0E
-    "Variable":           "foreground",     # base05: default text color
-    "Language Variable":  "foreground",     # base05: this/self/super
-    "Support Function":   "cyan",           # base0C
-    "Support Type":       "yellow",         # base0A
-    "Support Constant":   "brightRed",      # base09
-    "Preprocessor":       "magenta",        # base0E
-    "Include":            "magenta",        # base0E
-    "Type Annotation":    "yellow",         # base0A: types are class-like
-    "Decorator":          "magenta",        # base0E
-    "Tag Name":           "red",            # base08
-    "Tag Attribute":      "brightRed",      # base09
-    "Punctuation":        "foreground",     # base05: braces/brackets use fg
-    "Tag Punctuation":    "foreground",     # base05
-    "String Punctuation": "foreground",     # base05
-    "Regular Expression": "cyan",           # base0C
-    "CSS Property":       "cyan",           # base0C
-    "CSS Value":          "brightRed",      # base09
-    "JSON Key":           "blue",           # base0D
-    "YAML Key":           "blue",           # base0D
-    "Diff Inserted":      "green",          # base0B
-    "Diff Deleted":       "red",            # base08
-    "Diff Changed":       "magenta",        # base0E
-    "Diff Range":         "blue",           # base0D
-    "Markup Heading":     "blue",           # base0D
-    "Markup Bold":        "yellow",         # base0A
-    "Markup Italic":      "magenta",        # base0E
-    "Markup Link URL":    "brightRed",      # base09
-    "Markup Link Text":   "red",            # base08
-    "Markup Inline Code": "green",          # base0B
-    "Markup List":        "red",            # base08
-    "Markup Quote":       "brightRed",      # base09
-    "Invalid":            "red",            # base08
+    "Comment": "brightBlack",  # base03: dim/muted
+    "String": "green",  # base0B
+    "Escape Character": "cyan",  # base0C
+    "Number": "brightRed",  # base09: integers/floats/booleans
+    "Built-in Constant": "brightRed",  # base09
+    "Constant": "brightRed",  # base09
+    "Keyword": "magenta",  # base0E
+    "Operator": "magenta",  # base0E
+    "Storage Type": "magenta",  # base0E
+    "Storage Modifier": "magenta",  # base0E
+    "Function Name": "blue",  # base0D
+    "Class Name": "yellow",  # base0A
+    "Inherited Class": "green",  # base0B
+    "Function Parameter": "magenta",  # base0E
+    "Variable": "foreground",  # base05: default text color
+    "Language Variable": "foreground",  # base05: this/self/super
+    "Support Function": "cyan",  # base0C
+    "Support Type": "yellow",  # base0A
+    "Support Constant": "brightRed",  # base09
+    "Preprocessor": "magenta",  # base0E
+    "Include": "magenta",  # base0E
+    "Type Annotation": "yellow",  # base0A: types are class-like
+    "Decorator": "magenta",  # base0E
+    "Tag Name": "red",  # base08
+    "Tag Attribute": "brightRed",  # base09
+    "Punctuation": "foreground",  # base05: braces/brackets use fg
+    "Tag Punctuation": "foreground",  # base05
+    "String Punctuation": "foreground",  # base05
+    "Regular Expression": "cyan",  # base0C
+    "CSS Property": "cyan",  # base0C
+    "CSS Value": "brightRed",  # base09
+    "JSON Key": "blue",  # base0D
+    "YAML Key": "blue",  # base0D
+    "Diff Inserted": "green",  # base0B
+    "Diff Deleted": "red",  # base08
+    "Diff Changed": "magenta",  # base0E
+    "Diff Range": "blue",  # base0D
+    "Markup Heading": "blue",  # base0D
+    "Markup Bold": "yellow",  # base0A
+    "Markup Italic": "magenta",  # base0E
+    "Markup Link URL": "brightRed",  # base09
+    "Markup Link Text": "red",  # base08
+    "Markup Inline Code": "green",  # base0B
+    "Markup List": "red",  # base08
+    "Markup Quote": "brightRed",  # base09
+    "Invalid": "red",  # base08
     "Invalid Deprecated": "brightMagenta",  # base06
 }
 
