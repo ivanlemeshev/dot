@@ -40,9 +40,7 @@ thm_vars = {
     "@thm_yellow": "yellow",  # accent: current window, zoom, last window
     "@thm_blue": "blue",  # path, date/time
     "@thm_magenta": "magenta",  # battery, online status
-    "@thm_dim": "brightBlack",  # inactive window labels
-    "@thm_overlay_0": "brightBlack",  # separators and active pane border
-    "@thm_surface_0": "brightBlack",  # inactive pane border
+    "@thm_dim": "brightBlack",  # separators, borders, inactive window labels
 }
 
 with open(tmux_file) as f:
