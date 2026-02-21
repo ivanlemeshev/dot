@@ -67,7 +67,7 @@ function M.toggle()
     border = "rounded",
   })
 
-  vim.wo[terminal_win].winhighlight = "NormalFloat:Normal,FloatBorder:Normal"
+  vim.wo[terminal_win].winhighlight = "NormalFloat:Normal"
 
   -- Start terminal if buffer is empty
   if

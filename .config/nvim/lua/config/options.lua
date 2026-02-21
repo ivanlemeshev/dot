@@ -1,3 +1,8 @@
+-- Enable undercurl support in terminals that support it but lack the terminfo
+-- capability (e.g. Windows Terminal).
+vim.cmd([[let &t_Cs = "\e[4:3m"]])
+vim.cmd([[let &t_Ce = "\e[4:0m"]])
+
 -- Disable netrw, the built-in file explorer.
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

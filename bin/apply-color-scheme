@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+COLOR_DIR="$PROJECT_ROOT/color"
+YAML="$COLOR_DIR/color-scheme.yaml"
+
+FISH_DIR="$PROJECT_ROOT/.config/fish/conf.d"
+
+"$COLOR_DIR/apply-windows-terminal" "$YAML" "$PROJECT_ROOT/windows/terminal/settings.json"
+"$COLOR_DIR/apply-itermcolors" "$YAML" "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors"
+"$COLOR_DIR/apply-custom-theme-fish" "$YAML" "$FISH_DIR/custom_theme.fish"
+"$COLOR_DIR/apply-fzf-colors-fish" "$YAML" "$FISH_DIR/fzf_colors.fish"
+"$COLOR_DIR/apply-ls-colors-fish" "$YAML" "$FISH_DIR/ls_colors.fish"
+"$COLOR_DIR/apply-tmtheme" "$YAML" "$PROJECT_ROOT/.config/bat/themes/custom.tmTheme"
+"$COLOR_DIR/apply-omp-theme" "$YAML" "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json"
+"$COLOR_DIR/apply-tmux-theme" "$YAML" "$PROJECT_ROOT/.config/tmux/.tmux.conf"
+"$COLOR_DIR/apply-vim-theme" "$YAML" "$PROJECT_ROOT/.config/vim/colors/custom.vim"
+"$COLOR_DIR/apply-nvim-theme" "$YAML" "$PROJECT_ROOT/.config/nvim/lua/lem/colorscheme.lua"

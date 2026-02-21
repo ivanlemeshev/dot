@@ -29,6 +29,15 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Override netrw buffer-local mappings so Ctrl+hjkl window navigation still works.
+augroup NetrwKeymaps
+  autocmd!
+  autocmd FileType netrw noremap <buffer> <C-h> <C-w>h
+  autocmd FileType netrw noremap <buffer> <C-j> <C-w>j
+  autocmd FileType netrw noremap <buffer> <C-k> <C-w>k
+  autocmd FileType netrw noremap <buffer> <C-l> <C-w>l
+augroup END
+
 " Stay in visual mode after indenting.
 vnoremap < <gv
 vnoremap > >gv

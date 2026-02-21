@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+
+import os
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom.tmTheme>", file=sys.stderr)
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+tmtheme_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2).lower()
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+# base16 ANSI palette → YAML color name mapping:
+#   ANSI 0  = black         = base00 = background (darkest)
+#   ANSI 1  = red           = base08 = variables, tags, deleted
+#   ANSI 2  = green         = base0B = strings, inserted, inline code
+#   ANSI 3  = yellow        = base0A = classes, types, bold, attributes
+#   ANSI 4  = blue          = base0D = functions, headings, attribute IDs
+#   ANSI 5  = magenta       = base0E = keywords, storage, selectors, italic, changed
+#   ANSI 6  = cyan          = base0C = support, regex, escape chars, colors
+#   ANSI 7  = white         = base05 = foreground (default text)
+#   ANSI 8  = brightBlack   = base03 = comments, invisibles, dim/gutter text
+#   ANSI 9  = brightRed     = base09 = integers, booleans, constants, tag attributes
+#   ANSI 10 = brightGreen   = base01 = slightly lighter background
+#   ANSI 11 = brightYellow  = base02 = selection / line highlight background
+#   ANSI 12 = brightBlue    = base04 = dark foreground (status bars)
+#   ANSI 13 = brightMagenta = base06 = light foreground / deprecated
+#   ANSI 14 = brightCyan    = base07 = lightest background
+#   ANSI 15 = brightWhite   = base0F = embedded language punctuation
+
+# Global settings block: XML key → (YAML color name, alpha suffix).
+# Step 1 replaces ALL occurrences of each key (including scope foregrounds);
+# step 2 (entry_colors) then overwrites each scope entry with its correct color.
+global_settings = {
+    "background": ("background", ""),  # base00
+    "foreground": ("foreground", ""),  # base05 — also resets all scope fgs
+    "caret": ("foreground", ""),  # base05: cursor matches text
+    "invisibles": ("brightBlack", ""),  # base03: dim whitespace markers
+    "lineHighlight": ("brightBlack", "55"),  # base03+alpha: subtle current-line bg
+    "selection": ("brightYellow", ""),  # base02: selection background
+    "selectionBorder": ("brightBlack", ""),  # base03
+    "guide": ("brightBlack", ""),  # base03: indent guides
+    "activeGuide": ("brightBlack", ""),  # base03: active indent guide
+    "gutter": ("background", ""),  # base00: gutter bg matches editor bg
+    "gutterForeground": ("brightBlack", ""),  # base03: dim line numbers
+    "findHighlight": ("yellow", ""),  # base0A: search match highlight
+    "findHighlightForeground": ("background", ""),  # base00: text on find highlight
+    "bracketsForeground": ("foreground", ""),  # base05
+    "bracketContentsForeground": ("foreground", ""),  # base05
+}
+
+# Named scope entries: entry name → YAML color name.
+# Aligned with base16 semantic color roles.
+entry_colors = {
+    "Comment": "brightBlack",  # base03: dim/muted
+    "String": "green",  # base0B
+    "Escape Character": "cyan",  # base0C
+    "Number": "brightRed",  # base09: integers/floats/booleans
+    "Built-in Constant": "brightRed",  # base09
+    "Constant": "brightRed",  # base09
+    "Keyword": "magenta",  # base0E
+    "Operator": "magenta",  # base0E
+    "Storage Type": "magenta",  # base0E
+    "Storage Modifier": "magenta",  # base0E
+    "Function Name": "blue",  # base0D
+    "Class Name": "yellow",  # base0A
+    "Inherited Class": "green",  # base0B
+    "Function Parameter": "magenta",  # base0E
+    "Variable": "foreground",  # base05: default text color
+    "Language Variable": "foreground",  # base05: this/self/super
+    "Support Function": "cyan",  # base0C
+    "Support Type": "yellow",  # base0A
+    "Support Constant": "brightRed",  # base09
+    "Preprocessor": "magenta",  # base0E
+    "Include": "magenta",  # base0E
+    "Type Annotation": "yellow",  # base0A: types are class-like
+    "Decorator": "magenta",  # base0E
+    "Tag Name": "red",  # base08
+    "Tag Attribute": "brightRed",  # base09
+    "Punctuation": "foreground",  # base05: braces/brackets use fg
+    "Tag Punctuation": "foreground",  # base05
+    "String Punctuation": "foreground",  # base05
+    "Regular Expression": "cyan",  # base0C
+    "CSS Property": "cyan",  # base0C
+    "CSS Value": "brightRed",  # base09
+    "JSON Key": "blue",  # base0D
+    "YAML Key": "blue",  # base0D
+    "Diff Inserted": "green",  # base0B
+    "Diff Deleted": "red",  # base08
+    "Diff Changed": "magenta",  # base0E
+    "Diff Range": "blue",  # base0D
+    "Markup Heading": "blue",  # base0D
+    "Markup Bold": "yellow",  # base0A
+    "Markup Italic": "magenta",  # base0E
+    "Markup Link URL": "brightRed",  # base09
+    "Markup Link Text": "red",  # base08
+    "Markup Inline Code": "green",  # base0B
+    "Markup List": "red",  # base08
+    "Markup Quote": "brightRed",  # base09
+    "Invalid": "red",  # base08
+    "Invalid Deprecated": "brightMagenta",  # base06
+}
+
+with open(tmtheme_file) as f:
+    content = f.read()
+
+# 1. Replace global settings key-value pairs (run first so entry_colors
+#    can overwrite any scope foregrounds that global_settings touched).
+for xml_key, (yaml_name, alpha) in global_settings.items():
+    new_val = colors[yaml_name] + alpha
+    content = re.sub(
+        rf"(<key>{re.escape(xml_key)}</key>\s*<string>)#[0-9a-fA-F]{{6,8}}(</string>)",
+        rf"\g<1>{new_val}\g<2>",
+        content,
+        flags=re.DOTALL,
+    )
+
+# 2. Replace each named scope entry's foreground by entry name.
+for entry_name, yaml_name in entry_colors.items():
+    new_hex = colors[yaml_name]
+    content = re.sub(
+        rf"(<key>name</key>\s*<string>{re.escape(entry_name)}</string>"
+        rf".*?<key>foreground</key>\s*<string>)#[0-9a-fA-F]{{6,8}}(</string>)",
+        rf"\g<1>{new_hex}\g<2>",
+        content,
+        flags=re.DOTALL,
+    )
+
+dir_ = os.path.dirname(os.path.abspath(tmtheme_file))
+with tempfile.NamedTemporaryFile(
+    mode="w", dir=dir_, delete=False, suffix=".tmp", encoding="utf-8"
+) as tmp:
+    tmp_path = tmp.name
+    tmp.write(content)
+os.replace(tmp_path, tmtheme_file)
+print(f"Updated {tmtheme_file}")

@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import os
+import plistlib
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(
+        f"Usage: {sys.argv[0]} <color-scheme.yaml> <output.itermcolors>",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+itermcolors_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2)
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+ansi_map = [
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "magenta",
+    "cyan",
+    "white",
+    "brightBlack",
+    "brightRed",
+    "brightGreen",
+    "brightYellow",
+    "brightBlue",
+    "brightMagenta",
+    "brightCyan",
+    "brightWhite",
+]
+
+
+def color_entry(name):
+    h = colors[name].lstrip("#")
+    r, g, b = int(h[0:2], 16) / 255, int(h[2:4], 16) / 255, int(h[4:6], 16) / 255
+    return {
+        "Blue Component": b,
+        "Color Space": "sRGB",
+        "Green Component": g,
+        "Red Component": r,
+    }
+
+
+pl = {}
+
+for i, name in enumerate(ansi_map):
+    pl[f"Ansi {i} Color"] = color_entry(name)
+
+pl["Background Color"] = color_entry("background")
+pl["Bold Color"] = color_entry("foreground")
+pl["Cursor Color"] = color_entry("foreground")
+pl["Cursor Text Color"] = color_entry("background")
+pl["Foreground Color"] = color_entry("foreground")
+pl["Selected Text Color"] = color_entry("foreground")
+pl["Selection Color"] = color_entry("background")
+
+dir_ = os.path.dirname(os.path.abspath(itermcolors_file))
+with tempfile.NamedTemporaryFile(
+    mode="wb", dir=dir_, delete=False, suffix=".tmp"
+) as tmp:
+    tmp_path = tmp.name
+    plistlib.dump(pl, tmp, fmt=plistlib.FMT_XML)
+os.replace(tmp_path, itermcolors_file)
+print(f"Updated {itermcolors_file}")

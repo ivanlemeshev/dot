@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <settings.json>", file=sys.stderr)
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+json_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2).upper()
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+# Windows Terminal uses 'purple'/'brightPurple' instead of 'magenta'/'brightMagenta'
+wt_name = {"magenta": "purple", "brightMagenta": "brightPurple"}
+
+with open(json_file) as f:
+    settings = json.load(f)
+
+scheme = settings["schemes"][0]
+for name, hex_val in colors.items():
+    scheme[wt_name.get(name, name)] = hex_val
+scheme["cursorColor"] = colors["white"]
+scheme["selectionBackground"] = colors["brightBlack"]
+
+tab_bg = colors["background"] + "FF"
+settings["themes"][0]["tab"]["background"] = tab_bg
+settings["themes"][0]["tabRow"]["background"] = tab_bg
+settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_bg
+
+dir_ = os.path.dirname(os.path.abspath(json_file))
+with tempfile.NamedTemporaryFile(
+    mode="w", dir=dir_, delete=False, suffix=".tmp", encoding="utf-8"
+) as tmp:
+    tmp_path = tmp.name
+    json.dump(settings, tmp, indent=2, ensure_ascii=False)
+    tmp.write("\n")
+os.replace(tmp_path, json_file)
+print(f"Updated {json_file}")

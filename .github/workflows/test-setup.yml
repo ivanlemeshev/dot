@@ -26,6 +26,7 @@ jobs:
       GIT_DEFAULT_BRANCH: main
       GIT_USER_EMAIL: ci-test@example.com
       GIT_USER_NAME: CI Test User
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout code

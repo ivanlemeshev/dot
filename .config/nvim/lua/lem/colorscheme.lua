@@ -2,35 +2,28 @@
 
 local M = {}
 
--- Palette
+-- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
-  bg0 = "#191919",
-  bg1 = "#222222",
-  bg2 = "#222222",
-  bg3 = "#404040",
-  bg4 = "#404040",
-  bg5 = "#3d3839",
-  bg_statusline1 = "#222222",
-  bg_statusline3 = "#363636",
-  bg_diff_red = "#3d2629",
-  bg_diff_green = "#2e3329",
-  bg_diff_blue = "#27333a",
-  bg_current_word = "#2a2a2a",
-  fg0 = "#bbbbbb",
-  fg1 = "#c9c9c9",
-  red = "#de6e7c",
-  orange = "#b77e64",
-  yellow = "#b3a06a",
-  green = "#819b69",
-  aqua = "#66a5ad",
-  blue = "#6099c0",
-  purple = "#b279a7",
-  bg_red = "#de6e7c",
-  bg_green = "#819b69",
-  bg_yellow = "#b3a06a",
-  grey0 = "#5a5a5a",
-  grey1 = "#8e8e8e",
-  grey2 = "#aaaaaa",
+  -- Backgrounds
+  bg = "#151515", -- main background
+  bg_alt = "#252525", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#353535", -- selection / visual background
+  -- Foregrounds / greys
+  faint = "#292929", -- barely visible: non-printable chars
+  muted = "#6d6d6d", -- comments, line numbers, faded
+  dim = "#7c7c7c", -- dark foreground: inactive UI
+  border = "#505050", -- split borders: matches tmux pane border
+  fg = "#d0d0d0", -- default foreground
+  fg_alt = "#e2e2e2", -- light foreground: selected item backgrounds
+  bright = "#f5f5f5", -- bright white
+  -- Colors
+  red = "#ac4142",
+  orange = "#c26751",
+  yellow = "#f4bf75",
+  green = "#90a959",
+  cyan = "#75b5aa",
+  blue = "#6a9fb5",
+  magenta = "#aa759f",
 }
 
 function M.setup()
@@ -54,20 +47,20 @@ function M.setup()
   -- ==========================================================================
   -- UI highlights
   -- ==========================================================================
-  hl("Normal", { fg = p.fg0, bg = p.bg0 })
-  hl("NormalNC", { fg = p.fg0, bg = p.bg0 })
-  hl("Terminal", { fg = p.fg0, bg = p.bg0 })
-  hl("EndOfBuffer", { fg = p.bg0, bg = p.bg0 })
-  hl("Folded", { fg = p.grey1, bg = p.bg2 })
-  hl("ToolbarLine", { fg = p.fg1, bg = p.bg3 })
-  hl("SignColumn", { fg = p.fg0 })
-  hl("FoldColumn", { fg = p.bg5 }) -- ui_contrast=low
+  hl("Normal", { fg = p.fg, bg = p.bg })
+  hl("NormalNC", { fg = p.fg, bg = p.bg })
+  hl("Terminal", { fg = p.fg, bg = p.bg })
+  hl("EndOfBuffer", { fg = p.bg, bg = p.bg })
+  hl("Folded", { fg = p.dim, bg = p.bg_alt })
+  hl("ToolbarLine", { fg = p.fg, bg = p.bg_alt })
+  hl("SignColumn", { fg = p.fg })
+  hl("FoldColumn", { fg = p.faint })
 
-  hl("IncSearch", { fg = p.bg0, bg = p.bg_red })
-  hl("Search", { fg = p.bg0, bg = p.bg_green })
+  hl("IncSearch", { fg = p.bg, bg = p.red })
+  hl("Search", { fg = p.bg, bg = p.green })
   link("CurSearch", "IncSearch")
-  hl("ColorColumn", { bg = p.bg2 })
-  hl("Conceal", { fg = p.bg5 }) -- ui_contrast=low
+  hl("ColorColumn", { bg = p.bg_alt })
+  hl("Conceal", { fg = p.faint })
 
   hl("Cursor", { reverse = true })
   link("vCursor", "Cursor")
@@ -75,86 +68,86 @@ function M.setup()
   link("lCursor", "Cursor")
   link("CursorIM", "Cursor")
 
-  hl("CursorLine", { bg = p.bg1 })
-  hl("CursorColumn", { bg = p.bg1 })
+  hl("CursorLine", { bg = p.bg_alt })
+  hl("CursorColumn", { bg = p.bg_alt })
 
   -- LineNr: ui_contrast=low, sign_column_background=none
-  hl("LineNr", { fg = p.bg5 })
-  hl("CursorLineNr", { fg = p.grey1 })
+  hl("LineNr", { fg = p.muted })
+  hl("CursorLineNr", { fg = p.dim })
 
-  hl("DiffAdd", { bg = p.bg_diff_green })
-  hl("DiffChange", { bg = p.bg_diff_blue })
-  hl("DiffDelete", { bg = p.bg_diff_red })
-  hl("DiffText", { fg = p.bg0, bg = p.blue })
+  hl("DiffAdd", { fg = p.green })
+  hl("DiffChange", { fg = p.blue })
+  hl("DiffDelete", { fg = p.red })
+  hl("DiffText", { fg = p.bg, bg = p.blue })
 
   hl("Directory", { fg = p.green })
   hl("ErrorMsg", { fg = p.red, bold = true, underline = true })
   hl("WarningMsg", { fg = p.yellow, bold = true })
-  hl("ModeMsg", { fg = p.fg0, bold = true })
+  hl("ModeMsg", { fg = p.fg, bold = true })
   hl("MoreMsg", { fg = p.yellow, bold = true })
-  hl("MatchParen", { bg = p.bg4 })
-  hl("NonText", { fg = p.bg5 })
-  hl("Whitespace", { fg = p.bg5 })
-  hl("SpecialKey", { fg = p.orange })
+  hl("MatchParen", { bg = p.bg_sel })
+  hl("NonText", { fg = p.faint })
+  hl("Whitespace", { fg = p.faint })
+  hl("SpecialKey", { fg = p.yellow })
 
   -- Pmenu: menu_selection_background=grey
-  hl("Pmenu", { fg = p.fg1, bg = p.bg3 })
-  hl("PmenuSbar", { bg = p.bg3 })
-  hl("PmenuSel", { fg = p.bg3, bg = p.grey2 })
-  hl("PmenuKind", { fg = p.green, bg = p.bg3 })
-  hl("PmenuExtra", { fg = p.grey2, bg = p.bg3 })
+  hl("Pmenu", { fg = p.fg, bg = p.bg_alt })
+  hl("PmenuSbar", { bg = p.bg_alt })
+  hl("PmenuSel", { fg = p.bg, bg = p.fg_alt })
+  hl("PmenuKind", { fg = p.green, bg = p.bg_alt })
+  hl("PmenuExtra", { fg = p.fg_alt, bg = p.bg_alt })
   link("WildMenu", "PmenuSel")
-  hl("PmenuThumb", { bg = p.grey0 })
+  hl("PmenuThumb", { bg = p.dim })
 
   -- Float: editor bg with visible border
-  hl("NormalFloat", { fg = p.fg1, bg = p.bg0 })
-  hl("FloatBorder", { fg = p.grey2, bg = p.bg0 })
-  hl("FloatTitle", { fg = p.orange, bg = p.bg0, bold = true })
+  hl("NormalFloat", { fg = p.fg, bg = p.bg })
+  hl("FloatBorder", { fg = p.border, bg = p.bg })
+  hl("FloatTitle", { fg = p.yellow, bg = p.bg, bold = true })
 
   hl("Question", { fg = p.yellow })
 
   -- Spell
   hl("SpellBad", { undercurl = true, sp = p.red })
   hl("SpellCap", { undercurl = true, sp = p.blue })
-  hl("SpellLocal", { undercurl = true, sp = p.aqua })
-  hl("SpellRare", { undercurl = true, sp = p.purple })
+  hl("SpellLocal", { undercurl = true, sp = p.cyan })
+  hl("SpellRare", { undercurl = true, sp = p.magenta })
 
   -- StatusLine: default style, transparent_background=0
-  hl("StatusLine", { fg = p.fg1, bg = p.bg_statusline1 })
-  hl("StatusLineTerm", { fg = p.fg1, bg = p.bg_statusline1 })
-  hl("StatusLineNC", { fg = p.grey1, bg = p.bg_statusline1 })
-  hl("StatusLineTermNC", { fg = p.grey1, bg = p.bg_statusline1 })
-  hl("TabLine", { fg = p.fg1, bg = p.bg_statusline3 })
-  hl("TabLineFill", { fg = p.fg1, bg = p.bg_statusline1 })
-  hl("TabLineSel", { fg = p.bg0, bg = p.grey2 })
-  hl("WinBar", { fg = p.fg1, bg = p.bg_statusline1, bold = true })
-  hl("WinBarNC", { fg = p.grey1, bg = p.bg_statusline1 })
+  hl("StatusLine", { fg = p.fg, bg = p.bg_alt })
+  hl("StatusLineTerm", { fg = p.fg, bg = p.bg_alt })
+  hl("StatusLineNC", { fg = p.dim, bg = p.bg_alt })
+  hl("StatusLineTermNC", { fg = p.dim, bg = p.bg_alt })
+  hl("TabLine", { fg = p.fg, bg = p.bg_alt })
+  hl("TabLineFill", { fg = p.fg, bg = p.bg_alt })
+  hl("TabLineSel", { fg = p.bg, bg = p.fg_alt })
+  hl("WinBar", { fg = p.fg, bg = p.bg_alt, bold = true })
+  hl("WinBarNC", { fg = p.dim, bg = p.bg_alt })
 
   -- VertSplit / WinSeparator
-  hl("VertSplit", { fg = p.grey0 })
+  hl("VertSplit", { fg = p.border })
   link("WinSeparator", "VertSplit")
 
   -- Visual: grey background
-  hl("Visual", { bg = p.bg3 })
-  hl("VisualNOS", { bg = p.bg3 })
+  hl("Visual", { bg = p.bg_sel })
+  hl("VisualNOS", { bg = p.bg_sel })
 
-  hl("QuickFixLine", { fg = p.purple, bold = true })
-  hl("Debug", { fg = p.orange })
-  hl("debugPC", { fg = p.bg0, bg = p.green })
-  hl("debugBreakpoint", { fg = p.bg0, bg = p.red })
-  hl("ToolbarButton", { fg = p.bg0, bg = p.grey2 })
-  hl("Substitute", { fg = p.bg0, bg = p.yellow })
+  hl("QuickFixLine", { fg = p.magenta, bold = true })
+  hl("Debug", { fg = p.yellow })
+  hl("debugPC", { fg = p.bg, bg = p.green })
+  hl("debugBreakpoint", { fg = p.bg, bg = p.red })
+  hl("ToolbarButton", { fg = p.bg, bg = p.fg_alt })
+  hl("Substitute", { fg = p.bg, bg = p.yellow })
 
   -- Diagnostics: diagnostic_text_highlight=0
   hl("DiagnosticError", { fg = p.red })
   hl("DiagnosticWarn", { fg = p.yellow })
   hl("DiagnosticInfo", { fg = p.blue })
-  hl("DiagnosticHint", { fg = p.purple })
+  hl("DiagnosticHint", { fg = p.magenta })
   hl("DiagnosticOk", { fg = p.green })
   hl("DiagnosticUnderlineError", { undercurl = true, sp = p.red })
   hl("DiagnosticUnderlineWarn", { undercurl = true, sp = p.yellow })
   hl("DiagnosticUnderlineInfo", { undercurl = true, sp = p.blue })
-  hl("DiagnosticUnderlineHint", { undercurl = true, sp = p.purple })
+  hl("DiagnosticUnderlineHint", { undercurl = true, sp = p.magenta })
   hl("DiagnosticUnderlineOk", { undercurl = true, sp = p.green })
 
   link("DiagnosticFloatingError", "ErrorFloat")
@@ -173,27 +166,6 @@ function M.setup()
   link("DiagnosticSignHint", "PurpleSign")
   link("DiagnosticSignOk", "GreenSign")
 
-  -- Legacy LSP diagnostic links
-  link("LspDiagnosticsFloatingError", "DiagnosticFloatingError")
-  link("LspDiagnosticsFloatingWarning", "DiagnosticFloatingWarn")
-  link("LspDiagnosticsFloatingInformation", "DiagnosticFloatingInfo")
-  link("LspDiagnosticsFloatingHint", "DiagnosticFloatingHint")
-  link("LspDiagnosticsDefaultError", "DiagnosticError")
-  link("LspDiagnosticsDefaultWarning", "DiagnosticWarn")
-  link("LspDiagnosticsDefaultInformation", "DiagnosticInfo")
-  link("LspDiagnosticsDefaultHint", "DiagnosticHint")
-  link("LspDiagnosticsVirtualTextError", "DiagnosticVirtualTextError")
-  link("LspDiagnosticsVirtualTextWarning", "DiagnosticVirtualTextWarn")
-  link("LspDiagnosticsVirtualTextInformation", "DiagnosticVirtualTextInfo")
-  link("LspDiagnosticsVirtualTextHint", "DiagnosticVirtualTextHint")
-  link("LspDiagnosticsUnderlineError", "DiagnosticUnderlineError")
-  link("LspDiagnosticsUnderlineWarning", "DiagnosticUnderlineWarn")
-  link("LspDiagnosticsUnderlineInformation", "DiagnosticUnderlineInfo")
-  link("LspDiagnosticsUnderlineHint", "DiagnosticUnderlineHint")
-  link("LspDiagnosticsSignError", "DiagnosticSignError")
-  link("LspDiagnosticsSignWarning", "DiagnosticSignWarn")
-  link("LspDiagnosticsSignInformation", "DiagnosticSignInfo")
-  link("LspDiagnosticsSignHint", "DiagnosticSignHint")
   link("LspReferenceText", "CurrentWord")
   link("LspReferenceRead", "CurrentWord")
   link("LspReferenceWrite", "CurrentWord")
@@ -209,15 +181,15 @@ function M.setup()
   -- ==========================================================================
   -- Syntax highlights
   -- ==========================================================================
-  hl("Boolean", { fg = p.purple })
-  hl("Number", { fg = p.purple })
-  hl("Float", { fg = p.purple })
+  hl("Boolean", { fg = p.magenta })
+  hl("Number", { fg = p.magenta })
+  hl("Float", { fg = p.magenta })
 
   -- italic enabled
-  hl("PreProc", { fg = p.purple, italic = true })
-  hl("PreCondit", { fg = p.purple, italic = true })
-  hl("Include", { fg = p.purple, italic = true })
-  hl("Define", { fg = p.purple, italic = true })
+  hl("PreProc", { fg = p.magenta, italic = true })
+  hl("PreCondit", { fg = p.magenta, italic = true })
+  hl("Include", { fg = p.magenta, italic = true })
+  hl("Define", { fg = p.magenta, italic = true })
   hl("Conditional", { fg = p.red, italic = true })
   hl("Repeat", { fg = p.red, italic = true })
   hl("Keyword", { fg = p.red, italic = true })
@@ -226,12 +198,12 @@ function M.setup()
   hl("Statement", { fg = p.red, italic = true })
 
   hl("Error", { fg = p.red })
-  hl("StorageClass", { fg = p.orange })
-  hl("Tag", { fg = p.orange })
-  hl("Label", { fg = p.orange })
-  hl("Structure", { fg = p.orange })
-  hl("Operator", { fg = p.orange })
-  hl("Title", { fg = p.orange, bold = true })
+  hl("StorageClass", { fg = p.yellow })
+  hl("Tag", { fg = p.yellow })
+  hl("Label", { fg = p.yellow })
+  hl("Structure", { fg = p.yellow })
+  hl("Operator", { fg = p.yellow })
+  hl("Title", { fg = p.yellow, bold = true })
   hl("Special", { fg = p.yellow })
   hl("SpecialChar", { fg = p.yellow })
   hl("Type", { fg = p.yellow })
@@ -241,59 +213,55 @@ function M.setup()
 
   hl("String", { fg = p.green })
   hl("Character", { fg = p.green })
-  hl("Constant", { fg = p.aqua })
-  hl("Macro", { fg = p.aqua })
+  hl("Constant", { fg = p.cyan })
+  hl("Macro", { fg = p.cyan })
   hl("Identifier", { fg = p.blue })
 
-  hl("Todo", { fg = p.bg0, bg = p.blue, bold = true })
+  hl("Todo", { fg = p.bg, bg = p.blue, bold = true })
 
   -- italic comments (disable_italic_comment=false)
-  hl("Comment", { fg = p.grey1, italic = true })
-  hl("SpecialComment", { fg = p.grey1, italic = true })
+  hl("Comment", { fg = p.dim, italic = true })
+  hl("SpecialComment", { fg = p.dim, italic = true })
 
-  hl("Delimiter", { fg = p.fg0 })
-  hl("Ignore", { fg = p.grey1 })
+  hl("Delimiter", { fg = p.fg })
+  hl("Ignore", { fg = p.dim })
   hl("Underlined", { underline = true })
 
   -- ==========================================================================
   -- Predefined highlight groups
   -- ==========================================================================
-  hl("Fg", { fg = p.fg0 })
-  hl("Grey", { fg = p.grey1 })
+  hl("Fg", { fg = p.fg })
+  hl("Grey", { fg = p.dim })
   hl("Red", { fg = p.red })
-  hl("Orange", { fg = p.orange })
   hl("Yellow", { fg = p.yellow })
   hl("Green", { fg = p.green })
-  hl("Aqua", { fg = p.aqua })
+  hl("Aqua", { fg = p.cyan })
   hl("Blue", { fg = p.blue })
-  hl("Purple", { fg = p.purple })
+  hl("Purple", { fg = p.magenta })
 
   -- Italic variants (italic enabled)
   hl("RedItalic", { fg = p.red, italic = true })
-  hl("OrangeItalic", { fg = p.orange, italic = true })
   hl("YellowItalic", { fg = p.yellow, italic = true })
   hl("GreenItalic", { fg = p.green, italic = true })
-  hl("AquaItalic", { fg = p.aqua, italic = true })
+  hl("AquaItalic", { fg = p.cyan, italic = true })
   hl("BlueItalic", { fg = p.blue, italic = true })
-  hl("PurpleItalic", { fg = p.purple, italic = true })
+  hl("PurpleItalic", { fg = p.magenta, italic = true })
 
   -- Bold variants (bold enabled)
   hl("RedBold", { fg = p.red, bold = true })
-  hl("OrangeBold", { fg = p.orange, bold = true })
   hl("YellowBold", { fg = p.yellow, bold = true })
   hl("GreenBold", { fg = p.green, bold = true })
-  hl("AquaBold", { fg = p.aqua, bold = true })
+  hl("AquaBold", { fg = p.cyan, bold = true })
   hl("BlueBold", { fg = p.blue, bold = true })
-  hl("PurpleBold", { fg = p.purple, bold = true })
+  hl("PurpleBold", { fg = p.magenta, bold = true })
 
   -- Sign variants (sign_column_background=none)
   hl("RedSign", { fg = p.red })
-  hl("OrangeSign", { fg = p.orange })
   hl("YellowSign", { fg = p.yellow })
   hl("GreenSign", { fg = p.green })
-  hl("AquaSign", { fg = p.aqua })
+  hl("AquaSign", { fg = p.cyan })
   hl("BlueSign", { fg = p.blue })
-  hl("PurpleSign", { fg = p.purple })
+  hl("PurpleSign", { fg = p.magenta })
 
   link("Added", "Green")
   link("Removed", "Red")
@@ -306,7 +274,7 @@ function M.setup()
   hl("ErrorText", { undercurl = true, sp = p.red })
   hl("WarningText", { undercurl = true, sp = p.yellow })
   hl("InfoText", { undercurl = true, sp = p.blue })
-  hl("HintText", { undercurl = true, sp = p.purple })
+  hl("HintText", { undercurl = true, sp = p.magenta })
 
   -- diagnostic_line_highlight=0
   vim.cmd("highlight clear ErrorLine")
@@ -324,11 +292,11 @@ function M.setup()
   hl("ErrorFloat", { fg = p.red })
   hl("WarningFloat", { fg = p.yellow })
   hl("InfoFloat", { fg = p.blue })
-  hl("HintFloat", { fg = p.purple })
+  hl("HintFloat", { fg = p.magenta })
   hl("OkFloat", { fg = p.green })
 
   -- CurrentWord: current_word default = "grey background"
-  hl("CurrentWord", { bg = p.bg_current_word })
+  hl("CurrentWord", { underline = true })
 
   -- InlayHints: inlay_hints_background=none
   link("InlayHints", "LineNr")
@@ -336,22 +304,22 @@ function M.setup()
   -- ==========================================================================
   -- Terminal colors
   -- ==========================================================================
-  vim.g.terminal_color_0 = p.bg5
+  vim.g.terminal_color_0 = p.muted
   vim.g.terminal_color_1 = p.red
   vim.g.terminal_color_2 = p.green
   vim.g.terminal_color_3 = p.yellow
   vim.g.terminal_color_4 = p.blue
-  vim.g.terminal_color_5 = p.purple
-  vim.g.terminal_color_6 = p.aqua
-  vim.g.terminal_color_7 = p.fg0
-  vim.g.terminal_color_8 = p.bg5
+  vim.g.terminal_color_5 = p.magenta
+  vim.g.terminal_color_6 = p.cyan
+  vim.g.terminal_color_7 = p.fg
+  vim.g.terminal_color_8 = p.muted
   vim.g.terminal_color_9 = p.red
   vim.g.terminal_color_10 = p.green
   vim.g.terminal_color_11 = p.yellow
   vim.g.terminal_color_12 = p.blue
-  vim.g.terminal_color_13 = p.purple
-  vim.g.terminal_color_14 = p.aqua
-  vim.g.terminal_color_15 = p.fg0
+  vim.g.terminal_color_13 = p.magenta
+  vim.g.terminal_color_14 = p.cyan
+  vim.g.terminal_color_15 = p.fg
 
   -- ==========================================================================
   -- Treesitter highlights
@@ -359,9 +327,9 @@ function M.setup()
   hl("TSStrong", { bold = true })
   hl("TSEmphasis", { italic = true })
   hl("TSUnderline", { underline = true })
-  hl("TSNote", { fg = p.bg0, bg = p.green, bold = true })
-  hl("TSWarning", { fg = p.bg0, bg = p.yellow, bold = true })
-  hl("TSDanger", { fg = p.bg0, bg = p.red, bold = true })
+  hl("TSNote", { fg = p.bg, bg = p.green, bold = true })
+  hl("TSWarning", { fg = p.bg, bg = p.yellow, bold = true })
+  hl("TSDanger", { fg = p.bg, bg = p.red, bold = true })
 
   -- Legacy TS* links
   link("TSAnnotation", "Purple")
@@ -390,9 +358,9 @@ function M.setup()
   link("TSInclude", "Red")
   link("TSKeyword", "Red")
   link("TSKeywordFunction", "Red")
-  link("TSKeywordOperator", "Orange")
+  link("TSKeywordOperator", "Yellow")
   link("TSKeywordReturn", "Red")
-  link("TSLabel", "Orange")
+  link("TSLabel", "Yellow")
   link("TSLiteral", "String")
   link("TSMath", "Blue")
   link("TSMethod", "GreenBold")
@@ -400,7 +368,7 @@ function M.setup()
   link("TSNamespace", "YellowItalic")
   link("TSNone", "Fg")
   link("TSNumber", "Purple")
-  link("TSOperator", "Orange")
+  link("TSOperator", "Yellow")
   link("TSParameter", "Fg")
   link("TSParameterReference", "Fg")
   link("TSPreProc", "PreProc")
@@ -409,15 +377,15 @@ function M.setup()
   link("TSPunctDelimiter", "Grey")
   link("TSPunctSpecial", "Blue")
   link("TSRepeat", "Red")
-  link("TSStorageClass", "Orange")
-  link("TSStorageClassLifetime", "Orange")
+  link("TSStorageClass", "Yellow")
+  link("TSStorageClassLifetime", "Yellow")
   link("TSStrike", "Grey")
   link("TSString", "Aqua")
   link("TSStringEscape", "Green")
   link("TSStringRegex", "Green")
   link("TSStringSpecial", "SpecialChar")
   link("TSSymbol", "Fg")
-  link("TSTag", "Orange")
+  link("TSTag", "Yellow")
   link("TSTagAttribute", "Green")
   link("TSTagDelimiter", "Green")
   link("TSText", "Green")
@@ -427,7 +395,7 @@ function M.setup()
   link("TSType", "YellowItalic")
   link("TSTypeBuiltin", "YellowItalic")
   link("TSTypeDefinition", "YellowItalic")
-  link("TSTypeQualifier", "Orange")
+  link("TSTypeQualifier", "Yellow")
   hl("TSURI", { fg = p.blue, underline = true })
   link("TSVariable", "Fg")
   link("TSVariableBuiltin", "PurpleItalic")
@@ -582,8 +550,8 @@ function M.setup()
   link("@lsp.type.typeParameter", "TSTypeDefinition")
   link("@lsp.type.variable", "TSVariable")
 
-  hl("DiagnosticUnnecessary", { fg = p.grey1 })
-  hl("DiagnosticDeprecated", { strikethrough = true, sp = p.fg0 })
+  hl("DiagnosticUnnecessary", { fg = p.dim })
+  hl("DiagnosticDeprecated", { strikethrough = true, sp = p.fg })
 
   link("TSModuleInfoGood", "Green")
   link("TSModuleInfoBad", "Red")
@@ -593,7 +561,7 @@ function M.setup()
   -- ==========================================================================
 
   -- nvim-treesitter-context
-  hl("TreesitterContext", { fg = p.fg1, bg = p.bg3 })
+  hl("TreesitterContext", { fg = p.fg, bg = p.bg_alt })
 
   -- github/copilot.vim
   link("CopilotSuggestion", "Grey")
@@ -615,7 +583,7 @@ function M.setup()
   link("CmpItemKindDefault", "Aqua")
   link("CmpItemKindEnum", "Yellow")
   link("CmpItemKindEnumMember", "Purple")
-  link("CmpItemKindEvent", "Orange")
+  link("CmpItemKindEvent", "Yellow")
   link("CmpItemKindField", "Green")
   link("CmpItemKindFile", "Green")
   link("CmpItemKindFolder", "Aqua")
@@ -629,7 +597,7 @@ function M.setup()
   link("CmpItemKindNull", "Aqua")
   link("CmpItemKindNumber", "Aqua")
   link("CmpItemKindObject", "Aqua")
-  link("CmpItemKindOperator", "Orange")
+  link("CmpItemKindOperator", "Yellow")
   link("CmpItemKindPackage", "Purple")
   link("CmpItemKindProperty", "Blue")
   link("CmpItemKindReference", "Aqua")
@@ -642,83 +610,6 @@ function M.setup()
   link("CmpItemKindValue", "Purple")
   link("CmpItemKindVariable", "Blue")
 
-  -- Saghen/blink.cmp
-  hl("BlinkCmpLabelMatch", { fg = p.green, bold = true })
-  link("BlinkCmpKindArray", "Aqua")
-  link("BlinkCmpKindBoolean", "Aqua")
-  link("BlinkCmpKindClass", "Red")
-  link("BlinkCmpKindColor", "Aqua")
-  link("BlinkCmpKindConstant", "Blue")
-  link("BlinkCmpKindConstructor", "Green")
-  link("BlinkCmpKindDefault", "Aqua")
-  link("BlinkCmpKindEnum", "Yellow")
-  link("BlinkCmpKindEnumMember", "Purple")
-  link("BlinkCmpKindEvent", "Orange")
-  link("BlinkCmpKindField", "Green")
-  link("BlinkCmpKindFile", "Green")
-  link("BlinkCmpKindFolder", "Aqua")
-  link("BlinkCmpKindFunction", "Green")
-  link("BlinkCmpKindInterface", "Yellow")
-  link("BlinkCmpKindKey", "Red")
-  link("BlinkCmpKindKeyword", "Red")
-  link("BlinkCmpKindMethod", "Green")
-  link("BlinkCmpKindModule", "Purple")
-  link("BlinkCmpKindNamespace", "Purple")
-  link("BlinkCmpKindNull", "Aqua")
-  link("BlinkCmpKindNumber", "Aqua")
-  link("BlinkCmpKindObject", "Aqua")
-  link("BlinkCmpKindOperator", "Orange")
-  link("BlinkCmpKindPackage", "Purple")
-  link("BlinkCmpKindProperty", "Blue")
-  link("BlinkCmpKindReference", "Aqua")
-  link("BlinkCmpKindSnippet", "Aqua")
-  link("BlinkCmpKindString", "Aqua")
-  link("BlinkCmpKindStruct", "Yellow")
-  link("BlinkCmpKindText", "Fg")
-  link("BlinkCmpKindTypeParameter", "Yellow")
-  link("BlinkCmpKindUnit", "Purple")
-  link("BlinkCmpKindValue", "Purple")
-  link("BlinkCmpKindVariable", "Blue")
-
-  -- SmiteshP/nvim-navic
-  link("NavicText", "Fg")
-  link("NavicSeparator", "Grey")
-  link("NavicIconsArray", "Aqua")
-  link("NavicIconsBoolean", "Aqua")
-  link("NavicIconsClass", "Red")
-  link("NavicIconsColor", "Aqua")
-  link("NavicIconsConstant", "Blue")
-  link("NavicIconsConstructor", "Green")
-  link("NavicIconsDefault", "Aqua")
-  link("NavicIconsEnum", "Yellow")
-  link("NavicIconsEnumMember", "Purple")
-  link("NavicIconsEvent", "Orange")
-  link("NavicIconsField", "Green")
-  link("NavicIconsFile", "Green")
-  link("NavicIconsFolder", "Aqua")
-  link("NavicIconsFunction", "Green")
-  link("NavicIconsInterface", "Yellow")
-  link("NavicIconsKey", "Red")
-  link("NavicIconsKeyword", "Red")
-  link("NavicIconsMethod", "Green")
-  link("NavicIconsModule", "Purple")
-  link("NavicIconsNamespace", "Purple")
-  link("NavicIconsNull", "Aqua")
-  link("NavicIconsNumber", "Aqua")
-  link("NavicIconsObject", "Aqua")
-  link("NavicIconsOperator", "Orange")
-  link("NavicIconsPackage", "Purple")
-  link("NavicIconsProperty", "Blue")
-  link("NavicIconsReference", "Aqua")
-  link("NavicIconsSnippet", "Aqua")
-  link("NavicIconsString", "Aqua")
-  link("NavicIconsStruct", "Yellow")
-  link("NavicIconsText", "Fg")
-  link("NavicIconsTypeParameter", "Yellow")
-  link("NavicIconsUnit", "Purple")
-  link("NavicIconsValue", "Purple")
-  link("NavicIconsVariable", "Blue")
-
   -- folke/trouble.nvim
   link("TroubleText", "Fg")
   link("TroubleSource", "Grey")
@@ -728,8 +619,8 @@ function M.setup()
 
   -- nvim-telescope/telescope.nvim
   hl("TelescopeMatching", { fg = p.green, bold = true })
-  link("TelescopeBorder", "Grey")
-  link("TelescopePromptPrefix", "Orange")
+  hl("TelescopeBorder", { fg = p.border })
+  link("TelescopePromptPrefix", "Yellow")
   link("TelescopeSelection", "DiffAdd")
 
   -- lewis6991/gitsigns.nvim
@@ -745,8 +636,8 @@ function M.setup()
   link("GitSignsCurrentLineBlame", "Grey")
 
   -- lukas-reineke/indent-blankline.nvim
-  hl("IblScope", { fg = p.grey1, nocombine = true })
-  hl("IblIndent", { fg = p.bg5, nocombine = true })
+  hl("IblScope", { fg = p.dim, nocombine = true })
+  hl("IblIndent", { fg = p.faint, nocombine = true })
   link("IndentBlanklineContextChar", "IblScope")
   link("IndentBlanklineChar", "IblIndent")
   link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
@@ -768,11 +659,11 @@ function M.setup()
   link("NvimTreeNormal", "Normal")
   link("NvimTreeNormalNC", "Normal")
   link("NvimTreeEndOfBuffer", "Normal")
-  hl("NvimTreeWinSeparator", { fg = p.grey0, bg = p.bg0 })
+  hl("NvimTreeWinSeparator", { fg = p.border, bg = p.bg })
   link("NvimTreeSymlink", "Fg")
   link("NvimTreeFolderName", "Green")
   link("NvimTreeRootFolder", "Grey")
-  link("NvimTreeFolderIcon", "Orange")
+  link("NvimTreeFolderIcon", "Yellow")
   link("NvimTreeEmptyFolderName", "Green")
   link("NvimTreeOpenedFolderName", "Green")
   link("NvimTreeExecFile", "Fg")
@@ -782,7 +673,7 @@ function M.setup()
   link("NvimTreeIndentMarker", "Grey")
   link("NvimTreeGitDirtyIcon", "Yellow")
   link("NvimTreeGitStagedIcon", "Blue")
-  link("NvimTreeGitMergeIcon", "Orange")
+  link("NvimTreeGitMergeIcon", "Yellow")
   link("NvimTreeGitRenamedIcon", "Purple")
   link("NvimTreeGitNewIcon", "Aqua")
   link("NvimTreeGitDeletedIcon", "Red")
@@ -791,21 +682,12 @@ function M.setup()
   link("NvimTreeLspDiagnosticsInformation", "BlueSign")
   link("NvimTreeLspDiagnosticsHint", "PurpleSign")
 
-  -- HiPhish/rainbow-delimiters.nvim
-  link("RainbowDelimiterRed", "Red")
-  link("RainbowDelimiterOrange", "Orange")
-  link("RainbowDelimiterYellow", "Yellow")
-  link("RainbowDelimiterGreen", "Green")
-  link("RainbowDelimiterCyan", "Aqua")
-  link("RainbowDelimiterBlue", "Blue")
-  link("RainbowDelimiterViolet", "Purple")
-
   -- diff
   link("diffAdded", "Green")
   link("diffRemoved", "Red")
   link("diffChanged", "Blue")
   link("diffFile", "Aqua")
-  link("diffOldFile", "Orange")
+  link("diffOldFile", "Yellow")
   link("diffNewFile", "Yellow")
   link("diffIndexLine", "Purple")
   link("diffLine", "Grey")
@@ -816,14 +698,14 @@ function M.setup()
 
   -- markdown
   hl("markdownH1", { fg = p.red, bold = true })
-  hl("markdownH2", { fg = p.orange, bold = true })
+  hl("markdownH2", { fg = p.yellow, bold = true })
   hl("markdownH3", { fg = p.yellow, bold = true })
   hl("markdownH4", { fg = p.green, bold = true })
   hl("markdownH5", { fg = p.blue, bold = true })
-  hl("markdownH6", { fg = p.purple, bold = true })
+  hl("markdownH6", { fg = p.magenta, bold = true })
   hl("markdownItalic", { italic = true })
   hl("markdownBold", { bold = true })
-  hl("markdownItalicDelimiter", { fg = p.grey1, italic = true })
+  hl("markdownItalicDelimiter", { fg = p.dim, italic = true })
   link("markdownUrl", "TSURI")
   link("markdownCode", "Green")
   link("markdownCodeBlock", "Aqua")
@@ -862,7 +744,7 @@ function M.setup()
   link("luaTable", "Fg")
   link("luaIn", "RedItalic")
   link("luaFuncCall", "GreenBold")
-  link("luaLocal", "Orange")
+  link("luaLocal", "Yellow")
   link("luaSpecialValue", "GreenBold")
   link("luaBraces", "Fg")
   link("luaBuiltIn", "Purple")
@@ -870,7 +752,7 @@ function M.setup()
   link("luaLabel", "Purple")
   link("luaFuncTable", "Yellow")
   link("luaFuncArgName", "Blue")
-  link("luaEllipsis", "Orange")
+  link("luaEllipsis", "Yellow")
   link("luaDocTag", "Green")
   link("luaTSConstructor", "luaBraces")
   link("@constructor.lua", "luaTSConstructor")
@@ -878,7 +760,7 @@ function M.setup()
   -- go
   link("goPackage", "Define")
   link("goImport", "Include")
-  link("goVar", "OrangeItalic")
+  link("goVar", "YellowItalic")
   link("goConst", "goVar")
   link("goType", "Yellow")
   link("goSignedInts", "goType")
@@ -886,7 +768,7 @@ function M.setup()
   link("goFloats", "goType")
   link("goComplexes", "goType")
   link("goVarDefs", "Aqua")
-  link("goDeclType", "OrangeItalic")
+  link("goDeclType", "YellowItalic")
   link("goFunctionCall", "Function")
   link("goPredefinedIdentifiers", "Aqua")
   link("goBuiltins", "GreenBold")
@@ -907,32 +789,29 @@ function M.setup()
   link("NeotestFile", "Blue")
   link("NeotestDir", "Directory")
   link("NeotestIndent", "NonText")
-  hl("NeotestExpandMarker", { fg = p.bg5 })
+  hl("NeotestExpandMarker", { fg = p.faint })
   link("NeotestAdapterName", "Red")
-  link("NeotestMarked", "Orange")
+  link("NeotestMarked", "Yellow")
   link("NeotestTarget", "Red")
 
   -- lazy.nvim
   link("LazyNormal", "Normal")
-  hl("LazyH1", { fg = p.bg0, bg = p.red, bold = true })
-  hl("LazyH2", { fg = p.orange, bold = true })
-  hl("LazyButton", { fg = p.fg1, bg = p.bg_statusline3 })
-  hl("LazyButtonActive", { fg = p.bg0, bg = p.grey2, bold = true })
+  hl("LazyH1", { fg = p.bg, bg = p.red, bold = true })
+  hl("LazyH2", { fg = p.yellow, bold = true })
+  hl("LazyButton", { fg = p.fg, bg = p.bg_alt })
+  hl("LazyButtonActive", { fg = p.bg, bg = p.fg_alt, bold = true })
 
   -- mason
-  hl("MasonHeader", { fg = p.bg0, bg = p.red, bold = true })
-  hl("MasonHeaderSecondary", { fg = p.bg0, bg = p.orange, bold = true })
+  hl("MasonHeader", { fg = p.bg, bg = p.red, bold = true })
+  hl("MasonHeaderSecondary", { fg = p.bg, bg = p.yellow, bold = true })
   link("MasonHighlight", "Green")
   link("MasonHighlightSecondary", "Yellow")
-  hl("MasonHighlightBlock", { fg = p.bg0, bg = p.orange })
-  hl("MasonHighlightBlockBold", { fg = p.bg0, bg = p.orange, bold = true })
-  hl("MasonHighlightBlockSecondary", { fg = p.bg0, bg = p.red })
-  hl(
-    "MasonHighlightBlockBoldSecondary",
-    { fg = p.bg0, bg = p.red, bold = true }
-  )
-  hl("MasonMuted", { fg = p.grey0 })
-  hl("MasonMutedBlock", { fg = p.bg0, bg = p.grey0 })
+  hl("MasonHighlightBlock", { fg = p.bg, bg = p.yellow })
+  hl("MasonHighlightBlockBold", { fg = p.bg, bg = p.yellow, bold = true })
+  hl("MasonHighlightBlockSecondary", { fg = p.bg, bg = p.red })
+  hl("MasonHighlightBlockBoldSecondary", { fg = p.bg, bg = p.red, bold = true })
+  hl("MasonMuted", { fg = p.dim })
+  hl("MasonMutedBlock", { fg = p.bg, bg = p.dim })
 end
 
 return M

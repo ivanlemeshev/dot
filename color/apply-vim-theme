@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+
+import os
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom.vim>", file=sys.stderr)
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+vim_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2).lower().lstrip("#")
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+
+def hex_to_rgb(h):
+    return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))
+
+
+def rgb_to_hex(r, g, b):
+    return f"{int(round(r)):02x}{int(round(g)):02x}{int(round(b)):02x}"
+
+
+def lighten(h, amount):
+    r, g, b = hex_to_rgb(h)
+    return rgb_to_hex(min(255, r + amount), min(255, g + amount), min(255, b + amount))
+
+
+def blend(h1, h2, ratio):
+    r1, g1, b1 = hex_to_rgb(h1)
+    r2, g2, b2 = hex_to_rgb(h2)
+    return rgb_to_hex(
+        r1 + ratio * (r2 - r1),
+        g1 + ratio * (g2 - g1),
+        b1 + ratio * (b2 - b1),
+    )
+
+
+bg = colors["background"]
+fg = colors["foreground"]
+bblack = colors["brightBlack"]
+bwhite = colors["brightWhite"]
+red = colors["red"]
+yellow = colors["yellow"]
+
+# base16 palette derived from color-scheme.yaml
+palette = {
+    "gui00": bg,  # background
+    "gui01": lighten(bg, 0x10),  # lighter background
+    "gui02": lighten(bg, 0x20),  # selection background
+    "gui03": blend(
+        bg, fg, 0.47
+    ),  # comments / line numbers (bg→fg 47%, clearly readable)
+    "gui04": blend(bg, fg, 0.55),  # dark foreground / borders (bg→fg 55%)
+    "gui05": fg,  # default foreground
+    "gui06": blend(fg, bwhite, 0.5),  # light foreground
+    "gui07": bwhite,  # bright white
+    "gui08": colors["red"],  # red
+    "gui09": blend(red, yellow, 0.3),  # orange (derived)
+    "gui0A": colors["yellow"],  # yellow
+    "gui0B": colors["green"],  # green
+    "gui0C": colors["cyan"],  # cyan
+    "gui0D": colors["blue"],  # blue
+    "gui0E": colors["magenta"],  # magenta
+    "gui0F": blend(bg, red, 0.7),  # brown / dark red (derived)
+    "gui_faint": lighten(
+        bg, 20
+    ),  # non-printable chars: whitespace, special keys, non-text (barely visible)
+    "gui_border": bblack,  # split borders — matches tmux pane border (brightBlack)
+}
+
+with open(vim_file) as f:
+    content = f.read()
+
+for slot, hex_val in palette.items():
+    # Replace: let s:gui0A        = "XXXXXX"
+    content = re.sub(
+        rf'(let s:{re.escape(slot)}\s+=\s+)"[0-9a-fA-F]{{6}}"',
+        rf'\g<1>"{hex_val}"',
+        content,
+    )
+    # Replace: let g:base16_gui0A = "XXXXXX"
+    content = re.sub(
+        rf'(let g:base16_{re.escape(slot)}\s+=\s+)"[0-9a-fA-F]{{6}}"',
+        rf'\g<1>"{hex_val}"',
+        content,
+    )
+
+dir_ = os.path.dirname(os.path.abspath(vim_file))
+with tempfile.NamedTemporaryFile(
+    mode="w", dir=dir_, delete=False, suffix=".tmp", encoding="utf-8"
+) as tmp:
+    tmp_path = tmp.name
+    tmp.write(content)
+os.replace(tmp_path, vim_file)
+print(f"Updated {vim_file}")

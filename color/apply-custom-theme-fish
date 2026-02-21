@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+import os
+import re
+import sys
+import tempfile
+
+if len(sys.argv) < 3:
+    print(
+        f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom_theme.fish>", file=sys.stderr
+    )
+    sys.exit(1)
+
+yaml_file = sys.argv[1]
+fish_file = sys.argv[2]
+
+# Parse hex: section from YAML
+colors = {}
+in_hex = False
+with open(yaml_file) as f:
+    for line in f:
+        if line.strip() == "hex:":
+            in_hex = True
+            continue
+        if in_hex:
+            if line and not line.startswith(" "):
+                break
+            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
+            if m:
+                colors[m.group(1)] = m.group(2).lstrip("#").lower()
+
+if not colors:
+    print("No hex: section found in YAML", file=sys.stderr)
+    sys.exit(1)
+
+# fish variable -> YAML color name
+# Format in file: set -l <var>    <hex6>   (bare hex, no #)
+palette = {
+    "bg0": "background",
+    "bg1": "brightBlack",
+    "fg0": "foreground",
+    "fg1": "brightWhite",
+    "red": "red",
+    "yellow": "yellow",
+    "green": "green",
+    "blue": "blue",
+    "magenta": "magenta",
+    "cyan": "cyan",
+}
+
+with open(fish_file) as f:
+    content = f.read()
+
+for fish_var, yaml_key in palette.items():
+    content = re.sub(
+        rf"^(set -l {fish_var}\s+)[0-9a-fA-F]{{6}}$",
+        rf"\g<1>{colors[yaml_key]}",
+        content,
+        flags=re.MULTILINE,
+    )
+
+dir_ = os.path.dirname(os.path.abspath(fish_file))
+with tempfile.NamedTemporaryFile(
+    mode="w", dir=dir_, delete=False, suffix=".tmp", encoding="utf-8"
+) as tmp:
+    tmp_path = tmp.name
+    tmp.write(content)
+os.replace(tmp_path, fish_file)
+print(f"Updated {fish_file}")

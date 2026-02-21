@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#819b69",
+          "foreground": "#90a959",
           "options": {
             "alpine": "",
             "arch": "",
@@ -24,23 +24,23 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ .Icon }}<#3d3839> | </>",
+          "template": " {{ .Icon }}<#505050> | </>",
           "type": "os"
         },
         {
-          "foreground": "#bbbbbb",
+          "foreground": "#d0d0d0",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#6099c0>{{ .UserName }}</><#b77e64>󰁥</></>{{ end }}<#66a5ad>{{ .HostName }}</><#3d3839> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#6a9fb5>{{ .UserName }}</><#f4bf75>󰁥</></>{{ end }}<#75b5aa>{{ .HostName }}</><#505050> | </>",
           "type": "session"
         },
         {
-          "foreground": "#b77e64",
+          "foreground": "#f4bf75",
           "style": "plain",
-          "template": "󱐋<#3d3839> | </>",
+          "template": "󱐋<#505050> | </>",
           "type": "root"
         },
         {
-          "foreground": "#bbbbbb",
+          "foreground": "#d0d0d0",
           "options": {
             "style": "full"
           },
@@ -49,11 +49,11 @@
           "type": "path"
         },
         {
-          "foreground": "#b77e64",
+          "foreground": "#f4bf75",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d68c67{{ end }}",
-            "{{ if gt .Ahead 0 }}#66a5ad{{ end }}",
-            "{{ if gt .Behind 0 }}#b279a7{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#f4bf75{{ end }}",
+            "{{ if gt .Ahead 0 }}#75b5aa{{ end }}",
+            "{{ if gt .Behind 0 }}#aa759f{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -61,7 +61,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#3d3839>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#de6e7c> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#819b69>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<#505050>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ac4142> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#90a959>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -71,7 +71,7 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#819b69",
+          "foreground": "#90a959",
           "options": {
             "time_format": "15:04:05"
           },
@@ -87,7 +87,7 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#bbbbbb",
+          "foreground": "#d0d0d0",
           "style": "plain",
           "template": "$",
           "type": "text"
@@ -99,18 +99,20 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#b77e64",
+          "foreground": "#f4bf75",
           "options": {
             "style": "roundrock",
             "threshold": 500
           },
           "style": "plain",
-          "template": " {{ .FormattedMs }}<#bbbbbb>  </>",
+          "template": " {{ .FormattedMs }}<#d0d0d0>  </>",
           "type": "executiontime"
         },
         {
-          "foreground": "#819b69",
-          "foreground_templates": ["{{ if gt .Code 0 }}#de6e7c{{ end }}"],
+          "foreground": "#90a959",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#ac4142{{ end }}"
+          ],
           "options": {
             "always_enabled": true
           },

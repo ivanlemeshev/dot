@@ -54,7 +54,7 @@
   ],
   "profiles": {
     "defaults": {
-      "colorScheme": "Custom Dark",
+      "colorScheme": "Custom",
       "cursorShape": "filledBox",
       "font": {
         "builtinGlyphs": true,
@@ -73,7 +73,7 @@
         "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
         "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
         "hidden": false,
-        "icon": "\u26a1",
+        "icon": "⚡",
         "name": "Windows PowerShell",
         "startingDirectory": "%USERPROFILE%"
       },
@@ -81,7 +81,7 @@
         "commandline": "%SystemRoot%\\System32\\cmd.exe",
         "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
         "hidden": false,
-        "icon": "\ud83d\udc1a",
+        "icon": "🐚",
         "name": "Command Prompt",
         "startingDirectory": "%USERPROFILE%"
       },
@@ -89,48 +89,48 @@
         "commandline": "wsl.exe -d Ubuntu --cd ~",
         "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
         "hidden": false,
-        "icon": "\ud83d\udc27",
+        "icon": "🐧",
         "name": "Ubuntu"
       }
     ]
   },
   "schemes": [
     {
-      "background": "#191919",
-      "black": "#191919",
-      "blue": "#6099C0",
-      "brightBlack": "#3D3839",
-      "brightBlue": "#61ABDA",
-      "brightCyan": "#65B8C1",
-      "brightGreen": "#8BAE68",
-      "brightPurple": "#CF86C1",
-      "brightRed": "#F07786",
-      "brightWhite": "#8E8E8E",
-      "brightYellow": "#CDB46B",
-      "cursorColor": "#C9C9C9",
-      "cyan": "#66A5AD",
-      "foreground": "#BBBBBB",
-      "green": "#819B69",
-      "name": "Custom Dark",
-      "purple": "#B279A7",
-      "red": "#DE6E7C",
-      "selectionBackground": "#404040",
-      "white": "#BBBBBB",
-      "yellow": "#B3A06A"
+      "background": "#151515",
+      "black": "#151515",
+      "blue": "#6A9FB5",
+      "brightBlack": "#505050",
+      "brightBlue": "#6A9FB5",
+      "brightCyan": "#75B5AA",
+      "brightGreen": "#90A959",
+      "brightPurple": "#AA759F",
+      "brightRed": "#AC4142",
+      "brightWhite": "#F5F5F5",
+      "brightYellow": "#F4BF75",
+      "cursorColor": "#D0D0D0",
+      "cyan": "#75B5AA",
+      "foreground": "#D0D0D0",
+      "green": "#90A959",
+      "name": "Custom",
+      "purple": "#AA759F",
+      "red": "#AC4142",
+      "selectionBackground": "#505050",
+      "white": "#D0D0D0",
+      "yellow": "#F4BF75"
     }
   ],
   "themes": [
     {
       "name": "Custom Dark",
       "tab": {
-        "background": "#191919FF",
+        "background": "#151515FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#191919FF",
-        "unfocusedBackground": "#191919FF"
+        "background": "#151515FF",
+        "unfocusedBackground": "#151515FF"
       },
       "window": {
         "applicationTheme": "dark",
