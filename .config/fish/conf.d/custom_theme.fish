@@ -1,16 +1,16 @@
 # Custom theme for fish shell
 
 # --- Custom palette ---
-set -l bg0     181616
-set -l bg1     a6a69c
-set -l fg0     c5c9c5
-set -l fg1     c5c9c5
-set -l red     c4746e
-set -l yellow  c4b28a
-set -l green   8a9a7b
-set -l blue    8ba4b1
-set -l magenta a292a3
-set -l cyan    8ea4a2
+set -l bg0     151515
+set -l bg1     505050
+set -l fg0     d0d0d0
+set -l fg1     f5f5f5
+set -l red     ac4142
+set -l yellow  f4bf75
+set -l green   90a959
+set -l blue    6a9fb5
+set -l magenta aa759f
+set -l cyan    75b5aa
 
 # --- Syntax highlighting ---
 set -Ux fish_color_normal         $fg0
