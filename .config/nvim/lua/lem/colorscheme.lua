@@ -73,7 +73,7 @@ function M.setup()
 
   -- LineNr: ui_contrast=low, sign_column_background=none
   hl("LineNr", { fg = p.muted })
-  hl("CursorLineNr", { fg = p.dim })
+  hl("CursorLineNr", { fg = p.fg, bold = true })
 
   hl("DiffAdd", { fg = p.green })
   hl("DiffChange", { fg = p.blue })
