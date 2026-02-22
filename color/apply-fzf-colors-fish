@@ -33,25 +33,41 @@ if not colors:
     print("No hex: section found in YAML", file=sys.stderr)
     sys.exit(1)
 
-# fish variable -> YAML color name
-# Format in file: set -l <var>    "#<HEX>"
+
+def hex_to_rgb(h):
+    h = h.lstrip("#")
+    return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))
+
+
+def rgb_to_hex(r, g, b):
+    return f"#{int(round(r)):02X}{int(round(g)):02X}{int(round(b)):02X}"
+
+
+def lighten(h, amount):
+    r, g, b = hex_to_rgb(h)
+    return rgb_to_hex(min(255, r + amount), min(255, g + amount), min(255, b + amount))
+
+
+# fish variable -> resolved hex color
+# bg1 is computed (cursor line color), matching apply-nvim-theme's bg_alt = lighten(bg, 0x10)
 palette = {
-    "fg0": "foreground",
-    "bg0": "background",
-    "bg1": "brightBlack",
-    "red": "red",
-    "yellow": "yellow",
-    "green": "green",
-    "magenta": "magenta",
+    "fg0": colors["foreground"],
+    "bg0": colors["background"],
+    "bg1": lighten(colors["background"], 0x10),
+    "bg2": colors["brightBlack"],
+    "red": colors["red"],
+    "yellow": colors["yellow"],
+    "green": colors["green"],
+    "magenta": colors["magenta"],
 }
 
 with open(fish_file) as f:
     content = f.read()
 
-for fish_var, yaml_key in palette.items():
+for fish_var, hex_val in palette.items():
     content = re.sub(
         rf'^(set -l {fish_var}\s+)"#[0-9a-fA-F]{{6}}"',
-        rf'\g<1>"{colors[yaml_key]}"',
+        rf'\g<1>"{hex_val}"',
         content,
         flags=re.MULTILINE,
     )

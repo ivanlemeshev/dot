@@ -23,6 +23,7 @@ M.config = vim.deepcopy(defaults)
 --- Terminal state
 local terminal_buf = nil
 local terminal_win = nil
+local backdrop_win = nil
 
 --- Setup the terminal module with custom configuration
 ---@param config? LemTerminalConfig Custom configuration options
@@ -44,6 +45,10 @@ function M.toggle()
       vim.api.nvim_win_close(terminal_win, true)
     end
     terminal_win = nil
+    if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
+      vim.api.nvim_win_close(backdrop_win, true)
+    end
+    backdrop_win = nil
     return
   end
 
@@ -57,6 +62,20 @@ function M.toggle()
   local width = math.floor(vim.o.columns * M.config.width_percent)
   local height = math.floor(vim.o.lines * M.config.height_percent)
 
+  -- Backdrop behind the terminal window
+  backdrop_win = vim.api.nvim_open_win(vim.api.nvim_create_buf(false, true), false, {
+    relative = "editor",
+    width = vim.o.columns,
+    height = vim.o.lines,
+    row = 0,
+    col = 0,
+    style = "minimal",
+    focusable = false,
+    zindex = 49,
+  })
+  vim.wo[backdrop_win].winhighlight = "Normal:TerminalBackdrop"
+  vim.wo[backdrop_win].winblend = 60
+
   terminal_win = vim.api.nvim_open_win(terminal_buf, true, {
     relative = "editor",
     width = width,
@@ -64,7 +83,7 @@ function M.toggle()
     col = math.floor((vim.o.columns - width) / 2),
     row = math.floor((vim.o.lines - height) / 2),
     style = "minimal",
-    border = "rounded",
+    border = "single",
   })
 
   vim.wo[terminal_win].winhighlight = "NormalFloat:Normal"
@@ -101,6 +120,10 @@ function M.setup_keymaps()
     if is_terminal_open() and terminal_win then
       vim.api.nvim_win_close(terminal_win, true)
       terminal_win = nil
+      if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
+        vim.api.nvim_win_close(backdrop_win, true)
+      end
+      backdrop_win = nil
     end
   end, { noremap = true, silent = true, desc = "Terminal: close" })
 
@@ -123,6 +146,10 @@ function M.setup_keymaps()
             if is_terminal_open() and terminal_win then
               vim.api.nvim_win_close(terminal_win, true)
               terminal_win = nil
+              if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
+                vim.api.nvim_win_close(backdrop_win, true)
+              end
+              backdrop_win = nil
             end
           end)
         end
