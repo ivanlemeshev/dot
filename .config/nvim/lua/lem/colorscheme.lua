@@ -803,6 +803,8 @@ function M.setup()
   hl("LazyH2", { fg = p.yellow, bold = true })
   hl("LazyButton", { fg = p.fg, bg = p.bg_alt })
   hl("LazyButtonActive", { fg = p.bg, bg = p.fg_alt, bold = true })
+  hl("LazyProp", { fg = p.dim })
+  hl("LazyCommit", { fg = p.cyan })
 
   -- mason
   hl("MasonHeader", { fg = p.bg, bg = p.red, bold = true })
