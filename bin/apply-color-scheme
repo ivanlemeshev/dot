@@ -5,7 +5,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 COLOR_DIR="$PROJECT_ROOT/color"
-YAML="$COLOR_DIR/color-scheme.yaml"
+
+YAML="${1:-$COLOR_DIR/color-scheme.default.yaml}"
+if [[ ! -f "$YAML" ]]; then
+  echo "Error: Color scheme YAML file not found at $YAML"
+  echo "Usage: $0 [path/to/theme.yaml]"
+  exit 1
+fi
+
+echo "Applying theme: $YAML"
 
 FISH_DIR="$PROJECT_ROOT/.config/fish/conf.d"
 

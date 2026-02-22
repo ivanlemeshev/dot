@@ -91,7 +91,9 @@
         },
         {
           "foreground": "#90a959",
-          "foreground_templates": ["{{ if gt .Code 0 }}#ac4142{{ end }}"],
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#ac4142{{ end }}"
+          ],
           "options": {
             "always_enabled": true
           },
