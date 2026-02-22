@@ -1,4 +1,4 @@
---- *lem.ruler* Customizable vertical ruler for Neovim
+--- *lem.ruler* Vertical ruler using colorcolumn for Neovim
 ---
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 
@@ -11,7 +11,6 @@ local M = {}
 ---@class LemRulerConfig
 ---@field enabled? boolean Enable ruler by default (default: true)
 ---@field columns? number[] Column positions where to draw the ruler (default: { 80 })
----@field char? string Character to use for the ruler line (default: "│")
 ---@field exclude_filetypes? string[] Filetypes to exclude from ruler
 ---@field exclude_buftypes? string[] Buffer types to exclude from ruler
 ---@field filetype_config? table<string, LemRulerFiletypeConfig> Filetype-specific configuration
@@ -20,7 +19,6 @@ local M = {}
 local defaults = {
   enabled = true,
   columns = { 80 },
-  char = "│",
   filetype_config = {},
   exclude_filetypes = {},
   exclude_buftypes = {},
@@ -30,13 +28,11 @@ local defaults = {
 ---@type LemRulerConfig
 M.config = vim.deepcopy(defaults)
 
-local ns_id = vim.api.nvim_create_namespace("lem_ruler")
 local AUGROUP_NAME = "LemRuler"
 
 --- Setup the ruler module with custom configuration
 ---@param config? LemRulerConfig Custom configuration options
 function M.setup(config)
-  -- Merge into a fresh copy of defaults to prevent state pollution
   M.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), config or {})
 
   if M.config.enabled then
@@ -48,91 +44,59 @@ end
 
 --- Enable the ruler and its autocommands
 function M.enable()
-  local update_events =
-    { "BufEnter", "WinScrolled", "TextChanged", "TextChangedI", "ModeChanged" }
-
-  vim.api.nvim_create_autocmd(update_events, {
+  vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter", "ModeChanged" }, {
     group = vim.api.nvim_create_augroup(AUGROUP_NAME, { clear = true }),
     callback = function()
-      M.draw()
+      M.apply()
     end,
   })
 
-  M.draw()
+  M.apply()
 end
 
---- Disable the ruler, clear marks, and remove autocommands
+--- Disable the ruler and clear colorcolumn
 function M.disable()
-  local buf = vim.api.nvim_get_current_buf()
-
-  -- Delete the augroup to clean up memory
   pcall(vim.api.nvim_del_augroup_by_name, AUGROUP_NAME)
-
-  -- Clear all marks in the current buffer
-  vim.api.nvim_buf_clear_namespace(buf, ns_id, 0, -1)
+  vim.wo.colorcolumn = ""
 end
 
---- Draw the ruler in the current buffer
-function M.draw()
-  local win = vim.api.nvim_get_current_win()
+--- Apply colorcolumn to the current window based on filetype/buftype/mode
+function M.apply()
   local buf = vim.api.nvim_get_current_buf()
   local buftype = vim.bo[buf].buftype
   local filetype = vim.bo[buf].filetype
-  local mode = vim.fn.mode()
 
-  -- Skip if it's a floating window (ToggleTerm, Telescope, etc.)
-  local win_config = vim.api.nvim_win_get_config(win)
-  if win_config.relative ~= "" then
-    return
-  end
-
-  -- Clear existing rulers first
-  vim.api.nvim_buf_clear_namespace(buf, ns_id, 0, -1)
-
-  -- Validations
   if vim.tbl_contains(M.config.exclude_buftypes, buftype) then
-    return
-  end
-  if vim.tbl_contains(M.config.exclude_filetypes, filetype) then
+    vim.wo.colorcolumn = ""
     return
   end
 
-  -- Check filetype-specific mode exclusions
+  if vim.tbl_contains(M.config.exclude_filetypes, filetype) then
+    vim.wo.colorcolumn = ""
+    return
+  end
+
   local ft_config = M.config.filetype_config[filetype]
+
   if ft_config and ft_config.exclude_modes then
-    if vim.tbl_contains(ft_config.exclude_modes, mode) then
+    if vim.tbl_contains(ft_config.exclude_modes, vim.fn.mode()) then
+      vim.wo.colorcolumn = ""
       return
     end
   end
 
-  local top = vim.fn.line("w0")
-  local bot = vim.fn.line("w$")
   local columns = (ft_config and ft_config.columns) or M.config.columns
 
-  -- Ensure columns is a table
-  if not columns or type(columns) ~= "table" then
+  if not columns or #columns == 0 then
+    vim.wo.colorcolumn = ""
     return
   end
 
-  for line = top, bot do
-    local line_text = vim.api.nvim_buf_get_lines(buf, line - 1, line, false)[1]
-      or ""
-
-    -- Use strdisplaywidth to correctly handle Tabs and Multi-byte characters
-    local visual_width = vim.fn.strdisplaywidth(line_text)
-
-    for _, col in ipairs(columns) do
-      if visual_width < col then
-        vim.api.nvim_buf_set_extmark(buf, ns_id, line - 1, 0, {
-          virt_text = { { M.config.char, "NonText" } },
-          virt_text_pos = "overlay",
-          virt_text_win_col = col - 1,
-          hl_mode = "combine",
-          priority = 1, -- Low priority so diagnostics appear on top
-        })
-      end
-    end
+  local shifted = {}
+  for _, col in ipairs(columns) do
+    shifted[#shifted + 1] = tostring(col + 1)
   end
+  vim.wo.colorcolumn = table.concat(shifted, ",")
 end
 
 return M
