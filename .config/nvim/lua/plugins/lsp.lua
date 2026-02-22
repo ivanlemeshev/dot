@@ -69,12 +69,9 @@ return {
           vim.lsp.buf.declaration,
           { desc = "LSP: goto declaration", buffer = buf, silent = true }
         )
-        map(
-          "n",
-          "K",
-          vim.lsp.buf.hover,
-          { desc = "LSP: hover documentation", buffer = buf, silent = true }
-        )
+        map("n", "K", function()
+          vim.lsp.buf.hover({ border = "single" })
+        end, { desc = "LSP: hover documentation", buffer = buf, silent = true })
         map(
           "n",
           "grn",

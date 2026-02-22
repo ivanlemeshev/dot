@@ -120,8 +120,8 @@ function M.setup()
   hl("TabLine", { fg = p.fg, bg = p.bg_alt })
   hl("TabLineFill", { fg = p.fg, bg = p.bg_alt })
   hl("TabLineSel", { fg = p.bg, bg = p.fg_alt })
-  hl("WinBar", { fg = p.fg, bg = p.bg_alt, bold = true })
-  hl("WinBarNC", { fg = p.dim, bg = p.bg_alt })
+  hl("WinBar", { fg = p.fg, bg = p.bg, bold = true })
+  hl("WinBarNC", { fg = p.dim, bg = p.bg })
 
   -- VertSplit / WinSeparator
   hl("VertSplit", { fg = p.border })
@@ -654,6 +654,9 @@ function M.setup()
   link("WhichKeySeperator", "Green")
   link("WhichKeyGroup", "Yellow")
   link("WhichKeyDesc", "Blue")
+
+  -- lem.terminal backdrop
+  hl("TerminalBackdrop", { bg = p.bg })
 
   -- nvim-tree/nvim-tree.lua
   link("NvimTreeNormal", "Normal")

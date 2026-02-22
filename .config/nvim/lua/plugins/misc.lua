@@ -9,7 +9,7 @@ return {
         mappings = false,
       },
       win = {
-        border = "rounded",
+        border = "single",
       },
     },
   },

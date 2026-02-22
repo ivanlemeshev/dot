@@ -13,6 +13,7 @@ return {
 
     require("telescope").setup({
       defaults = {
+        borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         layout_strategy = "vertical",
         -- See :help telescope.defaults.vimgrep_arguments
         vimgrep_arguments = {
