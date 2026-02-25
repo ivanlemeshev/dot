@@ -4,15 +4,15 @@
 # place instead of hunting through hundreds of entries.
 
 # --- Custom palette (RGB values) ---
-set -l fg0    "208;208;208"  # #d0d0d0
-set -l bg0    "21;21;21"     # #151515
-set -l red    "172;65;66"  # #ac4142
-set -l green  "144;169;89"  # #90a959
-set -l yellow "244;191;117"  # #f4bf75
-set -l blue   "106;159;181"  # #6a9fb5
-set -l magenta "170;117;159"  # #aa759f
-set -l cyan "117;181;170"  # #75b5aa
-set -l dim    "80;80;80"  # #505050
+set -l fg0    "209;209;199"  # #d1d1c7
+set -l bg0    "24;22;22"     # #181616
+set -l red    "201;101;94"  # #c9655e
+set -l green  "139;163;124"  # #8ba37c
+set -l yellow "209;179;125"  # #d1b37d
+set -l blue   "125;166;184"  # #7da6b8
+set -l magenta "169;147;168"  # #a993a8
+set -l cyan "135;163;161"  # #87a3a1
+set -l dim    "138;138;129"  # #8a8a81
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal
