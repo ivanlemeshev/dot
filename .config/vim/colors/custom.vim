@@ -13,57 +13,57 @@ set background=dark
 " ==========================================================================
 
 " base00 - background
-let s:gui00        = "151515"
-let g:base16_gui00 = "151515"
+let s:gui00        = "181616"
+let g:base16_gui00 = "181616"
 " base01 - lighter background (cursor line, statusline, pmenu)
-let s:gui01        = "252525"
-let g:base16_gui01 = "252525"
+let s:gui01        = "282626"
+let g:base16_gui01 = "282626"
 " base02 - selection / visual background
-let s:gui02        = "353535"
-let g:base16_gui02 = "353535"
+let s:gui02        = "383636"
+let g:base16_gui02 = "383636"
 " base03 - comments, line numbers, faded
-let s:gui03        = "6d6d6d"
-let g:base16_gui03 = "6d6d6d"
+let s:gui03        = "6f6e69"
+let g:base16_gui03 = "6f6e69"
 " base04 - dark foreground (inactive UI, borders)
-let s:gui04        = "7c7c7c"
-let g:base16_gui04 = "7c7c7c"
+let s:gui04        = "7e7d77"
+let g:base16_gui04 = "7e7d77"
 " base05 - default foreground
-let s:gui05        = "d0d0d0"
-let g:base16_gui05 = "d0d0d0"
+let s:gui05        = "d1d1c7"
+let g:base16_gui05 = "d1d1c7"
 " base06 - light foreground (selected item backgrounds)
-let s:gui06        = "e2e2e2"
-let g:base16_gui06 = "e2e2e2"
+let s:gui06        = "d7d6ca"
+let g:base16_gui06 = "d7d6ca"
 " base07 - bright white
-let s:gui07        = "f5f5f5"
-let g:base16_gui07 = "f5f5f5"
+let s:gui07        = "dddacc"
+let g:base16_gui07 = "dddacc"
 " base08 - red (errors, diff deleted, keywords: return/if/for)
-let s:gui08        = "ac4142"
-let g:base16_gui08 = "ac4142"
+let s:gui08        = "c9655e"
+let g:base16_gui08 = "c9655e"
 " base09 - orange (integers, booleans, constants)
-let s:gui09        = "c26751"
-let g:base16_gui09 = "c26751"
+let s:gui09        = "cb7c67"
+let g:base16_gui09 = "cb7c67"
 " base0A - yellow (types, search background, operators)
-let s:gui0A        = "f4bf75"
-let g:base16_gui0A = "f4bf75"
+let s:gui0A        = "d1b37d"
+let g:base16_gui0A = "d1b37d"
 " base0B - green (strings, diff added, success)
-let s:gui0B        = "90a959"
-let g:base16_gui0B = "90a959"
+let s:gui0B        = "8ba37c"
+let g:base16_gui0B = "8ba37c"
 " base0C - cyan (support, regex, escape characters)
-let s:gui0C        = "75b5aa"
-let g:base16_gui0C = "75b5aa"
+let s:gui0C        = "87a3a1"
+let g:base16_gui0C = "87a3a1"
 " base0D - blue (functions, methods, identifiers)
-let s:gui0D        = "6a9fb5"
-let g:base16_gui0D = "6a9fb5"
+let s:gui0D        = "7da6b8"
+let g:base16_gui0D = "7da6b8"
 " base0E - magenta (preprocessor, macros, storage keywords)
-let s:gui0E        = "aa759f"
-let g:base16_gui0E = "aa759f"
+let s:gui0E        = "a993a8"
+let g:base16_gui0E = "a993a8"
 " base0F - brown (deprecated, embedded language tags)
-let s:gui0F        = "7f3434"
-let g:base16_gui0F = "7f3434"
+let s:gui0F        = "944d48"
+let g:base16_gui0F = "944d48"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
-let s:gui_faint       = "292929"
+let s:gui_faint       = "2c2a2a"
 " gui_border - split borders, matches tmux pane border (brightBlack)
-let s:gui_border      = "505050"
+let s:gui_border      = "8a8a81"
 
 " ==========================================================================
 " Helper
