@@ -1,0 +1,55 @@
+theme = "custom"
+
+[keys.normal]
+";" = "command_mode"
+"C-d" = ["half_page_down", "align_view_center"]
+"C-u" = ["half_page_up", "align_view_center"]
+"tab" = ":buffer-next"
+"S-tab" = ":buffer-previous"
+
+[editor]
+line-number = "absolute"
+mouse = true
+auto-save = true
+auto-format = true
+insert-final-newline = true
+trim-trailing-whitespace = true
+completion-trigger-len = 2
+color-modes = true
+cursorline = true
+true-color = true
+scrolloff = 10
+rulers = [80, 120]
+bufferline = "always"
+
+[editor.search]
+smart-case = true
+
+[editor.soft-wrap]
+enable = true
+wrap-at-text-width = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.whitespace.render]
+space = "all"
+tab = "all"
+newline = "none"
+
+[editor.indent-guides]
+render = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-modification-indicator"]
+center = []
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
