@@ -24,19 +24,19 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ .Icon }}<#8a8a81> | </>",
+          "template": " {{ .Icon }}<#7b756d> | </>",
           "type": "os"
         },
         {
           "foreground": "#d1d1c7",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7da6b8>{{ .UserName }}</><#d1b37d>󰁥</></>{{ end }}<#87a3a1>{{ .HostName }}</><#8a8a81> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7da6b8>{{ .UserName }}</><#d1b37d>󰁥</></>{{ end }}<#87a3a1>{{ .HostName }}</><#7b756d> | </>",
           "type": "session"
         },
         {
           "foreground": "#d1b37d",
           "style": "plain",
-          "template": "󱐋<#8a8a81> | </>",
+          "template": "󱐋<#7b756d> | </>",
           "type": "root"
         },
         {
@@ -61,7 +61,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#8a8a81>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#c9655e> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#8ba37c>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<#7b756d>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#c9655e> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#8ba37c>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],

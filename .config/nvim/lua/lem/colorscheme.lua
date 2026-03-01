@@ -5,14 +5,14 @@ local M = {}
 -- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
   -- Backgrounds
-  bg = "#181616", -- main background
-  bg_alt = "#282626", -- lighter bg: cursor line, statusline, pmenu
-  bg_sel = "#383636", -- selection / visual background
+  bg = "#1e1816", -- main background
+  bg_alt = "#2e2826", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#3e3836", -- selection / visual background
   -- Foregrounds / greys
-  faint = "#2c2a2a", -- barely visible: non-printable chars
-  muted = "#6f6e69", -- comments, line numbers, faded
-  dim = "#7e7d77", -- dark foreground: inactive UI
-  border = "#8a8a81", -- split borders: matches tmux pane border
+  faint = "#322c2a", -- barely visible: non-printable chars
+  muted = "#726f69", -- comments, line numbers, faded
+  dim = "#807e77", -- dark foreground: inactive UI
+  border = "#7b756d", -- split borders: matches tmux pane border
   fg = "#d1d1c7", -- default foreground
   fg_alt = "#d7d6ca", -- light foreground: selected item backgrounds
   bright = "#dddacc", -- bright white

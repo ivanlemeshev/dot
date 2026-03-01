@@ -10,31 +10,31 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#181616</string>
+				<string>#1e1816</string>
 				<key>foreground</key>
 				<string>#d1d1c7</string>
 				<key>caret</key>
 				<string>#d1d1c7</string>
 				<key>lineHighlight</key>
-				<string>#8a8a8155</string>
+				<string>#7b756d55</string>
 				<key>selection</key>
 				<string>#e6c384</string>
 				<key>selectionBorder</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>invisibles</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>guide</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>activeGuide</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>gutter</key>
-				<string>#181616</string>
+				<string>#1e1816</string>
 				<key>gutterForeground</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>findHighlight</key>
 				<string>#d1b37d</string>
 				<key>findHighlightForeground</key>
-				<string>#181616</string>
+				<string>#1e1816</string>
 				<key>bracketsForeground</key>
 				<string>#d1d1c7</string>
 				<key>bracketContentsForeground</key>
@@ -49,7 +49,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8a8a81</string>
+				<string>#7b756d</string>
 				<key>fontStyle</key>
 				<string>italic</string>
 			</dict>

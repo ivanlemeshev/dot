@@ -5,9 +5,9 @@
 
 # --- Custom palette (hex) ---
 set -l fg0     "#D1D1C7"  # primary text
-set -l bg0     "#181616"  # main background
-set -l bg1     "#282626"  # selected background
-set -l bg2     "#8A8A81"  # lighter background
+set -l bg0     "#1E1816"  # main background
+set -l bg1     "#2E2826"  # selected background
+set -l bg2     "#7B756D"  # lighter background
 set -l red     "#C9655E"
 set -l yellow  "#D1B37D"
 set -l green   "#8BA37C"

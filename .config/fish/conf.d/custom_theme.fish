@@ -1,8 +1,8 @@
 # Custom theme for fish shell
 
 # --- Custom palette ---
-set -l bg0     181616
-set -l bg1     8a8a81
+set -l bg0     1e1816
+set -l bg1     7b756d
 set -l fg0     d1d1c7
 set -l fg1     dddacc
 set -l red     c9655e
