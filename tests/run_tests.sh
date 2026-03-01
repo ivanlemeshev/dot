@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Test runner script for dotfiles libraries
-# Usage: ./lib/tests/run_tests.sh [test_file]
+# Usage: ./tests/run_tests.sh [test_file ...]
 
 set -e
 
@@ -34,11 +34,15 @@ echo -e "${GREEN}✓ BATS found: $(bats --version)${RESET}"
 echo ""
 
 # Run tests
-if [ -n "$1" ]; then
-  # Run specific test file
-  echo "Running specific test: $1"
+if [ "$#" -gt 0 ]; then
+  test_files=()
+  for test_file in "$@"; do
+    test_files+=("$SCRIPT_DIR/$test_file")
+  done
+
+  echo "Running specific tests: $*"
   echo "========================================="
-  bats "$SCRIPT_DIR/$1"
+  bats "${test_files[@]}"
 else
   # Run all tests
   echo "Running all tests..."

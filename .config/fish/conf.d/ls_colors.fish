@@ -5,14 +5,14 @@
 
 # --- Custom palette (RGB values) ---
 set -l fg0    "209;209;199"  # #d1d1c7
-set -l bg0    "24;22;22"     # #181616
+set -l bg0    "30;24;22"     # #1e1816
 set -l red    "201;101;94"  # #c9655e
 set -l green  "139;163;124"  # #8ba37c
 set -l yellow "209;179;125"  # #d1b37d
 set -l blue   "125;166;184"  # #7da6b8
 set -l magenta "169;147;168"  # #a993a8
 set -l cyan "135;163;161"  # #87a3a1
-set -l dim    "138;138;129"  # #8a8a81
+set -l dim    "123;117;109"  # #7b756d
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal

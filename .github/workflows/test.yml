@@ -36,5 +36,8 @@ jobs:
       - name: Verify BATS installation
         run: bats --version
 
+      - name: Run theme tests
+        run: make theme-test
+
       - name: Run tests
-        run: ./tests/run_tests.sh
+        run: make unit-test

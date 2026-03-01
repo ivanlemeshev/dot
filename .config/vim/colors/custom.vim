@@ -13,20 +13,20 @@ set background=dark
 " ==========================================================================
 
 " base00 - background
-let s:gui00        = "181616"
-let g:base16_gui00 = "181616"
+let s:gui00        = "1e1816"
+let g:base16_gui00 = "1e1816"
 " base01 - lighter background (cursor line, statusline, pmenu)
-let s:gui01        = "282626"
-let g:base16_gui01 = "282626"
+let s:gui01        = "2e2826"
+let g:base16_gui01 = "2e2826"
 " base02 - selection / visual background
-let s:gui02        = "383636"
-let g:base16_gui02 = "383636"
+let s:gui02        = "3e3836"
+let g:base16_gui02 = "3e3836"
 " base03 - comments, line numbers, faded
-let s:gui03        = "6f6e69"
-let g:base16_gui03 = "6f6e69"
+let s:gui03        = "726f69"
+let g:base16_gui03 = "726f69"
 " base04 - dark foreground (inactive UI, borders)
-let s:gui04        = "7e7d77"
-let g:base16_gui04 = "7e7d77"
+let s:gui04        = "807e77"
+let g:base16_gui04 = "807e77"
 " base05 - default foreground
 let s:gui05        = "d1d1c7"
 let g:base16_gui05 = "d1d1c7"
@@ -58,12 +58,12 @@ let g:base16_gui0D = "7da6b8"
 let s:gui0E        = "a993a8"
 let g:base16_gui0E = "a993a8"
 " base0F - brown (deprecated, embedded language tags)
-let s:gui0F        = "944d48"
-let g:base16_gui0F = "944d48"
+let s:gui0F        = "964e48"
+let g:base16_gui0F = "964e48"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
-let s:gui_faint       = "2c2a2a"
+let s:gui_faint       = "322c2a"
 " gui_border - split borders, matches tmux pane border (brightBlack)
-let s:gui_border      = "8a8a81"
+let s:gui_border      = "7b756d"
 
 " ==========================================================================
 " Helper

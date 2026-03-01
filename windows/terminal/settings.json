@@ -96,10 +96,10 @@
   },
   "schemes": [
     {
-      "background": "#181616",
-      "black": "#12120F",
+      "background": "#1E1816",
+      "black": "#1C1816",
       "blue": "#7DA6B8",
-      "brightBlack": "#8A8A81",
+      "brightBlack": "#7B756D",
       "brightBlue": "#7FB4CA",
       "brightCyan": "#7AA89F",
       "brightGreen": "#98BB6C",
@@ -114,7 +114,7 @@
       "name": "Custom",
       "purple": "#A993A8",
       "red": "#C9655E",
-      "selectionBackground": "#8A8A81",
+      "selectionBackground": "#7B756D",
       "white": "#DCD7BA",
       "yellow": "#D1B37D"
     }
@@ -123,14 +123,14 @@
     {
       "name": "Custom Dark",
       "tab": {
-        "background": "#181616FF",
+        "background": "#1E1816FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#181616FF",
-        "unfocusedBackground": "#181616FF"
+        "background": "#1E1816FF",
+        "unfocusedBackground": "#1E1816FF"
       },
       "window": {
         "applicationTheme": "dark",

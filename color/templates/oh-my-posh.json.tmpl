@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#8ba37c",
+          "foreground": "__green__",
           "options": {
             "alpine": "",
             "arch": "",
@@ -24,23 +24,23 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ .Icon }}<#7b756d> | </>",
+          "template": " {{ .Icon }}<__brightBlack__> | </>",
           "type": "os"
         },
         {
-          "foreground": "#d1d1c7",
+          "foreground": "__foreground__",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7da6b8>{{ .UserName }}</><#d1b37d>󰁥</></>{{ end }}<#87a3a1>{{ .HostName }}</><#7b756d> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__blue__>{{ .UserName }}</><__yellow__>󰁥</></>{{ end }}<__cyan__>{{ .HostName }}</><__brightBlack__> | </>",
           "type": "session"
         },
         {
-          "foreground": "#d1b37d",
+          "foreground": "__yellow__",
           "style": "plain",
-          "template": "󱐋<#7b756d> | </>",
+          "template": "󱐋<__brightBlack__> | </>",
           "type": "root"
         },
         {
-          "foreground": "#d1d1c7",
+          "foreground": "__foreground__",
           "options": {
             "style": "full"
           },
@@ -49,11 +49,11 @@
           "type": "path"
         },
         {
-          "foreground": "#d1b37d",
+          "foreground": "__yellow__",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d1b37d{{ end }}",
-            "{{ if gt .Ahead 0 }}#87a3a1{{ end }}",
-            "{{ if gt .Behind 0 }}#a993a8{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}__yellow__{{ end }}",
+            "{{ if gt .Ahead 0 }}__cyan__{{ end }}",
+            "{{ if gt .Behind 0 }}__magenta__{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -61,7 +61,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#7b756d>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#c9655e> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#8ba37c>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<__brightBlack__>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<__red__> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<__green__>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -71,7 +71,7 @@
       "alignment": "right",
       "segments": [
         {
-          "foreground": "#8ba37c",
+          "foreground": "__green__",
           "options": {
             "time_format": "15:04:05"
           },
@@ -80,7 +80,7 @@
           "type": "time"
         },
         {
-          "foreground": "#d1b37d",
+          "foreground": "__yellow__",
           "options": {
             "style": "roundrock",
             "threshold": 500
@@ -90,9 +90,9 @@
           "type": "executiontime"
         },
         {
-          "foreground": "#8ba37c",
+          "foreground": "__green__",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}#c9655e{{ end }}"
+            "{{ if gt .Code 0 }}__red__{{ end }}"
           ],
           "options": {
             "always_enabled": true
@@ -109,7 +109,7 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d1d1c7",
+          "foreground": "__foreground__",
           "style": "plain",
           "template": "$",
           "type": "text"

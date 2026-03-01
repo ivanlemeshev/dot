@@ -2,9 +2,12 @@
 
 import json
 import os
-import re
 import sys
 import tempfile
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
+
+from theme import load_theme
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <settings.json>", file=sys.stderr)
@@ -13,23 +16,10 @@ if len(sys.argv) < 3:
 yaml_file = sys.argv[1]
 json_file = sys.argv[2]
 
-# Parse hex: section from YAML
-colors = {}
-in_hex = False
-with open(yaml_file) as f:
-    for line in f:
-        if line.strip() == "hex:":
-            in_hex = True
-            continue
-        if in_hex:
-            if line and not line.startswith(" "):
-                break
-            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
-            if m:
-                colors[m.group(1)] = m.group(2).upper()
-
-if not colors:
-    print("No hex: section found in YAML", file=sys.stderr)
+try:
+    colors = load_theme(yaml_file, prefix="#", uppercase=True)
+except ValueError as exc:
+    print(str(exc), file=sys.stderr)
     sys.exit(1)
 
 # Windows Terminal uses 'purple'/'brightPurple' instead of 'magenta'/'brightMagenta'
