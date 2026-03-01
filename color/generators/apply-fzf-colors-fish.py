@@ -5,6 +5,10 @@ import re
 import sys
 import tempfile
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
+
+from theme import lighten, load_theme
+
 if len(sys.argv) < 3:
     print(
         f"Usage: {sys.argv[0]} <color-scheme.yaml> <fzf_colors.fish>", file=sys.stderr
@@ -14,38 +18,11 @@ if len(sys.argv) < 3:
 yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
-# Parse hex: section from YAML
-colors = {}
-in_hex = False
-with open(yaml_file) as f:
-    for line in f:
-        if line.strip() == "hex:":
-            in_hex = True
-            continue
-        if in_hex:
-            if line and not line.startswith(" "):
-                break
-            m = re.match(r'^\s+(\w+):\s+"(#[0-9a-fA-F]+)"', line)
-            if m:
-                colors[m.group(1)] = m.group(2).upper()
-
-if not colors:
-    print("No hex: section found in YAML", file=sys.stderr)
+try:
+    colors = load_theme(yaml_file, prefix="#", uppercase=True)
+except ValueError as exc:
+    print(str(exc), file=sys.stderr)
     sys.exit(1)
-
-
-def hex_to_rgb(h):
-    h = h.lstrip("#")
-    return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))
-
-
-def rgb_to_hex(r, g, b):
-    return f"#{int(round(r)):02X}{int(round(g)):02X}{int(round(b)):02X}"
-
-
-def lighten(h, amount):
-    r, g, b = hex_to_rgb(h)
-    return rgb_to_hex(min(255, r + amount), min(255, g + amount), min(255, b + amount))
 
 
 # fish variable -> resolved hex color
@@ -53,7 +30,7 @@ def lighten(h, amount):
 palette = {
     "fg0": colors["foreground"],
     "bg0": colors["background"],
-    "bg1": lighten(colors["background"], 0x10),
+    "bg1": lighten(colors["background"], 0x10, prefix="#", uppercase=True),
     "bg2": colors["brightBlack"],
     "red": colors["red"],
     "yellow": colors["yellow"],

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "__green__",
+          "options": {
+            "alpine": "",
+            "arch": "",
+            "centos": "",
+            "debian": "",
+            "elementary": "",
+            "fedora": "",
+            "gentoo": "",
+            "linux": "",
+            "macos": "",
+            "manjaro": "",
+            "mint": "",
+            "opensuse": "",
+            "raspbian": "",
+            "ubuntu": "",
+            "windows": ""
+          },
+          "style": "plain",
+          "template": " {{ .Icon }}<__brightBlack__> | </>",
+          "type": "os"
+        },
+        {
+          "foreground": "__foreground__",
+          "style": "plain",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__blue__>{{ .UserName }}</><__yellow__>󰁥</></>{{ end }}<__cyan__>{{ .HostName }}</><__brightBlack__> | </>",
+          "type": "session"
+        },
+        {
+          "foreground": "__yellow__",
+          "style": "plain",
+          "template": "󱐋<__brightBlack__> | </>",
+          "type": "root"
+        },
+        {
+          "foreground": "__foreground__",
+          "options": {
+            "style": "full"
+          },
+          "style": "plain",
+          "template": "{{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "foreground": "__yellow__",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}__yellow__{{ end }}",
+            "{{ if gt .Ahead 0 }}__cyan__{{ end }}",
+            "{{ if gt .Behind 0 }}__magenta__{{ end }}"
+          ],
+          "options": {
+            "branch_icon": " ",
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "style": "plain",
+          "template": "<__brightBlack__>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<__red__> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<__green__>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "type": "git"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "__green__",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "template": "  {{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        },
+        {
+          "foreground": "__yellow__",
+          "options": {
+            "style": "roundrock",
+            "threshold": 500
+          },
+          "style": "plain",
+          "template": "  {{ .FormattedMs }} </>",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "__green__",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}__red__{{ end }}"
+          ],
+          "options": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": "  {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "__foreground__",
+          "style": "plain",
+          "template": "$",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
+  "final_space": true,
+  "version": 4
+}

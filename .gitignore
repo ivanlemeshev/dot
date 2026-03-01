@@ -3,3 +3,4 @@
 lazy-lock.json
 config.env
 tmp
+__pycache__

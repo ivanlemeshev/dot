@@ -5,13 +5,13 @@
 	<key>Ansi 0 Color</key>
 	<dict>
 		<key>Blue Component</key>
-		<real>0.058823529411764705</real>
+		<real>0.10196078431372549</real>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Green Component</key>
-		<real>0.07058823529411765</real>
+		<real>0.10980392156862745</real>
 		<key>Red Component</key>
-		<real>0.07058823529411765</real>
+		<real>0.12156862745098039</real>
 	</dict>
 	<key>Ansi 1 Color</key>
 	<dict>

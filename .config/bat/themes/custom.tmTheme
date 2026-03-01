@@ -6,8 +6,6 @@
 	<string>Custom</string>
 	<key>settings</key>
 	<array>
-
-		<!-- Global settings -->
 		<dict>
 			<key>settings</key>
 			<dict>
@@ -43,8 +41,6 @@
 				<string>#d1d1c7</string>
 			</dict>
 		</dict>
-
-		<!-- Comments -->
 		<dict>
 			<key>name</key>
 			<string>Comment</string>
@@ -58,8 +54,6 @@
 				<string>italic</string>
 			</dict>
 		</dict>
-
-		<!-- Strings -->
 		<dict>
 			<key>name</key>
 			<string>String</string>
@@ -71,8 +65,6 @@
 				<string>#8ba37c</string>
 			</dict>
 		</dict>
-
-		<!-- String escape characters -->
 		<dict>
 			<key>name</key>
 			<string>Escape Character</string>
@@ -84,8 +76,6 @@
 				<string>#87a3a1</string>
 			</dict>
 		</dict>
-
-		<!-- Numbers -->
 		<dict>
 			<key>name</key>
 			<string>Number</string>
@@ -97,8 +87,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Language constants (true, false, nil, null) -->
 		<dict>
 			<key>name</key>
 			<string>Built-in Constant</string>
@@ -110,8 +98,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Other constants -->
 		<dict>
 			<key>name</key>
 			<string>Constant</string>
@@ -123,8 +109,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Keywords (if, else, return, etc.) -->
 		<dict>
 			<key>name</key>
 			<string>Keyword</string>
@@ -136,8 +120,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Operators (+, -, =, etc.) -->
 		<dict>
 			<key>name</key>
 			<string>Operator</string>
@@ -149,8 +131,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Storage types (class, function, var, let, const, etc.) -->
 		<dict>
 			<key>name</key>
 			<string>Storage Type</string>
@@ -162,8 +142,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Storage modifiers (static, public, private, etc.) -->
 		<dict>
 			<key>name</key>
 			<string>Storage Modifier</string>
@@ -175,8 +153,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Function names -->
 		<dict>
 			<key>name</key>
 			<string>Function Name</string>
@@ -188,8 +164,6 @@
 				<string>#7da6b8</string>
 			</dict>
 		</dict>
-
-		<!-- Class / type names -->
 		<dict>
 			<key>name</key>
 			<string>Class Name</string>
@@ -201,8 +175,6 @@
 				<string>#d1b37d</string>
 			</dict>
 		</dict>
-
-		<!-- Inherited class -->
 		<dict>
 			<key>name</key>
 			<string>Inherited Class</string>
@@ -214,8 +186,6 @@
 				<string>#8ba37c</string>
 			</dict>
 		</dict>
-
-		<!-- Function parameters -->
 		<dict>
 			<key>name</key>
 			<string>Function Parameter</string>
@@ -227,8 +197,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Variables -->
 		<dict>
 			<key>name</key>
 			<string>Variable</string>
@@ -240,8 +208,6 @@
 				<string>#d1d1c7</string>
 			</dict>
 		</dict>
-
-		<!-- Language variables (this, self, super) -->
 		<dict>
 			<key>name</key>
 			<string>Language Variable</string>
@@ -255,8 +221,6 @@
 				<string>italic</string>
 			</dict>
 		</dict>
-
-		<!-- Support functions (built-in functions) -->
 		<dict>
 			<key>name</key>
 			<string>Support Function</string>
@@ -268,8 +232,6 @@
 				<string>#87a3a1</string>
 			</dict>
 		</dict>
-
-		<!-- Support types (built-in types) -->
 		<dict>
 			<key>name</key>
 			<string>Support Type</string>
@@ -281,8 +243,6 @@
 				<string>#d1b37d</string>
 			</dict>
 		</dict>
-
-		<!-- Support constants -->
 		<dict>
 			<key>name</key>
 			<string>Support Constant</string>
@@ -294,8 +254,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Preprocessor / includes -->
 		<dict>
 			<key>name</key>
 			<string>Preprocessor</string>
@@ -307,8 +265,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Include paths -->
 		<dict>
 			<key>name</key>
 			<string>Include</string>
@@ -322,8 +278,6 @@
 				<string>italic</string>
 			</dict>
 		</dict>
-
-		<!-- Type annotations -->
 		<dict>
 			<key>name</key>
 			<string>Type Annotation</string>
@@ -335,8 +289,6 @@
 				<string>#d1b37d</string>
 			</dict>
 		</dict>
-
-		<!-- Decorators / attributes -->
 		<dict>
 			<key>name</key>
 			<string>Decorator</string>
@@ -348,8 +300,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Tags (HTML/XML) -->
 		<dict>
 			<key>name</key>
 			<string>Tag Name</string>
@@ -361,8 +311,6 @@
 				<string>#c9655e</string>
 			</dict>
 		</dict>
-
-		<!-- Tag attributes -->
 		<dict>
 			<key>name</key>
 			<string>Tag Attribute</string>
@@ -374,8 +322,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Punctuation (braces, brackets, parens, semicolons) -->
 		<dict>
 			<key>name</key>
 			<string>Punctuation</string>
@@ -387,8 +333,6 @@
 				<string>#d1d1c7</string>
 			</dict>
 		</dict>
-
-		<!-- Tag punctuation -->
 		<dict>
 			<key>name</key>
 			<string>Tag Punctuation</string>
@@ -400,8 +344,6 @@
 				<string>#d1d1c7</string>
 			</dict>
 		</dict>
-
-		<!-- String punctuation (quotes) -->
 		<dict>
 			<key>name</key>
 			<string>String Punctuation</string>
@@ -413,8 +355,6 @@
 				<string>#d1d1c7</string>
 			</dict>
 		</dict>
-
-		<!-- Regex -->
 		<dict>
 			<key>name</key>
 			<string>Regular Expression</string>
@@ -426,8 +366,6 @@
 				<string>#87a3a1</string>
 			</dict>
 		</dict>
-
-		<!-- CSS property names -->
 		<dict>
 			<key>name</key>
 			<string>CSS Property</string>
@@ -439,8 +377,6 @@
 				<string>#87a3a1</string>
 			</dict>
 		</dict>
-
-		<!-- CSS values -->
 		<dict>
 			<key>name</key>
 			<string>CSS Value</string>
@@ -452,8 +388,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- JSON keys -->
 		<dict>
 			<key>name</key>
 			<string>JSON Key</string>
@@ -465,8 +399,6 @@
 				<string>#7da6b8</string>
 			</dict>
 		</dict>
-
-		<!-- YAML keys -->
 		<dict>
 			<key>name</key>
 			<string>YAML Key</string>
@@ -478,8 +410,6 @@
 				<string>#7da6b8</string>
 			</dict>
 		</dict>
-
-		<!-- Diff: inserted -->
 		<dict>
 			<key>name</key>
 			<string>Diff Inserted</string>
@@ -491,8 +421,6 @@
 				<string>#8ba37c</string>
 			</dict>
 		</dict>
-
-		<!-- Diff: deleted -->
 		<dict>
 			<key>name</key>
 			<string>Diff Deleted</string>
@@ -504,8 +432,6 @@
 				<string>#c9655e</string>
 			</dict>
 		</dict>
-
-		<!-- Diff: changed -->
 		<dict>
 			<key>name</key>
 			<string>Diff Changed</string>
@@ -517,8 +443,6 @@
 				<string>#a993a8</string>
 			</dict>
 		</dict>
-
-		<!-- Diff: range info -->
 		<dict>
 			<key>name</key>
 			<string>Diff Range</string>
@@ -530,8 +454,6 @@
 				<string>#7da6b8</string>
 			</dict>
 		</dict>
-
-		<!-- Markup headings -->
 		<dict>
 			<key>name</key>
 			<string>Markup Heading</string>
@@ -543,8 +465,6 @@
 				<string>#7da6b8</string>
 			</dict>
 		</dict>
-
-		<!-- Markup bold -->
 		<dict>
 			<key>name</key>
 			<string>Markup Bold</string>
@@ -558,8 +478,6 @@
 				<string>bold</string>
 			</dict>
 		</dict>
-
-		<!-- Markup italic -->
 		<dict>
 			<key>name</key>
 			<string>Markup Italic</string>
@@ -573,8 +491,6 @@
 				<string>italic</string>
 			</dict>
 		</dict>
-
-		<!-- Markup links -->
 		<dict>
 			<key>name</key>
 			<string>Markup Link URL</string>
@@ -586,8 +502,6 @@
 				<string>#e46876</string>
 			</dict>
 		</dict>
-
-		<!-- Markup link text -->
 		<dict>
 			<key>name</key>
 			<string>Markup Link Text</string>
@@ -599,8 +513,6 @@
 				<string>#c9655e</string>
 			</dict>
 		</dict>
-
-		<!-- Markup inline code -->
 		<dict>
 			<key>name</key>
 			<string>Markup Inline Code</string>
@@ -612,8 +524,6 @@
 				<string>#8ba37c</string>
 			</dict>
 		</dict>
-
-		<!-- Markup list -->
 		<dict>
 			<key>name</key>
 			<string>Markup List</string>
@@ -625,8 +535,6 @@
 				<string>#c9655e</string>
 			</dict>
 		</dict>
-
-		<!-- Markup quote -->
 		<dict>
 			<key>name</key>
 			<string>Markup Quote</string>
@@ -640,8 +548,6 @@
 				<string>italic</string>
 			</dict>
 		</dict>
-
-		<!-- Invalid -->
 		<dict>
 			<key>name</key>
 			<string>Invalid</string>
@@ -653,8 +559,6 @@
 				<string>#c9655e</string>
 			</dict>
 		</dict>
-
-		<!-- Invalid deprecated -->
 		<dict>
 			<key>name</key>
 			<string>Invalid Deprecated</string>
@@ -666,7 +570,6 @@
 				<string>#938aa9</string>
 			</dict>
 		</dict>
-
 	</array>
 </dict>
 </plist>

@@ -1,0 +1,10 @@
+generators/apply-windows-terminal.py|windows/terminal/settings.json
+generators/apply-itermcolors.py|macos/iterm2/custom-dark.itermcolors
+generators/apply-custom-theme-fish.py|.config/fish/conf.d/custom_theme.fish
+generators/apply-fzf-colors-fish.py|.config/fish/conf.d/fzf_colors.fish
+generators/apply-ls-colors-fish.py|.config/fish/conf.d/ls_colors.fish
+generators/apply-tmtheme.py|.config/bat/themes/custom.tmTheme
+generators/apply-omp-theme.py|.config/oh-my-posh/theme.omp.json
+generators/apply-tmux-theme.py|.config/tmux/.tmux.conf
+generators/apply-vim-theme.py|.config/vim/colors/custom.vim
+generators/apply-nvim-theme.py|.config/nvim/lua/lem/colorscheme.lua
