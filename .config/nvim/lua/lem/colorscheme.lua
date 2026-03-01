@@ -5,25 +5,25 @@ local M = {}
 -- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
   -- Backgrounds
-  bg = "#1e1816", -- main background
-  bg_alt = "#2e2826", -- lighter bg: cursor line, statusline, pmenu
-  bg_sel = "#3e3836", -- selection / visual background
+  bg = "#292522", -- main background
+  bg_alt = "#393532", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#494542", -- selection / visual background
   -- Foregrounds / greys
-  faint = "#322c2a", -- barely visible: non-printable chars
-  muted = "#726f69", -- comments, line numbers, faded
-  dim = "#807e77", -- dark foreground: inactive UI
-  border = "#7b756d", -- split borders: matches tmux pane border
-  fg = "#d1d1c7", -- default foreground
-  fg_alt = "#d7d6ca", -- light foreground: selected item backgrounds
-  bright = "#dddacc", -- bright white
+  faint = "#3d3936", -- barely visible: non-printable chars
+  muted = "#857d77", -- comments, line numbers, faded
+  dim = "#948c86", -- dark foreground: inactive UI
+  border = "#867462", -- split borders: matches tmux pane border
+  fg = "#ece1d7", -- default foreground
+  fg_alt = "#ece1d7", -- light foreground: selected item backgrounds
+  bright = "#ece1d7", -- bright white
   -- Colors
-  red = "#c9655e",
-  orange = "#cb7c67",
-  yellow = "#d1b37d",
-  green = "#8ba37c",
-  cyan = "#87a3a1",
-  blue = "#7da6b8",
-  magenta = "#a993a8",
+  red = "#bd8183",
+  orange = "#cb947c",
+  yellow = "#ebc06d",
+  green = "#78997a",
+  cyan = "#7b9695",
+  blue = "#7f91a3",
+  magenta = "#b380b0",
 }
 
 function M.setup()
