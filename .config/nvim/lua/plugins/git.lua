@@ -59,13 +59,32 @@ return {
       {
         "<leader>gpr",
         function()
-          local base = vim.fn.systemlist(
-            "git rev-parse --abbrev-ref --symbolic-full-name @{u}"
-          )[1]
-          if not base or base == "" then
-            vim.notify("Could not resolve upstream branch", vim.log.levels.WARN)
+          local branch = vim.fn.systemlist("git symbolic-ref --short HEAD")[1]
+          if not branch or branch == "" then
+            vim.notify(
+              "Could not determine current branch",
+              vim.log.levels.WARN
+            )
             return
           end
+          local merge_ref = vim.fn.systemlist(
+            ("git config --get branch.%s.merge"):format(branch)
+          )[1]
+          local remote = vim.fn.systemlist(
+            ("git config --get branch.%s.remote"):format(branch)
+          )[1] or "origin"
+          local target = merge_ref and merge_ref:match("^refs/heads/(.+)$")
+          if not target then
+            vim.notify(
+              ("Could not determine PR target branch for %s (branch.%s.merge missing)"):format(
+                branch,
+                branch
+              ),
+              vim.log.levels.WARN
+            )
+            return
+          end
+          local base = remote .. "/" .. target
           vim.cmd("DiffviewOpen " .. base .. "...HEAD")
         end,
         desc = "Git: PR diff vs upstream",
