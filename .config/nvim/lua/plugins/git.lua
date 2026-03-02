@@ -59,21 +59,32 @@ return {
       {
         "<leader>gpr",
         function()
-          local branch = vim.fn.systemlist("git symbolic-ref --short HEAD")[1]
+          local branch = vim.fn.systemlist({ "git", "symbolic-ref", "--short", "HEAD" })[1]
           if not branch or branch == "" then
-            vim.notify(
-              "Could not determine current branch",
-              vim.log.levels.WARN
-            )
+            vim.notify("Could not determine current branch", vim.log.levels.WARN)
             return
           end
-          local merge_ref = vim.fn.systemlist(
-            ("git config --get branch.%s.merge"):format(branch)
-          )[1]
-          local remote = vim.fn.systemlist(
-            ("git config --get branch.%s.remote"):format(branch)
-          )[1] or "origin"
+          local merge_ref = vim.fn.systemlist({
+            "git",
+            "config",
+            "--get",
+            ("branch.%s.merge"):format(branch),
+          })[1]
+          local remote =
+            vim.fn.systemlist({ "git", "config", "--get", ("branch.%s.remote"):format(branch) })[1]
+              or "origin"
           local target = merge_ref and merge_ref:match("^refs/heads/(.+)$")
+          if (not target or target == branch) and remote and remote ~= "" then
+            local remote_head = vim.fn.systemlist({
+              "git",
+              "symbolic-ref",
+              ("refs/remotes/%s/HEAD"):format(remote),
+            })[1]
+            if remote_head then
+              local remote_branch = remote_head:match("^refs/remotes/[^/]+/(.+)$")
+              target = remote_branch or target
+            end
+          end
           if not target then
             vim.notify(
               ("Could not determine PR target branch for %s (branch.%s.merge missing)"):format(
@@ -88,6 +99,11 @@ return {
           vim.cmd("DiffviewOpen " .. base .. "...HEAD")
         end,
         desc = "Git: PR diff vs upstream",
+      },
+      {
+        "<leader>gPC",
+        "<cmd>DiffviewClose<CR>",
+        desc = "Git: close PR diff view",
       },
     },
   },
