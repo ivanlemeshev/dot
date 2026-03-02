@@ -24,23 +24,23 @@
             "windows": ""
           },
           "style": "plain",
-          "template": " {{ .Icon }}<#475258> | </>",
+          "template": " {{ .Icon }}<#5a656f> | </>",
           "type": "os"
         },
         {
-          "foreground": "#d3c6aa",
+          "foreground": "#ece7d6",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7fbbb3>{{ .UserName }}</><#dbbc7f>󰁥</></>{{ end }}<#83c092>{{ .HostName }}</><#475258> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7fbbb3>{{ .UserName }}</><#f8c46f>󰁥</></>{{ end }}<#96d0b3>{{ .HostName }}</><#5a656f> | </>",
           "type": "session"
         },
         {
-          "foreground": "#dbbc7f",
+          "foreground": "#f8c46f",
           "style": "plain",
-          "template": "󱐋<#475258> | </>",
+          "template": "󱐋<#5a656f> | </>",
           "type": "root"
         },
         {
-          "foreground": "#d3c6aa",
+          "foreground": "#ece7d6",
           "options": {
             "style": "full"
           },
@@ -49,11 +49,11 @@
           "type": "path"
         },
         {
-          "foreground": "#dbbc7f",
+          "foreground": "#f8c46f",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#dbbc7f{{ end }}",
-            "{{ if gt .Ahead 0 }}#83c092{{ end }}",
-            "{{ if gt .Behind 0 }}#d699b6{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#f8c46f{{ end }}",
+            "{{ if gt .Ahead 0 }}#96d0b3{{ end }}",
+            "{{ if gt .Behind 0 }}#e19fb6{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -61,7 +61,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#475258>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#e67e80> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a7c080>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<#5a656f>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#e67e80> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a7c080>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
           "type": "git"
         }
       ],
@@ -80,7 +80,7 @@
           "type": "time"
         },
         {
-          "foreground": "#dbbc7f",
+          "foreground": "#f8c46f",
           "options": {
             "style": "roundrock",
             "threshold": 500
@@ -109,7 +109,7 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d3c6aa",
+          "foreground": "#ece7d6",
           "style": "plain",
           "template": "$",
           "type": "text"
