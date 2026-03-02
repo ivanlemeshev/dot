@@ -1,0 +1,153 @@
+# Custorm Dark
+
+# --- Syntax ---
+
+"attribute"                 = { fg = "yellow" }
+"type"                      = { fg = "yellow" }
+"type.builtin"              = { fg = "yellow" }
+"constructor"               = { fg = "blue" }
+"constant"                  = { fg = "red" }
+"constant.builtin"          = { fg = "red", modifiers = ["bold"] }
+"constant.character.escape" = { fg = "cyan" }
+"string"                    = { fg = "green" }
+"string.regexp"             = { fg = "cyan" }
+"string.special"            = { fg = "cyan" }
+"string.special.url"        = { fg = "cyan", modifiers = ["underlined"] }
+"comment"                   = { fg = "bright-black", modifiers = ["italic"] }
+"variable"                  = { fg = "foreground" }
+"variable.builtin"          = { fg = "red" }
+"variable.parameter"        = { fg = "red" }
+"variable.other.member"     = { fg = "blue" }
+"label"                     = { fg = "cyan" }
+"punctuation"               = { fg = "foreground" }
+"punctuation.delimiter"     = { fg = "foreground" }
+"punctuation.bracket"       = { fg = "foreground" }
+"keyword"                   = { fg = "magenta" }
+"keyword.control"           = { fg = "magenta" }
+"keyword.control.conditional" = { fg = "magenta" }
+"keyword.control.return"    = { fg = "magenta" }
+"keyword.operator"          = { fg = "magenta" }
+"keyword.directive"         = { fg = "red" }
+"keyword.function"          = { fg = "magenta" }
+"operator"                  = { fg = "cyan" }
+"function"                  = { fg = "blue" }
+"function.builtin"          = { fg = "cyan" }
+"function.method"           = { fg = "blue" }
+"function.method.private"   = { fg = "blue" }
+"function.macro"            = { fg = "cyan" }
+"tag"                       = { fg = "red" }
+"tag.attribute"             = { fg = "yellow" }
+"namespace"                 = { fg = "yellow" }
+"special"                   = { fg = "magenta" }
+
+# --- Markup ---
+
+"markup.heading"            = { fg = "blue", modifiers = ["bold"] }
+"markup.heading.1"          = { fg = "blue", modifiers = ["bold"] }
+"markup.heading.2"          = { fg = "cyan", modifiers = ["bold"] }
+"markup.heading.3"          = { fg = "green", modifiers = ["bold"] }
+"markup.heading.4"          = { fg = "yellow", modifiers = ["bold"] }
+"markup.heading.5"          = { fg = "magenta", modifiers = ["bold"] }
+"markup.heading.6"          = { fg = "red", modifiers = ["bold"] }
+"markup.list"               = { fg = "red" }
+"markup.list.checked"       = { fg = "green" }
+"markup.list.unchecked"     = { fg = "foreground" }
+"markup.bold"               = { modifiers = ["bold"] }
+"markup.italic"             = { modifiers = ["italic"] }
+"markup.strikethrough"      = { modifiers = ["crossed_out"] }
+"markup.link.url"           = { fg = "cyan", modifiers = ["underlined"] }
+"markup.link.text"          = { fg = "blue" }
+"markup.link.label"         = { fg = "magenta" }
+"markup.quote"              = { fg = "yellow" }
+"markup.raw"                = { fg = "green" }
+"markup.raw.inline"         = { fg = "green" }
+"markup.raw.block"          = { fg = "green" }
+
+# --- Diff ---
+
+"diff.plus"                 = { fg = "green" }
+"diff.minus"                = { fg = "red" }
+"diff.delta"                = { fg = "yellow" }
+"diff.delta.moved"          = { fg = "blue" }
+
+# --- Diagnostics ---
+
+"diagnostic"                = { underline = { style = "curl" } }
+"diagnostic.hint"           = { underline = { color = "bright-black", style = "curl" } }
+"diagnostic.info"           = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.warning"        = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.error"          = { underline = { color = "red", style = "curl" } }
+"diagnostic.unnecessary"    = { modifiers = ["dim"] }
+"diagnostic.deprecated"     = { modifiers = ["crossed_out"] }
+
+"hint"                      = { fg = "bright-black" }
+"info"                      = { fg = "cyan" }
+"warning"                   = { fg = "yellow" }
+"error"                     = { fg = "red" }
+
+# --- UI ---
+
+"ui.background"             = { fg = "foreground", bg = "background" }
+"ui.background.separator"   = { fg = "bright-black" }
+"ui.cursor"                 = { fg = "background", bg = "foreground" }
+"ui.cursor.primary"         = { fg = "background", bg = "bright-white" }
+"ui.cursor.match"           = { fg = "yellow", bg = "background", modifiers = ["bold"] }
+"ui.cursor.insert"          = { fg = "background", bg = "cyan" }
+"ui.cursor.select"          = { fg = "background", bg = "blue" }
+"ui.gutter"                 = { bg = "background" }
+"ui.gutter.selected"        = { bg = "background" }
+"ui.linenr"                 = { fg = "bright-black" }
+"ui.linenr.selected"        = { fg = "foreground" }
+"ui.statusline"             = { fg = "bright-white", bg = "bright-black", modifiers = ["bold"] }
+"ui.statusline.normal"      = { fg = "background", bg = "blue", modifiers = ["bold"] }
+"ui.statusline.insert"      = { fg = "background", bg = "green", modifiers = ["bold"] }
+"ui.statusline.select"      = { fg = "background", bg = "magenta", modifiers = ["bold"] }
+"ui.statusline.separator"   = { fg = "foreground", bg = "bright-black" }
+"ui.statusline.inactive"    = { fg = "foreground", bg = "background" }
+"ui.bufferline"             = { fg = "bright-black", bg = "background" }
+"ui.bufferline.active"      = { fg = "foreground", bg = "background", modifiers = ["bold"] }
+"ui.bufferline.background"  = { bg = "background" }
+"ui.popup"                  = { fg = "foreground", bg = "background" }
+"ui.popup.info"             = { fg = "cyan", bg = "background" }
+"ui.window"                 = { fg = "bright-black" }
+"ui.help"                   = { fg = "foreground", bg = "background" }
+"ui.text"                   = { fg = "foreground" }
+"ui.text.focus"             = { fg = "bright-white", modifiers = ["bold"] }
+"ui.text.inactive"          = { fg = "bright-black" }
+"ui.text.info"              = { fg = "cyan" }
+"ui.menu"                   = { fg = "foreground", bg = "background" }
+"ui.menu.selected"          = { fg = "background", bg = "blue" }
+"ui.menu.scroll"            = { fg = "bright-black", bg = "background" }
+"ui.selection"              = { bg = "bright-black" }
+"ui.selection.primary"      = { bg = "bright-black" }
+"ui.highlight"              = { bg = "bright-black", modifiers = ["bold"] }
+"ui.highlight.frameline"    = { bg = "background" }
+"ui.debug.breakpoint"       = { fg = "red" }
+"ui.debug.active"           = { fg = "yellow" }
+"ui.virtual.ruler"          = { bg = "background" }
+"ui.virtual.whitespace"     = { fg = "bright-black", modifiers = ["dim"] }
+"ui.virtual.indent-guide"   = { fg = "bright-black" }
+"ui.virtual.inlay-hint"     = { fg = "bright-black", modifiers = ["italic"] }
+"ui.virtual.jump-label"     = { fg = "cyan", modifiers = ["bold"] }
+
+# --- Palette ---
+
+[palette]
+foreground   = "#d1d1c7"
+background   = "#181616"
+black        = "#12120f"
+red          = "#c9655e"
+green        = "#8ba37c"
+yellow       = "#d1b37d"
+blue         = "#7da6b8"
+magenta      = "#a993a8"
+cyan         = "#87a3a1"
+white        = "#dcd7ba"
+bright-black  = "#8a8a81"
+bright-red    = "#e46876"
+bright-green  = "#98bb6c"
+bright-yellow = "#e6c384"
+bright-blue   = "#7fb4ca"
+bright-magenta = "#938aa9"
+bright-cyan   = "#7aa89f"
+bright-white  = "#dddacc"
