@@ -15,22 +15,22 @@ return {
     {
       "<leader>gl",
       "<CMD>Octo issue list<CR>",
-      desc = "Octo: list GitHub issues",
+      desc = "Git: list GitHub issues",
     },
     {
       "<leader>gp",
       "<CMD>Octo pr list<CR>",
-      desc = "Octo: list GitHub pull requests",
+      desc = "Git: list GitHub pull requests",
     },
     {
       "<leader>gd",
       "<CMD>Octo discussion list<CR>",
-      desc = "Octo: list GitHub discussions",
+      desc = "Git: list GitHub discussions",
     },
     {
       "<leader>gn",
       "<CMD>Octo notification list<CR>",
-      desc = "Octo: list GitHub notifications",
+      desc = "Git: list GitHub notifications",
     },
     {
       "<leader>gs",
@@ -39,7 +39,7 @@ return {
           include_current_repo = true,
         })
       end,
-      desc = "Octo: search GitHub issues and pull requests",
+      desc = "Git: search GitHub issues and pull requests",
     },
   },
 }
