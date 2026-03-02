@@ -24,4 +24,51 @@ return {
       )
     end,
   },
+  {
+    "sindrets/diffview.nvim",
+    -- https://github.com/sindrets/diffview.nvim
+    -- Keep the plugin lazy-loaded until a diff command is used.
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewFileHistory",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
+    },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      enhanced_diff_hl = true,
+      use_icons = true,
+    },
+    keys = {
+      {
+        "<leader>gv",
+        "<cmd>DiffviewOpen<CR>",
+        desc = "Git: open Diffview",
+      },
+      {
+        "<leader>gV",
+        "<cmd>DiffviewFileHistory<CR>",
+        desc = "Git: view file history",
+      },
+      {
+        "<leader>gC",
+        "<cmd>DiffviewClose<CR>",
+        desc = "Git: close Diffview",
+      },
+      {
+        "<leader>gpr",
+        function()
+          local base = vim.fn.systemlist(
+            "git rev-parse --abbrev-ref --symbolic-full-name @{u}"
+          )[1]
+          if not base or base == "" then
+            vim.notify("Could not resolve upstream branch", vim.log.levels.WARN)
+            return
+          end
+          vim.cmd("DiffviewOpen " .. base .. "...HEAD")
+        end,
+        desc = "Git: PR diff vs upstream",
+      },
+    },
+  },
 }

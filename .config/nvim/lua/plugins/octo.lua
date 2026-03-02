@@ -1,7 +1,7 @@
 return {
   "pwntester/octo.nvim",
   cmd = "Octo",
-  -- commit = "d9c8e7b1a0c5f2e4a3b1c9e5f8a2b6c7d8e9f0a1",
+  commit = "5ae580df72589f25b775ff2bdacfd7f7be8d63bd",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
