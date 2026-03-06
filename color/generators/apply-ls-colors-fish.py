@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme
+from theme import load_theme_sections
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <ls_colors.fish>", file=sys.stderr)
@@ -17,23 +17,23 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors = load_theme(yaml_file, prefix="#", uppercase=False)
+    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
 # fish variable -> YAML color name
 # Format in file: set -l <var>    "<R>;<G>;<B>"  # #<HEX>
-palette = {
-    "fg0": "foreground",
-    "bg0": "background",
-    "red": "red",
-    "yellow": "yellow",
-    "green": "green",
-    "blue": "blue",
-    "magenta": "magenta",
-    "dim": "brightBlack",
-    "cyan": "cyan",
+palette_map = {
+    "fg0": ("foreground", "foreground"),
+    "bg0": ("background_0", "background"),
+    "red": ("red", "red"),
+    "yellow": ("yellow", "yellow"),
+    "green": ("green", "green"),
+    "blue": ("blue", "blue"),
+    "magenta": ("purple", "magenta"),
+    "dim": ("grey_0", "brightBlack"),
+    "cyan": ("aqua", "cyan"),
 }
 
 
@@ -45,8 +45,15 @@ def to_rgb(hex_color):
 with open(fish_file) as f:
     content = f.read()
 
-for fish_var, yaml_key in palette.items():
-    hex_val = colors[yaml_key]
+
+def resolve_color(primary, fallback):
+    if primary in palette:
+        return palette[primary]
+    return colors[fallback]
+
+
+for fish_var, (primary, fallback) in palette_map.items():
+    hex_val = resolve_color(primary, fallback)
     rgb_val = to_rgb(hex_val)
     content = re.sub(
         rf'^(set -l {fish_var}\s+)"[0-9;]+"(\s+#\s*)#[0-9a-fA-F]{{6}}',

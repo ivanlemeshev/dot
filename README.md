@@ -48,39 +48,14 @@ nvim
 
 ## Theme Pipeline
 
-Theme colors are defined in `color/schemes/color-scheme.*.yaml` and generated into
-tool-specific configs with `bin/apply-color-scheme`.
-
-Current schema:
-
-```yaml
-name: "Example"
-colors:
-  foreground: "#d0d0d0"
-  background: "#151515"
-  black: "#151515"
-  red: "#ac4142"
-  green: "#90a959"
-  yellow: "#f4bf75"
-  blue: "#6a9fb5"
-  magenta: "#aa759f"
-  cyan: "#75b5aa"
-  white: "#d0d0d0"
-  brightBlack: "#505050"
-  brightRed: "#ac4142"
-  brightGreen: "#90a959"
-  brightYellow: "#f4bf75"
-  brightBlue: "#6a9fb5"
-  brightMagenta: "#aa759f"
-  brightCyan: "#75b5aa"
-  brightWhite: "#f5f5f5"
-```
+Theme colors are defined in `color/schemes/color-scheme.*.yaml` and generated
+into tool-specific configs with `bin/apply-color-scheme`.
 
 Useful commands:
 
 ```bash
 # Regenerate checked-in theme outputs
-bash bin/apply-color-scheme color/schemes/color-scheme.kanagawa-dragon-contrast.yaml
+bash bin/apply-color-scheme color/schemes/color-scheme.everforest-hard.yaml
 
 # Verify theme schema and generated outputs
 make theme-test

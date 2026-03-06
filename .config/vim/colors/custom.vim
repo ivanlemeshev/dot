@@ -13,57 +13,74 @@ set background=dark
 " ==========================================================================
 
 " base00 - background
-let s:gui00        = "151515"
-let g:base16_gui00 = "151515"
+let s:gui00        = "272e33"
+let g:base16_gui00 = "272e33"
 " base01 - lighter background (cursor line, statusline, pmenu)
-let s:gui01        = "252525"
-let g:base16_gui01 = "252525"
+let s:gui01        = "2e383c"
+let g:base16_gui01 = "2e383c"
 " base02 - selection / visual background
-let s:gui02        = "353535"
-let g:base16_gui02 = "353535"
+let s:gui02        = "374145"
+let g:base16_gui02 = "374145"
 " base03 - comments, line numbers, faded
-let s:gui03        = "6d6d6d"
-let g:base16_gui03 = "6d6d6d"
+let s:gui03        = "859289"
+let g:base16_gui03 = "859289"
 " base04 - dark foreground (inactive UI, borders)
-let s:gui04        = "7c7c7c"
-let g:base16_gui04 = "7c7c7c"
+let s:gui04        = "7a8478"
+let g:base16_gui04 = "7a8478"
 " base05 - default foreground
-let s:gui05        = "d0d0d0"
-let g:base16_gui05 = "d0d0d0"
+let s:gui05        = "d3c6aa"
+let g:base16_gui05 = "d3c6aa"
 " base06 - light foreground (selected item backgrounds)
-let s:gui06        = "e2e2e2"
-let g:base16_gui06 = "e2e2e2"
+let s:gui06        = "9da9a0"
+let g:base16_gui06 = "9da9a0"
 " base07 - bright white
-let s:gui07        = "f5f5f5"
-let g:base16_gui07 = "f5f5f5"
+let s:gui07        = "d3c6aa"
+let g:base16_gui07 = "d3c6aa"
 " base08 - red (errors, diff deleted, keywords: return/if/for)
-let s:gui08        = "ac4142"
-let g:base16_gui08 = "ac4142"
+let s:gui08        = "e67e80"
+let g:base16_gui08 = "e67e80"
 " base09 - orange (integers, booleans, constants)
-let s:gui09        = "c26751"
-let g:base16_gui09 = "c26751"
+let s:gui09        = "e69875"
+let g:base16_gui09 = "e69875"
 " base0A - yellow (types, search background, operators)
-let s:gui0A        = "f4bf75"
-let g:base16_gui0A = "f4bf75"
+let s:gui0A        = "dbbc7f"
+let g:base16_gui0A = "dbbc7f"
 " base0B - green (strings, diff added, success)
-let s:gui0B        = "90a959"
-let g:base16_gui0B = "90a959"
+let s:gui0B        = "a7c080"
+let g:base16_gui0B = "a7c080"
 " base0C - cyan (support, regex, escape characters)
-let s:gui0C        = "75b5aa"
-let g:base16_gui0C = "75b5aa"
+let s:gui0C        = "83c092"
+let g:base16_gui0C = "83c092"
 " base0D - blue (functions, methods, identifiers)
-let s:gui0D        = "6a9fb5"
-let g:base16_gui0D = "6a9fb5"
+let s:gui0D        = "7fbbb3"
+let g:base16_gui0D = "7fbbb3"
 " base0E - magenta (preprocessor, macros, storage keywords)
-let s:gui0E        = "aa759f"
-let g:base16_gui0E = "aa759f"
+let s:gui0E        = "d699b6"
+let g:base16_gui0E = "d699b6"
 " base0F - brown (deprecated, embedded language tags)
-let s:gui0F        = "7f3434"
-let g:base16_gui0F = "7f3434"
+let s:gui0F        = "493b40"
+let g:base16_gui0F = "493b40"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
-let s:gui_faint       = "292929"
+let s:gui_faint       = "1e2326"
 " gui_border - split borders, matches tmux pane border (brightBlack)
-let s:gui_border      = "505050"
+let s:gui_border      = "495156"
+" extended background accents from palette
+let s:gui_bg_red      = "493b40"
+let g:base16_gui_bg_red = "493b40"
+let s:gui_bg_yellow   = "45443c"
+let g:base16_gui_bg_yellow = "45443c"
+let s:gui_bg_green    = "3c4841"
+let g:base16_gui_bg_green = "3c4841"
+let s:gui_bg_blue     = "384b55"
+let g:base16_gui_bg_blue = "384b55"
+let s:gui_bg_purple   = "463f48"
+let g:base16_gui_bg_purple = "463f48"
+let s:gui_bg_visual   = "4c3743"
+let g:base16_gui_bg_visual = "4c3743"
+let s:gui_bg3         = "414b50"
+let g:base16_gui_bg3 = "414b50"
+let s:gui_bg5         = "4f5b58"
+let g:base16_gui_bg5 = "4f5b58"
 
 " ==========================================================================
 " Helper
@@ -93,7 +110,7 @@ call s:hl('Normal',       s:gui05, s:gui00)
 call s:hl('NormalNC',     s:gui05, s:gui00)
 call s:hl('Terminal',     s:gui05, s:gui00)
 call s:hl('EndOfBuffer',  s:gui00, s:gui00)
-call s:hl('Folded',       s:gui03, s:gui01)
+call s:hl('Folded',       s:gui03, s:gui_bg3)
 call s:hl('ToolbarLine',  s:gui05, s:gui01)
 call s:hl('SignColumn',   s:gui05, '')
 call s:hl('FoldColumn',   s:gui03, '')
@@ -116,9 +133,9 @@ call s:hl('CursorColumn', '',      s:gui01)
 call s:hl('LineNr',       s:gui03, '')
 call s:hl('CursorLineNr', s:gui04, '')
 
-call s:hl('DiffAdd',      s:gui0B, '')
-call s:hl('DiffChange',   s:gui0D, '')
-call s:hl('DiffDelete',   s:gui08, '')
+call s:hl('DiffAdd',      s:gui0B, s:gui_bg_green)
+call s:hl('DiffChange',   s:gui0D, s:gui_bg_blue)
+call s:hl('DiffDelete',   s:gui08, s:gui_bg_red)
 call s:hl('DiffText',     s:gui00, s:gui0D)
 
 call s:hl('Directory',    s:gui0B, '')
@@ -127,9 +144,9 @@ call s:hl('WarningMsg',   s:gui0A, '',      'bold')
 call s:hl('ModeMsg',      s:gui05, '',      'bold')
 call s:hl('MoreMsg',      s:gui0A, '',      'bold')
 call s:hl('MatchParen',   '',      s:gui02)
-call s:hl('NonText',      s:gui_faint, '')
-call s:hl('Whitespace',   s:gui_faint, '')
-call s:hl('SpecialKey',   s:gui_faint, '')
+call s:hl('NonText',      s:gui_bg3, '')
+call s:hl('Whitespace',   s:gui_bg3, '')
+call s:hl('SpecialKey',   s:gui_bg3, '')
 
 " Pmenu
 call s:hl('Pmenu',        s:gui05, s:gui01)
@@ -138,7 +155,7 @@ call s:hl('PmenuSel',     s:gui01, s:gui06)
 call s:hl('PmenuKind',    s:gui0B, s:gui01)
 call s:hl('PmenuExtra',   s:gui06, s:gui01)
 highlight! link WildMenu PmenuSel
-call s:hl('PmenuThumb',   '',      s:gui04)
+call s:hl('PmenuThumb',   '',      s:gui_bg5)
 
 call s:hl('Question',     s:gui0A, '')
 
@@ -164,15 +181,15 @@ if exists('+winfixbuf')
 endif
 
 " Visual
-call s:hl('Visual',       '',      s:gui02)
-call s:hl('VisualNOS',    '',      s:gui02)
+call s:hl('Visual',       '',      s:gui_bg_visual)
+call s:hl('VisualNOS',    '',      s:gui_bg_visual)
 
 call s:hl('QuickFixLine', s:gui0E, '',      'bold')
 call s:hl('Debug',        s:gui0A, '')
 call s:hl('debugPC',      s:gui00, s:gui0B)
 call s:hl('debugBreakpoint', s:gui00, s:gui08)
 call s:hl('ToolbarButton', s:gui00, s:gui06)
-call s:hl('Substitute',   s:gui00, s:gui0A)
+call s:hl('Substitute',   s:gui05, s:gui_bg_yellow)
 
 " ==========================================================================
 " Syntax highlights
@@ -278,8 +295,8 @@ highlight! link VirtualTextHint    Grey
 
 call s:hl('ErrorFloat',   s:gui08, '')
 call s:hl('WarningFloat', s:gui0A, '')
-call s:hl('InfoFloat',    s:gui0D, '')
-call s:hl('HintFloat',    s:gui0E, '')
+call s:hl('InfoFloat',    s:gui0D, s:gui_bg_blue)
+call s:hl('HintFloat',    s:gui0E, s:gui_bg_purple)
 
 call s:hl('CurrentWord',  '',      '',      'underline')
 

@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme
+from theme import load_theme_sections
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <theme.omp.json>", file=sys.stderr)
@@ -17,7 +17,7 @@ yaml_file = sys.argv[1]
 omp_file = sys.argv[2]
 
 try:
-    colors = load_theme(yaml_file, prefix="#", uppercase=False)
+    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -27,7 +27,8 @@ template_file = os.path.join(
 with open(template_file, encoding="utf-8") as f:
     content = f.read()
 
-for name, hex_val in colors.items():
+merged = {**colors, **palette}
+for name, hex_val in merged.items():
     content = content.replace(f"__{name}__", hex_val)
 
 data = json.loads(content)
