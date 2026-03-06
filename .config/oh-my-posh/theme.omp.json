@@ -42,7 +42,7 @@
         {
           "foreground": "#ece7d6",
           "options": {
-            "style": "full"
+            "style": "folder"
           },
           "style": "plain",
           "template": "{{ .Path }} ",
