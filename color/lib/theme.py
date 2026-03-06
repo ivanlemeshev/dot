@@ -3,98 +3,214 @@
 import re
 
 
-def hex_to_rgb(hex_value):
-    value = hex_value.lstrip("#")
-    return tuple(int(value[i : i + 2], 16) for i in (0, 2, 4))
-
-
-def rgb_to_hex(r, g, b, prefix="", uppercase=False):
-    fmt = "{:02X}" if uppercase else "{:02x}"
-    return prefix + "".join(fmt.format(int(round(channel))) for channel in (r, g, b))
-
-
-def lighten(hex_value, amount, prefix="", uppercase=False):
-    r, g, b = hex_to_rgb(hex_value)
-    return rgb_to_hex(
-        min(255, r + amount),
-        min(255, g + amount),
-        min(255, b + amount),
-        prefix=prefix,
-        uppercase=uppercase,
-    )
-
-
-def blend(hex_left, hex_right, ratio, prefix="", uppercase=False):
-    r1, g1, b1 = hex_to_rgb(hex_left)
-    r2, g2, b2 = hex_to_rgb(hex_right)
-    return rgb_to_hex(
-        r1 + ratio * (r2 - r1),
-        g1 + ratio * (g2 - g1),
-        b1 + ratio * (b2 - b1),
-        prefix=prefix,
-        uppercase=uppercase,
-    )
-
-
-def load_theme(yaml_file, prefix="#", uppercase=False):
-    colors = {}
-    in_colors = False
+def load_theme_sections(yaml_file, prefix="#", uppercase=False):
+    palette = {}
+    active_section = None
 
     with open(yaml_file, encoding="utf-8") as handle:
         for line in handle:
             stripped = line.strip()
 
-            if stripped == "colors:":
-                in_colors = True
+            if stripped == "palette:":
+                active_section = "palette"
                 continue
 
-            if in_colors:
+            if active_section:
                 if line and not line.startswith("  "):
-                    in_colors = False
+                    active_section = None
                 else:
                     match = re.match(r'^\s{2}(\w+):\s+"(#[0-9a-fA-F]+)"', line)
                     if match:
                         value = match.group(2).lstrip("#")
                         value = value.upper() if uppercase else value.lower()
-                        colors[match.group(1)] = prefix + value
+                        palette[match.group(1)] = prefix + value
 
-    if not colors:
-        raise ValueError("No colors section found in YAML")
+    if not palette:
+        raise ValueError("Palette section is required in YAML")
 
+    required = {
+        "foreground",
+        "red",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "aqua",
+        "orange",
+        "statusline_1",
+        "statusline_2",
+        "statusline_3",
+        "grey_0",
+        "grey_1",
+        "grey_2",
+        "background_dim",
+        "background_0",
+        "background_1",
+        "background_2",
+        "background_3",
+        "background_4",
+        "background_5",
+        "background_red",
+        "background_yellow",
+        "background_green",
+        "background_blue",
+        "background_purple",
+        "background_visual",
+    }
+    missing = sorted(required - set(palette.keys()))
+    if missing:
+        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+
+    colors = {
+        "foreground": palette["foreground"],
+        "background": palette["background_0"],
+        "black": palette["background_0"],
+        "red": palette["red"],
+        "green": palette["green"],
+        "yellow": palette["yellow"],
+        "blue": palette["blue"],
+        "magenta": palette["purple"],
+        "cyan": palette["aqua"],
+        "white": palette["foreground"],
+        "brightBlack": palette["grey_0"],
+        "brightRed": palette["red"],
+        "brightGreen": palette["green"],
+        "brightYellow": palette["yellow"],
+        "brightBlue": palette["blue"],
+        "brightMagenta": palette["purple"],
+        "brightCyan": palette["aqua"],
+        "brightWhite": palette["grey_2"],
+    }
+
+    return colors, palette
+
+
+def load_theme(yaml_file, prefix="#", uppercase=False):
+    colors, _palette = load_theme_sections(
+        yaml_file, prefix=prefix, uppercase=uppercase
+    )
     return colors
 
 
-def derive_editor_palette(colors):
-    bg = colors["background"]
-    fg = colors["foreground"]
-    bright_black = colors["brightBlack"]
-    bright_white = colors["brightWhite"]
-    red = colors["red"]
-    yellow = colors["yellow"]
+def derive_editor_palette_with_palette(palette):
+    if not palette:
+        raise ValueError("Palette section is required in YAML")
 
-    return {
-        "bg": bg,
-        "bg_alt": lighten(bg, 0x10),
-        "bg_sel": lighten(bg, 0x20),
-        "faint": lighten(bg, 20),
-        "muted": blend(bg, fg, 0.47),
-        "dim": blend(bg, fg, 0.55),
-        "border": bright_black,
-        "fg": fg,
-        "fg_alt": blend(fg, bright_white, 0.5),
-        "bright": bright_white,
-        "red": red,
-        "orange": blend(red, yellow, 0.3),
-        "yellow": yellow,
-        "green": colors["green"],
-        "cyan": colors["cyan"],
-        "blue": colors["blue"],
-        "magenta": colors["magenta"],
+    required = {
+        "foreground",
+        "red",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "aqua",
+        "orange",
+        "grey_0",
+        "grey_1",
+        "grey_2",
+        "background_dim",
+        "background_0",
+        "background_1",
+        "background_2",
+        "background_3",
+        "background_4",
+        "background_5",
+        "background_red",
+        "background_yellow",
+        "background_green",
+        "background_blue",
+        "background_purple",
+        "background_visual",
+        "statusline_1",
+        "statusline_2",
+        "statusline_3",
+    }
+    missing = sorted(required - set(palette.keys()))
+    if missing:
+        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+
+    editor = {
+        "bg": palette["background_0"],
+        "bg_alt": palette["background_1"],
+        "bg_sel": palette["background_2"],
+        "faint": palette["background_dim"],
+        "muted": palette["grey_1"],
+        "dim": palette["grey_0"],
+        "border": palette["background_4"],
+        "fg": palette["foreground"],
+        "fg_alt": palette["grey_2"],
+        "bright": palette["foreground"],
+        "red": palette["red"],
+        "orange": palette["orange"],
+        "yellow": palette["yellow"],
+        "green": palette["green"],
+        "cyan": palette["aqua"],
+        "blue": palette["blue"],
+        "magenta": palette["purple"],
+        "background": palette["background_0"],
+        "foreground": palette["foreground"],
+        "black": palette["background_0"],
+        "white": palette["foreground"],
+        "purple": palette["purple"],
+        "aqua": palette["aqua"],
+        "background_dim": palette["background_dim"],
+        "background_0": palette["background_0"],
+        "background_1": palette["background_1"],
+        "background_2": palette["background_2"],
+        "background_3": palette["background_3"],
+        "background_4": palette["background_4"],
+        "background_5": palette["background_5"],
+        "background_red": palette["background_red"],
+        "background_yellow": palette["background_yellow"],
+        "background_green": palette["background_green"],
+        "background_blue": palette["background_blue"],
+        "background_purple": palette["background_purple"],
+        "background_visual": palette["background_visual"],
+        "statusline_1": palette["statusline_1"],
+        "statusline_2": palette["statusline_2"],
+        "statusline_3": palette["statusline_3"],
+        "grey_0": palette["grey_0"],
+        "grey_1": palette["grey_1"],
+        "grey_2": palette["grey_2"],
     }
 
+    return editor
 
-def derive_vim_palette(colors):
-    editor = derive_editor_palette(colors)
+
+def editor_palette_to_vim(editor):
+    required = {
+        "bg",
+        "bg_alt",
+        "bg_sel",
+        "faint",
+        "muted",
+        "dim",
+        "border",
+        "fg",
+        "fg_alt",
+        "bright",
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "cyan",
+        "blue",
+        "magenta",
+        "background_red",
+        "background_yellow",
+        "background_green",
+        "background_blue",
+        "background_purple",
+        "background_visual",
+        "background_3",
+        "background_5",
+    }
+    missing = sorted(required - set(editor.keys()))
+    if missing:
+        raise ValueError(
+            "Editor palette is missing required keys: " + ", ".join(missing)
+        )
+
     return {
         "gui00": editor["bg"],
         "gui01": editor["bg_alt"],
@@ -111,7 +227,19 @@ def derive_vim_palette(colors):
         "gui0C": editor["cyan"],
         "gui0D": editor["blue"],
         "gui0E": editor["magenta"],
-        "gui0F": blend(editor["bg"], editor["red"], 0.7),
+        "gui0F": editor["background_red"],
         "gui_faint": editor["faint"],
         "gui_border": editor["border"],
+        "gui_bg_red": editor["background_red"],
+        "gui_bg_yellow": editor["background_yellow"],
+        "gui_bg_green": editor["background_green"],
+        "gui_bg_blue": editor["background_blue"],
+        "gui_bg_purple": editor["background_purple"],
+        "gui_bg_visual": editor["background_visual"],
+        "gui_bg3": editor["background_3"],
+        "gui_bg5": editor["background_5"],
     }
+
+
+def derive_vim_palette_with_palette(palette):
+    return editor_palette_to_vim(derive_editor_palette_with_palette(palette))

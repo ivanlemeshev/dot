@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import lighten, load_theme
+from theme import load_theme_sections
 
 if len(sys.argv) < 3:
     print(
@@ -19,29 +19,37 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors = load_theme(yaml_file, prefix="#", uppercase=True)
+    colors, raw_palette = load_theme_sections(yaml_file, prefix="#", uppercase=True)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
 
-# fish variable -> resolved hex color
-# bg1 is computed (cursor line color), matching apply-nvim-theme's bg_alt = lighten(bg, 0x10)
-palette = {
-    "fg0": colors["foreground"],
-    "bg0": colors["background"],
-    "bg1": lighten(colors["background"], 0x10, prefix="#", uppercase=True),
-    "bg2": colors["brightBlack"],
-    "red": colors["red"],
-    "yellow": colors["yellow"],
-    "green": colors["green"],
-    "magenta": colors["magenta"],
-}
+def require_palette(key):
+    if key not in raw_palette:
+        raise ValueError(f"Missing required palette key: {key}")
+    return raw_palette[key]
+
+
+try:
+    fzf_palette = {
+        "fg0": require_palette("foreground"),
+        "bg0": require_palette("background_0"),
+        "bg1": require_palette("background_1"),
+        "bg2": require_palette("background_2"),
+        "red": require_palette("red"),
+        "yellow": require_palette("yellow"),
+        "green": require_palette("green"),
+        "magenta": require_palette("purple"),
+    }
+except ValueError as exc:
+    print(str(exc), file=sys.stderr)
+    sys.exit(1)
 
 with open(fish_file) as f:
     content = f.read()
 
-for fish_var, hex_val in palette.items():
+for fish_var, hex_val in fzf_palette.items():
     content = re.sub(
         rf'^(set -l {fish_var}\s+)"#[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{hex_val}"',

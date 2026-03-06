@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import derive_editor_palette, load_theme
+from theme import derive_editor_palette_with_palette, load_theme_sections
 
 if len(sys.argv) < 3:
     print(
@@ -19,7 +19,8 @@ yaml_file = sys.argv[1]
 lua_file = sys.argv[2]
 
 try:
-    palette = derive_editor_palette(load_theme(yaml_file, prefix="", uppercase=False))
+    colors, raw_palette = load_theme_sections(yaml_file, prefix="", uppercase=False)
+    palette = derive_editor_palette_with_palette(raw_palette)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)

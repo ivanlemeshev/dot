@@ -5,25 +5,33 @@ local M = {}
 -- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
   -- Backgrounds
-  bg = "#151515", -- main background
-  bg_alt = "#252525", -- lighter bg: cursor line, statusline, pmenu
-  bg_sel = "#353535", -- selection / visual background
+  bg = "#272e33", -- main background
+  bg_alt = "#2e383c", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#374145", -- selection / visual background
+  background_3 = "#414b50", -- deeper neutral background
+  background_5 = "#4f5b58", -- elevated neutral background
+  background_red = "#493b40", -- soft error background
+  background_yellow = "#45443c", -- soft warning background
+  background_green = "#3c4841", -- soft success background
+  background_blue = "#384b55", -- soft info background
+  background_purple = "#463f48", -- soft hint background
+  background_visual = "#4c3743", -- visual-mode background
   -- Foregrounds / greys
-  faint = "#292929", -- barely visible: non-printable chars
-  muted = "#6d6d6d", -- comments, line numbers, faded
-  dim = "#7c7c7c", -- dark foreground: inactive UI
-  border = "#505050", -- split borders: matches tmux pane border
-  fg = "#d0d0d0", -- default foreground
-  fg_alt = "#e2e2e2", -- light foreground: selected item backgrounds
-  bright = "#f5f5f5", -- bright white
+  faint = "#1e2326", -- barely visible: non-printable chars
+  muted = "#859289", -- comments, line numbers, faded
+  dim = "#7a8478", -- dark foreground: inactive UI
+  border = "#495156", -- split borders: matches tmux pane border
+  fg = "#d3c6aa", -- default foreground
+  fg_alt = "#9da9a0", -- light foreground: selected item backgrounds
+  bright = "#d3c6aa", -- bright white
   -- Colors
-  red = "#ac4142",
-  orange = "#c26751",
-  yellow = "#f4bf75",
-  green = "#90a959",
-  cyan = "#75b5aa",
-  blue = "#6a9fb5",
-  magenta = "#aa759f",
+  red = "#e67e80",
+  orange = "#e69875",
+  yellow = "#dbbc7f",
+  green = "#a7c080",
+  cyan = "#83c092",
+  blue = "#7fbbb3",
+  magenta = "#d699b6",
 }
 
 function M.setup()
@@ -51,7 +59,7 @@ function M.setup()
   hl("NormalNC", { fg = p.fg, bg = p.bg })
   hl("Terminal", { fg = p.fg, bg = p.bg })
   hl("EndOfBuffer", { fg = p.bg, bg = p.bg })
-  hl("Folded", { fg = p.dim, bg = p.bg_alt })
+  hl("Folded", { fg = p.dim, bg = p.background_3 })
   hl("ToolbarLine", { fg = p.fg, bg = p.bg_alt })
   hl("SignColumn", { fg = p.fg })
   hl("FoldColumn", { fg = p.faint })
@@ -75,9 +83,9 @@ function M.setup()
   hl("LineNr", { fg = p.muted })
   hl("CursorLineNr", { fg = p.fg, bold = true })
 
-  hl("DiffAdd", { fg = p.green })
-  hl("DiffChange", { fg = p.blue })
-  hl("DiffDelete", { fg = p.red })
+  hl("DiffAdd", { fg = p.green, bg = p.background_green })
+  hl("DiffChange", { fg = p.blue, bg = p.background_blue })
+  hl("DiffDelete", { fg = p.red, bg = p.background_red })
   hl("DiffText", { fg = p.bg, bg = p.blue })
 
   hl("Directory", { fg = p.green })
@@ -86,9 +94,9 @@ function M.setup()
   hl("ModeMsg", { fg = p.fg, bold = true })
   hl("MoreMsg", { fg = p.yellow, bold = true })
   hl("MatchParen", { bg = p.bg_sel })
-  hl("NonText", { fg = p.faint })
-  hl("Whitespace", { fg = p.faint })
-  hl("SpecialKey", { fg = p.yellow })
+  hl("NonText", { fg = p.background_3 })
+  hl("Whitespace", { fg = p.background_3 })
+  hl("SpecialKey", { fg = p.background_3 })
 
   -- Pmenu: menu_selection_background=grey
   hl("Pmenu", { fg = p.fg, bg = p.bg_alt })
@@ -97,7 +105,7 @@ function M.setup()
   hl("PmenuKind", { fg = p.green, bg = p.bg_alt })
   hl("PmenuExtra", { fg = p.fg_alt, bg = p.bg_alt })
   link("WildMenu", "PmenuSel")
-  hl("PmenuThumb", { bg = p.dim })
+  hl("PmenuThumb", { bg = p.background_5 })
 
   -- Float: editor bg with visible border
   hl("NormalFloat", { fg = p.fg, bg = p.bg })
@@ -128,15 +136,15 @@ function M.setup()
   link("WinSeparator", "VertSplit")
 
   -- Visual: grey background
-  hl("Visual", { bg = p.bg_sel })
-  hl("VisualNOS", { bg = p.bg_sel })
+  hl("Visual", { bg = p.background_visual })
+  hl("VisualNOS", { bg = p.background_visual })
 
   hl("QuickFixLine", { fg = p.magenta, bold = true })
   hl("Debug", { fg = p.yellow })
   hl("debugPC", { fg = p.bg, bg = p.green })
   hl("debugBreakpoint", { fg = p.bg, bg = p.red })
   hl("ToolbarButton", { fg = p.bg, bg = p.fg_alt })
-  hl("Substitute", { fg = p.bg, bg = p.yellow })
+  hl("Substitute", { fg = p.fg, bg = p.background_yellow })
 
   -- Diagnostics: diagnostic_text_highlight=0
   hl("DiagnosticError", { fg = p.red })
@@ -327,9 +335,9 @@ function M.setup()
   hl("TSStrong", { bold = true })
   hl("TSEmphasis", { italic = true })
   hl("TSUnderline", { underline = true })
-  hl("TSNote", { fg = p.bg, bg = p.green, bold = true })
-  hl("TSWarning", { fg = p.bg, bg = p.yellow, bold = true })
-  hl("TSDanger", { fg = p.bg, bg = p.red, bold = true })
+  hl("TSNote", { fg = p.fg, bg = p.background_purple, bold = true })
+  hl("TSWarning", { fg = p.fg, bg = p.background_yellow, bold = true })
+  hl("TSDanger", { fg = p.fg, bg = p.background_red, bold = true })
 
   -- Legacy TS* links
   link("TSAnnotation", "Purple")
@@ -637,7 +645,7 @@ function M.setup()
 
   -- lukas-reineke/indent-blankline.nvim
   hl("IblScope", { fg = p.dim, nocombine = true })
-  hl("IblIndent", { fg = p.faint, nocombine = true })
+  hl("IblIndent", { fg = p.background_3, nocombine = true })
   link("IndentBlanklineContextChar", "IblScope")
   link("IndentBlanklineChar", "IblIndent")
   link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
