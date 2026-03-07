@@ -4,14 +4,14 @@
 # single-place edit.
 
 # --- Custom palette (hex) ---
-set -l fg0     "#B7F7C0"  # primary text
-set -l bg0     "#0B0F0C"  # main background
-set -l bg1     "#151D17"  # selected background
-set -l bg2     "#1C261E"  # lighter background
-set -l red     "#2FA854"
-set -l yellow  "#61E686"
-set -l green   "#3BD267"
-set -l magenta "#5ACB88"
+set -l fg0     "#DDC7A1"  # primary text
+set -l bg0     "#282828"  # main background
+set -l bg1     "#2B2B2B"  # selected background
+set -l bg2     "#32302F"  # lighter background
+set -l red     "#EA6962"
+set -l yellow  "#D8A657"
+set -l green   "#A9B665"
+set -l magenta "#D3869B"
 
 # --- Colors ---
 set -l colors \
