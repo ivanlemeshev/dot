@@ -5,36 +5,13 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#a9b665",
-          "options": {
-            "alpine": "",
-            "arch": "",
-            "centos": "",
-            "debian": "",
-            "elementary": "",
-            "fedora": "",
-            "gentoo": "",
-            "linux": "",
-            "macos": "",
-            "manjaro": "",
-            "mint": "",
-            "opensuse": "",
-            "raspbian": "",
-            "ubuntu": "",
-            "windows": ""
-          },
-          "style": "plain",
-          "template": " {{ .Icon }}<#7c6f64> | </>",
-          "type": "os"
-        },
-        {
           "foreground": "#ddc7a1",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#7daea3>{{ .UserName }}</><#d8a657>󰁥</></>{{ end }}<#89b482>{{ .HostName }}</><#7c6f64> | </>",
+          "template": "<#7c6f64>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#ddc7a1>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
           "type": "session"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#ea6962",
           "style": "plain",
           "template": "󱐋<#7c6f64> | </>",
           "type": "root"
@@ -49,11 +26,11 @@
           "type": "path"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#a9b665",
           "foreground_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}#d8a657{{ end }}",
-            "{{ if gt .Ahead 0 }}#89b482{{ end }}",
-            "{{ if gt .Behind 0 }}#d3869b{{ end }}"
+            "{{ if gt .Ahead 0 }}#7daea3{{ end }}",
+            "{{ if gt .Behind 0 }}#ea6962{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -61,22 +38,16 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#a9b665>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
           "type": "git"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
+        },
         {
           "foreground": "#a9b665",
           "options": {
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": "  {{ .CurrentDate | date .Format }} ",
+          "template": "<#7c6f64>| </>{{ .CurrentDate | date .Format }} ",
           "type": "time"
         },
         {
@@ -86,7 +57,7 @@
             "threshold": 500
           },
           "style": "plain",
-          "template": "  {{ .FormattedMs }} </>",
+          "template": "<#7c6f64>| </> {{ .FormattedMs }} </>",
           "type": "executiontime"
         },
         {
@@ -95,10 +66,10 @@
             "{{ if gt .Code 0 }}#ea6962{{ end }}"
           ],
           "options": {
-            "always_enabled": true
+            "always_enabled": false
           },
           "style": "plain",
-          "template": "  {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
+          "template": "<#7c6f64>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
           "type": "status"
         }
       ],
@@ -111,7 +82,7 @@
         {
           "foreground": "#ddc7a1",
           "style": "plain",
-          "template": "$",
+          "template": "<#7c6f64>└</><#7daea3>$</>",
           "type": "text"
         }
       ],
