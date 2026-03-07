@@ -5,33 +5,33 @@ local M = {}
 -- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
   -- Backgrounds
-  bg = "#272e33", -- main background
-  bg_alt = "#2e383c", -- lighter bg: cursor line, statusline, pmenu
-  bg_sel = "#374145", -- selection / visual background
-  background_3 = "#414b50", -- deeper neutral background
-  background_5 = "#4f5b58", -- elevated neutral background
-  background_red = "#493b40", -- soft error background
-  background_yellow = "#45443c", -- soft warning background
-  background_green = "#3c4841", -- soft success background
-  background_blue = "#384b55", -- soft info background
-  background_purple = "#463f48", -- soft hint background
-  background_visual = "#4c3743", -- visual-mode background
+  bg = "#282828", -- main background
+  bg_alt = "#2b2b2b", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#32302f", -- selection / visual background
+  background_3 = "#3c3836", -- deeper neutral background
+  background_5 = "#504945", -- elevated neutral background
+  background_red = "#3c2b2c", -- soft error background
+  background_yellow = "#3c3428", -- soft warning background
+  background_green = "#2f3a2e", -- soft success background
+  background_blue = "#2a3238", -- soft info background
+  background_purple = "#3a2f34", -- soft hint background
+  background_visual = "#3c3836", -- visual-mode background
   -- Foregrounds / greys
-  faint = "#1e2326", -- barely visible: non-printable chars
-  muted = "#859289", -- comments, line numbers, faded
-  dim = "#7a8478", -- dark foreground: inactive UI
-  border = "#495156", -- split borders: matches tmux pane border
-  fg = "#d3c6aa", -- default foreground
-  fg_alt = "#9da9a0", -- light foreground: selected item backgrounds
-  bright = "#d3c6aa", -- bright white
+  faint = "#1d2021", -- barely visible: non-printable chars
+  muted = "#928374", -- comments, line numbers, faded
+  dim = "#7c6f64", -- dark foreground: inactive UI
+  border = "#45403d", -- split borders: matches tmux pane border
+  fg = "#ddc7a1", -- default foreground
+  fg_alt = "#a89984", -- light foreground: selected item backgrounds
+  bright = "#ddc7a1", -- bright white
   -- Colors
-  red = "#e67e80",
-  orange = "#e69875",
-  yellow = "#dbbc7f",
-  green = "#a7c080",
-  cyan = "#83c092",
-  blue = "#7fbbb3",
-  magenta = "#d699b6",
+  red = "#ea6962",
+  orange = "#e78a4e",
+  yellow = "#d8a657",
+  green = "#a9b665",
+  cyan = "#89b482",
+  blue = "#7daea3",
+  magenta = "#d3869b",
 }
 
 function M.setup()
@@ -81,7 +81,7 @@ function M.setup()
 
   -- LineNr: ui_contrast=low, sign_column_background=none
   hl("LineNr", { fg = p.muted })
-  hl("CursorLineNr", { fg = p.fg, bold = true })
+  hl("CursorLineNr", { fg = p.fg })
 
   hl("DiffAdd", { fg = p.green, bg = p.background_green })
   hl("DiffChange", { fg = p.blue, bg = p.background_blue })
@@ -89,10 +89,10 @@ function M.setup()
   hl("DiffText", { fg = p.bg, bg = p.blue })
 
   hl("Directory", { fg = p.green })
-  hl("ErrorMsg", { fg = p.red, bold = true, underline = true })
-  hl("WarningMsg", { fg = p.yellow, bold = true })
-  hl("ModeMsg", { fg = p.fg, bold = true })
-  hl("MoreMsg", { fg = p.yellow, bold = true })
+  hl("ErrorMsg", { fg = p.red, underline = true })
+  hl("WarningMsg", { fg = p.yellow })
+  hl("ModeMsg", { fg = p.fg })
+  hl("MoreMsg", { fg = p.yellow })
   hl("MatchParen", { bg = p.bg_sel })
   hl("NonText", { fg = p.background_3 })
   hl("Whitespace", { fg = p.background_3 })
@@ -110,7 +110,7 @@ function M.setup()
   -- Float: editor bg with visible border
   hl("NormalFloat", { fg = p.fg, bg = p.bg })
   hl("FloatBorder", { fg = p.border, bg = p.bg })
-  hl("FloatTitle", { fg = p.yellow, bg = p.bg, bold = true })
+  hl("FloatTitle", { fg = p.yellow, bg = p.bg })
 
   hl("Question", { fg = p.yellow })
 
@@ -128,7 +128,7 @@ function M.setup()
   hl("TabLine", { fg = p.fg, bg = p.bg_alt })
   hl("TabLineFill", { fg = p.fg, bg = p.bg_alt })
   hl("TabLineSel", { fg = p.bg, bg = p.fg_alt })
-  hl("WinBar", { fg = p.fg, bg = p.bg, bold = true })
+  hl("WinBar", { fg = p.fg, bg = p.bg })
   hl("WinBarNC", { fg = p.dim, bg = p.bg })
 
   -- VertSplit / WinSeparator
@@ -139,7 +139,7 @@ function M.setup()
   hl("Visual", { bg = p.background_visual })
   hl("VisualNOS", { bg = p.background_visual })
 
-  hl("QuickFixLine", { fg = p.magenta, bold = true })
+  hl("QuickFixLine", { fg = p.magenta })
   hl("Debug", { fg = p.yellow })
   hl("debugPC", { fg = p.bg, bg = p.green })
   hl("debugBreakpoint", { fg = p.bg, bg = p.red })
@@ -211,13 +211,13 @@ function M.setup()
   hl("Label", { fg = p.yellow })
   hl("Structure", { fg = p.yellow })
   hl("Operator", { fg = p.yellow })
-  hl("Title", { fg = p.yellow, bold = true })
+  hl("Title", { fg = p.yellow })
   hl("Special", { fg = p.yellow })
   hl("SpecialChar", { fg = p.yellow })
   hl("Type", { fg = p.yellow })
 
   -- bold enabled
-  hl("Function", { fg = p.green, bold = true })
+  hl("Function", { fg = p.green })
 
   hl("String", { fg = p.green })
   hl("Character", { fg = p.green })
@@ -225,7 +225,7 @@ function M.setup()
   hl("Macro", { fg = p.cyan })
   hl("Identifier", { fg = p.blue })
 
-  hl("Todo", { fg = p.bg, bg = p.blue, bold = true })
+  hl("Todo", { fg = p.bg, bg = p.blue })
 
   -- italic comments (disable_italic_comment=false)
   hl("Comment", { fg = p.dim, italic = true })
@@ -332,12 +332,12 @@ function M.setup()
   -- ==========================================================================
   -- Treesitter highlights
   -- ==========================================================================
-  hl("TSStrong", { bold = true })
+  hl("TSStrong", {})
   hl("TSEmphasis", { italic = true })
   hl("TSUnderline", { underline = true })
-  hl("TSNote", { fg = p.fg, bg = p.background_purple, bold = true })
-  hl("TSWarning", { fg = p.fg, bg = p.background_yellow, bold = true })
-  hl("TSDanger", { fg = p.fg, bg = p.background_red, bold = true })
+  hl("TSNote", { fg = p.fg, bg = p.background_purple })
+  hl("TSWarning", { fg = p.fg, bg = p.background_yellow })
+  hl("TSDanger", { fg = p.fg, bg = p.background_red })
 
   -- Legacy TS* links
   link("TSAnnotation", "Purple")
@@ -350,7 +350,7 @@ function M.setup()
   link("TSConstBuiltin", "PurpleItalic")
   link("TSConstMacro", "PurpleItalic")
   link("TSConstant", "Fg")
-  link("TSConstructor", "GreenBold")
+  link("TSConstructor", "Green")
   link("TSDebug", "Debug")
   link("TSDefine", "Define")
   link("TSEnvironment", "Macro")
@@ -359,10 +359,10 @@ function M.setup()
   link("TSException", "Red")
   link("TSField", "Blue")
   link("TSFloat", "Purple")
-  link("TSFuncBuiltin", "GreenBold")
-  link("TSFuncMacro", "GreenBold")
-  link("TSFunction", "GreenBold")
-  link("TSFunctionCall", "GreenBold")
+  link("TSFuncBuiltin", "Green")
+  link("TSFuncMacro", "Green")
+  link("TSFunction", "Green")
+  link("TSFunctionCall", "Green")
   link("TSInclude", "Red")
   link("TSKeyword", "Red")
   link("TSKeywordFunction", "Red")
@@ -371,8 +371,8 @@ function M.setup()
   link("TSLabel", "Yellow")
   link("TSLiteral", "String")
   link("TSMath", "Blue")
-  link("TSMethod", "GreenBold")
-  link("TSMethodCall", "GreenBold")
+  link("TSMethod", "Green")
+  link("TSMethodCall", "Green")
   link("TSNamespace", "YellowItalic")
   link("TSNone", "Fg")
   link("TSNumber", "Purple")
@@ -575,8 +575,8 @@ function M.setup()
   link("CopilotSuggestion", "Grey")
 
   -- hrsh7th/nvim-cmp
-  hl("CmpItemAbbrMatch", { fg = p.green, bold = true })
-  hl("CmpItemAbbrMatchFuzzy", { fg = p.green, bold = true })
+  hl("CmpItemAbbrMatch", { fg = p.green })
+  hl("CmpItemAbbrMatchFuzzy", { fg = p.green })
   link("CmpItemAbbr", "Fg")
   link("CmpItemAbbrDeprecated", "Grey")
   link("CmpItemMenu", "Fg")
@@ -626,7 +626,7 @@ function M.setup()
   link("TroubleNormalNC", "Normal")
 
   -- nvim-telescope/telescope.nvim
-  hl("TelescopeMatching", { fg = p.green, bold = true })
+  hl("TelescopeMatching", { fg = p.green })
   hl("TelescopeBorder", { fg = p.border })
   link("TelescopePromptPrefix", "Yellow")
   link("TelescopeSelection", "DiffAdd")
@@ -700,13 +700,13 @@ function M.setup()
   hl("OctoRed", { fg = p.red })
   hl("OctoPurple", { fg = p.magenta })
   hl("OctoGrey", { fg = p.dim })
-  hl("OctoViewer", { fg = p.fg_alt, bold = true })
+  hl("OctoViewer", { fg = p.fg_alt })
   hl("OctoBubble", { fg = p.fg, bg = p.bg_alt })
-  hl("OctoBubbleGreen", { fg = p.green, bg = p.bg_sel, bold = true })
-  hl("OctoBubbleRed", { fg = p.red, bg = p.bg_sel, bold = true })
-  hl("OctoBubblePurple", { fg = p.magenta, bg = p.bg_sel, bold = true })
-  hl("OctoBubbleYellow", { fg = p.yellow, bg = p.bg_sel, bold = true })
-  hl("OctoBubbleBlue", { fg = p.blue, bg = p.bg_sel, bold = true })
+  hl("OctoBubbleGreen", { fg = p.green, bg = p.bg_sel })
+  hl("OctoBubbleRed", { fg = p.red, bg = p.bg_sel })
+  hl("OctoBubblePurple", { fg = p.magenta, bg = p.bg_sel })
+  hl("OctoBubbleYellow", { fg = p.yellow, bg = p.bg_sel })
+  hl("OctoBubbleBlue", { fg = p.blue, bg = p.bg_sel })
   hl("OctoGreenFloat", { fg = p.green, bg = p.bg_alt })
   hl("OctoRedFloat", { fg = p.red, bg = p.bg_alt })
   hl("OctoPurpleFloat", { fg = p.magenta, bg = p.bg_alt })
@@ -795,12 +795,12 @@ function M.setup()
   -- ==========================================================================
 
   -- markdown
-  hl("markdownH1", { fg = p.red, bold = true })
-  hl("markdownH2", { fg = p.yellow, bold = true })
-  hl("markdownH3", { fg = p.yellow, bold = true })
-  hl("markdownH4", { fg = p.green, bold = true })
-  hl("markdownH5", { fg = p.blue, bold = true })
-  hl("markdownH6", { fg = p.magenta, bold = true })
+  hl("markdownH1", { fg = p.red })
+  hl("markdownH2", { fg = p.orange })
+  hl("markdownH3", { fg = p.yellow })
+  hl("markdownH4", { fg = p.green })
+  hl("markdownH5", { fg = p.blue })
+  hl("markdownH6", { fg = p.magenta })
   hl("markdownItalic", { italic = true })
   hl("markdownBold", { bold = true })
   hl("markdownItalicDelimiter", { fg = p.dim, italic = true })
@@ -837,13 +837,13 @@ function M.setup()
   link("@markup.heading.6.marker.markdown", "@conceal")
 
   -- lua
-  link("luaFunc", "GreenBold")
+  link("luaFunc", "Green")
   link("luaFunction", "Aqua")
   link("luaTable", "Fg")
   link("luaIn", "RedItalic")
-  link("luaFuncCall", "GreenBold")
+  link("luaFuncCall", "Green")
   link("luaLocal", "Yellow")
-  link("luaSpecialValue", "GreenBold")
+  link("luaSpecialValue", "Green")
   link("luaBraces", "Fg")
   link("luaBuiltIn", "Purple")
   link("luaNoise", "Grey")
@@ -869,7 +869,7 @@ function M.setup()
   link("goDeclType", "YellowItalic")
   link("goFunctionCall", "Function")
   link("goPredefinedIdentifiers", "Aqua")
-  link("goBuiltins", "GreenBold")
+  link("goBuiltins", "Green")
   link("goVarArgs", "Grey")
   -- go treesitter overrides
   link("goTSInclude", "Purple")
@@ -894,16 +894,16 @@ function M.setup()
 
   -- lazy.nvim
   link("LazyNormal", "Normal")
-  hl("LazyH1", { fg = p.bg, bg = p.red, bold = true })
-  hl("LazyH2", { fg = p.yellow, bold = true })
+  hl("LazyH1", { fg = p.bg, bg = p.red })
+  hl("LazyH2", { fg = p.yellow })
   hl("LazyButton", { fg = p.fg, bg = p.bg_alt })
-  hl("LazyButtonActive", { fg = p.bg, bg = p.fg_alt, bold = true })
+  hl("LazyButtonActive", { fg = p.bg, bg = p.fg_alt })
   hl("LazyProp", { fg = p.dim })
   hl("LazyCommit", { fg = p.cyan })
 
   -- mason
-  hl("MasonHeader", { fg = p.bg, bg = p.red, bold = true })
-  hl("MasonHeaderSecondary", { fg = p.bg, bg = p.yellow, bold = true })
+  hl("MasonHeader", { fg = p.bg, bg = p.red })
+  hl("MasonHeaderSecondary", { fg = p.bg, bg = p.yellow })
   link("MasonHighlight", "Green")
   link("MasonHighlightSecondary", "Yellow")
   hl("MasonHighlightBlock", { fg = p.bg, bg = p.yellow })

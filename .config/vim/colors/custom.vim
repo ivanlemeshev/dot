@@ -13,74 +13,74 @@ set background=dark
 " ==========================================================================
 
 " base00 - background
-let s:gui00        = "272e33"
-let g:base16_gui00 = "272e33"
+let s:gui00        = "282828"
+let g:base16_gui00 = "282828"
 " base01 - lighter background (cursor line, statusline, pmenu)
-let s:gui01        = "2e383c"
-let g:base16_gui01 = "2e383c"
+let s:gui01        = "2b2b2b"
+let g:base16_gui01 = "2b2b2b"
 " base02 - selection / visual background
-let s:gui02        = "374145"
-let g:base16_gui02 = "374145"
+let s:gui02        = "32302f"
+let g:base16_gui02 = "32302f"
 " base03 - comments, line numbers, faded
-let s:gui03        = "859289"
-let g:base16_gui03 = "859289"
+let s:gui03        = "928374"
+let g:base16_gui03 = "928374"
 " base04 - dark foreground (inactive UI, borders)
-let s:gui04        = "7a8478"
-let g:base16_gui04 = "7a8478"
+let s:gui04        = "7c6f64"
+let g:base16_gui04 = "7c6f64"
 " base05 - default foreground
-let s:gui05        = "d3c6aa"
-let g:base16_gui05 = "d3c6aa"
+let s:gui05        = "ddc7a1"
+let g:base16_gui05 = "ddc7a1"
 " base06 - light foreground (selected item backgrounds)
-let s:gui06        = "9da9a0"
-let g:base16_gui06 = "9da9a0"
+let s:gui06        = "a89984"
+let g:base16_gui06 = "a89984"
 " base07 - bright white
-let s:gui07        = "d3c6aa"
-let g:base16_gui07 = "d3c6aa"
+let s:gui07        = "ddc7a1"
+let g:base16_gui07 = "ddc7a1"
 " base08 - red (errors, diff deleted, keywords: return/if/for)
-let s:gui08        = "e67e80"
-let g:base16_gui08 = "e67e80"
+let s:gui08        = "ea6962"
+let g:base16_gui08 = "ea6962"
 " base09 - orange (integers, booleans, constants)
-let s:gui09        = "e69875"
-let g:base16_gui09 = "e69875"
+let s:gui09        = "e78a4e"
+let g:base16_gui09 = "e78a4e"
 " base0A - yellow (types, search background, operators)
-let s:gui0A        = "dbbc7f"
-let g:base16_gui0A = "dbbc7f"
+let s:gui0A        = "d8a657"
+let g:base16_gui0A = "d8a657"
 " base0B - green (strings, diff added, success)
-let s:gui0B        = "a7c080"
-let g:base16_gui0B = "a7c080"
+let s:gui0B        = "a9b665"
+let g:base16_gui0B = "a9b665"
 " base0C - cyan (support, regex, escape characters)
-let s:gui0C        = "83c092"
-let g:base16_gui0C = "83c092"
+let s:gui0C        = "89b482"
+let g:base16_gui0C = "89b482"
 " base0D - blue (functions, methods, identifiers)
-let s:gui0D        = "7fbbb3"
-let g:base16_gui0D = "7fbbb3"
+let s:gui0D        = "7daea3"
+let g:base16_gui0D = "7daea3"
 " base0E - magenta (preprocessor, macros, storage keywords)
-let s:gui0E        = "d699b6"
-let g:base16_gui0E = "d699b6"
+let s:gui0E        = "d3869b"
+let g:base16_gui0E = "d3869b"
 " base0F - brown (deprecated, embedded language tags)
-let s:gui0F        = "493b40"
-let g:base16_gui0F = "493b40"
+let s:gui0F        = "3c2b2c"
+let g:base16_gui0F = "3c2b2c"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
-let s:gui_faint       = "1e2326"
+let s:gui_faint       = "1d2021"
 " gui_border - split borders, matches tmux pane border (brightBlack)
-let s:gui_border      = "495156"
+let s:gui_border      = "45403d"
 " extended background accents from palette
-let s:gui_bg_red      = "493b40"
-let g:base16_gui_bg_red = "493b40"
-let s:gui_bg_yellow   = "45443c"
-let g:base16_gui_bg_yellow = "45443c"
-let s:gui_bg_green    = "3c4841"
-let g:base16_gui_bg_green = "3c4841"
-let s:gui_bg_blue     = "384b55"
-let g:base16_gui_bg_blue = "384b55"
-let s:gui_bg_purple   = "463f48"
-let g:base16_gui_bg_purple = "463f48"
-let s:gui_bg_visual   = "4c3743"
-let g:base16_gui_bg_visual = "4c3743"
-let s:gui_bg3         = "414b50"
-let g:base16_gui_bg3 = "414b50"
-let s:gui_bg5         = "4f5b58"
-let g:base16_gui_bg5 = "4f5b58"
+let s:gui_bg_red      = "3c2b2c"
+let g:base16_gui_bg_red = "3c2b2c"
+let s:gui_bg_yellow   = "3c3428"
+let g:base16_gui_bg_yellow = "3c3428"
+let s:gui_bg_green    = "2f3a2e"
+let g:base16_gui_bg_green = "2f3a2e"
+let s:gui_bg_blue     = "2a3238"
+let g:base16_gui_bg_blue = "2a3238"
+let s:gui_bg_purple   = "3a2f34"
+let g:base16_gui_bg_purple = "3a2f34"
+let s:gui_bg_visual   = "3c3836"
+let g:base16_gui_bg_visual = "3c3836"
+let s:gui_bg3         = "3c3836"
+let g:base16_gui_bg3 = "3c3836"
+let s:gui_bg5         = "504945"
+let g:base16_gui_bg5 = "504945"
 
 " ==========================================================================
 " Helper
@@ -139,10 +139,10 @@ call s:hl('DiffDelete',   s:gui08, s:gui_bg_red)
 call s:hl('DiffText',     s:gui00, s:gui0D)
 
 call s:hl('Directory',    s:gui0B, '')
-call s:hl('ErrorMsg',     s:gui08, '',      'bold,underline')
-call s:hl('WarningMsg',   s:gui0A, '',      'bold')
-call s:hl('ModeMsg',      s:gui05, '',      'bold')
-call s:hl('MoreMsg',      s:gui0A, '',      'bold')
+call s:hl('ErrorMsg',     s:gui08, '',      'underline')
+call s:hl('WarningMsg',   s:gui0A, '')
+call s:hl('ModeMsg',      s:gui05, '')
+call s:hl('MoreMsg',      s:gui0A, '')
 call s:hl('MatchParen',   '',      s:gui02)
 call s:hl('NonText',      s:gui_bg3, '')
 call s:hl('Whitespace',   s:gui_bg3, '')
@@ -184,7 +184,7 @@ endif
 call s:hl('Visual',       '',      s:gui_bg_visual)
 call s:hl('VisualNOS',    '',      s:gui_bg_visual)
 
-call s:hl('QuickFixLine', s:gui0E, '',      'bold')
+call s:hl('QuickFixLine', s:gui0E, '')
 call s:hl('Debug',        s:gui0A, '')
 call s:hl('debugPC',      s:gui00, s:gui0B)
 call s:hl('debugBreakpoint', s:gui00, s:gui08)
@@ -216,13 +216,12 @@ call s:hl('Tag',          s:gui0A, '')
 call s:hl('Label',        s:gui0A, '')
 call s:hl('Structure',    s:gui0A, '')
 call s:hl('Operator',     s:gui0A, '')
-call s:hl('Title',        s:gui0A, '',      'bold')
+call s:hl('Title',        s:gui0A, '')
 call s:hl('Special',      s:gui0A, '')
 call s:hl('SpecialChar',  s:gui0A, '')
 call s:hl('Type',         s:gui0A, '')
 
-" bold enabled
-call s:hl('Function',     s:gui0B, '',      'bold')
+call s:hl('Function',     s:gui0B, '')
 
 call s:hl('String',       s:gui0B, '')
 call s:hl('Character',    s:gui0B, '')
@@ -230,7 +229,7 @@ call s:hl('Constant',     s:gui0C, '')
 call s:hl('Macro',        s:gui0C, '')
 call s:hl('Identifier',   s:gui0D, '')
 
-call s:hl('Todo',         s:gui00, s:gui0D, 'bold')
+call s:hl('Todo',         s:gui00, s:gui0D)
 
 " italic comments
 call s:hl('Comment',        s:gui03, '',    'italic')
@@ -319,12 +318,12 @@ highlight! link diffLine      Grey
 " ==========================================================================
 " Filetype: markdown
 " ==========================================================================
-call s:hl('markdownH1',   s:gui08, '',      'bold')
-call s:hl('markdownH2',   s:gui0A, '',      'bold')
-call s:hl('markdownH3',   s:gui0A, '',      'bold')
-call s:hl('markdownH4',   s:gui0B, '',      'bold')
-call s:hl('markdownH5',   s:gui0D, '',      'bold')
-call s:hl('markdownH6',   s:gui0E, '',      'bold')
+call s:hl('markdownH1',   s:gui08, '')
+call s:hl('markdownH2',   s:gui09, '')
+call s:hl('markdownH3',   s:gui0A, '')
+call s:hl('markdownH4',   s:gui0B, '')
+call s:hl('markdownH5',   s:gui0D, '')
+call s:hl('markdownH6',   s:gui0E, '')
 call s:hl('markdownItalic', '',    '',      'italic')
 call s:hl('markdownBold', '',      '',      'bold')
 call s:hl('markdownItalicDelimiter', s:gui03, '', 'italic')
@@ -344,19 +343,19 @@ highlight! link markdownHeadingDelimiter Grey
 highlight! link markdownLinkText         Purple
 highlight! link markdownUrlTitleDelimiter Green
 highlight! link markdownIdDeclaration    markdownLinkText
-highlight! link markdownBoldDelimiter    Grey
+highlight! link markdownBoldDelimiter    GreyBold
 highlight! link markdownId               Yellow
 
 " ==========================================================================
 " Filetype: lua
 " ==========================================================================
-highlight! link luaFunc         GreenBold
+highlight! link luaFunc         Green
 highlight! link luaFunction     Aqua
 highlight! link luaTable        Fg
 highlight! link luaIn           RedItalic
-highlight! link luaFuncCall     GreenBold
+highlight! link luaFuncCall     Green
 highlight! link luaLocal        Yellow
-highlight! link luaSpecialValue GreenBold
+highlight! link luaSpecialValue Green
 highlight! link luaBraces       Fg
 highlight! link luaBuiltIn      Purple
 highlight! link luaNoise        Grey
@@ -382,18 +381,18 @@ highlight! link goVarDefs              Aqua
 highlight! link goDeclType             YellowItalic
 highlight! link goFunctionCall         Function
 highlight! link goPredefinedIdentifiers Aqua
-highlight! link goBuiltins             GreenBold
+highlight! link goBuiltins             Green
 highlight! link goVarArgs              Grey
 
 " ==========================================================================
 " Statusline mode highlights (lualine-like)
 " ==========================================================================
-call s:hl('StatusModeNormal',   s:gui00, s:gui06,  'bold')
-call s:hl('StatusModeInsert',   s:gui00, s:gui0B,  'bold')
-call s:hl('StatusModeVisual',   s:gui00, s:gui09,  'bold')
-call s:hl('StatusModeReplace',  s:gui00, s:gui0A,  'bold')
-call s:hl('StatusModeCommand',  s:gui00, s:gui0D,  'bold')
-call s:hl('StatusModeTerminal', s:gui00, s:gui0E,  'bold')
+call s:hl('StatusModeNormal',   s:gui00, s:gui06)
+call s:hl('StatusModeInsert',   s:gui00, s:gui0B)
+call s:hl('StatusModeVisual',   s:gui00, s:gui09)
+call s:hl('StatusModeReplace',  s:gui00, s:gui0A)
+call s:hl('StatusModeCommand',  s:gui00, s:gui0D)
+call s:hl('StatusModeTerminal', s:gui00, s:gui0E)
 call s:hl('StatusModeB',        s:gui05, s:gui01)
 call s:hl('StatusModeC',        s:gui05, s:gui01)
 call s:hl('StatusInactive',     s:gui06, s:gui01)
