@@ -34,7 +34,7 @@ teardown() {
 }
 
 @test "apply-color-scheme reproduces checked-in generated theme files" {
-  run bash "$TEST_ROOT/bin/apply-color-scheme" "$TEST_ROOT/color/schemes/color-scheme.everforest-hard.yaml"
+  run bash "$TEST_ROOT/bin/apply-color-scheme" "$TEST_ROOT/color/schemes/color-scheme.everforest-dark-hard.yaml"
   [ "$status" -eq 0 ]
 
   cmp -s \
@@ -74,12 +74,12 @@ teardown() {
   rm -f "$TEST_ROOT/.config/bat/themes/custom.tmTheme"
 
   run python3 "$TEST_ROOT/color/generators/apply-omp-theme.py" \
-    "$TEST_ROOT/color/schemes/color-scheme.everforest-hard.yaml" \
+    "$TEST_ROOT/color/schemes/color-scheme.everforest-dark-hard.yaml" \
     "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
   [ "$status" -eq 0 ]
 
   run python3 "$TEST_ROOT/color/generators/apply-tmtheme.py" \
-    "$TEST_ROOT/color/schemes/color-scheme.everforest-hard.yaml" \
+    "$TEST_ROOT/color/schemes/color-scheme.everforest-dark-hard.yaml" \
     "$TEST_ROOT/.config/bat/themes/custom.tmTheme"
   [ "$status" -eq 0 ]
 

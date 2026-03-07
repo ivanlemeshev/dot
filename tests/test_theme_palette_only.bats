@@ -11,7 +11,7 @@ import re
 import sys
 
 project_root = "${PROJECT_ROOT}"
-scheme = os.path.join(project_root, "color/schemes/color-scheme.everforest-hard.yaml")
+scheme = os.path.join(project_root, "color/schemes/color-scheme.everforest-dark-hard.yaml")
 
 sys.path.insert(0, os.path.join(project_root, "color/lib"))
 from theme import load_theme_sections
