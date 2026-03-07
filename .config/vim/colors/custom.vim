@@ -139,10 +139,10 @@ call s:hl('DiffDelete',   s:gui08, s:gui_bg_red)
 call s:hl('DiffText',     s:gui00, s:gui0D)
 
 call s:hl('Directory',    s:gui0B, '')
-call s:hl('ErrorMsg',     s:gui08, '',      'bold,underline')
-call s:hl('WarningMsg',   s:gui0A, '',      'bold')
-call s:hl('ModeMsg',      s:gui05, '',      'bold')
-call s:hl('MoreMsg',      s:gui0A, '',      'bold')
+call s:hl('ErrorMsg',     s:gui08, '',      'underline')
+call s:hl('WarningMsg',   s:gui0A, '')
+call s:hl('ModeMsg',      s:gui05, '')
+call s:hl('MoreMsg',      s:gui0A, '')
 call s:hl('MatchParen',   '',      s:gui02)
 call s:hl('NonText',      s:gui_bg3, '')
 call s:hl('Whitespace',   s:gui_bg3, '')
@@ -184,7 +184,7 @@ endif
 call s:hl('Visual',       '',      s:gui_bg_visual)
 call s:hl('VisualNOS',    '',      s:gui_bg_visual)
 
-call s:hl('QuickFixLine', s:gui0E, '',      'bold')
+call s:hl('QuickFixLine', s:gui0E, '')
 call s:hl('Debug',        s:gui0A, '')
 call s:hl('debugPC',      s:gui00, s:gui0B)
 call s:hl('debugBreakpoint', s:gui00, s:gui08)
@@ -216,13 +216,12 @@ call s:hl('Tag',          s:gui0A, '')
 call s:hl('Label',        s:gui0A, '')
 call s:hl('Structure',    s:gui0A, '')
 call s:hl('Operator',     s:gui0A, '')
-call s:hl('Title',        s:gui0A, '',      'bold')
+call s:hl('Title',        s:gui0A, '')
 call s:hl('Special',      s:gui0A, '')
 call s:hl('SpecialChar',  s:gui0A, '')
 call s:hl('Type',         s:gui0A, '')
 
-" bold enabled
-call s:hl('Function',     s:gui0B, '',      'bold')
+call s:hl('Function',     s:gui0B, '')
 
 call s:hl('String',       s:gui0B, '')
 call s:hl('Character',    s:gui0B, '')
@@ -230,7 +229,7 @@ call s:hl('Constant',     s:gui0C, '')
 call s:hl('Macro',        s:gui0C, '')
 call s:hl('Identifier',   s:gui0D, '')
 
-call s:hl('Todo',         s:gui00, s:gui0D, 'bold')
+call s:hl('Todo',         s:gui00, s:gui0D)
 
 " italic comments
 call s:hl('Comment',        s:gui03, '',    'italic')
@@ -319,12 +318,12 @@ highlight! link diffLine      Grey
 " ==========================================================================
 " Filetype: markdown
 " ==========================================================================
-call s:hl('markdownH1',   s:gui08, '',      'bold')
-call s:hl('markdownH2',   s:gui0A, '',      'bold')
-call s:hl('markdownH3',   s:gui0A, '',      'bold')
-call s:hl('markdownH4',   s:gui0B, '',      'bold')
-call s:hl('markdownH5',   s:gui0D, '',      'bold')
-call s:hl('markdownH6',   s:gui0E, '',      'bold')
+call s:hl('markdownH1',   s:gui08, '')
+call s:hl('markdownH2',   s:gui09, '')
+call s:hl('markdownH3',   s:gui0A, '')
+call s:hl('markdownH4',   s:gui0B, '')
+call s:hl('markdownH5',   s:gui0D, '')
+call s:hl('markdownH6',   s:gui0E, '')
 call s:hl('markdownItalic', '',    '',      'italic')
 call s:hl('markdownBold', '',      '',      'bold')
 call s:hl('markdownItalicDelimiter', s:gui03, '', 'italic')
@@ -344,19 +343,19 @@ highlight! link markdownHeadingDelimiter Grey
 highlight! link markdownLinkText         Purple
 highlight! link markdownUrlTitleDelimiter Green
 highlight! link markdownIdDeclaration    markdownLinkText
-highlight! link markdownBoldDelimiter    Grey
+highlight! link markdownBoldDelimiter    GreyBold
 highlight! link markdownId               Yellow
 
 " ==========================================================================
 " Filetype: lua
 " ==========================================================================
-highlight! link luaFunc         GreenBold
+highlight! link luaFunc         Green
 highlight! link luaFunction     Aqua
 highlight! link luaTable        Fg
 highlight! link luaIn           RedItalic
-highlight! link luaFuncCall     GreenBold
+highlight! link luaFuncCall     Green
 highlight! link luaLocal        Yellow
-highlight! link luaSpecialValue GreenBold
+highlight! link luaSpecialValue Green
 highlight! link luaBraces       Fg
 highlight! link luaBuiltIn      Purple
 highlight! link luaNoise        Grey
@@ -382,18 +381,18 @@ highlight! link goVarDefs              Aqua
 highlight! link goDeclType             YellowItalic
 highlight! link goFunctionCall         Function
 highlight! link goPredefinedIdentifiers Aqua
-highlight! link goBuiltins             GreenBold
+highlight! link goBuiltins             Green
 highlight! link goVarArgs              Grey
 
 " ==========================================================================
 " Statusline mode highlights (lualine-like)
 " ==========================================================================
-call s:hl('StatusModeNormal',   s:gui00, s:gui06,  'bold')
-call s:hl('StatusModeInsert',   s:gui00, s:gui0B,  'bold')
-call s:hl('StatusModeVisual',   s:gui00, s:gui09,  'bold')
-call s:hl('StatusModeReplace',  s:gui00, s:gui0A,  'bold')
-call s:hl('StatusModeCommand',  s:gui00, s:gui0D,  'bold')
-call s:hl('StatusModeTerminal', s:gui00, s:gui0E,  'bold')
+call s:hl('StatusModeNormal',   s:gui00, s:gui06)
+call s:hl('StatusModeInsert',   s:gui00, s:gui0B)
+call s:hl('StatusModeVisual',   s:gui00, s:gui09)
+call s:hl('StatusModeReplace',  s:gui00, s:gui0A)
+call s:hl('StatusModeCommand',  s:gui00, s:gui0D)
+call s:hl('StatusModeTerminal', s:gui00, s:gui0E)
 call s:hl('StatusModeB',        s:gui05, s:gui01)
 call s:hl('StatusModeC',        s:gui05, s:gui01)
 call s:hl('StatusInactive',     s:gui06, s:gui01)
