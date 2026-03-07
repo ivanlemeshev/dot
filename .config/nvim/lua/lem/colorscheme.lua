@@ -5,33 +5,33 @@ local M = {}
 -- Palette (matches color/color-scheme.yaml via apply-vim-theme)
 M.palette = {
   -- Backgrounds
-  bg = "#272e33", -- main background
-  bg_alt = "#2e383c", -- lighter bg: cursor line, statusline, pmenu
-  bg_sel = "#374145", -- selection / visual background
-  background_3 = "#414b50", -- deeper neutral background
-  background_5 = "#4f5b58", -- elevated neutral background
-  background_red = "#493b40", -- soft error background
-  background_yellow = "#45443c", -- soft warning background
-  background_green = "#3c4841", -- soft success background
-  background_blue = "#384b55", -- soft info background
-  background_purple = "#463f48", -- soft hint background
-  background_visual = "#4c3743", -- visual-mode background
+  bg = "#282828", -- main background
+  bg_alt = "#2b2b2b", -- lighter bg: cursor line, statusline, pmenu
+  bg_sel = "#32302f", -- selection / visual background
+  background_3 = "#3c3836", -- deeper neutral background
+  background_5 = "#504945", -- elevated neutral background
+  background_red = "#3c2b2c", -- soft error background
+  background_yellow = "#3c3428", -- soft warning background
+  background_green = "#2f3a2e", -- soft success background
+  background_blue = "#2a3238", -- soft info background
+  background_purple = "#3a2f34", -- soft hint background
+  background_visual = "#3c3836", -- visual-mode background
   -- Foregrounds / greys
-  faint = "#1e2326", -- barely visible: non-printable chars
-  muted = "#859289", -- comments, line numbers, faded
-  dim = "#7a8478", -- dark foreground: inactive UI
-  border = "#495156", -- split borders: matches tmux pane border
-  fg = "#d3c6aa", -- default foreground
-  fg_alt = "#9da9a0", -- light foreground: selected item backgrounds
-  bright = "#d3c6aa", -- bright white
+  faint = "#1d2021", -- barely visible: non-printable chars
+  muted = "#928374", -- comments, line numbers, faded
+  dim = "#7c6f64", -- dark foreground: inactive UI
+  border = "#45403d", -- split borders: matches tmux pane border
+  fg = "#ddc7a1", -- default foreground
+  fg_alt = "#a89984", -- light foreground: selected item backgrounds
+  bright = "#ddc7a1", -- bright white
   -- Colors
-  red = "#e67e80",
-  orange = "#e69875",
-  yellow = "#dbbc7f",
-  green = "#a7c080",
-  cyan = "#83c092",
-  blue = "#7fbbb3",
-  magenta = "#d699b6",
+  red = "#ea6962",
+  orange = "#e78a4e",
+  yellow = "#d8a657",
+  green = "#a9b665",
+  cyan = "#89b482",
+  blue = "#7daea3",
+  magenta = "#d3869b",
 }
 
 function M.setup()
