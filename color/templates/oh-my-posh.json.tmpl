@@ -5,36 +5,13 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "__green__",
-          "options": {
-            "alpine": "",
-            "arch": "",
-            "centos": "",
-            "debian": "",
-            "elementary": "",
-            "fedora": "",
-            "gentoo": "",
-            "linux": "",
-            "macos": "",
-            "manjaro": "",
-            "mint": "",
-            "opensuse": "",
-            "raspbian": "",
-            "ubuntu": "",
-            "windows": ""
-          },
-          "style": "plain",
-          "template": " {{ .Icon }}<__brightBlack__> | </>",
-          "type": "os"
-        },
-        {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__blue__>{{ .UserName }}</><__yellow__>󰁥</></>{{ end }}<__cyan__>{{ .HostName }}</><__brightBlack__> | </>",
+          "template": "<__brightBlack__>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</><__brightBlack__> | </>",
           "type": "session"
         },
         {
-          "foreground": "__yellow__",
+          "foreground": "__red__",
           "style": "plain",
           "template": "󱐋<__brightBlack__> | </>",
           "type": "root"
@@ -49,11 +26,11 @@
           "type": "path"
         },
         {
-          "foreground": "__yellow__",
+          "foreground": "__green__",
           "foreground_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}__yellow__{{ end }}",
-            "{{ if gt .Ahead 0 }}__cyan__{{ end }}",
-            "{{ if gt .Behind 0 }}__magenta__{{ end }}"
+            "{{ if gt .Ahead 0 }}__blue__{{ end }}",
+            "{{ if gt .Behind 0 }}__red__{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -61,22 +38,16 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<__brightBlack__>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<__red__> 󰤌 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<__green__>  {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "template": "<__brightBlack__>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<__red__> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<__green__> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
           "type": "git"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
+        },
         {
           "foreground": "__green__",
           "options": {
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": "  {{ .CurrentDate | date .Format }} ",
+          "template": "<__brightBlack__>| </>{{ .CurrentDate | date .Format }} ",
           "type": "time"
         },
         {
@@ -86,7 +57,7 @@
             "threshold": 500
           },
           "style": "plain",
-          "template": "  {{ .FormattedMs }} </>",
+          "template": "<__brightBlack__>| </> {{ .FormattedMs }} </>",
           "type": "executiontime"
         },
         {
@@ -95,10 +66,10 @@
             "{{ if gt .Code 0 }}__red__{{ end }}"
           ],
           "options": {
-            "always_enabled": true
+            "always_enabled": false
           },
           "style": "plain",
-          "template": "  {{ if gt .Code 0 }}{{ .Code }}{{ end }} ",
+          "template": "<__brightBlack__>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
           "type": "status"
         }
       ],
@@ -111,7 +82,7 @@
         {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "$",
+          "template": "<__brightBlack__>└</><__blue__>$</>",
           "type": "text"
         }
       ],
