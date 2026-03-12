@@ -63,16 +63,17 @@ function M.toggle()
   local height = math.floor(vim.o.lines * M.config.height_percent)
 
   -- Backdrop behind the terminal window
-  backdrop_win = vim.api.nvim_open_win(vim.api.nvim_create_buf(false, true), false, {
-    relative = "editor",
-    width = vim.o.columns,
-    height = vim.o.lines,
-    row = 0,
-    col = 0,
-    style = "minimal",
-    focusable = false,
-    zindex = 49,
-  })
+  backdrop_win =
+    vim.api.nvim_open_win(vim.api.nvim_create_buf(false, true), false, {
+      relative = "editor",
+      width = vim.o.columns,
+      height = vim.o.lines,
+      row = 0,
+      col = 0,
+      style = "minimal",
+      focusable = false,
+      zindex = 49,
+    })
   vim.wo[backdrop_win].winhighlight = "Normal:TerminalBackdrop"
   vim.wo[backdrop_win].winblend = 60
 
