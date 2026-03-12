@@ -18,6 +18,7 @@ packages=(
   "direnv"
   "fd"
   "fzf"
+  "grpcurl"
   "jq"
   "openssl"
   "readline"

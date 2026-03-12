@@ -453,3 +453,18 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.softtabstop = 4
   end,
 })
+
+-- Kulala UI settings
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "kulala://*",
+  callback = function()
+    vim.opt_local.foldenable = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "kulala://*",
+  callback = function()
+    vim.diagnostic.enable(false)
+  end,
+})
