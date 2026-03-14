@@ -20,7 +20,7 @@ M.palette = {
   faint = "#1d2021", -- barely visible: non-printable chars
   muted = "#928374", -- comments, line numbers, faded
   dim = "#7c6f64", -- dark foreground: inactive UI
-  border = "#45403d", -- split borders: matches tmux pane border
+  border = "#45403d", -- float borders and secondary UI borders
   fg = "#ddc7a1", -- default foreground
   fg_alt = "#a89984", -- light foreground: selected item backgrounds
   bright = "#ddc7a1", -- bright white
@@ -121,18 +121,19 @@ function M.setup()
   hl("SpellRare", { undercurl = true, sp = p.magenta })
 
   -- StatusLine: default style, transparent_background=0
-  hl("StatusLine", { fg = p.fg, bg = p.bg_alt })
-  hl("StatusLineTerm", { fg = p.fg, bg = p.bg_alt })
-  hl("StatusLineNC", { fg = p.dim, bg = p.bg_alt })
-  hl("StatusLineTermNC", { fg = p.dim, bg = p.bg_alt })
-  hl("TabLine", { fg = p.fg, bg = p.bg_alt })
-  hl("TabLineFill", { fg = p.fg, bg = p.bg_alt })
+  hl("StatusLine", { fg = p.fg, bg = p.background_3 })
+  hl("StatusLineTerm", { fg = p.fg, bg = p.background_3 })
+  hl("StatusLineNC", { fg = p.dim, bg = p.background_3 })
+  hl("StatusLineTermNC", { fg = p.dim, bg = p.background_3 })
+  hl("LualineSeparator", { fg = p.dim, bg = p.background_3 })
+  hl("TabLine", { fg = p.fg, bg = p.background_3 })
+  hl("TabLineFill", { fg = p.fg, bg = p.background_3 })
   hl("TabLineSel", { fg = p.bg, bg = p.fg_alt })
   hl("WinBar", { fg = p.fg, bg = p.bg })
   hl("WinBarNC", { fg = p.dim, bg = p.bg })
 
-  -- VertSplit / WinSeparator
-  hl("VertSplit", { fg = p.border })
+  -- VertSplit / WinSeparator: match tmux separator color.
+  hl("VertSplit", { fg = p.dim })
   link("WinSeparator", "VertSplit")
 
   -- Visual: grey background
@@ -670,7 +671,7 @@ function M.setup()
   link("NvimTreeNormal", "Normal")
   link("NvimTreeNormalNC", "Normal")
   link("NvimTreeEndOfBuffer", "Normal")
-  hl("NvimTreeWinSeparator", { fg = p.border, bg = p.bg })
+  hl("NvimTreeWinSeparator", { fg = p.dim, bg = p.bg })
   link("NvimTreeSymlink", "Fg")
   link("NvimTreeFolderName", "Green")
   link("NvimTreeRootFolder", "Grey")
