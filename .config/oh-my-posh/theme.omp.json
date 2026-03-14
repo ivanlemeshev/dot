@@ -57,7 +57,7 @@
             "threshold": 500
           },
           "style": "plain",
-          "template": "<#7c6f64>| </> {{ .FormattedMs }} </>",
+          "template": "<#7c6f64>| </>{{ .FormattedMs }} </>",
           "type": "executiontime"
         },
         {
