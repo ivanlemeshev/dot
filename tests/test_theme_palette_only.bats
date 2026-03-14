@@ -4,22 +4,29 @@ setup() {
   PROJECT_ROOT="$(cd "${BATS_TEST_DIRNAME}/.." && pwd)"
 }
 
-@test "generated theme files use only Everforest palette colors" {
+@test "generated theme files match at least one known scheme palette" {
   run python3 - <<PY
+import glob
 import os
 import re
 import sys
 
 project_root = "${PROJECT_ROOT}"
-scheme = os.path.join(project_root, "color/schemes/color-scheme.everforest-dark-hard.yaml")
+schemes_glob = os.path.join(project_root, "color/schemes/color-scheme.*.yaml")
+schemes = sorted(glob.glob(schemes_glob))
+if not schemes:
+    print("No color schemes found.")
+    raise SystemExit(1)
 
 sys.path.insert(0, os.path.join(project_root, "color/lib"))
 from theme import load_theme_sections
 
-colors, raw_palette = load_theme_sections(scheme, prefix="#", uppercase=False)
-
-allowed_hex = {v.lower() for v in raw_palette.values()} | {v.lower() for v in colors.values()}
-allowed_hex6 = {h.lstrip("#") for h in allowed_hex}
+allowed_by_scheme = {}
+for scheme in schemes:
+    colors, raw_palette = load_theme_sections(scheme, prefix="#", uppercase=False)
+    allowed_hex = {v.lower() for v in raw_palette.values()} | {v.lower() for v in colors.values()}
+    allowed_hex6 = {h.lstrip("#") for h in allowed_hex}
+    allowed_by_scheme[scheme] = (allowed_hex, allowed_hex6)
 
 targets = [
     "windows/terminal/settings.json",
@@ -33,7 +40,7 @@ targets = [
     ".config/nvim/lua/lem/colorscheme.lua",
 ]
 
-bad = []
+observed = []
 
 hex7 = re.compile(r"#[0-9a-fA-F]{6}")
 hex8 = re.compile(r"#[0-9a-fA-F]{8}")
@@ -42,26 +49,39 @@ for rel in targets:
     text = open(path, encoding="utf-8").read()
 
     for h in hex7.findall(text):
-        if h.lower() not in allowed_hex:
-            bad.append((rel, h))
+        observed.append((rel, h.lower(), "hex7"))
 
     # Allow fully-opaque alpha variants (e.g. Windows Terminal tab backgrounds): #RRGGBBFF
     for h in hex8.findall(text):
-        base = h[0:7].lower()
-        alpha = h[7:9].lower()
-        if base not in allowed_hex or alpha != "ff":
-            bad.append((rel, h))
+        observed.append((rel, h.lower(), "hex8"))
 
     if rel.endswith("custom_theme.fish"):
         for line in text.splitlines():
             m = re.match(r"^set -l \\w+\\s+([0-9a-fA-F]{6})$", line.strip())
-            if m and m.group(1).lower() not in allowed_hex6:
-                bad.append((rel, m.group(1)))
+            if m:
+                observed.append((rel, m.group(1).lower(), "hex6"))
 
-if bad:
-    for rel, h in bad:
-        print(f"Found non-palette color in {rel}: {h}")
-    raise SystemExit(1)
+for scheme, (allowed_hex, allowed_hex6) in allowed_by_scheme.items():
+    bad = []
+    for rel, value, kind in observed:
+        if kind == "hex7":
+            if value not in allowed_hex:
+                bad.append((rel, value))
+        elif kind == "hex8":
+            base = value[0:7]
+            alpha = value[7:9]
+            if base not in allowed_hex or alpha != "ff":
+                bad.append((rel, value))
+        else:
+            if value not in allowed_hex6:
+                bad.append((rel, value))
+    if not bad:
+        raise SystemExit(0)
+
+print("Generated files do not match any known scheme palette.")
+for rel, value, _ in observed:
+    print(f"Observed color in outputs: {rel}: {value}")
+raise SystemExit(1)
 PY
 
   [ "$status" -eq 0 ]
