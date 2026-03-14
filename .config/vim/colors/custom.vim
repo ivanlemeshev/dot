@@ -15,7 +15,7 @@ set background=dark
 " base00 - background
 let s:gui00        = "282828"
 let g:base16_gui00 = "282828"
-" base01 - lighter background (cursor line, statusline, pmenu)
+" base01 - lighter background (cursor line, pmenu)
 let s:gui01        = "2b2b2b"
 let g:base16_gui01 = "2b2b2b"
 " base02 - selection / visual background
@@ -62,7 +62,7 @@ let s:gui0F        = "3c2b2c"
 let g:base16_gui0F = "3c2b2c"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
 let s:gui_faint       = "1d2021"
-" gui_border - split borders, matches tmux pane border (brightBlack)
+" gui_border - float borders and secondary UI borders
 let s:gui_border      = "45403d"
 " extended background accents from palette
 let s:gui_bg_red      = "3c2b2c"
@@ -166,16 +166,16 @@ call s:hl('SpellLocal',   '',      '',      'undercurl', s:gui0C)
 call s:hl('SpellRare',    '',      '',      'undercurl', s:gui0E)
 
 " StatusLine
-call s:hl('StatusLine',       s:gui05, s:gui01)
-call s:hl('StatusLineTerm',   s:gui05, s:gui01)
-call s:hl('StatusLineNC',     s:gui04, s:gui01)
-call s:hl('StatusLineTermNC', s:gui04, s:gui01)
-call s:hl('TabLine',          s:gui05, s:gui01)
-call s:hl('TabLineFill',      s:gui05, s:gui01)
+call s:hl('StatusLine',       s:gui05, s:gui_bg3)
+call s:hl('StatusLineTerm',   s:gui05, s:gui_bg3)
+call s:hl('StatusLineNC',     s:gui04, s:gui_bg3)
+call s:hl('StatusLineTermNC', s:gui04, s:gui_bg3)
+call s:hl('TabLine',          s:gui05, s:gui_bg3)
+call s:hl('TabLineFill',      s:gui05, s:gui_bg3)
 call s:hl('TabLineSel',       s:gui00, s:gui06)
 
 " VertSplit / WinSeparator
-call s:hl('VertSplit',    s:gui_border, '')
+call s:hl('VertSplit',    s:gui04, '')
 if exists('+winfixbuf')
   highlight! link WinSeparator VertSplit
 endif
@@ -393,9 +393,9 @@ call s:hl('StatusModeVisual',   s:gui00, s:gui09)
 call s:hl('StatusModeReplace',  s:gui00, s:gui0A)
 call s:hl('StatusModeCommand',  s:gui00, s:gui0D)
 call s:hl('StatusModeTerminal', s:gui00, s:gui0E)
-call s:hl('StatusModeB',        s:gui05, s:gui01)
-call s:hl('StatusModeC',        s:gui05, s:gui01)
-call s:hl('StatusInactive',     s:gui06, s:gui01)
+call s:hl('StatusModeB',        s:gui05, s:gui_bg3)
+call s:hl('StatusModeC',        s:gui05, s:gui_bg3)
+call s:hl('StatusInactive',     s:gui06, s:gui_bg3)
 
 " ==========================================================================
 " Terminal colors

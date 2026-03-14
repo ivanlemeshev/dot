@@ -194,7 +194,7 @@ augroup Statusline
   autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveStatusline()
 augroup END
 
-" Hide ~ end-of-buffer filler characters and use line chars for window separators.
+" Hide ~ end-of-buffer filler characters and use line chars for separators.
 set fillchars=vert:│,eob:\
 
 " Highlight the current line.
