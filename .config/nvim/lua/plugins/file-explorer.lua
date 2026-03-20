@@ -10,11 +10,6 @@ return {
       commit = "746ffbb17975ebd6c40142362eee1b0249969c5c",
     },
   },
-  keys = {
-    { "<leader>e", desc = "Toggle NvimTree" },
-    { "\\", desc = "Focus NvimTree" },
-    { "<leader>ft", desc = "Files: find the file in the file explorer" },
-  },
   config = function()
     require("nvim-tree").setup({
       view = { width = 40 },
