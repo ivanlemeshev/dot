@@ -4,6 +4,7 @@ return {
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
     commit = "3aab2147e74890957785941f0c1ad87d0a44c15a",
+    event = "VeryLazy",
     opts = {
       icons = {
         mappings = false,
@@ -18,6 +19,7 @@ return {
     -- https://github.com/rachartier/tiny-inline-diagnostic.nvim
     "rachartier/tiny-inline-diagnostic.nvim",
     commit = "ecce93ff7db4461e942c03e0fcc64bd785df4057",
+    event = "LspAttach",
     config = function()
       require("tiny-inline-diagnostic").setup()
     end,
@@ -25,6 +27,7 @@ return {
   {
     "allaman/emoji.nvim",
     commit = "643dd52a8f1c40ab4eb93a381352ee3231850bcf",
+    event = "InsertEnter",
     dependencies = {
       {
         "nvim-lua/plenary.nvim",

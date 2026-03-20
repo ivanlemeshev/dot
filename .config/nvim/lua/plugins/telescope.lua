@@ -3,10 +3,21 @@ return {
   -- https://github.com/nvim-telescope/telescope.nvim
   "nvim-telescope/telescope.nvim",
   commit = "ad7d9580338354ccc136e5b8f0aa4f880434dcdc",
-  lazy = false,
-  event = "VimEnter",
   dependencies = {
-    { "nvim-lua/plenary.nvim", commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
+    {
+      "nvim-lua/plenary.nvim",
+      commit = "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+    },
+  },
+  cmd = "Telescope",
+  keys = {
+    { "<leader>ff", desc = "Telescope: find files" },
+    { "<leader>fp", desc = "Telescope: find in project files" },
+    { "<leader>fd", desc = "Telescope: find in diagnostics" },
+    { "<leader>fb", desc = "Telescope: find in opened buffers" },
+    { "<leader>fc", desc = "Telescope: find in the current buffer" },
+    { "<leader>fh", desc = "Telescope: find in help" },
+    { "<leader>fg", desc = "Telescope: find in all files" },
   },
   config = function()
     local actions = require("telescope.actions")

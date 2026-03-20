@@ -3,6 +3,8 @@ return {
   -- https://github.com/hrsh7th/nvim-cmp
   "hrsh7th/nvim-cmp",
   commit = "da88697d7f45d16852c6b2769dc52387d1ddc45f",
+  event = { "InsertEnter", "CmdlineEnter" },
+  cmd = "CmpStatus",
   dependencies = {
     -- nvim-cmp source for buffer words
     -- https://github.com/hrsh7th/cmp-buffer

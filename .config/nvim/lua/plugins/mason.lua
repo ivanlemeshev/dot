@@ -1,6 +1,8 @@
 return {
   "williamboman/mason.nvim",
   commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+  cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonUninstall" },
+  event = "VeryLazy",
   dependencies = {
     { "WhoIsSethDaniel/mason-tool-installer.nvim", commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
   },

@@ -1,6 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   commit = "d1597791f8196519439b3a036b59b09023981e1d",
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     {
       "williamboman/mason.nvim",
@@ -35,34 +36,38 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
-        local builtin = require("telescope.builtin")
         local map = vim.keymap.set
         local buf = event.buf
 
-        map(
-          "n",
-          "gd",
-          builtin.lsp_definitions,
-          { desc = "LSP: go to definition", buffer = buf, silent = true }
-        )
-        map(
-          "n",
-          "grr",
-          builtin.lsp_references,
-          { desc = "LSP: find all references", buffer = buf, silent = true }
-        )
+        map("n", "gd", function()
+          require("telescope.builtin").lsp_definitions()
+        end, {
+          desc = "LSP: go to definition",
+          buffer = buf,
+          silent = true,
+        })
+        map("n", "grr", function()
+          require("telescope.builtin").lsp_references()
+        end, {
+          desc = "LSP: find all references",
+          buffer = buf,
+          silent = true,
+        })
         map(
           "n",
           "gri",
-          builtin.lsp_implementations,
+          function()
+            require("telescope.builtin").lsp_implementations()
+          end,
           { desc = "LSP: go to implementation", buffer = buf, silent = true }
         )
-        map(
-          "n",
-          "gtd",
-          builtin.lsp_type_definitions,
-          { desc = "LSP: go type definition", buffer = buf, silent = true }
-        )
+        map("n", "gtd", function()
+          require("telescope.builtin").lsp_type_definitions()
+        end, {
+          desc = "LSP: go type definition",
+          buffer = buf,
+          silent = true,
+        })
         map(
           "n",
           "gD",
@@ -71,7 +76,11 @@ return {
         )
         map("n", "K", function()
           vim.lsp.buf.hover({ border = "single" })
-        end, { desc = "LSP: hover documentation", buffer = buf, silent = true })
+        end, {
+          desc = "LSP: hover documentation",
+          buffer = buf,
+          silent = true,
+        })
         map(
           "n",
           "grn",
@@ -84,12 +93,13 @@ return {
           vim.lsp.buf.code_action,
           { desc = "LSP: code action", buffer = buf, silent = true }
         )
-        map(
-          "n",
-          "gO",
-          builtin.lsp_document_symbols,
-          { desc = "LSP: document symbols", buffer = buf, silent = true }
-        )
+        map("n", "gO", function()
+          require("telescope.builtin").lsp_document_symbols()
+        end, {
+          desc = "LSP: document symbols",
+          buffer = buf,
+          silent = true,
+        })
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
 

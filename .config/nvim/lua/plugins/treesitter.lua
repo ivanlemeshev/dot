@@ -3,7 +3,7 @@ return {
   -- https://github.com/nvim-treesitter/nvim-treesitter
   "nvim-treesitter/nvim-treesitter",
   commit = "42fc28ba918343ebfd5565147a42a26580579482",
-  lazy = false,
+  event = { "BufReadPost", "BufNewFile" },
   build = ":TSUpdate",
   main = "nvim-treesitter.configs",
   opts = {
@@ -47,7 +47,7 @@ return {
       "yaml",
       "zig",
     },
-    auto_install = true,
+    auto_install = false,
     highlight = { enable = true },
   },
 }
