@@ -3,7 +3,8 @@ return {
   -- https://github.com/stevearc/conform.nvim
   "stevearc/conform.nvim",
   commit = "c2526f1cde528a66e086ab1668e996d162c75f4f",
-  lazy = false,
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
   config = function()
     require("conform").setup({
       formatters_by_ft = {

@@ -1,15 +1,10 @@
 return {
   {
-    -- Git integration for Vim
-    -- https://github.com/tpope/vim-fugitive
-    "tpope/vim-fugitive",
-    commit = "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
-  },
-  {
     -- Git integration for buffers
     -- https://github.com/lewis6991/gitsigns.nvim
     "lewis6991/gitsigns.nvim",
     commit = "31217271a7314c343606acb4072a94a039a19fb5",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
     config = function(_, opts)
       require("gitsigns").setup(opts)
@@ -27,7 +22,6 @@ return {
   {
     "sindrets/diffview.nvim",
     -- https://github.com/sindrets/diffview.nvim
-    -- Keep the plugin lazy-loaded until a diff command is used.
     commit = "4516612fe98ff56ae0415a259ff6361a89419b0a",
     cmd = {
       "DiffviewOpen",
@@ -54,14 +48,18 @@ return {
       {
         "<leader>gC",
         "<cmd>DiffviewClose<CR>",
-        desc = "Git: close Diffview",
+        desc = "Git: close view",
       },
       {
         "<leader>gpr",
         function()
-          local branch = vim.fn.systemlist({ "git", "symbolic-ref", "--short", "HEAD" })[1]
+          local branch =
+            vim.fn.systemlist({ "git", "symbolic-ref", "--short", "HEAD" })[1]
           if not branch or branch == "" then
-            vim.notify("Could not determine current branch", vim.log.levels.WARN)
+            vim.notify(
+              "Could not determine current branch",
+              vim.log.levels.WARN
+            )
             return
           end
           local merge_ref = vim.fn.systemlist({
@@ -70,9 +68,12 @@ return {
             "--get",
             ("branch.%s.merge"):format(branch),
           })[1]
-          local remote =
-            vim.fn.systemlist({ "git", "config", "--get", ("branch.%s.remote"):format(branch) })[1]
-              or "origin"
+          local remote = vim.fn.systemlist({
+            "git",
+            "config",
+            "--get",
+            ("branch.%s.remote"):format(branch),
+          })[1] or "origin"
           local target = merge_ref and merge_ref:match("^refs/heads/(.+)$")
           if (not target or target == branch) and remote and remote ~= "" then
             local remote_head = vim.fn.systemlist({
@@ -81,7 +82,8 @@ return {
               ("refs/remotes/%s/HEAD"):format(remote),
             })[1]
             if remote_head then
-              local remote_branch = remote_head:match("^refs/remotes/[^/]+/(.+)$")
+              local remote_branch =
+                remote_head:match("^refs/remotes/[^/]+/(.+)$")
               target = remote_branch or target
             end
           end
@@ -124,22 +126,22 @@ return {
       {
         "<leader>gl",
         "<CMD>Octo issue list<CR>",
-        desc = "Octo: list GitHub issues",
+        desc = "Git: list GitHub issues",
       },
       {
         "<leader>gp",
         "<CMD>Octo pr list<CR>",
-        desc = "Octo: list GitHub pull requests",
+        desc = "Git: list GitHub pull requests",
       },
       {
         "<leader>gd",
         "<CMD>Octo discussion list<CR>",
-        desc = "Octo: list GitHub discussions",
+        desc = "Git: list GitHub discussions",
       },
       {
         "<leader>gn",
         "<CMD>Octo notification list<CR>",
-        desc = "Octo: list GitHub notifications",
+        desc = "Git: list GitHub notifications",
       },
       {
         "<leader>gs",
@@ -148,7 +150,7 @@ return {
             include_current_repo = true,
           })
         end,
-        desc = "Octo: search GitHub issues and pull requests",
+        desc = "Git: search GitHub issues and pull requests",
       },
     },
   },
