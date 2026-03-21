@@ -10,28 +10,28 @@ M.palette = {
   bg_sel = "#32302f", -- selection / visual background
   background_3 = "#3c3836", -- deeper neutral background
   background_5 = "#504945", -- elevated neutral background
-  background_red = "#3c2b2c", -- soft error background
-  background_yellow = "#3c3428", -- soft warning background
-  background_green = "#2f3a2e", -- soft success background
-  background_blue = "#2a3238", -- soft info background
-  background_purple = "#3a2f34", -- soft hint background
-  background_visual = "#3c3836", -- visual-mode background
+  background_red = "#442726", -- soft error background
+  background_yellow = "#443722", -- soft warning background
+  background_green = "#2f3f27", -- soft success background
+  background_blue = "#243846", -- soft info background
+  background_purple = "#3b2d44", -- soft hint background
+  background_visual = "#33302d", -- visual-mode background
   -- Foregrounds / greys
   faint = "#1d2021", -- barely visible: non-printable chars
   muted = "#928374", -- comments, line numbers, faded
   dim = "#7c6f64", -- dark foreground: inactive UI
   border = "#45403d", -- float borders and secondary UI borders
-  fg = "#ddc7a1", -- default foreground
+  fg = "#ebdbb2", -- default foreground
   fg_alt = "#a89984", -- light foreground: selected item backgrounds
-  bright = "#ddc7a1", -- bright white
+  bright = "#ebdbb2", -- bright white
   -- Colors
-  red = "#ea6962",
-  orange = "#e78a4e",
-  yellow = "#d8a657",
-  green = "#a9b665",
-  cyan = "#89b482",
-  blue = "#7daea3",
-  magenta = "#d3869b",
+  red = "#ff7b72",
+  orange = "#ffad5a",
+  yellow = "#f9c74f",
+  green = "#b8d76a",
+  cyan = "#9ee6a8",
+  blue = "#8ecbff",
+  magenta = "#e2a8ff",
 }
 
 function M.setup()
