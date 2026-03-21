@@ -1,21 +1,5 @@
 return {
   {
-    -- Git integration for Vim
-    -- https://github.com/tpope/vim-fugitive
-    "tpope/vim-fugitive",
-    commit = "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4",
-    cmd = {
-      "Git",
-      "G",
-      "Gdiffsplit",
-      "Gvdiffsplit",
-      "Gwrite",
-      "Gread",
-      "GBrowse",
-      "GitBlame",
-    },
-  },
-  {
     -- Git integration for buffers
     -- https://github.com/lewis6991/gitsigns.nvim
     "lewis6991/gitsigns.nvim",
@@ -38,7 +22,6 @@ return {
   {
     "sindrets/diffview.nvim",
     -- https://github.com/sindrets/diffview.nvim
-    -- Keep the plugin lazy-loaded until a diff command is used.
     commit = "4516612fe98ff56ae0415a259ff6361a89419b0a",
     cmd = {
       "DiffviewOpen",
@@ -65,7 +48,7 @@ return {
       {
         "<leader>gC",
         "<cmd>DiffviewClose<CR>",
-        desc = "Git: close Diffview",
+        desc = "Git: close view",
       },
       {
         "<leader>gpr",
@@ -143,22 +126,22 @@ return {
       {
         "<leader>gl",
         "<CMD>Octo issue list<CR>",
-        desc = "Octo: list GitHub issues",
+        desc = "Git: list GitHub issues",
       },
       {
         "<leader>gp",
         "<CMD>Octo pr list<CR>",
-        desc = "Octo: list GitHub pull requests",
+        desc = "Git: list GitHub pull requests",
       },
       {
         "<leader>gd",
         "<CMD>Octo discussion list<CR>",
-        desc = "Octo: list GitHub discussions",
+        desc = "Git: list GitHub discussions",
       },
       {
         "<leader>gn",
         "<CMD>Octo notification list<CR>",
-        desc = "Octo: list GitHub notifications",
+        desc = "Git: list GitHub notifications",
       },
       {
         "<leader>gs",
@@ -167,7 +150,7 @@ return {
             include_current_repo = true,
           })
         end,
-        desc = "Octo: search GitHub issues and pull requests",
+        desc = "Git: search GitHub issues and pull requests",
       },
     },
   },
