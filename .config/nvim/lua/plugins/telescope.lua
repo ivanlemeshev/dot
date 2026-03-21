@@ -10,6 +10,15 @@ return {
     },
   },
   cmd = "Telescope",
+  keys = {
+    { "<leader>ff", desc = "Telescope: find files" },
+    { "<leader>fp", desc = "Telescope: find in project files" },
+    { "<leader>fd", desc = "Telescope: find in diagnostics" },
+    { "<leader>fb", desc = "Telescope: find in opened buffers" },
+    { "<leader>fc", desc = "Telescope: find in the current buffer" },
+    { "<leader>fh", desc = "Telescope: find in help" },
+    { "<leader>fg", desc = "Telescope: find in all files" },
+  },
   config = function()
     local actions = require("telescope.actions")
 
