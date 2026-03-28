@@ -2,24 +2,24 @@
 
 local M = {}
 
--- Palette (matches color/schemes/base16-default-dark.yaml)
+-- Palette (matches color/schemes/gruvbox-dark-material.yaml)
 M.palette = {
-  base00 = "#181818",
-  base01 = "#282828",
-  base02 = "#383838",
-  base03 = "#585858",
-  base04 = "#b8b8b8",
-  base05 = "#d8d8d8",
-  base06 = "#e8e8e8",
-  base07 = "#f8f8f8",
-  base08 = "#ab4642",
-  base09 = "#dc9656",
-  base0A = "#f7ca88",
-  base0B = "#a1b56c",
-  base0C = "#86c1b9",
-  base0D = "#7cafc2",
-  base0E = "#ba8baf",
-  base0F = "#a16946",
+  base00 = "#282828",
+  base01 = "#32302f",
+  base02 = "#45403d",
+  base03 = "#7c6f64",
+  base04 = "#928374",
+  base05 = "#d4be98",
+  base06 = "#ddc7a1",
+  base07 = "#ebdbb2",
+  base08 = "#ea6962",
+  base09 = "#e78a4e",
+  base0A = "#d8a657",
+  base0B = "#a9b665",
+  base0C = "#89b482",
+  base0D = "#7daea3",
+  base0E = "#d3869b",
+  base0F = "#a89984",
 }
 
 local function hex_to_rgb(hex)
