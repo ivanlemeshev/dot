@@ -4,15 +4,15 @@
 # place instead of hunting through hundreds of entries.
 
 # --- Cole Custom palette (RGB values) ---
-set -l fg0     "242;230;207"  # #f2e6cf
-set -l bg0     "12;12;12"     # #0c0c0c
-set -l red     "204;93;75"    # #cc5d4b
-set -l green   "46;153;105"   # #2e9969
-set -l yellow  "179;141;89"   # #b38d59
-set -l blue    "97;121;194"   # #6179c2
-set -l magenta "171;120;171"  # #ab78ab
-set -l cyan    "51;145;156"   # #33919c
-set -l dim     "122;122;122"  # #7a7a7a
+set -l fg0     "216;216;216"  # #d8d8d8
+set -l bg0     "24;24;24"     # #181818
+set -l red     "171;70;66"    # #ab4642
+set -l green   "161;181;108"   # #a1b56c
+set -l yellow  "247;202;136"   # #f7ca88
+set -l blue    "124;175;194"   # #7cafc2
+set -l magenta "186;139;175"  # #ba8baf
+set -l cyan    "134;193;185"   # #86c1b9
+set -l dim     "88;88;88"  # #585858
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal

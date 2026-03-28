@@ -2,63 +2,63 @@
 
 local M = {}
 
--- Palette (matches color/schemes/color-scheme.cole-custom.yaml)
+-- Palette (matches color/schemes/color-scheme.base16-default-dark.yaml)
 M.palette = {
-  bg = "#0c0c0c",
-  fg = "#f2e6cf",
-  black = "#202020",
-  red = "#cc5d4b",
-  green = "#2e9969",
-  yellow = "#b38d59",
-  blue = "#6179c2",
-  magenta = "#ab78ab",
-  cyan = "#33919c",
-  white = "#a5a5a5",
-  bright_black = "#7a7a7a",
-  bright_red = "#d96857",
-  bright_green = "#66cc69",
-  bright_yellow = "#cc9b52",
-  bright_blue = "#5582c2",
-  bright_magenta = "#bf86bf",
-  bright_cyan = "#73bfbf",
-  bright_white = "#cdcdcd",
+  bg = "#181818",
+  fg = "#d8d8d8",
+  black = "#282828",
+  red = "#ab4642",
+  green = "#a1b56c",
+  yellow = "#f7ca88",
+  blue = "#7cafc2",
+  magenta = "#ba8baf",
+  cyan = "#86c1b9",
+  white = "#b8b8b8",
+  bright_black = "#585858",
+  bright_red = "#ab4642",
+  bright_green = "#a1b56c",
+  bright_yellow = "#f7ca88",
+  bright_blue = "#7cafc2",
+  bright_magenta = "#ba8baf",
+  bright_cyan = "#86c1b9",
+  bright_white = "#e8e8e8",
 }
 
 M.lualine_theme = {
   normal = {
     a = { bg = M.palette.bright_white, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   insert = {
     a = { bg = M.palette.green, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   visual = {
     a = { bg = M.palette.bright_yellow, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   replace = {
     a = { bg = M.palette.red, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   command = {
     a = { bg = M.palette.blue, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   terminal = {
     a = { bg = M.palette.magenta, fg = M.palette.bg },
     b = { bg = M.palette.black, fg = M.palette.fg },
-    c = { bg = M.palette.black, fg = M.palette.white },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
   inactive = {
     a = { bg = M.palette.black, fg = M.palette.bright_black },
-    b = { bg = M.palette.black, fg = M.palette.bright_black },
-    c = { bg = M.palette.black, fg = M.palette.bright_black },
+    b = { bg = M.palette.black, fg = M.palette.fg },
+    c = { bg = M.palette.black, fg = M.palette.fg },
   },
 }
 
