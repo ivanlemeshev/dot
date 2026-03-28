@@ -216,6 +216,11 @@ def editor_palette_to_vim(editor):
         "gui0D": editor["blue"],
         "gui0E": editor["magenta"],
         "gui0F": editor["background_red"],
+        "gui08_bright": editor["bright_red"],
+        "gui0B_bright": editor["bright_green"],
+        "gui0C_bright": editor["bright_cyan"],
+        "gui0D_bright": editor["bright_blue"],
+        "gui0E_bright": editor["bright_magenta"],
         "gui_faint": editor["faint"],
         "gui_border": editor["border"],
         "gui_bg_red": editor["background_red"],
@@ -230,4 +235,10 @@ def editor_palette_to_vim(editor):
 
 
 def derive_vim_palette_with_palette(palette):
-    return editor_palette_to_vim(derive_editor_palette_with_palette(palette))
+    editor = derive_editor_palette_with_palette(palette)
+    editor["bright_red"] = palette["brightRed"]
+    editor["bright_green"] = palette["brightGreen"]
+    editor["bright_cyan"] = palette["brightCyan"]
+    editor["bright_blue"] = palette["brightBlue"]
+    editor["bright_magenta"] = palette["brightMagenta"]
+    return editor_palette_to_vim(editor)

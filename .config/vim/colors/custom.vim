@@ -49,8 +49,8 @@ let g:base16_gui0A = "b38d59"
 let s:gui0B        = "2e9969"
 let g:base16_gui0B = "2e9969"
 " base0C - cyan (support, regex, escape characters)
-let s:gui0C        = "73bfbf"
-let g:base16_gui0C = "73bfbf"
+let s:gui0C        = "33919c"
+let g:base16_gui0C = "33919c"
 " base0D - blue (functions, methods, identifiers)
 let s:gui0D        = "6179c2"
 let g:base16_gui0D = "6179c2"
@@ -60,6 +60,12 @@ let g:base16_gui0E = "ab78ab"
 " base0F - brown (deprecated, embedded language tags)
 let s:gui0F        = "cc5d4b"
 let g:base16_gui0F = "cc5d4b"
+" bright variants used by the Neovim theme semantics
+let s:gui08_bright = "d96857"
+let s:gui0B_bright = "66cc69"
+let s:gui0C_bright = "73bfbf"
+let s:gui0D_bright = "5582c2"
+let s:gui0E_bright = "bf86bf"
 " gui_faint - non-printable chars: whitespace, special keys, non-text (barely visible)
 let s:gui_faint       = "202020"
 " gui_border - float borders and secondary UI borders
@@ -115,8 +121,8 @@ call s:hl('ToolbarLine',  s:gui05, s:gui01)
 call s:hl('SignColumn',   s:gui05, '')
 call s:hl('FoldColumn',   s:gui03, '')
 
-call s:hl('IncSearch',    s:gui00, s:gui08)
-call s:hl('Search',       s:gui00, s:gui0B)
+call s:hl('IncSearch',    s:gui00, s:gui08_bright)
+call s:hl('Search',       s:gui00, s:gui0B_bright)
 highlight! link CurSearch IncSearch
 call s:hl('ColorColumn',  '',      s:gui01)
 call s:hl('Conceal',      s:gui03, '')
@@ -131,12 +137,12 @@ call s:hl('CursorLine',   '',      s:gui01)
 call s:hl('CursorColumn', '',      s:gui01)
 
 call s:hl('LineNr',       s:gui03, '')
-call s:hl('CursorLineNr', s:gui04, '')
+call s:hl('CursorLineNr', s:gui07, '')
 
-call s:hl('DiffAdd',      s:gui0B, s:gui_bg_green)
-call s:hl('DiffChange',   s:gui0D, s:gui_bg_blue)
-call s:hl('DiffDelete',   s:gui08, s:gui_bg_red)
-call s:hl('DiffText',     s:gui00, s:gui0D)
+call s:hl('DiffAdd',      s:gui0B, s:gui01)
+call s:hl('DiffChange',   s:gui06, s:gui01)
+call s:hl('DiffDelete',   s:gui08, s:gui01)
+call s:hl('DiffText',     s:gui00, s:gui02)
 
 call s:hl('Directory',    s:gui0B, '')
 call s:hl('ErrorMsg',     s:gui08, '',      'underline')
@@ -149,11 +155,11 @@ call s:hl('Whitespace',   s:gui_bg3, '')
 call s:hl('SpecialKey',   s:gui_bg3, '')
 
 " Pmenu
-call s:hl('Pmenu',        s:gui05, s:gui01)
-call s:hl('PmenuSbar',    '',      s:gui01)
-call s:hl('PmenuSel',     s:gui01, s:gui06)
-call s:hl('PmenuKind',    s:gui0B, s:gui01)
-call s:hl('PmenuExtra',   s:gui06, s:gui01)
+call s:hl('Pmenu',        s:gui05, s:gui00)
+call s:hl('PmenuSbar',    '',      s:gui00)
+call s:hl('PmenuSel',     s:gui00, s:gui06)
+call s:hl('PmenuKind',    s:gui0B, s:gui00)
+call s:hl('PmenuExtra',   s:gui06, s:gui00)
 highlight! link WildMenu PmenuSel
 call s:hl('PmenuThumb',   '',      s:gui_bg5)
 
@@ -181,8 +187,8 @@ if exists('+winfixbuf')
 endif
 
 " Visual
-call s:hl('Visual',       '',      s:gui_bg_visual)
-call s:hl('VisualNOS',    '',      s:gui_bg_visual)
+call s:hl('Visual',       s:gui00, s:gui_bg_visual)
+call s:hl('VisualNOS',    s:gui00, s:gui_bg_visual)
 
 call s:hl('QuickFixLine', s:gui0E, '')
 call s:hl('Debug',        s:gui0A, '')
@@ -221,15 +227,15 @@ call s:hl('Special',      s:gui0A, '')
 call s:hl('SpecialChar',  s:gui0A, '')
 call s:hl('Type',         s:gui0A, '')
 
-call s:hl('Function',     s:gui0B, '')
+call s:hl('Function',     s:gui0B_bright, '')
 
 call s:hl('String',       s:gui0B, '')
 call s:hl('Character',    s:gui0B, '')
-call s:hl('Constant',     s:gui0C, '')
-call s:hl('Macro',        s:gui0C, '')
+call s:hl('Constant',     s:gui0C_bright, '')
+call s:hl('Macro',        s:gui0C_bright, '')
 call s:hl('Identifier',   s:gui0D, '')
 
-call s:hl('Todo',         s:gui00, s:gui0D)
+call s:hl('Todo',         s:gui00, s:gui0D_bright)
 
 " italic comments
 call s:hl('Comment',        s:gui03, '',    'italic')
@@ -294,10 +300,10 @@ highlight! link VirtualTextHint    Grey
 
 call s:hl('ErrorFloat',   s:gui08, '')
 call s:hl('WarningFloat', s:gui0A, '')
-call s:hl('InfoFloat',    s:gui0D, s:gui_bg_blue)
-call s:hl('HintFloat',    s:gui0E, s:gui_bg_purple)
+call s:hl('InfoFloat',    s:gui0D_bright, '')
+call s:hl('HintFloat',    s:gui0E, '')
 
-call s:hl('CurrentWord',  '',      '',      'underline')
+call s:hl('CurrentWord',  s:gui00, s:gui07)
 
 highlight! link healthError   Red
 highlight! link healthSuccess Green

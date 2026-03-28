@@ -6,7 +6,7 @@
 # --- Cole Custom palette (hex) ---
 set -l fg0     "#F2E6CF"  # fg
 set -l bg0     "#0C0C0C"  # bg
-set -l bg1     "#202020"  # black
+set -l bg1     "#A5A5A5"  # black
 set -l bg2     "#7A7A7A"  # bright_black
 set -l red     "#CC5D4B"  # red
 set -l yellow  "#B38D59"  # yellow
@@ -16,7 +16,7 @@ set -l magenta "#AB78AB"  # magenta
 # --- Colors ---
 set -l colors \
     "--color fg:$fg0" \
-    "--color fg+:$fg0" \
+    "--color fg+:$bg0" \
     "--color bg:$bg0" \
     "--color bg+:$bg1" \
     "--color hl:$red" \

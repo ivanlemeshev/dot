@@ -2,7 +2,7 @@
 
 local M = {}
 
--- Palette (matches color/schemes/color-scheme.cole.yaml)
+-- Palette (matches color/schemes/color-scheme.cole-custom.yaml)
 M.palette = {
   bg = "#0c0c0c",
   fg = "#f2e6cf",
