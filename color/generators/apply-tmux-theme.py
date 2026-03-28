@@ -24,14 +24,17 @@ except ValueError as exc:
 
 # tmux theme variable → YAML color name
 thm_vars = {
-    "@thm_bg": ("bg", "background"),  # status bar / pane background
-    "@thm_fg": ("fg", "foreground"),  # default text
-    "@thm_red": ("red", "red"),  # urgent: prefix active, battery low, offline
-    "@thm_green": ("green", "green"),  # ok: session name, staging
-    "@thm_yellow": ("yellow", "yellow"),  # accent: current window, zoom, last window
-    "@thm_blue": ("blue", "blue"),  # path, date/time
-    "@thm_magenta": ("magenta", "magenta"),  # battery, online status
-    "@thm_dim": ("bright_black", "brightBlack"),  # separators, borders
+    "@theme_bg": ("bg", "background"),  # status bar / pane background
+    "@theme_fg": ("fg", "foreground"),  # default text
+    "@theme_black": ("black", "black"),  # elevated background surfaces
+    "@theme_red": ("red", "red"),  # urgent: prefix active, battery low, offline
+    "@theme_green": ("green", "green"),  # ok: session name, staging
+    "@theme_yellow": ("yellow", "yellow"),  # accent: current window, zoom, last window
+    "@theme_blue": ("blue", "blue"),  # path, date/time
+    "@theme_magenta": ("magenta", "magenta"),  # battery, online status
+    "@theme_cyan": ("cyan", "cyan"),  # misc accents
+    "@theme_bright_black": ("bright_black", "brightBlack"),  # separators, borders
+    "@theme_bright_white": ("bright_white", "brightWhite"),  # strong neutral accents
 }
 
 with open(tmux_file) as f:
