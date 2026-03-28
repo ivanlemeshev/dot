@@ -25,38 +25,38 @@ M.palette = {
 M.lualine_theme = {
   normal = {
     a = { bg = M.palette.base07, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   insert = {
     a = { bg = M.palette.base0B, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   visual = {
     a = { bg = M.palette.base0A, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   replace = {
     a = { bg = M.palette.base08, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   command = {
     a = { bg = M.palette.base0D, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   terminal = {
     a = { bg = M.palette.base0E, fg = M.palette.base00 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   inactive = {
-    a = { bg = M.palette.base01, fg = M.palette.base03 },
-    b = { bg = M.palette.base01, fg = M.palette.base05 },
-    c = { bg = M.palette.base01, fg = M.palette.base05 },
+    a = { bg = M.palette.base02, fg = M.palette.base03 },
+    b = { bg = M.palette.base02, fg = M.palette.base05 },
+    c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
 }
 
@@ -151,7 +151,7 @@ function M.setup()
   hl("StatusLineTerm", { fg = p.base07, bg = p.base01 })
   hl("StatusLineNC", { fg = p.base04, bg = p.base01 })
   hl("StatusLineTermNC", { fg = p.base04, bg = p.base01 })
-  hl("LualineSeparator", { fg = p.base05, bg = p.base01 })
+  hl("LualineSeparator", { fg = p.base05, bg = p.base02 })
   hl("TabLine", { fg = p.base04, bg = p.base01 })
   hl("TabLineFill", { fg = p.base04, bg = p.base01 })
   hl("TabLineSel", { fg = p.base05, bg = p.base02 })
