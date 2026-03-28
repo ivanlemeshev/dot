@@ -17,6 +17,7 @@ if len(sys.argv) < 3:
 
 yaml_file = sys.argv[1]
 lua_file = sys.argv[2]
+yaml_basename = os.path.basename(yaml_file)
 
 try:
     colors, raw_palette = load_theme_sections(yaml_file, prefix="", uppercase=False)
@@ -28,7 +29,13 @@ except ValueError as exc:
 with open(lua_file) as f:
     content = f.read()
 
-for slot, hex_val in palette.items():
+content = re.sub(
+    r"(-- Palette \(matches color/schemes/)[^)]+(\))",
+    rf"\g<1>{yaml_basename}\g<2>",
+    content,
+)
+
+for slot, hex_val in {**raw_palette, **palette}.items():
     # Replace:   bg     = "#151515",
     content = re.sub(
         rf'\b({re.escape(slot)}\s*=\s*)"#[0-9a-fA-F]{{6}}"',

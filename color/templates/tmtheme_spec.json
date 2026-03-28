@@ -4,10 +4,10 @@
     { "key": "background", "color": "background" },
     { "key": "foreground", "color": "foreground" },
     { "key": "caret", "color": "foreground" },
-    { "key": "lineHighlight", "color": "background_1" },
-    { "key": "selection", "color": "brightYellow" },
+    { "key": "lineHighlight", "color": "black" },
+    { "key": "selection", "color": "white" },
     { "key": "selectionBorder", "color": "brightBlack" },
-    { "key": "invisibles", "color": "brightBlack" },
+    { "key": "invisibles", "color": "black" },
     { "key": "guide", "color": "brightBlack" },
     { "key": "activeGuide", "color": "brightBlack" },
     { "key": "gutter", "color": "background" },
@@ -30,29 +30,30 @@
       "scope": "constant.character.escape",
       "color": "cyan"
     },
-    { "name": "Number", "scope": "constant.numeric", "color": "brightRed" },
+    { "name": "Number", "scope": "constant.numeric", "color": "brightMagenta" },
     {
       "name": "Built-in Constant",
       "scope": "constant.language",
-      "color": "brightRed"
+      "color": "brightCyan"
     },
-    { "name": "Constant", "scope": "constant.other", "color": "brightRed" },
+    { "name": "Constant", "scope": "constant.other", "color": "brightCyan" },
     {
       "name": "Keyword",
       "scope": "keyword, keyword.control",
-      "color": "magenta"
+      "color": "red",
+      "fontStyle": "italic"
     },
-    { "name": "Operator", "scope": "keyword.operator", "color": "magenta" },
-    { "name": "Storage Type", "scope": "storage.type", "color": "magenta" },
+    { "name": "Operator", "scope": "keyword.operator", "color": "yellow" },
+    { "name": "Storage Type", "scope": "storage.type", "color": "yellow" },
     {
       "name": "Storage Modifier",
       "scope": "storage.modifier",
-      "color": "magenta"
+      "color": "yellow"
     },
     {
       "name": "Function Name",
       "scope": "entity.name.function, meta.function-call",
-      "color": "blue"
+      "color": "brightGreen"
     },
     {
       "name": "Class Name",
@@ -62,28 +63,28 @@
     {
       "name": "Inherited Class",
       "scope": "entity.other.inherited-class",
-      "color": "green"
+      "color": "yellow"
     },
     {
       "name": "Function Parameter",
       "scope": "variable.parameter",
-      "color": "magenta"
+      "color": "foreground"
     },
     {
       "name": "Variable",
       "scope": "variable, variable.other",
-      "color": "foreground"
+      "color": "blue"
     },
     {
       "name": "Language Variable",
       "scope": "variable.language",
-      "color": "foreground",
+      "color": "blue",
       "fontStyle": "italic"
     },
     {
       "name": "Support Function",
       "scope": "support.function",
-      "color": "cyan"
+      "color": "brightGreen"
     },
     {
       "name": "Support Type",
@@ -93,12 +94,13 @@
     {
       "name": "Support Constant",
       "scope": "support.constant",
-      "color": "brightRed"
+      "color": "brightCyan"
     },
     {
       "name": "Preprocessor",
       "scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
-      "color": "magenta"
+      "color": "magenta",
+      "fontStyle": "italic"
     },
     {
       "name": "Include",
@@ -114,13 +116,14 @@
     {
       "name": "Decorator",
       "scope": "meta.decorator, punctuation.definition.annotation",
-      "color": "magenta"
+      "color": "magenta",
+      "fontStyle": "italic"
     },
-    { "name": "Tag Name", "scope": "entity.name.tag", "color": "red" },
+    { "name": "Tag Name", "scope": "entity.name.tag", "color": "yellow" },
     {
       "name": "Tag Attribute",
       "scope": "entity.other.attribute-name",
-      "color": "brightRed"
+      "color": "green"
     },
     {
       "name": "Punctuation",
@@ -130,7 +133,7 @@
     {
       "name": "Tag Punctuation",
       "scope": "punctuation.definition.tag",
-      "color": "foreground"
+      "color": "green"
     },
     {
       "name": "String Punctuation",
@@ -141,12 +144,12 @@
     {
       "name": "CSS Property",
       "scope": "support.type.property-name.css",
-      "color": "cyan"
+      "color": "green"
     },
     {
       "name": "CSS Value",
       "scope": "support.constant.property-value.css, meta.property-value.css",
-      "color": "brightRed"
+      "color": "yellow"
     },
     {
       "name": "JSON Key",
@@ -164,16 +167,16 @@
       "scope": "markup.deleted, meta.diff.header.from-file",
       "color": "red"
     },
-    { "name": "Diff Changed", "scope": "markup.changed", "color": "magenta" },
+    { "name": "Diff Changed", "scope": "markup.changed", "color": "green" },
     {
       "name": "Diff Range",
       "scope": "meta.diff.range, meta.diff.index",
-      "color": "blue"
+      "color": "magenta"
     },
     {
       "name": "Markup Heading",
       "scope": "markup.heading, punctuation.definition.heading",
-      "color": "blue"
+      "color": "brightYellow"
     },
     {
       "name": "Markup Bold",
@@ -190,12 +193,12 @@
     {
       "name": "Markup Link URL",
       "scope": "markup.underline.link, string.other.link",
-      "color": "brightRed"
+      "color": "blue"
     },
     {
       "name": "Markup Link Text",
       "scope": "string.other.link.title, string.other.link.description",
-      "color": "red"
+      "color": "magenta"
     },
     {
       "name": "Markup Inline Code",
@@ -210,14 +213,14 @@
     {
       "name": "Markup Quote",
       "scope": "markup.quote",
-      "color": "brightRed",
+      "color": "brightBlack",
       "fontStyle": "italic"
     },
     { "name": "Invalid", "scope": "invalid", "color": "red" },
     {
       "name": "Invalid Deprecated",
       "scope": "invalid.deprecated",
-      "color": "brightMagenta"
+      "color": "magenta"
     }
   ]
 }

@@ -33,14 +33,14 @@ def require_palette(key):
 
 try:
     fzf_palette = {
-        "fg0": require_palette("foreground"),
-        "bg0": require_palette("background_0"),
-        "bg1": require_palette("background_1"),
-        "bg2": require_palette("background_2"),
+        "fg0": require_palette("fg"),
+        "bg0": require_palette("bg"),
+        "bg1": require_palette("black"),
+        "bg2": require_palette("bright_black"),
         "red": require_palette("red"),
         "yellow": require_palette("yellow"),
         "green": require_palette("green"),
-        "magenta": require_palette("purple"),
+        "magenta": require_palette("magenta"),
     }
 except ValueError as exc:
     print(str(exc), file=sys.stderr)

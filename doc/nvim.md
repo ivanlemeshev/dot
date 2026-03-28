@@ -283,13 +283,6 @@ Note: Deleted text is copied to clipboard and can be pasted.
 - `Ctrl+e` (insert) - Abort completion
 - `Tab` (insert) - Confirm completion
 
-### Testing (Neotest)
-
-- `<leader>tt` - Run test
-- `<leader>tf` - Run test file
-- `<leader>tp` - Toggle test output panel
-- `<leader>ts` - Toggle test summary
-
 ### Diagnostics (Trouble)
 
 - `<leader>dd` - Toggle diagnostics panel

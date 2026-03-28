@@ -16,11 +16,11 @@ import sys
 sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
 from theme import load_theme
 
-colors = load_theme("${PROJECT_ROOT}/color/schemes/color-scheme.everforest-dark-hard.yaml", prefix="", uppercase=False)
+colors = load_theme("${PROJECT_ROOT}/color/schemes/color-scheme.cole-custom.yaml", prefix="", uppercase=False)
 print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
 PY
   [ "$status" -eq 0 ]
-  [ "$output" = '{"background": "272e33", "brightBlack": "7a8478", "foreground": "d3c6aa"}' ]
+  [ "$output" = '{"background": "0c0c0c", "brightBlack": "7a7a7a", "foreground": "f2e6cf"}' ]
 }
 
 @test "load_theme rejects legacy hex layout" {

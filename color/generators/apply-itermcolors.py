@@ -65,9 +65,9 @@ pl = {}
 for i, name in enumerate(ansi_map):
     pl[f"Ansi {i} Color"] = color_entry(name)
 
-bg = palette.get("background_0", colors["background"])
-fg = palette.get("foreground", colors["foreground"])
-selection_bg = palette.get("background_2", bg)
+bg = palette.get("bg", colors["background"])
+fg = palette.get("fg", colors["foreground"])
+selection_bg = palette.get("white", colors["brightWhite"])
 
 pl["Background Color"] = color_entry_hex(bg)
 pl["Bold Color"] = color_entry_hex(fg)

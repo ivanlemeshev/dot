@@ -55,7 +55,7 @@ Useful commands:
 
 ```bash
 # Regenerate checked-in theme outputs
-bash bin/apply-color-scheme color/schemes/color-scheme.everforest-dark-hard.yaml
+bash bin/apply-color-scheme color/schemes/color-scheme.cole-custom.yaml
 
 # Verify theme schema and generated outputs
 make theme-test

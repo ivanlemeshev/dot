@@ -54,7 +54,7 @@
   ],
   "profiles": {
     "defaults": {
-      "colorScheme": "Custom",
+      "colorScheme": "Custom Scheme",
       "cursorShape": "filledBox",
       "font": {
         "builtinGlyphs": true,
@@ -104,41 +104,41 @@
   },
   "schemes": [
     {
-      "background": "#282828",
+      "background": "#181818",
       "black": "#282828",
-      "blue": "#8ECBFF",
-      "brightBlack": "#7C6F64",
-      "brightBlue": "#8ECBFF",
-      "brightCyan": "#9EE6A8",
-      "brightGreen": "#B8D76A",
-      "brightPurple": "#E2A8FF",
-      "brightRed": "#FF7B72",
-      "brightWhite": "#A89984",
-      "brightYellow": "#F9C74F",
-      "cursorColor": "#EBDBB2",
-      "cyan": "#9EE6A8",
-      "foreground": "#EBDBB2",
-      "green": "#B8D76A",
-      "name": "Custom",
-      "purple": "#E2A8FF",
-      "red": "#FF7B72",
-      "selectionBackground": "#32302F",
-      "white": "#EBDBB2",
-      "yellow": "#F9C74F"
+      "blue": "#7CAFC2",
+      "brightBlack": "#585858",
+      "brightBlue": "#7CAFC2",
+      "brightCyan": "#86C1B9",
+      "brightGreen": "#A1B56C",
+      "brightPurple": "#BA8BAF",
+      "brightRed": "#AB4642",
+      "brightWhite": "#E8E8E8",
+      "brightYellow": "#F7CA88",
+      "cursorColor": "#D8D8D8",
+      "cyan": "#86C1B9",
+      "foreground": "#D8D8D8",
+      "green": "#A1B56C",
+      "name": "Custom Scheme",
+      "purple": "#BA8BAF",
+      "red": "#AB4642",
+      "selectionBackground": "#B8B8B8",
+      "white": "#B8B8B8",
+      "yellow": "#F7CA88"
     }
   ],
   "themes": [
     {
-      "name": "Custom Dark",
+      "name": "Custom Scheme",
       "tab": {
-        "background": "#282828FF",
+        "background": "#181818FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#282828FF",
-        "unfocusedBackground": "#282828FF"
+        "background": "#181818FF",
+        "unfocusedBackground": "#181818FF"
       },
       "window": {
         "applicationTheme": "dark",

@@ -31,13 +31,13 @@ with open(json_file) as f:
 scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[wt_name.get(name, name)] = hex_val
-scheme["background"] = palette.get("background_0", colors["background"])
-scheme["foreground"] = palette.get("foreground", colors["foreground"])
-scheme["cursorColor"] = palette.get("foreground", colors["white"])
-scheme["selectionBackground"] = palette.get("background_2", colors["brightBlack"])
+scheme["background"] = palette.get("bg", colors["background"])
+scheme["foreground"] = palette.get("fg", colors["foreground"])
+scheme["cursorColor"] = palette.get("fg", colors["white"])
+scheme["selectionBackground"] = palette.get("white", colors["brightWhite"])
 
 # Windows Terminal theme colors support alpha; use fully-opaque alpha for consistency.
-tab_bg = palette.get("background_0", colors["background"]) + "FF"
+tab_bg = palette.get("bg", colors["background"]) + "FF"
 settings["themes"][0]["tab"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_bg
