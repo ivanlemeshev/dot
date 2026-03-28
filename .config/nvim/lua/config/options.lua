@@ -85,6 +85,31 @@ vim.opt.listchars = {
   nbsp = ".",
 }
 
+local visual_list_augroup =
+  vim.api.nvim_create_augroup("visual-list-toggle", { clear = true })
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  group = visual_list_augroup,
+  pattern = "*:[vV\22]*",
+  callback = function()
+    vim.w._list_before_visual = vim.wo.list
+    vim.wo.list = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  group = visual_list_augroup,
+  pattern = "[vV\22]*:*",
+  callback = function()
+    if vim.w._list_before_visual == nil then
+      return
+    end
+
+    vim.wo.list = vim.w._list_before_visual
+    vim.w._list_before_visual = nil
+  end,
+})
+
 -- Ensure files end with a newline character.
 vim.opt.fixeol = true
 

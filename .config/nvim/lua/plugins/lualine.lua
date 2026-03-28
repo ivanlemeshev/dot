@@ -89,8 +89,6 @@ return {
         component_separators = { left = "", right = "" },
         always_divide_middle = true,
         disabled_filetypes = {
-          "neotest-output-panel",
-          "neotest-summary",
           "NvimTree",
           "trouble",
         },
