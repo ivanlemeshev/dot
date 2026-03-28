@@ -27,16 +27,16 @@ except ValueError as exc:
 # fish variable -> YAML color name
 # Format in file: set -l <var>    <hex6>   (bare hex, no #)
 palette_map = {
-    "bg0": ("background_0", "background"),
-    "bg1": ("background_1", "brightBlack"),
-    "fg0": ("foreground", "foreground"),
-    "fg1": ("grey_2", "brightWhite"),
+    "bg0": ("bg", "background"),
+    "bg1": ("black", "black"),
+    "fg0": ("fg", "foreground"),
+    "fg1": ("white", "white"),
     "red": ("red", "red"),
     "yellow": ("yellow", "yellow"),
     "green": ("green", "green"),
     "blue": ("blue", "blue"),
-    "magenta": ("purple", "magenta"),
-    "cyan": ("aqua", "cyan"),
+    "magenta": ("magenta", "magenta"),
+    "cyan": ("cyan", "cyan"),
 }
 
 

@@ -73,7 +73,7 @@
         "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
         "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
         "hidden": false,
-        "icon": "\u26a1",
+        "icon": "⚡",
         "name": "Windows PowerShell",
         "startingDirectory": "%USERPROFILE%"
       },
@@ -81,7 +81,7 @@
         "commandline": "%SystemRoot%\\System32\\cmd.exe",
         "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
         "hidden": false,
-        "icon": "\ud83d\udc1a",
+        "icon": "🐚",
         "name": "Command Prompt",
         "startingDirectory": "%USERPROFILE%"
       },
@@ -89,7 +89,7 @@
         "commandline": "wsl.exe -d Ubuntu --cd ~",
         "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
         "hidden": false,
-        "icon": "\ud83d\udc27",
+        "icon": "🐧",
         "name": "Ubuntu"
       },
       {
@@ -122,7 +122,7 @@
       "name": "Custom Scheme",
       "purple": "#AB78AB",
       "red": "#CC5D4B",
-      "selectionBackground": "#7A7A7A",
+      "selectionBackground": "#A5A5A5",
       "white": "#A5A5A5",
       "yellow": "#B38D59"
     }
@@ -138,7 +138,7 @@
       },
       "tabRow": {
         "background": "#0C0C0CFF",
-        "unfocusedBackground": "#3D3D3DFF"
+        "unfocusedBackground": "#0C0C0CFF"
       },
       "window": {
         "applicationTheme": "dark",

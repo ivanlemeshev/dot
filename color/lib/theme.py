@@ -2,8 +2,35 @@
 
 import re
 
+SOURCE_KEYS = {
+    "bg",
+    "fg",
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "magenta",
+    "cyan",
+    "white",
+    "bright_black",
+    "bright_red",
+    "bright_green",
+    "bright_yellow",
+    "bright_blue",
+    "bright_magenta",
+    "bright_cyan",
+    "bright_white",
+}
 
-def load_theme_sections(yaml_file, prefix="#", uppercase=False):
+
+def _normalize_hex(value, prefix="#", uppercase=False):
+    hex_value = value.lstrip("#")
+    hex_value = hex_value.upper() if uppercase else hex_value.lower()
+    return prefix + hex_value
+
+
+def _parse_palette(yaml_file, prefix="#", uppercase=False):
     palette = {}
     active_section = None
 
@@ -18,68 +45,70 @@ def load_theme_sections(yaml_file, prefix="#", uppercase=False):
             if active_section:
                 if line and not line.startswith("  "):
                     active_section = None
-                else:
-                    match = re.match(r'^\s{2}(\w+):\s+"(#[0-9a-fA-F]+)"', line)
-                    if match:
-                        value = match.group(2).lstrip("#")
-                        value = value.upper() if uppercase else value.lower()
-                        palette[match.group(1)] = prefix + value
+                    continue
+
+                match = re.match(r'^\s{2}([\w_]+):\s+"(#[0-9a-fA-F]{6})"\s*$', line)
+                if match:
+                    palette[match.group(1)] = _normalize_hex(
+                        match.group(2), prefix=prefix, uppercase=uppercase
+                    )
 
     if not palette:
         raise ValueError("Palette section is required in YAML")
 
-    required = {
-        "foreground",
-        "red",
-        "yellow",
-        "green",
-        "blue",
-        "purple",
-        "aqua",
-        "orange",
-        "statusline_1",
-        "statusline_2",
-        "statusline_3",
-        "grey_0",
-        "grey_1",
-        "grey_2",
-        "background_dim",
-        "background_0",
-        "background_1",
-        "background_2",
-        "background_3",
-        "background_4",
-        "background_5",
-        "background_red",
-        "background_yellow",
-        "background_green",
-        "background_blue",
-        "background_purple",
-        "background_visual",
-    }
-    missing = sorted(required - set(palette.keys()))
+    missing = sorted(SOURCE_KEYS - set(palette.keys()))
     if missing:
         raise ValueError("Palette is missing required keys: " + ", ".join(missing))
 
+    return palette
+
+
+def derive_palette_roles(source_palette):
+    if not source_palette:
+        raise ValueError("Palette section is required in YAML")
+
+    missing = sorted(SOURCE_KEYS - set(source_palette.keys()))
+    if missing:
+        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+
+    return {
+        **source_palette,
+        "background": source_palette["bg"],
+        "foreground": source_palette["fg"],
+        "brightBlack": source_palette["bright_black"],
+        "brightRed": source_palette["bright_red"],
+        "brightGreen": source_palette["bright_green"],
+        "brightYellow": source_palette["bright_yellow"],
+        "brightBlue": source_palette["bright_blue"],
+        "brightMagenta": source_palette["bright_magenta"],
+        "brightCyan": source_palette["bright_cyan"],
+        "brightWhite": source_palette["bright_white"],
+    }
+
+
+def load_theme_sections(yaml_file, prefix="#", uppercase=False):
+    source_palette = _parse_palette(yaml_file, prefix=prefix, uppercase=uppercase)
+    palette = derive_palette_roles(source_palette)
+
     colors = {
         "foreground": palette["foreground"],
-        "background": palette["background_0"],
-        "black": palette["background_0"],
+        "background": palette["background"],
+        "black": palette["black"],
         "red": palette["red"],
         "green": palette["green"],
         "yellow": palette["yellow"],
         "blue": palette["blue"],
-        "magenta": palette["purple"],
-        "cyan": palette["aqua"],
-        "white": palette["foreground"],
-        "brightBlack": palette["grey_0"],
-        "brightRed": palette["red"],
-        "brightGreen": palette["green"],
-        "brightYellow": palette["yellow"],
-        "brightBlue": palette["blue"],
-        "brightMagenta": palette["purple"],
-        "brightCyan": palette["aqua"],
-        "brightWhite": palette["grey_2"],
+        "magenta": palette["magenta"],
+        "cyan": palette["cyan"],
+        "white": palette["white"],
+        "brightBlack": palette["brightBlack"],
+        "brightRed": palette["brightRed"],
+        "brightGreen": palette["brightGreen"],
+        "brightYellow": palette["brightYellow"],
+        "brightBlue": palette["brightBlue"],
+        "brightMagenta": palette["brightMagenta"],
+        "brightCyan": palette["brightCyan"],
+        "brightWhite": palette["brightWhite"],
     }
 
     return colors, palette
@@ -93,88 +122,47 @@ def load_theme(yaml_file, prefix="#", uppercase=False):
 
 
 def derive_editor_palette_with_palette(palette):
-    if not palette:
-        raise ValueError("Palette section is required in YAML")
-
-    required = {
-        "foreground",
-        "red",
-        "yellow",
-        "green",
-        "blue",
-        "purple",
-        "aqua",
-        "orange",
-        "grey_0",
-        "grey_1",
-        "grey_2",
-        "background_dim",
-        "background_0",
-        "background_1",
-        "background_2",
-        "background_3",
-        "background_4",
-        "background_5",
-        "background_red",
-        "background_yellow",
-        "background_green",
-        "background_blue",
-        "background_purple",
-        "background_visual",
-        "statusline_1",
-        "statusline_2",
-        "statusline_3",
+    required = {"background", "foreground"} | SOURCE_KEYS | {
+        "brightBlack",
+        "brightWhite",
+        "brightCyan",
+        "brightMagenta",
     }
     missing = sorted(required - set(palette.keys()))
     if missing:
         raise ValueError("Palette is missing required keys: " + ", ".join(missing))
 
-    editor = {
-        "bg": palette["background_0"],
-        "bg_alt": palette["background_1"],
-        "bg_sel": palette["background_2"],
-        "faint": palette["background_dim"],
-        "muted": palette["grey_1"],
-        "dim": palette["grey_0"],
-        "border": palette["background_4"],
-        "fg": palette["foreground"],
-        "fg_alt": palette["grey_2"],
-        "bright": palette["foreground"],
+    return {
+        "bg": palette["bg"],
+        "bg_alt": palette["black"],
+        "bg_sel": palette["white"],
+        "faint": palette["black"],
+        "muted": palette["brightBlack"],
+        "dim": palette["brightBlack"],
+        "border": palette["brightBlack"],
+        "fg": palette["fg"],
+        "fg_alt": palette["white"],
+        "bright": palette["brightWhite"],
         "red": palette["red"],
-        "orange": palette["orange"],
+        "orange": palette["brightMagenta"],
         "yellow": palette["yellow"],
         "green": palette["green"],
-        "cyan": palette["aqua"],
+        "cyan": palette["cyan"],
         "blue": palette["blue"],
-        "magenta": palette["purple"],
-        "background": palette["background_0"],
+        "magenta": palette["magenta"],
+        "background": palette["background"],
         "foreground": palette["foreground"],
-        "black": palette["background_0"],
-        "white": palette["foreground"],
-        "purple": palette["purple"],
-        "aqua": palette["aqua"],
-        "background_dim": palette["background_dim"],
-        "background_0": palette["background_0"],
-        "background_1": palette["background_1"],
-        "background_2": palette["background_2"],
-        "background_3": palette["background_3"],
-        "background_4": palette["background_4"],
-        "background_5": palette["background_5"],
-        "background_red": palette["background_red"],
-        "background_yellow": palette["background_yellow"],
-        "background_green": palette["background_green"],
-        "background_blue": palette["background_blue"],
-        "background_purple": palette["background_purple"],
-        "background_visual": palette["background_visual"],
-        "statusline_1": palette["statusline_1"],
-        "statusline_2": palette["statusline_2"],
-        "statusline_3": palette["statusline_3"],
-        "grey_0": palette["grey_0"],
-        "grey_1": palette["grey_1"],
-        "grey_2": palette["grey_2"],
+        "black": palette["black"],
+        "white": palette["white"],
+        "background_red": palette["red"],
+        "background_yellow": palette["yellow"],
+        "background_green": palette["green"],
+        "background_blue": palette["blue"],
+        "background_purple": palette["magenta"],
+        "background_visual": palette["white"],
+        "background_3": palette["black"],
+        "background_5": palette["brightBlack"],
     }
-
-    return editor
 
 
 def editor_palette_to_vim(editor):

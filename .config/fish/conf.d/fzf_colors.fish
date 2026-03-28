@@ -4,14 +4,14 @@
 # single-place edit.
 
 # --- Cole Custom palette (hex) ---
-set -l fg0     "#f2e6cf"  # fg
-set -l bg0     "#0c0c0c"  # bg
+set -l fg0     "#F2E6CF"  # fg
+set -l bg0     "#0C0C0C"  # bg
 set -l bg1     "#202020"  # black
-set -l bg2     "#7a7a7a"  # bright_black
-set -l red     "#cc5d4b"  # red
-set -l yellow  "#b38d59"  # yellow
-set -l green   "#2e9969"  # green
-set -l magenta "#ab78ab"  # magenta
+set -l bg2     "#7A7A7A"  # bright_black
+set -l red     "#CC5D4B"  # red
+set -l yellow  "#B38D59"  # yellow
+set -l green   "#2E9969"  # green
+set -l magenta "#AB78AB"  # magenta
 
 # --- Colors ---
 set -l colors \

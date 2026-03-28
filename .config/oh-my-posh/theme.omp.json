@@ -62,7 +62,9 @@
         },
         {
           "foreground": "#2e9969",
-          "foreground_templates": ["{{ if gt .Code 0 }}#cc5d4b{{ end }}"],
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#cc5d4b{{ end }}"
+          ],
           "options": {
             "always_enabled": false
           },

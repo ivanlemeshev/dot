@@ -32,7 +32,7 @@
 				<key>gutterForeground</key>
 				<string>#7a7a7a</string>
 				<key>findHighlight</key>
-				<string>#66cc69</string>
+				<string>#b38d59</string>
 				<key>findHighlightForeground</key>
 				<string>#0c0c0c</string>
 				<key>bracketsForeground</key>
@@ -73,7 +73,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#73bfbf</string>
+				<string>#33919c</string>
 			</dict>
 		</dict>
 		<dict>
@@ -369,7 +369,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#2e9969</string>
+				<string>#33919c</string>
 			</dict>
 		</dict>
 		<dict>
@@ -479,7 +479,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#cc9b52</string>
+				<string>#b38d59</string>
 				<key>fontStyle</key>
 				<string>bold</string>
 			</dict>
