@@ -35,7 +35,7 @@ try:
     fzf_palette = {
         "fg0": require_palette("fg"),
         "bg0": require_palette("bg"),
-        "bg1": require_palette("white"),
+        "bg1": require_palette("black"),
         "bg2": require_palette("bright_black"),
         "red": require_palette("red"),
         "yellow": require_palette("yellow"),
