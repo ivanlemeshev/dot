@@ -82,13 +82,13 @@
 	<key>Ansi 15 Color</key>
 	<dict>
 		<key>Blue Component</key>
-		<real>0.9098039215686274</real>
+		<real>0.9725490196078431</real>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Green Component</key>
-		<real>0.9098039215686274</real>
+		<real>0.9725490196078431</real>
 		<key>Red Component</key>
-		<real>0.9098039215686274</real>
+		<real>0.9725490196078431</real>
 	</dict>
 	<key>Ansi 2 Color</key>
 	<dict>
@@ -148,13 +148,13 @@
 	<key>Ansi 7 Color</key>
 	<dict>
 		<key>Blue Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Green Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 		<key>Red Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 	</dict>
 	<key>Ansi 8 Color</key>
 	<dict>
@@ -247,13 +247,13 @@
 	<key>Selection Color</key>
 	<dict>
 		<key>Blue Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Green Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 		<key>Red Component</key>
-		<real>0.7215686274509804</real>
+		<real>0.9098039215686274</real>
 	</dict>
 </dict>
 </plist>

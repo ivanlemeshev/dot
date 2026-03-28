@@ -12,19 +12,26 @@ import re
 import sys
 
 project_root = "${PROJECT_ROOT}"
-schemes_glob = os.path.join(project_root, "color/schemes/color-scheme.*.yaml")
+schemes_glob = os.path.join(project_root, "color/schemes/*.yaml")
 schemes = sorted(glob.glob(schemes_glob))
 if not schemes:
     print("No color schemes found.")
     raise SystemExit(1)
 
 sys.path.insert(0, os.path.join(project_root, "color/lib"))
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 allowed_by_scheme = {}
 for scheme in schemes:
-    colors, raw_palette = load_theme_sections(scheme, prefix="#", uppercase=False)
-    allowed_hex = {v.lower() for v in raw_palette.values()} | {v.lower() for v in colors.values()}
+    bundle = load_theme_bundle(scheme, prefix="#", uppercase=False)
+    colors = bundle["colors"]
+    raw_ansi = bundle["ansi"]
+    base16 = bundle["base16"] or {}
+    allowed_hex = (
+        {v.lower() for v in raw_ansi.values()}
+        | {v.lower() for v in colors.values()}
+        | {v.lower() for v in base16.values()}
+    )
     allowed_hex6 = {h.lstrip("#") for h in allowed_hex}
     allowed_by_scheme[scheme] = (allowed_hex, allowed_hex6)
 

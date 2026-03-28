@@ -18,7 +18,7 @@
 				<key>lineHighlight</key>
 				<string>#282828</string>
 				<key>selection</key>
-				<string>#b8b8b8</string>
+				<string>#e8e8e8</string>
 				<key>selectionBorder</key>
 				<string>#585858</string>
 				<key>invisibles</key>

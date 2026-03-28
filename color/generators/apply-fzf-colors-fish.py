@@ -19,28 +19,28 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors, raw_palette = load_theme_sections(yaml_file, prefix="#", uppercase=True)
+    colors, raw_ansi = load_theme_sections(yaml_file, prefix="#", uppercase=True)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
 
-def require_palette(key):
-    if key not in raw_palette:
-        raise ValueError(f"Missing required palette key: {key}")
-    return raw_palette[key]
+def require_ansi(key):
+    if key not in raw_ansi:
+        raise ValueError(f"Missing required ansi key: {key}")
+    return raw_ansi[key]
 
 
 try:
     fzf_palette = {
-        "fg0": require_palette("fg"),
-        "bg0": require_palette("bg"),
-        "bg1": require_palette("black"),
-        "bg2": require_palette("bright_black"),
-        "red": require_palette("red"),
-        "yellow": require_palette("yellow"),
-        "green": require_palette("green"),
-        "magenta": require_palette("magenta"),
+        "fg0": require_ansi("fg"),
+        "bg0": require_ansi("bg"),
+        "bg1": require_ansi("black"),
+        "bg2": require_ansi("bright_black"),
+        "red": require_ansi("red"),
+        "yellow": require_ansi("yellow"),
+        "green": require_ansi("green"),
+        "magenta": require_ansi("magenta"),
     }
 except ValueError as exc:
     print(str(exc), file=sys.stderr)

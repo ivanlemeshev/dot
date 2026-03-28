@@ -17,12 +17,12 @@ yaml_file = sys.argv[1]
 tmux_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-# tmux theme variable → YAML color name
+# tmux theme variable → YAML ansi color name
 thm_vars = {
     "@theme_bg": ("bg", "background"),  # status bar / pane background
     "@theme_fg": ("fg", "foreground"),  # default text
@@ -42,8 +42,8 @@ with open(tmux_file) as f:
 
 
 def resolve_color(primary, fallback):
-    if primary in palette:
-        return palette[primary]
+    if primary in ansi:
+        return ansi[primary]
     return colors[fallback]
 
 

@@ -3,7 +3,7 @@
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Cole Custom palette (RGB values) ---
+# --- Custom palette (RGB values) ---
 set -l fg0     "216;216;216"  # #d8d8d8
 set -l bg0     "24;24;24"     # #181818
 set -l red     "171;70;66"    # #ab4642

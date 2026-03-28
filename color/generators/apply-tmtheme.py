@@ -18,7 +18,7 @@ yaml_file = sys.argv[1]
 tmtheme_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -32,7 +32,7 @@ with open(spec_file, encoding="utf-8") as f:
 def resolve_color(name):
     if name in colors:
         return colors[name]
-    return palette[name]
+    return ansi[name]
 
 
 global_settings = {}

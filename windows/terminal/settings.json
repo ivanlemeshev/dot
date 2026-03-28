@@ -113,7 +113,7 @@
       "brightGreen": "#A1B56C",
       "brightPurple": "#BA8BAF",
       "brightRed": "#AB4642",
-      "brightWhite": "#E8E8E8",
+      "brightWhite": "#F8F8F8",
       "brightYellow": "#F7CA88",
       "cursorColor": "#D8D8D8",
       "cyan": "#86C1B9",
@@ -122,8 +122,8 @@
       "name": "Custom Scheme",
       "purple": "#BA8BAF",
       "red": "#AB4642",
-      "selectionBackground": "#B8B8B8",
-      "white": "#B8B8B8",
+      "selectionBackground": "#E8E8E8",
+      "white": "#E8E8E8",
       "yellow": "#F7CA88"
     }
   ],

@@ -2,7 +2,7 @@
 
 import re
 
-SOURCE_KEYS = {
+ANSI_KEYS = {
     "bg",
     "fg",
     "black",
@@ -23,6 +23,25 @@ SOURCE_KEYS = {
     "bright_white",
 }
 
+BASE16_KEYS = {
+    "base00",
+    "base01",
+    "base02",
+    "base03",
+    "base04",
+    "base05",
+    "base06",
+    "base07",
+    "base08",
+    "base09",
+    "base0A",
+    "base0B",
+    "base0C",
+    "base0D",
+    "base0E",
+    "base0F",
+}
+
 
 def _normalize_hex(value, prefix="#", uppercase=False):
     hex_value = value.lstrip("#")
@@ -30,16 +49,16 @@ def _normalize_hex(value, prefix="#", uppercase=False):
     return prefix + hex_value
 
 
-def _parse_palette(yaml_file, prefix="#", uppercase=False):
-    palette = {}
+def _parse_section(yaml_file, section_name, required_keys, prefix="#", uppercase=False):
+    values = {}
     active_section = None
 
     with open(yaml_file, encoding="utf-8") as handle:
         for line in handle:
             stripped = line.strip()
 
-            if stripped == "palette:":
-                active_section = "palette"
+            if stripped == f"{section_name}:":
+                active_section = section_name
                 continue
 
             if active_section:
@@ -49,69 +68,132 @@ def _parse_palette(yaml_file, prefix="#", uppercase=False):
 
                 match = re.match(r'^\s{2}([\w_]+):\s+"(#[0-9a-fA-F]{6})"\s*$', line)
                 if match:
-                    palette[match.group(1)] = _normalize_hex(
+                    values[match.group(1)] = _normalize_hex(
                         match.group(2), prefix=prefix, uppercase=uppercase
                     )
 
-    if not palette:
-        raise ValueError("Palette section is required in YAML")
+    if not values:
+        return None
 
-    missing = sorted(SOURCE_KEYS - set(palette.keys()))
+    missing = sorted(required_keys - set(values.keys()))
     if missing:
-        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+        raise ValueError(
+            f"{section_name.capitalize()} is missing required keys: "
+            + ", ".join(missing)
+        )
 
-    return palette
+    return values
 
 
-def derive_palette_roles(source_palette):
-    if not source_palette:
-        raise ValueError("Palette section is required in YAML")
+def _parse_ansi(yaml_file, prefix="#", uppercase=False):
+    return _parse_section(
+        yaml_file, "ansi", ANSI_KEYS, prefix=prefix, uppercase=uppercase
+    )
 
-    missing = sorted(SOURCE_KEYS - set(source_palette.keys()))
+
+def _parse_base16(yaml_file, prefix="#", uppercase=False):
+    return _parse_section(
+        yaml_file, "base16", BASE16_KEYS, prefix=prefix, uppercase=uppercase
+    )
+
+
+def derive_ansi_from_base16(base16):
+    if not base16:
+        raise ValueError("Base16 section is required in YAML")
+
+    missing = sorted(BASE16_KEYS - set(base16.keys()))
     if missing:
-        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
 
     return {
-        **source_palette,
-        "background": source_palette["bg"],
-        "foreground": source_palette["fg"],
-        "brightBlack": source_palette["bright_black"],
-        "brightRed": source_palette["bright_red"],
-        "brightGreen": source_palette["bright_green"],
-        "brightYellow": source_palette["bright_yellow"],
-        "brightBlue": source_palette["bright_blue"],
-        "brightMagenta": source_palette["bright_magenta"],
-        "brightCyan": source_palette["bright_cyan"],
-        "brightWhite": source_palette["bright_white"],
+        "bg": base16["base00"],
+        "fg": base16["base05"],
+        "black": base16["base01"],
+        "red": base16["base08"],
+        "green": base16["base0B"],
+        "yellow": base16["base0A"],
+        "blue": base16["base0D"],
+        "magenta": base16["base0E"],
+        "cyan": base16["base0C"],
+        "white": base16["base06"],
+        "bright_black": base16["base03"],
+        "bright_red": base16["base08"],
+        "bright_green": base16["base0B"],
+        "bright_yellow": base16["base0A"],
+        "bright_blue": base16["base0D"],
+        "bright_magenta": base16["base0E"],
+        "bright_cyan": base16["base0C"],
+        "bright_white": base16["base07"],
+    }
+
+
+def derive_ansi_roles(source_ansi):
+    if not source_ansi:
+        raise ValueError("Ansi section is required in YAML")
+
+    missing = sorted(ANSI_KEYS - set(source_ansi.keys()))
+    if missing:
+        raise ValueError("Ansi is missing required keys: " + ", ".join(missing))
+
+    return {
+        **source_ansi,
+        "background": source_ansi["bg"],
+        "foreground": source_ansi["fg"],
+        "brightBlack": source_ansi["bright_black"],
+        "brightRed": source_ansi["bright_red"],
+        "brightGreen": source_ansi["bright_green"],
+        "brightYellow": source_ansi["bright_yellow"],
+        "brightBlue": source_ansi["bright_blue"],
+        "brightMagenta": source_ansi["bright_magenta"],
+        "brightCyan": source_ansi["bright_cyan"],
+        "brightWhite": source_ansi["bright_white"],
+    }
+
+
+def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
+    source_ansi = _parse_ansi(yaml_file, prefix=prefix, uppercase=uppercase)
+    base16 = _parse_base16(yaml_file, prefix=prefix, uppercase=uppercase)
+
+    if source_ansi is None and base16 is None:
+        raise ValueError("Ansi or base16 section is required in YAML")
+
+    if source_ansi is None:
+        source_ansi = derive_ansi_from_base16(base16)
+
+    ansi_roles = derive_ansi_roles(source_ansi)
+
+    colors = {
+        "foreground": ansi_roles["foreground"],
+        "background": ansi_roles["background"],
+        "black": ansi_roles["black"],
+        "red": ansi_roles["red"],
+        "green": ansi_roles["green"],
+        "yellow": ansi_roles["yellow"],
+        "blue": ansi_roles["blue"],
+        "magenta": ansi_roles["magenta"],
+        "cyan": ansi_roles["cyan"],
+        "white": ansi_roles["white"],
+        "brightBlack": ansi_roles["brightBlack"],
+        "brightRed": ansi_roles["brightRed"],
+        "brightGreen": ansi_roles["brightGreen"],
+        "brightYellow": ansi_roles["brightYellow"],
+        "brightBlue": ansi_roles["brightBlue"],
+        "brightMagenta": ansi_roles["brightMagenta"],
+        "brightCyan": ansi_roles["brightCyan"],
+        "brightWhite": ansi_roles["brightWhite"],
+    }
+
+    return {
+        "colors": colors,
+        "ansi": source_ansi,
+        "ansi_roles": ansi_roles,
+        "base16": base16,
     }
 
 
 def load_theme_sections(yaml_file, prefix="#", uppercase=False):
-    source_palette = _parse_palette(yaml_file, prefix=prefix, uppercase=uppercase)
-    palette = derive_palette_roles(source_palette)
-
-    colors = {
-        "foreground": palette["foreground"],
-        "background": palette["background"],
-        "black": palette["black"],
-        "red": palette["red"],
-        "green": palette["green"],
-        "yellow": palette["yellow"],
-        "blue": palette["blue"],
-        "magenta": palette["magenta"],
-        "cyan": palette["cyan"],
-        "white": palette["white"],
-        "brightBlack": palette["brightBlack"],
-        "brightRed": palette["brightRed"],
-        "brightGreen": palette["brightGreen"],
-        "brightYellow": palette["brightYellow"],
-        "brightBlue": palette["brightBlue"],
-        "brightMagenta": palette["brightMagenta"],
-        "brightCyan": palette["brightCyan"],
-        "brightWhite": palette["brightWhite"],
-    }
-
-    return colors, palette
+    bundle = load_theme_bundle(yaml_file, prefix=prefix, uppercase=uppercase)
+    return bundle["colors"], bundle["ansi"]
 
 
 def load_theme(yaml_file, prefix="#", uppercase=False):
@@ -121,48 +203,97 @@ def load_theme(yaml_file, prefix="#", uppercase=False):
     return colors
 
 
-def derive_editor_palette_with_palette(palette):
-    required = {"background", "foreground"} | SOURCE_KEYS | {
+def derive_editor_palette_with_ansi(ansi):
+    required = {"background", "foreground"} | ANSI_KEYS | {
         "brightBlack",
         "brightWhite",
         "brightCyan",
         "brightMagenta",
     }
-    missing = sorted(required - set(palette.keys()))
+    missing = sorted(required - set(ansi.keys()))
     if missing:
-        raise ValueError("Palette is missing required keys: " + ", ".join(missing))
+        raise ValueError("Ansi is missing required keys: " + ", ".join(missing))
 
     return {
-        "bg": palette["bg"],
-        "bg_alt": palette["black"],
-        "bg_sel": palette["white"],
-        "faint": palette["black"],
-        "muted": palette["brightBlack"],
-        "dim": palette["brightBlack"],
-        "border": palette["brightBlack"],
-        "fg": palette["fg"],
-        "fg_alt": palette["white"],
-        "bright": palette["brightWhite"],
-        "red": palette["red"],
-        "orange": palette["brightMagenta"],
-        "yellow": palette["yellow"],
-        "green": palette["green"],
-        "cyan": palette["cyan"],
-        "blue": palette["blue"],
-        "magenta": palette["magenta"],
-        "background": palette["background"],
-        "foreground": palette["foreground"],
-        "black": palette["black"],
-        "white": palette["white"],
-        "background_red": palette["red"],
-        "background_yellow": palette["yellow"],
-        "background_green": palette["green"],
-        "background_blue": palette["blue"],
-        "background_purple": palette["magenta"],
-        "background_visual": palette["white"],
-        "background_3": palette["black"],
-        "background_5": palette["brightBlack"],
+        "bg": ansi["bg"],
+        "bg_alt": ansi["black"],
+        "bg_sel": ansi["white"],
+        "faint": ansi["black"],
+        "muted": ansi["brightBlack"],
+        "dim": ansi["brightBlack"],
+        "border": ansi["brightBlack"],
+        "fg": ansi["fg"],
+        "fg_alt": ansi["white"],
+        "bright": ansi["brightWhite"],
+        "red": ansi["red"],
+        "orange": ansi["brightMagenta"],
+        "yellow": ansi["yellow"],
+        "green": ansi["green"],
+        "cyan": ansi["cyan"],
+        "blue": ansi["blue"],
+        "magenta": ansi["magenta"],
+        "background": ansi["background"],
+        "foreground": ansi["foreground"],
+        "black": ansi["black"],
+        "white": ansi["white"],
+        "background_red": ansi["red"],
+        "background_yellow": ansi["yellow"],
+        "background_green": ansi["green"],
+        "background_blue": ansi["blue"],
+        "background_purple": ansi["magenta"],
+        "background_visual": ansi["white"],
+        "background_3": ansi["black"],
+        "background_5": ansi["brightBlack"],
     }
+
+
+def derive_editor_palette_with_base16(base16):
+    if not base16:
+        raise ValueError("Base16 section is required in YAML")
+
+    missing = sorted(BASE16_KEYS - set(base16.keys()))
+    if missing:
+        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
+
+    return {
+        "bg": base16["base00"],
+        "bg_alt": base16["base01"],
+        "bg_sel": base16["base02"],
+        "faint": base16["base01"],
+        "muted": base16["base03"],
+        "dim": base16["base04"],
+        "border": base16["base03"],
+        "fg": base16["base05"],
+        "fg_alt": base16["base06"],
+        "bright": base16["base07"],
+        "red": base16["base08"],
+        "orange": base16["base09"],
+        "yellow": base16["base0A"],
+        "green": base16["base0B"],
+        "cyan": base16["base0C"],
+        "blue": base16["base0D"],
+        "magenta": base16["base0E"],
+        "background": base16["base00"],
+        "foreground": base16["base05"],
+        "black": base16["base01"],
+        "white": base16["base06"],
+        "background_red": base16["base08"],
+        "background_yellow": base16["base0A"],
+        "background_green": base16["base0B"],
+        "background_blue": base16["base0D"],
+        "background_purple": base16["base0E"],
+        "background_visual": base16["base02"],
+        "background_3": base16["base01"],
+        "background_5": base16["base03"],
+    }
+
+
+def derive_editor_palette(base16=None, ansi=None):
+    if base16 is not None:
+        return derive_editor_palette_with_base16(base16)
+    if ansi is not None:
+        return derive_editor_palette_with_ansi(ansi)
+    raise ValueError("Ansi or base16 section is required in YAML")
 
 
 def editor_palette_to_vim(editor):
@@ -234,11 +365,65 @@ def editor_palette_to_vim(editor):
     }
 
 
-def derive_vim_palette_with_palette(palette):
-    editor = derive_editor_palette_with_palette(palette)
-    editor["bright_red"] = palette["brightRed"]
-    editor["bright_green"] = palette["brightGreen"]
-    editor["bright_cyan"] = palette["brightCyan"]
-    editor["bright_blue"] = palette["brightBlue"]
-    editor["bright_magenta"] = palette["brightMagenta"]
+def derive_vim_palette_with_ansi(ansi):
+    editor = derive_editor_palette_with_ansi(ansi)
+    editor["bright_red"] = ansi["brightRed"]
+    editor["bright_green"] = ansi["brightGreen"]
+    editor["bright_cyan"] = ansi["brightCyan"]
+    editor["bright_blue"] = ansi["brightBlue"]
+    editor["bright_magenta"] = ansi["brightMagenta"]
     return editor_palette_to_vim(editor)
+
+
+def derive_vim_palette_with_base16(base16, ansi):
+    if not base16:
+        raise ValueError("Base16 section is required in YAML")
+
+    missing = sorted(BASE16_KEYS - set(base16.keys()))
+    if missing:
+        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
+
+    if ansi is None:
+        ansi = derive_ansi_roles(derive_ansi_from_base16(base16))
+
+    return {
+        "gui00": base16["base00"],
+        "gui01": base16["base01"],
+        "gui02": base16["base02"],
+        "gui03": base16["base03"],
+        "gui04": base16["base04"],
+        "gui05": base16["base05"],
+        "gui06": base16["base06"],
+        "gui07": base16["base07"],
+        "gui08": base16["base08"],
+        "gui09": base16["base09"],
+        "gui0A": base16["base0A"],
+        "gui0B": base16["base0B"],
+        "gui0C": base16["base0C"],
+        "gui0D": base16["base0D"],
+        "gui0E": base16["base0E"],
+        "gui0F": base16["base0F"],
+        "gui08_bright": ansi["brightRed"],
+        "gui0B_bright": ansi["brightGreen"],
+        "gui0C_bright": ansi["brightCyan"],
+        "gui0D_bright": ansi["brightBlue"],
+        "gui0E_bright": ansi["brightMagenta"],
+        "gui_faint": base16["base01"],
+        "gui_border": base16["base03"],
+        "gui_bg_red": base16["base08"],
+        "gui_bg_yellow": base16["base0A"],
+        "gui_bg_green": base16["base0B"],
+        "gui_bg_blue": base16["base0D"],
+        "gui_bg_purple": base16["base0E"],
+        "gui_bg_visual": base16["base02"],
+        "gui_bg3": base16["base01"],
+        "gui_bg5": base16["base03"],
+    }
+
+
+def derive_vim_palette(base16=None, ansi=None):
+    if base16 is not None:
+        return derive_vim_palette_with_base16(base16, ansi)
+    if ansi is not None:
+        return derive_vim_palette_with_ansi(ansi)
+    raise ValueError("Ansi or base16 section is required in YAML")

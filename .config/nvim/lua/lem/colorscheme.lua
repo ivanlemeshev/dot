@@ -2,7 +2,7 @@
 
 local M = {}
 
--- Palette (matches color/schemes/color-scheme.base16-default-dark.yaml)
+-- Palette (matches color/schemes/base16-default-dark.yaml)
 M.palette = {
   bg = "#181818",
   fg = "#d8d8d8",
@@ -13,7 +13,7 @@ M.palette = {
   blue = "#7cafc2",
   magenta = "#ba8baf",
   cyan = "#86c1b9",
-  white = "#b8b8b8",
+  white = "#e8e8e8",
   bright_black = "#585858",
   bright_red = "#ab4642",
   bright_green = "#a1b56c",
@@ -21,7 +21,7 @@ M.palette = {
   bright_blue = "#7cafc2",
   bright_magenta = "#ba8baf",
   bright_cyan = "#86c1b9",
-  bright_white = "#e8e8e8",
+  bright_white = "#f8f8f8",
 }
 
 M.lualine_theme = {

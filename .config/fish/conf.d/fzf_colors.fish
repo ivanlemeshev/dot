@@ -3,7 +3,7 @@
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Cole Custom palette (hex) ---
+# --- Custom palette (hex) ---
 set -l fg0     "#D8D8D8"  # fg
 set -l bg0     "#181818"  # bg
 set -l bg1     "#282828"  # black
