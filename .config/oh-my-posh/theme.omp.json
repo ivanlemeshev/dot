@@ -5,19 +5,19 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#ebdbb2",
+          "foreground": "#f2e6cf",
           "style": "plain",
-          "template": "<#7c6f64>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#f9c74f>{{ .UserName }}</><#ebdbb2>@</></>{{ end }}<#8ecbff>{{ .HostName }}</><#7c6f64> | </>",
+          "template": "<#7a7a7a>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#b38d59>{{ .UserName }}</><#f2e6cf>@</></>{{ end }}<#6179c2>{{ .HostName }}</><#7a7a7a> | </>",
           "type": "session"
         },
         {
-          "foreground": "#ff7b72",
+          "foreground": "#cc5d4b",
           "style": "plain",
-          "template": "󱐋<#7c6f64> | </>",
+          "template": "󱐋<#7a7a7a> | </>",
           "type": "root"
         },
         {
-          "foreground": "#ebdbb2",
+          "foreground": "#f2e6cf",
           "options": {
             "style": "folder"
           },
@@ -26,11 +26,11 @@
           "type": "path"
         },
         {
-          "foreground": "#b8d76a",
+          "foreground": "#2e9969",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#f9c74f{{ end }}",
-            "{{ if gt .Ahead 0 }}#8ecbff{{ end }}",
-            "{{ if gt .Behind 0 }}#ff7b72{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#b38d59{{ end }}",
+            "{{ if gt .Ahead 0 }}#6179c2{{ end }}",
+            "{{ if gt .Behind 0 }}#cc5d4b{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -38,38 +38,36 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ff7b72> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#b8d76a> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
+          "template": "<#7a7a7a>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#cc5d4b> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#2e9969> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
           "type": "git"
         },
         {
-          "foreground": "#b8d76a",
+          "foreground": "#2e9969",
           "options": {
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .CurrentDate | date .Format }} ",
+          "template": "<#7a7a7a>| </>{{ .CurrentDate | date .Format }} ",
           "type": "time"
         },
         {
-          "foreground": "#f9c74f",
+          "foreground": "#b38d59",
           "options": {
             "style": "roundrock",
             "threshold": 500
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .FormattedMs }} </>",
+          "template": "<#7a7a7a>| </>{{ .FormattedMs }} </>",
           "type": "executiontime"
         },
         {
-          "foreground": "#b8d76a",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ff7b72{{ end }}"
-          ],
+          "foreground": "#2e9969",
+          "foreground_templates": ["{{ if gt .Code 0 }}#cc5d4b{{ end }}"],
           "options": {
             "always_enabled": false
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+          "template": "<#7a7a7a>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
           "type": "status"
         }
       ],
@@ -80,9 +78,9 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#ebdbb2",
+          "foreground": "#f2e6cf",
           "style": "plain",
-          "template": "<#7c6f64>└</><#8ecbff>$</>",
+          "template": "<#7a7a7a>└</><#6179c2>$</>",
           "type": "text"
         }
       ],

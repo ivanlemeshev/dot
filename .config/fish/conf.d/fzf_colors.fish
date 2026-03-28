@@ -3,15 +3,15 @@
 # Colors are defined once as variables so changing the palette is a
 # single-place edit.
 
-# --- Custom palette (hex) ---
-set -l fg0     "#EBDBB2"  # primary text
-set -l bg0     "#282828"  # main background
-set -l bg1     "#2B2B2B"  # selected background
-set -l bg2     "#32302F"  # lighter background
-set -l red     "#FF7B72"
-set -l yellow  "#F9C74F"
-set -l green   "#B8D76A"
-set -l magenta "#E2A8FF"
+# --- Cole Custom palette (hex) ---
+set -l fg0     "#f2e6cf"  # fg
+set -l bg0     "#0c0c0c"  # bg
+set -l bg1     "#202020"  # black
+set -l bg2     "#7a7a7a"  # bright_black
+set -l red     "#cc5d4b"  # red
+set -l yellow  "#b38d59"  # yellow
+set -l green   "#2e9969"  # green
+set -l magenta "#ab78ab"  # magenta
 
 # --- Colors ---
 set -l colors \

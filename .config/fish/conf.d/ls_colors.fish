@@ -3,16 +3,16 @@
 # Each color is defined once as a variable so you can change a color in one
 # place instead of hunting through hundreds of entries.
 
-# --- Custom palette (RGB values) ---
-set -l fg0     "235;219;178"  # #ebdbb2
-set -l bg0     "40;40;40"     # #282828
-set -l red     "255;123;114"  # #ff7b72
-set -l green   "184;215;106"  # #b8d76a
-set -l yellow  "249;199;79"  # #f9c74f
-set -l blue    "142;203;255"  # #8ecbff
-set -l magenta "226;168;255"  # #e2a8ff
-set -l cyan    "158;230;168"  # #9ee6a8
-set -l dim     "124;111;100"  # #7c6f64
+# --- Cole Custom palette (RGB values) ---
+set -l fg0     "242;230;207"  # #f2e6cf
+set -l bg0     "12;12;12"     # #0c0c0c
+set -l red     "204;93;75"    # #cc5d4b
+set -l green   "46;153;105"   # #2e9969
+set -l yellow  "179;141;89"   # #b38d59
+set -l blue    "97;121;194"   # #6179c2
+set -l magenta "171;120;171"  # #ab78ab
+set -l cyan    "51;145;156"   # #33919c
+set -l dim     "122;122;122"  # #7a7a7a
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal
