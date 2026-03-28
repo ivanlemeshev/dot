@@ -22,34 +22,87 @@ M.palette = {
   base0F = "#a16946",
 }
 
+local function hex_to_rgb(hex)
+  local clean = hex:gsub("#", "")
+  return tonumber(clean:sub(1, 2), 16),
+    tonumber(clean:sub(3, 4), 16),
+    tonumber(clean:sub(5, 6), 16)
+end
+
+local function relative_luminance(hex)
+  local function channel(c)
+    c = c / 255
+    if c <= 0.03928 then
+      return c / 12.92
+    end
+    return ((c + 0.055) / 1.055) ^ 2.4
+  end
+
+  local r, g, b = hex_to_rgb(hex)
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
+end
+
+local function contrast_ratio(a, b)
+  local l1 = relative_luminance(a)
+  local l2 = relative_luminance(b)
+  local lighter = math.max(l1, l2)
+  local darker = math.min(l1, l2)
+  return (lighter + 0.05) / (darker + 0.05)
+end
+
+local function best_contrast_fg(bg, a, b)
+  if contrast_ratio(bg, a) >= contrast_ratio(bg, b) then
+    return a
+  end
+  return b
+end
+
 M.lualine_theme = {
   normal = {
-    a = { bg = M.palette.base07, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base07,
+      fg = best_contrast_fg(M.palette.base07, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   insert = {
-    a = { bg = M.palette.base0B, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base0B,
+      fg = best_contrast_fg(M.palette.base0B, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   visual = {
-    a = { bg = M.palette.base0A, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base0A,
+      fg = best_contrast_fg(M.palette.base0A, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   replace = {
-    a = { bg = M.palette.base08, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base08,
+      fg = best_contrast_fg(M.palette.base08, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   command = {
-    a = { bg = M.palette.base0D, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base0D,
+      fg = best_contrast_fg(M.palette.base0D, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
   terminal = {
-    a = { bg = M.palette.base0E, fg = M.palette.base00 },
+    a = {
+      bg = M.palette.base0E,
+      fg = best_contrast_fg(M.palette.base0E, M.palette.base00, M.palette.base05),
+    },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
