@@ -37,7 +37,7 @@ content = re.sub(
     content,
 )
 
-for slot, hex_val in {**raw_ansi, **palette}.items():
+for slot, hex_val in {**(base16 or {}), **raw_ansi, **palette}.items():
     # Replace:   bg     = "#151515",
     content = re.sub(
         rf'\b({re.escape(slot)}\s*=\s*)"#[0-9a-fA-F]{{6}}"',

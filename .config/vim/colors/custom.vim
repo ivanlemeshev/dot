@@ -209,12 +209,12 @@ call s:hl('PreProc',      s:gui0E, '',      'italic')
 call s:hl('PreCondit',    s:gui0E, '',      'italic')
 call s:hl('Include',      s:gui0E, '',      'italic')
 call s:hl('Define',       s:gui0E, '',      'italic')
-call s:hl('Conditional',  s:gui08, '',      'italic')
-call s:hl('Repeat',       s:gui08, '',      'italic')
-call s:hl('Keyword',      s:gui08, '',      'italic')
-call s:hl('Typedef',      s:gui08, '',      'italic')
-call s:hl('Exception',    s:gui08, '',      'italic')
-call s:hl('Statement',    s:gui08, '',      'italic')
+call s:hl('Conditional',  s:gui0E, '',      'italic')
+call s:hl('Repeat',       s:gui0E, '',      'italic')
+call s:hl('Keyword',      s:gui0E, '',      'italic')
+call s:hl('Typedef',      s:gui0E, '',      'italic')
+call s:hl('Exception',    s:gui0E, '',      'italic')
+call s:hl('Statement',    s:gui0E, '',      'italic')
 
 call s:hl('Error',        s:gui08, '')
 call s:hl('StorageClass', s:gui0A, '')
@@ -222,20 +222,20 @@ call s:hl('Tag',          s:gui0A, '')
 call s:hl('Label',        s:gui0A, '')
 call s:hl('Structure',    s:gui0A, '')
 call s:hl('Operator',     s:gui0A, '')
-call s:hl('Title',        s:gui0A, '')
+call s:hl('Title',        s:gui0D, '')
 call s:hl('Special',      s:gui0A, '')
-call s:hl('SpecialChar',  s:gui0A, '')
+call s:hl('SpecialChar',  s:gui0C, '')
 call s:hl('Type',         s:gui0A, '')
 
-call s:hl('Function',     s:gui0B_bright, '')
+call s:hl('Function',     s:gui0D, '')
 
 call s:hl('String',       s:gui0B, '')
 call s:hl('Character',    s:gui0B, '')
-call s:hl('Constant',     s:gui0C_bright, '')
-call s:hl('Macro',        s:gui0C_bright, '')
-call s:hl('Identifier',   s:gui0D, '')
+call s:hl('Constant',     s:gui09, '')
+call s:hl('Macro',        s:gui0E, '')
+call s:hl('Identifier',   s:gui08, '')
 
-call s:hl('Todo',         s:gui00, s:gui0D_bright)
+call s:hl('Todo',         s:gui00, s:gui0D)
 
 " italic comments
 call s:hl('Comment',        s:gui03, '',    'italic')
@@ -249,7 +249,7 @@ call s:hl('Underlined',   '',      '',      'underline')
 " Predefined highlight groups
 " ==========================================================================
 call s:hl('Fg',           s:gui05, '')
-call s:hl('Grey',         s:gui04, '')
+call s:hl('Grey',         s:gui03, '')
 call s:hl('Red',          s:gui08, '')
 call s:hl('Yellow',       s:gui0A, '')
 call s:hl('Green',        s:gui0B, '')
@@ -300,7 +300,7 @@ highlight! link VirtualTextHint    Grey
 
 call s:hl('ErrorFloat',   s:gui08, '')
 call s:hl('WarningFloat', s:gui0A, '')
-call s:hl('InfoFloat',    s:gui0D_bright, '')
+call s:hl('InfoFloat',    s:gui0D, '')
 call s:hl('HintFloat',    s:gui0E, '')
 
 call s:hl('CurrentWord',  s:gui00, s:gui07)
@@ -356,7 +356,7 @@ highlight! link markdownId               Yellow
 " Filetype: lua
 " ==========================================================================
 highlight! link luaFunc         Green
-highlight! link luaFunction     Aqua
+highlight! link luaFunction     Blue
 highlight! link luaTable        Fg
 highlight! link luaIn           RedItalic
 highlight! link luaFuncCall     Green
@@ -407,14 +407,14 @@ call s:hl('StatusInactive',     s:gui06, s:gui_bg3)
 " Terminal colors
 " ==========================================================================
 if has('terminal') || has('nvim')
-  let g:terminal_color_0  = '#' . s:gui03
+  let g:terminal_color_0  = '#' . s:gui01
   let g:terminal_color_1  = '#' . s:gui08
   let g:terminal_color_2  = '#' . s:gui0B
   let g:terminal_color_3  = '#' . s:gui0A
   let g:terminal_color_4  = '#' . s:gui0D
   let g:terminal_color_5  = '#' . s:gui0E
   let g:terminal_color_6  = '#' . s:gui0C
-  let g:terminal_color_7  = '#' . s:gui05
+  let g:terminal_color_7  = '#' . s:gui06
   let g:terminal_color_8  = '#' . s:gui03
   let g:terminal_color_9  = '#' . s:gui08
   let g:terminal_color_10 = '#' . s:gui0B

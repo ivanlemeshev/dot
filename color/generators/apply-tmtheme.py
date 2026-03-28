@@ -8,7 +8,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom.tmTheme>", file=sys.stderr)
@@ -18,7 +18,10 @@ yaml_file = sys.argv[1]
 tmtheme_file = sys.argv[2]
 
 try:
-    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
+    colors = bundle["colors"]
+    ansi = bundle["ansi"] or {}
+    base16 = bundle["base16"] or {}
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -30,6 +33,8 @@ with open(spec_file, encoding="utf-8") as f:
 
 
 def resolve_color(name):
+    if name in base16:
+        return base16[name]
     if name in colors:
         return colors[name]
     return ansi[name]

@@ -1,226 +1,226 @@
 {
   "name": "Custom",
   "global_settings": [
-    { "key": "background", "color": "background" },
-    { "key": "foreground", "color": "foreground" },
-    { "key": "caret", "color": "foreground" },
-    { "key": "lineHighlight", "color": "black" },
-    { "key": "selection", "color": "white" },
-    { "key": "selectionBorder", "color": "brightBlack" },
-    { "key": "invisibles", "color": "black" },
-    { "key": "guide", "color": "brightBlack" },
-    { "key": "activeGuide", "color": "brightBlack" },
-    { "key": "gutter", "color": "background" },
-    { "key": "gutterForeground", "color": "brightBlack" },
-    { "key": "findHighlight", "color": "yellow" },
-    { "key": "findHighlightForeground", "color": "background" },
-    { "key": "bracketsForeground", "color": "foreground" },
-    { "key": "bracketContentsForeground", "color": "foreground" }
+    { "key": "background", "color": "base00" },
+    { "key": "foreground", "color": "base05" },
+    { "key": "caret", "color": "base05" },
+    { "key": "lineHighlight", "color": "base01" },
+    { "key": "selection", "color": "base02" },
+    { "key": "selectionBorder", "color": "base03" },
+    { "key": "invisibles", "color": "base03" },
+    { "key": "guide", "color": "base03" },
+    { "key": "activeGuide", "color": "base04" },
+    { "key": "gutter", "color": "base00" },
+    { "key": "gutterForeground", "color": "base03" },
+    { "key": "findHighlight", "color": "base0A" },
+    { "key": "findHighlightForeground", "color": "base00" },
+    { "key": "bracketsForeground", "color": "base05" },
+    { "key": "bracketContentsForeground", "color": "base05" }
   ],
   "entries": [
     {
       "name": "Comment",
       "scope": "comment, punctuation.definition.comment",
-      "color": "brightBlack",
+      "color": "base03",
       "fontStyle": "italic"
     },
-    { "name": "String", "scope": "string", "color": "green" },
+    { "name": "String", "scope": "string", "color": "base0B" },
     {
       "name": "Escape Character",
       "scope": "constant.character.escape",
-      "color": "cyan"
+      "color": "base0C"
     },
-    { "name": "Number", "scope": "constant.numeric", "color": "brightMagenta" },
+    { "name": "Number", "scope": "constant.numeric", "color": "base09" },
     {
       "name": "Built-in Constant",
       "scope": "constant.language",
-      "color": "brightCyan"
+      "color": "base09"
     },
-    { "name": "Constant", "scope": "constant.other", "color": "brightCyan" },
+    { "name": "Constant", "scope": "constant.other", "color": "base09" },
     {
       "name": "Keyword",
       "scope": "keyword, keyword.control",
-      "color": "red",
+      "color": "base0E",
       "fontStyle": "italic"
     },
-    { "name": "Operator", "scope": "keyword.operator", "color": "yellow" },
-    { "name": "Storage Type", "scope": "storage.type", "color": "yellow" },
+    { "name": "Operator", "scope": "keyword.operator", "color": "base05" },
+    { "name": "Storage Type", "scope": "storage.type", "color": "base0A" },
     {
       "name": "Storage Modifier",
       "scope": "storage.modifier",
-      "color": "yellow"
+      "color": "base0E"
     },
     {
       "name": "Function Name",
       "scope": "entity.name.function, meta.function-call",
-      "color": "brightGreen"
+      "color": "base0D"
     },
     {
       "name": "Class Name",
       "scope": "entity.name.class, entity.name.type, entity.name.namespace, entity.name.struct",
-      "color": "yellow"
+      "color": "base0A"
     },
     {
       "name": "Inherited Class",
       "scope": "entity.other.inherited-class",
-      "color": "yellow"
+      "color": "base0A"
     },
     {
       "name": "Function Parameter",
       "scope": "variable.parameter",
-      "color": "foreground"
+      "color": "base08"
     },
     {
       "name": "Variable",
       "scope": "variable, variable.other",
-      "color": "blue"
+      "color": "base08"
     },
     {
       "name": "Language Variable",
       "scope": "variable.language",
-      "color": "blue",
+      "color": "base08",
       "fontStyle": "italic"
     },
     {
       "name": "Support Function",
       "scope": "support.function",
-      "color": "brightGreen"
+      "color": "base0C"
     },
     {
       "name": "Support Type",
       "scope": "support.type, support.class",
-      "color": "yellow"
+      "color": "base0A"
     },
     {
       "name": "Support Constant",
       "scope": "support.constant",
-      "color": "brightCyan"
+      "color": "base0C"
     },
     {
       "name": "Preprocessor",
       "scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
-      "color": "magenta",
+      "color": "base0E",
       "fontStyle": "italic"
     },
     {
       "name": "Include",
       "scope": "keyword.control.include, keyword.control.from",
-      "color": "magenta",
+      "color": "base0E",
       "fontStyle": "italic"
     },
     {
       "name": "Type Annotation",
       "scope": "meta.type, storage.type.annotation",
-      "color": "yellow"
+      "color": "base0A"
     },
     {
       "name": "Decorator",
       "scope": "meta.decorator, punctuation.definition.annotation",
-      "color": "magenta",
+      "color": "base0F",
       "fontStyle": "italic"
     },
-    { "name": "Tag Name", "scope": "entity.name.tag", "color": "yellow" },
+    { "name": "Tag Name", "scope": "entity.name.tag", "color": "base08" },
     {
       "name": "Tag Attribute",
       "scope": "entity.other.attribute-name",
-      "color": "green"
+      "color": "base0A"
     },
     {
       "name": "Punctuation",
       "scope": "punctuation.separator, punctuation.terminator, punctuation.section",
-      "color": "foreground"
+      "color": "base05"
     },
     {
       "name": "Tag Punctuation",
       "scope": "punctuation.definition.tag",
-      "color": "green"
+      "color": "base08"
     },
     {
       "name": "String Punctuation",
       "scope": "punctuation.definition.string",
-      "color": "foreground"
+      "color": "base05"
     },
-    { "name": "Regular Expression", "scope": "string.regexp", "color": "cyan" },
+    { "name": "Regular Expression", "scope": "string.regexp", "color": "base0C" },
     {
       "name": "CSS Property",
       "scope": "support.type.property-name.css",
-      "color": "green"
+      "color": "base08"
     },
     {
       "name": "CSS Value",
       "scope": "support.constant.property-value.css, meta.property-value.css",
-      "color": "yellow"
+      "color": "base09"
     },
     {
       "name": "JSON Key",
       "scope": "support.type.property-name.json, meta.structure.dictionary.key.json string",
-      "color": "blue"
+      "color": "base08"
     },
-    { "name": "YAML Key", "scope": "entity.name.tag.yaml", "color": "blue" },
+    { "name": "YAML Key", "scope": "entity.name.tag.yaml", "color": "base08" },
     {
       "name": "Diff Inserted",
       "scope": "markup.inserted, meta.diff.header.to-file",
-      "color": "green"
+      "color": "base0B"
     },
     {
       "name": "Diff Deleted",
       "scope": "markup.deleted, meta.diff.header.from-file",
-      "color": "red"
+      "color": "base08"
     },
-    { "name": "Diff Changed", "scope": "markup.changed", "color": "green" },
+    { "name": "Diff Changed", "scope": "markup.changed", "color": "base0D" },
     {
       "name": "Diff Range",
       "scope": "meta.diff.range, meta.diff.index",
-      "color": "magenta"
+      "color": "base0E"
     },
     {
       "name": "Markup Heading",
       "scope": "markup.heading, punctuation.definition.heading",
-      "color": "brightYellow"
+      "color": "base0D"
     },
     {
       "name": "Markup Bold",
       "scope": "markup.bold",
-      "color": "yellow",
+      "color": "base0A",
       "fontStyle": "bold"
     },
     {
       "name": "Markup Italic",
       "scope": "markup.italic",
-      "color": "magenta",
+      "color": "base0E",
       "fontStyle": "italic"
     },
     {
       "name": "Markup Link URL",
       "scope": "markup.underline.link, string.other.link",
-      "color": "blue"
+      "color": "base0D"
     },
     {
       "name": "Markup Link Text",
       "scope": "string.other.link.title, string.other.link.description",
-      "color": "magenta"
+      "color": "base08"
     },
     {
       "name": "Markup Inline Code",
       "scope": "markup.inline.raw, markup.raw",
-      "color": "green"
+      "color": "base0B"
     },
     {
       "name": "Markup List",
       "scope": "markup.list punctuation.definition.list_item",
-      "color": "red"
+      "color": "base08"
     },
     {
       "name": "Markup Quote",
       "scope": "markup.quote",
-      "color": "brightBlack",
+      "color": "base03",
       "fontStyle": "italic"
     },
-    { "name": "Invalid", "scope": "invalid", "color": "red" },
+    { "name": "Invalid", "scope": "invalid", "color": "base08" },
     {
       "name": "Invalid Deprecated",
       "scope": "invalid.deprecated",
-      "color": "magenta"
+      "color": "base0F"
     }
   ]
 }
