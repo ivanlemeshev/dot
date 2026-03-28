@@ -105,7 +105,7 @@
   "schemes": [
     {
       "background": "#0C0C0C",
-      "black": "#101010",
+      "black": "#202020",
       "blue": "#6179C2",
       "brightBlack": "#7A7A7A",
       "brightBlue": "#5582C2",
@@ -150,4 +150,3 @@
     }
   ]
 }
-
