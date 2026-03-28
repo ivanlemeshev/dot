@@ -490,6 +490,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "kulala://*",
   callback = function()
-    vim.diagnostic.enable(false)
+    vim.diagnostic.enable(false, { bufnr = 0 })
   end,
 })

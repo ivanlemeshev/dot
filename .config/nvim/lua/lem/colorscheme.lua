@@ -333,7 +333,7 @@ function M.setup()
   hl("OkFloat", { fg = p.green })
 
   -- CurrentWord: current_word default = "grey background"
-  hl("CurrentWord", { fg = p.bg, bg = p.bright_white })
+  hl("CurrentWord", { fg = p.bg, bg = p.white })
 
   -- InlayHints: inlay_hints_background=none
   link("InlayHints", "LineNr")

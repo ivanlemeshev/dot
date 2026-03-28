@@ -10,10 +10,6 @@ return {
       require("copilot").setup({
         panel = {
           keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
             open = false,
           },
         },
@@ -23,8 +19,6 @@ return {
             accept = "<C-f>",
             accept_word = false,
             accept_line = false,
-            next = "<M-]>",
-            prev = "<M-[>",
             dismiss = "<C-e>",
           },
         },
