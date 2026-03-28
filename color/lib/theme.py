@@ -247,55 +247,6 @@ def derive_editor_palette_with_ansi(ansi):
     }
 
 
-def derive_editor_palette_with_base16(base16):
-    if not base16:
-        raise ValueError("Base16 section is required in YAML")
-
-    missing = sorted(BASE16_KEYS - set(base16.keys()))
-    if missing:
-        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
-
-    return {
-        "bg": base16["base00"],
-        "bg_alt": base16["base01"],
-        "bg_sel": base16["base02"],
-        "faint": base16["base01"],
-        "muted": base16["base03"],
-        "dim": base16["base04"],
-        "border": base16["base03"],
-        "fg": base16["base05"],
-        "fg_alt": base16["base06"],
-        "bright": base16["base07"],
-        "red": base16["base08"],
-        "orange": base16["base09"],
-        "yellow": base16["base0A"],
-        "green": base16["base0B"],
-        "cyan": base16["base0C"],
-        "blue": base16["base0D"],
-        "magenta": base16["base0E"],
-        "background": base16["base00"],
-        "foreground": base16["base05"],
-        "black": base16["base01"],
-        "white": base16["base06"],
-        "background_red": base16["base08"],
-        "background_yellow": base16["base0A"],
-        "background_green": base16["base0B"],
-        "background_blue": base16["base0D"],
-        "background_purple": base16["base0E"],
-        "background_visual": base16["base02"],
-        "background_3": base16["base01"],
-        "background_5": base16["base03"],
-    }
-
-
-def derive_editor_palette(base16=None, ansi=None):
-    if base16 is not None:
-        return derive_editor_palette_with_base16(base16)
-    if ansi is not None:
-        return derive_editor_palette_with_ansi(ansi)
-    raise ValueError("Ansi or base16 section is required in YAML")
-
-
 def editor_palette_to_vim(editor):
     required = {
         "bg",

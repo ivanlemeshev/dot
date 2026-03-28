@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import derive_editor_palette, load_theme_bundle
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(
@@ -21,9 +21,7 @@ yaml_basename = os.path.basename(yaml_file)
 
 try:
     bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
-    raw_ansi = bundle["ansi"]
     base16 = bundle["base16"]
-    palette = derive_editor_palette(base16=base16, ansi=bundle["ansi_roles"])
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -37,7 +35,7 @@ content = re.sub(
     content,
 )
 
-for slot, hex_val in {**(base16 or {}), **raw_ansi, **palette}.items():
+for slot, hex_val in (base16 or {}).items():
     # Replace:   bg     = "#151515",
     content = re.sub(
         rf'\b({re.escape(slot)}\s*=\s*)"#[0-9a-fA-F]{{6}}"',
