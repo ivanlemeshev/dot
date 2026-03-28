@@ -1,4 +1,4 @@
--- Custom Dark colorscheme (no external dependency)
+-- Custom colorscheme (no external dependency)
 
 local M = {}
 
@@ -13,7 +13,7 @@ M.palette = {
   blue = "#6179c2",
   magenta = "#ab78ab",
   cyan = "#33919c",
-  white = "#c2b79b",
+  white = "#a5a5a5",
   bright_black = "#7a7a7a",
   bright_red = "#d96857",
   bright_green = "#66cc69",
@@ -165,8 +165,8 @@ function M.setup()
   link("WinSeparator", "VertSplit")
 
   -- Visual: grey background
-  hl("Visual", { bg = p.bright_black })
-  hl("VisualNOS", { bg = p.bright_black })
+  hl("Visual", { fg = p.bg, bg = p.white })
+  hl("VisualNOS", { fg = p.bg, bg = p.white })
 
   hl("QuickFixLine", { fg = p.bright_magenta })
   hl("Debug", { fg = p.bright_yellow })
@@ -333,7 +333,7 @@ function M.setup()
   hl("OkFloat", { fg = p.green })
 
   -- CurrentWord: current_word default = "grey background"
-  hl("CurrentWord", { bg = p.bright_black })
+  hl("CurrentWord", { fg = p.bg, bg = p.bright_white })
 
   -- InlayHints: inlay_hints_background=none
   link("InlayHints", "LineNr")
