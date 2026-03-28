@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import derive_vim_palette_with_palette, load_theme_sections
+from theme import derive_vim_palette, load_theme_bundle
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom.vim>", file=sys.stderr)
@@ -17,8 +17,8 @@ yaml_file = sys.argv[1]
 vim_file = sys.argv[2]
 
 try:
-    colors, raw_palette = load_theme_sections(yaml_file, prefix="", uppercase=False)
-    palette = derive_vim_palette_with_palette(raw_palette)
+    bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
+    palette = derive_vim_palette(base16=bundle["base16"], ansi=bundle["ansi_roles"])
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)

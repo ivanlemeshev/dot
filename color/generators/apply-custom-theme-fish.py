@@ -19,14 +19,14 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="", uppercase=False)
+    colors, ansi = load_theme_sections(yaml_file, prefix="", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-# fish variable -> YAML color name
+# fish variable -> YAML ansi color name
 # Format in file: set -l <var>    <hex6>   (bare hex, no #)
-palette_map = {
+ansi_map = {
     "bg0": ("bg", "background"),
     "bg1": ("black", "black"),
     "fg0": ("fg", "foreground"),
@@ -41,15 +41,15 @@ palette_map = {
 
 
 def resolve_color(primary, fallback):
-    if primary in palette:
-        return palette[primary]
+    if primary in ansi:
+        return ansi[primary]
     return colors[fallback]
 
 
 with open(fish_file) as f:
     content = f.read()
 
-for fish_var, (primary, fallback) in palette_map.items():
+for fish_var, (primary, fallback) in ansi_map.items():
     hex_val = resolve_color(primary, fallback)
     content = re.sub(
         rf"^(set -l {fish_var}\s+)[0-9a-fA-F]{{6}}$",

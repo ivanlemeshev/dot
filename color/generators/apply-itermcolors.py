@@ -20,7 +20,7 @@ yaml_file = sys.argv[1]
 itermcolors_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -65,9 +65,9 @@ pl = {}
 for i, name in enumerate(ansi_map):
     pl[f"Ansi {i} Color"] = color_entry(name)
 
-bg = palette.get("bg", colors["background"])
-fg = palette.get("fg", colors["foreground"])
-selection_bg = palette.get("white", colors["brightWhite"])
+bg = ansi.get("bg", colors["background"])
+fg = ansi.get("fg", colors["foreground"])
+selection_bg = ansi.get("white", colors["brightWhite"])
 
 pl["Background Color"] = color_entry_hex(bg)
 pl["Bold Color"] = color_entry_hex(fg)

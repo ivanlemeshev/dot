@@ -12,7 +12,6 @@ return {
         go = {
           "gofumpt",
           "goimports",
-          -- "golines",
         },
         javascript = { "biome" },
         json = { "biome" },

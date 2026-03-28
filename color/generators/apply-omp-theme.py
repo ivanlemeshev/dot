@@ -17,7 +17,7 @@ yaml_file = sys.argv[1]
 omp_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -27,7 +27,7 @@ template_file = os.path.join(
 with open(template_file, encoding="utf-8") as f:
     content = f.read()
 
-merged = {**colors, **palette}
+merged = {**colors, **ansi}
 for name, hex_val in merged.items():
     content = content.replace(f"__{name}__", hex_val)
 

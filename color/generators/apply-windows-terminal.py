@@ -17,7 +17,7 @@ yaml_file = sys.argv[1]
 json_file = sys.argv[2]
 
 try:
-    colors, palette = load_theme_sections(yaml_file, prefix="#", uppercase=True)
+    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=True)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -31,13 +31,13 @@ with open(json_file) as f:
 scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[wt_name.get(name, name)] = hex_val
-scheme["background"] = palette.get("bg", colors["background"])
-scheme["foreground"] = palette.get("fg", colors["foreground"])
-scheme["cursorColor"] = palette.get("fg", colors["white"])
-scheme["selectionBackground"] = palette.get("white", colors["brightWhite"])
+scheme["background"] = ansi.get("bg", colors["background"])
+scheme["foreground"] = ansi.get("fg", colors["foreground"])
+scheme["cursorColor"] = ansi.get("fg", colors["white"])
+scheme["selectionBackground"] = ansi.get("white", colors["brightWhite"])
 
 # Windows Terminal theme colors support alpha; use fully-opaque alpha for consistency.
-tab_bg = palette.get("bg", colors["background"]) + "FF"
+tab_bg = ansi.get("bg", colors["background"]) + "FF"
 settings["themes"][0]["tab"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_bg

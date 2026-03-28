@@ -6,36 +6,29 @@ local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "Enter command mode" })
 
-map(
-  "n",
-  "<leader>pv",
-  vim.cmd.Ex,
-  { desc = "Back to netrw from the current buffer", silent = true }
-)
-
 -- Keep the cursor centered when scrolling
 map(
   "n",
   "<C-d>",
-  "<C-d>zz",
+  "<C-d>zz", -- Scroll down half a page and center the cursor
   { desc = "Scroll down half a page", noremap = true, silent = true }
 )
 map(
   "n",
   "<C-u>",
-  "<C-u>zz",
+  "<C-u>zz", -- Scroll up half a page and center the cursor
   { desc = "Scroll up half a page", noremap = true, silent = true }
 )
 map(
   "n",
   "<C-f>",
-  "<C-f>zz",
+  "<C-f>zz", -- Scroll down a full page and center the cursor
   { desc = "Scroll down a page", noremap = true, silent = true }
 )
 map(
   "n",
   "<C-b>",
-  "<C-b>zz",
+  "<C-b>zz", -- Scroll up a full page and center the cursor
   { desc = "Scroll up a page", noremap = true, silent = true }
 )
 
@@ -43,66 +36,22 @@ map(
 map(
   "n",
   "n",
-  "nzzzv",
+  "nzzzv", -- Move to the next search result and center the cursor
   { desc = "Move to the next search result", noremap = true, silent = true }
 )
 map(
   "n",
   "N",
-  "Nzzzv",
+  "Nzzzv", -- Move to the previous search result and center the cursor
   { desc = "Move to the previous search result", noremap = true, silent = true }
 )
 
 -- Buffers
 map(
   "n",
-  "<Tab>",
-  ":bnext<CR>",
-  { desc = "Switch to the next buffer", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<S-Tab>",
-  ":bprevious<CR>",
-  { desc = "Switch to the previous buffer", noremap = true, silent = true }
-)
-map(
-  "n",
   "<leader>w",
   "<cmd>w<CR>",
   { desc = "Save the current buffer", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<leader>b",
-  "<cmd>enew<CR>",
-  { desc = "New empty buffer", noremap = true, silent = true }
-)
-
--- Panes management
-map(
-  "n",
-  "<leader>v",
-  "<C-w>v",
-  { desc = "Split the pane vertically", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<leader>h",
-  "<C-w>s",
-  { desc = "Split the pane horizontally", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<leader>se",
-  "<C-w>=",
-  { desc = "Equalize the pane sizes", noremap = true, silent = true }
-)
-map(
-  "n",
-  "<leader>xs",
-  ":close<CR>",
-  { desc = "Close the current pane", noremap = true, silent = true }
 )
 
 -- Navigate between panes

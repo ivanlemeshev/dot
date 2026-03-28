@@ -5,19 +5,19 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#d8d8d8",
+          "foreground": "#d4be98",
           "style": "plain",
-          "template": "<#585858>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#f7ca88>{{ .UserName }}</><#d8d8d8>@</></>{{ end }}<#7cafc2>{{ .HostName }}</><#585858> | </>",
+          "template": "<#7c6f64>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
           "type": "session"
         },
         {
-          "foreground": "#ab4642",
+          "foreground": "#ea6962",
           "style": "plain",
-          "template": "󱐋<#585858> | </>",
+          "template": "󱐋<#7c6f64> | </>",
           "type": "root"
         },
         {
-          "foreground": "#d8d8d8",
+          "foreground": "#d4be98",
           "options": {
             "style": "folder"
           },
@@ -26,11 +26,11 @@
           "type": "path"
         },
         {
-          "foreground": "#a1b56c",
+          "foreground": "#a9b665",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#f7ca88{{ end }}",
-            "{{ if gt .Ahead 0 }}#7cafc2{{ end }}",
-            "{{ if gt .Behind 0 }}#ab4642{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d8a657{{ end }}",
+            "{{ if gt .Ahead 0 }}#7daea3{{ end }}",
+            "{{ if gt .Behind 0 }}#ea6962{{ end }}"
           ],
           "options": {
             "branch_icon": " ",
@@ -38,38 +38,38 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#585858>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ab4642> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a1b56c> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
+          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
           "type": "git"
         },
         {
-          "foreground": "#a1b56c",
+          "foreground": "#a9b665",
           "options": {
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": "<#585858>| </>{{ .CurrentDate | date .Format }} ",
+          "template": "<#7c6f64>| </>{{ .CurrentDate | date .Format }} ",
           "type": "time"
         },
         {
-          "foreground": "#f7ca88",
+          "foreground": "#d8a657",
           "options": {
             "style": "roundrock",
             "threshold": 500
           },
           "style": "plain",
-          "template": "<#585858>| </>{{ .FormattedMs }} </>",
+          "template": "<#7c6f64>| </>{{ .FormattedMs }} </>",
           "type": "executiontime"
         },
         {
-          "foreground": "#a1b56c",
+          "foreground": "#a9b665",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}#ab4642{{ end }}"
+            "{{ if gt .Code 0 }}#ea6962{{ end }}"
           ],
           "options": {
             "always_enabled": false
           },
           "style": "plain",
-          "template": "<#585858>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+          "template": "<#7c6f64>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
           "type": "status"
         }
       ],
@@ -80,9 +80,9 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d8d8d8",
+          "foreground": "#d4be98",
           "style": "plain",
-          "template": "<#585858>└</><#7cafc2>$</>",
+          "template": "<#7c6f64>└</><#7daea3>$</>",
           "type": "text"
         }
       ],
