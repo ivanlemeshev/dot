@@ -82,7 +82,7 @@ return {
 
     require("lualine").setup({
       options = {
-        theme = require("lem.lualine_theme"),
+        theme = require("lem.colorscheme").lualine_theme,
         icons_enabled = true,
         --          
         section_separators = { left = "", right = "" },
