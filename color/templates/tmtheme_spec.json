@@ -7,7 +7,7 @@
     { "key": "lineHighlight", "color": "base01" },
     { "key": "selection", "color": "base02" },
     { "key": "selectionBorder", "color": "base03" },
-    { "key": "invisibles", "color": "base03" },
+    { "key": "invisibles", "color": "base01" },
     { "key": "guide", "color": "base03" },
     { "key": "activeGuide", "color": "base04" },
     { "key": "gutter", "color": "base00" },
@@ -43,7 +43,7 @@
       "color": "base0E",
       "fontStyle": "italic"
     },
-    { "name": "Operator", "scope": "keyword.operator", "color": "base05" },
+    { "name": "Operator", "scope": "keyword.operator", "color": "base0A" },
     { "name": "Storage Type", "scope": "storage.type", "color": "base0A" },
     {
       "name": "Storage Modifier",

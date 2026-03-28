@@ -121,11 +121,11 @@ call s:hl('ToolbarLine',  s:gui05, s:gui01)
 call s:hl('SignColumn',   s:gui05, '')
 call s:hl('FoldColumn',   s:gui03, '')
 
-call s:hl('IncSearch',    s:gui00, s:gui08_bright)
-call s:hl('Search',       s:gui00, s:gui0B_bright)
+call s:hl('IncSearch',    s:gui00, s:gui09)
+call s:hl('Search',       s:gui00, s:gui0A)
 highlight! link CurSearch IncSearch
 call s:hl('ColorColumn',  '',      s:gui01)
-call s:hl('Conceal',      s:gui03, '')
+call s:hl('Conceal',      s:gui01, '')
 
 call s:hl('Cursor',       '',      '',      'reverse')
 highlight! link vCursor   Cursor
@@ -157,7 +157,7 @@ call s:hl('SpecialKey',   s:gui_bg3, '')
 " Pmenu
 call s:hl('Pmenu',        s:gui05, s:gui00)
 call s:hl('PmenuSbar',    '',      s:gui00)
-call s:hl('PmenuSel',     s:gui00, s:gui06)
+call s:hl('PmenuSel',     s:gui05, s:gui02)
 call s:hl('PmenuKind',    s:gui0B, s:gui00)
 call s:hl('PmenuExtra',   s:gui06, s:gui00)
 highlight! link WildMenu PmenuSel
@@ -172,13 +172,13 @@ call s:hl('SpellLocal',   '',      '',      'undercurl', s:gui0C)
 call s:hl('SpellRare',    '',      '',      'undercurl', s:gui0E)
 
 " StatusLine
-call s:hl('StatusLine',       s:gui05, s:gui_bg3)
-call s:hl('StatusLineTerm',   s:gui05, s:gui_bg3)
-call s:hl('StatusLineNC',     s:gui04, s:gui_bg3)
-call s:hl('StatusLineTermNC', s:gui04, s:gui_bg3)
-call s:hl('TabLine',          s:gui05, s:gui_bg3)
-call s:hl('TabLineFill',      s:gui05, s:gui_bg3)
-call s:hl('TabLineSel',       s:gui00, s:gui06)
+call s:hl('StatusLine',       s:gui07, s:gui02)
+call s:hl('StatusLineTerm',   s:gui07, s:gui02)
+call s:hl('StatusLineNC',     s:gui04, s:gui02)
+call s:hl('StatusLineTermNC', s:gui04, s:gui02)
+call s:hl('TabLine',          s:gui04, s:gui02)
+call s:hl('TabLineFill',      s:gui04, s:gui02)
+call s:hl('TabLineSel',       s:gui05, s:gui02)
 
 " VertSplit / WinSeparator
 call s:hl('VertSplit',    s:gui04, '')
@@ -187,15 +187,15 @@ if exists('+winfixbuf')
 endif
 
 " Visual
-call s:hl('Visual',       s:gui00, s:gui_bg_visual)
-call s:hl('VisualNOS',    s:gui00, s:gui_bg_visual)
+call s:hl('Visual',       s:gui05, s:gui_bg_visual)
+call s:hl('VisualNOS',    s:gui05, s:gui_bg_visual)
 
 call s:hl('QuickFixLine', s:gui0E, '')
 call s:hl('Debug',        s:gui0A, '')
 call s:hl('debugPC',      s:gui00, s:gui0B)
 call s:hl('debugBreakpoint', s:gui00, s:gui08)
-call s:hl('ToolbarButton', s:gui00, s:gui06)
-call s:hl('Substitute',   s:gui05, s:gui_bg_yellow)
+call s:hl('ToolbarButton', s:gui05, s:gui02)
+call s:hl('Substitute',   s:gui00, s:gui_bg_yellow)
 
 " ==========================================================================
 " Syntax highlights

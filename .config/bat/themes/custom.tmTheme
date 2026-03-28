@@ -22,7 +22,7 @@
 				<key>selectionBorder</key>
 				<string>#585858</string>
 				<key>invisibles</key>
-				<string>#585858</string>
+				<string>#282828</string>
 				<key>guide</key>
 				<string>#585858</string>
 				<key>activeGuide</key>
@@ -130,7 +130,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#d8d8d8</string>
+				<string>#f7ca88</string>
 			</dict>
 		</dict>
 		<dict>
