@@ -38,6 +38,7 @@ return {
 
     local branch = {
       "branch",
+      icon = "",
       fmt = with_separator,
       padding = separator_padding,
     }
