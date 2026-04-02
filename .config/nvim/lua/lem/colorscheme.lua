@@ -708,6 +708,7 @@ function M.setup()
   -- nvim-telescope/telescope.nvim
   hl("TelescopeMatching", { fg = p.base0B })
   hl("TelescopeBorder", { fg = p.base03 })
+  hl("TelescopePromptCounter", { fg = p.base04 })
   link("TelescopePromptPrefix", "Yellow")
   link("TelescopeSelection", "DiffAdd")
 
