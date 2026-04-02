@@ -159,14 +159,13 @@ return {
 
     require("lsp-format").setup({})
 
-    local util = require("lspconfig.util")
-
     local lsp_config = {
       buf_ls = {
-        -- This is the crucial line: it tells buf_ls to look for a
-        -- buf.yaml or .git file and use that directory as its root,
-        -- which is required to resolve PACKAGE_DIRECTORY_MATCH.
-        root_dir = util.root_pattern("buf.yaml", ".git"),
+        -- Use Neovim 0.11 native root resolution so buf_ls works with
+        -- vim.lsp.enable()/mason-lspconfig automatic_enable.
+        root_dir = function(bufnr, on_dir)
+          on_dir(vim.fs.root(bufnr, { "buf.yaml", ".git" }))
+        end,
       },
       clangd = {
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
