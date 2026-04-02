@@ -92,4 +92,9 @@ return {
     end,
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
   },
+  {
+    "tpope/vim-surround",
+    commit = "3d188ed2113431cf8dac77be61b842acb64433d9",
+    event = { "BufReadPre", "BufNewFile" },
+  },
 }

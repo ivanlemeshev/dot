@@ -135,6 +135,17 @@ Note: Deleted text is copied to clipboard and can be pasted.
 - `p` - Paste after cursor
 - `P` - Paste before cursor
 
+### Surround (`tpope/vim-surround`)
+
+- `ysiw"` - Surround inner word with `"`
+- `ysiw)` - Surround inner word with `(`
+- `yss"` - Surround whole line with `"`
+- `ds"` - Delete `"` surround
+- `ds)` - Delete `()` surround
+- `cs"'` - Change `"` surround to `'`
+- `cs)]` - Change `()` surround to `[]`
+- `S<char>` (in visual mode) - Surround selection with delimiter
+
 ### Undo/Redo
 
 - `u` - Undo
