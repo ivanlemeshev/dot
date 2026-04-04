@@ -1,6 +1,7 @@
-
 .vscode
 lazy-lock.json
 config.env
 tmp
 __pycache__
+.nvimlog
+.codex

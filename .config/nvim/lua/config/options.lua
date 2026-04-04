@@ -318,7 +318,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- YAML settings
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "yaml", "yml" },
+  pattern = { "yaml", "yaml.ansible" },
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.tabstop = 2
@@ -492,4 +492,30 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
     vim.diagnostic.enable(false, { bufnr = 0 })
   end,
+})
+
+local function ansible_yaml_filetype(path)
+  local normalized = vim.fs.normalize(path)
+
+  if normalized:match("/ansible/") then
+    return "yaml.ansible"
+  end
+  if normalized:match("/playbooks/") then
+    return "yaml.ansible"
+  end
+  if normalized:match("/roles/.+/(tasks|handlers|vars|defaults|meta)/") then
+    return "yaml.ansible"
+  end
+  if normalized:match("/group_vars/") or normalized:match("/host_vars/") then
+    return "yaml.ansible"
+  end
+
+  return "yaml"
+end
+
+vim.filetype.add({
+  extension = {
+    yml = ansible_yaml_filetype,
+    yaml = ansible_yaml_filetype,
+  },
 })
