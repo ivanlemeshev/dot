@@ -109,6 +109,10 @@ return {
     -- Wrap try_lint to set cwd for Go files and skip if not in a Go project
     local original_try_lint = lint.try_lint
     lint.try_lint = function(names, opts)
+      if vim.b.large_file then
+        return
+      end
+
       opts = opts or {}
       if vim.bo.filetype == "go" then
         local go_root = vim.fs.root(0, "go.mod")

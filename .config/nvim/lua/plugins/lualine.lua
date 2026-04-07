@@ -72,6 +72,47 @@ return {
       padding = separator_padding,
     }
 
+    local function human_file_size()
+      local path = vim.api.nvim_buf_get_name(0)
+      if path == "" or vim.bo.buftype ~= "" then
+        return ""
+      end
+
+      local size = vim.fn.getfsize(path)
+      if size < 0 then
+        return ""
+      end
+
+      if size < 1024 then
+        return with_separator(string.format("%d B", size))
+      end
+
+      local units = { "KB", "MB", "GB", "TB" }
+      local value = size
+      local unit_index = 0
+
+      while value >= 1024 and unit_index < #units do
+        value = value / 1024
+        unit_index = unit_index + 1
+      end
+
+      if value >= 10 or unit_index == 1 then
+        return with_separator(
+          string.format("%.0f %s", value, units[unit_index])
+        )
+      end
+
+      return with_separator(string.format("%.1f %s", value, units[unit_index]))
+    end
+
+    local function visible_encoding()
+      if vim.bo.binary then
+        return ""
+      end
+
+      return with_separator(vim.opt_local.fileencoding:get())
+    end
+
     local diff = {
       "diff",
       colored = false,
@@ -105,8 +146,13 @@ return {
         lualine_y = {
           copilot,
           diagnostics,
-          { "encoding", fmt = with_separator, padding = separator_padding },
-          { "filetype", fmt = with_separator, padding = separator_padding },
+          human_file_size,
+          { visible_encoding, padding = { left = 0, right = 0 } },
+          {
+            "filetype",
+            fmt = with_separator,
+            padding = { left = 1, right = 0 },
+          },
           "location",
         },
         lualine_z = { "progress" },
