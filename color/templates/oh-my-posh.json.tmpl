@@ -5,24 +5,33 @@
       "alignment": "left",
       "segments": [
         {
+          "foreground": "__green__",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "template": "{{ .CurrentDate | date .Format }}  ",
+          "type": "time"
+        },
+        {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</><__brightBlack__> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</>  ",
           "type": "session"
         },
         {
           "foreground": "__red__",
           "style": "plain",
-          "template": "󱐋<__brightBlack__> | </>",
+          "template": "󱐋  ",
           "type": "root"
         },
         {
           "foreground": "__foreground__",
           "options": {
-            "style": "folder"
+            "style": "full"
           },
           "style": "plain",
-          "template": "{{ .Path }} ",
+          "template": "{{ .Path }}  ",
           "type": "path"
         },
         {
@@ -33,23 +42,15 @@
             "{{ if gt .Behind 0 }}__red__{{ end }}"
           ],
           "options": {
-            "branch_icon": " ",
+            "branch_icon": "",
             "fetch_status": true,
-            "fetch_upstream_icon": true
+            "fetch_upstream_icon": false
           },
           "style": "plain",
-          "template": "<__brightBlack__>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<__red__> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<__green__> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<__red__> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<__green__> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
           "type": "git"
         },
-        {
-          "foreground": "__green__",
-          "options": {
-            "time_format": "15:04:05"
-          },
-          "style": "plain",
-          "template": "<__brightBlack__>| </>{{ .CurrentDate | date .Format }} ",
-          "type": "time"
-        },
+
         {
           "foreground": "__yellow__",
           "options": {
@@ -57,7 +58,7 @@
             "threshold": 500
           },
           "style": "plain",
-          "template": "<__brightBlack__>| </>{{ .FormattedMs }} </>",
+          "template": "{{ .FormattedMs }}  ",
           "type": "executiontime"
         },
         {
@@ -69,7 +70,7 @@
             "always_enabled": false
           },
           "style": "plain",
-          "template": "<__brightBlack__>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+          "template": "{{ if gt .Code 0 }}exit({{ .Code }})  {{ end }}",
           "type": "status"
         }
       ],

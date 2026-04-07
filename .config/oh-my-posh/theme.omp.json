@@ -5,24 +5,33 @@
       "alignment": "left",
       "segments": [
         {
+          "foreground": "#a9b665",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "template": "{{ .CurrentDate | date .Format }}  ",
+          "type": "time"
+        },
+        {
           "foreground": "#d4be98",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</>  ",
           "type": "session"
         },
         {
           "foreground": "#ea6962",
           "style": "plain",
-          "template": "󱐋<#7c6f64> | </>",
+          "template": "󱐋  ",
           "type": "root"
         },
         {
           "foreground": "#d4be98",
           "options": {
-            "style": "folder"
+            "style": "full"
           },
           "style": "plain",
-          "template": "{{ .Path }} ",
+          "template": "{{ .Path }}  ",
           "type": "path"
         },
         {
@@ -33,22 +42,13 @@
             "{{ if gt .Behind 0 }}#ea6962{{ end }}"
           ],
           "options": {
-            "branch_icon": " ",
+            "branch_icon": "",
             "fetch_status": true,
-            "fetch_upstream_icon": true
+            "fetch_upstream_icon": false
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#ea6962> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
           "type": "git"
-        },
-        {
-          "foreground": "#a9b665",
-          "options": {
-            "time_format": "15:04:05"
-          },
-          "style": "plain",
-          "template": "<#7c6f64>| </>{{ .CurrentDate | date .Format }} ",
-          "type": "time"
         },
         {
           "foreground": "#d8a657",
@@ -57,17 +57,19 @@
             "threshold": 500
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .FormattedMs }} </>",
+          "template": "{{ .FormattedMs }}  ",
           "type": "executiontime"
         },
         {
           "foreground": "#a9b665",
-          "foreground_templates": ["{{ if gt .Code 0 }}#ea6962{{ end }}"],
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#ea6962{{ end }}"
+          ],
           "options": {
             "always_enabled": false
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+          "template": "{{ if gt .Code 0 }}exit({{ .Code }})  {{ end }}",
           "type": "status"
         }
       ],
