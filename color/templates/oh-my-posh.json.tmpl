@@ -7,7 +7,7 @@
         {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "<__brightBlack__>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</><__brightBlack__> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</><__brightBlack__> | </>",
           "type": "session"
         },
         {
@@ -82,7 +82,7 @@
         {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "<__brightBlack__>└</><__blue__>$</>",
+          "template": "<__blue__>$</>",
           "type": "text"
         }
       ],

@@ -7,7 +7,7 @@
         {
           "foreground": "#d4be98",
           "style": "plain",
-          "template": "<#7c6f64>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
           "type": "session"
         },
         {
@@ -62,9 +62,7 @@
         },
         {
           "foreground": "#a9b665",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#ea6962{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}#ea6962{{ end }}"],
           "options": {
             "always_enabled": false
           },
@@ -82,7 +80,7 @@
         {
           "foreground": "#d4be98",
           "style": "plain",
-          "template": "<#7c6f64>└</><#7daea3>$</>",
+          "template": "<#7daea3>$</>",
           "type": "text"
         }
       ],
