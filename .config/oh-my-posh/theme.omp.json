@@ -5,71 +5,71 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#d4be98",
-          "style": "plain",
-          "template": "<#7c6f64>┌</>{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#d8a657>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</><#7c6f64> | </>",
-          "type": "session"
-        },
-        {
-          "foreground": "#ea6962",
-          "style": "plain",
-          "template": "󱐋<#7c6f64> | </>",
-          "type": "root"
-        },
-        {
-          "foreground": "#d4be98",
-          "options": {
-            "style": "folder"
-          },
-          "style": "plain",
-          "template": "{{ .Path }} ",
-          "type": "path"
-        },
-        {
-          "foreground": "#a9b665",
-          "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d8a657{{ end }}",
-            "{{ if gt .Ahead 0 }}#7daea3{{ end }}",
-            "{{ if gt .Behind 0 }}#ea6962{{ end }}"
-          ],
-          "options": {
-            "branch_icon": " ",
-            "fetch_status": true,
-            "fetch_upstream_icon": true
-          },
-          "style": "plain",
-          "template": "<#7c6f64>| </>{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#ea6962> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}]{{ end }} ",
-          "type": "git"
-        },
-        {
-          "foreground": "#a9b665",
+          "foreground": "#b5bd68",
           "options": {
             "time_format": "15:04:05"
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .CurrentDate | date .Format }} ",
+          "template": "{{ .CurrentDate | date .Format }}  ",
           "type": "time"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#c5c8c6",
+          "style": "plain",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#f0c674>{{ .UserName }}</><#c5c8c6>@</></>{{ end }}<#81a2be>{{ .HostName }}</>  ",
+          "type": "session"
+        },
+        {
+          "foreground": "#cc6666",
+          "style": "plain",
+          "template": "󱐋  ",
+          "type": "root"
+        },
+        {
+          "foreground": "#c5c8c6",
+          "options": {
+            "style": "full"
+          },
+          "style": "plain",
+          "template": "{{ .Path }}  ",
+          "type": "path"
+        },
+        {
+          "foreground": "#b5bd68",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#f0c674{{ end }}",
+            "{{ if gt .Ahead 0 }}#81a2be{{ end }}",
+            "{{ if gt .Behind 0 }}#cc6666{{ end }}"
+          ],
+          "options": {
+            "branch_icon": "",
+            "fetch_status": true,
+            "fetch_upstream_icon": false
+          },
+          "style": "plain",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#cc6666> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#b5bd68> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
+          "type": "git"
+        },
+        {
+          "foreground": "#f0c674",
           "options": {
             "style": "roundrock",
             "threshold": 500
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ .FormattedMs }} </>",
+          "template": "{{ .FormattedMs }}  ",
           "type": "executiontime"
         },
         {
-          "foreground": "#a9b665",
+          "foreground": "#b5bd68",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}#ea6962{{ end }}"
+            "{{ if gt .Code 0 }}#cc6666{{ end }}"
           ],
           "options": {
             "always_enabled": false
           },
           "style": "plain",
-          "template": "<#7c6f64>| </>{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+          "template": "{{ if gt .Code 0 }}exit({{ .Code }})  {{ end }}",
           "type": "status"
         }
       ],
@@ -80,9 +80,9 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d4be98",
+          "foreground": "#c5c8c6",
           "style": "plain",
-          "template": "<#7c6f64>└</><#7daea3>$</>",
+          "template": "<#81a2be>$</>",
           "type": "text"
         }
       ],

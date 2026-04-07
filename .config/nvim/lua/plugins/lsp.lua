@@ -36,6 +36,16 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
+        if vim.b[event.buf].large_file then
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client then
+            vim.schedule(function()
+              pcall(vim.lsp.buf_detach_client, event.buf, client.id)
+            end)
+          end
+          return
+        end
+
         local map = vim.keymap.set
         local buf = event.buf
 

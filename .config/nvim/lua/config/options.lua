@@ -234,6 +234,8 @@ vim.diagnostic.config({
   },
 })
 
+local large_file_max_size = 2 * 1024 * 1024
+
 -- Trim trailing whitespace on save.
 local trim_augroup =
   vim.api.nvim_create_augroup("trim-whitespace", { clear = true })
@@ -241,9 +243,80 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = trim_augroup,
   pattern = "*",
   callback = function()
+    if vim.b.large_file then
+      return
+    end
+
     local save_cursor = vim.fn.getpos(".")
     vim.cmd([[keeppatterns %s/\s\+$//e]])
     vim.fn.setpos(".", save_cursor)
+  end,
+})
+
+local function get_file_size(path)
+  local size = vim.fn.getfsize(path)
+  if size < 0 then
+    return nil
+  end
+
+  return size
+end
+
+local function is_large_file(path)
+  if path == "" or vim.fn.isdirectory(path) == 1 then
+    return false
+  end
+
+  local size = get_file_size(path)
+  return size ~= nil and size >= large_file_max_size
+end
+
+local function apply_large_file_mode(buf)
+  vim.b[buf].large_file = true
+  vim.bo[buf].swapfile = false
+  vim.bo[buf].undofile = false
+  vim.bo[buf].bufhidden = "unload"
+  vim.bo[buf].readonly = true
+  vim.api.nvim_set_option_value("wrap", false, { buf = buf })
+  vim.api.nvim_set_option_value("linebreak", false, { buf = buf })
+  vim.api.nvim_set_option_value("number", false, { buf = buf })
+  vim.api.nvim_set_option_value("relativenumber", false, { buf = buf })
+  vim.api.nvim_set_option_value("cursorline", false, { buf = buf })
+  vim.api.nvim_set_option_value("foldmethod", "manual", { buf = buf })
+  vim.api.nvim_set_option_value("foldenable", false, { buf = buf })
+  vim.api.nvim_set_option_value("spell", false, { buf = buf })
+  vim.api.nvim_set_option_value("list", false, { buf = buf })
+end
+
+local large_file_augroup =
+  vim.api.nvim_create_augroup("large-files", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPre", {
+  group = large_file_augroup,
+  pattern = "*",
+  callback = function(args)
+    if is_large_file(args.match) then
+      apply_large_file_mode(args.buf)
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = large_file_augroup,
+  pattern = "*",
+  callback = function(args)
+    if not vim.b[args.buf].large_file then
+      return
+    end
+
+    vim.bo[args.buf].syntax = "off"
+    vim.diagnostic.enable(false, { bufnr = args.buf })
+
+    local ok, _ = pcall(vim.treesitter.stop, args.buf)
+    if not ok then
+      vim.schedule(function()
+        pcall(vim.treesitter.stop, args.buf)
+      end)
+    end
   end,
 })
 
@@ -491,6 +564,106 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "kulala://*",
   callback = function()
     vim.diagnostic.enable(false, { bufnr = 0 })
+  end,
+})
+
+-- Open binary files as a read-only hex buffer instead of rendering raw bytes
+-- as if they were plain text.
+local binary_extensions = {
+  ["7z"] = true,
+  a = true,
+  bin = true,
+  bmp = true,
+  class = true,
+  db = true,
+  dll = true,
+  dylib = true,
+  exe = true,
+  gif = true,
+  gz = true,
+  icns = true,
+  ico = true,
+  jar = true,
+  jpeg = true,
+  jpg = true,
+  o = true,
+  pdf = true,
+  png = true,
+  pyc = true,
+  pyd = true,
+  pyo = true,
+  so = true,
+  sqlite = true,
+  sqlite3 = true,
+  tar = true,
+  ttf = true,
+  wasm = true,
+  webp = true,
+  xz = true,
+  zip = true,
+}
+
+local function read_file_chunk(path, size)
+  local file = io.open(path, "rb")
+  if not file then
+    return nil
+  end
+
+  local data = file:read(size)
+  file:close()
+  return data
+end
+
+local function is_known_binary_extension(path)
+  local extension = vim.fn.fnamemodify(path, ":e"):lower()
+  return extension ~= "" and binary_extensions[extension] == true
+end
+
+local function has_nul_byte(path)
+  local chunk = read_file_chunk(path, 1024)
+  return chunk ~= nil and chunk:find("\0", 1, true) ~= nil
+end
+
+local function should_open_as_binary(path)
+  if path == "" or vim.fn.isdirectory(path) == 1 then
+    return false
+  end
+
+  return is_known_binary_extension(path) or has_nul_byte(path)
+end
+
+local function open_buffer_as_hex(buf)
+  vim.bo[buf].swapfile = false
+  vim.bo[buf].undofile = false
+  vim.bo[buf].binary = true
+
+  if vim.fn.executable("xxd") == 1 then
+    vim.api.nvim_buf_call(buf, function()
+      vim.cmd("%!xxd -g 1")
+    end)
+    vim.bo[buf].filetype = "xxd"
+  end
+
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].readonly = true
+  vim.bo[buf].modified = false
+end
+
+local binary_augroup =
+  vim.api.nvim_create_augroup("binary-buffers", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = binary_augroup,
+  pattern = "*",
+  callback = function(args)
+    if vim.bo[args.buf].buftype ~= "" then
+      return
+    end
+
+    if not should_open_as_binary(args.match) then
+      return
+    end
+
+    open_buffer_as_hex(args.buf)
   end,
 })
 

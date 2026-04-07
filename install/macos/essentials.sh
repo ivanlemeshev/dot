@@ -28,6 +28,7 @@ packages=(
   "tcl-tk"
   "tree"
   "uv"
+  "vim"
   "vivid"
   "wget"
   "xz"

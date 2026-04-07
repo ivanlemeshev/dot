@@ -48,6 +48,11 @@ return {
       "zig",
     },
     auto_install = true,
-    highlight = { enable = true },
+    highlight = {
+      enable = true,
+      disable = function(_, buf)
+        return vim.b[buf].large_file == true
+      end,
+    },
   },
 }

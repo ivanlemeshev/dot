@@ -4,14 +4,14 @@
 # single-place edit.
 
 # --- Custom palette (hex) ---
-set -l fg0     "#D4BE98"  # fg
-set -l bg0     "#282828"  # bg
-set -l bg1     "#32302F"  # black
-set -l bg2     "#7C6F64"  # bright_black
-set -l red     "#EA6962"  # red
-set -l yellow  "#D8A657"  # yellow
-set -l green   "#A9B665"  # green
-set -l magenta "#D3869B"  # magenta
+set -l fg0     "#C5C8C6"  # fg
+set -l bg0     "#1D1F21"  # bg
+set -l bg1     "#282A2E"  # black
+set -l bg2     "#969896"  # bright_black
+set -l red     "#CC6666"  # red
+set -l yellow  "#F0C674"  # yellow
+set -l green   "#B5BD68"  # green
+set -l magenta "#B294BB"  # magenta
 
 # --- Colors ---
 set -l colors \

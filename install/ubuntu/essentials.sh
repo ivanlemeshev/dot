@@ -94,6 +94,9 @@ packages=(
 
   # A fast and efficient compression tool based on Zstandard.
   "zstd"
+
+  # A tool to make or reverse a hex dump.
+  "xxd"
 )
 
 # Set timezone non-interactively to avoid prompts during package installation.
