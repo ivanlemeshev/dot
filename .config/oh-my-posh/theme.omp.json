@@ -28,7 +28,7 @@
         {
           "foreground": "#c5c8c6",
           "options": {
-            "style": "full"
+            "style": "folder"
           },
           "style": "plain",
           "template": "{{ .Path }}  ",
