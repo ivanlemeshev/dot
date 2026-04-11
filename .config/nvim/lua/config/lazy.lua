@@ -26,30 +26,13 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local is_windows = vim.fn.has("win32") == 1
-local windows_full = vim.env.NVIM_WINDOWS_FULL == "1"
-local spec = {
-  { import = "plugins" },
-}
-
-if is_windows and not windows_full then
-  spec = {
-    { import = "plugins.lem" },
-    { import = "plugins.lualine" },
-    { import = "plugins.indent-blankline" },
-    { import = "plugins.mini" },
-    { import = "plugins.misc" },
-    { import = "plugins.telescope" },
-    { import = "plugins.treesitter" },
-    { import = "plugins.file-explorer" },
-    { import = "plugins.trouble" },
-  }
-end
-
 -- Setup lazy.nvim
 require("lazy").setup({
   defaults = { lazy = true },
-  spec = spec,
+  spec = {
+    -- Import my plugins
+    { import = "plugins" },
+  },
   -- Disable automatic checking for plugin updates
   checker = { enabled = false, notify = false },
   ui = { border = "single" },
