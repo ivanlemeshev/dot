@@ -39,7 +39,10 @@ if is_windows and not windows_full then
     { import = "plugins.indent-blankline" },
     { import = "plugins.mini" },
     { import = "plugins.misc" },
+    { import = "plugins.telescope" },
+    { import = "plugins.treesitter" },
     { import = "plugins.file-explorer" },
+    { import = "plugins.trouble" },
   }
 end
 
