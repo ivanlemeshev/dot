@@ -598,52 +598,6 @@ Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
 
 #endregion
 
-#region Neovim Configuration
-
-Write-Host ""
-Write-Host "Setting up Neovim configuration..."
-
-$nvimTarget = "$env:LOCALAPPDATA\nvim"
-$nvimSource = "$repoRoot\.config\nvim"
-
-if (-not (Test-Path $nvimSource))
-{
-	Write-Warning "Neovim config source not found: $nvimSource"
-	Write-Warning "Skipping Neovim configuration."
-} elseif (Test-Path $nvimTarget)
-{
-	$nvimTargetItem = Get-Item $nvimTarget
-	$existing = $nvimTargetItem.Target
-
-	if ($nvimTargetItem.LinkType -eq "SymbolicLink" -and $existing -eq $nvimSource)
-	{
-		Write-Host "Neovim configuration already linked."
-	} elseif ($nvimTargetItem.LinkType -eq "SymbolicLink")
-	{
-		Write-Host "Updating Neovim configuration link..."
-		Remove-Item $nvimTarget -Force
-		New-Item $nvimTarget -ItemType SymbolicLink `
-			-Value $nvimSource | Out-Null
-		Write-Host "Neovim configuration updated."
-	} else
-	{
-		$backup = "$nvimTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
-		Write-Host "Backing up existing Neovim configuration to $backup"
-		Move-Item $nvimTarget $backup
-		New-Item $nvimTarget -ItemType SymbolicLink `
-			-Value $nvimSource | Out-Null
-		Write-Host "Neovim configuration created."
-	}
-} else
-{
-	Write-Host "Creating Neovim configuration link..."
-	New-Item $nvimTarget -ItemType SymbolicLink `
-		-Value $nvimSource | Out-Null
-	Write-Host "Neovim configuration created."
-}
-
-#endregion
-
 #region Windows Terminal Settings
 
 Write-Host ""
