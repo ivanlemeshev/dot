@@ -100,6 +100,26 @@ function Get-MiseCommand
 	return $null
 }
 
+function Get-MiseToolVersion($configFile, $tool)
+{
+	if (-not (Test-Path $configFile))
+	{
+		return $null
+	}
+
+	$pattern = "^\s*$([regex]::Escape($tool))\s*=\s*`"([^`"]+)`""
+	$line = Get-Content $configFile | Where-Object {
+		$_ -match $pattern
+	} | Select-Object -First 1
+
+	if ($null -eq $line)
+	{
+		return $null
+	}
+
+	return [regex]::Match($line, $pattern).Groups[1].Value
+}
+
 function Install-NpmGlobalPackage($package, $commandName, $name)
 {
 	if (Get-Command $commandName -ErrorAction SilentlyContinue)
@@ -124,7 +144,15 @@ function Install-NpmGlobalPackage($package, $commandName, $name)
 		}
 
 		Write-Host "Using mise-provided npm for $name..."
-		& $mise --yes exec -- npm install -g $package
+		$nodeVersion = Get-MiseToolVersion "$repoRoot\.config\mise\config.toml" "node"
+
+		if ($null -eq $nodeVersion)
+		{
+			Write-Warning "Node.js version not found in mise config. Skipping $name."
+			return $false
+		}
+
+		& $mise --yes --no-config exec "node@$nodeVersion" -- npm install -g $package
 	}
 
 	if ($LASTEXITCODE -ne 0)
@@ -550,15 +578,16 @@ if ($null -ne $mise)
 		}
 	}
 
-	Write-Host "Installing mise tools..."
-	& $mise --yes install
+	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig")
+	Write-Host "Installing Windows-compatible mise bootstrap tools..."
+	& $mise --yes install @bootstrapTools
 
 	if ($LASTEXITCODE -ne 0)
 	{
 		Write-Warning "mise install failed."
 	} else
 	{
-		Write-Host "mise tools installed."
+		Write-Host "mise bootstrap tools installed."
 	}
 } else
 {
