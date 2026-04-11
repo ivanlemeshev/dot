@@ -30,6 +30,97 @@ Write-Host ""
 
 $restartRequired = $false
 
+#region Package Installation
+
+function Install-WingetPackage($id, $name)
+{
+	if (-not (Get-Command winget -ErrorAction SilentlyContinue))
+	{
+		Write-Warning "winget not found. Skipping $name."
+		return $false
+	}
+
+	Write-Host "Checking $name..."
+	$null = winget list --id $id --exact --source winget `
+		--accept-source-agreements 2>$null
+
+	if ($LASTEXITCODE -eq 0)
+	{
+		Write-Host "$name already installed. Checking for updates..."
+		winget upgrade --id $id --exact --source winget `
+			--accept-package-agreements --accept-source-agreements
+
+		if ($LASTEXITCODE -eq 0)
+		{
+			Write-Host "$name updated or already current."
+			return $true
+		}
+
+		Write-Warning "Failed to update $name."
+		return $false
+	}
+
+	Write-Host "Installing $name..."
+	winget install --id $id --exact --source winget `
+		--accept-package-agreements --accept-source-agreements
+
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Warning "Failed to install $name."
+		return $false
+	}
+
+	Write-Host "$name installed."
+	return $true
+}
+
+function Install-NpmGlobalPackage($package, $commandName, $name)
+{
+	if (Get-Command $commandName -ErrorAction SilentlyContinue)
+	{
+		Write-Host "$name already installed. Updating..."
+	} else
+	{
+		Write-Host "Installing $name..."
+	}
+
+	if (Get-Command npm -ErrorAction SilentlyContinue)
+	{
+		npm install -g $package
+	} elseif (Get-Command mise -ErrorAction SilentlyContinue)
+	{
+		Write-Host "Using mise-provided npm for $name..."
+		mise exec -- npm install -g $package
+	} else
+	{
+		Write-Warning "npm and mise not found. Skipping $name."
+		Write-Warning "If mise was just installed, restart PowerShell and rerun this script."
+		return $false
+	}
+
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Warning "Failed to install $name."
+		return $false
+	}
+
+	Write-Host "$name installed."
+	return $true
+}
+
+Write-Host "Checking Windows packages..."
+
+Install-WingetPackage "Git.Git" "Git"
+Install-WingetPackage "GitHub.cli" "GitHub CLI"
+Install-WingetPackage "Neovim.Neovim" "Neovim"
+Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
+Install-WingetPackage "jdx.mise" "mise"
+Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
+Install-WingetPackage "sharkdp.fd" "fd"
+Install-WingetPackage "marlocarlo.psmux" "psmux"
+
+#endregion
+
 #region CapsLock Remapping
 
 function Test-ByteArrayEqual($left, $right)
@@ -329,6 +420,110 @@ function Install-NerdFonts
 }
 
 Install-NerdFonts
+
+#endregion
+
+#region mise Configuration
+
+function Add-LineIfMissing($path, $line)
+{
+	$parent = Split-Path -Parent $path
+
+	if (-not (Test-Path $parent))
+	{
+		New-Item $parent -ItemType Directory -Force | Out-Null
+	}
+
+	if (-not (Test-Path $path))
+	{
+		New-Item $path -ItemType File -Force | Out-Null
+	}
+
+	$content = Get-Content $path -ErrorAction SilentlyContinue
+	if ($content -contains $line)
+	{
+		return $false
+	}
+
+	Add-Content -Path $path -Value $line
+	return $true
+}
+
+Write-Host ""
+Write-Host "Setting up mise configuration..."
+
+$miseTargetDir = "$env:USERPROFILE\.config\mise"
+$miseSourceDir = "$repoRoot\.config\mise"
+
+if (-not (Test-Path $miseSourceDir))
+{
+	Write-Warning "mise config source not found: $miseSourceDir"
+	Write-Warning "Skipping mise configuration."
+} elseif (Test-Path $miseTargetDir)
+{
+	$miseTargetItem = Get-Item $miseTargetDir
+	$existing = $miseTargetItem.Target
+
+	if ($miseTargetItem.LinkType -eq "SymbolicLink" -and $existing -eq $miseSourceDir)
+	{
+		Write-Host "mise configuration already linked."
+	} elseif ($miseTargetItem.LinkType -eq "SymbolicLink")
+	{
+		Write-Host "Updating mise configuration link..."
+		Remove-Item $miseTargetDir -Force
+		New-Item $miseTargetDir -ItemType SymbolicLink `
+			-Value $miseSourceDir | Out-Null
+		Write-Host "mise configuration updated."
+	} else
+	{
+		$backup = "$miseTargetDir.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+		Write-Host "Backing up existing mise configuration to $backup"
+		Move-Item $miseTargetDir $backup
+		New-Item $miseTargetDir -ItemType SymbolicLink `
+			-Value $miseSourceDir | Out-Null
+		Write-Host "mise configuration created."
+	}
+} else
+{
+	$miseConfigParent = Split-Path -Parent $miseTargetDir
+	if (-not (Test-Path $miseConfigParent))
+	{
+		New-Item $miseConfigParent -ItemType Directory -Force | Out-Null
+	}
+
+	Write-Host "Creating mise configuration link..."
+	New-Item $miseTargetDir -ItemType SymbolicLink `
+		-Value $miseSourceDir | Out-Null
+	Write-Host "mise configuration created."
+}
+
+$miseProfileLine = 'mise activate pwsh | Out-String | Invoke-Expression'
+if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
+{
+	Write-Host "Added mise activation to PowerShell profile."
+} else
+{
+	Write-Host "mise activation already present in PowerShell profile."
+}
+
+if (Get-Command mise -ErrorAction SilentlyContinue)
+{
+	Write-Host "Installing mise tools..."
+	mise install
+
+	if ($LASTEXITCODE -ne 0)
+	{
+		Write-Warning "mise install failed."
+	} else
+	{
+		Write-Host "mise tools installed."
+	}
+} else
+{
+	Write-Warning "mise not found on PATH. If it was just installed, restart PowerShell and rerun this script."
+}
+
+Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
 
 #endregion
 
