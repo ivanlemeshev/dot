@@ -19,6 +19,10 @@ packages=(
   # application deployment.
   "ansible"
 
+  # A sandboxing tool that allows you to run applications in a secure and
+  # isolated environment.
+  "bubblewrap"
+
   # A package for building software from source.
   "build-essential"
 
