@@ -2,7 +2,7 @@ return {
   -- File explorer tree
   -- https://github.com/nvim-tree/nvim-tree.lua
   "nvim-tree/nvim-tree.lua",
-  commit = "037d89e60fb01a6c11a48a19540253b8c72a3c32",
+  commit = "509962f21ab7289d8dcd28568af539be39a8c01e",
   lazy = false,
   dependencies = {
     {
