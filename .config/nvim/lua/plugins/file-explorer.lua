@@ -6,7 +6,7 @@ return {
   lazy = false,
   dependencies = {
     {
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
       commit = "746ffbb17975ebd6c40142362eee1b0249969c5c",
     },
   },

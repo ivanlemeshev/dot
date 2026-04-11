@@ -986,15 +986,6 @@ function M.setup()
   link("@lsp.typemod.variable.defaultLibrary.go", "goTSConstBuiltin")
   link("@lsp.type.namespace.go", "goTSNamespace")
 
-  -- lazy.nvim
-  link("LazyNormal", "Normal")
-  hl("LazyH1", { fg = p.base00, bg = p.base08 })
-  hl("LazyH2", { fg = p.base0A })
-  hl("LazyButton", { fg = p.base05, bg = p.base00 })
-  hl("LazyButtonActive", { fg = p.base00, bg = p.base06 })
-  hl("LazyProp", { fg = p.base03 })
-  hl("LazyCommit", { fg = p.base0C })
-
   -- mason
   hl("MasonHeader", { fg = p.base00, bg = p.base08 })
   hl("MasonHeaderSecondary", { fg = p.base00, bg = p.base0A })
