@@ -74,6 +74,32 @@ function Install-WingetPackage($id, $name)
 	return $true
 }
 
+function Get-MiseCommand
+{
+	$command = Get-Command mise -ErrorAction SilentlyContinue
+	if ($null -ne $command)
+	{
+		return $command.Source
+	}
+
+	$candidates = @(
+		"$env:LOCALAPPDATA\Microsoft\WinGet\Links\mise.exe",
+		"$env:LOCALAPPDATA\mise\bin\mise.exe",
+		"$env:ProgramFiles\mise\bin\mise.exe",
+		"$env:ProgramFiles\mise\mise.exe"
+	)
+
+	foreach ($candidate in $candidates)
+	{
+		if (Test-Path $candidate)
+		{
+			return $candidate
+		}
+	}
+
+	return $null
+}
+
 function Install-NpmGlobalPackage($package, $commandName, $name)
 {
 	if (Get-Command $commandName -ErrorAction SilentlyContinue)
@@ -87,15 +113,18 @@ function Install-NpmGlobalPackage($package, $commandName, $name)
 	if (Get-Command npm -ErrorAction SilentlyContinue)
 	{
 		npm install -g $package
-	} elseif (Get-Command mise -ErrorAction SilentlyContinue)
-	{
-		Write-Host "Using mise-provided npm for $name..."
-		mise exec -- npm install -g $package
 	} else
 	{
-		Write-Warning "npm and mise not found. Skipping $name."
-		Write-Warning "If mise was just installed, restart PowerShell and rerun this script."
-		return $false
+		$mise = Get-MiseCommand
+		if ($null -eq $mise)
+		{
+			Write-Warning "npm and mise not found. Skipping $name."
+			Write-Warning "If mise was just installed, restart PowerShell and rerun this script."
+			return $false
+		}
+
+		Write-Host "Using mise-provided npm for $name..."
+		& $mise --yes exec -- npm install -g $package
 	}
 
 	if ($LASTEXITCODE -ne 0)
@@ -506,10 +535,23 @@ if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
 	Write-Host "mise activation already present in PowerShell profile."
 }
 
-if (Get-Command mise -ErrorAction SilentlyContinue)
+$mise = Get-MiseCommand
+if ($null -ne $mise)
 {
+	$miseConfigFile = "$miseSourceDir\config.toml"
+	if (Test-Path $miseConfigFile)
+	{
+		Write-Host "Trusting mise config..."
+		& $mise --yes trust $miseConfigFile
+
+		if ($LASTEXITCODE -ne 0)
+		{
+			Write-Warning "mise trust failed."
+		}
+	}
+
 	Write-Host "Installing mise tools..."
-	mise install
+	& $mise --yes install
 
 	if ($LASTEXITCODE -ne 0)
 	{
@@ -520,7 +562,7 @@ if (Get-Command mise -ErrorAction SilentlyContinue)
 	}
 } else
 {
-	Write-Warning "mise not found on PATH. If it was just installed, restart PowerShell and rerun this script."
+	Write-Warning "mise not found. If it was just installed, restart PowerShell and rerun this script."
 }
 
 Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
