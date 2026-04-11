@@ -20,6 +20,9 @@ sudo apt-get install -y git
 
 log_info "Configuring git"
 
+git config --global diff.tool nvim_difftool
+git config --global difftool.nvim_difftool.cmd "nvim -c \"packadd nvim.difftool\" -c \"DiffTool \$LOCAL \$REMOTE\""
+
 if [[ -z "${GIT_DEFAULT_BRANCH:-}" ]]; then
   GIT_DEFAULT_BRANCH=$(prompt_input "What default branch name do you want to use?" --default "main")
 fi
