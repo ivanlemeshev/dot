@@ -1,69 +1,82 @@
-return {
-  -- Auto-completion plugin
-  -- https://github.com/hrsh7th/nvim-cmp
-  "hrsh7th/nvim-cmp",
-  commit = "da88697d7f45d16852c6b2769dc52387d1ddc45f",
-  event = { "InsertEnter", "CmdlineEnter" },
-  cmd = "CmpStatus",
-  dependencies = {
-    -- nvim-cmp source for buffer words
-    -- https://github.com/hrsh7th/cmp-buffer
-    {
-      "hrsh7th/cmp-buffer",
-      commit = "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
-    },
-    -- nvim-cmp source for path
-    -- https://github.com/hrsh7th/cmp-path
-    { "hrsh7th/cmp-path", commit = "c642487086dbd9a93160e1679a1327be111cbc25" },
-    -- nvim-cmp source for vim's command line
-    -- https://github.com/hrsh7th/cmp-cmdline
-    {
-      "hrsh7th/cmp-cmdline",
-      commit = "d126061b624e0af6c3a556428712dd4d4194ec6d",
-    },
-    -- nvim-cmp source for Neovim built-in LSP client
-    -- https://github.com/hrsh7th/cmp-nvim-lsp
-    {
-      "hrsh7th/cmp-nvim-lsp",
-      commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef",
-    },
-    -- nvim-cmp source for Neovim Lua
-    -- https://github.com/hrsh7th/cmp-nvim-lua
-    {
-      "hrsh7th/cmp-nvim-lua",
-      commit = "e3a22cb071eb9d6508a156306b102c45cd2d573d",
-    },
+vim.pack.add({
+  {
+    src = "https://github.com/hrsh7th/nvim-cmp",
+    name = "nvim-cmp",
+    version = "v0.0.2",
   },
-  config = function()
+  {
+    src = "https://github.com/hrsh7th/cmp-buffer",
+    name = "cmp-buffer",
+    version = "main",
+  },
+  {
+    src = "https://github.com/hrsh7th/cmp-path",
+    name = "cmp-path",
+    version = "main",
+  },
+  {
+    src = "https://github.com/hrsh7th/cmp-cmdline",
+    name = "cmp-cmdline",
+    version = "main",
+  },
+  {
+    src = "https://github.com/hrsh7th/cmp-nvim-lsp",
+    name = "cmp-nvim-lsp",
+    version = "main",
+  },
+  {
+    src = "https://github.com/hrsh7th/cmp-nvim-lua",
+    name = "cmp-nvim-lua",
+    version = "main",
+  },
+}, {
+  load = false, -- Don't load immediately
+  confirm = false, -- Install without confirmation
+})
+
+local cmp_group = vim.api.nvim_create_augroup("pack-cmp", { clear = true })
+
+-- Load on InsertEnter or CmdlineEnter
+vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
+  group = cmp_group,
+  once = true,
+  callback = function()
+    vim.cmd.packadd("nvim-cmp")
+    vim.cmd.packadd("cmp-buffer")
+    vim.cmd.packadd("cmp-path")
+    vim.cmd.packadd("cmp-cmdline")
+    vim.cmd.packadd("cmp-nvim-lsp")
+    vim.cmd.packadd("cmp-nvim-lua")
+
     local cmp = require("cmp")
 
     local kind_icons = {
       Text = "󰉿",
       Method = "m",
       Function = "󰊕",
-      Constructor = "",
-      Field = "",
+      Constructor = "",
+      Field = "",
       Variable = "󰆧",
       Class = "󰌗",
-      Interface = "",
-      Module = "",
-      Property = "",
-      Unit = "",
+      Interface = "",
+      Module = "",
+      Property = "",
+      Unit = "",
       Value = "󰎠",
-      Enum = "",
+      Enum = "",
       Keyword = "󰌋",
-      Snippet = "",
+      Snippet = "",
       Color = "󰏘",
       File = "󰈙",
-      Reference = "",
+      Reference = "",
       Folder = "󰉋",
-      EnumMember = "",
+      EnumMember = "",
       Constant = "󰇽",
-      Struct = "",
-      Event = "",
+      Struct = "",
+      Event = "",
       Operator = "󰆕",
       TypeParameter = "󰊄",
-      Copilot = "",
+      Copilot = "",
     }
 
     local has_words_before = function()
@@ -166,4 +179,4 @@ return {
       },
     })
   end,
-}
+})

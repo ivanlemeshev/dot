@@ -7,7 +7,7 @@ vim.pack.add({
   {
     src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
     name = "mason-tool-installer.nvim",
-    version = "master",
+    version = "main",
   },
   {
     src = "https://github.com/mason-org/mason-lspconfig.nvim",

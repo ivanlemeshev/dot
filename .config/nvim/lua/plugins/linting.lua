@@ -1,11 +1,22 @@
-return {
-  "mfussenegger/nvim-lint",
-  commit = "bcd1a44edbea8cd473af7e7582d3f7ffc60d8e81",
-  event = {
-    "BufReadPre",
-    "BufNewFile",
+vim.pack.add({
+  {
+    src = "https://github.com/mfussenegger/nvim-lint",
+    name = "nvim-lint",
+    version = "master",
   },
-  config = function()
+}, {
+  load = false, -- Don't load immediately
+  confirm = false, -- Install without confirmation
+})
+
+local linting_group = vim.api.nvim_create_augroup("pack-linting", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  group = linting_group,
+  once = true,
+  callback = function()
+    vim.cmd.packadd("nvim-lint")
+
     local lint = require("lint")
 
     -- Helper function to create custom golangci-lint linter
@@ -53,7 +64,7 @@ return {
         },
         stream = "both", -- Capture both stdout and stderr
         ignore_exitcode = true,
-        parser = function(output, bufnr, cwd)
+        parser = function(output, bufnr)
           if output == "" then
             return {}
           end
@@ -140,12 +151,5 @@ return {
     vim.keymap.set("n", "<leader>l", function()
       lint.try_lint()
     end, { desc = "Trigger linting for current file" })
-
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-      group = lint_augroup,
-      callback = function()
-        lint.try_lint()
-      end,
-    })
   end,
-}
+})

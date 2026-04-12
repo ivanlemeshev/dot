@@ -231,7 +231,7 @@ vim.diagnostic.config({
   },
 })
 
-local large_file_max_size = 2 * 1024 * 1024
+local large_file_max_size = 2 * 1024 * 1024 * 1024
 
 -- Trim trailing whitespace on save.
 local trim_augroup = vim.api.nvim_create_augroup("trim-whitespace", { clear = true })

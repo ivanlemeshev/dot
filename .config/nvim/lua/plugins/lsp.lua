@@ -1,23 +1,29 @@
-return {
-  "neovim/nvim-lspconfig",
-  commit = "d1597791f8196519439b3a036b59b09023981e1d",
-  event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    {
-      "j-hui/fidget.nvim",
-      commit = "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
-      opts = {},
-    },
-    {
-      "hrsh7th/cmp-nvim-lsp",
-      commit = "cbc7b02bb99fae35cb42f514762b89b5126651ef",
-    },
-    {
-      "lukas-reineke/lsp-format.nvim",
-      commit = "42d1d3e407c846d95f84ea3767e72ed6e08f7495",
-    },
+vim.pack.add({
+  {
+    src = "https://github.com/neovim/nvim-lspconfig",
+    name = "nvim-lspconfig",
+    version = "v2.8.0",
   },
-  config = function()
+  {
+    src = "https://github.com/lukas-reineke/lsp-format.nvim",
+    name = "lsp-format.nvim",
+    version = "v2.7.2",
+  },
+}, {
+  load = false, -- Don't load immediately
+  confirm = false, -- Install without confirmation
+})
+
+local editing_group = vim.api.nvim_create_augroup("pack-lsp", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = editing_group,
+  pattern = "*",
+  once = true,
+  callback = function()
+    vim.cmd.packadd("nvim-lspconfig")
+    vim.cmd.packadd("lsp-format.nvim")
+
     -- This function gets run when an LSP attaches to a particular buffer.
     -- Every time a new file is opened that is associated with the LSP this
     -- function will be executed to configure the current buffer.
@@ -37,45 +43,69 @@ return {
         local map = vim.keymap.set
         local buf = event.buf
 
+        -- Kayemaps
         map("n", "gd", function()
           require("fzf-lua").lsp_definitions()
         end, {
           desc = "LSP: go to definition",
           buffer = buf,
+          noremap = true,
           silent = true,
         })
+
         map("n", "grr", function()
           require("fzf-lua").lsp_references()
         end, {
           desc = "LSP: find all references",
           buffer = buf,
+          noremap = true,
           silent = true,
         })
+
         map("n", "gri", function()
           require("fzf-lua").lsp_implementations()
-        end, { desc = "LSP: go to implementation", buffer = buf, silent = true })
+        end, { desc = "LSP: go to implementation", buffer = buf, noremap = true, silent = true })
+
         map("n", "gtd", function()
           require("fzf-lua").lsp_typedefs()
         end, {
           desc = "LSP: go type definition",
           buffer = buf,
+          noremap = true,
           silent = true,
         })
-        map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: goto declaration", buffer = buf, silent = true })
+
+        map(
+          "n",
+          "gD",
+          vim.lsp.buf.declaration,
+          { desc = "LSP: goto declaration", buffer = buf, noremap = true, silent = true }
+        )
+
         map("n", "K", function()
           vim.lsp.buf.hover({ border = "single" })
         end, {
           desc = "LSP: hover documentation",
           buffer = buf,
+          noremap = true,
           silent = true,
         })
-        map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename", buffer = buf, silent = true })
-        map("n", "gra", vim.lsp.buf.code_action, { desc = "LSP: code action", buffer = buf, silent = true })
+
+        map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename", buffer = buf, noremap = true, silent = true })
+
+        map(
+          "n",
+          "gra",
+          vim.lsp.buf.code_action,
+          { desc = "LSP: code action", buffer = buf, noremap = true, silent = true }
+        )
+
         map("n", "gO", function()
           require("fzf-lua").lsp_document_symbols()
         end, {
           desc = "LSP: document symbols",
           buffer = buf,
+          noremap = true,
           silent = true,
         })
 
@@ -131,7 +161,7 @@ return {
 
     local lsp_config = {
       buf_ls = {
-        -- Use Neovim 0.11 native root resolution so buf_ls works with
+        -- Use Neovim 0.11+ native root resolution so buf_ls works with
         -- vim.lsp.enable()/mason-lspconfig automatic_enable.
         root_dir = function(bufnr, on_dir)
           on_dir(vim.fs.root(bufnr, { "buf.yaml", ".git" }))
@@ -209,4 +239,4 @@ return {
     -- mason-lspconfig will automatically enable all installed servers
     require("mason-lspconfig").setup({ automatic_enable = true })
   end,
-}
+})

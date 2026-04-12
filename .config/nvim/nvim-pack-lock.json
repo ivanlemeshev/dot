@@ -3,27 +3,27 @@
     "cmp-buffer": {
       "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
       "src": "https://github.com/hrsh7th/cmp-buffer",
-      "version": "'b74fab3656eea9de20a9b8116afa3cfc4ec09657'"
+      "version": "'main'"
     },
     "cmp-cmdline": {
       "rev": "d126061b624e0af6c3a556428712dd4d4194ec6d",
       "src": "https://github.com/hrsh7th/cmp-cmdline",
-      "version": "'d126061b624e0af6c3a556428712dd4d4194ec6d'"
+      "version": "'main'"
     },
     "cmp-nvim-lsp": {
       "rev": "cbc7b02bb99fae35cb42f514762b89b5126651ef",
       "src": "https://github.com/hrsh7th/cmp-nvim-lsp",
-      "version": "'cbc7b02bb99fae35cb42f514762b89b5126651ef'"
+      "version": "'main'"
     },
     "cmp-nvim-lua": {
       "rev": "e3a22cb071eb9d6508a156306b102c45cd2d573d",
       "src": "https://github.com/hrsh7th/cmp-nvim-lua",
-      "version": "'e3a22cb071eb9d6508a156306b102c45cd2d573d'"
+      "version": "'main'"
     },
     "cmp-path": {
       "rev": "c642487086dbd9a93160e1679a1327be111cbc25",
       "src": "https://github.com/hrsh7th/cmp-path",
-      "version": "'c642487086dbd9a93160e1679a1327be111cbc25'"
+      "version": "'main'"
     },
     "conform.nvim": {
       "rev": "3543d000dafbc41cc7761d860cfdb24e82154f75",
@@ -51,12 +51,12 @@
       "version": "'v6.0.2'"
     },
     "fidget.nvim": {
-      "rev": "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
+      "rev": "b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e",
       "src": "https://github.com/j-hui/fidget.nvim",
-      "version": "'7fa433a83118a70fe24c1ce88d5f0bd3453c0970'"
+      "version": "'v1.6.1'"
     },
     "fzf-lua": {
-      "rev": "657c1bbb7357c61e26a20d868b53a460b05c18c0",
+      "rev": "114da56bb1b14b4aec073123fc1ef9346469967e",
       "src": "https://github.com/ibhagwan/fzf-lua",
       "version": "'main'"
     },
@@ -76,9 +76,9 @@
       "version": "'v5.3.4'"
     },
     "lsp-format.nvim": {
-      "rev": "42d1d3e407c846d95f84ea3767e72ed6e08f7495",
+      "rev": "f336cfd6572bf644d26b5cdec7e5e2c6b8f45135",
       "src": "https://github.com/lukas-reineke/lsp-format.nvim",
-      "version": "'42d1d3e407c846d95f84ea3767e72ed6e08f7495'"
+      "version": "'v2.7.2'"
     },
     "lualine.nvim": {
       "rev": "a905eeebc4e63fdc48b5135d3bf8aea5618fb21c",
@@ -86,18 +86,18 @@
       "version": "'master'"
     },
     "mason-lspconfig.nvim": {
-      "rev": "ae609525ddf01c153c39305730b1791800ffe4fe",
-      "src": "https://github.com/williamboman/mason-lspconfig.nvim",
+      "rev": "f2fa60409630ec2d24acf84494fb55e1d28d593c",
+      "src": "https://github.com/mason-org/mason-lspconfig.nvim",
       "version": "'v2.1.0'"
     },
     "mason-tool-installer.nvim": {
       "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
       "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
-      "version": "'master'"
+      "version": "'main'"
     },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
-      "src": "https://github.com/williamboman/mason.nvim",
+      "src": "https://github.com/mason-org/mason.nvim",
       "version": "'v2.2.1'"
     },
     "mini.hipatterns": {
@@ -121,19 +121,19 @@
       "version": "'v0.17.0'"
     },
     "nvim-cmp": {
-      "rev": "da88697d7f45d16852c6b2769dc52387d1ddc45f",
+      "rev": "8c82d0bd31299dbff7f8e780f5e06d2283de9678",
       "src": "https://github.com/hrsh7th/nvim-cmp",
-      "version": "'da88697d7f45d16852c6b2769dc52387d1ddc45f'"
+      "version": "'v0.0.2'"
     },
     "nvim-lint": {
-      "rev": "bcd1a44edbea8cd473af7e7582d3f7ffc60d8e81",
+      "rev": "eab58b48eb11d7745c11c505e0f3057165902461",
       "src": "https://github.com/mfussenegger/nvim-lint",
-      "version": "'bcd1a44edbea8cd473af7e7582d3f7ffc60d8e81'"
+      "version": "'master'"
     },
     "nvim-lspconfig": {
-      "rev": "d1597791f8196519439b3a036b59b09023981e1d",
+      "rev": "9bafffaeaae363c5211080e06e04ed5b422fd5ad",
       "src": "https://github.com/neovim/nvim-lspconfig",
-      "version": "'d1597791f8196519439b3a036b59b09023981e1d'"
+      "version": "'v2.8.0'"
     },
     "nvim-tree.lua": {
       "rev": "85d1145ac71c1b8e1423862c78165a1f609faf60",
@@ -171,9 +171,9 @@
       "version": "'v2.2'"
     },
     "which-key.nvim": {
-      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+      "rev": "fcbf4eea17cb299c02557d576f0d568878e354a4",
       "src": "https://github.com/folke/which-key.nvim",
-      "version": "'3aab2147e74890957785941f0c1ad87d0a44c15a'"
+      "version": "'v3.17.0'"
     }
   }
 }
