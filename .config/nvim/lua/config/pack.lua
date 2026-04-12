@@ -8,7 +8,10 @@ local plugin_modules = {
   "plugins.git",
   "plugins.conform",
   "plugins.linting",
-  "plugins.mini",
+  "plugins.mini.move",
+  "plugins.mini.indentscope",
+  "plugins.mini.splitjoin",
+  "plugins.mini.hipatterns",
   "plugins.misc",
   "plugins.trouble",
   "plugins.kulala",
@@ -19,16 +22,16 @@ local plugin_modules = {
 
 local function is_spec(value)
   return type(value) == "table"
-    and (
-      type(value[1]) == "string"
-      or type(value.src) == "string"
-      or type(value.dir) == "string"
-    )
+    and (type(value[1]) == "string" or type(value.src) == "string" or type(value.dir) == "string")
 end
 
 local function as_list(value)
   if is_spec(value) then
     return { value }
+  end
+
+  if type(value) ~= "table" then
+    return {}
   end
 
   return value

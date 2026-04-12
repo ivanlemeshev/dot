@@ -97,9 +97,7 @@ return {
       end
 
       if value >= 10 or unit_index == 1 then
-        return with_separator(
-          string.format("%.0f %s", value, units[unit_index])
-        )
+        return with_separator(string.format("%.0f %s", value, units[unit_index]))
       end
 
       return with_separator(string.format("%.1f %s", value, units[unit_index]))

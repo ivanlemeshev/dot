@@ -62,12 +62,7 @@ return {
     local builtin = require("telescope.builtin")
     local map = vim.keymap.set
 
-    map(
-      "n",
-      "<leader>ff",
-      builtin.find_files,
-      { desc = "Telescope: find files" }
-    )
+    map("n", "<leader>ff", builtin.find_files, { desc = "Telescope: find files" })
     map("n", "<leader>fp", function()
       require("telescope.builtin").live_grep({
         file_ignore_patterns = {
@@ -82,30 +77,10 @@ return {
         end,
       })
     end, { desc = "Telescope: find in project files" })
-    map(
-      "n",
-      "<leader>fd",
-      builtin.diagnostics,
-      { desc = "Telescope: find in diagnostics" }
-    )
-    map(
-      "n",
-      "<leader>fb",
-      builtin.buffers,
-      { desc = "Telescope: find in opened buffers" }
-    )
-    map(
-      "n",
-      "<leader>fc",
-      builtin.current_buffer_fuzzy_find,
-      { desc = "Telescope: find in the current buffer" }
-    )
-    map(
-      "n",
-      "<leader>fh",
-      builtin.help_tags,
-      { desc = "Telescope: find in help" }
-    )
+    map("n", "<leader>fd", builtin.diagnostics, { desc = "Telescope: find in diagnostics" })
+    map("n", "<leader>fb", builtin.buffers, { desc = "Telescope: find in opened buffers" })
+    map("n", "<leader>fc", builtin.current_buffer_fuzzy_find, { desc = "Telescope: find in the current buffer" })
+    map("n", "<leader>fh", builtin.help_tags, { desc = "Telescope: find in help" })
     map("n", "<leader>fg", function()
       require("telescope.builtin").live_grep({
         additional_args = function(_)

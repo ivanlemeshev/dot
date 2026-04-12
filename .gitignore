@@ -4,4 +4,5 @@ config.env
 tmp
 __pycache__
 .nvimlog
+nvim.log
 .codex

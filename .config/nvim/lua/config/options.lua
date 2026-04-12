@@ -11,8 +11,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.signcolumn = "yes:1"
 
 -- Disable cursor blinking in the terminal mode.
-vim.opt.guicursor =
-  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"
 
 -- Allow the backspace key to delete over auto-indent, line breaks (enter), and
 -- the start of insert; essentially making backspace work more like it does
@@ -39,8 +38,7 @@ vim.opt.laststatus = 3
 vim.opt.autoread = true
 
 -- Auto-reload buffers when files change externally (e.g., git operations)
-local reload_augroup =
-  vim.api.nvim_create_augroup("auto-reload", { clear = true })
+local reload_augroup = vim.api.nvim_create_augroup("auto-reload", { clear = true })
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   group = reload_augroup,
   pattern = "*",
@@ -85,8 +83,7 @@ vim.opt.listchars = {
   nbsp = ".",
 }
 
-local visual_list_augroup =
-  vim.api.nvim_create_augroup("visual-list-toggle", { clear = true })
+local visual_list_augroup = vim.api.nvim_create_augroup("visual-list-toggle", { clear = true })
 
 vim.api.nvim_create_autocmd("ModeChanged", {
   group = visual_list_augroup,
@@ -237,8 +234,7 @@ vim.diagnostic.config({
 local large_file_max_size = 2 * 1024 * 1024
 
 -- Trim trailing whitespace on save.
-local trim_augroup =
-  vim.api.nvim_create_augroup("trim-whitespace", { clear = true })
+local trim_augroup = vim.api.nvim_create_augroup("trim-whitespace", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = trim_augroup,
   pattern = "*",
@@ -288,8 +284,7 @@ local function apply_large_file_mode(buf)
   vim.api.nvim_set_option_value("list", false, { buf = buf })
 end
 
-local large_file_augroup =
-  vim.api.nvim_create_augroup("large-files", { clear = true })
+local large_file_augroup = vim.api.nvim_create_augroup("large-files", { clear = true })
 vim.api.nvim_create_autocmd("BufReadPre", {
   group = large_file_augroup,
   pattern = "*",

@@ -70,8 +70,7 @@ return {
     config = function(_, opts)
       require("csvview").setup(opts)
       -- Disable in insert mode, re-enable when leaving insert mode
-      local group =
-        vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
+      local group = vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
       vim.api.nvim_create_autocmd("InsertEnter", {
         group = group,
         pattern = "*.csv",

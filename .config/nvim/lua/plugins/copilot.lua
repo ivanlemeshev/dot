@@ -37,18 +37,8 @@ return {
 
       local map = vim.keymap.set
 
-      map(
-        "n",
-        "<leader>cd",
-        "<cmd>Copilot disable<CR>",
-        { desc = "Copilot: disable" }
-      )
-      map(
-        "n",
-        "<leader>ce",
-        "<cmd>Copilot enable<CR>",
-        { desc = "Copilot: enable" }
-      )
+      map("n", "<leader>cd", "<cmd>Copilot disable<CR>", { desc = "Copilot: disable" })
+      map("n", "<leader>ce", "<cmd>Copilot enable<CR>", { desc = "Copilot: enable" })
     end,
   },
 }

@@ -47,8 +47,7 @@ return {
     })
 
     -- Auto-refresh nvim-tree when gaining focus or buffer changes
-    local nvim_tree_augroup =
-      vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
+    local nvim_tree_augroup = vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
     vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
       group = nvim_tree_augroup,
       pattern = "*",
@@ -62,11 +61,6 @@ return {
 
     local map = vim.keymap.set
 
-    map(
-      "n",
-      "<leader>ft",
-      "<cmd>NvimTreeFindFile<CR>",
-      { desc = "Files: find the file in the file explorer" }
-    )
+    map("n", "<leader>ft", "<cmd>NvimTreeFindFile<CR>", { desc = "Files: find the file in the file explorer" })
   end,
 }

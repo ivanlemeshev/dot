@@ -64,16 +64,11 @@ return {
             -- Failed to parse JSON - likely an error message
             -- Use vim.schedule to safely call vim.notify from callback
             vim.schedule(function()
-              vim.notify(
-                "golangci-lint error: " .. output,
-                vim.log.levels.ERROR
-              )
+              vim.notify("golangci-lint error: " .. output, vim.log.levels.ERROR)
             end)
             return {}
           end
-          if
-            decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata"
-          then
+          if decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata" then
             return {}
           end
 
