@@ -2,7 +2,7 @@ vim.pack.add({
   {
     src = "https://github.com/AndreM222/copilot-lualine",
     name = "copilot-lualine",
-    version = "master",
+    version = "main",
   },
   {
     src = "https://github.com/nvim-lualine/lualine.nvim",

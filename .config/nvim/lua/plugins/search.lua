@@ -12,8 +12,29 @@ vim.pack.add({
 local colorscheme = require("lem.colorscheme")
 local fzf = require("fzf-lua")
 
+local function clipboard_cmd()
+  if vim.fn.has("mac") == 1 then
+    return "pbcopy"
+  elseif vim.fn.executable("wl-copy") == 1 then
+    return "wl-copy" -- Wayland
+  elseif vim.fn.executable("xclip") == 1 then
+    return "xclip -selection clipboard"
+  elseif vim.fn.executable("xsel") == 1 then
+    return "xsel --clipboard --input"
+  elseif vim.fn.has("wsl") == 1 then
+    return "clip.exe" -- WSL → Windows clipboard
+  else
+    return nil
+  end
+end
+
+local copy = clipboard_cmd()
+
 fzf.setup({
   fzf_colors = colorscheme.fzf_lua_colors,
+  fzf_opts = {
+    ["--multi"] = true,
+  },
   winopts = {
     border = "single",
     preview = {
@@ -35,6 +56,11 @@ fzf.setup({
       "--max-columns=4096",
       "-e",
     }, " "),
+  },
+  keymap = {
+    fzf = {
+      ["y"] = copy and ("execute-silent(printf '%s\\n' {+} | " .. copy .. ")") or nil,
+    },
   },
 })
 

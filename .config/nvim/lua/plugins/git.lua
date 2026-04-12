@@ -2,7 +2,7 @@ vim.pack.add({
   {
     src = "https://github.com/lewis6991/gitsigns.nvim",
     name = "gitsigns.nvim",
-    version = "31217271a7314c343606acb4072a94a039a19fb5",
+    version = "v2.1.0",
   },
 }, {
   load = false, -- Don't load immediately

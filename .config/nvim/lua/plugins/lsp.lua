@@ -4,18 +4,6 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     {
-      "williamboman/mason.nvim",
-      commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
-    },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      commit = "ae609525ddf01c153c39305730b1791800ffe4fe",
-    },
-    {
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-      commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
-    },
-    {
       "j-hui/fidget.nvim",
       commit = "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
       opts = {},
