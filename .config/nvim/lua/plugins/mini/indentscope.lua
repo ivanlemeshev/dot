@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 
     local indentscope = require("mini.indentscope")
 
-    local config = {
+    indentscope.setup({
       symbol = "▏",
       options = {
         try_as_border = true,
@@ -47,8 +47,6 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
       draw = {
         animation = indentscope.gen_animation.none(),
       },
-    }
-
-    indentscope.setup(config)
+    })
   end,
 })

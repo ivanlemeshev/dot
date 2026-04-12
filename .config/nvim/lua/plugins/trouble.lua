@@ -1,28 +1,41 @@
-return {
-  "folke/trouble.nvim",
-  commit = "bd67efe408d4816e25e8491cc5ad4088e708a69a",
-  dependencies = {
-    { "nvim-tree/nvim-web-devicons", commit = "746ffbb17975ebd6c40142362eee1b0249969c5c" },
+vim.pack.add({
+  {
+    src = "https://github.com/nvim-tree/nvim-web-devicons",
+    name = "nvim-web-devicons",
+    version = "master",
   },
-  opts = {
-    focus = true,
-    modes = {
-      diagnostics = {
-        auto_close = true,
-      },
+  {
+    src = "https://github.com/folke/trouble.nvim",
+    name = "trouble.nvim",
+    version = "v3.7.1",
+  },
+}, {
+  load = true, -- Load the plugin immediately
+  confirm = false, -- Install without confirmation
+})
+
+require("trouble").setup({
+  focus = true,
+  modes = {
+    diagnostics = {
+      auto_close = true,
     },
   },
-  cmd = "Trouble",
-  keys = {
-    {
-      "<leader>dd",
-      "<cmd>Trouble diagnostics toggle<cr>",
-      desc = "Trouble: toggle diagnostics panel",
-    },
-    {
-      "<leader>dc",
-      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-      desc = "Trouble: toggle buffer diagnostics",
-    },
-  },
-}
+})
+
+-- Keymaps
+local map = vim.keymap.set
+
+map(
+  "n",
+  "<leader>dd",
+  "<cmd>Trouble diagnostics toggle<CR>",
+  { desc = "Trouble: toggle diagnostics panel", noremap = true, silent = true }
+)
+
+map(
+  "n",
+  "<leader>dc",
+  "<cmd>Trouble diagnostics toggle filter.buf=0<CR>",
+  { desc = "Trouble: toggle buffer diagnostics", noremap = true, silent = true }
+)

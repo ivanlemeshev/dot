@@ -18,21 +18,18 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     vim.cmd.packadd("mini.splitjoin")
 
     local splitjoin = require("mini.splitjoin")
-    local map = vim.keymap.set
 
-    local config = {
+    splitjoin.setup({
       mappings = {
         toggle = "gS",
       },
-    }
-
-    splitjoin.setup(config)
-
-    require("mini.splitjoin").setup({})
+    })
 
     -- Keymaps
+    local map = vim.keymap.set
+
     map("n", "gS", function()
-      require("mini.splitjoin").toggle()
+      splitjoin.toggle()
     end, { desc = "Split/join code block", noremap = true, silent = true })
   end,
 })

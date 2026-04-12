@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 
     local hipatterns = require("mini.hipatterns")
 
-    local config = {
+    hipatterns.setup({
       highlighters = {
         fixme = {
           pattern = "%f[%w]()FIXME()%f[%W]",
@@ -44,8 +44,6 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
         },
         hex_color = hipatterns.gen_highlighter.hex_color(),
       },
-    }
-
-    hipatterns.setup(config)
+    })
   end,
 })

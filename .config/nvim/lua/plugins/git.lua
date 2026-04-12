@@ -17,18 +17,16 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   callback = function()
     vim.cmd.packadd("gitsigns.nvim")
 
-    local map = vim.keymap.set
-
-    local config = {
+    require("gitsigns").setup({
       current_line_blame = true,
       current_line_blame_opts = {
         delay = 1000,
       },
-    }
-
-    require("gitsigns").setup(config)
+    })
 
     -- Keymaps
+    local map = vim.keymap.set
+
     map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "Git: blame line", noremap = true, silent = true })
   end,
 })

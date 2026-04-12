@@ -158,7 +158,7 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim",
-      "version": "'bd67efe408d4816e25e8491cc5ad4088e708a69a'"
+      "version": "'v3.7.1'"
     },
     "vim-surround": {
       "rev": "3d188ed2113431cf8dac77be61b842acb64433d9",
