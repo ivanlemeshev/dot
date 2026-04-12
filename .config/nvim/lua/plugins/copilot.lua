@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/zbirenbaum/copilot.lua",
@@ -9,15 +11,11 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local copilot_group =
-  vim.api.nvim_create_augroup("pack-copilot", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  group = copilot_group,
-  once = true,
-  callback = function()
-    vim.cmd.packadd("copilot.lua")
-
+helpers.load_on(
+  { "BufReadPost", "BufNewFile" },
+  "pack-copilot",
+  "copilot.lua",
+  function()
     require("copilot").setup({
       panel = {
         keymap = {
@@ -46,20 +44,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
       },
     })
 
-    -- Keymaps
-    local map = vim.keymap.set
-
-    map(
-      "n",
-      "<leader>cd",
-      "<cmd>Copilot disable<CR>",
-      { desc = "Copilot: disable", noremap = true, silent = true }
-    )
-    map(
-      "n",
-      "<leader>ce",
-      "<cmd>Copilot enable<CR>",
-      { desc = "Copilot: enable", noremap = true, silent = true }
-    )
-  end,
-})
+    helpers.nmap("<leader>cd", "<cmd>Copilot disable<CR>", "Copilot: disable")
+    helpers.nmap("<leader>ce", "<cmd>Copilot enable<CR>", "Copilot: enable")
+  end
+)

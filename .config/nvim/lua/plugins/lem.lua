@@ -9,11 +9,8 @@ require("lem.ruler").setup({
   columns = { 80 }, -- default for all files
   exclude_filetypes = {
     "NvimTree",
-    "TelescopePrompt",
-    "TelescopeResults",
     "checkhealth",
     "csv",
-    "fugitive",
     "gitcommit",
     "gitrebase",
     "help",
@@ -21,7 +18,6 @@ require("lem.ruler").setup({
     "man",
     "mason",
     "qf",
-    "toggleterm",
   },
   exclude_buftypes = {
     "nofile",

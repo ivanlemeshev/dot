@@ -65,11 +65,6 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim",
       "version": "'v2.1.0'"
     },
-    "indent-blankline.nvim": {
-      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
-      "src": "https://github.com/lukas-reineke/indent-blankline.nvim",
-      "version": "'v3.9.1'"
-    },
     "kulala.nvim": {
       "rev": "6656c9d332735ca6a27725e0fb45a1715c4372d9",
       "src": "https://github.com/mistweaverco/kulala.nvim",

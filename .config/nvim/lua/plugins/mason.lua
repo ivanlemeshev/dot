@@ -25,42 +25,50 @@ require("mason").setup({
   },
 })
 
+local servers = {
+  "ansible-language-server",
+  "bashls",
+  "biome",
+  "buf_ls",
+  "clangd",
+  "denols",
+  "dockerls",
+  "gopls",
+  "jsonls",
+  "lua_ls",
+  "powershell_es",
+  "pyright",
+  "ruff",
+  "terraformls",
+  "typos_lsp",
+  "yamlls",
+  "zls",
+}
+
+local formatters = {
+  "buf",
+  "clang-format",
+  "gofumpt",
+  "goimports",
+  "golines",
+  "prettier",
+  "shfmt",
+  "stylua",
+  "yamlfmt",
+}
+
+local linters = {
+  "ansible-lint",
+  "golangci-lint",
+  "hadolint",
+  "markdownlint",
+  "tflint",
+  "tfsec",
+}
+
 require("mason-tool-installer").setup({
-  ensure_installed = {
-    -- LSP servers
-    "ansible-language-server", -- Ansible
-    "bashls", -- bash
-    "biome", -- JSON, JavaScript
-    "buf_ls", -- Protobuf
-    "clangd", -- C/C++
-    "denols", -- JavaScript, TypeScript
-    "dockerls", -- Docker
-    "gopls", -- Go
-    "jsonls", -- JSON
-    "lua_ls", -- Lua
-    "powershell_es", -- PowerShell
-    "pyright", -- Python
-    "ruff", -- Python
-    "terraformls", -- Terraform
-    "typos_lsp", -- Spell checker
-    "yamlls", -- YAML
-    "zls", -- Zig
-    -- Formatters
-    "buf", -- Protobuf
-    "clang-format", -- C/C++
-    "gofumpt", -- Go
-    "goimports", -- Go
-    "golines", -- Go
-    "prettier", -- Markdown
-    "shfmt", -- Bash
-    "stylua", -- Lua
-    "yamlfmt", -- YAML
-    -- Linters
-    "ansible-lint", -- Ansible
-    "golangci-lint", -- Go
-    "hadolint", -- Docker
-    "markdownlint", -- Markdown
-    "tflint", -- Terraform
-    "tfsec", -- Terraform
-  },
+  ensure_installed = vim
+    .iter({ servers, formatters, linters })
+    :flatten()
+    :totable(),
 })

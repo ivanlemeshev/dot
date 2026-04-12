@@ -702,62 +702,69 @@ function M.setup()
   link("CmpItemAbbrDeprecated", "Grey")
   link("CmpItemMenu", "Fg")
   link("CmpItemKind", "Yellow")
-  -- CmpItemKind* links
-  link("CmpItemKindArray", "Aqua")
-  link("CmpItemKindBoolean", "Orange")
-  link("CmpItemKindClass", "Red")
-  link("CmpItemKindColor", "Aqua")
-  link("CmpItemKindConstant", "Orange")
-  link("CmpItemKindConstructor", "Blue")
-  link("CmpItemKindDefault", "Aqua")
-  link("CmpItemKindEnum", "Yellow")
-  link("CmpItemKindEnumMember", "Purple")
-  link("CmpItemKindEvent", "Yellow")
-  link("CmpItemKindField", "Green")
-  link("CmpItemKindFile", "Green")
-  link("CmpItemKindFolder", "Aqua")
-  link("CmpItemKindFunction", "Blue")
-  link("CmpItemKindInterface", "Yellow")
-  link("CmpItemKindKey", "Red")
-  link("CmpItemKindKeyword", "Purple")
-  link("CmpItemKindMethod", "Blue")
-  link("CmpItemKindModule", "Purple")
-  link("CmpItemKindNamespace", "Purple")
-  link("CmpItemKindNull", "Aqua")
-  link("CmpItemKindNumber", "Orange")
-  link("CmpItemKindObject", "Aqua")
-  link("CmpItemKindOperator", "Yellow")
-  link("CmpItemKindPackage", "Purple")
-  link("CmpItemKindProperty", "Blue")
-  link("CmpItemKindReference", "Aqua")
-  link("CmpItemKindSnippet", "Aqua")
-  link("CmpItemKindString", "Green")
-  link("CmpItemKindStruct", "Yellow")
-  link("CmpItemKindText", "Fg")
-  link("CmpItemKindTypeParameter", "Yellow")
-  link("CmpItemKindUnit", "Purple")
-  link("CmpItemKindValue", "Purple")
-  link("CmpItemKindVariable", "Blue")
+  for group, target in pairs({
+    CmpItemKindArray = "Aqua",
+    CmpItemKindBoolean = "Orange",
+    CmpItemKindClass = "Red",
+    CmpItemKindColor = "Aqua",
+    CmpItemKindConstant = "Orange",
+    CmpItemKindConstructor = "Blue",
+    CmpItemKindDefault = "Aqua",
+    CmpItemKindEnum = "Yellow",
+    CmpItemKindEnumMember = "Purple",
+    CmpItemKindEvent = "Yellow",
+    CmpItemKindField = "Green",
+    CmpItemKindFile = "Green",
+    CmpItemKindFolder = "Aqua",
+    CmpItemKindFunction = "Blue",
+    CmpItemKindInterface = "Yellow",
+    CmpItemKindKey = "Red",
+    CmpItemKindKeyword = "Purple",
+    CmpItemKindMethod = "Blue",
+    CmpItemKindModule = "Purple",
+    CmpItemKindNamespace = "Purple",
+    CmpItemKindNull = "Aqua",
+    CmpItemKindNumber = "Orange",
+    CmpItemKindObject = "Aqua",
+    CmpItemKindOperator = "Yellow",
+    CmpItemKindPackage = "Purple",
+    CmpItemKindProperty = "Blue",
+    CmpItemKindReference = "Aqua",
+    CmpItemKindSnippet = "Aqua",
+    CmpItemKindString = "Green",
+    CmpItemKindStruct = "Yellow",
+    CmpItemKindText = "Fg",
+    CmpItemKindTypeParameter = "Yellow",
+    CmpItemKindUnit = "Purple",
+    CmpItemKindValue = "Purple",
+    CmpItemKindVariable = "Blue",
+  }) do
+    link(group, target)
+  end
 
   -- ibhagwan/fzf-lua
-  link("FzfLuaNormal", "NormalFloat")
-  link("FzfLuaBorder", "FloatBorder")
-  link("FzfLuaTitle", "Title")
-  link("FzfLuaPreviewNormal", "NormalFloat")
-  link("FzfLuaPreviewBorder", "FloatBorder")
-  link("FzfLuaPreviewTitle", "Title")
-  link("FzfLuaCursorLine", "DiffAdd")
-  link("FzfLuaCursorLineNr", "DiffAdd")
-  link("FzfLuaSearch", "Green")
-  link("FzfLuaFzfNormal", "NormalFloat")
-  link("FzfLuaFzfCursorLine", "DiffAdd")
-  link("FzfLuaFzfMatch", "Green")
-  link("FzfLuaFzfBorder", "FloatBorder")
-  link("FzfLuaFzfPrompt", "Yellow")
-  link("FzfLuaFzfPointer", "Yellow")
-  link("FzfLuaFzfMarker", "Yellow")
-  link("FzfLuaFzfHeader", "Orange")
-  link("FzfLuaFzfInfo", "Grey")
+  for group, target in pairs({
+    FzfLuaBorder = "FloatBorder",
+    FzfLuaCursorLine = "DiffAdd",
+    FzfLuaCursorLineNr = "DiffAdd",
+    FzfLuaFzfBorder = "FloatBorder",
+    FzfLuaFzfCursorLine = "DiffAdd",
+    FzfLuaFzfHeader = "Orange",
+    FzfLuaFzfInfo = "Grey",
+    FzfLuaFzfMarker = "Yellow",
+    FzfLuaFzfMatch = "Green",
+    FzfLuaFzfNormal = "NormalFloat",
+    FzfLuaFzfPointer = "Yellow",
+    FzfLuaFzfPrompt = "Yellow",
+    FzfLuaNormal = "NormalFloat",
+    FzfLuaPreviewBorder = "FloatBorder",
+    FzfLuaPreviewNormal = "NormalFloat",
+    FzfLuaPreviewTitle = "Title",
+    FzfLuaSearch = "Green",
+    FzfLuaTitle = "Title",
+  }) do
+    link(group, target)
+  end
 
   -- lewis6991/gitsigns.nvim
   link("GitSignsAdd", "GreenSign")
@@ -781,14 +788,6 @@ function M.setup()
   link("DiffviewStatusCopied", "Green")
   link("DiffviewStatusTypeChange", "Green")
   link("DiffviewStatusUnmerged", "Green")
-
-  -- lukas-reineke/indent-blankline.nvim
-  hl("IblScope", { fg = p.base03, nocombine = true })
-  hl("IblIndent", { fg = p.base01, nocombine = true })
-  link("IndentBlanklineContextChar", "IblScope")
-  link("IndentBlanklineChar", "IblIndent")
-  link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
-  link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
 
   -- folke/which-key.nvim
   link("WhichKey", "Red")

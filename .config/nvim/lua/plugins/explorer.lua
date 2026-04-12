@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/nvim-tree/nvim-tree.lua",
@@ -58,16 +60,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   end,
 })
 
--- Keymaps
-local map = vim.keymap.set
-
-map(
-  "n",
+helpers.nmap(
   "<leader>ft",
   "<cmd>NvimTreeFindFile<CR>",
-  {
-    desc = "Search: find the current file and focus on it",
-    noremap = true,
-    silent = true,
-  }
+  "Search: find the current file and focus on it"
 )

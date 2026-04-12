@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/lewis6991/gitsigns.nvim",
@@ -9,15 +11,11 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local gitsigns_group =
-  vim.api.nvim_create_augroup("pack-gitsigns", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
-  group = gitsigns_group,
-  once = true,
-  callback = function()
-    vim.cmd.packadd("gitsigns.nvim")
-
+helpers.load_on(
+  { "BufReadPre", "BufNewFile" },
+  "pack-gitsigns",
+  "gitsigns.nvim",
+  function()
     require("gitsigns").setup({
       current_line_blame = true,
       current_line_blame_opts = {
@@ -25,14 +23,10 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
       },
     })
 
-    -- Keymaps
-    local map = vim.keymap.set
-
-    map(
-      "n",
+    helpers.nmap(
       "<leader>gb",
       "<cmd>Gitsigns blame_line<CR>",
-      { desc = "Git: blame line", noremap = true, silent = true }
+      "Git: blame line"
     )
-  end,
-})
+  end
+)

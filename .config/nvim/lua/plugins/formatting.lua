@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/stevearc/conform.nvim",
@@ -9,15 +11,11 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local conform_group =
-  vim.api.nvim_create_augroup("pack-conform", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  group = conform_group,
-  once = true,
-  callback = function()
-    vim.cmd.packadd("conform.nvim")
-
+helpers.load_on(
+  { "BufReadPost", "BufNewFile" },
+  "pack-conform",
+  "conform.nvim",
+  function()
     require("conform").setup({
       formatters_by_ft = {
         c = { "clang_format" },
@@ -50,5 +48,5 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
         lsp_format = "fallback",
       },
     })
-  end,
-})
+  end
+)

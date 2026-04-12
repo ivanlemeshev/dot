@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/tpope/vim-surround",
@@ -24,36 +26,26 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local editing_group =
-  vim.api.nvim_create_augroup("pack-editing", { clear = true })
+helpers.load_on({ "BufReadPost", "BufNewFile" }, "pack-editing", {
+  "vim-surround",
+  "mini.move",
+  "emoji.nvim",
+  "mini.splitjoin",
+}, function()
+  require("mini.move").setup({})
 
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  group = editing_group,
-  once = true,
-  callback = function()
-    vim.cmd.packadd("vim-surround")
-    vim.cmd.packadd("mini.move")
-    vim.cmd.packadd("emoji.nvim")
-    vim.cmd.packadd("mini.splitjoin")
+  require("emoji").setup({
+    enable_cmp_integration = true,
+    plugin_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/",
+  })
 
-    require("mini.move").setup({})
+  require("mini.splitjoin").setup({
+    mappings = {
+      toggle = "gS",
+    },
+  })
 
-    require("emoji").setup({
-      enable_cmp_integration = true,
-      plugin_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/",
-    })
-
-    require("mini.splitjoin").setup({
-      mappings = {
-        toggle = "gS",
-      },
-    })
-
-    -- Kaymaps
-    local map = vim.keymap.set
-
-    map("n", "gS", function()
-      require("mini.splitjoin").toggle()
-    end, { desc = "Split/join code block", noremap = true, silent = true })
-  end,
-})
+  helpers.nmap("gS", function()
+    require("mini.splitjoin").toggle()
+  end, "Split/join code block")
+end)

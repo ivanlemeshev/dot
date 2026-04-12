@@ -5,10 +5,16 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
 
-print_header "Removing configuration files for Neovim"
+print_section "Removing configuration files for Neovim"
 
+log_info "Removing Neovim configuration directory"
 rm -rf ~/.config/nvim
+
+log_info "Removing Neovim data directory"
 rm -rf ~/.local/share/nvim
+
+log_info "Removing Neovim state directory"
 rm -rf ~/.local/state/nvim

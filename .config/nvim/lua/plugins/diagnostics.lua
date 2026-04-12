@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim",
@@ -9,15 +11,11 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local diagnostics_group =
-  vim.api.nvim_create_augroup("pack-diagnostics", { clear = true })
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = diagnostics_group,
-  once = true,
-  callback = function()
-    vim.cmd.packadd("tiny-inline-diagnostic.nvim")
-
+helpers.load_on(
+  "VimEnter",
+  "pack-diagnostics",
+  "tiny-inline-diagnostic.nvim",
+  function()
     require("tiny-inline-diagnostic").setup({
       preset = "modern",
       options = {
@@ -25,16 +23,13 @@ vim.api.nvim_create_autocmd("VimEnter", {
         use_icons_from_diagnostic = true,
       },
     })
-  end,
-})
+  end
+)
 
--- Keymaps - using fzf-lua for diagnostics
-local map = vim.keymap.set
-
-map("n", "<leader>dd", function()
+helpers.nmap("<leader>dd", function()
   require("plugins.search").fzf().diagnostics_workspace()
-end, { desc = "Diagnostics: workspace", noremap = true, silent = true })
+end, "Diagnostics: workspace")
 
-map("n", "<leader>dc", function()
+helpers.nmap("<leader>dc", function()
   require("plugins.search").fzf().diagnostics_document()
-end, { desc = "Diagnostics: current buffer", noremap = true, silent = true })
+end, "Diagnostics: current buffer")

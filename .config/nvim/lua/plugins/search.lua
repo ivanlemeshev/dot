@@ -10,6 +10,7 @@ vim.pack.add({
 })
 
 local colorscheme = require("lem.colorscheme")
+local helpers = require("config.helpers")
 local M = {}
 local configured = false
 
@@ -30,7 +31,7 @@ local function clipboard_cmd()
 end
 
 function M.fzf()
-  vim.cmd.packadd("fzf-lua")
+  helpers.packadd("fzf-lua")
 
   local fzf = require("fzf-lua")
 
@@ -81,14 +82,11 @@ function M.fzf()
   return fzf
 end
 
--- Keymaps
-local map = vim.keymap.set
-
-map("n", "<leader>ff", function()
+helpers.nmap("<leader>ff", function()
   M.fzf().files()
-end, { desc = "Search: find files", noremap = true, silent = true })
+end, "Search: find files")
 
-map("n", "<leader>fp", function()
+helpers.nmap("<leader>fp", function()
   M.fzf().live_grep({
     file_ignore_patterns = {
       "node_modules",
@@ -99,34 +97,29 @@ map("n", "<leader>fp", function()
     },
     hidden = true,
   })
-end, { desc = "Search: find in project files", noremap = true, silent = true })
+end, "Search: find in project files")
 
-map("n", "<leader>fd", function()
+helpers.nmap("<leader>fd", function()
   M.fzf().diagnostics_workspace()
-end, { desc = "Search: find in diagnostics", noremap = true, silent = true })
+end, "Search: find in diagnostics")
 
-map("n", "<leader>fb", function()
+helpers.nmap("<leader>fb", function()
   M.fzf().buffers()
-end, { desc = "Search: find in opened buffers", noremap = true, silent = true })
+end, "Search: find in opened buffers")
 
-map(
-  "n",
-  "<leader>fc",
-  function()
-    M.fzf().blines()
-  end,
-  { desc = "Search: find in the current buffer", noremap = true, silent = true }
-)
+helpers.nmap("<leader>fc", function()
+  M.fzf().blines()
+end, "Search: find in the current buffer")
 
-map("n", "<leader>fh", function()
+helpers.nmap("<leader>fh", function()
   M.fzf().helptags()
-end, { desc = "Search: find in help", noremap = true, silent = true })
+end, "Search: find in help")
 
-map("n", "<leader>fg", function()
+helpers.nmap("<leader>fg", function()
   M.fzf().live_grep({
     hidden = true,
     no_ignore = true,
   })
-end, { desc = "Search: find in all files", noremap = true, silent = true })
+end, "Search: find in all files")
 
 return M
