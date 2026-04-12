@@ -1,65 +1,74 @@
-return {
-  "williamboman/mason.nvim",
-  commit = "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
-  lazy = false,
-  dependencies = {
-    {
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-      commit = "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
-    },
+vim.pack.add({
+  {
+    src = "https://github.com/mason-org/mason.nvim",
+    name = "mason.nvim",
+    version = "v2.2.1",
   },
-  config = function()
-    local mason = require("mason")
-    local mason_tool_installer = require("mason-tool-installer")
+  {
+    src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+    name = "mason-tool-installer.nvim",
+    version = "main",
+  },
+  {
+    src = "https://github.com/mason-org/mason-lspconfig.nvim",
+    name = "mason-lspconfig.nvim",
+    version = "v2.1.0",
+  },
+}, {
+  load = true, -- Load immediately
+  confirm = false, -- Install without confirmation
+})
 
-    mason.setup({
-      ui = {
-        border = "single",
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
-      },
-    })
-    mason_tool_installer.setup({
-      ensure_installed = {
-        -- LSP servers
-        "ansible-language-server", -- Ansible
-        "bashls", -- bash
-        "biome", -- JSON, JavaScript
-        "buf_ls", -- Protobuf
-        "clangd", -- C/C++
-        "denols", -- JavaScript, TypeScript
-        "dockerls", -- Docker
-        "gopls", -- Go
-        "jsonls", -- JSON
-        "lua_ls", -- Lua
-        "powershell_es", -- PowerShell
-        "pyright", -- Python
-        "ruff", -- Python
-        "terraformls", -- Terraform
-        "typos_lsp", -- Spell checker
-        "yamlls", -- YAML
-        "zls", -- Zig
-        -- Formatters
-        "buf", -- Protobuf
-        "clang-format", -- C/C++
-        "gofumpt", -- Go
-        "goimports", -- Go
-        "golines", -- Go
-        "prettier", -- Markdown
-        "shfmt", -- Bash
-        "stylua", -- Lua
-        "yamlfmt", -- YAML
-        -- Linters
-        "ansible-lint", -- Ansible
-        "golangci-lint", -- Go
-        "hadolint", -- Docker
-        "markdownlint", -- Markdown
-        "tflint", -- Terraform
-        "tfsec", -- Terraform
-      },
-    })
-  end,
+require("mason").setup({
+  ui = {
+    border = "single",
+  },
+})
+
+local servers = {
+  "ansible-language-server",
+  "bashls",
+  "biome",
+  "buf_ls",
+  "clangd",
+  "denols",
+  "dockerls",
+  "gopls",
+  "jsonls",
+  "lua_ls",
+  "powershell_es",
+  "pyright",
+  "ruff",
+  "terraformls",
+  "typos_lsp",
+  "yamlls",
+  "zls",
 }
+
+local formatters = {
+  "buf",
+  "clang-format",
+  "gofumpt",
+  "goimports",
+  "golines",
+  "prettier",
+  "shfmt",
+  "stylua",
+  "yamlfmt",
+}
+
+local linters = {
+  "ansible-lint",
+  "golangci-lint",
+  "hadolint",
+  "markdownlint",
+  "tflint",
+  "tfsec",
+}
+
+require("mason-tool-installer").setup({
+  ensure_installed = vim
+    .iter({ servers, formatters, linters })
+    :flatten()
+    :totable(),
+})

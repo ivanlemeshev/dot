@@ -1,54 +1,50 @@
-return {
+local helpers = require("config.helpers")
+
+vim.pack.add({
   {
-    -- Copilot integration
-    -- https://github.com/zbirenbaum/copilot.lua
-    "zbirenbaum/copilot.lua",
-    commit = "3faffefbd6ddeb52578535ec6b730e0b72d7fd1a",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        panel = {
-          keymap = {
-            open = false,
-          },
-        },
-        suggestion = {
-          auto_trigger = true, -- Copilot starts suggesting as soon as you enter insert mode
-          keymap = {
-            accept = "<C-f>",
-            accept_word = false,
-            accept_line = false,
-            dismiss = "<C-e>",
-          },
-        },
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          help = true,
-          gitcommit = true,
-          gitrebase = false,
-          hgcommit = false,
-          svn = false,
-          cvs = false,
-          ["."] = false,
-        },
-      })
-
-      local map = vim.keymap.set
-
-      map(
-        "n",
-        "<leader>cd",
-        "<cmd>Copilot disable<CR>",
-        { desc = "Copilot: disable" }
-      )
-      map(
-        "n",
-        "<leader>ce",
-        "<cmd>Copilot enable<CR>",
-        { desc = "Copilot: enable" }
-      )
-    end,
+    src = "https://github.com/zbirenbaum/copilot.lua",
+    name = "copilot.lua",
+    version = "v2.0.2",
   },
-}
+}, {
+  load = false, -- Don't load immediately
+  confirm = false, -- Install without confirmation
+})
+
+helpers.load_on(
+  { "BufReadPost", "BufNewFile" },
+  "pack-copilot",
+  "copilot.lua",
+  function()
+    require("copilot").setup({
+      panel = {
+        keymap = {
+          open = false, -- Disable the default keymap for opening the Copilot panel
+        },
+      },
+      suggestion = {
+        auto_trigger = true, -- Copilot starts suggesting as soon as you enter insert mode
+        keymap = {
+          accept = "<C-f>",
+          accept_word = false,
+          accept_line = false,
+          dismiss = "<C-e>",
+        },
+      },
+      filetypes = {
+        yaml = true,
+        markdown = true,
+        help = true,
+        gitcommit = true,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+        ["."] = false,
+      },
+    })
+
+    helpers.nmap("<leader>cd", "<cmd>Copilot disable<CR>", "Copilot: disable")
+    helpers.nmap("<leader>ce", "<cmd>Copilot enable<CR>", "Copilot: enable")
+  end
+)

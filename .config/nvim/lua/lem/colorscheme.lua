@@ -61,7 +61,11 @@ M.lualine_theme = {
   normal = {
     a = {
       bg = M.palette.base07,
-      fg = best_contrast_fg(M.palette.base07, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base07,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -69,7 +73,11 @@ M.lualine_theme = {
   insert = {
     a = {
       bg = M.palette.base0B,
-      fg = best_contrast_fg(M.palette.base0B, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0B,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -77,7 +85,11 @@ M.lualine_theme = {
   visual = {
     a = {
       bg = M.palette.base0A,
-      fg = best_contrast_fg(M.palette.base0A, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0A,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -85,7 +97,11 @@ M.lualine_theme = {
   replace = {
     a = {
       bg = M.palette.base08,
-      fg = best_contrast_fg(M.palette.base08, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base08,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -93,7 +109,11 @@ M.lualine_theme = {
   command = {
     a = {
       bg = M.palette.base0D,
-      fg = best_contrast_fg(M.palette.base0D, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0D,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -101,7 +121,11 @@ M.lualine_theme = {
   terminal = {
     a = {
       bg = M.palette.base0E,
-      fg = best_contrast_fg(M.palette.base0E, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0E,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -111,6 +135,23 @@ M.lualine_theme = {
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
+}
+
+M.fzf_lua_colors = {
+  ["fg"] = M.palette.base05,
+  ["bg"] = M.palette.base00,
+  ["hl"] = M.palette.base0B,
+  ["fg+"] = M.palette.base05,
+  ["bg+"] = M.palette.base01,
+  ["hl+"] = M.palette.base0B,
+  ["info"] = M.palette.base04,
+  ["border"] = M.palette.base03,
+  ["gutter"] = M.palette.base00,
+  ["query"] = M.palette.base05,
+  ["prompt"] = M.palette.base0A,
+  ["pointer"] = M.palette.base0A,
+  ["marker"] = M.palette.base0A,
+  ["header"] = M.palette.base09,
 }
 
 function M.setup()
@@ -661,56 +702,69 @@ function M.setup()
   link("CmpItemAbbrDeprecated", "Grey")
   link("CmpItemMenu", "Fg")
   link("CmpItemKind", "Yellow")
-  -- CmpItemKind* links
-  link("CmpItemKindArray", "Aqua")
-  link("CmpItemKindBoolean", "Orange")
-  link("CmpItemKindClass", "Red")
-  link("CmpItemKindColor", "Aqua")
-  link("CmpItemKindConstant", "Orange")
-  link("CmpItemKindConstructor", "Blue")
-  link("CmpItemKindDefault", "Aqua")
-  link("CmpItemKindEnum", "Yellow")
-  link("CmpItemKindEnumMember", "Purple")
-  link("CmpItemKindEvent", "Yellow")
-  link("CmpItemKindField", "Green")
-  link("CmpItemKindFile", "Green")
-  link("CmpItemKindFolder", "Aqua")
-  link("CmpItemKindFunction", "Blue")
-  link("CmpItemKindInterface", "Yellow")
-  link("CmpItemKindKey", "Red")
-  link("CmpItemKindKeyword", "Purple")
-  link("CmpItemKindMethod", "Blue")
-  link("CmpItemKindModule", "Purple")
-  link("CmpItemKindNamespace", "Purple")
-  link("CmpItemKindNull", "Aqua")
-  link("CmpItemKindNumber", "Orange")
-  link("CmpItemKindObject", "Aqua")
-  link("CmpItemKindOperator", "Yellow")
-  link("CmpItemKindPackage", "Purple")
-  link("CmpItemKindProperty", "Blue")
-  link("CmpItemKindReference", "Aqua")
-  link("CmpItemKindSnippet", "Aqua")
-  link("CmpItemKindString", "Green")
-  link("CmpItemKindStruct", "Yellow")
-  link("CmpItemKindText", "Fg")
-  link("CmpItemKindTypeParameter", "Yellow")
-  link("CmpItemKindUnit", "Purple")
-  link("CmpItemKindValue", "Purple")
-  link("CmpItemKindVariable", "Blue")
+  for group, target in pairs({
+    CmpItemKindArray = "Aqua",
+    CmpItemKindBoolean = "Orange",
+    CmpItemKindClass = "Red",
+    CmpItemKindColor = "Aqua",
+    CmpItemKindConstant = "Orange",
+    CmpItemKindConstructor = "Blue",
+    CmpItemKindDefault = "Aqua",
+    CmpItemKindEnum = "Yellow",
+    CmpItemKindEnumMember = "Purple",
+    CmpItemKindEvent = "Yellow",
+    CmpItemKindField = "Green",
+    CmpItemKindFile = "Green",
+    CmpItemKindFolder = "Aqua",
+    CmpItemKindFunction = "Blue",
+    CmpItemKindInterface = "Yellow",
+    CmpItemKindKey = "Red",
+    CmpItemKindKeyword = "Purple",
+    CmpItemKindMethod = "Blue",
+    CmpItemKindModule = "Purple",
+    CmpItemKindNamespace = "Purple",
+    CmpItemKindNull = "Aqua",
+    CmpItemKindNumber = "Orange",
+    CmpItemKindObject = "Aqua",
+    CmpItemKindOperator = "Yellow",
+    CmpItemKindPackage = "Purple",
+    CmpItemKindProperty = "Blue",
+    CmpItemKindReference = "Aqua",
+    CmpItemKindSnippet = "Aqua",
+    CmpItemKindString = "Green",
+    CmpItemKindStruct = "Yellow",
+    CmpItemKindText = "Fg",
+    CmpItemKindTypeParameter = "Yellow",
+    CmpItemKindUnit = "Purple",
+    CmpItemKindValue = "Purple",
+    CmpItemKindVariable = "Blue",
+  }) do
+    link(group, target)
+  end
 
-  -- folke/trouble.nvim
-  link("TroubleText", "Fg")
-  link("TroubleSource", "Grey")
-  link("TroubleCode", "Grey")
-  link("TroubleNormal", "Normal")
-  link("TroubleNormalNC", "Normal")
-
-  -- nvim-telescope/telescope.nvim
-  hl("TelescopeMatching", { fg = p.base0B })
-  hl("TelescopeBorder", { fg = p.base03 })
-  hl("TelescopePromptCounter", { fg = p.base04 })
-  link("TelescopePromptPrefix", "Yellow")
-  link("TelescopeSelection", "DiffAdd")
+  -- ibhagwan/fzf-lua
+  for group, target in pairs({
+    FzfLuaBorder = "FloatBorder",
+    FzfLuaCursorLine = "DiffAdd",
+    FzfLuaCursorLineNr = "DiffAdd",
+    FzfLuaFzfBorder = "FloatBorder",
+    FzfLuaFzfCursorLine = "DiffAdd",
+    FzfLuaFzfHeader = "Orange",
+    FzfLuaFzfInfo = "Grey",
+    FzfLuaFzfMarker = "Yellow",
+    FzfLuaFzfMatch = "Green",
+    FzfLuaFzfNormal = "NormalFloat",
+    FzfLuaFzfPointer = "Yellow",
+    FzfLuaFzfPrompt = "Yellow",
+    FzfLuaNormal = "NormalFloat",
+    FzfLuaPreviewBorder = "FloatBorder",
+    FzfLuaPreviewNormal = "NormalFloat",
+    FzfLuaPreviewTitle = "Title",
+    FzfLuaSearch = "Green",
+    FzfLuaTitle = "Title",
+  }) do
+    link(group, target)
+  end
 
   -- lewis6991/gitsigns.nvim
   link("GitSignsAdd", "GreenSign")
@@ -734,14 +788,6 @@ function M.setup()
   link("DiffviewStatusCopied", "Green")
   link("DiffviewStatusTypeChange", "Green")
   link("DiffviewStatusUnmerged", "Green")
-
-  -- lukas-reineke/indent-blankline.nvim
-  hl("IblScope", { fg = p.base03, nocombine = true })
-  hl("IblIndent", { fg = p.base01, nocombine = true })
-  link("IndentBlanklineContextChar", "IblScope")
-  link("IndentBlanklineChar", "IblIndent")
-  link("IndentBlanklineSpaceChar", "IndentBlanklineChar")
-  link("IndentBlanklineSpaceCharBlankline", "IndentBlanklineChar")
 
   -- folke/which-key.nvim
   link("WhichKey", "Red")
@@ -985,15 +1031,6 @@ function M.setup()
   link("@constant.builtin.go", "goTSConstBuiltin")
   link("@lsp.typemod.variable.defaultLibrary.go", "goTSConstBuiltin")
   link("@lsp.type.namespace.go", "goTSNamespace")
-
-  -- lazy.nvim
-  link("LazyNormal", "Normal")
-  hl("LazyH1", { fg = p.base00, bg = p.base08 })
-  hl("LazyH2", { fg = p.base0A })
-  hl("LazyButton", { fg = p.base05, bg = p.base00 })
-  hl("LazyButtonActive", { fg = p.base00, bg = p.base06 })
-  hl("LazyProp", { fg = p.base03 })
-  hl("LazyCommit", { fg = p.base0C })
 
   -- mason
   hl("MasonHeader", { fg = p.base00, bg = p.base08 })

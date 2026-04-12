@@ -3,6 +3,7 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 
 local M = {}
+local helpers = require("config.helpers")
 
 ---@class LemTerminalConfig
 ---@field width_percent? number Terminal window width as percentage (default: 0.8)
@@ -37,18 +38,23 @@ local function is_terminal_open()
   return terminal_win and vim.api.nvim_win_is_valid(terminal_win)
 end
 
+--- Close the terminal and backdrop windows if they are open
+local function close_terminal()
+  if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+    vim.api.nvim_win_close(terminal_win, true)
+  end
+  terminal_win = nil
+
+  if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
+    vim.api.nvim_win_close(backdrop_win, true)
+  end
+  backdrop_win = nil
+end
+
 --- Open terminal window
 function M.toggle()
-  -- If terminal window is open, close it
   if is_terminal_open() then
-    if terminal_win then
-      vim.api.nvim_win_close(terminal_win, true)
-    end
-    terminal_win = nil
-    if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
-      vim.api.nvim_win_close(backdrop_win, true)
-    end
-    backdrop_win = nil
+    close_terminal()
     return
   end
 
@@ -107,26 +113,15 @@ end
 
 --- Setup default keymaps
 function M.setup_keymaps()
-  local map = vim.keymap.set
-
   -- Toggle terminal
-  map("n", "<C-\\>", M.toggle, {
-    desc = "Terminal: toggle",
-    noremap = true,
-    silent = true,
-  })
+  helpers.nmap("<C-\\>", M.toggle, "Terminal: toggle")
 
   -- Exit and close terminal
-  map("t", "<C-\\>", function()
-    if is_terminal_open() and terminal_win then
-      vim.api.nvim_win_close(terminal_win, true)
-      terminal_win = nil
-      if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
-        vim.api.nvim_win_close(backdrop_win, true)
-      end
-      backdrop_win = nil
+  helpers.tmap("<C-\\>", function()
+    if is_terminal_open() then
+      close_terminal()
     end
-  end, { noremap = true, silent = true, desc = "Terminal: close" })
+  end, "Terminal: close")
 
   -- Auto insert mode when entering terminal buffer
   vim.api.nvim_create_autocmd("BufEnter", {
@@ -144,13 +139,8 @@ function M.setup_keymaps()
         local current_win = vim.api.nvim_get_current_win()
         if current_win == terminal_win then
           vim.schedule(function()
-            if is_terminal_open() and terminal_win then
-              vim.api.nvim_win_close(terminal_win, true)
-              terminal_win = nil
-              if backdrop_win and vim.api.nvim_win_is_valid(backdrop_win) then
-                vim.api.nvim_win_close(backdrop_win, true)
-              end
-              backdrop_win = nil
+            if is_terminal_open() then
+              close_terminal()
             end
           end)
         end
@@ -159,8 +149,8 @@ function M.setup_keymaps()
   })
 
   -- Disable all scrolling in terminal to prevent losing focus
-  map("t", "<ScrollWheelUp>", "<Nop>", { noremap = true, silent = true })
-  map("t", "<ScrollWheelDown>", "<Nop>", { noremap = true, silent = true })
+  helpers.tmap("<ScrollWheelUp>", "<Nop>", nil)
+  helpers.tmap("<ScrollWheelDown>", "<Nop>", nil)
 end
 
 return M

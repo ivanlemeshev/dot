@@ -1,5 +1,9 @@
 # Neovim
 
+- [Lua in X minutes](https://learnxinyminutes.com/lua/) - Quick intro to Lua
+- `:h lua-guide` - Neovim Lua API documentation
+- `:h lua-conspts` - Lua concepts for Neovim
+
 **Leader key**: `Space`
 
 ## Basic Commands
