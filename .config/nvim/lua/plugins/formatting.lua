@@ -1,28 +1,32 @@
-return {
-  -- Formatting plugin
-  -- https://github.com/stevearc/conform.nvim
-  "stevearc/conform.nvim",
-  commit = "c2526f1cde528a66e086ab1668e996d162c75f4f",
-  event = { "BufWritePre" },
-  cmd = { "ConformInfo" },
-  config = function()
+vim.pack.add({
+  {
+    src = "https://github.com/stevearc/conform.nvim",
+    name = "conform.nvim",
+    version = "v9.1.0",
+  },
+}, {
+  load = false, -- Don't load immediately
+  confirm = false, -- Install without confirmation
+})
+
+local conform_group = vim.api.nvim_create_augroup("pack-conform", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  group = conform_group,
+  once = true,
+  callback = function()
+    vim.cmd.packadd("conform.nvim")
+
     require("conform").setup({
       formatters_by_ft = {
         c = { "clang_format" },
-        go = {
-          "gofumpt",
-          "goimports",
-        },
+        go = { "gofumpt", "goimports" },
         javascript = { "biome" },
         json = { "biome" },
         lua = { "stylua" },
         markdown = { "prettier" },
         proto = { "buf" },
-        python = {
-          "ruff_fix",
-          "ruff_format",
-          "ruff_organize_imports",
-        },
+        python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         sh = { "shfmt" },
         yaml = { "yamlfmt" },
       },
@@ -46,4 +50,4 @@ return {
       },
     })
   end,
-}
+})

@@ -28,7 +28,7 @@
     "conform.nvim": {
       "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
       "src": "https://github.com/stevearc/conform.nvim",
-      "version": "'c2526f1cde528a66e086ab1668e996d162c75f4f'"
+      "version": "'v9.1.0'"
     },
     "copilot-lualine": {
       "rev": "222e90bd8dcdf16ca1efc4e784416afb5f011c31",
@@ -63,12 +63,12 @@
     "indent-blankline.nvim": {
       "rev": "005b56001b2cb30bfa61b7986bc50657816ba4ba",
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim",
-      "version": "'005b56001b2cb30bfa61b7986bc50657816ba4ba'"
+      "version": "'v3.9.1'"
     },
     "kulala.nvim": {
       "rev": "6656c9d332735ca6a27725e0fb45a1715c4372d9",
       "src": "https://github.com/mistweaverco/kulala.nvim",
-      "version": "'6656c9d332735ca6a27725e0fb45a1715c4372d9'"
+      "version": "'v5.3.4'"
     },
     "lsp-format.nvim": {
       "rev": "42d1d3e407c846d95f84ea3767e72ed6e08f7495",
