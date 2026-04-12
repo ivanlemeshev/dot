@@ -104,7 +104,21 @@ helpers.nmap("<leader>fd", function()
 end, "Search: find in diagnostics")
 
 helpers.nmap("<leader>fb", function()
-  M.fzf().buffers()
+  M.fzf().buffers({
+    no_header_i = true,
+    ignore_current_buffer = false,
+    sort_lastused = false,
+    filter = function(bufnr)
+      local ft = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+      local bt = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
+      local name = vim.api.nvim_buf_get_name(bufnr)
+
+      return ft ~= "NvimTree"
+        and ft ~= "neo-tree"
+        and bt ~= "nofile"
+        and not name:match("NvimTree_")
+    end,
+  })
 end, "Search: find in opened buffers")
 
 helpers.nmap("<leader>fc", function()
