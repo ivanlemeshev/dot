@@ -24,6 +24,7 @@ INSTALL_SCRIPTS_DIR="$PROJECT_ROOT/install/ubuntu"
 "$INSTALL_SCRIPTS_DIR/fish.sh"
 "$INSTALL_SCRIPTS_DIR/oh-my-posh.sh"
 "$INSTALL_SCRIPTS_DIR/grpcurl.sh"
+"$INSTALL_SCRIPTS_DIR/tree-sitter.sh"
 "$INSTALL_SCRIPTS_DIR/clean.sh"
 
 exec fish -l
