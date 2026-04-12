@@ -14,7 +14,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local indent_blankline_group = vim.api.nvim_create_augroup("pack-indent-blankline", { clear = true })
+local indent_blankline_group =
+  vim.api.nvim_create_augroup("pack-indent-blankline", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = indent_blankline_group,
@@ -60,7 +61,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
-local mini_indentscope_group = vim.api.nvim_create_augroup("pack-mini-indentscope", { clear = true })
+local mini_indentscope_group =
+  vim.api.nvim_create_augroup("pack-mini-indentscope", { clear = true })
 
 -- Initialize mini.indentscope when a buffer is read or a new file is created
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {

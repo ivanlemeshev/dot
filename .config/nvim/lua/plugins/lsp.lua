@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
         -- Kayemaps
         map("n", "gd", function()
-          require("fzf-lua").lsp_definitions()
+          require("plugins.search").fzf().lsp_definitions()
         end, {
           desc = "LSP: go to definition",
           buffer = buf,
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd("FileType", {
         })
 
         map("n", "grr", function()
-          require("fzf-lua").lsp_references()
+          require("plugins.search").fzf().lsp_references()
         end, {
           desc = "LSP: find all references",
           buffer = buf,
@@ -62,12 +62,22 @@ vim.api.nvim_create_autocmd("FileType", {
           silent = true,
         })
 
-        map("n", "gri", function()
-          require("fzf-lua").lsp_implementations()
-        end, { desc = "LSP: go to implementation", buffer = buf, noremap = true, silent = true })
+        map(
+          "n",
+          "gri",
+          function()
+            require("plugins.search").fzf().lsp_implementations()
+          end,
+          {
+            desc = "LSP: go to implementation",
+            buffer = buf,
+            noremap = true,
+            silent = true,
+          }
+        )
 
         map("n", "gtd", function()
-          require("fzf-lua").lsp_typedefs()
+          require("plugins.search").fzf().lsp_typedefs()
         end, {
           desc = "LSP: go type definition",
           buffer = buf,
@@ -79,7 +89,12 @@ vim.api.nvim_create_autocmd("FileType", {
           "n",
           "gD",
           vim.lsp.buf.declaration,
-          { desc = "LSP: goto declaration", buffer = buf, noremap = true, silent = true }
+          {
+            desc = "LSP: goto declaration",
+            buffer = buf,
+            noremap = true,
+            silent = true,
+          }
         )
 
         map("n", "K", function()
@@ -91,17 +106,27 @@ vim.api.nvim_create_autocmd("FileType", {
           silent = true,
         })
 
-        map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename", buffer = buf, noremap = true, silent = true })
+        map(
+          "n",
+          "grn",
+          vim.lsp.buf.rename,
+          { desc = "LSP: rename", buffer = buf, noremap = true, silent = true }
+        )
 
         map(
           "n",
           "gra",
           vim.lsp.buf.code_action,
-          { desc = "LSP: code action", buffer = buf, noremap = true, silent = true }
+          {
+            desc = "LSP: code action",
+            buffer = buf,
+            noremap = true,
+            silent = true,
+          }
         )
 
         map("n", "gO", function()
-          require("fzf-lua").lsp_document_symbols()
+          require("plugins.search").fzf().lsp_document_symbols()
         end, {
           desc = "LSP: document symbols",
           buffer = buf,
@@ -112,7 +137,8 @@ vim.api.nvim_create_autocmd("FileType", {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
 
         if client and client.server_capabilities.documentHighlightProvider then
-          local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+          local highlight_augroup =
+            vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
           -- Highlight references of the word under the cursor when it rests
           -- there for a while. See `:help CursorHold`.
@@ -143,7 +169,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
         if client and client.server_capabilities.inlayHintProvider then
           map("n", "<leader>th", function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }), { bufnr = event.buf })
+            vim.lsp.inlay_hint.enable(
+              not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
+              { bufnr = event.buf }
+            )
           end, { desc = "LSP: Toggle inlay hints" })
         end
       end,
@@ -155,7 +184,11 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Neovim now has more capabilities. So, we create new capabilities with
     -- nvim-cmp, and then broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+    capabilities = vim.tbl_deep_extend(
+      "force",
+      capabilities,
+      require("cmp_nvim_lsp").default_capabilities()
+    )
 
     require("lsp-format").setup({})
 
@@ -232,7 +265,9 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Apply all custom configs
     for server, config in pairs(lsp_config) do
       local existing_config = vim.lsp.config[server] or {}
-      local merged_config = vim.tbl_deep_extend("force", existing_config, config)
+      local merged_config = vim.tbl_deep_extend("force", existing_config, {
+        capabilities = capabilities,
+      }, config)
       vim.lsp.config(server, merged_config)
     end
 

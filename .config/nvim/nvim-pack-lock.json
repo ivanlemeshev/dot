@@ -150,20 +150,10 @@
       "src": "https://github.com/nvim-lua/plenary.nvim",
       "version": "'master'"
     },
-    "telescope.nvim": {
-      "rev": "ad7d9580338354ccc136e5b8f0aa4f880434dcdc",
-      "src": "https://github.com/nvim-telescope/telescope.nvim",
-      "version": "'ad7d9580338354ccc136e5b8f0aa4f880434dcdc'"
-    },
     "tiny-inline-diagnostic.nvim": {
       "rev": "57a0eb84b2008c76e77930639890d9874195b1e1",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim",
       "version": "'main'"
-    },
-    "trouble.nvim": {
-      "rev": "748ca2789044607f19786b1d837044544c55e80a",
-      "src": "https://github.com/folke/trouble.nvim",
-      "version": "'v3.7.1'"
     },
     "vim-surround": {
       "rev": "aeb933272e72617f7c4d35e1f003be16836b948d",

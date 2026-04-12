@@ -17,13 +17,11 @@ require("lem.ruler").setup({
     "gitcommit",
     "gitrebase",
     "help",
-    "lazy",
     "lspinfo",
     "man",
     "mason",
     "qf",
     "toggleterm",
-    "trouble",
   },
   exclude_buftypes = {
     "nofile",

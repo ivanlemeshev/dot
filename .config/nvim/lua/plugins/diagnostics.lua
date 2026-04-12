@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local diagnostics_group = vim.api.nvim_create_augroup("pack-diagnostics", { clear = true })
+local diagnostics_group =
+  vim.api.nvim_create_augroup("pack-diagnostics", { clear = true })
 
 vim.api.nvim_create_autocmd("VimEnter", {
   group = diagnostics_group,
@@ -30,16 +31,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Keymaps - using fzf-lua for diagnostics
 local map = vim.keymap.set
 
-map(
-  "n",
-  "<leader>dd",
-  "<cmd>FzfLua diagnostics_workspace<CR>",
-  { desc = "Diagnostics: workspace", noremap = true, silent = true }
-)
+map("n", "<leader>dd", function()
+  require("plugins.search").fzf().diagnostics_workspace()
+end, { desc = "Diagnostics: workspace", noremap = true, silent = true })
 
-map(
-  "n",
-  "<leader>dc",
-  "<cmd>FzfLua diagnostics_document<CR>",
-  { desc = "Diagnostics: current buffer", noremap = true, silent = true }
-)
+map("n", "<leader>dc", function()
+  require("plugins.search").fzf().diagnostics_document()
+end, { desc = "Diagnostics: current buffer", noremap = true, silent = true })

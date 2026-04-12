@@ -14,6 +14,22 @@ require("nvim-tree").setup({
   filters = {
     custom = { "^.git$" }, -- Hide .git directory
   },
+  renderer = {
+    icons = {
+      glyphs = {
+        modified = "",
+        git = {
+          unstaged = "",
+          staged = "",
+          unmerged = "!",
+          renamed = "",
+          untracked = "?",
+          deleted = "",
+          ignored = "",
+        },
+      },
+    },
+  },
   git = { ignore = false }, -- Show git-ignored files
   actions = {
     open_file = {
@@ -29,7 +45,8 @@ require("nvim-tree").setup({
 })
 
 -- Auto-refresh nvim-tree when gaining focus or buffer changes
-local nvim_tree_augroup = vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
+local nvim_tree_augroup =
+  vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = nvim_tree_augroup,
   pattern = "*",
@@ -48,5 +65,9 @@ map(
   "n",
   "<leader>ft",
   "<cmd>NvimTreeFindFile<CR>",
-  { desc = "Search: find the current file and focus on it", noremap = true, silent = true }
+  {
+    desc = "Search: find the current file and focus on it",
+    noremap = true,
+    silent = true,
+  }
 )

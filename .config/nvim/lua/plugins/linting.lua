@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local linting_group = vim.api.nvim_create_augroup("pack-linting", { clear = true })
+local linting_group =
+  vim.api.nvim_create_augroup("pack-linting", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   group = linting_group,
@@ -75,11 +76,16 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
             -- Failed to parse JSON - likely an error message
             -- Use vim.schedule to safely call vim.notify from callback
             vim.schedule(function()
-              vim.notify("golangci-lint error: " .. output, vim.log.levels.ERROR)
+              vim.notify(
+                "golangci-lint error: " .. output,
+                vim.log.levels.ERROR
+              )
             end)
             return {}
           end
-          if decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata" then
+          if
+            decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata"
+          then
             return {}
           end
 

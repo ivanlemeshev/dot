@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local filetypes_group = vim.api.nvim_create_augroup("pack-filetypes", { clear = true })
+local filetypes_group =
+  vim.api.nvim_create_augroup("pack-filetypes", { clear = true })
 
 local csvview_loaded = false
 
@@ -43,7 +44,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
       })
 
       -- Disable in insert mode, re-enable when leaving insert mode
-      local csv_group = vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
+      local csv_group =
+        vim.api.nvim_create_augroup("CsvViewInsertMode", { clear = true })
 
       vim.api.nvim_create_autocmd("InsertEnter", {
         group = csv_group,

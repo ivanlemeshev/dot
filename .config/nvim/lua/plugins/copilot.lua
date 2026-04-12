@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local copilot_group = vim.api.nvim_create_augroup("pack-copilot", { clear = true })
+local copilot_group =
+  vim.api.nvim_create_augroup("pack-copilot", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = copilot_group,
@@ -48,7 +49,17 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     -- Keymaps
     local map = vim.keymap.set
 
-    map("n", "<leader>cd", "<cmd>Copilot disable<CR>", { desc = "Copilot: disable", noremap = true, silent = true })
-    map("n", "<leader>ce", "<cmd>Copilot enable<CR>", { desc = "Copilot: enable", noremap = true, silent = true })
+    map(
+      "n",
+      "<leader>cd",
+      "<cmd>Copilot disable<CR>",
+      { desc = "Copilot: disable", noremap = true, silent = true }
+    )
+    map(
+      "n",
+      "<leader>ce",
+      "<cmd>Copilot enable<CR>",
+      { desc = "Copilot: enable", noremap = true, silent = true }
+    )
   end,
 })

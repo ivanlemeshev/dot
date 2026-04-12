@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local conform_group = vim.api.nvim_create_augroup("pack-conform", { clear = true })
+local conform_group =
+  vim.api.nvim_create_augroup("pack-conform", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = conform_group,

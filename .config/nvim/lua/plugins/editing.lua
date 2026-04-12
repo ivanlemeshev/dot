@@ -24,7 +24,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local editing_group = vim.api.nvim_create_augroup("pack-editing", { clear = true })
+local editing_group =
+  vim.api.nvim_create_augroup("pack-editing", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = editing_group,

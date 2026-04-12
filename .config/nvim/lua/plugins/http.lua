@@ -9,7 +9,8 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local kulala_group = vim.api.nvim_create_augroup("pack-kulala", { clear = true })
+local kulala_group =
+  vim.api.nvim_create_augroup("pack-kulala", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
   group = kulala_group,

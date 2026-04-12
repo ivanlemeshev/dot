@@ -131,7 +131,6 @@ require("lualine").setup({
     always_divide_middle = true,
     disabled_filetypes = {
       "NvimTree",
-      "trouble",
     },
   },
   -- +-------------------------------------------------+

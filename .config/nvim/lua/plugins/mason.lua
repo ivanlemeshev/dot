@@ -15,7 +15,7 @@ vim.pack.add({
     version = "v2.1.0",
   },
 }, {
-  load = true, -- Don't load immediately
+  load = true, -- Load immediately
   confirm = false, -- Install without confirmation
 })
 
