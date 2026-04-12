@@ -135,6 +135,11 @@
       "src": "https://github.com/nvim-tree/nvim-tree.lua",
       "version": "'v1.17.0'"
     },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "ssh://git@github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
     "nvim-web-devicons": {
       "rev": "c72328a5494b4502947a022fe69c0c47e53b6aa6",
       "src": "https://github.com/nvim-tree/nvim-web-devicons",

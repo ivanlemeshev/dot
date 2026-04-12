@@ -7,7 +7,9 @@ vim.g.maplocalleader = " "
 
 local helpers = require("config.helpers")
 
-helpers.nmap(";", ":", "Enter command mode")
+helpers.nmap(";", function()
+  vim.api.nvim_feedkeys(":", "nt", false)
+end, "Enter command mode")
 
 local scroll_maps = {
   { "<C-d>", "<C-d>zz", "Scroll down half a page" },

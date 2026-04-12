@@ -14,6 +14,7 @@ local plugin_modules = {
   "plugins.indentation",
   "plugins.diagnostics",
   "plugins.filetypes",
+  "plugins.treesitter",
   "plugins.http",
   "plugins.copilot",
   "plugins.statusline",
