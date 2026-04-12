@@ -61,7 +61,11 @@ M.lualine_theme = {
   normal = {
     a = {
       bg = M.palette.base07,
-      fg = best_contrast_fg(M.palette.base07, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base07,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -69,7 +73,11 @@ M.lualine_theme = {
   insert = {
     a = {
       bg = M.palette.base0B,
-      fg = best_contrast_fg(M.palette.base0B, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0B,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -77,7 +85,11 @@ M.lualine_theme = {
   visual = {
     a = {
       bg = M.palette.base0A,
-      fg = best_contrast_fg(M.palette.base0A, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0A,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -85,7 +97,11 @@ M.lualine_theme = {
   replace = {
     a = {
       bg = M.palette.base08,
-      fg = best_contrast_fg(M.palette.base08, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base08,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -93,7 +109,11 @@ M.lualine_theme = {
   command = {
     a = {
       bg = M.palette.base0D,
-      fg = best_contrast_fg(M.palette.base0D, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0D,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -101,7 +121,11 @@ M.lualine_theme = {
   terminal = {
     a = {
       bg = M.palette.base0E,
-      fg = best_contrast_fg(M.palette.base0E, M.palette.base00, M.palette.base05),
+      fg = best_contrast_fg(
+        M.palette.base0E,
+        M.palette.base00,
+        M.palette.base05
+      ),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },

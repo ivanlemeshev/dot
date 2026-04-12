@@ -137,3 +137,11 @@ map(
   ":NvimTreeFocus<CR>",
   { desc = "Focus NvimTree", noremap = true, silent = true }
 )
+
+-- vim.pack
+map(
+  "n",
+  "<leader>Pu",
+  ":lua vim.pack.update()<CR>",
+  { desc = "Plugins: update", noremap = true, silent = true }
+)

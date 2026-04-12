@@ -6,6 +6,7 @@ return {
   priority = 1000,
   config = function()
     require("lem.colorscheme").setup()
+    require("lem.binary").setup()
 
     require("lem.ruler").setup({
       char = "┆", -- e.g. '┆', '┊', "│", etc.
