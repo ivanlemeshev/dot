@@ -33,12 +33,12 @@
     "copilot-lualine": {
       "rev": "222e90bd8dcdf16ca1efc4e784416afb5f011c31",
       "src": "https://github.com/AndreM222/copilot-lualine",
-      "version": "'222e90bd8dcdf16ca1efc4e784416afb5f011c31'"
+      "version": "'master'"
     },
     "copilot.lua": {
       "rev": "3faffefbd6ddeb52578535ec6b730e0b72d7fd1a",
       "src": "https://github.com/zbirenbaum/copilot.lua",
-      "version": "'3faffefbd6ddeb52578535ec6b730e0b72d7fd1a'"
+      "version": "'v2.0.2'"
     },
     "csvview.nvim": {
       "rev": "8d068c526ab5ade68226de036d533298cd93a399",
@@ -54,6 +54,11 @@
       "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
       "src": "https://github.com/j-hui/fidget.nvim",
       "version": "'7fa433a83118a70fe24c1ce88d5f0bd3453c0970'"
+    },
+    "fzf-lua": {
+      "rev": "657c1bbb7357c61e26a20d868b53a460b05c18c0",
+      "src": "https://github.com/ibhagwan/fzf-lua",
+      "version": "'main'"
     },
     "gitsigns.nvim": {
       "rev": "31217271a7314c343606acb4072a94a039a19fb5",
@@ -78,7 +83,7 @@
     "lualine.nvim": {
       "rev": "47f91c416daef12db467145e16bed5bbfe00add8",
       "src": "https://github.com/nvim-lualine/lualine.nvim",
-      "version": "'47f91c416daef12db467145e16bed5bbfe00add8'"
+      "version": "'master'"
     },
     "mason-lspconfig.nvim": {
       "rev": "0a3b42c3e503df87aef6d6513e13148381495c3a",
@@ -133,12 +138,12 @@
     "nvim-tree.lua": {
       "rev": "509962f21ab7289d8dcd28568af539be39a8c01e",
       "src": "https://github.com/nvim-tree/nvim-tree.lua",
-      "version": "'509962f21ab7289d8dcd28568af539be39a8c01e'"
+      "version": "'v1.17.0'"
     },
     "nvim-web-devicons": {
       "rev": "746ffbb17975ebd6c40142362eee1b0249969c5c",
       "src": "https://github.com/nvim-tree/nvim-web-devicons",
-      "version": "'746ffbb17975ebd6c40142362eee1b0249969c5c'"
+      "version": "'master'"
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",

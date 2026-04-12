@@ -50,24 +50,24 @@ return {
         local buf = event.buf
 
         map("n", "gd", function()
-          require("telescope.builtin").lsp_definitions()
+          require("fzf-lua").lsp_definitions()
         end, {
           desc = "LSP: go to definition",
           buffer = buf,
           silent = true,
         })
         map("n", "grr", function()
-          require("telescope.builtin").lsp_references()
+          require("fzf-lua").lsp_references()
         end, {
           desc = "LSP: find all references",
           buffer = buf,
           silent = true,
         })
         map("n", "gri", function()
-          require("telescope.builtin").lsp_implementations()
+          require("fzf-lua").lsp_implementations()
         end, { desc = "LSP: go to implementation", buffer = buf, silent = true })
         map("n", "gtd", function()
-          require("telescope.builtin").lsp_type_definitions()
+          require("fzf-lua").lsp_typedefs()
         end, {
           desc = "LSP: go type definition",
           buffer = buf,
@@ -84,7 +84,7 @@ return {
         map("n", "grn", vim.lsp.buf.rename, { desc = "LSP: rename", buffer = buf, silent = true })
         map("n", "gra", vim.lsp.buf.code_action, { desc = "LSP: code action", buffer = buf, silent = true })
         map("n", "gO", function()
-          require("telescope.builtin").lsp_document_symbols()
+          require("fzf-lua").lsp_document_symbols()
         end, {
           desc = "LSP: document symbols",
           buffer = buf,

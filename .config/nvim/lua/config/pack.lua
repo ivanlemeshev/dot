@@ -1,10 +1,13 @@
 local plugin_modules = {
   "plugins.lem",
+  "plugins.icons",
+  "plugins.essentials",
   "plugins.mason",
   "plugins.cmp",
   "plugins.lsp",
-  "plugins.telescope",
-  "plugins.file-explorer",
+  -- "plugins.telescope",
+  "plugins.search",
+  "plugins.explorer",
   "plugins.git",
   "plugins.formatting",
   "plugins.linting",
@@ -14,9 +17,9 @@ local plugin_modules = {
   "plugins.mini.hipatterns",
   "plugins.misc",
   "plugins.trouble",
-  "plugins.kulala",
+  "plugins.http",
   "plugins.copilot",
-  "plugins.lualine",
+  "plugins.statusline",
 }
 
 local function is_spec(value)

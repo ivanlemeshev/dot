@@ -1,10 +1,5 @@
 vim.pack.add({
   {
-    src = "https://github.com/nvim-tree/nvim-web-devicons",
-    name = "nvim-web-devicons",
-    version = "master",
-  },
-  {
     src = "https://github.com/folke/trouble.nvim",
     name = "trouble.nvim",
     version = "v3.7.1",

@@ -24,9 +24,7 @@ M.palette = {
 
 local function hex_to_rgb(hex)
   local clean = hex:gsub("#", "")
-  return tonumber(clean:sub(1, 2), 16),
-    tonumber(clean:sub(3, 4), 16),
-    tonumber(clean:sub(5, 6), 16)
+  return tonumber(clean:sub(1, 2), 16), tonumber(clean:sub(3, 4), 16), tonumber(clean:sub(5, 6), 16)
 end
 
 local function relative_luminance(hex)
@@ -61,11 +59,7 @@ M.lualine_theme = {
   normal = {
     a = {
       bg = M.palette.base07,
-      fg = best_contrast_fg(
-        M.palette.base07,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base07, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -73,11 +67,7 @@ M.lualine_theme = {
   insert = {
     a = {
       bg = M.palette.base0B,
-      fg = best_contrast_fg(
-        M.palette.base0B,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base0B, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -85,11 +75,7 @@ M.lualine_theme = {
   visual = {
     a = {
       bg = M.palette.base0A,
-      fg = best_contrast_fg(
-        M.palette.base0A,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base0A, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -97,11 +83,7 @@ M.lualine_theme = {
   replace = {
     a = {
       bg = M.palette.base08,
-      fg = best_contrast_fg(
-        M.palette.base08,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base08, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -109,11 +91,7 @@ M.lualine_theme = {
   command = {
     a = {
       bg = M.palette.base0D,
-      fg = best_contrast_fg(
-        M.palette.base0D,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base0D, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -121,11 +99,7 @@ M.lualine_theme = {
   terminal = {
     a = {
       bg = M.palette.base0E,
-      fg = best_contrast_fg(
-        M.palette.base0E,
-        M.palette.base00,
-        M.palette.base05
-      ),
+      fg = best_contrast_fg(M.palette.base0E, M.palette.base00, M.palette.base05),
     },
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
@@ -135,6 +109,23 @@ M.lualine_theme = {
     b = { bg = M.palette.base02, fg = M.palette.base05 },
     c = { bg = M.palette.base02, fg = M.palette.base05 },
   },
+}
+
+M.fzf_lua_colors = {
+  ["fg"] = M.palette.base05,
+  ["bg"] = M.palette.base00,
+  ["hl"] = M.palette.base0B,
+  ["fg+"] = M.palette.base05,
+  ["bg+"] = M.palette.base01,
+  ["hl+"] = M.palette.base0B,
+  ["info"] = M.palette.base04,
+  ["border"] = M.palette.base03,
+  ["gutter"] = M.palette.base00,
+  ["query"] = M.palette.base05,
+  ["prompt"] = M.palette.base0A,
+  ["pointer"] = M.palette.base0A,
+  ["marker"] = M.palette.base0A,
+  ["header"] = M.palette.base09,
 }
 
 function M.setup()
@@ -729,12 +720,25 @@ function M.setup()
   link("TroubleNormal", "Normal")
   link("TroubleNormalNC", "Normal")
 
-  -- nvim-telescope/telescope.nvim
-  hl("TelescopeMatching", { fg = p.base0B })
-  hl("TelescopeBorder", { fg = p.base03 })
-  hl("TelescopePromptCounter", { fg = p.base04 })
-  link("TelescopePromptPrefix", "Yellow")
-  link("TelescopeSelection", "DiffAdd")
+  -- ibhagwan/fzf-lua
+  link("FzfLuaNormal", "NormalFloat")
+  link("FzfLuaBorder", "FloatBorder")
+  link("FzfLuaTitle", "Title")
+  link("FzfLuaPreviewNormal", "NormalFloat")
+  link("FzfLuaPreviewBorder", "FloatBorder")
+  link("FzfLuaPreviewTitle", "Title")
+  link("FzfLuaCursorLine", "DiffAdd")
+  link("FzfLuaCursorLineNr", "DiffAdd")
+  link("FzfLuaSearch", "Green")
+  link("FzfLuaFzfNormal", "NormalFloat")
+  link("FzfLuaFzfCursorLine", "DiffAdd")
+  link("FzfLuaFzfMatch", "Green")
+  link("FzfLuaFzfBorder", "FloatBorder")
+  link("FzfLuaFzfPrompt", "Yellow")
+  link("FzfLuaFzfPointer", "Yellow")
+  link("FzfLuaFzfMarker", "Yellow")
+  link("FzfLuaFzfHeader", "Orange")
+  link("FzfLuaFzfInfo", "Grey")
 
   -- lewis6991/gitsigns.nvim
   link("GitSignsAdd", "GreenSign")
@@ -1018,10 +1022,7 @@ function M.setup()
   hl("MasonHighlightBlock", { fg = p.base00, bg = p.base0A })
   hl("MasonHighlightBlockBold", { fg = p.base00, bg = p.base0A, bold = true })
   hl("MasonHighlightBlockSecondary", { fg = p.base00, bg = p.base08 })
-  hl(
-    "MasonHighlightBlockBoldSecondary",
-    { fg = p.base00, bg = p.base08, bold = true }
-  )
+  hl("MasonHighlightBlockBoldSecondary", { fg = p.base00, bg = p.base08, bold = true })
   hl("MasonMuted", { fg = p.base03 })
   hl("MasonMutedBlock", { fg = p.base00, bg = p.base03 })
 end
