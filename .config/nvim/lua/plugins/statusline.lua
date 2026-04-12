@@ -46,6 +46,9 @@ local branch = {
 
 local copilot = {
   "copilot",
+  cond = function()
+    return package.loaded["copilot"] ~= nil
+  end,
   fmt = with_separator,
   padding = separator_padding,
   symbols = {

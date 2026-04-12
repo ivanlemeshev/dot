@@ -1,11 +1,11 @@
 local plugin_modules = {
   "plugins.lem",
-  "plugins.ui",
   "plugins.essentials",
+  "plugins.ui",
   "plugins.mason",
   "plugins.autocomplete",
-  "plugins.lsp",
   "plugins.search",
+  "plugins.lsp",
   "plugins.explorer",
   "plugins.git",
   "plugins.formatting",
