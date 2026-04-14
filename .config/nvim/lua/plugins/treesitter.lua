@@ -31,6 +31,7 @@ local ensure_installed = {
   "graphql",
   "helm",
   "html",
+  "http",
   "javascript",
   "json",
   "lua",

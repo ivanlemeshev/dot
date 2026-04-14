@@ -63,6 +63,7 @@ function M.fzf()
         "--line-number",
         "--no-heading",
         "--color=always",
+        "--fixed-strings",
         "--smart-case",
         "--max-columns=4096",
         "-e",
