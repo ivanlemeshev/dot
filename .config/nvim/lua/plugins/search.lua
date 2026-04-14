@@ -70,7 +70,7 @@ function M.fzf()
     },
     keymap = {
       fzf = {
-        ["y"] = copy
+        ["ctrl-y"] = copy
             and ("execute-silent(printf '%s\\n' {+} | " .. copy .. ")")
           or nil,
       },
