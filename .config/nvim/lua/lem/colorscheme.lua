@@ -138,20 +138,21 @@ M.lualine_theme = {
 }
 
 M.fzf_lua_colors = {
-  ["fg"] = M.palette.base05,
-  ["bg"] = M.palette.base00,
-  ["hl"] = M.palette.base0B,
-  ["fg+"] = M.palette.base05,
-  ["bg+"] = M.palette.base01,
-  ["hl+"] = M.palette.base0B,
-  ["info"] = M.palette.base04,
-  ["border"] = M.palette.base03,
-  ["gutter"] = M.palette.base00,
-  ["query"] = M.palette.base05,
-  ["prompt"] = M.palette.base0A,
-  ["pointer"] = M.palette.base0A,
-  ["marker"] = M.palette.base0A,
-  ["header"] = M.palette.base09,
+  true,
+  ["fg"] = { "fg", "Normal" },
+  ["bg"] = { "bg", "Normal" },
+  ["hl"] = { "fg", "Comment" },
+  ["fg+"] = { "fg", "Normal" },
+  ["bg+"] = { "bg", { "CursorLine", "Normal" } },
+  ["hl+"] = { "fg", "Statement" },
+  ["info"] = { "fg", "PreProc" },
+  ["query"] = { "fg", "Normal" },
+  ["prompt"] = { "fg", "Conditional" },
+  ["pointer"] = { "fg", "Exception" },
+  ["marker"] = { "fg", "Keyword" },
+  ["spinner"] = { "fg", "Label" },
+  ["header"] = { "fg", "Comment" },
+  ["gutter"] = "-1",
 }
 
 function M.setup()
@@ -656,24 +657,74 @@ function M.setup()
 
   -- ibhagwan/fzf-lua
   for group, target in pairs({
+    -- Main window
+    FzfLuaNormal = "NormalFloat",
     FzfLuaBorder = "FloatBorder",
+    FzfLuaTitle = "Title",
+    FzfLuaTitleFlags = "Comment",
+    FzfLuaBackdrop = "Normal",
+
+    -- Preview
+    FzfLuaPreviewNormal = "NormalFloat",
+    FzfLuaPreviewBorder = "FloatBorder",
+    FzfLuaPreviewTitle = "Title",
+    FzfLuaCursor = "Cursor",
     FzfLuaCursorLine = "DiffAdd",
     FzfLuaCursorLineNr = "DiffAdd",
+
+    -- Help
+    FzfLuaHelpNormal = "NormalFloat",
+    FzfLuaHelpBorder = "FloatBorder",
+
+    -- fzf terminal colors
+    FzfLuaFzfNormal = "NormalFloat",
     FzfLuaFzfBorder = "FloatBorder",
     FzfLuaFzfCursorLine = "DiffAdd",
-    FzfLuaFzfHeader = "Orange",
+    FzfLuaFzfGutter = "NormalFloat",
+    FzfLuaFzfHeader = "Comment",
     FzfLuaFzfInfo = "Grey",
-    FzfLuaFzfMarker = "Yellow",
-    FzfLuaFzfMatch = "Green",
-    FzfLuaFzfNormal = "NormalFloat",
-    FzfLuaFzfPointer = "Yellow",
-    FzfLuaFzfPrompt = "Yellow",
-    FzfLuaNormal = "NormalFloat",
-    FzfLuaPreviewBorder = "FloatBorder",
-    FzfLuaPreviewNormal = "NormalFloat",
-    FzfLuaPreviewTitle = "Title",
-    FzfLuaSearch = "Green",
-    FzfLuaTitle = "Title",
+    FzfLuaFzfMarker = "Keyword",
+    FzfLuaFzfMatch = "Statement",
+    FzfLuaFzfPointer = "Exception",
+    FzfLuaFzfQuery = "NormalFloat",
+    FzfLuaFzfPrompt = "Conditional",
+    FzfLuaFzfScrollbar = "FloatBorder",
+    FzfLuaFzfSeparator = "FloatBorder",
+    FzfLuaFzfSpinner = "Comment",
+
+    -- Headers and live prompts
+    FzfLuaHeaderBind = "Comment",
+    FzfLuaHeaderText = "Comment",
+    FzfLuaLivePrompt = "Comment",
+    FzfLuaLiveSym = "Comment",
+
+    -- Paths, buffers, tabs
+    FzfLuaPathColNr = "LineNr",
+    FzfLuaPathLineNr = "LineNr",
+    FzfLuaBufName = "Directory",
+    FzfLuaBufId = "TabLine",
+    FzfLuaBufNr = "LineNr",
+    FzfLuaBufLineNr = "LineNr",
+    FzfLuaBufFlagCur = "Comment",
+    FzfLuaBufFlagAlt = "Comment",
+    FzfLuaTabTitle = "Title",
+    FzfLuaTabMarker = "Comment",
+    FzfLuaDirIcon = "Directory",
+    FzfLuaDirPart = "Comment",
+    FzfLuaFilePart = "NormalFloat",
+
+    -- Commands
+    FzfLuaCmdEx = "Statement",
+    FzfLuaCmdBuf = "Added",
+    FzfLuaCmdGlobal = "Directory",
+
+    -- Scrollbars
+    FzfLuaScrollBorderEmpty = "FloatBorder",
+    FzfLuaScrollBorderFull = "FloatBorder",
+    FzfLuaScrollFloatEmpty = "PmenuSbar",
+    FzfLuaScrollFloatFull = "PmenuThumb",
+
+    FzfLuaSearch = "Search",
   }) do
     link(group, target)
   end

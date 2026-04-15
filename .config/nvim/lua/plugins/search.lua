@@ -47,9 +47,14 @@ function M.fzf()
       ["--multi"] = true,
     },
     winopts = {
+      fullscreen = true, -- Let's try it
       border = "single",
+      height = 0.90,
+      width = 0.95,
       preview = {
         border = "single",
+        layout = "vertical",
+        vertical = "down:70%",
       },
     },
     files = {

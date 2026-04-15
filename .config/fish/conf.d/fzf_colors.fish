@@ -19,17 +19,17 @@ set -l colors \
     "--color fg+:$fg0" \
     "--color bg:$bg0" \
     "--color bg+:$bg1" \
-    "--color hl:$red" \
-    "--color hl+:$red" \
-    "--color info:$magenta" \
+    "--color hl:$yellow" \
+    "--color hl+:$yellow" \
+    "--color info:$bg2" \
     "--color marker:$green" \
-    "--color prompt:$magenta" \
+    "--color prompt:$fg0" \
     "--color spinner:$yellow" \
-    "--color pointer:$yellow" \
-    "--color header:$red" \
+    "--color pointer:$fg0" \
+    "--color header:$bg2" \
     "--color border:$bg2" \
     "--color label:$fg0" \
-    "--color query:$yellow"
+    "--color query:$fg0"
 
 # --- Layout / UI ---
 set -l ui \
