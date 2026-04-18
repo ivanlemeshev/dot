@@ -118,7 +118,7 @@ call s:hl('Terminal',     s:gui05, s:gui00)
 call s:hl('EndOfBuffer',  s:gui00, s:gui00)
 call s:hl('Folded',       s:gui03, s:gui_bg3)
 call s:hl('ToolbarLine',  s:gui05, s:gui01)
-call s:hl('SignColumn',   s:gui05, '')
+call s:hl('SignColumn',   s:gui03, '')
 call s:hl('FoldColumn',   s:gui03, '')
 
 call s:hl('IncSearch',    s:gui00, s:gui09)
@@ -140,7 +140,7 @@ call s:hl('LineNr',       s:gui03, '')
 call s:hl('CursorLineNr', s:gui07, '')
 
 call s:hl('DiffAdd',      s:gui0B, s:gui01)
-call s:hl('DiffChange',   s:gui06, s:gui01)
+call s:hl('DiffChange',   s:gui05, s:gui01)
 call s:hl('DiffDelete',   s:gui08, s:gui01)
 call s:hl('DiffText',     s:gui00, s:gui02)
 
@@ -187,8 +187,8 @@ if exists('+winfixbuf')
 endif
 
 " Visual
-call s:hl('Visual',       s:gui05, s:gui_bg_visual)
-call s:hl('VisualNOS',    s:gui05, s:gui_bg_visual)
+call s:hl('Visual',       s:gui05, s:gui02)
+call s:hl('VisualNOS',    s:gui05, s:gui02)
 
 call s:hl('QuickFixLine', s:gui0E, '')
 call s:hl('Debug',        s:gui0A, '')
@@ -393,15 +393,15 @@ highlight! link goVarArgs              Grey
 " ==========================================================================
 " Statusline mode highlights (lualine-like)
 " ==========================================================================
-call s:hl('StatusModeNormal',   s:gui00, s:gui06)
+call s:hl('StatusModeNormal',   s:gui00, s:gui07)
 call s:hl('StatusModeInsert',   s:gui00, s:gui0B)
-call s:hl('StatusModeVisual',   s:gui00, s:gui09)
-call s:hl('StatusModeReplace',  s:gui00, s:gui0A)
-call s:hl('StatusModeCommand',  s:gui00, s:gui0D)
-call s:hl('StatusModeTerminal', s:gui00, s:gui0E)
+call s:hl('StatusModeVisual',   s:gui00, s:gui0A)
+call s:hl('StatusModeReplace',  s:gui00, s:gui08)
+call s:hl('StatusModeCommand',  s:gui00, s:gui09)
+call s:hl('StatusModeTerminal', s:gui00, s:gui0B)
 call s:hl('StatusModeB',        s:gui05, s:gui_bg3)
 call s:hl('StatusModeC',        s:gui05, s:gui_bg3)
-call s:hl('StatusInactive',     s:gui06, s:gui_bg3)
+call s:hl('StatusInactive',     s:gui05, s:gui_bg3)
 
 " ==========================================================================
 " Terminal colors

@@ -31,7 +31,7 @@ set -l ls \
     "no=$n;$fg0;48;2;$bg0" \
     "fi=$n;$fg0;48;2;$bg0" \
     "di=$n;$blue" \
-    "ln=$it;$blue" \
+    "ln=$it;$cyan" \
     "or=$it;$red" \
     "mi=$n;$fg0;48;2;$red" \
     "ex=$b;$green" \

@@ -140,21 +140,20 @@ M.lualine_theme = {
 }
 
 M.fzf_lua_colors = {
-  true,
-  ["fg"] = { "fg", "Normal" },
-  ["bg"] = { "bg", "Normal" },
-  ["hl"] = { "fg", "Comment" },
-  ["fg+"] = { "fg", "Normal" },
-  ["bg+"] = { "bg", { "CursorLine", "Normal" } },
-  ["hl+"] = { "fg", "Statement" },
-  ["info"] = { "fg", "PreProc" },
-  ["query"] = { "fg", "Normal" },
-  ["prompt"] = { "fg", "Conditional" },
-  ["pointer"] = { "fg", "Exception" },
-  ["marker"] = { "fg", "Keyword" },
-  ["spinner"] = { "fg", "Label" },
-  ["header"] = { "fg", "Comment" },
-  ["gutter"] = "-1",
+  ["fg"] = M.palette.base05,
+  ["bg"] = M.palette.base00,
+  ["hl"] = M.palette.base0B,
+  ["fg+"] = M.palette.base05,
+  ["bg+"] = M.palette.base01,
+  ["hl+"] = M.palette.base0B,
+  ["info"] = M.palette.base04,
+  ["border"] = M.palette.base03,
+  ["gutter"] = M.palette.base00,
+  ["query"] = M.palette.base05,
+  ["prompt"] = M.palette.base0A,
+  ["pointer"] = M.palette.base0A,
+  ["marker"] = M.palette.base0A,
+  ["header"] = M.palette.base09,
 }
 
 function M.setup()
@@ -182,14 +181,14 @@ function M.setup()
   hl("NormalNC", { fg = p.base05, bg = p.base00 })
   hl("Terminal", { fg = p.base05, bg = p.base00 })
   hl("EndOfBuffer", { fg = p.base00, bg = p.base00 })
-  hl("Folded", { fg = p.base03, bg = p.base01 })
+  hl("Folded", { fg = p.base0D, bg = p.base01 })
   hl("ToolbarLine", { fg = p.base05, bg = p.base01 })
-  hl("SignColumn", { fg = p.base05 })
+  hl("SignColumn", { fg = p.base03 })
   hl("FoldColumn", { fg = p.base03 })
 
   hl("IncSearch", { fg = p.base00, bg = p.base09 })
   hl("Search", { fg = p.base00, bg = p.base0A })
-  link("CurSearch", "IncSearch")
+  hl("CurSearch", { fg = p.base00, bg = p.base0A })
   hl("ColorColumn", { bg = p.base01 })
   hl("Conceal", { fg = p.base01 })
 
@@ -329,57 +328,48 @@ function M.setup()
   -- ==========================================================================
   -- Syntax highlights
   -- ==========================================================================
-  hl("Boolean", { fg = p.base0E })
-  hl("Number", { fg = p.base0E })
-  hl("Float", { fg = p.base0E })
-
-  -- syntax groups
-  hl("PreProc", { fg = p.base0E })
-  hl("PreCondit", { fg = p.base0E })
-  hl("Include", { fg = p.base0E })
-  hl("Define", { fg = p.base0E })
-  hl("Conditional", { fg = p.base08 })
-  hl("Repeat", { fg = p.base08 })
-  hl("Keyword", { fg = p.base08 })
-  hl("Typedef", { fg = p.base08 })
-  hl("Exception", { fg = p.base08 })
-  hl("Statement", { fg = p.base08 })
-
+  hl("Boolean", { fg = p.base09 })
+  hl("Number", { fg = p.base09 })
+  hl("Float", { fg = p.base09 })
+  hl("PreProc", { fg = p.base0E, italic = true })
+  hl("PreCondit", { fg = p.base0E, italic = true })
+  hl("Include", { fg = p.base0E, italic = true })
+  hl("Define", { fg = p.base0E, italic = true })
+  hl("Conditional", { fg = p.base0E, italic = true })
+  hl("Repeat", { fg = p.base0E, italic = true })
+  hl("Keyword", { fg = p.base0E, italic = true })
+  hl("Typedef", { fg = p.base0E, italic = true })
+  hl("Exception", { fg = p.base0E, italic = true })
+  hl("Statement", { fg = p.base0E, italic = true })
   hl("Error", { fg = p.base08 })
-  hl("StorageClass", { fg = p.base09 })
-  hl("Tag", { fg = p.base09 })
-  hl("Label", { fg = p.base09 })
-  hl("Structure", { fg = p.base09 })
-  hl("Operator", { fg = p.base09 })
-  hl("Title", { fg = p.base09, bold = true })
+  hl("StorageClass", { fg = p.base0A })
+  hl("Tag", { fg = p.base0A })
+  hl("Label", { fg = p.base0A })
+  hl("Structure", { fg = p.base0A })
+  hl("Operator", { fg = p.base0A })
+  hl("Title", { fg = p.base0D })
   hl("Special", { fg = p.base0A })
-  hl("SpecialChar", { fg = p.base0A })
+  hl("SpecialChar", { fg = p.base0C })
   hl("Type", { fg = p.base0A })
-
-  -- bold enabled
-  hl("Function", { fg = p.base0B })
-
-  hl("String", { fg = p.base0C })
+  hl("Function", { fg = p.base0D })
+  hl("String", { fg = p.base0B })
   hl("Character", { fg = p.base0B })
-  hl("Constant", { fg = p.base0C })
-  hl("Macro", { fg = p.base0C })
-  hl("Identifier", { fg = p.base0D })
-
+  hl("Constant", { fg = p.base09 })
+  hl("Macro", { fg = p.base0E })
+  hl("Identifier", { fg = p.base08 })
   hl("Todo", { fg = p.base00, bg = p.base0D })
-
-  -- italic comments (disable_italic_comment=false)
   hl("Comment", { fg = p.base03, italic = true })
   hl("SpecialComment", { fg = p.base03, italic = true })
-
   hl("Delimiter", { fg = p.base05 })
   hl("Ignore", { fg = p.base03 })
   hl("Underlined", { fg = p.base0D, underline = true })
+
   hl("TSCharacter", { fg = p.base0C })
   hl("TSMarkupLinkUrl", { fg = p.base0D, italic = true, underline = true })
-  hl("TSMarkupListUnchecked", { fg = p.base08 })
-  hl("TSStringEscape", { fg = p.base0A })
-  hl("TSStringRegexp", { fg = p.base0B })
-  hl("TSStringSpecialUrl", { fg = p.base0A })
+  hl("TSMarkupListUnchecked", { fg = p.base03 })
+  hl("TSStringEscape", { fg = p.base0E })
+  hl("TSStringRegexp", { fg = p.base0E })
+  hl("TSStringSpecialUrl", { fg = p.base0D })
 
   -- ==========================================================================
   -- Predefined highlight groups
@@ -487,99 +477,121 @@ function M.setup()
   hl("@comment.error", { fg = p.base00, bg = p.base08 })
   hl("@comment.note", { fg = p.base07, bg = p.base0E })
   hl("@comment.warning", { fg = p.base00, bg = p.base0A })
+  hl("@comment.hint", { fg = p.base00, bg = p.base0D })
   hl("@markup.italic", { italic = true })
   link("@markup.link.url", "TSMarkupLinkUrl")
   hl("@markup.strong", { bold = true })
   hl("@markup.underline", { underline = true })
 
   -- Neovim 0.12 treesitter captures
-  link("@attribute", "Purple")
+  link("@annotation", "Orange")
+  link("@attribute", "Aqua")
   link("@attribute.builtin", "@attribute")
-  link("@boolean", "Boolean")
-  link("@character", "TSCharacter")
-  link("@character.special", "TSCharacter")
+  link("@boolean", "Orange")
+  link("@character", "Green")
+  link("@character.special", "SpecialChar")
   link("@comment", "Comment")
-  link("@comment.documentation", "Comment")
   link("@comment.todo", "Todo")
   link("@conceal", "Grey")
-  link("@constant", "Constant")
-  link("@constant.builtin", "Yellow")
-  link("@constant.macro", "Blue")
-  link("@constructor", "Function")
+  link("@conditional", "PurpleItalic")
+  link("@constant", "Orange")
+  link("@constant.builtin", "Orange")
+  link("@constant.macro", "PurpleItalic")
+  link("@constructor", "Blue")
   link("@diff.delta", "diffChanged")
   link("@diff.minus", "diffRemoved")
   link("@diff.plus", "diffAdded")
-  link("@function", "Function")
-  link("@function.builtin", "Yellow")
-  link("@function.call", "@function")
-  link("@function.macro", "Macro")
-  link("@function.method", "Function")
-  link("@function.method.call", "@method")
-  link("@method", "Function")
-  link("@keyword", "Keyword")
-  link("@keyword.conditional", "@keyword")
-  link("@keyword.conditional.ternary", "@keyword.conditional")
-  link("@keyword.coroutine", "@keyword")
-  link("@keyword.debug", "@keyword")
-  link("@keyword.directive", "Red")
-  link("@keyword.directive.define", "@keyword.directive")
-  link("@keyword.exception", "@keyword")
-  link("@keyword.function", "@keyword")
-  link("@keyword.import", "@keyword")
-  link("@keyword.modifier", "@keyword")
-  link("@keyword.operator", "@keyword")
-  link("@keyword.repeat", "@keyword")
-  link("@keyword.return", "@keyword")
-  link("@keyword.type", "@keyword")
-  link("@label", "Label")
-  link("@markup", "Green")
+  link("@error", "Error")
+  link("@exception", "PurpleItalic")
+  link("@field", "Blue")
+  link("@float", "Orange")
+  link("@function", "Blue")
+  link("@function.builtin", "Blue")
+  link("@function.call", "Blue")
+  link("@function.macro", "Purple")
+  link("@function.method", "Blue")
+  link("@function.method.call", "Blue")
+  link("@include", "PurpleItalic")
+  link("@keyword", "PurpleItalic")
+  link("@keyword.conditional", "PurpleItalic")
+  link("@keyword.debug", "Debug")
+  link("@keyword.directive", "PreProc")
+  link("@keyword.directive.define", "Define")
+  link("@keyword.exception", "PurpleItalic")
+  link("@keyword.function", "PurpleItalic")
+  link("@keyword.import", "PurpleItalic")
+  link("@keyword.operator", "Yellow")
+  link("@keyword.repeat", "PurpleItalic")
+  link("@keyword.return", "PurpleItalic")
+  link("@keyword.storage", "Yellow")
+  link("@label", "Yellow")
+  link("@markup.environment", "Macro")
+  link("@markup.environment.name", "Type")
   link("@markup.heading", "Title")
-  link("@markup.heading.1", "Title")
-  link("@markup.heading.2", "Title")
-  link("@markup.heading.3", "Title")
-  link("@markup.heading.4", "Title")
-  link("@markup.heading.5", "Title")
-  link("@markup.heading.6", "Title")
-  link("@markup.link", "Blue")
-  link("@markup.link.label", "@markup.link")
-  link("@markup.list", "Orange")
+  link("@markup.link", "Constant")
+  link("@markup.link.label", "SpecialChar")
+  link("@markup.list", "Blue")
   link("@markup.list.checked", "Green")
-  link("@markup.list.unchecked", "TSMarkupListUnchecked")
+  link("@markup.list.unchecked", "Ignore")
   link("@markup.math", "Blue")
+  link("@markup.note", "@comment.note")
   link("@markup.quote", "Grey")
-  link("@markup.raw", "Purple")
-  link("@markup.raw.block", "@markup.raw")
-  link("@markup.strikethrough", "Grey")
-  link("@module", "Blue")
-  link("@module.builtin", "@module")
-  link("@number", "Number")
-  link("@number.float", "@number")
-  link("@operator", "Operator")
-  link("@property", "Green")
-  link("@punctuation", "Fg")
+  link("@markup.raw", "String")
+  link("@markup.strike", "Grey")
+  link("@math", "Blue")
+  link("@method", "Blue")
+  link("@method.call", "Blue")
+  link("@module", "YellowItalic")
+  link("@namespace", "YellowItalic")
+  link("@none", "Fg")
+  link("@number", "Orange")
+  link("@number.float", "Orange")
+  link("@operator", "Yellow")
+  link("@parameter", "Fg")
+  link("@parameter.reference", "Fg")
+  link("@preproc", "PreProc")
+  link("@property", "Blue")
   link("@punctuation.bracket", "Fg")
   link("@punctuation.delimiter", "Grey")
   link("@punctuation.special", "Blue")
-  link("@string", "String")
-  link("@string.documentation", "Comment")
-  link("@string.escape", "TSStringEscape")
-  link("@string.regexp", "TSStringRegexp")
+  link("@repeat", "PurpleItalic")
+  link("@storageclass", "Yellow")
+  link("@storageclass.lifetime", "Yellow")
+  link("@strike", "Grey")
+  link("@string", "Green")
+  link("@string.escape", "Aqua")
+  link("@string.regex", "Aqua")
+  link("@string.regexp", "Aqua")
   link("@string.special", "SpecialChar")
-  link("@string.special.path", "@string")
-  link("@string.special.symbol", "@string")
-  link("@string.special.url", "TSStringSpecialUrl")
-  link("@tag", "Tag")
-  link("@tag.attribute", "@tag")
+  link("@string.special.symbol", "Fg")
+  link("@string.special.url", "@markup.link.url")
+  link("@string.special.uri", "@markup.link.url")
+  link("@symbol", "Fg")
+  link("@tag", "Red")
+  link("@tag.attribute", "Yellow")
   link("@tag.builtin", "@tag")
-  link("@tag.delimiter", "Green")
-  link("@type", "Type")
-  link("@type.builtin", "@type")
-  link("@type.definition", "@type")
-  link("@variable", "Identifier")
-  link("@variable.builtin", "@variable")
-  link("@variable.member", "@variable")
-  link("@variable.parameter", "@variable")
-  link("@variable.parameter.builtin", "@variable.builtin")
+  link("@tag.delimiter", "Red")
+  link("@text", "Green")
+  link("@text.diff.add", "diffAdded")
+  link("@text.diff.delete", "diffRemoved")
+  link("@text.environment", "Macro")
+  link("@text.environment.name", "Type")
+  link("@text.literal", "String")
+  link("@text.math", "Blue")
+  link("@text.reference", "Constant")
+  link("@text.strike", "Grey")
+  link("@text.title", "Title")
+  link("@text.todo", "Todo")
+  link("@text.todo.checked", "Green")
+  link("@text.todo.unchecked", "Ignore")
+  link("@type", "YellowItalic")
+  link("@type.builtin", "YellowItalic")
+  link("@type.definition", "YellowItalic")
+  link("@type.qualifier", "Yellow")
+  link("@variable", "Fg")
+  link("@variable.builtin", "PurpleItalic")
+  link("@variable.member", "Blue")
+  link("@variable.parameter", "Fg")
 
   hl("DiagnosticUnnecessary", { fg = p.base03 })
   hl("DiagnosticDeprecated", { strikethrough = true, sp = p.base05 })
@@ -593,8 +605,8 @@ function M.setup()
   link("CopilotSuggestion", "Grey")
 
   -- hrsh7th/nvim-cmp
-  hl("CmpItemAbbrMatch", { fg = p.base0B })
-  hl("CmpItemAbbrMatchFuzzy", { fg = p.base0B })
+  hl("CmpItemAbbrMatch", { fg = p.base0B, bold = true })
+  hl("CmpItemAbbrMatchFuzzy", { fg = p.base0B, bold = true })
   link("CmpItemAbbr", "Fg")
   link("CmpItemAbbrDeprecated", "Grey")
   link("CmpItemMenu", "Fg")
@@ -641,74 +653,58 @@ function M.setup()
 
   -- ibhagwan/fzf-lua
   for group, target in pairs({
-    -- Main window
-    FzfLuaNormal = "NormalFloat",
     FzfLuaBorder = "FloatBorder",
-    FzfLuaTitle = "Title",
-    FzfLuaTitleFlags = "Comment",
-    FzfLuaBackdrop = "Normal",
-
-    -- Preview
-    FzfLuaPreviewNormal = "NormalFloat",
-    FzfLuaPreviewBorder = "FloatBorder",
-    FzfLuaPreviewTitle = "Title",
-    FzfLuaCursor = "Cursor",
     FzfLuaCursorLine = "DiffAdd",
     FzfLuaCursorLineNr = "DiffAdd",
-
-    -- Help
-    FzfLuaHelpNormal = "NormalFloat",
-    FzfLuaHelpBorder = "FloatBorder",
-
-    -- fzf terminal colors
-    FzfLuaFzfNormal = "NormalFloat",
     FzfLuaFzfBorder = "FloatBorder",
     FzfLuaFzfCursorLine = "DiffAdd",
-    FzfLuaFzfGutter = "NormalFloat",
-    FzfLuaFzfHeader = "Comment",
+    FzfLuaFzfHeader = "Orange",
     FzfLuaFzfInfo = "Grey",
-    FzfLuaFzfMarker = "Keyword",
-    FzfLuaFzfMatch = "Statement",
-    FzfLuaFzfPointer = "Exception",
+    FzfLuaFzfMarker = "Yellow",
+    FzfLuaFzfMatch = "Green",
+    FzfLuaFzfNormal = "NormalFloat",
+    FzfLuaFzfGutter = "NormalFloat",
+    FzfLuaFzfPointer = "Yellow",
     FzfLuaFzfQuery = "NormalFloat",
-    FzfLuaFzfPrompt = "Conditional",
+    FzfLuaFzfPrompt = "Yellow",
     FzfLuaFzfScrollbar = "FloatBorder",
     FzfLuaFzfSeparator = "FloatBorder",
     FzfLuaFzfSpinner = "Comment",
-
-    -- Headers and live prompts
-    FzfLuaHeaderBind = "Comment",
-    FzfLuaHeaderText = "Comment",
-    FzfLuaLivePrompt = "Comment",
-    FzfLuaLiveSym = "Comment",
-
-    -- Paths, buffers, tabs
-    FzfLuaPathColNr = "LineNr",
-    FzfLuaPathLineNr = "LineNr",
-    FzfLuaBufName = "Directory",
+    FzfLuaNormal = "NormalFloat",
+    FzfLuaPreviewBorder = "FloatBorder",
+    FzfLuaPreviewNormal = "NormalFloat",
+    FzfLuaPreviewTitle = "Title",
+    FzfLuaSearch = "Green",
+    FzfLuaTitle = "Title",
+    FzfLuaTitleFlags = "Comment",
+    FzfLuaBackdrop = "Normal",
+    FzfLuaCursor = "Cursor",
+    FzfLuaHelpNormal = "NormalFloat",
+    FzfLuaHelpBorder = "FloatBorder",
+    FzfLuaHeaderBind = "Yellow",
+    FzfLuaHeaderText = "Orange",
+    FzfLuaLivePrompt = "Orange",
+    FzfLuaLiveSym = "Orange",
+    FzfLuaPathColNr = "Blue",
+    FzfLuaPathLineNr = "Green",
+    FzfLuaBufName = "Purple",
     FzfLuaBufId = "TabLine",
-    FzfLuaBufNr = "LineNr",
+    FzfLuaBufNr = "Yellow",
     FzfLuaBufLineNr = "LineNr",
-    FzfLuaBufFlagCur = "Comment",
-    FzfLuaBufFlagAlt = "Comment",
-    FzfLuaTabTitle = "Title",
-    FzfLuaTabMarker = "Comment",
+    FzfLuaBufFlagCur = "Orange",
+    FzfLuaBufFlagAlt = "Blue",
+    FzfLuaTabTitle = "Blue",
+    FzfLuaTabMarker = "Yellow",
     FzfLuaDirIcon = "Directory",
-    FzfLuaDirPart = "Comment",
+    FzfLuaDirPart = "NonText",
     FzfLuaFilePart = "NormalFloat",
-
-    -- Commands
     FzfLuaCmdEx = "Statement",
     FzfLuaCmdBuf = "Added",
     FzfLuaCmdGlobal = "Directory",
-
-    -- Scrollbars
     FzfLuaScrollBorderEmpty = "FloatBorder",
     FzfLuaScrollBorderFull = "FloatBorder",
     FzfLuaScrollFloatEmpty = "PmenuSbar",
     FzfLuaScrollFloatFull = "PmenuThumb",
-
-    FzfLuaSearch = "Search",
   }) do
     link(group, target)
   end
@@ -749,6 +745,8 @@ function M.setup()
   link("NvimTreeOpenedHL", "Fg")
   link("NvimTreeSpecialFile", "Fg")
   link("NvimTreeImageFile", "Fg")
+  link("NvimTreeOpenedFile", "Fg")
+  hl("NvimTreeStatuslineNc", { fg = p.base01, bg = p.base01 })
   link("NvimTreeIndentMarker", "Grey")
   link("NvimTreeGitDirtyIcon", "Yellow")
   link("NvimTreeGitStagedIcon", "Blue")
@@ -783,69 +781,23 @@ function M.setup()
   link("diffAdded", "Green")
   link("diffRemoved", "Red")
   link("diffChanged", "Green")
-  link("diffFile", "Aqua")
+  link("diffFile", "Blue")
   link("diffOldFile", "Yellow")
-  link("diffNewFile", "Yellow")
-  link("diffIndexLine", "Purple")
+  link("diffNewFile", "Orange")
+  link("diffIndexLine", "Aqua")
   link("diffLine", "Grey")
 
-  -- ==========================================================================
-  -- Filetype-specific highlights
-  -- ==========================================================================
-
-  -- markdown
-  hl("markdownH1", { fg = p.base08 })
-  hl("markdownH2", { fg = p.base09 })
-  hl("markdownH3", { fg = p.base0A })
-  hl("markdownH4", { fg = p.base0B })
-  hl("markdownH5", { fg = p.base0D })
-  hl("markdownH6", { fg = p.base0E })
-  hl("markdownItalic", { italic = true })
-  hl("markdownBold", { bold = true })
-  hl("markdownItalicDelimiter", { fg = p.base03, italic = true })
-  link("markdownUrl", "@markup.link.url")
-  link("markdownCode", "Green")
-  link("markdownCodeBlock", "Aqua")
-  link("markdownCodeDelimiter", "Aqua")
-  link("markdownBlockquote", "Grey")
-  link("markdownListMarker", "Red")
-  link("markdownOrderedListMarker", "Red")
-  link("markdownRule", "Purple")
-  link("markdownHeadingRule", "Grey")
-  link("markdownUrlDelimiter", "Grey")
-  link("markdownLinkDelimiter", "Grey")
-  link("markdownLinkTextDelimiter", "Grey")
-  link("markdownHeadingDelimiter", "Grey")
-  link("markdownLinkText", "Purple")
-  link("markdownUrlTitleDelimiter", "Green")
-  link("markdownIdDeclaration", "markdownLinkText")
-  link("markdownBoldDelimiter", "Grey")
-  link("markdownId", "Yellow")
-  -- treesitter markdown headings
-  link("@markup.heading.1.markdown", "markdownH1")
-  link("@markup.heading.2.markdown", "markdownH2")
-  link("@markup.heading.3.markdown", "markdownH3")
-  link("@markup.heading.4.markdown", "markdownH4")
-  link("@markup.heading.5.markdown", "markdownH5")
-  link("@markup.heading.6.markdown", "markdownH6")
-  link("@markup.heading.1.marker.markdown", "@conceal")
-  link("@markup.heading.2.marker.markdown", "@conceal")
-  link("@markup.heading.3.marker.markdown", "@conceal")
-  link("@markup.heading.4.marker.markdown", "@conceal")
-  link("@markup.heading.5.marker.markdown", "@conceal")
-  link("@markup.heading.6.marker.markdown", "@conceal")
-
   -- mason
-  hl("MasonHeader", { fg = p.base00, bg = p.base08 })
-  hl("MasonHeaderSecondary", { fg = p.base00, bg = p.base0A })
+  hl("MasonHeader", { fg = p.base00, bg = p.base0D, bold = true })
+  hl("MasonHeaderSecondary", { fg = p.base00, bg = p.base0E, bold = true })
   link("MasonHighlight", "Green")
-  link("MasonHighlightSecondary", "Yellow")
-  hl("MasonHighlightBlock", { fg = p.base00, bg = p.base0A })
-  hl("MasonHighlightBlockBold", { fg = p.base00, bg = p.base0A, bold = true })
-  hl("MasonHighlightBlockSecondary", { fg = p.base00, bg = p.base08 })
+  link("MasonHighlightSecondary", "Purple")
+  hl("MasonHighlightBlock", { fg = p.base00, bg = p.base0B })
+  hl("MasonHighlightBlockBold", { fg = p.base00, bg = p.base0B, bold = true })
+  hl("MasonHighlightBlockSecondary", { fg = p.base00, bg = p.base0D })
   hl(
     "MasonHighlightBlockBoldSecondary",
-    { fg = p.base00, bg = p.base08, bold = true }
+    { fg = p.base00, bg = p.base0E, bold = true }
   )
   hl("MasonMuted", { fg = p.base03 })
   hl("MasonMutedBlock", { fg = p.base00, bg = p.base03 })
