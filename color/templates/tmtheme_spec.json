@@ -1,226 +1,250 @@
 {
-  "name": "Custom",
-  "global_settings": [
-    { "key": "background", "color": "ui.bg" },
-    { "key": "foreground", "color": "ui.fg" },
-    { "key": "caret", "color": "ui.fg" },
-    { "key": "lineHighlight", "color": "ui.cursorline" },
-    { "key": "selection", "color": "ui.selection" },
-    { "key": "selectionBorder", "color": "ui.border" },
-    { "key": "invisibles", "color": "ui.bg_dim" },
-    { "key": "guide", "color": "ui.border" },
-    { "key": "activeGuide", "color": "ui.fg_dim" },
-    { "key": "gutter", "color": "ui.bg" },
-    { "key": "gutterForeground", "color": "ui.muted" },
-    { "key": "findHighlight", "color": "ui.search_bg" },
-    { "key": "findHighlightForeground", "color": "ui.search_fg" },
-    { "key": "bracketsForeground", "color": "syntax.delimiter" },
-    { "key": "bracketContentsForeground", "color": "ui.fg" }
-  ],
-  "entries": [
-    {
-      "name": "Comment",
-      "scope": "comment, punctuation.definition.comment",
-      "color": "syntax.comment",
-      "fontStyle": "italic"
-    },
-    { "name": "String", "scope": "string", "color": "syntax.string" },
-    {
-      "name": "Escape Character",
-      "scope": "constant.character.escape",
-      "color": "syntax.escape"
-    },
-    { "name": "Number", "scope": "constant.numeric", "color": "syntax.number" },
-    {
-      "name": "Built-in Constant",
-      "scope": "constant.language",
-      "color": "syntax.constant"
-    },
-    { "name": "Constant", "scope": "constant.other", "color": "syntax.constant" },
-    {
-      "name": "Keyword",
-      "scope": "keyword, keyword.control",
-      "color": "syntax.keyword",
-      "fontStyle": "italic"
-    },
-    { "name": "Operator", "scope": "keyword.operator", "color": "syntax.operator" },
-    { "name": "Storage Type", "scope": "storage.type", "color": "syntax.type" },
-    {
-      "name": "Storage Modifier",
-      "scope": "storage.modifier",
-      "color": "syntax.keyword"
-    },
-    {
-      "name": "Function Name",
-      "scope": "entity.name.function, meta.function-call",
-      "color": "syntax.function"
-    },
-    {
-      "name": "Class Name",
-      "scope": "entity.name.class, entity.name.type, entity.name.namespace, entity.name.struct",
-      "color": "syntax.type"
-    },
-    {
-      "name": "Inherited Class",
-      "scope": "entity.other.inherited-class",
-      "color": "syntax.type"
-    },
-    {
-      "name": "Function Parameter",
-      "scope": "variable.parameter",
-      "color": "syntax.variable"
-    },
-    {
-      "name": "Variable",
-      "scope": "variable, variable.other",
-      "color": "syntax.variable"
-    },
-    {
-      "name": "Language Variable",
-      "scope": "variable.language",
-      "color": "syntax.builtin",
-      "fontStyle": "italic"
-    },
-    {
-      "name": "Support Function",
-      "scope": "support.function",
-      "color": "syntax.builtin"
-    },
-    {
-      "name": "Support Type",
-      "scope": "support.type, support.class",
-      "color": "syntax.type"
-    },
-    {
-      "name": "Support Constant",
-      "scope": "support.constant",
-      "color": "syntax.constant"
-    },
-    {
-      "name": "Preprocessor",
-      "scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
-      "color": "syntax.preproc",
-      "fontStyle": "italic"
-    },
-    {
-      "name": "Include",
-      "scope": "keyword.control.include, keyword.control.from",
-      "color": "syntax.preproc",
-      "fontStyle": "italic"
-    },
-    {
-      "name": "Type Annotation",
-      "scope": "meta.type, storage.type.annotation",
-      "color": "syntax.type"
-    },
-    {
-      "name": "Decorator",
-      "scope": "meta.decorator, punctuation.definition.annotation",
-      "color": "syntax.special",
-      "fontStyle": "italic"
-    },
-    { "name": "Tag Name", "scope": "entity.name.tag", "color": "syntax.keyword" },
-    {
-      "name": "Tag Attribute",
-      "scope": "entity.other.attribute-name",
-      "color": "syntax.property"
-    },
-    {
-      "name": "Punctuation",
-      "scope": "punctuation.separator, punctuation.terminator, punctuation.section",
-      "color": "syntax.delimiter"
-    },
-    {
-      "name": "Tag Punctuation",
-      "scope": "punctuation.definition.tag",
-      "color": "syntax.delimiter"
-    },
-    {
-      "name": "String Punctuation",
-      "scope": "punctuation.definition.string",
-      "color": "syntax.delimiter"
-    },
-    { "name": "Regular Expression", "scope": "string.regexp", "color": "syntax.escape" },
-    {
-      "name": "CSS Property",
-      "scope": "support.type.property-name.css",
-      "color": "syntax.property"
-    },
-    {
-      "name": "CSS Value",
-      "scope": "support.constant.property-value.css, meta.property-value.css",
-      "color": "syntax.constant"
-    },
-    {
-      "name": "JSON Key",
-      "scope": "support.type.property-name.json, meta.structure.dictionary.key.json string",
-      "color": "syntax.property"
-    },
-    { "name": "YAML Key", "scope": "entity.name.tag.yaml", "color": "syntax.property" },
-    {
-      "name": "Diff Inserted",
-      "scope": "markup.inserted, meta.diff.header.to-file",
-      "color": "diff.add"
-    },
-    {
-      "name": "Diff Deleted",
-      "scope": "markup.deleted, meta.diff.header.from-file",
-      "color": "diff.delete"
-    },
-    { "name": "Diff Changed", "scope": "markup.changed", "color": "diff.change" },
-    {
-      "name": "Diff Range",
-      "scope": "meta.diff.range, meta.diff.index",
-      "color": "syntax.keyword"
-    },
-    {
-      "name": "Markup Heading",
-      "scope": "markup.heading, punctuation.definition.heading",
-      "color": "syntax.function"
-    },
-    {
-      "name": "Markup Bold",
-      "scope": "markup.bold",
-      "color": "syntax.type",
-      "fontStyle": "bold"
-    },
-    {
-      "name": "Markup Italic",
-      "scope": "markup.italic",
-      "color": "syntax.keyword",
-      "fontStyle": "italic"
-    },
-    {
-      "name": "Markup Link URL",
-      "scope": "markup.underline.link, string.other.link",
-      "color": "syntax.function"
-    },
-    {
-      "name": "Markup Link Text",
-      "scope": "string.other.link.title, string.other.link.description",
-      "color": "syntax.variable"
-    },
-    {
-      "name": "Markup Inline Code",
-      "scope": "markup.inline.raw, markup.raw",
-      "color": "syntax.string"
-    },
-    {
-      "name": "Markup List",
-      "scope": "markup.list punctuation.definition.list_item",
-      "color": "syntax.operator"
-    },
-    {
-      "name": "Markup Quote",
-      "scope": "markup.quote",
-      "color": "syntax.comment",
-      "fontStyle": "italic"
-    },
-    { "name": "Invalid", "scope": "invalid", "color": "diagnostic.error" },
-    {
-      "name": "Invalid Deprecated",
-      "scope": "invalid.deprecated",
-      "color": "syntax.special"
-    }
-  ]
+	"name": "Custom",
+	"global_settings": [
+		{ "key": "background", "color": "ui.bg" },
+		{ "key": "foreground", "color": "ui.fg" },
+		{ "key": "caret", "color": "ui.fg" },
+		{ "key": "lineHighlight", "color": "ui.cursorline" },
+		{ "key": "selection", "color": "ui.selection" },
+		{ "key": "selectionBorder", "color": "ui.border" },
+		{ "key": "invisibles", "color": "ui.bg_dim" },
+		{ "key": "guide", "color": "ui.border" },
+		{ "key": "activeGuide", "color": "ui.fg_dim" },
+		{ "key": "gutter", "color": "ui.bg" },
+		{ "key": "gutterForeground", "color": "ui.muted" },
+		{ "key": "findHighlight", "color": "ui.search_bg" },
+		{ "key": "findHighlightForeground", "color": "ui.search_fg" },
+		{ "key": "bracketsForeground", "color": "syntax.delimiter" },
+		{ "key": "bracketContentsForeground", "color": "ui.fg" }
+	],
+	"entries": [
+		{
+			"name": "Comment",
+			"scope": "comment, punctuation.definition.comment",
+			"color": "syntax.comment",
+			"fontStyle": "italic"
+		},
+		{ "name": "String", "scope": "string", "color": "syntax.string" },
+		{
+			"name": "Escape Character",
+			"scope": "constant.character.escape",
+			"color": "syntax.escape"
+		},
+		{ "name": "Number", "scope": "constant.numeric", "color": "syntax.number" },
+		{
+			"name": "Built-in Constant",
+			"scope": "constant.language",
+			"color": "syntax.constant"
+		},
+		{
+			"name": "Constant",
+			"scope": "constant.other",
+			"color": "syntax.constant"
+		},
+		{
+			"name": "Keyword",
+			"scope": "keyword, keyword.control",
+			"color": "syntax.keyword",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Operator",
+			"scope": "keyword.operator",
+			"color": "syntax.operator"
+		},
+		{ "name": "Storage Type", "scope": "storage.type", "color": "syntax.type" },
+		{
+			"name": "Storage Modifier",
+			"scope": "storage.modifier",
+			"color": "syntax.keyword"
+		},
+		{
+			"name": "Function Name",
+			"scope": "entity.name.function, meta.function-call",
+			"color": "syntax.function"
+		},
+		{
+			"name": "Class Name",
+			"scope": "entity.name.class, entity.name.type, entity.name.namespace, entity.name.struct",
+			"color": "syntax.type"
+		},
+		{
+			"name": "Inherited Class",
+			"scope": "entity.other.inherited-class",
+			"color": "syntax.type"
+		},
+		{
+			"name": "Function Parameter",
+			"scope": "variable.parameter",
+			"color": "syntax.variable"
+		},
+		{
+			"name": "Variable",
+			"scope": "variable, variable.other",
+			"color": "syntax.variable"
+		},
+		{
+			"name": "Language Variable",
+			"scope": "variable.language",
+			"color": "syntax.builtin",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Support Function",
+			"scope": "support.function",
+			"color": "syntax.builtin"
+		},
+		{
+			"name": "Support Type",
+			"scope": "support.type, support.class",
+			"color": "syntax.type"
+		},
+		{
+			"name": "Support Constant",
+			"scope": "support.constant",
+			"color": "syntax.constant"
+		},
+		{
+			"name": "Preprocessor",
+			"scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
+			"color": "syntax.preproc",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Include",
+			"scope": "keyword.control.include, keyword.control.from",
+			"color": "syntax.preproc",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Type Annotation",
+			"scope": "meta.type, storage.type.annotation",
+			"color": "syntax.type"
+		},
+		{
+			"name": "Decorator",
+			"scope": "meta.decorator, punctuation.definition.annotation",
+			"color": "syntax.special",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Tag Name",
+			"scope": "entity.name.tag",
+			"color": "syntax.keyword"
+		},
+		{
+			"name": "Tag Attribute",
+			"scope": "entity.other.attribute-name",
+			"color": "syntax.property"
+		},
+		{
+			"name": "Punctuation",
+			"scope": "punctuation.separator, punctuation.terminator, punctuation.section",
+			"color": "syntax.delimiter"
+		},
+		{
+			"name": "Tag Punctuation",
+			"scope": "punctuation.definition.tag",
+			"color": "syntax.delimiter"
+		},
+		{
+			"name": "String Punctuation",
+			"scope": "punctuation.definition.string",
+			"color": "syntax.delimiter"
+		},
+		{
+			"name": "Regular Expression",
+			"scope": "string.regexp",
+			"color": "syntax.escape"
+		},
+		{
+			"name": "CSS Property",
+			"scope": "support.type.property-name.css",
+			"color": "syntax.property"
+		},
+		{
+			"name": "CSS Value",
+			"scope": "support.constant.property-value.css, meta.property-value.css",
+			"color": "syntax.constant"
+		},
+		{
+			"name": "JSON Key",
+			"scope": "support.type.property-name.json, meta.structure.dictionary.key.json string",
+			"color": "syntax.property"
+		},
+		{
+			"name": "YAML Key",
+			"scope": "entity.name.tag.yaml",
+			"color": "syntax.property"
+		},
+		{
+			"name": "Diff Inserted",
+			"scope": "markup.inserted, meta.diff.header.to-file",
+			"color": "diff.add"
+		},
+		{
+			"name": "Diff Deleted",
+			"scope": "markup.deleted, meta.diff.header.from-file",
+			"color": "diff.delete"
+		},
+		{
+			"name": "Diff Changed",
+			"scope": "markup.changed",
+			"color": "diff.change"
+		},
+		{
+			"name": "Diff Range",
+			"scope": "meta.diff.range, meta.diff.index",
+			"color": "syntax.keyword"
+		},
+		{
+			"name": "Markup Heading",
+			"scope": "markup.heading, punctuation.definition.heading",
+			"color": "syntax.function"
+		},
+		{
+			"name": "Markup Bold",
+			"scope": "markup.bold",
+			"color": "syntax.type",
+			"fontStyle": "bold"
+		},
+		{
+			"name": "Markup Italic",
+			"scope": "markup.italic",
+			"color": "syntax.keyword",
+			"fontStyle": "italic"
+		},
+		{
+			"name": "Markup Link URL",
+			"scope": "markup.underline.link, string.other.link",
+			"color": "syntax.function"
+		},
+		{
+			"name": "Markup Link Text",
+			"scope": "string.other.link.title, string.other.link.description",
+			"color": "syntax.variable"
+		},
+		{
+			"name": "Markup Inline Code",
+			"scope": "markup.inline.raw, markup.raw",
+			"color": "syntax.string"
+		},
+		{
+			"name": "Markup List",
+			"scope": "markup.list punctuation.definition.list_item",
+			"color": "syntax.operator"
+		},
+		{
+			"name": "Markup Quote",
+			"scope": "markup.quote",
+			"color": "syntax.comment",
+			"fontStyle": "italic"
+		},
+		{ "name": "Invalid", "scope": "invalid", "color": "diagnostic.error" },
+		{
+			"name": "Invalid Deprecated",
+			"scope": "invalid.deprecated",
+			"color": "syntax.special"
+		}
+	]
 }
