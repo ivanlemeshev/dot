@@ -23,17 +23,25 @@ from theme import load_theme_bundle
 
 allowed_by_scheme = {}
 for scheme in schemes:
+    if "\\npalette:\\n" not in "\\n" + open(scheme, encoding="utf-8").read():
+        continue
     bundle = load_theme_bundle(scheme, prefix="#", uppercase=False)
     colors = bundle["colors"]
     raw_ansi = bundle["ansi"]
-    base16 = bundle["base16"] or {}
+    semantic = {}
+    for section in ("palette", "ui", "syntax", "diagnostic", "diff", "tool", "fzf"):
+        semantic.update(bundle[section])
     allowed_hex = (
         {v.lower() for v in raw_ansi.values()}
         | {v.lower() for v in colors.values()}
-        | {v.lower() for v in base16.values()}
+        | {v.lower() for v in semantic.values()}
     )
     allowed_hex6 = {h.lstrip("#") for h in allowed_hex}
     allowed_by_scheme[scheme] = (allowed_hex, allowed_hex6)
+
+if not allowed_by_scheme:
+    print("No strict semantic color schemes found.")
+    raise SystemExit(1)
 
 targets = [
     "windows/terminal/settings.json",

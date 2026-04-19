@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "__green__",
+          "foreground": "__time__",
           "options": {
             "time_format": "15:04:05"
           },
@@ -16,11 +16,11 @@
         {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__yellow__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__blue__>{{ .HostName }}</>  ",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<__user__>{{ .UserName }}</><__foreground__>@</></>{{ end }}<__host__>{{ .HostName }}</>  ",
           "type": "session"
         },
         {
-          "foreground": "__red__",
+          "foreground": "__root__",
           "style": "plain",
           "template": "󱐋  ",
           "type": "root"
@@ -35,11 +35,11 @@
           "type": "path"
         },
         {
-          "foreground": "__green__",
+          "foreground": "__git_clean__",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}__yellow__{{ end }}",
-            "{{ if gt .Ahead 0 }}__blue__{{ end }}",
-            "{{ if gt .Behind 0 }}__red__{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}__git_dirty__{{ end }}",
+            "{{ if gt .Ahead 0 }}__git_ahead__{{ end }}",
+            "{{ if gt .Behind 0 }}__git_behind__{{ end }}"
           ],
           "options": {
             "branch_icon": "",
@@ -47,12 +47,12 @@
             "fetch_upstream_icon": false
           },
           "style": "plain",
-          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<__red__> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<__green__> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<__git_behind__> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<__git_clean__> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
           "type": "git"
         },
 
         {
-          "foreground": "__yellow__",
+          "foreground": "__duration__",
           "options": {
             "style": "roundrock",
             "threshold": 500
@@ -62,9 +62,9 @@
           "type": "executiontime"
         },
         {
-          "foreground": "__green__",
+          "foreground": "__status_ok__",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}__red__{{ end }}"
+            "{{ if gt .Code 0 }}__status_error__{{ end }}"
           ],
           "options": {
             "always_enabled": false
@@ -83,7 +83,7 @@
         {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "<__blue__>$</>",
+          "template": "<__prompt__>$</>",
           "type": "text"
         }
       ],

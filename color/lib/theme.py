@@ -23,23 +23,135 @@ ANSI_KEYS = {
     "bright_white",
 }
 
-BASE16_KEYS = {
-    "base00",
-    "base01",
-    "base02",
-    "base03",
-    "base04",
-    "base05",
-    "base06",
-    "base07",
-    "base08",
-    "base09",
-    "base0A",
-    "base0B",
-    "base0C",
-    "base0D",
-    "base0E",
-    "base0F",
+PALETTE_KEYS = {
+    "bg_dim",
+    "bg0",
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4",
+    "bg5",
+    "bg_statusline1",
+    "bg_statusline2",
+    "bg_statusline3",
+    "bg_visual",
+    "bg_visual_red",
+    "bg_visual_yellow",
+    "bg_visual_green",
+    "bg_visual_blue",
+    "bg_visual_purple",
+    "bg_diff_red",
+    "bg_diff_green",
+    "bg_diff_blue",
+    "bg_current_word",
+    "fg0",
+    "fg1",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "aqua",
+    "blue",
+    "purple",
+    "bg_red",
+    "bg_green",
+    "bg_yellow",
+    "grey0",
+    "grey1",
+    "grey2",
+}
+
+UI_KEYS = {
+    "bg",
+    "bg_alt",
+    "bg_dim",
+    "fg",
+    "fg_alt",
+    "fg_dim",
+    "muted",
+    "border",
+    "border_active",
+    "selection",
+    "visual",
+    "cursorline",
+    "search_bg",
+    "search_fg",
+    "inc_search_bg",
+    "inc_search_fg",
+    "popup_bg",
+    "popup_sel",
+    "status_bg",
+    "status_fg",
+    "status_inactive_fg",
+}
+
+SYNTAX_KEYS = {
+    "comment",
+    "string",
+    "escape",
+    "number",
+    "constant",
+    "keyword",
+    "operator",
+    "type",
+    "function",
+    "variable",
+    "property",
+    "builtin",
+    "preproc",
+    "special",
+    "delimiter",
+}
+
+DIAGNOSTIC_KEYS = {"error", "warn", "info", "hint", "ok"}
+
+DIFF_KEYS = {
+    "add",
+    "change",
+    "delete",
+    "text",
+    "add_bg",
+    "change_bg",
+    "delete_bg",
+    "text_bg",
+}
+
+TOOL_KEYS = {
+    "prompt",
+    "prompt_alt",
+    "path",
+    "root",
+    "duration",
+    "git_clean",
+    "git_dirty",
+    "git_ahead",
+    "git_behind",
+    "directory",
+    "executable",
+    "symlink",
+    "archive",
+    "media",
+    "document",
+    "backup",
+}
+
+FZF_KEYS = {
+    "foreground",
+    "background",
+    "selected_background",
+    "muted",
+    "match",
+    "selected_match",
+    "info",
+    "marker",
+    "prompt",
+    "spinner",
+    "pointer",
+    "border",
+    "header",
+    "label",
+    "query",
+    "gutter",
 }
 
 
@@ -91,40 +203,13 @@ def _parse_ansi(yaml_file, prefix="#", uppercase=False):
     )
 
 
-def _parse_base16(yaml_file, prefix="#", uppercase=False):
-    return _parse_section(
-        yaml_file, "base16", BASE16_KEYS, prefix=prefix, uppercase=uppercase
+def _parse_required_section(yaml_file, section_name, required_keys, prefix="#", uppercase=False):
+    values = _parse_section(
+        yaml_file, section_name, required_keys, prefix=prefix, uppercase=uppercase
     )
-
-
-def derive_ansi_from_base16(base16):
-    if not base16:
-        raise ValueError("Base16 section is required in YAML")
-
-    missing = sorted(BASE16_KEYS - set(base16.keys()))
-    if missing:
-        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
-
-    return {
-        "bg": base16["base00"],
-        "fg": base16["base05"],
-        "black": base16["base01"],
-        "red": base16["base08"],
-        "green": base16["base0B"],
-        "yellow": base16["base0A"],
-        "blue": base16["base0D"],
-        "magenta": base16["base0E"],
-        "cyan": base16["base0C"],
-        "white": base16["base06"],
-        "bright_black": base16["base03"],
-        "bright_red": base16["base08"],
-        "bright_green": base16["base0B"],
-        "bright_yellow": base16["base0A"],
-        "bright_blue": base16["base0D"],
-        "bright_magenta": base16["base0E"],
-        "bright_cyan": base16["base0C"],
-        "bright_white": base16["base07"],
-    }
+    if values is None:
+        raise ValueError(f"{section_name.capitalize()} section is required in YAML")
+    return values
 
 
 def derive_ansi_roles(source_ansi):
@@ -151,14 +236,30 @@ def derive_ansi_roles(source_ansi):
 
 
 def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
-    source_ansi = _parse_ansi(yaml_file, prefix=prefix, uppercase=uppercase)
-    base16 = _parse_base16(yaml_file, prefix=prefix, uppercase=uppercase)
-
-    if source_ansi is None and base16 is None:
-        raise ValueError("Ansi or base16 section is required in YAML")
-
-    if source_ansi is None:
-        source_ansi = derive_ansi_from_base16(base16)
+    palette = _parse_required_section(
+        yaml_file, "palette", PALETTE_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    source_ansi = _parse_required_section(
+        yaml_file, "ansi", ANSI_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    ui = _parse_required_section(
+        yaml_file, "ui", UI_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    syntax = _parse_required_section(
+        yaml_file, "syntax", SYNTAX_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    diagnostic = _parse_required_section(
+        yaml_file, "diagnostic", DIAGNOSTIC_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    diff = _parse_required_section(
+        yaml_file, "diff", DIFF_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    tool = _parse_required_section(
+        yaml_file, "tool", TOOL_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    fzf = _parse_required_section(
+        yaml_file, "fzf", FZF_KEYS, prefix=prefix, uppercase=uppercase
+    )
 
     ansi_roles = derive_ansi_roles(source_ansi)
 
@@ -185,9 +286,15 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
 
     return {
         "colors": colors,
+        "palette": palette,
         "ansi": source_ansi,
         "ansi_roles": ansi_roles,
-        "base16": base16,
+        "ui": ui,
+        "syntax": syntax,
+        "diagnostic": diagnostic,
+        "diff": diff,
+        "tool": tool,
+        "fzf": fzf,
     }
 
 
@@ -203,178 +310,42 @@ def load_theme(yaml_file, prefix="#", uppercase=False):
     return colors
 
 
-def derive_editor_palette_with_ansi(ansi):
-    required = {"background", "foreground"} | ANSI_KEYS | {
-        "brightBlack",
-        "brightWhite",
-        "brightCyan",
-        "brightMagenta",
+def derive_vim_palette(bundle):
+    palette = bundle["palette"]
+    diff = bundle["diff"]
+
+    editor_palette = {
+        "bg_dim": palette["bg_dim"],
+        "bg0": palette["bg0"],
+        "bg1": palette["bg1"],
+        "bg2": palette["bg2"],
+        "bg3": palette["bg3"],
+        "bg4": palette["bg4"],
+        "bg5": palette["bg5"],
+        "bg_statusline1": palette["bg_statusline1"],
+        "bg_statusline2": palette["bg_statusline2"],
+        "bg_statusline3": palette["bg_statusline3"],
+        "bg_visual": palette["bg_visual"],
+        "bg_visual_red": palette["bg_visual_red"],
+        "bg_visual_yellow": palette["bg_visual_yellow"],
+        "bg_visual_green": palette["bg_visual_green"],
+        "bg_visual_blue": palette["bg_visual_blue"],
+        "bg_visual_purple": palette["bg_visual_purple"],
+        "bg_diff_red": diff["delete_bg"],
+        "bg_diff_green": diff["add_bg"],
+        "bg_diff_blue": diff["change_bg"],
+        "bg_current_word": palette["bg_current_word"],
+        "fg0": palette["fg0"],
+        "fg1": palette["fg1"],
+        "grey0": palette["grey0"],
+        "grey1": palette["grey1"],
+        "grey2": palette["grey2"],
+        "red": palette["red"],
+        "orange": palette["orange"],
+        "yellow": palette["yellow"],
+        "green": palette["green"],
+        "aqua": palette["aqua"],
+        "blue": palette["blue"],
+        "purple": palette["purple"],
     }
-    missing = sorted(required - set(ansi.keys()))
-    if missing:
-        raise ValueError("Ansi is missing required keys: " + ", ".join(missing))
-
-    return {
-        "bg": ansi["bg"],
-        "bg_alt": ansi["black"],
-        "bg_sel": ansi["white"],
-        "faint": ansi["black"],
-        "muted": ansi["brightBlack"],
-        "dim": ansi["brightBlack"],
-        "border": ansi["brightBlack"],
-        "fg": ansi["fg"],
-        "fg_alt": ansi["white"],
-        "bright": ansi["brightWhite"],
-        "red": ansi["red"],
-        "orange": ansi["brightMagenta"],
-        "yellow": ansi["yellow"],
-        "green": ansi["green"],
-        "cyan": ansi["cyan"],
-        "blue": ansi["blue"],
-        "magenta": ansi["magenta"],
-        "background": ansi["background"],
-        "foreground": ansi["foreground"],
-        "black": ansi["black"],
-        "white": ansi["white"],
-        "background_red": ansi["red"],
-        "background_yellow": ansi["yellow"],
-        "background_green": ansi["green"],
-        "background_blue": ansi["blue"],
-        "background_purple": ansi["magenta"],
-        "background_visual": ansi["white"],
-        "background_3": ansi["black"],
-        "background_5": ansi["brightBlack"],
-    }
-
-
-def editor_palette_to_vim(editor):
-    required = {
-        "bg",
-        "bg_alt",
-        "bg_sel",
-        "faint",
-        "muted",
-        "dim",
-        "border",
-        "fg",
-        "fg_alt",
-        "bright",
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "cyan",
-        "blue",
-        "magenta",
-        "background_red",
-        "background_yellow",
-        "background_green",
-        "background_blue",
-        "background_purple",
-        "background_visual",
-        "background_3",
-        "background_5",
-    }
-    missing = sorted(required - set(editor.keys()))
-    if missing:
-        raise ValueError(
-            "Editor palette is missing required keys: " + ", ".join(missing)
-        )
-
-    return {
-        "gui00": editor["bg"],
-        "gui01": editor["bg_alt"],
-        "gui02": editor["bg_sel"],
-        "gui03": editor["muted"],
-        "gui04": editor["dim"],
-        "gui05": editor["fg"],
-        "gui06": editor["fg_alt"],
-        "gui07": editor["bright"],
-        "gui08": editor["red"],
-        "gui09": editor["orange"],
-        "gui0A": editor["yellow"],
-        "gui0B": editor["green"],
-        "gui0C": editor["cyan"],
-        "gui0D": editor["blue"],
-        "gui0E": editor["magenta"],
-        "gui0F": editor["background_red"],
-        "gui08_bright": editor["bright_red"],
-        "gui0B_bright": editor["bright_green"],
-        "gui0C_bright": editor["bright_cyan"],
-        "gui0D_bright": editor["bright_blue"],
-        "gui0E_bright": editor["bright_magenta"],
-        "gui_faint": editor["faint"],
-        "gui_border": editor["border"],
-        "gui_bg_red": editor["background_red"],
-        "gui_bg_yellow": editor["background_yellow"],
-        "gui_bg_green": editor["background_green"],
-        "gui_bg_blue": editor["background_blue"],
-        "gui_bg_purple": editor["background_purple"],
-        "gui_bg_visual": editor["background_visual"],
-        "gui_bg3": editor["background_3"],
-        "gui_bg5": editor["background_5"],
-    }
-
-
-def derive_vim_palette_with_ansi(ansi):
-    editor = derive_editor_palette_with_ansi(ansi)
-    editor["bright_red"] = ansi["brightRed"]
-    editor["bright_green"] = ansi["brightGreen"]
-    editor["bright_cyan"] = ansi["brightCyan"]
-    editor["bright_blue"] = ansi["brightBlue"]
-    editor["bright_magenta"] = ansi["brightMagenta"]
-    return editor_palette_to_vim(editor)
-
-
-def derive_vim_palette_with_base16(base16, ansi):
-    if not base16:
-        raise ValueError("Base16 section is required in YAML")
-
-    missing = sorted(BASE16_KEYS - set(base16.keys()))
-    if missing:
-        raise ValueError("Base16 is missing required keys: " + ", ".join(missing))
-
-    if ansi is None:
-        ansi = derive_ansi_roles(derive_ansi_from_base16(base16))
-
-    return {
-        "gui00": base16["base00"],
-        "gui01": base16["base01"],
-        "gui02": base16["base02"],
-        "gui03": base16["base03"],
-        "gui04": base16["base04"],
-        "gui05": base16["base05"],
-        "gui06": base16["base06"],
-        "gui07": base16["base07"],
-        "gui08": base16["base08"],
-        "gui09": base16["base09"],
-        "gui0A": base16["base0A"],
-        "gui0B": base16["base0B"],
-        "gui0C": base16["base0C"],
-        "gui0D": base16["base0D"],
-        "gui0E": base16["base0E"],
-        "gui0F": base16["base0F"],
-        "gui08_bright": ansi["brightRed"],
-        "gui0B_bright": ansi["brightGreen"],
-        "gui0C_bright": ansi["brightCyan"],
-        "gui0D_bright": ansi["brightBlue"],
-        "gui0E_bright": ansi["brightMagenta"],
-        "gui_faint": base16["base01"],
-        "gui_border": base16["base03"],
-        "gui_bg_red": base16["base08"],
-        "gui_bg_yellow": base16["base0A"],
-        "gui_bg_green": base16["base0B"],
-        "gui_bg_blue": base16["base0D"],
-        "gui_bg_purple": base16["base0E"],
-        "gui_bg_visual": base16["base02"],
-        "gui_bg3": base16["base01"],
-        "gui_bg5": base16["base03"],
-    }
-
-
-def derive_vim_palette(base16=None, ansi=None):
-    if base16 is not None:
-        return derive_vim_palette_with_base16(base16, ansi)
-    if ansi is not None:
-        return derive_vim_palette_with_ansi(ansi)
-    raise ValueError("Ansi or base16 section is required in YAML")
+    return editor_palette

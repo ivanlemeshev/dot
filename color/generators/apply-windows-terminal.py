@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <settings.json>", file=sys.stderr)
@@ -17,7 +17,10 @@ yaml_file = sys.argv[1]
 json_file = sys.argv[2]
 
 try:
-    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=True)
+    bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=True)
+    colors = bundle["colors"]
+    ansi = bundle["ansi"]
+    ui = bundle["ui"]
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -31,13 +34,13 @@ with open(json_file) as f:
 scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[wt_name.get(name, name)] = hex_val
-scheme["background"] = ansi.get("bg", colors["background"])
-scheme["foreground"] = ansi.get("fg", colors["foreground"])
-scheme["cursorColor"] = ansi.get("fg", colors["white"])
-scheme["selectionBackground"] = ansi.get("white", colors["brightWhite"])
+scheme["background"] = ui["bg"]
+scheme["foreground"] = ui["fg"]
+scheme["cursorColor"] = ui["fg"]
+scheme["selectionBackground"] = ui["selection"]
 
 # Windows Terminal theme colors support alpha; use fully-opaque alpha for consistency.
-tab_bg = ansi.get("bg", colors["background"]) + "FF"
+tab_bg = ui["bg"] + "FF"
 settings["themes"][0]["tab"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_bg

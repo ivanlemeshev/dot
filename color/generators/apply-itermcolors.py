@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(
@@ -20,7 +20,10 @@ yaml_file = sys.argv[1]
 itermcolors_file = sys.argv[2]
 
 try:
-    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
+    colors = bundle["colors"]
+    ansi = bundle["ansi"]
+    ui = bundle["ui"]
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -65,9 +68,9 @@ pl = {}
 for i, name in enumerate(ansi_map):
     pl[f"Ansi {i} Color"] = color_entry(name)
 
-bg = ansi.get("bg", colors["background"])
-fg = ansi.get("fg", colors["foreground"])
-selection_bg = ansi.get("white", colors["brightWhite"])
+bg = ui["bg"]
+fg = ui["fg"]
+selection_bg = ui["selection"]
 
 pl["Background Color"] = color_entry_hex(bg)
 pl["Bold Color"] = color_entry_hex(fg)

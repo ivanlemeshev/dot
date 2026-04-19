@@ -1,36 +1,44 @@
 # FZF_DEFAULT_OPTS (Custom)
 #
-# Colors are defined once as variables so changing the palette is a
-# single-place edit.
+# Colors are defined as fzf roles so each theme can choose its own palette
+# semantics without changing fzf's UI mapping.
 
-# --- Custom palette (hex) ---
-set -l fg0     "#D4BE98"  # fg
-set -l bg0     "#282828"  # bg
-set -l bg1     "#32302F"  # black
-set -l bg2     "#7C6F64"  # bright_black
-set -l red     "#EA6962"  # red
-set -l orange  "#E78A4E"  # orange
-set -l yellow  "#D8A657"  # yellow
-set -l green   "#A9B665"  # green
-set -l magenta "#D3869B"  # magenta
+# --- Semantic roles (hex) ---
+set -l fzf_foreground          "#D4BE98"
+set -l fzf_background          "#282828"
+set -l fzf_selected_background "#32302F"
+set -l fzf_muted               "#928374"
+set -l fzf_match               "#A9B665"
+set -l fzf_selected_match      "#89B482"
+set -l fzf_info                "#89B482"
+set -l fzf_marker              "#D8A657"
+set -l fzf_prompt              "#E78A4E"
+set -l fzf_spinner             "#D8A657"
+set -l fzf_pointer             "#7DAEA3"
+set -l fzf_border              "#928374"
+set -l fzf_header              "#928374"
+set -l fzf_label               "#D4BE98"
+set -l fzf_query               "#D4BE98"
+set -l fzf_gutter              "#282828"
 
 # --- Colors ---
 set -l colors \
-    "--color fg:$fg0" \
-    "--color fg+:$fg0" \
-    "--color bg:$bg0" \
-    "--color bg+:$bg1" \
-    "--color hl:$green" \
-    "--color hl+:$green" \
-    "--color info:$bg2" \
-    "--color marker:$yellow" \
-    "--color prompt:$yellow" \
-    "--color spinner:$yellow" \
-    "--color pointer:$yellow" \
-    "--color header:$orange" \
-    "--color border:$bg2" \
-    "--color label:$fg0" \
-    "--color query:$fg0"
+    "--color fg:$fzf_foreground" \
+    "--color fg+:$fzf_foreground" \
+    "--color bg:$fzf_background" \
+    "--color bg+:$fzf_selected_background" \
+    "--color hl:$fzf_match" \
+    "--color hl+:$fzf_selected_match" \
+    "--color info:$fzf_info" \
+    "--color marker:$fzf_marker" \
+    "--color prompt:$fzf_prompt" \
+    "--color spinner:$fzf_spinner" \
+    "--color pointer:$fzf_pointer" \
+    "--color header:$fzf_header" \
+    "--color border:$fzf_border" \
+    "--color label:$fzf_label" \
+    "--color query:$fzf_query" \
+    "--color gutter:$fzf_gutter"
 
 # --- Layout / UI ---
 set -l ui \
