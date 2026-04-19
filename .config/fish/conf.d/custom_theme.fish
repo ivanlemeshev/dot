@@ -27,7 +27,7 @@ set -Ux fish_color_operator       $yellow
 set -Ux fish_color_escape         $cyan
 set -Ux fish_color_comment        $gray --italics
 set -Ux fish_color_error          $red
-set -Ux fish_color_autosuggestion $gray --dim --italics
+set -Ux fish_color_autosuggestion $fg1
 set -Ux fish_color_valid_path     $blue --underline
 set -Ux fish_color_cancel         $red
 
