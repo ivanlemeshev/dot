@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(
@@ -19,38 +19,42 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors, ansi = load_theme_sections(yaml_file, prefix="", uppercase=False)
+    bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-# fish variable -> YAML ansi color name
-# Format in file: set -l <var>    <hex6>   (bare hex, no #)
-ansi_map = {
-    "bg0": ("bg", "background"),
-    "bg1": ("black", "black"),
-    "fg0": ("fg", "foreground"),
-    "fg1": ("white", "white"),
-    "red": ("red", "red"),
-    "yellow": ("yellow", "yellow"),
-    "green": ("green", "green"),
-    "blue": ("blue", "blue"),
-    "magenta": ("magenta", "magenta"),
-    "cyan": ("cyan", "cyan"),
+palette = bundle["palette"]
+syntax = bundle["syntax"]
+diagnostic = bundle["diagnostic"]
+tool = bundle["tool"]
+ui = bundle["ui"]
+
+roles = {
+    "ui_background": palette["bg0"],
+    "ui_background_alt": palette["bg1"],
+    "ui_selection": ui["selection"],
+    "ui_foreground": palette["fg0"],
+    "ui_foreground_alt": palette["fg1"],
+    "ui_muted": syntax["comment"],
+    "syntax_function": syntax["function"],
+    "syntax_keyword": syntax["keyword"],
+    "syntax_type": syntax["type"],
+    "syntax_variable": syntax["variable"],
+    "syntax_string": syntax["string"],
+    "syntax_operator": syntax["operator"],
+    "syntax_escape": syntax["escape"],
+    "diagnostic_error": diagnostic["error"],
+    "tool_path": tool["path"],
+    "tool_root": tool["root"],
+    "tool_remote": tool["prompt"],
 }
-
-
-def resolve_color(primary, fallback):
-    if primary in ansi:
-        return ansi[primary]
-    return colors[fallback]
 
 
 with open(fish_file) as f:
     content = f.read()
 
-for fish_var, (primary, fallback) in ansi_map.items():
-    hex_val = resolve_color(primary, fallback)
+for fish_var, hex_val in roles.items():
     content = re.sub(
         rf"^(set -l {fish_var}\s+)[0-9a-fA-F]{{6}}$",
         rf"\g<1>{hex_val}",

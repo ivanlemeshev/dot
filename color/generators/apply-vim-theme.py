@@ -18,7 +18,7 @@ vim_file = sys.argv[2]
 
 try:
     bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
-    palette = derive_vim_palette(base16=bundle["base16"], ansi=bundle["ansi_roles"])
+    palette = derive_vim_palette(bundle)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -27,15 +27,8 @@ with open(vim_file) as f:
     content = f.read()
 
 for slot, hex_val in palette.items():
-    # Replace: let s:gui0A        = "XXXXXX"
     content = re.sub(
         rf'(let s:{re.escape(slot)}\s+=\s+)"[0-9a-fA-F]{{6}}"',
-        rf'\g<1>"{hex_val}"',
-        content,
-    )
-    # Replace: let g:base16_gui0A = "XXXXXX"
-    content = re.sub(
-        rf'(let g:base16_{re.escape(slot)}\s+=\s+)"[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{hex_val}"',
         content,
     )

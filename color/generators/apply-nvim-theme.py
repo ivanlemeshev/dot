@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_bundle
+from theme import derive_vim_palette, load_theme_bundle
 
 if len(sys.argv) < 3:
     print(
@@ -21,7 +21,8 @@ yaml_basename = os.path.basename(yaml_file)
 
 try:
     bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
-    base16 = bundle["base16"]
+    palette = derive_vim_palette(bundle)
+    fzf = bundle["fzf"]
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -35,8 +36,14 @@ content = re.sub(
     content,
 )
 
-for slot, hex_val in (base16 or {}).items():
-    # Replace:   bg     = "#151515",
+for slot, hex_val in palette.items():
+    content = re.sub(
+        rf'\b({re.escape(slot)}\s*=\s*)"#[0-9a-fA-F]{{6}}"',
+        rf'\g<1>"#{hex_val}"',
+        content,
+    )
+
+for slot, hex_val in fzf.items():
     content = re.sub(
         rf'\b({re.escape(slot)}\s*=\s*)"#[0-9a-fA-F]{{6}}"',
         rf'\g<1>"#{hex_val}"',

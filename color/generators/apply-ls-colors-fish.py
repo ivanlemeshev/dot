@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import load_theme_sections
+from theme import load_theme_bundle
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <ls_colors.fish>", file=sys.stderr)
@@ -17,23 +17,23 @@ yaml_file = sys.argv[1]
 fish_file = sys.argv[2]
 
 try:
-    colors, ansi = load_theme_sections(yaml_file, prefix="#", uppercase=False)
+    bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-# fish variable -> YAML ansi color name
-# Format in file: set -l <var>    "<R>;<G>;<B>"  # #<HEX>
-ansi_map = {
-    "fg0": ("fg", "foreground"),
-    "bg0": ("bg", "background"),
-    "red": ("red", "red"),
-    "yellow": ("yellow", "yellow"),
-    "green": ("green", "green"),
-    "blue": ("blue", "blue"),
-    "magenta": ("magenta", "magenta"),
-    "dim": ("bright_black", "brightBlack"),
-    "cyan": ("cyan", "cyan"),
+palette_roles = bundle["palette"]
+
+roles = {
+    "ls_foreground": palette_roles["fg0"],
+    "ls_background": palette_roles["bg0"],
+    "ls_error": bundle["diagnostic"]["error"],
+    "ls_document": bundle["tool"]["document"],
+    "ls_executable": bundle["tool"]["executable"],
+    "ls_directory": bundle["tool"]["directory"],
+    "ls_special": palette_roles["purple"],
+    "ls_media": bundle["tool"]["media"],
+    "ls_backup": bundle["tool"]["backup"],
 }
 
 
@@ -46,14 +46,7 @@ with open(fish_file) as f:
     content = f.read()
 
 
-def resolve_color(primary, fallback):
-    if primary in ansi:
-        return ansi[primary]
-    return colors[fallback]
-
-
-for fish_var, (primary, fallback) in ansi_map.items():
-    hex_val = resolve_color(primary, fallback)
+for fish_var, hex_val in roles.items():
     rgb_val = to_rgb(hex_val)
     content = re.sub(
         rf'^(set -l {fish_var}\s+)"[0-9;]+"(\s+#\s*)#[0-9a-fA-F]{{6}}',

@@ -21,7 +21,6 @@ try:
     bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
     colors = bundle["colors"]
     ansi = bundle["ansi"] or {}
-    base16 = bundle["base16"] or {}
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -33,8 +32,10 @@ with open(spec_file, encoding="utf-8") as f:
 
 
 def resolve_color(name):
-    if name in base16:
-        return base16[name]
+    if "." in name:
+        section, key = name.split(".", 1)
+        if section in bundle and key in bundle[section]:
+            return bundle[section][key]
     if name in colors:
         return colors[name]
     return ansi[name]

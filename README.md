@@ -48,14 +48,16 @@ nvim
 
 ## Theme Pipeline
 
-Theme colors are defined in `color/schemes/*.yaml` and generated into
-tool-specific configs with `bin/apply-color-scheme`.
+Theme colors are defined in strict semantic YAML files under
+`color/schemes/*.yaml` and generated into tool-specific configs with
+`bin/apply-color-scheme`. New themes must define `palette`, `ansi`, `ui`,
+`syntax`, `diagnostic`, `diff`, and `tool`.
 
 Useful commands:
 
 ```bash
 # Regenerate checked-in theme outputs
-bash bin/apply-color-scheme color/schemes/base16-default-dark.yaml
+bash bin/apply-color-scheme color/schemes/gruvbox-dark-material.yaml
 
 # Verify theme schema and generated outputs
 make theme-test
