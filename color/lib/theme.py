@@ -312,7 +312,6 @@ def load_theme(yaml_file, prefix="#", uppercase=False):
 
 def derive_vim_palette(bundle):
     palette = bundle["palette"]
-    diagnostic = bundle["diagnostic"]
     diff = bundle["diff"]
 
     editor_palette = {
@@ -341,12 +340,12 @@ def derive_vim_palette(bundle):
         "grey0": palette["grey0"],
         "grey1": palette["grey1"],
         "grey2": palette["grey2"],
-        "red": diagnostic["error"],
+        "red": palette["red"],
         "orange": palette["orange"],
-        "yellow": diagnostic["warn"],
-        "green": diagnostic["ok"],
+        "yellow": palette["yellow"],
+        "green": palette["green"],
         "aqua": palette["aqua"],
-        "blue": diagnostic["info"],
-        "purple": diagnostic["hint"],
+        "blue": palette["blue"],
+        "purple": palette["purple"],
     }
     return editor_palette
