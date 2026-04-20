@@ -30,8 +30,8 @@ M.ui = {
   fg_alt = "#ddc7a1",
   fg_dim = "#928374",
   muted = "#928374",
-  border = "#928374",
-  border_active = "#a89984",
+  border = "#d4be98",
+  border_active = "#d4be98",
   selection = "#45403d",
   visual = "#45403d",
   cursorline = "#32302f",
@@ -96,8 +96,8 @@ M.semantic = {
   removed_bg = "#402120",
   diff_text = "#7daea3",
   diff_text_bg = "#374141",
-  border = "#928374",
-  border_active = "#a89984",
+  border = "#d4be98",
+  border_active = "#d4be98",
   surface = "#32302f",
   surface_alt = "#45403d",
   selection = "#45403d",
@@ -147,8 +147,8 @@ M.tool = {
 
 -- StatusLine
 M.statusline = {
-  normal_bg = "#3a3735",
-  normal_fg = "#ddc7a1",
+  normal_bg = "#d4be98",
+  normal_fg = "#282828",
   insert_bg = "#a9b665",
   insert_fg = "#282828",
   visual_bg = "#d8a657",
@@ -168,16 +168,16 @@ M.statusline = {
 -- lualine theme
 M.lualine_theme = {
   normal = {
-    a = { bg = M.ui.fg, fg = M.ui.bg },
+    a = { bg = M.statusline.normal_bg, fg = M.statusline.normal_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
-    z = { bg = M.ui.fg, fg = M.ui.bg },
+    z = { bg = M.statusline.normal_bg, fg = M.statusline.normal_fg },
   },
   insert = {
-    a = { bg = M.semantic.error, fg = M.ui.bg },
+    a = { bg = M.statusline.insert_bg, fg = M.statusline.insert_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
-    z = { bg = M.semantic.error, fg = M.ui.bg },
+    z = { bg = M.statusline.insert_bg, fg = M.statusline.insert_fg },
   },
   visual = {
     a = { bg = M.statusline.visual_bg, fg = M.statusline.visual_fg },
@@ -290,14 +290,14 @@ function M.setup()
   hl("SpecialKey", { fg = ui.bg_alt })
 
   hl("Pmenu", { fg = ui.fg, bg = ui.popup_bg })
-  hl("PmenuSbar", { bg = ui.popup_bg })
+  hl("PmenuSbar", { bg = ui.border })
   hl("PmenuSel", { fg = ui.fg, bg = ui.popup_sel })
   hl("PmenuMatch", { fg = s.type, bold = true })
   hl("PmenuMatchSel", { fg = s.type, bg = ui.popup_sel, bold = true })
   hl("PmenuKind", { fg = s["function"], bg = ui.popup_bg })
   hl("PmenuExtra", { fg = ui.fg_alt, bg = ui.popup_bg })
   link("WildMenu", "PmenuSel")
-  hl("PmenuThumb", { bg = ui.fg_dim })
+  hl("PmenuThumb", { bg = ui.border })
 
   hl("NormalFloat", { fg = ui.fg, bg = ui.popup_bg })
   hl("FloatBorder", { fg = ui.border, bg = ui.popup_bg })
@@ -326,10 +326,7 @@ function M.setup()
   hl("TabLineSel", { fg = ui.bg, bg = ui.fg })
   hl("WinBar", { fg = ui.bg, bg = ui.fg })
   hl("WinBarNC", { fg = sem.status_inactive_fg, bg = statusline.inactive_bg })
-  hl(
-    "LualineSeparator",
-    { bg = statusline.section_bg, fg = statusline.section_fg }
-  )
+  hl("LualineSeparator", { bg = statusline.section_bg, fg = ui.border })
 
   hl("VertSplit", { fg = ui.border })
   link("WinSeparator", "VertSplit")
