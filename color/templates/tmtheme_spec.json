@@ -1,5 +1,5 @@
 {
-	"name": "Custom",
+	"name": "Custom Color Theme",
 	"global_settings": [
 		{ "key": "background", "color": "ui.bg" },
 		{ "key": "foreground", "color": "ui.fg" },

@@ -26,7 +26,7 @@ setup() {
   cp "$PROJECT_ROOT/.config/vim/colors/custom.vim" "$TEST_ROOT/.config/vim/colors/custom.vim"
   cp "$PROJECT_ROOT/.config/nvim/lua/lem/colorscheme.lua" "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
-  cp "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors" "$TEST_ROOT/macos/iterm2/custom-dark.itermcolors"
+  cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
 }
 
 teardown() {
@@ -46,7 +46,7 @@ teardown() {
   [ -s "$TEST_ROOT/.config/vim/colors/custom.vim" ]
   [ -s "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua" ]
   [ -s "$TEST_ROOT/windows/terminal/settings.json" ]
-  [ -s "$TEST_ROOT/macos/iterm2/custom-dark.itermcolors" ]
+  [ -s "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors" ]
 
   grep -q 'M.syntax = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'hl("Comment", { fg = s.comment, italic = true })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"

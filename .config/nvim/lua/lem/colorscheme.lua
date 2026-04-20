@@ -1,4 +1,4 @@
--- Custom colorscheme (no external dependency)
+-- Custom color theme (no external dependency)
 
 local M = {}
 
@@ -216,7 +216,7 @@ function M.setup()
   if vim.fn.exists("syntax_on") then
     vim.cmd("syntax reset")
   end
-  vim.g.colors_name = "custom-dark"
+  vim.g.colors_name = "custom-color-theme"
   vim.o.background = "dark"
 
   local ui = M.ui
