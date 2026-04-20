@@ -27,22 +27,22 @@ except ValueError as exc:
 fzf = bundle["fzf"]
 
 fzf_roles = {
-    "fzf_foreground": fzf["foreground"],
-    "fzf_background": fzf["background"],
-    "fzf_selected_background": fzf["selected_background"],
-    "fzf_muted": fzf["muted"],
-    "fzf_match": fzf["match"],
-    "fzf_selected_match": fzf["selected_match"],
+    "fzf_foreground": fzf["fg"],
+    "fzf_background": fzf["bg"],
+    "fzf_selected_background": fzf["bg+"],
+    "fzf_muted": fzf["border"],
+    "fzf_match": fzf["hl"],
+    "fzf_selected_match": fzf["hl+"],
     "fzf_info": fzf["info"],
-    "fzf_marker": fzf["marker"],
-    "fzf_prompt": fzf["prompt"],
-    "fzf_spinner": fzf["spinner"],
-    "fzf_pointer": fzf["pointer"],
     "fzf_border": fzf["border"],
+    "fzf_gutter": fzf["gutter"],
+    "fzf_query": fzf["query"],
+    "fzf_prompt": fzf["prompt"],
+    "fzf_pointer": fzf["pointer"],
+    "fzf_marker": fzf["marker"],
     "fzf_header": fzf["header"],
     "fzf_label": fzf["label"],
-    "fzf_query": fzf["query"],
-    "fzf_gutter": fzf["gutter"],
+    "fzf_spinner": fzf["spinner"],
 }
 
 with open(fish_file) as f:

@@ -50,8 +50,9 @@ nvim
 
 Theme colors are defined in strict semantic YAML files under
 `color/schemes/*.yaml` and generated into tool-specific configs with
-`bin/apply-color-scheme`. New themes must define `palette`, `ansi`, `ui`,
-`syntax`, `diagnostic`, `diff`, `tool`, and `fzf`.
+`bin/apply-color-scheme`. New themes must define `ansi`, `ui`,
+`statusline`, `semantic`, `syntax`, `tool`, `omp`,
+`terminal`, `ls_colors`, `tmux`, `fzf`, and `fish`.
 
 Useful commands:
 

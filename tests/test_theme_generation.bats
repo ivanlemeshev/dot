@@ -26,7 +26,7 @@ setup() {
   cp "$PROJECT_ROOT/.config/vim/colors/custom.vim" "$TEST_ROOT/.config/vim/colors/custom.vim"
   cp "$PROJECT_ROOT/.config/nvim/lua/lem/colorscheme.lua" "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
-  cp "$PROJECT_ROOT/macos/iterm2/custom-dark.itermcolors" "$TEST_ROOT/macos/iterm2/custom-dark.itermcolors"
+  cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
 }
 
 teardown() {
@@ -46,15 +46,39 @@ teardown() {
   [ -s "$TEST_ROOT/.config/vim/colors/custom.vim" ]
   [ -s "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua" ]
   [ -s "$TEST_ROOT/windows/terminal/settings.json" ]
-  [ -s "$TEST_ROOT/macos/iterm2/custom-dark.itermcolors" ]
+  [ -s "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors" ]
 
   grep -q 'M.syntax = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'hl("Comment", { fg = s.comment, italic = true })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'hl("DiagnosticError", { fg = d.error })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("StatusLine", { fg = sem.status_fg, bg = sem.status_bg })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("TabLineSel", { fg = ui.bg, bg = ui.fg })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'M.tool = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'prompt = "#d8a657"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
-  grep -q 'M.fzf_roles = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.semantic = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.fzf = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'prompt = "#e78a4e"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'a = { bg = M.statusline.normal_bg, fg = M.statusline.normal_fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'a = { bg = M.statusline.insert_bg, fg = M.statusline.insert_fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'TabLineSel", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'WinBar", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'let s:ui_bg = "282828"' "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q 'let s:statusline_normal_bg = "3a3735"' "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('StatusLine',       s:semantic_status_fg, s:semantic_status_bg)" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('StatusLineNC',     s:semantic_status_inactive_fg, s:semantic_status_bg)" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('TabLineSel',       s:ui_bg, s:ui_fg)" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('Conditional',  s:syntax_keyword, '',      'italic')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('Typedef',      s:syntax_type, '',      'italic')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('Special',      s:syntax_special, '')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('SpecialChar',  s:syntax_escape, '')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('Question',     s:diagnostic_info, '')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('Directory',    s:semantic_directory, '')" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q "call s:hl('SpellLocal',   '',      '',      'undercurl', s:diagnostic_ok)" "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -Fq 'set -g status-style "bg=#{@tmux_bar_bg},fg=#{@tmux_bar_fg}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g window-status-current-style "bg=#{@tmux_block_bg},fg=#{@tmux_block_fg},bold"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g pane-active-border-style "fg=#{@tmux_border_active_fg}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g status-left "#{?client_prefix,#{#[bg=#{@tmux_alert_bg},fg=#{@tmux_alert_fg},bold] #S },#{#[bg=#{@tmux_block_bg},fg=#{@tmux_block_fg}] #S }}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g status-right " #{?client_prefix,#{#[bg=#{@tmux_alert_bg},fg=#{@tmux_alert_fg}] %Y-%m-%d %H:%M },#{#[bg=#{@tmux_block_bg},fg=#{@tmux_block_fg}] %Y-%m-%d %H:%M }}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
 }
 
 @test "template-driven generators can render missing target files from scratch" {

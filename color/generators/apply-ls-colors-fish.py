@@ -22,18 +22,18 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-palette_roles = bundle["palette"]
+ls = bundle["ls_colors"]
 
 roles = {
-    "ls_foreground": palette_roles["fg0"],
-    "ls_background": palette_roles["bg0"],
-    "ls_error": bundle["diagnostic"]["error"],
-    "ls_document": bundle["tool"]["document"],
-    "ls_executable": bundle["tool"]["executable"],
-    "ls_directory": bundle["tool"]["directory"],
-    "ls_special": palette_roles["purple"],
-    "ls_media": bundle["tool"]["media"],
-    "ls_backup": bundle["tool"]["backup"],
+    "ls_foreground": ls["foreground"],
+    "ls_background": ls["background"],
+    "ls_error": ls["error"],
+    "ls_document": ls["document"],
+    "ls_executable": ls["executable"],
+    "ls_directory": ls["directory"],
+    "ls_special": ls["special"],
+    "ls_media": ls["media"],
+    "ls_backup": ls["backup"],
 }
 
 

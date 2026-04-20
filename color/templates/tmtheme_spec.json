@@ -1,5 +1,5 @@
 {
-	"name": "Custom",
+	"name": "Custom Color Theme",
 	"global_settings": [
 		{ "key": "background", "color": "ui.bg" },
 		{ "key": "foreground", "color": "ui.fg" },
@@ -56,7 +56,8 @@
 		{
 			"name": "Storage Modifier",
 			"scope": "storage.modifier",
-			"color": "syntax.keyword"
+			"color": "syntax.keyword",
+			"fontStyle": "italic"
 		},
 		{
 			"name": "Function Name",
@@ -86,13 +87,13 @@
 		{
 			"name": "Language Variable",
 			"scope": "variable.language",
-			"color": "syntax.builtin",
+			"color": "syntax.variable",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Support Function",
 			"scope": "support.function",
-			"color": "syntax.builtin"
+			"color": "syntax.function"
 		},
 		{
 			"name": "Support Type",
@@ -130,7 +131,7 @@
 		{
 			"name": "Tag Name",
 			"scope": "entity.name.tag",
-			"color": "syntax.keyword"
+			"color": "syntax.type"
 		},
 		{
 			"name": "Tag Attribute",
@@ -180,71 +181,69 @@
 		{
 			"name": "Diff Inserted",
 			"scope": "markup.inserted, meta.diff.header.to-file",
-			"color": "diff.add"
+			"color": "semantic.added"
 		},
 		{
 			"name": "Diff Deleted",
 			"scope": "markup.deleted, meta.diff.header.from-file",
-			"color": "diff.delete"
+			"color": "semantic.removed"
 		},
 		{
 			"name": "Diff Changed",
 			"scope": "markup.changed",
-			"color": "diff.change"
+			"color": "semantic.changed"
 		},
 		{
 			"name": "Diff Range",
 			"scope": "meta.diff.range, meta.diff.index",
-			"color": "syntax.keyword"
+			"color": "semantic.diff_text"
 		},
 		{
 			"name": "Markup Heading",
 			"scope": "markup.heading, punctuation.definition.heading",
-			"color": "syntax.function"
+			"color": "semantic.title"
 		},
 		{
 			"name": "Markup Bold",
 			"scope": "markup.bold",
-			"color": "syntax.type",
 			"fontStyle": "bold"
 		},
 		{
 			"name": "Markup Italic",
 			"scope": "markup.italic",
-			"color": "syntax.keyword",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Markup Link URL",
 			"scope": "markup.underline.link, string.other.link",
-			"color": "syntax.function"
+			"fontStyle": "underline"
 		},
 		{
 			"name": "Markup Link Text",
 			"scope": "string.other.link.title, string.other.link.description",
-			"color": "syntax.variable"
+			"color": "semantic.hint"
 		},
 		{
 			"name": "Markup Inline Code",
 			"scope": "markup.inline.raw, markup.raw",
-			"color": "syntax.string"
+			"color": "syntax.function"
 		},
 		{
 			"name": "Markup List",
 			"scope": "markup.list punctuation.definition.list_item",
-			"color": "syntax.operator"
+			"color": "semantic.error"
 		},
 		{
 			"name": "Markup Quote",
 			"scope": "markup.quote",
-			"color": "syntax.comment",
+			"color": "semantic.muted",
 			"fontStyle": "italic"
 		},
-		{ "name": "Invalid", "scope": "invalid", "color": "diagnostic.error" },
+		{ "name": "Invalid", "scope": "invalid", "color": "semantic.error" },
 		{
 			"name": "Invalid Deprecated",
 			"scope": "invalid.deprecated",
-			"color": "syntax.special"
+			"color": "syntax.type"
 		}
 	]
 }

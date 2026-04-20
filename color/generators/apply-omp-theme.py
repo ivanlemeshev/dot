@@ -27,24 +27,21 @@ template_file = os.path.join(
 with open(template_file, encoding="utf-8") as f:
     content = f.read()
 
-colors = bundle["colors"]
-ansi = bundle["ansi"]
+omp = bundle["omp"]
 merged = {
-    **colors,
-    **ansi,
-    "foreground": bundle["ui"]["fg"],
-    "time": bundle["tool"]["git_clean"],
-    "user": bundle["tool"]["prompt"],
-    "host": bundle["tool"]["path"],
-    "root": bundle["tool"]["root"],
-    "git_clean": bundle["tool"]["git_clean"],
-    "git_dirty": bundle["tool"]["git_dirty"],
-    "git_ahead": bundle["tool"]["git_ahead"],
-    "git_behind": bundle["tool"]["git_behind"],
-    "duration": bundle["tool"]["duration"],
-    "status_ok": bundle["tool"]["git_clean"],
-    "status_error": bundle["diagnostic"]["error"],
-    "prompt": bundle["tool"]["path"],
+    "foreground": omp["foreground"],
+    "time": omp["time"],
+    "user": omp["user"],
+    "host": omp["host"],
+    "root": omp["root"],
+    "git_clean": omp["git_clean"],
+    "git_dirty": omp["git_dirty"],
+    "git_ahead": omp["git_ahead"],
+    "git_behind": omp["git_behind"],
+    "duration": omp["duration"],
+    "status_ok": omp["status_ok"],
+    "status_error": omp["status_error"],
+    "prompt": omp["prompt"],
 }
 for name, hex_val in merged.items():
     content = content.replace(f"__{name}__", hex_val)

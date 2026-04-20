@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Custom</string>
+	<string>Custom Color Theme</string>
 	<key>settings</key>
 	<array>
 		<dict>
@@ -20,11 +20,11 @@
 				<key>selection</key>
 				<string>#45403d</string>
 				<key>selectionBorder</key>
-				<string>#928374</string>
+				<string>#d4be98</string>
 				<key>invisibles</key>
 				<string>#1b1b1b</string>
 				<key>guide</key>
-				<string>#928374</string>
+				<string>#d4be98</string>
 				<key>activeGuide</key>
 				<string>#928374</string>
 				<key>gutter</key>
@@ -62,7 +62,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#a9b665</string>
+				<string>#89b482</string>
 			</dict>
 		</dict>
 		<dict>
@@ -153,6 +153,8 @@
 			<dict>
 				<key>foreground</key>
 				<string>#ea6962</string>
+				<key>fontStyle</key>
+				<string>italic</string>
 			</dict>
 		</dict>
 		<dict>
@@ -218,7 +220,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#ea6962</string>
+				<string>#7daea3</string>
 				<key>fontStyle</key>
 				<string>italic</string>
 			</dict>
@@ -231,7 +233,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#ea6962</string>
+				<string>#a9b665</string>
 			</dict>
 		</dict>
 		<dict>
@@ -314,7 +316,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#ea6962</string>
+				<string>#d8a657</string>
 			</dict>
 		</dict>
 		<dict>
@@ -457,7 +459,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#ea6962</string>
+				<string>#7daea3</string>
 			</dict>
 		</dict>
 		<dict>
@@ -478,8 +480,6 @@
 			<string>markup.bold</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key>
-				<string>#d8a657</string>
 				<key>fontStyle</key>
 				<string>bold</string>
 			</dict>
@@ -491,8 +491,6 @@
 			<string>markup.italic</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key>
-				<string>#ea6962</string>
 				<key>fontStyle</key>
 				<string>italic</string>
 			</dict>
@@ -504,8 +502,8 @@
 			<string>markup.underline.link, string.other.link</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key>
-				<string>#a9b665</string>
+				<key>fontStyle</key>
+				<string>underline</string>
 			</dict>
 		</dict>
 		<dict>
@@ -516,7 +514,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#7daea3</string>
+				<string>#d3869b</string>
 			</dict>
 		</dict>
 		<dict>
@@ -538,7 +536,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#e78a4e</string>
+				<string>#ea6962</string>
 			</dict>
 		</dict>
 		<dict>

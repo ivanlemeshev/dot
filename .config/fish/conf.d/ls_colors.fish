@@ -1,6 +1,6 @@
-# LS_COLORS for ls, fd, etc. (Custom)
+# LS_COLORS for ls, fd, etc.
 #
-# Colors are defined as file roles so each theme can choose its own palette
+# Colors are defined as file roles so each theme can choose its own values
 # semantics without changing the file-type mapping.
 
 # --- Semantic roles (RGB values) ---

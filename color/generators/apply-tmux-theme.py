@@ -22,81 +22,28 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-palette = bundle["palette"]
-ui = bundle["ui"]
-diagnostic = bundle["diagnostic"]
-tool = bundle["tool"]
+tmux = bundle["tmux"]
 
-thm_vars = {
-    "@theme_ui_background": palette["bg0"],
-    "@theme_ui_foreground": palette["fg0"],
-    "@theme_ui_background_alt": palette["bg1"],
-    "@theme_ui_surface": palette["bg3"],
-    "@theme_ui_muted": palette["grey0"],
-    "@theme_ui_emphasis": palette["grey2"],
-    "@theme_status_alert": diagnostic["error"],
-    "@theme_status_active": diagnostic["ok"],
-    "@theme_status_prompt": tool["prompt"],
-    "@theme_path": tool["path"],
-    "@theme_accent": palette["purple"],
-    "@theme_accent_alt": palette["aqua"],
-}
-
-
-def hex_to_rgb(hex_value):
-    clean = hex_value.lstrip("#")
-    return (
-        int(clean[0:2], 16),
-        int(clean[2:4], 16),
-        int(clean[4:6], 16),
-    )
-
-
-def relative_luminance(hex_value):
-    def channel(value):
-        value = value / 255.0
-        if value <= 0.03928:
-            return value / 12.92
-        return ((value + 0.055) / 1.055) ** 2.4
-
-    r, g, b = hex_to_rgb(hex_value)
-    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
-
-
-def contrast_ratio(a, b):
-    l1 = relative_luminance(a)
-    l2 = relative_luminance(b)
-    lighter = max(l1, l2)
-    darker = min(l1, l2)
-    return (lighter + 0.05) / (darker + 0.05)
-
-
-def best_contrast_fg(bg):
-    candidates = (palette["bg0"], palette["fg0"])
-    return max(candidates, key=lambda fg: contrast_ratio(bg, fg))
-
-
-contrast_vars = {
-    "@theme_on_ui_background": palette["bg0"],
-    "@theme_on_ui_surface": palette["bg3"],
-    "@theme_on_status_alert": diagnostic["error"],
-    "@theme_on_ui_muted": palette["grey0"],
-    "@theme_on_ui_emphasis": palette["grey2"],
+tmux_vars = {
+    "@tmux_bar_bg": tmux["bar_bg"],
+    "@tmux_bar_fg": tmux["bar_fg"],
+    "@tmux_block_bg": tmux["block_bg"],
+    "@tmux_block_fg": tmux["block_fg"],
+    "@tmux_alert_bg": tmux["alert_bg"],
+    "@tmux_alert_fg": tmux["alert_fg"],
+    "@tmux_border_fg": tmux["border_fg"],
+    "@tmux_border_active_fg": tmux["border_active_fg"],
+    "@tmux_message_bg": tmux["message_bg"],
+    "@tmux_message_fg": tmux["message_fg"],
+    "@tmux_mode_bg": tmux["mode_bg"],
+    "@tmux_mode_fg": tmux["mode_fg"],
 }
 
 with open(tmux_file) as f:
     content = f.read()
 
 
-for var, new_hex in thm_vars.items():
-    content = re.sub(
-        rf'(set -g {re.escape(var)} )"#[0-9a-fA-F]{{6}}"',
-        rf'\g<1>"{new_hex}"',
-        content,
-    )
-
-for var, bg in contrast_vars.items():
-    new_hex = best_contrast_fg(bg)
+for var, new_hex in tmux_vars.items():
     content = re.sub(
         rf'(set -g {re.escape(var)} )"#[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{new_hex}"',

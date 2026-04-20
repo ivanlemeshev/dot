@@ -26,9 +26,8 @@ strict = []
 for path in schemes:
     # Enforce consistent hex casing in the source YAML (easier diffs, fewer surprises).
     text = open(path, encoding="utf-8").read()
-    if "\\npalette:\\n" in "\\n" + text:
-        strict.append(path)
-        load_theme_sections(path, prefix="#", uppercase=False)
+    strict.append(path)
+    load_theme_sections(path, prefix="#", uppercase=False)
 
     for i, line in enumerate(text.splitlines(), start=1):
         m = hex_re.match(line)

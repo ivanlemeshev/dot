@@ -7,7 +7,7 @@ import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 
-from theme import derive_vim_palette, load_theme_bundle
+from theme import derive_vim_semantic_vars, load_theme_bundle
 
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <custom.vim>", file=sys.stderr)
@@ -18,7 +18,7 @@ vim_file = sys.argv[2]
 
 try:
     bundle = load_theme_bundle(yaml_file, prefix="", uppercase=False)
-    palette = derive_vim_palette(bundle)
+    semantic_vars = derive_vim_semantic_vars(bundle)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -26,7 +26,7 @@ except ValueError as exc:
 with open(vim_file) as f:
     content = f.read()
 
-for slot, hex_val in palette.items():
+for slot, hex_val in semantic_vars.items():
     content = re.sub(
         rf'(let s:{re.escape(slot)}\s+=\s+)"[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{hex_val}"',

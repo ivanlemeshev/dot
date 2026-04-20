@@ -24,30 +24,44 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-palette = bundle["palette"]
-syntax = bundle["syntax"]
-diagnostic = bundle["diagnostic"]
-tool = bundle["tool"]
-ui = bundle["ui"]
+fish = bundle["fish"]
 
 roles = {
-    "ui_background": palette["bg0"],
-    "ui_background_alt": palette["bg1"],
-    "ui_selection": ui["selection"],
-    "ui_foreground": palette["fg0"],
-    "ui_foreground_alt": palette["fg1"],
-    "ui_muted": syntax["comment"],
-    "syntax_function": syntax["function"],
-    "syntax_keyword": syntax["keyword"],
-    "syntax_type": syntax["type"],
-    "syntax_variable": syntax["variable"],
-    "syntax_string": syntax["string"],
-    "syntax_operator": syntax["operator"],
-    "syntax_escape": syntax["escape"],
-    "diagnostic_error": diagnostic["error"],
-    "tool_path": tool["path"],
-    "tool_root": tool["root"],
-    "tool_remote": tool["prompt"],
+    "fish_background": fish["background"],
+    "fish_background_alt": fish["background_alt"],
+    "fish_foreground": fish["foreground"],
+    "fish_foreground_alt": fish["foreground_alt"],
+    "fish_muted": fish["muted"],
+    "fish_normal": fish["foreground"],
+    "fish_command": fish["command"],
+    "fish_keyword": fish["keyword"],
+    "fish_option": fish["option"],
+    "fish_param": fish["param"],
+    "fish_quote": fish["quote"],
+    "fish_redirection": fish["redirection"],
+    "fish_end": fish["end"],
+    "fish_operator": fish["operator"],
+    "fish_escape": fish["escape"],
+    "fish_comment": fish["comment"],
+    "fish_error": fish["error"],
+    "fish_autosuggestion": fish["foreground_alt"],
+    "fish_valid_path": fish["valid_path"],
+    "fish_cancel": fish["error"],
+    "fish_selection_background": fish["selection_background"],
+    "fish_selection_search_match": fish["search_match_background"],
+    "fish_cwd": fish["cwd"],
+    "fish_cwd_root": fish["cwd_root"],
+    "fish_user": fish["user"],
+    "fish_host": fish["host"],
+    "fish_host_remote": fish["host_remote"],
+    "fish_status": fish["status"],
+    "fish_pager_progress": fish["pager_progress"],
+    "fish_pager_prefix": fish["pager_prefix"],
+    "fish_pager_completion": fish["pager_completion"],
+    "fish_pager_description": fish["pager_description"],
+    "fish_pager_selected_background": fish["pager_selected_background"],
+    "fish_pager_selected_completion": fish["pager_selected_completion"],
+    "fish_pager_selected_description": fish["pager_selected_description"],
 }
 
 
