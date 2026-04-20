@@ -87,7 +87,7 @@
 		{
 			"name": "Language Variable",
 			"scope": "variable.language",
-			"color": "semantic.error",
+			"color": "syntax.variable",
 			"fontStyle": "italic"
 		},
 		{
