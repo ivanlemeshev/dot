@@ -43,6 +43,8 @@ ui:
   status_fg: "#ddc7a1"
   status_inactive_fg: "#928374"
 
+# Keep statusline and tmux visually paired: neutral bars, inverted active blocks,
+# and the same alert color in both places.
 statusline:
   normal_bg: "#3a3735"
   normal_fg: "#ddc7a1"
@@ -164,6 +166,8 @@ terminal:
   tab_background: "#282828"
   tab_unfocused_background: "#282828"
 
+# Keep statusline and tmux visually paired: neutral bars, inverted active blocks,
+# and the same alert color in both places.
 tmux:
   bar_bg: "#504945"
   bar_fg: "#d4be98"
