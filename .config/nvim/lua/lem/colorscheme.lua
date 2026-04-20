@@ -65,25 +65,16 @@ M.syntax = {
   delimiter = "#d4be98",
 }
 
--- Diagnostics
-M.diagnostic = {
-  error = "#ea6962",
-  warn = "#d8a657",
-  info = "#7daea3",
-  hint = "#d3869b",
-  ok = "#a9b665",
-}
-
 -- Diff
 M.diff = {
-  add = "#a9b665",
-  change = "#7daea3",
-  delete = "#ea6962",
-  text = "#7daea3",
-  add_bg = "#34381b",
-  change_bg = "#0e363e",
-  delete_bg = "#402120",
-  text_bg = "#374141",
+  add = M.semantic.added,
+  change = M.semantic.changed,
+  delete = M.semantic.removed,
+  text = M.semantic.diff_text,
+  add_bg = M.semantic.added_bg,
+  change_bg = M.semantic.changed_bg,
+  delete_bg = M.semantic.removed_bg,
+  text_bg = M.semantic.diff_text_bg,
 }
 
 -- Tooling
@@ -150,9 +141,13 @@ M.semantic = {
   module = "#7daea3",
   title = "#a9b665",
   added = "#a9b665",
+  added_bg = "#34381b",
   changed = "#7daea3",
+  changed_bg = "#0e363e",
   removed = "#ea6962",
+  removed_bg = "#402120",
   diff_text = "#7daea3",
+  diff_text_bg = "#374141",
   border = "#928374",
   border_active = "#a89984",
   surface = "#32302f",
@@ -179,10 +174,10 @@ M.lualine_theme = {
     z = { bg = M.ui.fg, fg = M.ui.bg },
   },
   insert = {
-    a = { bg = M.diagnostic.error, fg = M.ui.bg },
+    a = { bg = M.semantic.error, fg = M.ui.bg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
-    z = { bg = M.diagnostic.error, fg = M.ui.bg },
+    z = { bg = M.semantic.error, fg = M.ui.bg },
   },
   visual = {
     a = { bg = M.statusline.visual_bg, fg = M.statusline.visual_fg },
@@ -228,7 +223,13 @@ function M.setup()
   local statusline = M.statusline
   local sem = M.semantic
   local s = M.syntax
-  local d = M.diagnostic
+  local d = {
+    error = sem.error,
+    warn = sem.warning,
+    info = sem.info,
+    hint = sem.hint,
+    ok = sem.success,
+  }
   local diff = M.diff
   local t = M.tool
 

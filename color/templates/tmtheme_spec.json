@@ -44,7 +44,7 @@
 		{
 			"name": "Keyword",
 			"scope": "keyword, keyword.control",
-			"color": "diagnostic.error",
+			"color": "syntax.keyword",
 			"fontStyle": "italic"
 		},
 		{
@@ -56,7 +56,7 @@
 		{
 			"name": "Storage Modifier",
 			"scope": "storage.modifier",
-			"color": "diagnostic.error",
+			"color": "syntax.keyword",
 			"fontStyle": "italic"
 		},
 		{
@@ -87,7 +87,7 @@
 		{
 			"name": "Language Variable",
 			"scope": "variable.language",
-			"color": "diagnostic.error",
+			"color": "semantic.error",
 			"fontStyle": "italic"
 		},
 		{
@@ -108,13 +108,13 @@
 		{
 			"name": "Preprocessor",
 			"scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
-			"color": "syntax.number",
+			"color": "syntax.preproc",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Include",
 			"scope": "keyword.control.include, keyword.control.from",
-			"color": "syntax.number",
+			"color": "syntax.preproc",
 			"fontStyle": "italic"
 		},
 		{
@@ -181,22 +181,22 @@
 		{
 			"name": "Diff Inserted",
 			"scope": "markup.inserted, meta.diff.header.to-file",
-			"color": "diff.add"
+			"color": "semantic.added"
 		},
 		{
 			"name": "Diff Deleted",
 			"scope": "markup.deleted, meta.diff.header.from-file",
-			"color": "diff.delete"
+			"color": "semantic.removed"
 		},
 		{
 			"name": "Diff Changed",
 			"scope": "markup.changed",
-			"color": "diff.change"
+			"color": "semantic.changed"
 		},
 		{
 			"name": "Diff Range",
 			"scope": "meta.diff.range, meta.diff.index",
-			"color": "syntax.number"
+			"color": "semantic.diff_text"
 		},
 		{
 			"name": "Markup Heading",
@@ -231,7 +231,7 @@
 		{
 			"name": "Markup List",
 			"scope": "markup.list punctuation.definition.list_item",
-			"color": "diagnostic.error"
+			"color": "semantic.error"
 		},
 		{
 			"name": "Markup Quote",
@@ -239,7 +239,7 @@
 			"color": "semantic.muted",
 			"fontStyle": "italic"
 		},
-		{ "name": "Invalid", "scope": "invalid", "color": "diagnostic.error" },
+		{ "name": "Invalid", "scope": "invalid", "color": "semantic.error" },
 		{
 			"name": "Invalid Deprecated",
 			"scope": "invalid.deprecated",

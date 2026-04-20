@@ -25,8 +25,6 @@ try:
         "statusline": bundle["statusline"],
         "semantic": bundle["semantic"],
         "syntax": bundle["syntax"],
-        "diagnostic": bundle["diagnostic"],
-        "diff": bundle["diff"],
         "tool": bundle["tool"],
         "fzf": bundle["fzf"],
     }

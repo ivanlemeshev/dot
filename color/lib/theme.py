@@ -23,44 +23,6 @@ ANSI_KEYS = {
     "bright_white",
 }
 
-PALETTE_KEYS = {
-    "bg_dim",
-    "bg0",
-    "bg1",
-    "bg2",
-    "bg3",
-    "bg4",
-    "bg5",
-    "bg_statusline1",
-    "bg_statusline2",
-    "bg_statusline3",
-    "bg_visual",
-    "bg_visual_red",
-    "bg_visual_yellow",
-    "bg_visual_green",
-    "bg_visual_blue",
-    "bg_visual_purple",
-    "bg_diff_red",
-    "bg_diff_green",
-    "bg_diff_blue",
-    "bg_current_word",
-    "fg0",
-    "fg1",
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "aqua",
-    "blue",
-    "purple",
-    "bg_red",
-    "bg_green",
-    "bg_yellow",
-    "grey0",
-    "grey1",
-    "grey2",
-}
-
 UI_KEYS = {
     "bg",
     "bg_alt",
@@ -126,9 +88,13 @@ SEMANTIC_KEYS = {
     "special_char",
     "title",
     "added",
+    "added_bg",
     "changed",
+    "changed_bg",
     "removed",
+    "removed_bg",
     "diff_text",
+    "diff_text_bg",
     "border",
     "border_active",
     "surface",
@@ -162,19 +128,6 @@ SYNTAX_KEYS = {
     "preproc",
     "special",
     "delimiter",
-}
-
-DIAGNOSTIC_KEYS = {"error", "warn", "info", "hint", "ok"}
-
-DIFF_KEYS = {
-    "add",
-    "change",
-    "delete",
-    "text",
-    "add_bg",
-    "change_bg",
-    "delete_bg",
-    "text_bg",
 }
 
 TOOL_KEYS = {
@@ -393,9 +346,6 @@ def derive_ansi_roles(source_ansi):
 
 
 def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
-    palette = _parse_required_section(
-        yaml_file, "palette", PALETTE_KEYS, prefix=prefix, uppercase=uppercase
-    )
     source_ansi = _parse_required_section(
         yaml_file, "ansi", ANSI_KEYS, prefix=prefix, uppercase=uppercase
     )
@@ -410,12 +360,6 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
     )
     syntax = _parse_required_section(
         yaml_file, "syntax", SYNTAX_KEYS, prefix=prefix, uppercase=uppercase
-    )
-    diagnostic = _parse_required_section(
-        yaml_file, "diagnostic", DIAGNOSTIC_KEYS, prefix=prefix, uppercase=uppercase
-    )
-    diff = _parse_required_section(
-        yaml_file, "diff", DIFF_KEYS, prefix=prefix, uppercase=uppercase
     )
     tool = _parse_required_section(
         yaml_file, "tool", TOOL_KEYS, prefix=prefix, uppercase=uppercase
@@ -468,15 +412,12 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
 
     return {
         "colors": colors,
-        "palette": palette,
         "ansi": source_ansi,
         "ansi_roles": ansi_roles,
         "ui": ui,
         "statusline": statusline,
         "semantic": semantic,
         "syntax": syntax,
-        "diagnostic": diagnostic,
-        "diff": diff,
         "tool": tool,
         "omp": omp,
         "terminal": terminal,
@@ -499,54 +440,11 @@ def load_theme(yaml_file, prefix="#", uppercase=False):
     return colors
 
 
-def derive_vim_palette(bundle):
-    palette = bundle["palette"]
-    diff = bundle["diff"]
-
-    editor_palette = {
-        "bg_dim": palette["bg_dim"],
-        "bg0": palette["bg0"],
-        "bg1": palette["bg1"],
-        "bg2": palette["bg2"],
-        "bg3": palette["bg3"],
-        "bg4": palette["bg4"],
-        "bg5": palette["bg5"],
-        "bg_statusline1": palette["bg_statusline1"],
-        "bg_statusline2": palette["bg_statusline2"],
-        "bg_statusline3": palette["bg_statusline3"],
-        "bg_visual": palette["bg_visual"],
-        "bg_visual_red": palette["bg_visual_red"],
-        "bg_visual_yellow": palette["bg_visual_yellow"],
-        "bg_visual_green": palette["bg_visual_green"],
-        "bg_visual_blue": palette["bg_visual_blue"],
-        "bg_visual_purple": palette["bg_visual_purple"],
-        "bg_diff_red": diff["delete_bg"],
-        "bg_diff_green": diff["add_bg"],
-        "bg_diff_blue": diff["change_bg"],
-        "bg_current_word": palette["bg_current_word"],
-        "fg0": palette["fg0"],
-        "fg1": palette["fg1"],
-        "grey0": palette["grey0"],
-        "grey1": palette["grey1"],
-        "grey2": palette["grey2"],
-        "red": palette["red"],
-        "orange": palette["orange"],
-        "yellow": palette["yellow"],
-        "green": palette["green"],
-        "aqua": palette["aqua"],
-        "blue": palette["blue"],
-        "purple": palette["purple"],
-    }
-    return editor_palette
-
-
 def derive_vim_semantic_vars(bundle):
     ui = bundle["ui"]
     statusline = bundle["statusline"]
     semantic = bundle["semantic"]
     syntax = bundle["syntax"]
-    diagnostic = bundle["diagnostic"]
-    diff = bundle["diff"]
     tool = bundle["tool"]
     terminal = bundle["terminal"]
 
@@ -609,9 +507,13 @@ def derive_vim_semantic_vars(bundle):
         "semantic_special_char": semantic["special_char"],
         "semantic_title": semantic["title"],
         "semantic_added": semantic["added"],
+        "semantic_added_bg": semantic["added_bg"],
         "semantic_changed": semantic["changed"],
+        "semantic_changed_bg": semantic["changed_bg"],
         "semantic_removed": semantic["removed"],
+        "semantic_removed_bg": semantic["removed_bg"],
         "semantic_diff_text": semantic["diff_text"],
+        "semantic_diff_text_bg": semantic["diff_text_bg"],
         "semantic_border": semantic["border"],
         "semantic_border_active": semantic["border_active"],
         "semantic_surface": semantic["surface"],
@@ -642,19 +544,19 @@ def derive_vim_semantic_vars(bundle):
         "syntax_preproc": syntax["preproc"],
         "syntax_special": syntax["special"],
         "syntax_delimiter": syntax["delimiter"],
-        "diagnostic_error": diagnostic["error"],
-        "diagnostic_warn": diagnostic["warn"],
-        "diagnostic_info": diagnostic["info"],
-        "diagnostic_hint": diagnostic["hint"],
-        "diagnostic_ok": diagnostic["ok"],
-        "diff_add": diff["add"],
-        "diff_change": diff["change"],
-        "diff_delete": diff["delete"],
-        "diff_text": diff["text"],
-        "diff_add_bg": diff["add_bg"],
-        "diff_change_bg": diff["change_bg"],
-        "diff_delete_bg": diff["delete_bg"],
-        "diff_text_bg": diff["text_bg"],
+        "diagnostic_error": semantic["error"],
+        "diagnostic_warn": semantic["warning"],
+        "diagnostic_info": semantic["info"],
+        "diagnostic_hint": semantic["hint"],
+        "diagnostic_ok": semantic["success"],
+        "diff_add": semantic["added"],
+        "diff_change": semantic["changed"],
+        "diff_delete": semantic["removed"],
+        "diff_text": semantic["diff_text"],
+        "diff_add_bg": semantic["added_bg"],
+        "diff_change_bg": semantic["changed_bg"],
+        "diff_delete_bg": semantic["removed_bg"],
+        "diff_text_bg": semantic["diff_text_bg"],
         "tool_prompt": tool["prompt"],
         "tool_prompt_alt": tool["prompt_alt"],
         "tool_path": tool["path"],

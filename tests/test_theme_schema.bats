@@ -41,48 +41,12 @@ from theme import load_theme
 load_theme("${TMPDIR_SCHEMA}/incomplete.yaml")
 PY
   [ "$status" -eq 1 ]
-  [[ "$output" == *"Palette section is required in YAML"* ]]
+  [[ "$output" == *"Ansi section is required in YAML"* ]]
 }
 
-@test "load_theme rejects palette-only semantic scheme" {
-  cat >"$TMPDIR_SCHEMA/palette-only.yaml" <<'YAML'
-name: "Palette Only"
-palette:
-  bg_dim: "#1b1b1b"
-  bg0: "#282828"
-  bg1: "#32302f"
-  bg2: "#32302f"
-  bg3: "#45403d"
-  bg4: "#45403d"
-  bg5: "#5a524c"
-  bg_statusline1: "#32302f"
-  bg_statusline2: "#3a3735"
-  bg_statusline3: "#504945"
-  bg_visual: "#45403d"
-  bg_visual_red: "#4c3432"
-  bg_visual_yellow: "#4f422e"
-  bg_visual_green: "#3b4439"
-  bg_visual_blue: "#374141"
-  bg_visual_purple: "#443840"
-  bg_diff_red: "#402120"
-  bg_diff_green: "#34381b"
-  bg_diff_blue: "#0e363e"
-  bg_current_word: "#3c3836"
-  fg0: "#d4be98"
-  fg1: "#ddc7a1"
-  red: "#ea6962"
-  orange: "#e78a4e"
-  yellow: "#d8a657"
-  green: "#a9b665"
-  aqua: "#89b482"
-  blue: "#7daea3"
-  purple: "#d3869b"
-  bg_red: "#ea6962"
-  bg_green: "#a9b665"
-  bg_yellow: "#d8a657"
-  grey0: "#7c6f64"
-  grey1: "#928374"
-  grey2: "#a89984"
+@test "load_theme rejects ansi-less semantic scheme" {
+  cat >"$TMPDIR_SCHEMA/ansi-less.yaml" <<'YAML'
+name: "Ansi Less"
 YAML
 
   run python3 - <<PY
@@ -90,7 +54,7 @@ import sys
 sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
 from theme import load_theme
 
-load_theme("${TMPDIR_SCHEMA}/palette-only.yaml", prefix="", uppercase=False)
+load_theme("${TMPDIR_SCHEMA}/ansi-less.yaml", prefix="", uppercase=False)
 PY
   [ "$status" -eq 1 ]
   [[ "$output" == *"Ansi section is required in YAML"* ]]
@@ -99,42 +63,6 @@ PY
 @test "load_theme_bundle requires nvim semantic sections" {
   cat >"$TMPDIR_SCHEMA/missing-nvim-sections.yaml" <<'YAML'
 name: "Missing Nvim Sections"
-palette:
-  bg_dim: "#1b1b1b"
-  bg0: "#282828"
-  bg1: "#32302f"
-  bg2: "#32302f"
-  bg3: "#45403d"
-  bg4: "#45403d"
-  bg5: "#5a524c"
-  bg_statusline1: "#32302f"
-  bg_statusline2: "#3a3735"
-  bg_statusline3: "#504945"
-  bg_visual: "#45403d"
-  bg_visual_red: "#4c3432"
-  bg_visual_yellow: "#4f422e"
-  bg_visual_green: "#3b4439"
-  bg_visual_blue: "#374141"
-  bg_visual_purple: "#443840"
-  bg_diff_red: "#402120"
-  bg_diff_green: "#34381b"
-  bg_diff_blue: "#0e363e"
-  bg_current_word: "#3c3836"
-  fg0: "#d4be98"
-  fg1: "#ddc7a1"
-  red: "#ea6962"
-  orange: "#e78a4e"
-  yellow: "#d8a657"
-  green: "#a9b665"
-  aqua: "#89b482"
-  blue: "#7daea3"
-  purple: "#d3869b"
-  bg_red: "#ea6962"
-  bg_green: "#a9b665"
-  bg_yellow: "#d8a657"
-  grey0: "#7c6f64"
-  grey1: "#928374"
-  grey2: "#a89984"
 ansi:
   bg: "#282828"
   fg: "#d4be98"
@@ -192,21 +120,6 @@ syntax:
   preproc: "#d3869b"
   special: "#d8a657"
   delimiter: "#d4be98"
-diagnostic:
-  error: "#ea6962"
-  warn: "#d8a657"
-  info: "#7daea3"
-  hint: "#d3869b"
-  ok: "#a9b665"
-diff:
-  add: "#a9b665"
-  change: "#7daea3"
-  delete: "#ea6962"
-  text: "#7daea3"
-  add_bg: "#34381b"
-  change_bg: "#0e363e"
-  delete_bg: "#402120"
-  text_bg: "#374141"
 tool:
   prompt: "#d8a657"
   prompt_alt: "#e78a4e"
@@ -360,42 +273,6 @@ PY
 @test "load_theme_bundle requires tmux section" {
   cat >"$TMPDIR_SCHEMA/missing-tmux-section.yaml" <<'YAML'
 name: "Missing Tmux Section"
-palette:
-  bg_dim: "#1b1b1b"
-  bg0: "#282828"
-  bg1: "#32302f"
-  bg2: "#32302f"
-  bg3: "#45403d"
-  bg4: "#45403d"
-  bg5: "#5a524c"
-  bg_statusline1: "#32302f"
-  bg_statusline2: "#3a3735"
-  bg_statusline3: "#504945"
-  bg_visual: "#45403d"
-  bg_visual_red: "#4c3432"
-  bg_visual_yellow: "#4f422e"
-  bg_visual_green: "#3b4439"
-  bg_visual_blue: "#374141"
-  bg_visual_purple: "#443840"
-  bg_diff_red: "#402120"
-  bg_diff_green: "#34381b"
-  bg_diff_blue: "#0e363e"
-  bg_current_word: "#3c3836"
-  fg0: "#d4be98"
-  fg1: "#ddc7a1"
-  red: "#ea6962"
-  orange: "#e78a4e"
-  yellow: "#d8a657"
-  green: "#a9b665"
-  aqua: "#89b482"
-  blue: "#7daea3"
-  purple: "#d3869b"
-  bg_red: "#ea6962"
-  bg_green: "#a9b665"
-  bg_yellow: "#d8a657"
-  grey0: "#7c6f64"
-  grey1: "#928374"
-  grey2: "#a89984"
 ansi:
   bg: "#282828"
   fg: "#d4be98"
@@ -477,9 +354,13 @@ semantic:
   module: "#7daea3"
   title: "#a9b665"
   added: "#a9b665"
+  added_bg: "#34381b"
   changed: "#7daea3"
+  changed_bg: "#0e363e"
   removed: "#ea6962"
+  removed_bg: "#402120"
   diff_text: "#7daea3"
+  diff_text_bg: "#374141"
   border: "#928374"
   border_active: "#a89984"
   surface: "#32302f"
@@ -511,21 +392,6 @@ syntax:
   preproc: "#d3869b"
   special: "#d8a657"
   delimiter: "#d4be98"
-diagnostic:
-  error: "#ea6962"
-  warn: "#d8a657"
-  info: "#7daea3"
-  hint: "#d3869b"
-  ok: "#a9b665"
-diff:
-  add: "#a9b665"
-  change: "#7daea3"
-  delete: "#ea6962"
-  text: "#7daea3"
-  add_bg: "#34381b"
-  change_bg: "#0e363e"
-  delete_bg: "#402120"
-  text_bg: "#374141"
 tool:
   prompt: "#d8a657"
   prompt_alt: "#e78a4e"
@@ -590,43 +456,6 @@ fzf:
   header: "#928374"
   label: "#d4be98"
   gutter: "#282828"
-fish_ui:
-  background: "#282828"
-  background_alt: "#32302f"
-  foreground: "#d4be98"
-  foreground_alt: "#ddc7a1"
-  muted: "#928374"
-fish_syntax:
-  function: "#a9b665"
-  keyword: "#ea6962"
-  type: "#d8a657"
-  variable: "#7daea3"
-  string: "#89b482"
-  operator: "#e78a4e"
-  escape: "#d8a657"
-  comment: "#928374"
-  error: "#ea6962"
-  autosuggestion: "#ddc7a1"
-  valid_path: "#7daea3"
-  cancel: "#ea6962"
-fish_selection:
-  selection: "#45403d"
-  search_match: "#45403d"
-fish_prompt:
-  cwd: "#7daea3"
-  cwd_root: "#ea6962"
-  user: "#d4be98"
-  host: "#7daea3"
-  host_remote: "#d8a657"
-  status: "#ea6962"
-fish_pager:
-  progress: "#928374"
-  prefix: "#d8a657"
-  completion: "#d4be98"
-  description: "#928374"
-  selected_background: "#45403d"
-  selected_completion: "#d4be98"
-  selected_description: "#928374"
 YAML
 
   run python3 - <<PY
@@ -643,42 +472,6 @@ PY
 @test "load_theme_bundle requires fish section" {
   cat >"$TMPDIR_SCHEMA/missing-fish-section.yaml" <<'YAML'
 name: "Missing Fish Section"
-palette:
-  bg_dim: "#1b1b1b"
-  bg0: "#282828"
-  bg1: "#32302f"
-  bg2: "#32302f"
-  bg3: "#45403d"
-  bg4: "#45403d"
-  bg5: "#5a524c"
-  bg_statusline1: "#32302f"
-  bg_statusline2: "#3a3735"
-  bg_statusline3: "#504945"
-  bg_visual: "#45403d"
-  bg_visual_red: "#4c3432"
-  bg_visual_yellow: "#4f422e"
-  bg_visual_green: "#3b4439"
-  bg_visual_blue: "#374141"
-  bg_visual_purple: "#443840"
-  bg_diff_red: "#402120"
-  bg_diff_green: "#34381b"
-  bg_diff_blue: "#0e363e"
-  bg_current_word: "#3c3836"
-  fg0: "#d4be98"
-  fg1: "#ddc7a1"
-  red: "#ea6962"
-  orange: "#e78a4e"
-  yellow: "#d8a657"
-  green: "#a9b665"
-  aqua: "#89b482"
-  blue: "#7daea3"
-  purple: "#d3869b"
-  bg_red: "#ea6962"
-  bg_green: "#a9b665"
-  bg_yellow: "#d8a657"
-  grey0: "#7c6f64"
-  grey1: "#928374"
-  grey2: "#a89984"
 ansi:
   bg: "#282828"
   fg: "#d4be98"
@@ -760,9 +553,13 @@ semantic:
   module: "#7daea3"
   title: "#a9b665"
   added: "#a9b665"
+  added_bg: "#34381b"
   changed: "#7daea3"
+  changed_bg: "#0e363e"
   removed: "#ea6962"
+  removed_bg: "#402120"
   diff_text: "#7daea3"
+  diff_text_bg: "#374141"
   border: "#928374"
   border_active: "#a89984"
   surface: "#32302f"
@@ -794,21 +591,6 @@ syntax:
   preproc: "#d3869b"
   special: "#d8a657"
   delimiter: "#d4be98"
-diagnostic:
-  error: "#ea6962"
-  warn: "#d8a657"
-  info: "#7daea3"
-  hint: "#d3869b"
-  ok: "#a9b665"
-diff:
-  add: "#a9b665"
-  change: "#7daea3"
-  delete: "#ea6962"
-  text: "#7daea3"
-  add_bg: "#34381b"
-  change_bg: "#0e363e"
-  delete_bg: "#402120"
-  text_bg: "#374141"
 tool:
   prompt: "#d8a657"
   prompt_alt: "#e78a4e"
@@ -897,75 +679,4 @@ load_theme_bundle("${TMPDIR_SCHEMA}/missing-fish-section.yaml", prefix="", upper
 PY
   [ "$status" -eq 1 ]
   [[ "$output" == *"Fish section is required in YAML"* ]]
-}
-
-@test "derive_vim_palette preserves palette semantics distinct from diagnostics" {
-  run python3 - <<PY
-import json
-import sys
-sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
-from theme import derive_vim_palette
-
-bundle = {
-    "palette": {
-        "bg_dim": "#010101",
-        "bg0": "#020202",
-        "bg1": "#030303",
-        "bg2": "#040404",
-        "bg3": "#050505",
-        "bg4": "#060606",
-        "bg5": "#070707",
-        "bg_statusline1": "#080808",
-        "bg_statusline2": "#090909",
-        "bg_statusline3": "#0a0a0a",
-        "bg_visual": "#0b0b0b",
-        "bg_visual_red": "#0c0c0c",
-        "bg_visual_yellow": "#0d0d0d",
-        "bg_visual_green": "#0e0e0e",
-        "bg_visual_blue": "#0f0f0f",
-        "bg_visual_purple": "#101010",
-        "bg_diff_red": "#111111",
-        "bg_diff_green": "#121212",
-        "bg_diff_blue": "#131313",
-        "bg_current_word": "#141414",
-        "fg0": "#151515",
-        "fg1": "#161616",
-        "red": "#aa0001",
-        "orange": "#aa0002",
-        "yellow": "#aa0003",
-        "green": "#aa0004",
-        "aqua": "#aa0005",
-        "blue": "#aa0006",
-        "purple": "#aa0007",
-        "bg_red": "#171717",
-        "bg_green": "#181818",
-        "bg_yellow": "#191919",
-        "grey0": "#1a1a1a",
-        "grey1": "#1b1b1b",
-        "grey2": "#1c1c1c",
-    },
-    "diagnostic": {
-        "error": "#bb0001",
-        "warn": "#bb0002",
-        "info": "#bb0003",
-        "hint": "#bb0004",
-        "ok": "#bb0005",
-    },
-    "diff": {
-        "add": "#cc0001",
-        "change": "#cc0002",
-        "delete": "#cc0003",
-        "text": "#cc0004",
-        "add_bg": "#dd0001",
-        "change_bg": "#dd0002",
-        "delete_bg": "#dd0003",
-        "text_bg": "#dd0004",
-    },
-}
-
-palette = derive_vim_palette(bundle)
-print(json.dumps({k: palette[k] for k in ("red", "yellow", "green", "blue", "purple")}, sort_keys=True))
-PY
-  [ "$status" -eq 0 ]
-  [ "$output" = '{"blue": "#aa0006", "green": "#aa0004", "purple": "#aa0007", "red": "#aa0001", "yellow": "#aa0003"}' ]
 }

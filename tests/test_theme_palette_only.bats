@@ -4,7 +4,7 @@ setup() {
   PROJECT_ROOT="$(cd "${BATS_TEST_DIRNAME}/.." && pwd)"
 }
 
-@test "generated theme files match at least one known scheme palette" {
+@test "generated theme files match at least one known scheme semantic map" {
   run python3 - <<PY
 import glob
 import os
@@ -23,13 +23,13 @@ from theme import load_theme_bundle
 
 allowed_by_scheme = {}
 for scheme in schemes:
-    if "\\npalette:\\n" not in "\\n" + open(scheme, encoding="utf-8").read():
+    if "\\nansi:\\n" not in "\\n" + open(scheme, encoding="utf-8").read():
         continue
     bundle = load_theme_bundle(scheme, prefix="#", uppercase=False)
     colors = bundle["colors"]
     raw_ansi = bundle["ansi"]
     semantic = {}
-    for section in ("palette", "ui", "statusline", "semantic", "syntax", "diagnostic", "diff", "tool", "omp", "terminal", "tmux", "ls_colors", "fzf", "fish"):
+    for section in ("ui", "statusline", "semantic", "syntax", "tool", "omp", "terminal", "tmux", "ls_colors", "fzf", "fish"):
         semantic.update(bundle.get(section, {}))
     allowed_hex = (
         {v.lower() for v in raw_ansi.values()}
@@ -93,7 +93,7 @@ for scheme, (allowed_hex, allowed_hex6) in allowed_by_scheme.items():
     if not bad:
         raise SystemExit(0)
 
-print("Generated files do not match any known scheme palette.")
+print("Generated files do not match any known scheme semantic map.")
 for rel, value, _ in observed:
     print(f"Observed color in outputs: {rel}: {value}")
 raise SystemExit(1)

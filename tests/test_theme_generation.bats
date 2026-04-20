@@ -59,7 +59,7 @@ teardown() {
   grep -q 'M.fzf = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'prompt = "#e78a4e"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'a = { bg = M.ui.fg, fg = M.ui.bg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
-  grep -q 'a = { bg = M.diagnostic.error, fg = M.ui.bg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'a = { bg = M.semantic.error, fg = M.ui.bg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'TabLineSel", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'WinBar", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'let s:ui_bg = "282828"' "$TEST_ROOT/.config/vim/colors/custom.vim"
