@@ -4,22 +4,22 @@
 # semantics without changing fzf's UI mapping.
 
 # --- Semantic roles (hex) ---
-set -l fzf_foreground          "#CDD6F4"
-set -l fzf_background          "#1E1E2E"
-set -l fzf_selected_background "#313244"
-set -l fzf_muted               "#585B70"
-set -l fzf_match               "#CBA6F7"
-set -l fzf_selected_match      "#89B4FA"
-set -l fzf_info                "#89B4FA"
-set -l fzf_marker              "#A6E3A1"
-set -l fzf_prompt              "#FAB387"
-set -l fzf_spinner             "#F9E2AF"
-set -l fzf_pointer             "#74C7EC"
-set -l fzf_border              "#585B70"
-set -l fzf_header              "#6C7086"
-set -l fzf_label               "#CDD6F4"
-set -l fzf_query               "#CDD6F4"
-set -l fzf_gutter              "#1E1E2E"
+set -l fzf_foreground          "#D4BE98"
+set -l fzf_background          "#282828"
+set -l fzf_selected_background "#32302F"
+set -l fzf_muted               "#928374"
+set -l fzf_match               "#A9B665"
+set -l fzf_selected_match      "#89B482"
+set -l fzf_info                "#89B482"
+set -l fzf_marker              "#D8A657"
+set -l fzf_prompt              "#E78A4E"
+set -l fzf_spinner             "#D8A657"
+set -l fzf_pointer             "#7DAEA3"
+set -l fzf_border              "#928374"
+set -l fzf_header              "#928374"
+set -l fzf_label               "#D4BE98"
+set -l fzf_query               "#D4BE98"
+set -l fzf_gutter              "#282828"
 
 # --- Colors ---
 set -l colors \
