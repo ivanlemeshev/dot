@@ -20,7 +20,7 @@ colors = load_theme("${PROJECT_ROOT}/color/schemes/gruvbox-dark-material.yaml", 
 print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
 PY
   [ "$status" -eq 0 ]
-  [ "$output" = '{"background": "282828", "brightBlack": "7c6f64", "foreground": "d4be98"}' ]
+  [ "$output" = '{"background": "282828", "brightBlack": "928374", "foreground": "d4be98"}' ]
 }
 
 @test "load_theme rejects incomplete semantic scheme" {

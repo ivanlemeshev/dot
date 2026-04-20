@@ -113,15 +113,15 @@
   "schemes": [
     {
       "background": "#282828",
-      "black": "#32302F",
+      "black": "#665C54",
       "blue": "#7DAEA3",
-      "brightBlack": "#7C6F64",
+      "brightBlack": "#928374",
       "brightBlue": "#7DAEA3",
       "brightCyan": "#89B482",
       "brightGreen": "#A9B665",
       "brightPurple": "#D3869B",
       "brightRed": "#EA6962",
-      "brightWhite": "#EBDBB2",
+      "brightWhite": "#D4BE98",
       "brightYellow": "#D8A657",
       "cursorColor": "#D4BE98",
       "cyan": "#89B482",
@@ -131,7 +131,7 @@
       "purple": "#D3869B",
       "red": "#EA6962",
       "selectionBackground": "#45403D",
-      "white": "#DDC7A1",
+      "white": "#D4BE98",
       "yellow": "#D8A657"
     }
   ],
