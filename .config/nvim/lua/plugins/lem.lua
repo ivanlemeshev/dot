@@ -29,6 +29,9 @@ require("lem.ruler").setup({
     lua = {
       columns = { 120 },
     },
+    python = {
+      columns = { 120 },
+    },
   },
 })
 

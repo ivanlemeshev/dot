@@ -51,10 +51,22 @@ teardown() {
   grep -q 'M.syntax = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'hl("Comment", { fg = s.comment, italic = true })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'hl("DiagnosticError", { fg = d.error })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("StatusLine", { fg = sem.status_fg, bg = sem.status_bg })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("TabLineSel", { fg = ui.bg, bg = ui.fg })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'M.tool = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'prompt = "#d8a657"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
-  grep -q 'M.fzf_roles = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.semantic = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.fzf = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'prompt = "#e78a4e"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'a = { bg = M.ui.fg, fg = M.ui.bg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'a = { bg = M.diagnostic.error, fg = M.ui.bg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'TabLineSel", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'WinBar", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -Fq 'set -g status-style "bg=#{@theme_ui_surface},fg=#{@theme_on_ui_surface}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g window-status-current-style "bg=#{@theme_ui_foreground},fg=#{@theme_on_ui_background},bold"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g pane-active-border-style "fg=#{@theme_on_ui_surface}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g status-left "#{?client_prefix,#{#[bg=#{@theme_status_alert},fg=#{@theme_on_status_alert},bold] #S },#{#[bg=#{@theme_ui_foreground},fg=#{@theme_on_ui_background}] #S }}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
+  grep -Fq 'set -g status-right " #{?client_prefix,#{#[bg=#{@theme_status_alert},fg=#{@theme_on_status_alert}] %Y-%m-%d %H:%M },#{#[bg=#{@theme_ui_foreground},fg=#{@theme_on_ui_background}] %Y-%m-%d %H:%M }}"' "$TEST_ROOT/.config/tmux/.tmux.conf"
 }
 
 @test "template-driven generators can render missing target files from scratch" {

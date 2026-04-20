@@ -85,6 +85,67 @@ UI_KEYS = {
     "status_inactive_fg",
 }
 
+STATUSLINE_KEYS = {
+    "normal_bg",
+    "normal_fg",
+    "insert_bg",
+    "insert_fg",
+    "visual_bg",
+    "visual_fg",
+    "replace_bg",
+    "replace_fg",
+    "command_bg",
+    "command_fg",
+    "terminal_bg",
+    "terminal_fg",
+    "section_bg",
+    "section_fg",
+    "inactive_bg",
+    "inactive_fg",
+}
+
+SEMANTIC_KEYS = {
+    "text",
+    "muted",
+    "error",
+    "warning",
+    "info",
+    "hint",
+    "success",
+    "prompt",
+    "operator",
+    "type",
+    "function",
+    "constant",
+    "variable",
+    "number",
+    "directory",
+    "symlink",
+    "executable",
+    "special",
+    "special_char",
+    "title",
+    "added",
+    "changed",
+    "removed",
+    "diff_text",
+    "border",
+    "border_active",
+    "surface",
+    "surface_alt",
+    "selection",
+    "current_word",
+    "status_bg",
+    "status_fg",
+    "status_inactive_fg",
+    "search_bg",
+    "search_fg",
+    "inc_search_bg",
+    "inc_search_fg",
+    "popup_bg",
+    "popup_sel",
+}
+
 SYNTAX_KEYS = {
     "comment",
     "string",
@@ -135,23 +196,82 @@ TOOL_KEYS = {
     "backup",
 }
 
-FZF_KEYS = {
+LS_KEYS = {
     "foreground",
     "background",
-    "selected_background",
-    "muted",
-    "match",
-    "selected_match",
+    "error",
+    "executable",
+    "document",
+    "directory",
+    "special",
+    "media",
+    "backup",
+}
+
+FZF_KEYS = {
+    "fg",
+    "bg",
+    "hl",
+    "fg+",
+    "bg+",
+    "hl+",
     "info",
-    "marker",
-    "prompt",
-    "spinner",
-    "pointer",
     "border",
+    "gutter",
+    "query",
+    "prompt",
+    "pointer",
+    "marker",
+    "spinner",
     "header",
     "label",
-    "query",
-    "gutter",
+}
+
+FISH_UI_KEYS = {
+    "background",
+    "background_alt",
+    "foreground",
+    "foreground_alt",
+    "muted",
+}
+
+FISH_SYNTAX_KEYS = {
+    "function",
+    "keyword",
+    "type",
+    "variable",
+    "string",
+    "operator",
+    "escape",
+    "comment",
+    "error",
+    "autosuggestion",
+    "valid_path",
+    "cancel",
+}
+
+FISH_SELECTION_KEYS = {
+    "selection",
+    "search_match",
+}
+
+FISH_PROMPT_KEYS = {
+    "cwd",
+    "cwd_root",
+    "user",
+    "host",
+    "host_remote",
+    "status",
+}
+
+FISH_PAGER_KEYS = {
+    "progress",
+    "prefix",
+    "completion",
+    "description",
+    "selected_background",
+    "selected_completion",
+    "selected_description",
 }
 
 
@@ -178,10 +298,14 @@ def _parse_section(yaml_file, section_name, required_keys, prefix="#", uppercase
                     active_section = None
                     continue
 
-                match = re.match(r'^\s{2}([\w_]+):\s+"(#[0-9a-fA-F]{6})"\s*$', line)
+                match = re.match(
+                    r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+"(#[0-9a-fA-F]{6})"\s*$',
+                    line,
+                )
                 if match:
-                    values[match.group(1)] = _normalize_hex(
-                        match.group(2), prefix=prefix, uppercase=uppercase
+                    key = match.group(1) or match.group(2)
+                    values[key] = _normalize_hex(
+                        match.group(3), prefix=prefix, uppercase=uppercase
                     )
 
     if not values:
@@ -245,6 +369,12 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
     ui = _parse_required_section(
         yaml_file, "ui", UI_KEYS, prefix=prefix, uppercase=uppercase
     )
+    statusline = _parse_required_section(
+        yaml_file, "statusline", STATUSLINE_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    semantic = _parse_required_section(
+        yaml_file, "semantic", SEMANTIC_KEYS, prefix=prefix, uppercase=uppercase
+    )
     syntax = _parse_required_section(
         yaml_file, "syntax", SYNTAX_KEYS, prefix=prefix, uppercase=uppercase
     )
@@ -257,8 +387,30 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
     tool = _parse_required_section(
         yaml_file, "tool", TOOL_KEYS, prefix=prefix, uppercase=uppercase
     )
+    ls = _parse_required_section(
+        yaml_file, "ls", LS_KEYS, prefix=prefix, uppercase=uppercase
+    )
     fzf = _parse_required_section(
         yaml_file, "fzf", FZF_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    fish_ui = _parse_required_section(
+        yaml_file, "fish_ui", FISH_UI_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    fish_syntax = _parse_required_section(
+        yaml_file, "fish_syntax", FISH_SYNTAX_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    fish_selection = _parse_required_section(
+        yaml_file,
+        "fish_selection",
+        FISH_SELECTION_KEYS,
+        prefix=prefix,
+        uppercase=uppercase,
+    )
+    fish_prompt = _parse_required_section(
+        yaml_file, "fish_prompt", FISH_PROMPT_KEYS, prefix=prefix, uppercase=uppercase
+    )
+    fish_pager = _parse_required_section(
+        yaml_file, "fish_pager", FISH_PAGER_KEYS, prefix=prefix, uppercase=uppercase
     )
 
     ansi_roles = derive_ansi_roles(source_ansi)
@@ -290,11 +442,19 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
         "ansi": source_ansi,
         "ansi_roles": ansi_roles,
         "ui": ui,
+        "statusline": statusline,
+        "semantic": semantic,
         "syntax": syntax,
         "diagnostic": diagnostic,
         "diff": diff,
         "tool": tool,
+        "ls": ls,
         "fzf": fzf,
+        "fish_ui": fish_ui,
+        "fish_syntax": fish_syntax,
+        "fish_selection": fish_selection,
+        "fish_prompt": fish_prompt,
+        "fish_pager": fish_pager,
     }
 
 

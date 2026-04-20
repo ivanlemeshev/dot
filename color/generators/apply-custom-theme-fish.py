@@ -24,30 +24,48 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-palette = bundle["palette"]
-syntax = bundle["syntax"]
-diagnostic = bundle["diagnostic"]
-tool = bundle["tool"]
-ui = bundle["ui"]
+fish_ui = bundle["fish_ui"]
+fish_syntax = bundle["fish_syntax"]
+fish_selection = bundle["fish_selection"]
+fish_prompt = bundle["fish_prompt"]
+fish_pager = bundle["fish_pager"]
 
 roles = {
-    "ui_background": palette["bg0"],
-    "ui_background_alt": palette["bg1"],
-    "ui_selection": ui["selection"],
-    "ui_foreground": palette["fg0"],
-    "ui_foreground_alt": palette["fg1"],
-    "ui_muted": syntax["comment"],
-    "syntax_function": syntax["function"],
-    "syntax_keyword": syntax["keyword"],
-    "syntax_type": syntax["type"],
-    "syntax_variable": syntax["variable"],
-    "syntax_string": syntax["string"],
-    "syntax_operator": syntax["operator"],
-    "syntax_escape": syntax["escape"],
-    "diagnostic_error": diagnostic["error"],
-    "tool_path": tool["path"],
-    "tool_root": tool["root"],
-    "tool_remote": tool["prompt"],
+    "fish_ui_background": fish_ui["background"],
+    "fish_ui_background_alt": fish_ui["background_alt"],
+    "fish_ui_foreground": fish_ui["foreground"],
+    "fish_ui_foreground_alt": fish_ui["foreground_alt"],
+    "fish_ui_muted": fish_ui["muted"],
+    "fish_syntax_normal": fish_ui["foreground"],
+    "fish_syntax_command": fish_syntax["function"],
+    "fish_syntax_keyword": fish_syntax["keyword"],
+    "fish_syntax_option": fish_syntax["type"],
+    "fish_syntax_param": fish_syntax["variable"],
+    "fish_syntax_quote": fish_syntax["string"],
+    "fish_syntax_redirection": fish_syntax["operator"],
+    "fish_syntax_end": fish_syntax["operator"],
+    "fish_syntax_operator": fish_syntax["operator"],
+    "fish_syntax_escape": fish_syntax["escape"],
+    "fish_syntax_comment": fish_syntax["comment"],
+    "fish_syntax_error": fish_syntax["error"],
+    "fish_syntax_autosuggestion": fish_ui["foreground_alt"],
+    "fish_syntax_valid_path": fish_syntax["valid_path"],
+    "fish_syntax_cancel": fish_syntax["error"],
+    "fish_selection_background": fish_selection["selection"],
+    "fish_selection_search_match": fish_selection["search_match"],
+    "fish_prompt_cwd": fish_prompt["cwd"],
+    "fish_prompt_cwd_root": fish_prompt["cwd_root"],
+    "fish_prompt_user": fish_prompt["user"],
+    "fish_prompt_host": fish_prompt["host"],
+    "fish_prompt_host_remote": fish_prompt["host_remote"],
+    "fish_prompt_status": fish_prompt["status"],
+    "fish_pager_progress": fish_pager["progress"],
+    "fish_pager_prefix": fish_pager["prefix"],
+    "fish_pager_completion": fish_pager["completion"],
+    "fish_pager_description": fish_pager["description"],
+    "fish_pager_selected_background": fish_pager["selected_background"],
+    "fish_pager_selected_completion": fish_pager["selected_completion"],
+    "fish_pager_selected_description": fish_pager["selected_description"],
 }
 
 

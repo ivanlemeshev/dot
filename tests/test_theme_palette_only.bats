@@ -29,8 +29,8 @@ for scheme in schemes:
     colors = bundle["colors"]
     raw_ansi = bundle["ansi"]
     semantic = {}
-    for section in ("palette", "ui", "syntax", "diagnostic", "diff", "tool", "fzf"):
-        semantic.update(bundle[section])
+    for section in ("palette", "ui", "statusline", "semantic", "syntax", "diagnostic", "diff", "tool", "fzf"):
+        semantic.update(bundle.get(section, {}))
     allowed_hex = (
         {v.lower() for v in raw_ansi.values()}
         | {v.lower() for v in colors.values()}

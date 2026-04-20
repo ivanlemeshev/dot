@@ -42,7 +42,7 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
-    fzf_colors = colorscheme.fzf_lua_colors,
+    fzf_colors = colorscheme.fzf,
     fzf_opts = {
       ["--multi"] = true,
     },
