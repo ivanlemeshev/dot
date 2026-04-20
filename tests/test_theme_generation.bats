@@ -47,6 +47,14 @@ teardown() {
   [ -s "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua" ]
   [ -s "$TEST_ROOT/windows/terminal/settings.json" ]
   [ -s "$TEST_ROOT/macos/iterm2/custom-dark.itermcolors" ]
+
+  grep -q 'M.syntax = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("Comment", { fg = s.comment, italic = true })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'hl("DiagnosticError", { fg = d.error })' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.tool = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'prompt = "#d8a657"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'M.fzf_roles = {' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  grep -q 'prompt = "#e78a4e"' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
 }
 
 @test "template-driven generators can render missing target files from scratch" {
