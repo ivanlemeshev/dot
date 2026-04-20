@@ -1,4 +1,4 @@
-# FZF_DEFAULT_OPTS (Custom)
+# FZF_DEFAULT_OPTS
 #
 # Colors are defined as fzf roles so each theme can choose its own values
 # semantics without changing fzf's UI mapping.

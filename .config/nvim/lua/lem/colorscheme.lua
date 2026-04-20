@@ -1,4 +1,4 @@
--- Custom color theme (no external dependency)
+-- Color theme (no external dependency)
 
 local M = {}
 

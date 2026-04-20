@@ -1,4 +1,4 @@
-# Custom theme for fish shell
+# Color theme for fish shell
 
 # --- Semantic roles ---
 set -l fish_background         282828
