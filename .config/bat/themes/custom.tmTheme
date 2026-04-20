@@ -20,19 +20,19 @@
 				<key>selection</key>
 				<string>#45403d</string>
 				<key>selectionBorder</key>
-				<string>#5a524c</string>
+				<string>#928374</string>
 				<key>invisibles</key>
 				<string>#1b1b1b</string>
 				<key>guide</key>
-				<string>#5a524c</string>
+				<string>#928374</string>
 				<key>activeGuide</key>
 				<string>#928374</string>
 				<key>gutter</key>
 				<string>#282828</string>
 				<key>gutterForeground</key>
-				<string>#5a524c</string>
+				<string>#928374</string>
 				<key>findHighlight</key>
-				<string>#a9b665</string>
+				<string>#d8a657</string>
 				<key>findHighlightForeground</key>
 				<string>#282828</string>
 				<key>bracketsForeground</key>
