@@ -22,7 +22,7 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-ls = bundle["ls"]
+ls = bundle["ls_colors"]
 
 roles = {
     "ls_foreground": ls["foreground"],

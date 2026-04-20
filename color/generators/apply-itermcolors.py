@@ -23,7 +23,7 @@ try:
     bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
     colors = bundle["colors"]
     ansi = bundle["ansi"]
-    ui = bundle["ui"]
+    terminal = bundle["terminal"]
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -68,9 +68,9 @@ pl = {}
 for i, name in enumerate(ansi_map):
     pl[f"Ansi {i} Color"] = color_entry(name)
 
-bg = ui["bg"]
-fg = ui["fg"]
-selection_bg = ui["selection"]
+bg = terminal["background"]
+fg = terminal["foreground"]
+selection_bg = terminal["selection"]
 
 pl["Background Color"] = color_entry_hex(bg)
 pl["Bold Color"] = color_entry_hex(fg)

@@ -22,37 +22,28 @@ except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
 
-statusline = bundle["statusline"]
-semantic = bundle["semantic"]
-ui = bundle["ui"]
+tmux = bundle["tmux"]
 
-thm_vars = {
-    "@theme_ui_background": ui["bg"],
-    "@theme_ui_foreground": ui["fg"],
-    "@theme_ui_background_alt": ui["bg_alt"],
-    "@theme_ui_surface": statusline["section_bg"],
-    "@theme_ui_muted": ui["muted"],
-    "@theme_ui_emphasis": statusline["normal_bg"],
-    "@theme_status_alert": semantic["error"],
-    "@theme_status_active": ui["fg"],
-    "@theme_status_prompt": ui["fg"],
-    "@theme_path": semantic["directory"],
-    "@theme_accent": ui["fg"],
-    "@theme_accent_alt": ui["fg"],
-    "@theme_on_ui_background": ui["bg"],
-    "@theme_on_ui_surface": statusline["section_fg"],
-    "@theme_on_status_active": ui["bg"],
-    "@theme_on_status_prompt": ui["bg"],
-    "@theme_on_status_alert": ui["bg"],
-    "@theme_on_ui_muted": ui["bg"],
-    "@theme_on_ui_emphasis": statusline["normal_fg"],
+tmux_vars = {
+    "@tmux_bar_bg": tmux["bar_bg"],
+    "@tmux_bar_fg": tmux["bar_fg"],
+    "@tmux_block_bg": tmux["block_bg"],
+    "@tmux_block_fg": tmux["block_fg"],
+    "@tmux_alert_bg": tmux["alert_bg"],
+    "@tmux_alert_fg": tmux["alert_fg"],
+    "@tmux_border_fg": tmux["border_fg"],
+    "@tmux_border_active_fg": tmux["border_active_fg"],
+    "@tmux_message_bg": tmux["message_bg"],
+    "@tmux_message_fg": tmux["message_fg"],
+    "@tmux_mode_bg": tmux["mode_bg"],
+    "@tmux_mode_fg": tmux["mode_fg"],
 }
 
 with open(tmux_file) as f:
     content = f.read()
 
 
-for var, new_hex in thm_vars.items():
+for var, new_hex in tmux_vars.items():
     content = re.sub(
         rf'(set -g {re.escape(var)} )"#[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{new_hex}"',

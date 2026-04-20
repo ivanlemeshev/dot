@@ -20,7 +20,7 @@ try:
     bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=True)
     colors = bundle["colors"]
     ansi = bundle["ansi"]
-    ui = bundle["ui"]
+    terminal = bundle["terminal"]
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -34,16 +34,16 @@ with open(json_file) as f:
 scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[wt_name.get(name, name)] = hex_val
-scheme["background"] = ui["bg"]
-scheme["foreground"] = ui["fg"]
-scheme["cursorColor"] = ui["fg"]
-scheme["selectionBackground"] = ui["selection"]
+scheme["background"] = terminal["background"]
+scheme["foreground"] = terminal["foreground"]
+scheme["cursorColor"] = terminal["foreground"]
+scheme["selectionBackground"] = terminal["selection"]
 
 # Windows Terminal theme colors support alpha; use fully-opaque alpha for consistency.
-tab_bg = ui["bg"] + "FF"
+tab_bg = terminal["tab_background"] + "FF"
 settings["themes"][0]["tab"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["background"] = tab_bg
-settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_bg
+settings["themes"][0]["tabRow"]["unfocusedBackground"] = terminal["tab_unfocused_background"] + "FF"
 
 dir_ = os.path.dirname(os.path.abspath(json_file))
 with tempfile.NamedTemporaryFile(

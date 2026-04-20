@@ -48,7 +48,9 @@ for item in spec["global_settings"]:
 
 settings = [{"settings": global_settings}]
 for entry in spec["entries"]:
-    entry_settings = {"foreground": resolve_color(entry["color"])}
+    entry_settings = {}
+    if "color" in entry:
+        entry_settings["foreground"] = resolve_color(entry["color"])
     font_style = entry.get("fontStyle", "")
     if font_style:
         entry_settings["fontStyle"] = font_style
