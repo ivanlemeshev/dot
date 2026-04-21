@@ -31,6 +31,8 @@ tmux_vars = {
     "@tmux_block_fg": tmux["block_fg"],
     "@tmux_alert_bg": tmux["alert_bg"],
     "@tmux_alert_fg": tmux["alert_fg"],
+    "@tmux_bell_bg": tmux["bell_bg"],
+    "@tmux_bell_fg": tmux["bell_fg"],
     "@tmux_border_fg": tmux["border_fg"],
     "@tmux_border_active_fg": tmux["border_active_fg"],
     "@tmux_message_bg": tmux["message_bg"],

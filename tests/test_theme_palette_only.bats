@@ -4,7 +4,7 @@ setup() {
   PROJECT_ROOT="$(cd "${BATS_TEST_DIRNAME}/.." && pwd)"
 }
 
-@test "generated theme files match at least one known scheme semantic map" {
+@test "generated theme files match at least one known theme semantic map" {
   run python3 - <<PY
 import glob
 import os
@@ -12,20 +12,20 @@ import re
 import sys
 
 project_root = "${PROJECT_ROOT}"
-schemes_glob = os.path.join(project_root, "color/schemes/*.yaml")
-schemes = sorted(glob.glob(schemes_glob))
-if not schemes:
-    print("No color schemes found.")
+themes_glob = os.path.join(project_root, "color/themes/*.yaml")
+themes = sorted(glob.glob(themes_glob))
+if not themes:
+    print("No color themes found.")
     raise SystemExit(1)
 
 sys.path.insert(0, os.path.join(project_root, "color/lib"))
 from theme import load_theme_bundle
 
-allowed_by_scheme = {}
-for scheme in schemes:
-    if "\\nansi:\\n" not in "\\n" + open(scheme, encoding="utf-8").read():
+allowed_by_theme = {}
+for theme in themes:
+    if "\\nansi:\\n" not in "\\n" + open(theme, encoding="utf-8").read():
         continue
-    bundle = load_theme_bundle(scheme, prefix="#", uppercase=False)
+    bundle = load_theme_bundle(theme, prefix="#", uppercase=False)
     colors = bundle["colors"]
     raw_ansi = bundle["ansi"]
     semantic = {}
@@ -37,10 +37,10 @@ for scheme in schemes:
         | {v.lower() for v in semantic.values()}
     )
     allowed_hex6 = {h.lstrip("#") for h in allowed_hex}
-    allowed_by_scheme[scheme] = (allowed_hex, allowed_hex6)
+    allowed_by_theme[theme] = (allowed_hex, allowed_hex6)
 
-if not allowed_by_scheme:
-    print("No strict semantic color schemes found.")
+if not allowed_by_theme:
+    print("No strict semantic color themes found.")
     raise SystemExit(1)
 
 targets = [
@@ -76,7 +76,7 @@ for rel in targets:
             if m:
                 observed.append((rel, m.group(1).lower(), "hex6"))
 
-for scheme, (allowed_hex, allowed_hex6) in allowed_by_scheme.items():
+for theme, (allowed_hex, allowed_hex6) in allowed_by_theme.items():
     bad = []
     for rel, value, kind in observed:
         if kind == "hex7":
@@ -93,7 +93,7 @@ for scheme, (allowed_hex, allowed_hex6) in allowed_by_scheme.items():
     if not bad:
         raise SystemExit(0)
 
-print("Generated files do not match any known scheme semantic map.")
+print("Generated files do not match any known theme semantic map.")
 for rel, value, _ in observed:
     print(f"Observed color in outputs: {rel}: {value}")
 raise SystemExit(1)

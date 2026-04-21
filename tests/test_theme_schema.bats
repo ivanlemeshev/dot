@@ -9,18 +9,76 @@ teardown() {
   rm -rf "$TMPDIR_SCHEMA"
 }
 
-@test "load_theme reads strict semantic scheme colors map" {
+@test "load_theme reads strict semantic theme colors map" {
   run python3 - <<PY
 import json
 import sys
 sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
 from theme import load_theme
 
-colors = load_theme("${PROJECT_ROOT}/color/schemes/gruvbox-dark-material.yaml", prefix="", uppercase=False)
+colors = load_theme("${PROJECT_ROOT}/color/themes/gruvbox-dark-material.yaml", prefix="", uppercase=False)
 print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
 PY
   [ "$status" -eq 0 ]
   [ "$output" = '{"background": "282828", "brightBlack": "928374", "foreground": "d4be98"}' ]
+}
+
+@test "load_theme reads gruvbox light material colors map" {
+  run python3 - <<PY
+import json
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme
+
+colors = load_theme("${PROJECT_ROOT}/color/themes/gruvbox-light-material.yaml", prefix="", uppercase=False)
+print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = '{"background": "fbf1c7", "brightBlack": "7c6f64", "foreground": "3c3836"}' ]
+}
+
+@test "load_theme_bundle reads gruvbox light material bundle" {
+  run python3 - <<PY
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme_bundle
+
+bundle = load_theme_bundle("${PROJECT_ROOT}/color/themes/gruvbox-light-material.yaml", prefix="", uppercase=False)
+print(bundle["tmux"]["bell_bg"])
+print(bundle["statusline"]["normal_bg"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'d79921\n3c3836' ]
+}
+
+@test "load_theme reads melange dark colors map" {
+  run python3 - <<PY
+import json
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme
+
+colors = load_theme("${PROJECT_ROOT}/color/themes/melange-dark.yaml", prefix="", uppercase=False)
+print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = '{"background": "292522", "brightBlack": "867462", "foreground": "ece1d7"}' ]
+}
+
+@test "load_theme_bundle reads melange light bundle" {
+  run python3 - <<PY
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme_bundle
+
+bundle = load_theme_bundle("${PROJECT_ROOT}/color/themes/melange-light.yaml", prefix="", uppercase=False)
+print(bundle["tmux"]["bell_bg"])
+print(bundle["semantic"]["module"])
+print(bundle["semantic"]["function"])
+print(bundle["semantic"]["info"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'a06d00\n54433a\na06d00\n7892bd' ]
 }
 
 @test "load_theme rejects incomplete semantic scheme" {
@@ -213,7 +271,7 @@ PY
 @test "load_theme_bundle requires omp section" {
   run python3 - <<PY
 from pathlib import Path
-source = Path("${PROJECT_ROOT}/color/schemes/gruvbox-dark-material.yaml").read_text(encoding="utf-8")
+source = Path("${PROJECT_ROOT}/color/themes/gruvbox-dark-material.yaml").read_text(encoding="utf-8")
 lines = source.splitlines()
 out = []
 skip = False
@@ -243,7 +301,7 @@ PY
 @test "load_theme_bundle requires terminal section" {
   run python3 - <<PY
 from pathlib import Path
-source = Path("${PROJECT_ROOT}/color/schemes/gruvbox-dark-material.yaml").read_text(encoding="utf-8")
+source = Path("${PROJECT_ROOT}/color/themes/gruvbox-dark-material.yaml").read_text(encoding="utf-8")
 lines = source.splitlines()
 out = []
 skip = False

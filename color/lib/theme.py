@@ -192,6 +192,8 @@ TMUX_KEYS = {
     "block_fg",
     "alert_bg",
     "alert_fg",
+    "bell_bg",
+    "bell_fg",
     "border_fg",
     "border_active_fg",
     "message_bg",
