@@ -51,6 +51,36 @@ PY
   [ "$output" = $'d79921\n3c3836' ]
 }
 
+@test "load_theme reads melange dark colors map" {
+  run python3 - <<PY
+import json
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme
+
+colors = load_theme("${PROJECT_ROOT}/color/schemes/melange-dark.yaml", prefix="", uppercase=False)
+print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = '{"background": "292522", "brightBlack": "867462", "foreground": "ece1d7"}' ]
+}
+
+@test "load_theme_bundle reads melange light bundle" {
+  run python3 - <<PY
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme_bundle
+
+bundle = load_theme_bundle("${PROJECT_ROOT}/color/schemes/melange-light.yaml", prefix="", uppercase=False)
+print(bundle["tmux"]["bell_bg"])
+print(bundle["semantic"]["module"])
+print(bundle["semantic"]["function"])
+print(bundle["semantic"]["info"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'a06d00\n54433a\na06d00\n7892bd' ]
+}
+
 @test "load_theme rejects incomplete semantic scheme" {
   cat >"$TMPDIR_SCHEMA/incomplete.yaml" <<'YAML'
 name: "Incomplete"

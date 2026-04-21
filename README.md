@@ -63,6 +63,10 @@ bash bin/apply-color-scheme color/schemes/gruvbox-dark-material.yaml
 # Apply the light variant
 bash bin/apply-color-scheme color/schemes/gruvbox-light-material.yaml
 
+# Apply melange variants
+bash bin/apply-color-scheme color/schemes/melange-dark.yaml
+bash bin/apply-color-scheme color/schemes/melange-light.yaml
+
 # Verify theme schema and generated outputs
 make theme-test
 ```
