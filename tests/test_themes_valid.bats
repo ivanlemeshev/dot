@@ -4,7 +4,7 @@ setup() {
   PROJECT_ROOT="$(cd "${BATS_TEST_DIRNAME}/.." && pwd)"
 }
 
-@test "strict semantic scheme YAMLs load and all scheme hex values are normalized" {
+@test "strict semantic theme YAMLs load and all theme hex values are normalized" {
   run python3 - <<PY
 import glob
 import os
@@ -12,9 +12,9 @@ import re
 import sys
 
 project_root = "${PROJECT_ROOT}"
-schemes = sorted(glob.glob(os.path.join(project_root, "color/schemes/*.yaml")))
-if not schemes:
-    raise SystemExit("No schemes found in color/schemes")
+themes = sorted(glob.glob(os.path.join(project_root, "color/themes/*.yaml")))
+if not themes:
+    raise SystemExit("No themes found in color/themes")
 
 sys.path.insert(0, os.path.join(project_root, "color/lib"))
 from theme import load_theme_sections
@@ -23,7 +23,7 @@ hex_re = re.compile(r'^\\s{2}([\\w_]+):\\s+"(#[0-9a-fA-F]{6})"\\s*$')
 
 bad = []
 strict = []
-for path in schemes:
+for path in themes:
     # Enforce consistent hex casing in the source YAML (easier diffs, fewer surprises).
     text = open(path, encoding="utf-8").read()
     strict.append(path)
@@ -43,7 +43,7 @@ if bad:
     raise SystemExit(1)
 
 if not strict:
-    raise SystemExit("No strict semantic schemes found")
+    raise SystemExit("No strict semantic themes found")
 PY
   [ "$status" -eq 0 ]
 }

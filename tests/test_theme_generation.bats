@@ -34,7 +34,7 @@ teardown() {
 }
 
 @test "apply-color-scheme updates generated theme files" {
-  run bash "$TEST_ROOT/bin/apply-color-scheme" "$TEST_ROOT/color/schemes/gruvbox-dark-material.yaml"
+  run bash "$TEST_ROOT/bin/apply-color-scheme" "$TEST_ROOT/color/themes/gruvbox-dark-material.yaml"
   [ "$status" -eq 0 ]
 
   [ -s "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish" ]
@@ -90,12 +90,12 @@ teardown() {
   rm -f "$TEST_ROOT/.config/bat/themes/custom.tmTheme"
 
   run python3 "$TEST_ROOT/color/generators/apply-omp-theme.py" \
-    "$TEST_ROOT/color/schemes/gruvbox-dark-material.yaml" \
+    "$TEST_ROOT/color/themes/gruvbox-dark-material.yaml" \
     "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
   [ "$status" -eq 0 ]
 
   run python3 "$TEST_ROOT/color/generators/apply-tmtheme.py" \
-    "$TEST_ROOT/color/schemes/gruvbox-dark-material.yaml" \
+    "$TEST_ROOT/color/themes/gruvbox-dark-material.yaml" \
     "$TEST_ROOT/.config/bat/themes/custom.tmTheme"
   [ "$status" -eq 0 ]
 

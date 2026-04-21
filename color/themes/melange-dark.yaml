@@ -37,7 +37,7 @@ ui:
   search_fg: "#292522"
   inc_search_bg: "#EBC06D"
   inc_search_fg: "#292522"
-  popup_bg: "#34302C"
+  popup_bg: "#292522"
   popup_sel: "#403A36"
   status_bg: "#34302C"
   status_fg: "#ECE1D7"
@@ -104,7 +104,7 @@ semantic:
   search_fg: "#292522"
   inc_search_bg: "#EBC06D"
   inc_search_fg: "#292522"
-  popup_bg: "#34302C"
+  popup_bg: "#292522"
   popup_sel: "#403A36"
 
 syntax:
@@ -233,7 +233,7 @@ fzf:
   bg: "#292522"
   hl: "#85B695"
   "fg+": "#ECE1D7"
-  "bg+": "#34302C"
+  "bg+": "#292522"
   "hl+": "#89B3B6"
   info: "#89B3B6"
   border: "#867462"
