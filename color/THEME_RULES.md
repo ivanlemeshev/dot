@@ -33,8 +33,12 @@ different tools.
   that decision consistently to both `statusline` and `tmux`.
 - `statusline.section_bg`, `statusline.inactive_bg`, `tmux.bar_bg`, and
   `tmux.message_bg` should belong to the same surface family.
-- Active blocks should use the same visual strategy in both places:
-  inverted blocks in both, or accent blocks in both.
+- When statusline and tmux are meant to be visible chrome rather than fully
+  blended overlays, their neutral bar backgrounds should not equal `ui.bg`. Keep
+  them on a distinct surface so the bars remain readable as separate UI layers
+  against the editor background.
+- Active blocks should use the same visual strategy in both places: inverted
+  blocks in both, or accent blocks in both.
 - Alert and bell states should remain compatible across both tools:
   `tmux.alert_*` and `tmux.bell_*` should not introduce a palette logic that
   conflicts with `statusline` mode colors.
@@ -69,5 +73,6 @@ When creating a new theme or reviewing an edited one:
 2. Check floating terminal borders and bodies for the same background.
 3. Check FZF and FzfLua backgrounds for unintended bands or border seams.
 4. Check that statusline and tmux follow one shared bar strategy.
-5. Check that semantic and syntax roles are derived from the current theme's
-   own palette rather than copied from another theme.
+5. Check that neutral status/tmux bars are still visually distinct from `ui.bg`.
+6. Check that semantic and syntax roles are derived from the current theme's own
+   palette rather than copied from another theme.
