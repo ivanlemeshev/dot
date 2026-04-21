@@ -23,6 +23,34 @@ PY
   [ "$output" = '{"background": "282828", "brightBlack": "928374", "foreground": "d4be98"}' ]
 }
 
+@test "load_theme reads gruvbox light material colors map" {
+  run python3 - <<PY
+import json
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme
+
+colors = load_theme("${PROJECT_ROOT}/color/schemes/gruvbox-light-material.yaml", prefix="", uppercase=False)
+print(json.dumps({k: colors[k] for k in ("foreground", "background", "brightBlack")}, sort_keys=True))
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = '{"background": "fbf1c7", "brightBlack": "7c6f64", "foreground": "3c3836"}' ]
+}
+
+@test "load_theme_bundle reads gruvbox light material bundle" {
+  run python3 - <<PY
+import sys
+sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
+from theme import load_theme_bundle
+
+bundle = load_theme_bundle("${PROJECT_ROOT}/color/schemes/gruvbox-light-material.yaml", prefix="", uppercase=False)
+print(bundle["tmux"]["bell_bg"])
+print(bundle["statusline"]["normal_bg"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'d79921\n3c3836' ]
+}
+
 @test "load_theme rejects incomplete semantic scheme" {
   cat >"$TMPDIR_SCHEMA/incomplete.yaml" <<'YAML'
 name: "Incomplete"

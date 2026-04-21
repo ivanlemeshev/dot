@@ -60,6 +60,9 @@ Useful commands:
 # Regenerate checked-in theme outputs
 bash bin/apply-color-scheme color/schemes/gruvbox-dark-material.yaml
 
+# Apply the light variant
+bash bin/apply-color-scheme color/schemes/gruvbox-light-material.yaml
+
 # Verify theme schema and generated outputs
 make theme-test
 ```
