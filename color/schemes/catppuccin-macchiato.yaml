@@ -181,6 +181,8 @@ tmux:
   message_fg: "#cad3f5"
   mode_bg: "#cad3f5"
   mode_fg: "#24273a"
+  bell_bg: "#eed49f"
+  bell_fg: "#24273a"
 
 ls_colors:
   foreground: "#cad3f5"

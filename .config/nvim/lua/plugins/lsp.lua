@@ -121,7 +121,7 @@ local function setup_lsp_keymaps(event)
   end
 
   helpers.nmap("K", function()
-    vim.lsp.buf.hover({ border = "single" })
+    vim.lsp.buf.hover({ border = "single", focusable = false })
   end, "LSP: hover documentation", { buffer = buf })
 
   local client = vim.lsp.get_client_by_id(event.data.client_id)
