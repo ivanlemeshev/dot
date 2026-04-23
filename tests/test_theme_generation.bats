@@ -63,7 +63,7 @@ teardown() {
   grep -q 'TabLineSel", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'WinBar", { fg = ui.bg, bg = ui.fg }' "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   grep -q 'let s:ui_bg = "282828"' "$TEST_ROOT/.config/vim/colors/custom.vim"
-  grep -q 'let s:statusline_normal_bg = "3a3735"' "$TEST_ROOT/.config/vim/colors/custom.vim"
+  grep -q 'let s:statusline_normal_bg = "d4be98"' "$TEST_ROOT/.config/vim/colors/custom.vim"
   grep -q "call s:hl('StatusLine',       s:semantic_status_fg, s:semantic_status_bg)" "$TEST_ROOT/.config/vim/colors/custom.vim"
   grep -q "call s:hl('StatusLineNC',     s:semantic_status_inactive_fg, s:semantic_status_bg)" "$TEST_ROOT/.config/vim/colors/custom.vim"
   grep -q "call s:hl('TabLineSel',       s:ui_bg, s:ui_fg)" "$TEST_ROOT/.config/vim/colors/custom.vim"

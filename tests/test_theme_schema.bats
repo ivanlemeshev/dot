@@ -228,6 +228,8 @@ tmux:
   message_fg: "#d4be98"
   mode_bg: "#3a3735"
   mode_fg: "#ddc7a1"
+  bell_bg: "#d8a657"
+  bell_fg: "#282828"
 ls_colors:
   foreground: "#d4be98"
   background: "#282828"
@@ -699,6 +701,8 @@ tmux:
   message_fg: "#d4be98"
   mode_bg: "#3a3735"
   mode_fg: "#ddc7a1"
+  bell_bg: "#d8a657"
+  bell_fg: "#282828"
 ls_colors:
   foreground: "#d4be98"
   background: "#282828"
@@ -728,7 +732,7 @@ fzf:
   gutter: "#282828"
 YAML
 
-  run python3 - <<PY
+run python3 - <<PY
 import sys
 sys.path.insert(0, "${PROJECT_ROOT}/color/lib")
 from theme import load_theme_bundle
