@@ -187,8 +187,8 @@ tmux:
   message_fg: "#cdd6f4"
   mode_bg: "#cdd6f4"
   mode_fg: "#1e1e2e"
-  begin_bg: "#f9e2af"
-  begin_fg: "#1e1e2e"
+  bell_bg: "#f9e2af"
+  bell_fg: "#1e1e2e"
 
 ls_colors:
   foreground: "#cdd6f4"
