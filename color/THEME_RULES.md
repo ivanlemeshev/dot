@@ -56,14 +56,56 @@ Every theme must derive semantics from its own palette and visual language.
   matches.
 - Start from the theme's native palette, then assign roles according to how the
   theme naturally communicates emphasis, neutrality, warnings, and structure.
+- When a theme has an official editor implementation, map `syntax` roles from
+  that implementation's highlight groups before using terminal ANSI intuition.
+  Terminal `yellow`, `green`, and `blue` slots are not enough to infer syntax
+  semantics.
 - `semantic`, `syntax`, and `tool` sections should agree on color families
   unless there is a clear reason to diverge.
 - Informational, warning, error, success, prompt, and accent roles should each
   feel native to the theme rather than inherited from a different theme's logic.
 - If a theme family has official or established role conventions, prefer those
   conventions over cross-theme uniformity.
+- For Melange specifically, preserve the upstream rule that control flow uses
+  warm colors and data uses cold colors: statements/keywords are warm yellow,
+  operators are red, functions/specials are bright yellow, strings are blue,
+  types are cyan, constants/numbers are magenta, and identifiers remain on the
+  main foreground unless a more specific upstream group says otherwise.
 - Reusing the same hue across sections is acceptable when it preserves the
   theme's identity; forcing one global mapping across all themes is not.
+
+## Cross-Section Role Rules
+
+The same real-world concept should use the same color across generated targets
+unless a theme has a strong, documented reason to split it.
+
+- Directory and path roles should stay aligned across `semantic.directory`,
+  `tool.path`, `tool.directory`, `ls_colors.directory`, `fish.valid_path`, and
+  `fish.cwd`.
+- Executable and command roles should stay aligned across `semantic.executable`,
+  `tool.executable`, `ls_colors.executable`, and `fish.command`. If an official
+  editor theme treats executable files differently from shell executable
+  conventions, prefer the official role and document the choice.
+- Symlink and special-file roles should stay aligned across `semantic.symlink`,
+  `tool.symlink`, and the closest file-listing special-file slot such as
+  `ls_colors.special`.
+- Success and clean-state roles should stay aligned across `semantic.success`,
+  `tool.git_clean`, `omp.git_clean`, `omp.status_ok`, and any positive-match
+  color such as `fzf.hl`.
+- Error, root, dirty-state, behind-state, alert, and failed-status roles should
+  stay aligned across `semantic.error`, `tool.root`, `tool.git_dirty`,
+  `tool.git_behind`, `omp.root`, `omp.git_dirty`, `omp.git_behind`,
+  `omp.status_error`, `tmux.alert_bg`, `ls_colors.error`, `fish.error`,
+  `fish.cancel`, `fish.cwd_root`, and `fish.status`.
+- Warning, prompt, title, bell, marker, and spinner roles should stay in one
+  compatible accent family across `semantic.warning`, `semantic.prompt`,
+  `semantic.title`, `tmux.bell_bg`, `fzf.marker`, and `fzf.spinner`.
+- Informational, ahead-state, host, and pointer roles should stay aligned across
+  `semantic.info`, `semantic.changed`, `tool.git_ahead`, `omp.host`,
+  `omp.git_ahead`, `fish.host`, and `fzf.pointer`.
+- Keep syntax-specific shades separate when the official editor theme uses
+  brighter or dimmer variants for code semantics. Cross-section consistency is
+  for shared UI/tool/file concepts, not a reason to flatten syntax highlighting.
 
 ## Consistency Checks
 
@@ -76,3 +118,6 @@ When creating a new theme or reviewing an edited one:
 5. Check that neutral status/tmux bars are still visually distinct from `ui.bg`.
 6. Check that semantic and syntax roles are derived from the current theme's own
    palette rather than copied from another theme.
+7. Check that directory/path, executable/command, symlink/special-file,
+   success/clean, error/root/dirty, warning/prompt, and info/ahead/host roles
+   are consistent across sections.
