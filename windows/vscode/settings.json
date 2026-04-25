@@ -1,1 +1,96 @@
-{}
+{
+    "editor.cursorSurroundingLines": 10,
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "editor.rulers": [
+        80,
+        100,
+        120
+    ],
+    "editor.stickyScroll.enabled": false,
+    "files.autoSave": "onFocusChange",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "breadcrumbs.enabled": false,
+    "window.zoomLevel": 1.4,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false,
+        "<C-n>": false,
+        "<C-p>": false
+    },
+    "vim.insertModeKeyBindings": [],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ";"
+            ],
+            "after": [
+                ":"
+            ]
+        },
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "after": [
+                "<C-d>",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "<C-u>"
+            ],
+            "after": [
+                "<C-u>",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "<C-f>"
+            ],
+            "after": [
+                "<C-f>",
+                "z",
+                "z"
+            ]
+        },
+        {
+            "before": [
+                "<C-b>"
+            ],
+            "after": [
+                "<C-b>",
+                "z",
+                "z"
+            ]
+        }
+    ],
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1 // To improve performance
+    },
+    "workbench.tree.renderIndentGuides": "none",
+    "workbench.activityBar.compact": true,
+    "workbench.colorTheme": "Dark Modern",
+    "workbench.tree.enableStickyScroll": false,
+    "workbench.navigationControl.enabled": false,
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "diffEditor.ignoreTrimWhitespace": false
+}

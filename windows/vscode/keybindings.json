@@ -1,1 +1,81 @@
-[]
+[
+    {
+        "key": "ctrl+n",
+        "command": "selectNextSuggestion",
+        "when": "suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "selectPrevSuggestion",
+        "when": "suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "list.focusDown",
+        "when": "listFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "list.focusUp",
+        "when": "listFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "workbench.action.quickOpenSelectNext",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpenSelectPrevious",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "editor.action.marker.next",
+        "when": "editorTextFocus && !editorHasSelection && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "editor.action.marker.prev",
+        "when": "editorTextFocus && !editorHasSelection && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "editor.action.inlineSuggest.commit",
+        "when": "editorTextFocus && vim.mode == 'Insert' && inlineSuggestionVisible"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "actions.find",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "space f f",
+        "command": "workbench.action.quickOpen",
+        "when": "(editorTextFocus && vim.mode == 'Normal') || (workbenchState == 'workspace' && !inputFocus && !terminalFocus)"
+    },
+    {
+        "key": "space f p",
+        "command": "workbench.action.quickTextSearch",
+        "when": "(editorTextFocus && vim.mode == 'Normal') || (workbenchState == 'workspace' && !inputFocus && !terminalFocus)"
+    },
+    {
+        "key": "space w",
+        "command": "workbench.action.files.save",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space q",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    }
+]

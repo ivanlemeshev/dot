@@ -19,7 +19,7 @@ set extra_config ~/.config/fish/extra.fish
 
 # Check if the file exists, then source it
 if test -f $extra_config
-    source $extra_config
+    source $extra_config
 end
 
 # Set up abbreviations
