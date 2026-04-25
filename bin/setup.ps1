@@ -255,11 +255,11 @@ function Get-ScancodeMappings([byte[]]$value)
 	{
 		$offset = 12 + (4 * $i)
 		[void]$mappings.Add([byte[]]@(
-			$value[$offset],
-			$value[$offset + 1],
-			$value[$offset + 2],
-			$value[$offset + 3]
-		))
+				$value[$offset],
+				$value[$offset + 1],
+				$value[$offset + 2],
+				$value[$offset + 3]
+			))
 	}
 
 	return $mappings
@@ -368,8 +368,8 @@ function Install-NerdFonts
 	foreach ($fontName in $fonts.Keys)
 	{
 		$matchingRegistryNames = @($fontRegistryNames | Where-Object {
-			$_ -match "$fontName.*Nerd"
-		})
+				$_ -match "$fontName.*Nerd"
+			})
 
 		if ($matchingRegistryNames.Count -gt 0)
 		{
@@ -598,10 +598,11 @@ Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
 
 #endregion
 
-#region Windows Terminal Settings
 
 Write-Host ""
 Write-Host "Setting up configuration files..."
+
+#region Windows Terminal Settings
 
 $term = Get-AppxPackage | Where-Object {
 	$_.Name -match "WindowsTerminal"
@@ -656,6 +657,105 @@ if ($null -eq $term)
 		New-Item $target -ItemType SymbolicLink `
 			-Value $source | Out-Null
 		Write-Host "Terminal settings created."
+	}
+}
+
+#endregion
+
+#region VSCode Settings
+
+$term = Get-AppxPackage | Where-Object {
+	$_.Name -match "VisualStudioCode"
+}
+
+if ($null -eq $term)
+{
+	Write-Warning "VSCode not found. Skipping..."
+} else
+{
+	$vscodeDir = "$env:APPDATA\Code\User"
+
+	$settingsTarget = "$vscodeDir\settings.json"
+	$settingsSource = "$repoRoot\windows\vscode\settings.json"
+
+	$keybindingsTarget = "$vscodeDir\keybindings.json"
+	$keybindingsSource = "$repoRoot\windows\vscode\keybindings.json"
+
+	if (-not (Test-Path $vscodeDir))
+	{
+		New-Item $vscodeDir -ItemType Directory -Force | Out-Null
+	}
+
+	if (-not (Test-Path $settingsSource))
+	{
+		Write-Warning "VSCode settings source not found: $settingsSource"
+		Write-Warning "Skipping VSCode settings."
+	} elseif (Test-Path $settingsTarget)
+	{
+		$targetItem = Get-Item $settingsTarget
+		$existing = $targetItem.Target
+
+		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $source)
+		{
+			Write-Host "VSCode settings already linked."
+		} elseif ($targetItem.LinkType -eq "SymbolicLink")
+		{
+			Write-Host "Updating VSCode settings link..."
+			Remove-Item $settingsTarget -Force
+			New-Item $settingsTarget -ItemType SymbolicLink `
+				-Value $settingsSource | Out-Null
+			Write-Host "VSCode settings updated."
+		} else
+		{
+			$backup = "$settingsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+			Write-Host "Backing up existing VSCode settings to $backup"
+			Move-Item $settingsTarget $backup
+			New-Item $settingsTarget -ItemType SymbolicLink `
+				-Value $settingsSource | Out-Null
+			Write-Host "VSCode settings created."
+		}
+	} else
+	{
+		Write-Host "Creating VSCode settings link..."
+		New-Item $settingsTarget -ItemType SymbolicLink `
+			-Value $settingsSource | Out-Null
+		Write-Host "VSCode settings created."
+	}
+
+	if (-not (Test-Path $keybindingsSource))
+	{
+		Write-Warning "VSCode keybindings source not found: $keybindingsSource"
+		Write-Warning "Skipping VSCode keybindings."
+	} elseif (Test-Path $keybindingsTarget)
+	{
+		$targetItem = Get-Item $keybindingsTarget
+		$existing = $targetItem.Target
+
+		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $source)
+		{
+			Write-Host "VSCode keybindings already linked."
+		} elseif ($targetItem.LinkType -eq "SymbolicLink")
+		{
+			Write-Host "Updating VSCode keybindings link..."
+			Remove-Item $keybindingsTarget -Force
+			New-Item $keybindingsTarget -ItemType SymbolicLink `
+				-Value $keybindingsSource | Out-Null
+			Write-Host "VSCode keybindings updated."
+		} else
+		{
+			$backup = "$keybindingsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+			Write-Host "Backing up existing VSCode keybindings to $backup"
+			Move-Item $keybindingsTarget $backup
+			New-Item $keybindingsTarget -ItemType SymbolicLink `
+				-Value $keybindingsSource | Out-Null
+			Write-Host "VSCode keybindings created."
+		}
+	} else
+	{
+		Write-Host "Creating VSCode keybindings link..."
+		New-Item $keybindingsTarget -ItemType SymbolicLink `
+			-Value $keybindingsSource | Out-Null
+		Write-Host "VSCode keybindings created."
 	}
 }
 
