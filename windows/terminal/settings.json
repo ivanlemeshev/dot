@@ -1,160 +1,160 @@
 {
-  "$help": "https://aka.ms/terminal-documentation",
-  "$schema": "https://aka.ms/terminal-profiles-schema",
-  "actions": [
-    {
-      "command": "find",
-      "id": "User.find"
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": [
+        {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane"
+        }
+    ],
+    "copyFormatting": "none",
+    "copyOnSelect": true,
+    "defaultProfile": "{897c6b3b-dc4f-4c80-9cac-c277cfe2f3f9}",
+    "keybindings": [
+        {
+            "id": "User.copy",
+            "keys": "ctrl+shift+c"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+shift+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.splitPane",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "newTabMenu": [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": {
+        "defaults": {
+            "colorScheme": "Custom Scheme",
+            "cursorShape": "filledBox",
+            "font": {
+                "builtinGlyphs": true,
+                "cellHeight": "1.4",
+                "colorGlyphs": true,
+                "face": "JetBrainsMonoNL Nerd Font Mono",
+                "size": 12,
+                "weight": "normal"
+            },
+            "intenseTextStyle": "bright",
+            "opacity": 100,
+            "useAcrylic": false
+        },
+        "list": [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
+                "hidden": false,
+                "icon": "\u26a1",
+                "name": "Windows PowerShell",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe",
+                "guid": "{897c6b3b-dc4f-4c80-9cac-c277cfe2f3f9}",
+                "hidden": false,
+                "icon": "\u26a1",
+                "name": "Windows PowerShell 7",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
+                "hidden": false,
+                "icon": "\ud83d\udc1a",
+                "name": "Command Prompt",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "wsl.exe -d Ubuntu --cd ~",
+                "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
+                "hidden": false,
+                "icon": "\ud83d\udc27",
+                "name": "Ubuntu"
+            },
+            {
+                "commandline": "C:\\msys64\\usr\\bin\\env.exe MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -li",
+                "guid": "{7a30f727-2f38-43d2-b84a-1138465a3859}",
+                "hidden": false,
+                "icon": "C:\\msys64\\msys2.ico",
+                "name": "MSYS2",
+                "startingDirectory": "C:\\msys64\\home\\%USERNAME%"
+            }
+        ]
     },
-    {
-      "command": {
-        "action": "copy",
-        "singleLine": false
-      },
-      "id": "User.copy"
-    },
-    {
-      "command": "paste",
-      "id": "User.paste"
-    },
-    {
-      "command": {
-        "action": "splitPane",
-        "split": "auto",
-        "splitMode": "duplicate"
-      },
-      "id": "User.splitPane"
-    }
-  ],
-  "copyFormatting": "none",
-  "copyOnSelect": true,
-  "defaultProfile": "{897c6b3b-dc4f-4c80-9cac-c277cfe2f3f9}",
-  "keybindings": [
-    {
-      "id": "User.copy",
-      "keys": "ctrl+shift+c"
-    },
-    {
-      "id": "User.paste",
-      "keys": "ctrl+shift+v"
-    },
-    {
-      "id": "User.find",
-      "keys": "ctrl+shift+f"
-    },
-    {
-      "id": "User.splitPane",
-      "keys": "alt+shift+d"
-    }
-  ],
-  "newTabMenu": [
-    {
-      "type": "remainingProfiles"
-    }
-  ],
-  "profiles": {
-    "defaults": {
-      "colorScheme": "Custom Scheme",
-      "cursorShape": "filledBox",
-      "font": {
-        "builtinGlyphs": true,
-        "cellHeight": "1.4",
-        "colorGlyphs": true,
-        "face": "Hack Nerd Font Mono",
-        "size": 12,
-        "weight": "normal"
-      },
-      "intenseTextStyle": "bright",
-      "opacity": 100,
-      "useAcrylic": false
-    },
-    "list": [
-      {
-        "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-        "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
-        "hidden": false,
-        "icon": "⚡",
-        "name": "Windows PowerShell",
-        "startingDirectory": "%USERPROFILE%"
-      },
-      {
-        "commandline": "%USERPROFILE%\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe",
-        "guid": "{897c6b3b-dc4f-4c80-9cac-c277cfe2f3f9}",
-        "hidden": false,
-        "icon": "⚡",
-        "name": "Windows PowerShell 7",
-        "startingDirectory": "%USERPROFILE%"
-      },
-      {
-        "commandline": "%SystemRoot%\\System32\\cmd.exe",
-        "guid": "{0c63d969-ef2e-52d4-8736-68efbb78152d}",
-        "hidden": false,
-        "icon": "🐚",
-        "name": "Command Prompt",
-        "startingDirectory": "%USERPROFILE%"
-      },
-      {
-        "commandline": "wsl.exe -d Ubuntu --cd ~",
-        "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
-        "hidden": false,
-        "icon": "🐧",
-        "name": "Ubuntu"
-      },
-      {
-        "commandline": "C:\\msys64\\usr\\bin\\env.exe MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -li",
-        "guid": "{7a30f727-2f38-43d2-b84a-1138465a3859}",
-        "hidden": false,
-        "icon": "C:\\msys64\\msys2.ico",
-        "name": "MSYS2",
-        "startingDirectory": "C:\\msys64\\home\\%USERNAME%"
-      }
+    "schemes": [
+        {
+            "background": "#282828",
+            "black": "#665C54",
+            "blue": "#7DAEA3",
+            "brightBlack": "#928374",
+            "brightBlue": "#7DAEA3",
+            "brightCyan": "#89B482",
+            "brightGreen": "#A9B665",
+            "brightPurple": "#D3869B",
+            "brightRed": "#EA6962",
+            "brightWhite": "#D4BE98",
+            "brightYellow": "#D8A657",
+            "cursorColor": "#D4BE98",
+            "cyan": "#89B482",
+            "foreground": "#D4BE98",
+            "green": "#A9B665",
+            "name": "Custom Scheme",
+            "purple": "#D3869B",
+            "red": "#EA6962",
+            "selectionBackground": "#45403D",
+            "white": "#D4BE98",
+            "yellow": "#D8A657"
+        }
+    ],
+    "themes": [
+        {
+            "name": "Custom Scheme",
+            "tab": {
+                "background": "#282828FF",
+                "iconStyle": "default",
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "tabRow": {
+                "background": "#282828FF",
+                "unfocusedBackground": "#282828FF"
+            },
+            "window": {
+                "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
+                "useMica": false
+            }
+        }
     ]
-  },
-  "schemes": [
-    {
-      "background": "#282828",
-      "black": "#665C54",
-      "blue": "#7DAEA3",
-      "brightBlack": "#928374",
-      "brightBlue": "#7DAEA3",
-      "brightCyan": "#89B482",
-      "brightGreen": "#A9B665",
-      "brightPurple": "#D3869B",
-      "brightRed": "#EA6962",
-      "brightWhite": "#D4BE98",
-      "brightYellow": "#D8A657",
-      "cursorColor": "#D4BE98",
-      "cyan": "#89B482",
-      "foreground": "#D4BE98",
-      "green": "#A9B665",
-      "name": "Custom Scheme",
-      "purple": "#D3869B",
-      "red": "#EA6962",
-      "selectionBackground": "#45403D",
-      "white": "#D4BE98",
-      "yellow": "#D8A657"
-    }
-  ],
-  "themes": [
-    {
-      "name": "Custom Scheme",
-      "tab": {
-        "background": "#282828FF",
-        "iconStyle": "default",
-        "showCloseButton": "always",
-        "unfocusedBackground": null
-      },
-      "tabRow": {
-        "background": "#282828FF",
-        "unfocusedBackground": "#282828FF"
-      },
-      "window": {
-        "applicationTheme": "dark",
-        "experimental.rainbowFrame": false,
-        "frame": null,
-        "unfocusedFrame": null,
-        "useMica": false
-      }
-    }
-  ]
 }
