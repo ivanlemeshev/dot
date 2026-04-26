@@ -8,78 +8,81 @@
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $repoRoot = Split-Path -Parent $scriptDir
+$originalLocation = Get-Location
 Set-Location $scriptDir
 
-# Check if running as Administrator
-$isAdmin = ([Security.Principal.WindowsPrincipal]`
-		[Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
-	[Security.Principal.WindowsBuiltInRole]::Administrator)
-
-if (-not $isAdmin)
+try
 {
-	$pwshExe = Join-Path $PSHOME 'pwsh.exe'
-	$relaunchExe = if (Test-Path $pwshExe)
-	{ $pwshExe
- } else
-	{ "powershell.exe"
- }
+	# Check if running as Administrator
+	$isAdmin = ([Security.Principal.WindowsPrincipal]`
+			[Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
+		[Security.Principal.WindowsBuiltInRole]::Administrator)
 
-	Start-Process $relaunchExe `
-		"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
-		-Verb RunAs -WorkingDirectory $scriptDir
-	exit
-}
-
-Write-Host "Current directory: $scriptDir"
-Write-Host "Repository root: $repoRoot"
-Write-Host "User profile: $env:USERPROFILE"
-Write-Host ""
-
-$restartRequired = $false
-
-#region Package Installation
-
-function Install-WingetPackage($id, $name)
-{
-	if (-not (Get-Command winget -ErrorAction SilentlyContinue))
+	if (-not $isAdmin)
 	{
-		Write-Warning "winget not found. Skipping $name."
-		return $false
+		$pwshExe = Join-Path $PSHOME 'pwsh.exe'
+		$relaunchExe = if (Test-Path $pwshExe)
+		{ $pwshExe
+	 } else
+		{ "powershell.exe"
+	 }
+
+		Start-Process $relaunchExe `
+			"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
+			-Verb RunAs -WorkingDirectory $scriptDir
+		return
 	}
 
-	Write-Host "Checking $name..."
-	$null = winget list --id $id --exact --source winget `
-		--accept-source-agreements 2>$null
+	Write-Host "Current directory: $scriptDir"
+	Write-Host "Repository root: $repoRoot"
+	Write-Host "User profile: $env:USERPROFILE"
+	Write-Host ""
 
-	if ($LASTEXITCODE -eq 0)
+	$restartRequired = $false
+
+	#region Package Installation
+
+	function Install-WingetPackage($id, $name)
 	{
-		Write-Host "$name already installed. Checking for updates..."
-		winget upgrade --id $id --exact --source winget `
-			--accept-package-agreements --accept-source-agreements
+		if (-not (Get-Command winget -ErrorAction SilentlyContinue))
+		{
+			Write-Warning "winget not found. Skipping $name."
+			return $false
+		}
+
+		Write-Host "Checking $name..."
+		$null = winget list --id $id --exact --source winget `
+			--accept-source-agreements 2>$null
 
 		if ($LASTEXITCODE -eq 0)
 		{
-			Write-Host "$name updated or already current."
-			return $true
+			Write-Host "$name already installed. Checking for updates..."
+			winget upgrade --id $id --exact --source winget `
+				--accept-package-agreements --accept-source-agreements
+
+			if ($LASTEXITCODE -eq 0)
+			{
+				Write-Host "$name updated or already current."
+				return $true
+			}
+
+			Write-Warning "Failed to update $name."
+			return $false
 		}
 
-		Write-Warning "Failed to update $name."
-		return $false
+		Write-Host "Installing $name..."
+		winget install --id $id --exact --source winget `
+			--accept-package-agreements --accept-source-agreements
+
+		if ($LASTEXITCODE -ne 0)
+		{
+			Write-Warning "Failed to install $name."
+			return $false
+		}
+
+		Write-Host "$name installed."
+		return $true
 	}
-
-	Write-Host "Installing $name..."
-	winget install --id $id --exact --source winget `
-		--accept-package-agreements --accept-source-agreements
-
-	if ($LASTEXITCODE -ne 0)
-	{
-		Write-Warning "Failed to install $name."
-		return $false
-	}
-
-	Write-Host "$name installed."
-	return $true
-}
 
 function Get-MiseCommand
 {
@@ -513,6 +516,201 @@ function Add-LineIfMissing($path, $line)
 	return $true
 }
 
+function Add-BlockIfMissing($path, $marker, [string[]]$block)
+{
+	$parent = Split-Path -Parent $path
+
+	if (-not (Test-Path $parent))
+	{
+		New-Item $parent -ItemType Directory -Force | Out-Null
+	}
+
+	if (-not (Test-Path $path))
+	{
+		New-Item $path -ItemType File -Force | Out-Null
+	}
+
+	$content = Get-Content $path -Raw -ErrorAction SilentlyContinue
+	$blockText = ($block -join [Environment]::NewLine)
+	if ($content -match [regex]::Escape($marker))
+	{
+		$pattern = '(?ms)^' + [regex]::Escape($marker) + '\r?\n.*?^\}$'
+		if ($content -match $pattern)
+		{
+			$regex = [regex]::new($pattern)
+			$updated = $regex.Replace($content, $blockText, 1)
+			if ($updated -ne $content)
+			{
+				Set-Content -Path $path -Value $updated
+				return $true
+			}
+
+			return $false
+		}
+
+		return $false
+	}
+
+	if ($content.Length -gt 0 -and -not $content.EndsWith("`n"))
+	{
+		Add-Content -Path $path -Value ""
+	}
+
+	$block | Add-Content -Path $path
+	return $true
+}
+
+function Initialize-PSReadLineFishLikeExperience
+{
+	Import-Module PSReadLine -ErrorAction SilentlyContinue
+
+	if (-not (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue))
+	{
+		Write-Warning "PSReadLine not found. Skipping PowerShell completion setup."
+		return $false
+	}
+
+	try { Set-PSReadLineOption -EditMode Emacs } catch { }
+	try
+	{
+		Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+	} catch
+	{
+		try
+		{
+			Set-PSReadLineOption -PredictionSource History
+		} catch { }
+	}
+
+	try { Set-PSReadLineOption -PredictionViewStyle InlineView } catch { }
+	try { Set-PSReadLineKeyHandler -Key Ctrl+a -Function BeginningOfLine } catch { }
+	try { Set-PSReadLineKeyHandler -Key Ctrl+e -Function EndOfLine } catch { }
+	try { Set-PSReadLineKeyHandler -Key Ctrl+b -Function BackwardChar } catch { }
+	try {
+		Set-PSReadLineKeyHandler -Key Ctrl+f `
+			-BriefDescription ForwardCharAndAcceptSuggestion `
+			-LongDescription 'Move one character right in the line, or accept the inline suggestion when at the end of the line' `
+			-ScriptBlock {
+				param($key, $arg)
+
+				$line = $null
+				$cursor = $null
+				[Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState(
+					[ref]$line,
+					[ref]$cursor
+				)
+
+				if ($cursor -lt $line.Length)
+				{
+					[Microsoft.PowerShell.PSConsoleReadLine]::ForwardChar($key, $arg)
+				} else
+				{
+					[Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion($key, $arg)
+				}
+			}
+	} catch { }
+	try { Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete } catch { }
+	try { Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -Function MenuComplete } catch { }
+	try { Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward } catch { }
+	try { Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward } catch { }
+
+	return $true
+}
+
+function Install-PSReadLineModule
+{
+	if (-not (Get-Command Install-Module -ErrorAction SilentlyContinue))
+	{
+		Write-Warning "PowerShellGet is not available. Skipping PSReadLine update."
+		return $false
+	}
+
+	$current = Get-Module -ListAvailable PSReadLine |
+		Sort-Object Version -Descending |
+		Select-Object -First 1 -ExpandProperty Version
+
+	if ($null -ne $current -and $current -ge [version]"2.2.6")
+	{
+		Write-Host "PSReadLine $current already installed."
+		return $false
+	}
+
+	Write-Host "Updating PSReadLine for better shell completion..."
+
+	try
+	{
+		Install-Module -Name PSReadLine -Scope CurrentUser `
+			-Force -AllowClobber
+	} catch
+	{
+		Write-Warning "Failed to update PSReadLine."
+		Write-Warning $_.Exception.Message
+		return $false
+	}
+
+	Write-Host "PSReadLine updated."
+	return $true
+}
+
+Install-PSReadLineModule
+
+if (Initialize-PSReadLineFishLikeExperience)
+{
+	$psReadLineProfileLines = @(
+		'# Fish-like PowerShell completion',
+		'Import-Module PSReadLine -ErrorAction SilentlyContinue',
+		'if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {',
+		'    try { Set-PSReadLineOption -EditMode Emacs } catch { }',
+		'    try {',
+		'        Set-PSReadLineOption -PredictionSource HistoryAndPlugin',
+		'    } catch {',
+		'        try {',
+		'            Set-PSReadLineOption -PredictionSource History',
+		'        } catch { }',
+		'    }',
+		'    try { Set-PSReadLineOption -PredictionViewStyle InlineView } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key Ctrl+a -Function BeginningOfLine } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key Ctrl+e -Function EndOfLine } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key Ctrl+b -Function BackwardChar } catch { }',
+		'    try {',
+		'        Set-PSReadLineKeyHandler -Key Ctrl+f `',
+		'            -BriefDescription ForwardCharAndAcceptSuggestion `',
+		'            -LongDescription ''Move one character right in the line, or accept the inline suggestion when at the end of the line'' `',
+		'            -ScriptBlock {',
+		'                param($key, $arg)',
+		'',
+		'                $line = $null',
+		'                $cursor = $null',
+		'                [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState(',
+		'                    [ref]$line,',
+		'                    [ref]$cursor',
+		'                )',
+		'',
+		'                if ($cursor -lt $line.Length)',
+		'                {',
+		'                    [Microsoft.PowerShell.PSConsoleReadLine]::ForwardChar($key, $arg)',
+		'                } else',
+		'                {',
+		'                    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion($key, $arg)',
+		'                }',
+		'            }',
+		'    } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -Function MenuComplete } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward } catch { }',
+		'    try { Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward } catch { }',
+		'}'
+	)
+
+	if (Add-BlockIfMissing $PROFILE.CurrentUserAllHosts '# Fish-like PowerShell completion' $psReadLineProfileLines)
+	{
+		Write-Host "Added fish-like completion to PowerShell profile."
+	} else
+	{
+		Write-Host "Fish-like PowerShell completion already present in profile."
+	}
+}
+
 Write-Host ""
 Write-Host "Setting up mise configuration..."
 
@@ -855,4 +1053,7 @@ if ($restartRequired)
 	Write-Host -NoNewLine `
 		"Press any key to exit..."
 	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+}
+} finally {
+	Set-Location $originalLocation
 }
