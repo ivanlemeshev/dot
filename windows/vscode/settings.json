@@ -99,7 +99,6 @@
     },
     "workbench.tree.renderIndentGuides": "none",
     "workbench.activityBar.compact": true,
-    "workbench.colorTheme": "Dark Modern",
     "workbench.tree.enableStickyScroll": false,
     "workbench.navigationControl.enabled": false,
     "window.commandCenter": false,
@@ -109,5 +108,14 @@
     // === Lua ===
     "[lua]": {
         "editor.defaultFormatter": "JohnnyMorganz.stylua"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
     }
 }
