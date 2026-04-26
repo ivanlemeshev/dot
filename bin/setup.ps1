@@ -179,40 +179,9 @@ Install-WingetPackage "GitHub.cli" "GitHub CLI"
 Install-WingetPackage "Neovim.Neovim" "Neovim"
 Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
 Install-WingetPackage "jdx.mise" "mise"
-Install-WingetPackage "MSYS2.MSYS2" "MSYS2"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
-
-$makeSearchPaths = @(
-	"$env:LOCALAPPDATA\Microsoft\WinGet\Links",
-	"C:\msys64\usr\bin"
-)
-
-foreach ($makePath in $makeSearchPaths)
-{
-	if (Test-Path (Join-Path $makePath "make.exe"))
-	{
-		$env:Path = "$makePath;$env:Path"
-		break
-	}
-}
-
-$shellSearchPaths = @(
-	"C:\msys64\usr\bin",
-	"$env:ProgramFiles\Git\usr\bin",
-	"$env:ProgramFiles\Git\bin"
-)
-
-foreach ($shellPath in $shellSearchPaths)
-{
-	if (Test-Path (Join-Path $shellPath "sh.exe"))
-	{
-		$env:Path = "$shellPath;$env:Path"
-		$env:SHELL = (Join-Path $shellPath "sh.exe")
-		break
-	}
-}
 
 #endregion
 
@@ -607,11 +576,18 @@ if ($null -ne $mise)
 		}
 	}
 
-	# Lua needs make and a C compiler on Windows, so use make + Zig for the build.
-	$env:CC = "zig cc"
 	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig", "lua")
 	Write-Host "Installing Windows-compatible mise bootstrap tools..."
-	& $mise --yes install @bootstrapTools
+	$msysBash = "C:\msys64\usr\bin\bash.exe"
+	if (Test-Path $msysBash)
+	{
+		$toolList = $bootstrapTools -join " "
+		$installCmd = "export CC='zig cc'; mise --yes install $toolList"
+		& $msysBash -lc $installCmd
+	} else
+	{
+		& $mise --yes install @bootstrapTools
+	}
 
 	if ($LASTEXITCODE -ne 0)
 	{
