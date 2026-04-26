@@ -179,9 +179,29 @@ Install-WingetPackage "GitHub.cli" "GitHub CLI"
 Install-WingetPackage "Neovim.Neovim" "Neovim"
 Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
 Install-WingetPackage "jdx.mise" "mise"
+Install-WingetPackage "GnuWin32.Make" "make"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
+
+$makeSearchPaths = @(
+	"$env:LOCALAPPDATA\Microsoft\WinGet\Links",
+	"$env:ProgramFiles\GnuWin32\bin"
+)
+$programFilesX86 = [Environment]::GetEnvironmentVariable("ProgramFiles(x86)")
+if ($null -ne $programFilesX86 -and $programFilesX86 -ne "")
+{
+	$makeSearchPaths += (Join-Path $programFilesX86 "GnuWin32\bin")
+}
+
+foreach ($makePath in $makeSearchPaths)
+{
+	if (Test-Path (Join-Path $makePath "make.exe"))
+	{
+		$env:Path = "$makePath;$env:Path"
+		break
+	}
+}
 
 #endregion
 
@@ -576,6 +596,8 @@ if ($null -ne $mise)
 		}
 	}
 
+	# Lua needs make and a C compiler on Windows, so use make + Zig for the build.
+	$env:CC = "zig cc"
 	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig", "lua")
 	Write-Host "Installing Windows-compatible mise bootstrap tools..."
 	& $mise --yes install @bootstrapTools
