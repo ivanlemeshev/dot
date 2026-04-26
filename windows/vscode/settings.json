@@ -117,5 +117,48 @@
         "plaintext": false,
         "markdown": true,
         "scminput": false
+    },
+    // === TODO Tree ===
+    // NOTE: note comments
+    // TODO: todo comments
+    // FIXME: fixme comments
+    // HACK: hack comments
+    // BUG: bug comments
+    "todo-tree.highlights.enabled": true,
+    "todo-tree.regex.caseSensitive": false,
+    "todo-tree.regex.regex": "(//|#|--|;|/\\*)\\s*($TAGS)",
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "BUG",
+        "NOTE",
+        "HACK"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "NOTE": {
+            "type": "tag",
+            "foreground": "peekViewResult.background",
+            "background": "editorInfo.foreground"
+        },
+        "TODO": {
+            "type": "tag",
+            "foreground": "peekViewResult.background",
+            "background": "editorWarning.foreground"
+        },
+        "FIXME": {
+            "type": "tag",
+            "foreground": "peekViewResult.background",
+            "background": "editorError.foreground"
+        },
+        "HACK": {
+            "type": "tag",
+            "foreground": "peekViewResult.background",
+            "background": "editorWarning.foreground"
+        },
+        "BUG": {
+            "type": "tag",
+            "foreground": "peekViewResult.background",
+            "background": "editorError.foreground"
+        }
     }
 }
