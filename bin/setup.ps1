@@ -17,7 +17,10 @@ $isAdmin = ([Security.Principal.WindowsPrincipal]`
 
 if (-not $isAdmin)
 {
-	Start-Process powershell.exe `
+	$pwshExe = Join-Path $PSHOME 'pwsh.exe'
+	$relaunchExe = if (Test-Path $pwshExe) { $pwshExe } else { "powershell.exe" }
+
+	Start-Process $relaunchExe `
 		"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
 		-Verb RunAs -WorkingDirectory $scriptDir
 	exit
