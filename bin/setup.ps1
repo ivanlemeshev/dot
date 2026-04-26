@@ -179,20 +179,15 @@ Install-WingetPackage "GitHub.cli" "GitHub CLI"
 Install-WingetPackage "Neovim.Neovim" "Neovim"
 Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
 Install-WingetPackage "jdx.mise" "mise"
-Install-WingetPackage "GnuWin32.Make" "make"
+Install-WingetPackage "MSYS2.MSYS2" "MSYS2"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
 
 $makeSearchPaths = @(
 	"$env:LOCALAPPDATA\Microsoft\WinGet\Links",
-	"$env:ProgramFiles\GnuWin32\bin"
+	"C:\msys64\usr\bin"
 )
-$programFilesX86 = [Environment]::GetEnvironmentVariable("ProgramFiles(x86)")
-if ($null -ne $programFilesX86 -and $programFilesX86 -ne "")
-{
-	$makeSearchPaths += (Join-Path $programFilesX86 "GnuWin32\bin")
-}
 
 foreach ($makePath in $makeSearchPaths)
 {
@@ -204,14 +199,10 @@ foreach ($makePath in $makeSearchPaths)
 }
 
 $shellSearchPaths = @(
+	"C:\msys64\usr\bin",
 	"$env:ProgramFiles\Git\usr\bin",
 	"$env:ProgramFiles\Git\bin"
 )
-if ($null -ne $programFilesX86 -and $programFilesX86 -ne "")
-{
-	$shellSearchPaths += (Join-Path $programFilesX86 "Git\usr\bin")
-	$shellSearchPaths += (Join-Path $programFilesX86 "Git\bin")
-}
 
 foreach ($shellPath in $shellSearchPaths)
 {
