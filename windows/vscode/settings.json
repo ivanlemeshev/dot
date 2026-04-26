@@ -23,6 +23,8 @@
     "vim.useSystemClipboard": true,
     "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
+    "vim.highlightedyank.enable": true,
+    "vim.surround": true,
     "vim.leader": "<space>",
     "vim.handleKeys": {
         "<C-a>": false,
@@ -38,6 +40,17 @@
             ],
             "after": [
                 ":"
+            ]
+        },
+        {
+            "before": [
+                "<Esc>"
+            ],
+            "commands": [
+                ":nohl"
+            ],
+            "when": [
+                "editorTextFocus"
             ]
         },
         {
@@ -82,7 +95,7 @@
         }
     ],
     "extensions.experimental.affinity": {
-        "vscodevim.vim": 1 // To improve performance
+        "vscodevim.vim": 1 // To improve performance and run Vim extension in a separate process
     },
     "workbench.tree.renderIndentGuides": "none",
     "workbench.activityBar.compact": true,
@@ -92,5 +105,9 @@
     "window.commandCenter": false,
     "workbench.layoutControl.enabled": false,
     "workbench.browser.showInTitleBar": false,
-    "diffEditor.ignoreTrimWhitespace": false
+    "diffEditor.ignoreTrimWhitespace": false,
+    // === Lua ===
+    "[lua]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua"
+    }
 }
