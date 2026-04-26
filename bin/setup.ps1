@@ -17,7 +17,14 @@ $isAdmin = ([Security.Principal.WindowsPrincipal]`
 
 if (-not $isAdmin)
 {
-	Start-Process powershell.exe `
+	$pwshExe = Join-Path $PSHOME 'pwsh.exe'
+	$relaunchExe = if (Test-Path $pwshExe)
+	{ $pwshExe
+ } else
+	{ "powershell.exe"
+ }
+
+	Start-Process $relaunchExe `
 		"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
 		-Verb RunAs -WorkingDirectory $scriptDir
 	exit
@@ -554,15 +561,6 @@ if (-not (Test-Path $miseSourceDir))
 	Write-Host "mise configuration created."
 }
 
-$miseProfileLine = 'mise activate pwsh | Out-String | Invoke-Expression'
-if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
-{
-	Write-Host "Added mise activation to PowerShell profile."
-} else
-{
-	Write-Host "mise activation already present in PowerShell profile."
-}
-
 $mise = Get-MiseCommand
 if ($null -ne $mise)
 {
@@ -588,6 +586,84 @@ if ($null -ne $mise)
 	} else
 	{
 		Write-Host "mise bootstrap tools installed."
+	}
+
+	$msysEnv = "C:\msys64\usr\bin\env.exe"
+	if (Test-Path $msysEnv)
+	{
+		Write-Host "Installing Lua with MSYS2..."
+		& $msysEnv MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -lc `
+			"pacman -Sy --needed --noconfirm mingw-w64-ucrt-x86_64-lua mingw-w64-ucrt-x86_64-lua-luarocks"
+
+		if ($LASTEXITCODE -ne 0)
+		{
+			Write-Warning "Failed to install Lua with MSYS2."
+		} else
+		{
+			$msysUcrtBin = "C:\msys64\ucrt64\bin"
+			if (($env:PATH -split ";") -notcontains $msysUcrtBin)
+			{
+				$env:PATH = "$msysUcrtBin;$env:PATH"
+			}
+
+			$msysUcrtPathLine = 'if (Test-Path "C:\msys64\ucrt64\bin") { $env:PATH = "C:\msys64\ucrt64\bin;$env:PATH" }'
+			if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $msysUcrtPathLine)
+			{
+				Write-Host "Added MSYS2 UCRT64 tools to PowerShell profile."
+			} else
+			{
+				Write-Host "MSYS2 UCRT64 tools already present in PowerShell profile."
+			}
+
+			$lua = Join-Path $msysUcrtBin "lua.exe"
+			$luarocks = Join-Path $msysUcrtBin "luarocks"
+			$luarocksAdmin = Join-Path $msysUcrtBin "luarocks-admin"
+			$luarocksCmd = Join-Path $msysUcrtBin "luarocks.cmd"
+			$luarocksAdminCmd = Join-Path $msysUcrtBin "luarocks-admin.cmd"
+
+			if (Test-Path $luarocks)
+			{
+				@(
+					"@echo off",
+					"`"$lua`" `"$luarocks`" %*"
+				) | Set-Content -Path $luarocksCmd -Encoding ASCII
+			}
+
+			if (Test-Path $luarocksAdmin)
+			{
+				@(
+					"@echo off",
+					"`"$lua`" `"$luarocksAdmin`" %*"
+				) | Set-Content -Path $luarocksAdminCmd -Encoding ASCII
+			}
+
+			if ((Test-Path $lua) -and (Test-Path $luarocks))
+			{
+				& $lua -v
+				& $msysEnv MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -lc "luarocks --version"
+				Write-Host "Lua installed."
+			} else
+			{
+				Write-Warning "Lua installed, but lua.exe or luarocks was not found in $msysUcrtBin."
+			}
+		}
+	} else
+	{
+		Write-Warning "MSYS2 not found at C:\msys64. Skipping Lua install."
+	}
+
+	# Load mise into this shell so installed tools are available immediately.
+	(& $mise activate pwsh) | Out-String | Invoke-Expression
+	& $mise reshim
+
+	$miseProfileLine = "(& `"$mise`" activate pwsh) | Out-String | Invoke-Expression"
+
+	if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
+	{
+		Write-Host "Added mise activation to PowerShell profile."
+	} else
+	{
+		Write-Host "mise activation already present in PowerShell profile."
 	}
 } else
 {
