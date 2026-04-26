@@ -596,9 +596,8 @@ if ($null -ne $mise)
 		Write-Host "mise bootstrap tools installed."
 	}
 
-	$env:MISE_ENV = "windows"
 	Write-Host "Installing Lua via mise..."
-	& $mise --yes install
+	& $mise --yes --env windows install
 
 	# Load mise into this shell so installed tools are available immediately.
 	(& $mise activate pwsh) | Out-String | Invoke-Expression

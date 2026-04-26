@@ -1,5 +1,3 @@
 [tools]
 lua = "5.4.8"
-
-[tool_alias]
-lua = "github:dyne/luabinaries"
+"github:dyne/luabinaries" = { version = "5.4.8", asset_pattern = "lua54.exe", bin = "lua" }
