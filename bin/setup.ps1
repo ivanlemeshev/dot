@@ -203,6 +203,26 @@ foreach ($makePath in $makeSearchPaths)
 	}
 }
 
+$shellSearchPaths = @(
+	"$env:ProgramFiles\Git\usr\bin",
+	"$env:ProgramFiles\Git\bin"
+)
+if ($null -ne $programFilesX86 -and $programFilesX86 -ne "")
+{
+	$shellSearchPaths += (Join-Path $programFilesX86 "Git\usr\bin")
+	$shellSearchPaths += (Join-Path $programFilesX86 "Git\bin")
+}
+
+foreach ($shellPath in $shellSearchPaths)
+{
+	if (Test-Path (Join-Path $shellPath "sh.exe"))
+	{
+		$env:Path = "$shellPath;$env:Path"
+		$env:SHELL = (Join-Path $shellPath "sh.exe")
+		break
+	}
+}
+
 #endregion
 
 #region CapsLock Remapping
