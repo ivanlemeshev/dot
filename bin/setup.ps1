@@ -18,7 +18,11 @@ $isAdmin = ([Security.Principal.WindowsPrincipal]`
 if (-not $isAdmin)
 {
 	$pwshExe = Join-Path $PSHOME 'pwsh.exe'
-	$relaunchExe = if (Test-Path $pwshExe) { $pwshExe } else { "powershell.exe" }
+	$relaunchExe = if (Test-Path $pwshExe)
+	{ $pwshExe
+ } else
+	{ "powershell.exe"
+ }
 
 	Start-Process $relaunchExe `
 		"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
@@ -572,19 +576,7 @@ if ($null -ne $mise)
 		}
 	}
 
-	$miseWindowsConfigFile = "$miseSourceDir\windows.toml"
-	if (Test-Path $miseWindowsConfigFile)
-	{
-		Write-Host "Trusting Windows mise config..."
-		& $mise --yes trust $miseWindowsConfigFile
-
-		if ($LASTEXITCODE -ne 0)
-		{
-			Write-Warning "mise trust failed for Windows config."
-		}
-	}
-
-	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig")
+	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig", "lua")
 	Write-Host "Installing Windows-compatible mise bootstrap tools..."
 	& $mise --yes install @bootstrapTools
 
@@ -596,14 +588,11 @@ if ($null -ne $mise)
 		Write-Host "mise bootstrap tools installed."
 	}
 
-	Write-Host "Installing Lua via mise..."
-	& $mise --yes --env windows install
-
 	# Load mise into this shell so installed tools are available immediately.
 	(& $mise activate pwsh) | Out-String | Invoke-Expression
 	& $mise reshim
 
-	$miseProfileLine = '$env:MISE_ENV = "windows"; (& "' + $mise + '" activate pwsh) | Out-String | Invoke-Expression'
+	$miseProfileLine = "(& `"$mise`" activate pwsh) | Out-String | Invoke-Expression"
 
 	if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
 	{

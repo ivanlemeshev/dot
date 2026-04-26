@@ -1,3 +1,0 @@
-[tools]
-lua = "5.4.8"
-"github:dyne/luabinaries" = { version = "5.4.8", asset_pattern = "lua54.exe", bin = "lua" }
