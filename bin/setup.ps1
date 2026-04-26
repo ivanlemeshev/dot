@@ -32,8 +32,6 @@ Write-Host "User profile: $env:USERPROFILE"
 Write-Host ""
 
 $restartRequired = $false
-$WindowsLuaVersion = "5.4.8"
-$WindowsLuaRocksVersion = "3.13.0"
 
 #region Package Installation
 
@@ -103,57 +101,6 @@ function Get-MiseCommand
 	}
 
 	return $null
-}
-
-function Get-Msys2Root
-{
-	$candidates = @(
-		"$env:MSYS2_ROOT",
-		"C:\msys64",
-		"$env:ProgramFiles\MSYS2",
-		"$env:LOCALAPPDATA\Programs\MSYS2"
-	)
-
-	foreach ($candidate in $candidates)
-	{
-		if (-not [string]::IsNullOrWhiteSpace($candidate) -and (Test-Path $candidate))
-		{
-			return $candidate
-		}
-	}
-
-	return $null
-}
-
-function Install-WindowsLua
-{
-	Write-Host "Checking MSYS2 Lua packages..."
-	Install-WingetPackage "MSYS2.MSYS2" "MSYS2"
-
-	$msys2Root = Get-Msys2Root
-	if ($null -eq $msys2Root)
-	{
-		Write-Warning "MSYS2 not found after installation."
-		return $null
-	}
-
-	$msys2Bash = "$msys2Root\usr\bin\bash.exe"
-	if (-not (Test-Path $msys2Bash))
-	{
-		Write-Warning "MSYS2 bash not found: $msys2Bash"
-		return $null
-	}
-
-	Write-Host "Installing prebuilt Lua packages..."
-	& $msys2Bash -lc "pacman -Sy --noconfirm --needed mingw-w64-ucrt-x86_64-lua mingw-w64-ucrt-x86_64-lua-luarocks"
-
-	if ($LASTEXITCODE -ne 0)
-	{
-		Write-Warning "Failed to install MSYS2 Lua packages."
-		return $null
-	}
-
-	return $msys2Root
 }
 
 function Get-MiseToolVersion($configFile, $tool)
@@ -637,33 +584,8 @@ if ($null -ne $mise)
 		Write-Host "mise bootstrap tools installed."
 	}
 
-	$msys2Root = Install-WindowsLua
-	if ($null -ne $msys2Root)
-	{
-		& $mise link --force "lua@$WindowsLuaVersion" "$msys2Root\ucrt64"
-
-		if ($LASTEXITCODE -ne 0)
-		{
-			Write-Warning "Failed to link Lua into mise."
-		}
-		else
-		{
-			Write-Host "Lua linked into mise."
-		}
-
-		& $mise link --force "luarocks@$WindowsLuaRocksVersion" "$msys2Root\ucrt64"
-
-		if ($LASTEXITCODE -ne 0)
-		{
-			Write-Warning "Failed to link luarocks into mise."
-		}
-		else
-		{
-			Write-Host "luarocks linked into mise."
-		}
-	}
-
 	$env:MISE_ENV = "windows"
+	& $mise --yes install
 
 	# Load mise into this shell so installed tools are available immediately.
 	(& $mise activate pwsh) | Out-String | Invoke-Expression
