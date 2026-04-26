@@ -1,0 +1,3 @@
+[tools]
+lua = "5.4.8" # Windows doesn't have a prebuilt version of Lua 5.5, so we use 5.4 instead
+luarocks = "3.13.0"
