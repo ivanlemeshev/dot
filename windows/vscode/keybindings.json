@@ -57,6 +57,12 @@
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
     },
     {
+        // Open Problems panel
+        "key": "space d d",
+        "command": "workbench.actions.view.problems",
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus)"
+    },
+    {
         // Split horizontally
         "key": "space s",
         "command": "workbench.action.splitEditorRight",
@@ -72,47 +78,57 @@
     // ========= NAVIGATION ===========
     // ================================
     {
+        // Move focus to the left editor group
         "key": "ctrl-h",
         "command": "workbench.action.navigateLeft"
     },
     {
+        // Move focus to the right editor group
         "key": "ctrl-l",
         "command": "workbench.action.navigateRight"
     },
     {
+        // Move focus to the upper editor group
         "key": "ctrl-k",
         "command": "workbench.action.navigateUp"
     },
     {
+        // Move focus to the lower editor group
         "key": "ctrl-j",
         "command": "workbench.action.navigateDown"
     },
     {
+        // Move focus down in the suggest widget
         "key": "ctrl+n",
         "command": "selectNextSuggestion",
         "when": "suggestWidgetVisible"
     },
     {
+        // Move focus up in the suggest widget
         "key": "ctrl+p",
         "command": "selectPrevSuggestion",
         "when": "suggestWidgetVisible"
     },
     {
+        // Move focus down in lists (e.g., file explorer, search results)
         "key": "ctrl+n",
         "command": "list.focusDown",
         "when": "listFocus"
     },
     {
+        // Move focus up in lists (e.g., file explorer, search results)
         "key": "ctrl+p",
         "command": "list.focusUp",
         "when": "listFocus"
     },
     {
+        // Move focus down in quick open (e.g., file search, command palette)
         "key": "ctrl+n",
         "command": "workbench.action.quickOpenSelectNext",
         "when": "inQuickOpen"
     },
     {
+        // Move focus up in quick open (e.g., file search, command palette)
         "key": "ctrl+p",
         "command": "workbench.action.quickOpenSelectPrevious",
         "when": "inQuickOpen"
@@ -136,6 +152,7 @@
     // ======= FILE TREE ========
     // ==========================
     {
+        // Toggle file explorer and focus on it
         "key": "space e",
         "command": "runCommands",
         "args": {
@@ -147,6 +164,7 @@
         "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !sideBarFocus"
     },
     {
+        // Toggle file explorer and focus on the active editor group
         "key": "space e",
         "command": "runCommands",
         "args": {
@@ -158,51 +176,61 @@
         "when": "sideBarFocus && !inputFocus"
     },
     {
+        // Toggle file explorer without changing focus
         "key": "space e",
         "when": "vim.mode == 'Normal' && editorTextFocus && foldersViewVisible",
         "command": "workbench.action.toggleSidebarVisibility"
     },
     {
+        // Rename file or folder
         "key": "r",
         "command": "renameFile",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Copy file or folder
         "key": "c",
         "command": "filesExplorer.copy",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Paste file or folder
         "key": "p",
         "command": "filesExplorer.paste",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Cut file or folder
         "key": "x",
         "command": "filesExplorer.cut",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Delete file or folder
         "key": "d",
         "command": "deleteFile",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Create new file
         "key": "a",
         "command": "explorer.newFile",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Create new folder
         "key": "shift-a",
         "command": "explorer.newFolder",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Open file in a split editor to the side
         "key": "s",
         "command": "explorer.openToSide",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        // Open file in a split editor below
         "key": "v",
         "command": "runCommands",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus",
@@ -215,11 +243,13 @@
         }
     },
     {
+        // Open file and focus on the editor
         "key": "enter",
         "command": "explorer.openAndPassFocus",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceIsFolder && !inputFocus"
     },
     {
+        // Toggle expand/collapse folder
         "key": "enter",
         "command": "list.toggleExpand",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && explorerResourceIsFolder && !inputFocus"
@@ -228,38 +258,70 @@
     // ======= TERMINAL ========
     // =========================
     {
+        // Close panel when terminal is focused
         "key": "ctrl+\\",
-        "command": "workbench.action.terminal.toggleTerminal",
-        "when": "!terminalFocus"
+        "command": "workbench.action.closePanel",
+        "when": "terminalFocus && panelVisible"
     },
     {
+        // Close panel when terminal is focused (Windows keycode fallback)
+        "key": "ctrl+oem_5",
+        "command": "workbench.action.closePanel",
+        "when": "terminalFocus && panelVisible"
+    },
+    {
+        // Close the active bottom panel (terminal, problems, output, etc.)
         "key": "ctrl+\\",
-        "command": "workbench.action.terminal.toggleTerminal"
+        "command": "workbench.action.closePanel",
+        "when": "panelVisible"
+    },
+    {
+        // Close the active bottom panel (Windows keycode fallback)
+        "key": "ctrl+oem_5",
+        "command": "workbench.action.closePanel",
+        "when": "panelVisible"
+    },
+    {
+        // Open terminal when no panel is visible
+        "key": "ctrl+\\",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "!panelVisible"
+    },
+    {
+        // Open terminal when no panel is visible (Windows keycode fallback)
+        "key": "ctrl+oem_5",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "!panelVisible"
     },
     // =======================
     // ======= EDITOR ========
     // =======================
     {
+        // Move focus down in the suggest widget
         "key": "ctrl+n",
         "command": "selectNextSuggestion",
         "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
     },
     {
+        // Move focus up in the suggest widget
         "key": "ctrl+p",
         "command": "selectPrevSuggestion",
         "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
     },
     {
+        // Accept inline suggestion from GitHub Copilot
         "key": "ctrl+f",
         "command": "editor.action.inlineSuggest.commit",
         "when": "editorTextFocus && vim.mode == 'Insert' && inlineSuggestionVisible"
     },
     {
+        // Trigger find in the current file
         "key": "ctrl+f",
         "command": "actions.find",
         "when": "editorTextFocus && vim.mode == 'Normal'"
     },
     {
+        // Close markers navigation
         "key": "escape",
         "command": "closeMarkersNavigation",
         "when": "editorFocus && markersNavigationVisible"
