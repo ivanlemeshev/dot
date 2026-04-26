@@ -572,6 +572,18 @@ if ($null -ne $mise)
 		}
 	}
 
+	$miseWindowsConfigFile = "$miseSourceDir\windows.toml"
+	if (Test-Path $miseWindowsConfigFile)
+	{
+		Write-Host "Trusting Windows mise config..."
+		& $mise --yes trust $miseWindowsConfigFile
+
+		if ($LASTEXITCODE -ne 0)
+		{
+			Write-Warning "mise trust failed for Windows config."
+		}
+	}
+
 	$bootstrapTools = @("go", "golangci-lint", "node", "python", "zig")
 	Write-Host "Installing Windows-compatible mise bootstrap tools..."
 	& $mise --yes install @bootstrapTools
@@ -585,6 +597,7 @@ if ($null -ne $mise)
 	}
 
 	$env:MISE_ENV = "windows"
+	Write-Host "Installing Lua via mise..."
 	& $mise --yes install
 
 	# Load mise into this shell so installed tools are available immediately.
