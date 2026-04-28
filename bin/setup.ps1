@@ -669,6 +669,23 @@ if (Initialize-PSReadLineFishLikeExperience)
 		'        } catch { }',
 		'    }',
 		'    try { Set-PSReadLineOption -PredictionViewStyle InlineView } catch { }',
+		'    try {',
+		'        Set-PSReadLineOption -Colors @{',
+		'            Command = "Yellow"',
+		'            Parameter = "Blue"',
+		'            String = "Green"',
+		'            Operator = "Cyan"',
+		'            Number = "Magenta"',
+		'            Variable = "Blue"',
+		'            Type = "Blue"',
+		'            Comment = "DarkGray"',
+		'            Default = "White"',
+		'            Error = "Red"',
+		'            Selection = "DarkGray"',
+		'            InlinePrediction = "Gray"',
+		'            ListPrediction = "Gray"',
+		'        }',
+		'    } catch { }',
 		'    try { Set-PSReadLineKeyHandler -Key Ctrl+a -Function BeginningOfLine } catch { }',
 		'    try { Set-PSReadLineKeyHandler -Key Ctrl+e -Function EndOfLine } catch { }',
 		'    try { Set-PSReadLineKeyHandler -Key Ctrl+b -Function BackwardChar } catch { }',
@@ -708,6 +725,12 @@ if (Initialize-PSReadLineFishLikeExperience)
 	} else
 	{
 		Write-Host "Fish-like PowerShell completion already present in profile."
+	}
+
+	if ($Host.Name -eq 'ConsoleHost' -and (Test-Path $PROFILE.CurrentUserAllHosts))
+	{
+		. $PROFILE.CurrentUserAllHosts
+		Write-Host "Reloaded PowerShell profile."
 	}
 }
 

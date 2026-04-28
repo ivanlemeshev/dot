@@ -74,6 +74,21 @@ Every theme must derive semantics from its own palette and visual language.
 - Reusing the same hue across sections is acceptable when it preserves the
   theme's identity; forcing one global mapping across all themes is not.
 
+## Terminal Palette Rules
+
+The `ansi` block is a terminal palette, not an editor semantic palette.
+
+- If a theme family has an official terminal export or canonical upstream
+  palette, `ansi` must match that source exactly.
+- Do not infer `white`, `bright_white`, or `bright_black` from luminance or from
+  generic light-vs-dark intuition; those slots are family-specific and may
+  intentionally overlap or differ in ways that look surprising out of context.
+- Do not copy terminal ANSI values from another family just because the schema
+  matches.
+- When a terminal palette and editor palette disagree, treat the upstream
+  terminal palette as authoritative for `ansi` and the upstream editor palette
+  as authoritative for the rest of the theme.
+
 ## Cross-Section Role Rules
 
 The same real-world concept should use the same color across generated targets

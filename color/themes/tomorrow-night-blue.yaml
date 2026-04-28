@@ -10,15 +10,15 @@ ansi:
   blue: "#bbdaff"
   magenta: "#ebbbff"
   cyan: "#99ffff"
-  white: "#003f8e"
-  bright_black: "#666666"
+  white: "#ffffff"
+  bright_black: "#000000"
   bright_red: "#ff3334"
   bright_green: "#9ec400"
   bright_yellow: "#ffeead"
   bright_blue: "#bbdaff"
   bright_magenta: "#b777e0"
   bright_cyan: "#54ced6"
-  bright_white: "#00346e"
+  bright_white: "#ffffff"
 
 ui:
   bg: "#002451"
