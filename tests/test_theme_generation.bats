@@ -170,3 +170,49 @@ PY
   [ "$status" -eq 0 ]
   [ "$output" = $'#FBF1C7\n#654735\n#504945\n#504945\n#D4BE98\n#D4BE98\n#B47109\n#B47109' ]
 }
+
+@test "windows terminal generator matches catppuccin frappe ansi whites" {
+  run python3 "$TEST_ROOT/color/generators/apply-windows-terminal.py" \
+    "$TEST_ROOT/color/themes/catppuccin-frappe.yaml" \
+    "$TEST_ROOT/windows/terminal/settings.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+settings = json.loads(Path("${TEST_ROOT}/windows/terminal/settings.json").read_text(encoding="utf-8"))
+scheme = settings["schemes"][0]
+print(scheme["background"])
+print(scheme["foreground"])
+print(scheme["black"])
+print(scheme["brightBlack"])
+print(scheme["white"])
+print(scheme["brightWhite"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#303446\n#C6D0F5\n#51576D\n#626880\n#B5BFE2\n#A5ADCE' ]
+}
+
+@test "windows terminal generator matches catppuccin latte ansi whites" {
+  run python3 "$TEST_ROOT/color/generators/apply-windows-terminal.py" \
+    "$TEST_ROOT/color/themes/catppuccin-latte.yaml" \
+    "$TEST_ROOT/windows/terminal/settings.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+settings = json.loads(Path("${TEST_ROOT}/windows/terminal/settings.json").read_text(encoding="utf-8"))
+scheme = settings["schemes"][0]
+print(scheme["background"])
+print(scheme["foreground"])
+print(scheme["black"])
+print(scheme["brightBlack"])
+print(scheme["white"])
+print(scheme["brightWhite"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#EFF1F5\n#4C4F69\n#5C5F77\n#ACB0BE\n#ACB0BE\n#BCC0CC' ]
+}
