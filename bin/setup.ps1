@@ -682,8 +682,8 @@ if (Initialize-PSReadLineFishLikeExperience)
 		'            Default = "White"',
 		'            Error = "Red"',
 		'            Selection = "DarkGray"',
-		'            InlinePrediction = "DarkGray"',
-		'            ListPrediction = "DarkGray"',
+		'            InlinePrediction = "Gray"',
+		'            ListPrediction = "Gray"',
 		'        }',
 		'    } catch { }',
 		'    try { Set-PSReadLineKeyHandler -Key Ctrl+a -Function BeginningOfLine } catch { }',
@@ -725,6 +725,12 @@ if (Initialize-PSReadLineFishLikeExperience)
 	} else
 	{
 		Write-Host "Fish-like PowerShell completion already present in profile."
+	}
+
+	if ($Host.Name -eq 'ConsoleHost' -and (Test-Path $PROFILE.CurrentUserAllHosts))
+	{
+		. $PROFILE.CurrentUserAllHosts
+		Write-Host "Reloaded PowerShell profile."
 	}
 }
 
