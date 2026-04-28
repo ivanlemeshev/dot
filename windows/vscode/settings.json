@@ -167,5 +167,8 @@
             "foreground": "peekViewResult.background",
             "background": "editorError.foreground"
         }
-    }
+    },
+    "chat.viewSessions.orientation": "stacked",
+    "window.newWindowProfile": "Default",
+    "workbench.colorTheme": "Dark Modern"
 }

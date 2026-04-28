@@ -105,3 +105,68 @@ teardown() {
   [ -s "$TEST_ROOT/.config/oh-my-posh/theme.omp.json" ]
   [ -s "$TEST_ROOT/.config/bat/themes/custom.tmTheme" ]
 }
+
+@test "windows terminal generator matches tomorrow night ansi whites" {
+  run python3 "$TEST_ROOT/color/generators/apply-windows-terminal.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/windows/terminal/settings.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+settings = json.loads(Path("${TEST_ROOT}/windows/terminal/settings.json").read_text(encoding="utf-8"))
+scheme = settings["schemes"][0]
+print(scheme["brightBlack"])
+print(scheme["white"])
+print(scheme["brightWhite"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#000000\n#FFFFFF\n#FFFFFF' ]
+}
+
+@test "windows terminal generator matches tomorrow ansi whites" {
+  run python3 "$TEST_ROOT/color/generators/apply-windows-terminal.py" \
+    "$TEST_ROOT/color/themes/tomorrow.yaml" \
+    "$TEST_ROOT/windows/terminal/settings.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+settings = json.loads(Path("${TEST_ROOT}/windows/terminal/settings.json").read_text(encoding="utf-8"))
+scheme = settings["schemes"][0]
+print(scheme["brightBlack"])
+print(scheme["white"])
+print(scheme["brightWhite"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#000000\n#FFFFFF\n#FFFFFF' ]
+}
+
+@test "windows terminal generator matches gruvbox light material ansi whites" {
+  run python3 "$TEST_ROOT/color/generators/apply-windows-terminal.py" \
+    "$TEST_ROOT/color/themes/gruvbox-light-material.yaml" \
+    "$TEST_ROOT/windows/terminal/settings.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+settings = json.loads(Path("${TEST_ROOT}/windows/terminal/settings.json").read_text(encoding="utf-8"))
+scheme = settings["schemes"][0]
+print(scheme["background"])
+print(scheme["foreground"])
+print(scheme["black"])
+print(scheme["brightBlack"])
+print(scheme["white"])
+print(scheme["brightWhite"])
+print(scheme["yellow"])
+print(scheme["brightYellow"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#FBF1C7\n#654735\n#504945\n#504945\n#D4BE98\n#D4BE98\n#B47109\n#B47109' ]
+}

@@ -34,6 +34,7 @@ with open(json_file) as f:
 scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[wt_name.get(name, name)] = hex_val
+
 scheme["background"] = terminal["background"]
 scheme["foreground"] = terminal["foreground"]
 scheme["cursorColor"] = terminal["foreground"]
