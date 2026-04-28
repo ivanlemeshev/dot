@@ -67,7 +67,7 @@ semantic:
   error: "#e67e80"
   warning: "#dbbc7f"
   info: "#7fbbb3"
-  hint: "#a7c080"
+  hint: "#d699b6"
   success: "#a7c080"
   prompt: "#e69875"
   operator: "#e69875"

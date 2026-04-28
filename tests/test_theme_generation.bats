@@ -216,3 +216,25 @@ PY
   [ "$status" -eq 0 ]
   [ "$output" = $'#EFF1F5\n#4C4F69\n#5C5F77\n#ACB0BE\n#ACB0BE\n#BCC0CC' ]
 }
+
+@test "everforest dark semantic hint matches upstream" {
+  run grep -q 'hint: "#d699b6"' "$TEST_ROOT/color/themes/everforest-dark-hard.yaml"
+  [ "$status" -eq 0 ]
+
+  run grep -q 'hint: "#d699b6"' "$TEST_ROOT/color/themes/everforest-dark-medium.yaml"
+  [ "$status" -eq 0 ]
+
+  run grep -q 'hint: "#d699b6"' "$TEST_ROOT/color/themes/everforest-dark-soft.yaml"
+  [ "$status" -eq 0 ]
+}
+
+@test "everforest light semantic hint matches upstream" {
+  run grep -q 'hint: "#8da101"' "$TEST_ROOT/color/themes/everforest-light-hard.yaml"
+  [ "$status" -eq 0 ]
+
+  run grep -q 'hint: "#8da101"' "$TEST_ROOT/color/themes/everforest-light-medium.yaml"
+  [ "$status" -eq 0 ]
+
+  run grep -q 'hint: "#8da101"' "$TEST_ROOT/color/themes/everforest-light-soft.yaml"
+  [ "$status" -eq 0 ]
+}
