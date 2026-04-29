@@ -315,6 +315,22 @@ checks = {
     r'^\s+section_fg = "#c5c8c6",$': 'section_fg',
     r'^\s+inactive_bg = "#282a2e",$': 'inactive_bg',
     r'^\s+inactive_fg = "#c5c8c6",$': 'inactive_fg',
+    r'^M\.syntax = \{$': 'M.syntax = {',
+    r'^\s+comment = "#969896",$': 'syntax comment',
+    r'^\s+string = "#b5bd68",$': 'syntax string',
+    r'^\s+escape = "#8abeb7",$': 'syntax escape',
+    r'^\s+number = "#de935f",$': 'syntax number',
+    r'^\s+constant = "#de935f",$': 'syntax constant',
+    r'^\s+keyword = "#b294bb",$': 'syntax keyword',
+    r'^\s+operator = "#8abeb7",$': 'syntax operator',
+    r'^\s+type = "#f0c674",$': 'syntax type',
+    r'^\s+\["function"\] = "#81a2be",$': 'syntax function',
+    r'^\s+variable = "#cc6666",$': 'syntax variable',
+    r'^\s+property = "#cc6666",$': 'syntax property',
+    r'^\s+builtin = "#de935f",$': 'syntax builtin',
+    r'^\s+preproc = "#de935f",$': 'syntax preproc',
+    r'^\s+special = "#c5c8c6",$': 'syntax special',
+    r'^\s+delimiter = "#c5c8c6",$': 'syntax delimiter',
 }
 for pattern, label in checks.items():
     if not re.search(pattern, text, re.MULTILINE):

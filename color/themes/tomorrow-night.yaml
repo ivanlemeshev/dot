@@ -163,7 +163,7 @@ syntax:
   type: "#f0c674"
   function: "#81a2be"
   variable: "#cc6666"
-  property: "#cc6666"
+  property: "#81a2be"
   builtin: "#de935f"
   preproc: "#de935f"
   special: "#c5c8c6"

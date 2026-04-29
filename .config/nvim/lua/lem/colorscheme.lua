@@ -49,21 +49,21 @@ M.ui = {
 
 -- Syntax
 M.syntax = {
-  comment = "#928374",
-  string = "#89b482",
-  escape = "#d8a657",
-  number = "#d3869b",
-  constant = "#89b482",
-  keyword = "#ea6962",
-  operator = "#e78a4e",
-  type = "#d8a657",
-  ["function"] = "#a9b665",
-  variable = "#7daea3",
-  property = "#7daea3",
-  builtin = "#ea6962",
-  preproc = "#d3869b",
-  special = "#d8a657",
-  delimiter = "#d4be98",
+  comment = "#969896",
+  string = "#b5bd68",
+  escape = "#8abeb7",
+  number = "#de935f",
+  constant = "#de935f",
+  keyword = "#b294bb",
+  operator = "#8abeb7",
+  type = "#f0c674",
+  ["function"] = "#81a2be",
+  variable = "#cc6666",
+  property = "#81a2be",
+  builtin = "#de935f",
+  preproc = "#de935f",
+  special = "#c5c8c6",
+  delimiter = "#c5c8c6",
 }
 
 -- Semantic groups for nvim highlights
