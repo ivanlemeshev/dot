@@ -12,6 +12,7 @@ setup() {
 
   cp -R "$PROJECT_ROOT/color/." "$TEST_ROOT/color/"
   cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
+  cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
@@ -141,6 +142,44 @@ for line in [
 ]:
     if line not in text:
         raise SystemExit(f"missing: {line}")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
+}
+
+@test "fish fzf colors generator uses tomorrow night fzf section" {
+  run python3 "$TEST_ROOT/color/generators/apply-fish-fzf.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import re
+from pathlib import Path
+
+text = Path("${TEST_ROOT}/.config/fish/conf.d/fzf_colors.fish").read_text(encoding="utf-8")
+checks = {
+    r'^set -l fzf_foreground\s+"#C5C8C6"$': 'fzf_foreground',
+    r'^set -l fzf_background\s+"#1D1F21"$': 'fzf_background',
+    r'^set -l fzf_selected_background\s+"#1D1F21"$': 'fzf_selected_background',
+    r'^set -l fzf_muted\s+"#969896"$': 'fzf_muted',
+    r'^set -l fzf_match\s+"#F0C674"$': 'fzf_match',
+    r'^set -l fzf_selected_match\s+"#F0C674"$': 'fzf_selected_match',
+    r'^set -l fzf_info\s+"#81A2BE"$': 'fzf_info',
+    r'^set -l fzf_border\s+"#969896"$': 'fzf_border',
+    r'^set -l fzf_gutter\s+"#1D1F21"$': 'fzf_gutter',
+    r'^set -l fzf_query\s+"#C5C8C6"$': 'fzf_query',
+    r'^set -l fzf_prompt\s+"#DE935F"$': 'fzf_prompt',
+    r'^set -l fzf_pointer\s+"#DE935F"$': 'fzf_pointer',
+    r'^set -l fzf_marker\s+"#81A2BE"$': 'fzf_marker',
+    r'^set -l fzf_header\s+"#969896"$': 'fzf_header',
+    r'^set -l fzf_label\s+"#C5C8C6"$': 'fzf_label',
+    r'^set -l fzf_spinner\s+"#DE935F"$': 'fzf_spinner',
+}
+for pattern, label in checks.items():
+    if not re.search(pattern, text, re.MULTILINE):
+        raise SystemExit(f"missing: {label}")
 print("ok")
 PY
   [ "$status" -eq 0 ]

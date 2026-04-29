@@ -12,6 +12,7 @@ setup() {
 
   cp -R "$PROJECT_ROOT/color/." "$TEST_ROOT/color/"
   cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
+  cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
@@ -40,6 +41,11 @@ teardown() {
   run python3 "$TEST_ROOT/color/generators/apply-fish.py" \
     "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
     "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
+  [ "$status" -eq 0 ]
+
+  run python3 "$TEST_ROOT/color/generators/apply-fish-fzf.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   [ "$status" -eq 0 ]
 
   run python3 - <<PY
@@ -74,7 +80,7 @@ def parse_section(path, section_name):
     return values
 
 allowed = {}
-for section in ("base_palette", "windows_terminal", "tmux", "fish", "ls_colors"):
+for section in ("base_palette", "windows_terminal", "tmux", "fish", "fzf", "ls_colors"):
     allowed.update(parse_section(theme, section))
 
 allowed_hex = {value.lower() for value in allowed.values()}
@@ -84,6 +90,7 @@ targets = [
     "windows/terminal/settings.json",
     ".config/tmux/.tmux.conf",
     ".config/fish/conf.d/custom_theme.fish",
+    ".config/fish/conf.d/fzf_colors.fish",
     "macos/iterm2/custom-color-theme.itermcolors",
 ]
 
@@ -114,6 +121,11 @@ for rel in targets:
             m = re.match(r"^set -l \w+\s+([0-9a-fA-F]{6})$", line.strip())
             if m:
                 observed.append((rel, m.group(1).lower(), "hex6"))
+    if rel.endswith("fzf_colors.fish"):
+        for line in text.splitlines():
+            m = re.match(r'^set -l \w+\s+"(#[0-9A-F]{6})"$', line.strip())
+            if m:
+                observed.append((rel, m.group(1).lower(), "hex7"))
 
 bad = []
 for rel, value, kind in observed:

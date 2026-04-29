@@ -103,6 +103,24 @@ ls_colors:
   media: "#8abeb7"
   backup: "#969896"
 
+fzf:
+  fg: "#c5c8c6"
+  bg: "#1d1f21"
+  hl: "#f0c674"
+  "fg+": "#c5c8c6"
+  "bg+": "#1d1f21"
+  "hl+": "#f0c674"
+  info: "#81a2be"
+  border: "#969896"
+  query: "#c5c8c6"
+  prompt: "#de935f"
+  pointer: "#de935f"
+  marker: "#81a2be"
+  spinner: "#de935f"
+  header: "#969896"
+  label: "#c5c8c6"
+  gutter: "#1d1f21"
+
 # ui:
 #   bg: "#1d1f21"
 #   bg_alt: "#282a2e"
@@ -247,21 +265,4 @@ ls_colors:
 #   prompt: "#de935f"
 #
 
-#
-# fzf:
-#   fg: "#c5c8c6"
-#   bg: "#1d1f21"
-#   hl: "#b294bb"
-#   "fg+": "#c5c8c6"
-#   "bg+": "#1d1f21"
-#   "hl+": "#81a2be"
-#   info: "#81a2be"
-#   border: "#969896"
-#   query: "#c5c8c6"
-#   prompt: "#de935f"
-#   pointer: "#81a2be"
-#   marker: "#de935f"
-#   spinner: "#de935f"
-#   header: "#969896"
-#   label: "#c5c8c6"
-#   gutter: "#1d1f21"
+
