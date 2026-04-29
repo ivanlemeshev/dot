@@ -36,7 +36,6 @@ windows_terminal:
   # tab_unfocused_background uses the same color as the statusline inactive_bg.
   tab_unfocused_background: "#282a2e"
 
-
 # tmux stays visually paired with the statusline using the same surface family
 # and the same inverted block treatment.
 tmux:
