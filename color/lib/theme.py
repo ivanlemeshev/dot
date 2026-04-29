@@ -213,44 +213,6 @@ FZF_KEYS = {
     "label",
 }
 
-FISH_KEYS = {
-    "background",
-    "background_alt",
-    "foreground",
-    "foreground_alt",
-    "muted",
-    "normal",
-    "command",
-    "keyword",
-    "option",
-    "param",
-    "quote",
-    "redirection",
-    "end",
-    "operator",
-    "escape",
-    "comment",
-    "error",
-    "autosuggestion",
-    "valid_path",
-    "cancel",
-    "selection_background",
-    "search_match_background",
-    "cwd",
-    "cwd_root",
-    "user",
-    "host",
-    "host_remote",
-    "status",
-    "pager_progress",
-    "pager_prefix",
-    "pager_completion",
-    "pager_description",
-    "pager_selected_background",
-    "pager_selected_completion",
-    "pager_selected_description",
-}
-
 
 def _normalize_hex(value, prefix="#", uppercase=False):
     hex_value = value.lstrip("#")
@@ -361,9 +323,6 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
     omp = _parse_required_section(
         yaml_file, "omp", OMP_KEYS, prefix=prefix, uppercase=uppercase
     )
-    terminal = _parse_required_section(
-        yaml_file, "terminal", TERMINAL_KEYS, prefix=prefix, uppercase=uppercase
-    )
     ls_colors = _parse_required_section(
         yaml_file,
         "ls_colors",
@@ -377,10 +336,6 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
     fzf = _parse_required_section(
         yaml_file, "fzf", FZF_KEYS, prefix=prefix, uppercase=uppercase
     )
-    fish = _parse_required_section(
-        yaml_file, "fish", FISH_KEYS, prefix=prefix, uppercase=uppercase
-    )
-
     ansi_roles = derive_ansi_roles(source_ansi)
 
     colors = {
@@ -414,11 +369,9 @@ def load_theme_bundle(yaml_file, prefix="#", uppercase=False):
         "syntax": syntax,
         "tool": tool,
         "omp": omp,
-        "terminal": terminal,
         "ls_colors": ls_colors,
         "tmux": tmux,
         "fzf": fzf,
-        "fish": fish,
     }
 
 
@@ -440,7 +393,6 @@ def derive_vim_semantic_vars(bundle):
     semantic = bundle["semantic"]
     syntax = bundle["syntax"]
     tool = bundle["tool"]
-    terminal = bundle["terminal"]
 
     return {
         "ui_bg_dim": ui["bg_dim"],
@@ -567,9 +519,4 @@ def derive_vim_semantic_vars(bundle):
         "tool_media": tool["media"],
         "tool_document": tool["document"],
         "tool_backup": tool["backup"],
-        "terminal_background": terminal["background"],
-        "terminal_foreground": terminal["foreground"],
-        "terminal_selection": terminal["selection"],
-        "terminal_tab_background": terminal["tab_background"],
-        "terminal_tab_unfocused_background": terminal["tab_unfocused_background"],
     }

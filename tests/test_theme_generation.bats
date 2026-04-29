@@ -5,11 +5,13 @@ setup() {
   TEST_ROOT="$(mktemp -d /tmp/dot-theme-test-XXXXXX)"
 
   mkdir -p "$TEST_ROOT/color"
+  mkdir -p "$TEST_ROOT/.config/fish/conf.d"
   mkdir -p "$TEST_ROOT/macos/iterm2"
   mkdir -p "$TEST_ROOT/.config/tmux"
   mkdir -p "$TEST_ROOT/windows/terminal"
 
   cp -R "$PROJECT_ROOT/color/." "$TEST_ROOT/color/"
+  cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
@@ -101,6 +103,39 @@ for line in [
     'set -g @tmux_message_fg "#c5c8c6"',
     'set -g @tmux_mode_bg "#282a2e"',
     'set -g @tmux_mode_fg "#c5c8c6"',
+]:
+    if line not in text:
+        raise SystemExit(f"missing: {line}")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
+}
+
+@test "fish generator uses tomorrow night fish section" {
+  run python3 "$TEST_ROOT/color/generators/apply-fish.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+from pathlib import Path
+
+text = Path("${TEST_ROOT}/.config/fish/conf.d/custom_theme.fish").read_text(encoding="utf-8")
+for line in [
+    'set -l fish_background         1d1f21',
+    'set -l fish_foreground         c5c8c6',
+    'set -l fish_command            81a2be',
+    'set -l fish_keyword            cc6666',
+    'set -l fish_escape             de935f',
+    'set -l fish_autosuggestion     969896',
+    'set -l fish_pager_progress        969896',
+    'set -l fish_pager_prefix          f0c674',
+    'set -l fish_pager_completion      c5c8c6',
+    'set -l fish_pager_description     c5c8c6',
+    'set -l fish_pager_selected_background 373b41',
+    'set -l fish_pager_selected_completion c5c8c6',
+    'set -l fish_pager_selected_description ffffff',
 ]:
     if line not in text:
         raise SystemExit(f"missing: {line}")

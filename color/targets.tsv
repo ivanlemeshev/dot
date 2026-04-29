@@ -1,6 +1,6 @@
 generators/apply-windows-terminal.py|windows/terminal/settings.json
 generators/apply-iterm2.py|macos/iterm2/custom-color-theme.itermcolors
-generators/apply-custom-theme-fish.py|.config/fish/conf.d/custom_theme.fish
+generators/apply-fish.py|.config/fish/conf.d/custom_theme.fish
 generators/apply-fzf-colors-fish.py|.config/fish/conf.d/fzf_colors.fish
 generators/apply-ls-colors-fish.py|.config/fish/conf.d/ls_colors.fish
 generators/apply-tmtheme.py|.config/bat/themes/custom.tmTheme

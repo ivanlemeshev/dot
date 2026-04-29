@@ -2,9 +2,7 @@
 
 # --- Semantic roles ---
 set -l fish_background         282828
-set -l fish_background_alt     32302f
 set -l fish_foreground         d4be98
-set -l fish_foreground_alt     ddc7a1
 set -l fish_muted              928374
 set -l fish_normal             d4be98
 set -l fish_command            a9b665
@@ -70,7 +68,7 @@ set -Ux fish_color_status      $fish_status
 set -Ux fish_pager_color_progress            $fish_pager_progress
 set -Ux fish_pager_color_prefix              $fish_pager_prefix
 set -Ux fish_pager_color_completion          $fish_pager_completion
-set -Ux fish_pager_color_description         $fish_pager_description --dim
+set -Ux fish_pager_color_description         $fish_pager_description
 set -Ux fish_pager_color_selected_background --background=$fish_pager_selected_background
 set -Ux fish_pager_color_selected_completion $fish_pager_selected_completion
 set -Ux fish_pager_color_selected_description $fish_pager_selected_description
