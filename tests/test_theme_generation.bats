@@ -7,6 +7,7 @@ setup() {
   mkdir -p "$TEST_ROOT/color"
   mkdir -p "$TEST_ROOT/.config/fish/conf.d"
   mkdir -p "$TEST_ROOT/.config/oh-my-posh"
+  mkdir -p "$TEST_ROOT/.config/nvim/lua/lem"
   mkdir -p "$TEST_ROOT/macos/iterm2"
   mkdir -p "$TEST_ROOT/.config/tmux"
   mkdir -p "$TEST_ROOT/windows/terminal"
@@ -16,6 +17,7 @@ setup() {
   cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
   cp "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json" "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
+  cp "$PROJECT_ROOT/.config/nvim/lua/lem/colorscheme.lua" "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
@@ -265,4 +267,67 @@ print(theme["blocks"][1]["segments"][0]["template"])
 PY
   [ "$status" -eq 0 ]
   [ "$output" = $'#de935f\n#c5c8c6\n{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#b5bd68>{{ .UserName }}</><#c5c8c6>@</></>{{ end }}<#81a2be>{{ .HostName }}</>  \n#cc6666\n#c5c8c6\n#b5bd68\n{{ if or (.Working.Changed) (.Staging.Changed) }}#cc6666{{ end }}\n{{ if gt .Ahead 0 }}#81a2be{{ end }}\n{{ if gt .Behind 0 }}#cc6666{{ end }}\n#f0c674\n#b5bd68\n{{ if gt .Code 0 }}#cc6666{{ end }}\n#c5c8c6\n<#b5bd68>$</>' ]
+}
+
+@test "nvim generator only updates tomorrow night fzf section" {
+  run python3 "$TEST_ROOT/color/generators/apply-nvim.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import re
+from pathlib import Path
+
+text = Path("${TEST_ROOT}/.config/nvim/lua/lem/colorscheme.lua").read_text(encoding="utf-8")
+checks = {
+    r'^M\.fzf = \{$': 'M.fzf = {',
+    r'^\s+fg = "#c5c8c6",$': 'fg',
+    r'^\s+bg = "#1d1f21",$': 'bg',
+    r'^\s+hl = "#f0c674",$': 'hl',
+    r'^\s+\["fg\+"\] = "#ffffff",$': 'fg+',
+    r'^\s+\["bg\+"\] = "#373b41",$': 'bg+',
+    r'^\s+\["hl\+"\] = "#f0c674",$': 'hl+',
+    r'^\s+info = "#81a2be",$': 'info',
+    r'^\s+border = "#969896",$': 'border',
+    r'^\s+query = "#c5c8c6",$': 'query',
+    r'^\s+prompt = "#de935f",$': 'prompt',
+    r'^\s+pointer = "#de935f",$': 'pointer',
+    r'^\s+marker = "#81a2be",$': 'marker',
+    r'^\s+spinner = "#de935f",$': 'spinner',
+    r'^\s+header = "#969896",$': 'header',
+    r'^\s+label = "#c5c8c6",$': 'label',
+    r'^\s+gutter = "#1d1f21",$': 'gutter',
+    r'^M\.statusline = \{$': 'M.statusline = {',
+    r'^\s+normal_bg = "#c5c8c6",$': 'normal_bg',
+    r'^\s+normal_fg = "#1d1f21",$': 'normal_fg',
+    r'^\s+insert_bg = "#b5bd68",$': 'insert_bg',
+    r'^\s+insert_fg = "#1d1f21",$': 'insert_fg',
+    r'^\s+visual_bg = "#b294bb",$': 'visual_bg',
+    r'^\s+visual_fg = "#1d1f21",$': 'visual_fg',
+    r'^\s+replace_bg = "#cc6666",$': 'replace_bg',
+    r'^\s+replace_fg = "#1d1f21",$': 'replace_fg',
+    r'^\s+command_bg = "#de935f",$': 'command_bg',
+    r'^\s+command_fg = "#1d1f21",$': 'command_fg',
+    r'^\s+terminal_bg = "#81a2be",$': 'terminal_bg',
+    r'^\s+terminal_fg = "#1d1f21",$': 'terminal_fg',
+    r'^\s+section_bg = "#282a2e",$': 'section_bg',
+    r'^\s+section_fg = "#c5c8c6",$': 'section_fg',
+    r'^\s+inactive_bg = "#282a2e",$': 'inactive_bg',
+    r'^\s+inactive_fg = "#c5c8c6",$': 'inactive_fg',
+}
+for pattern, label in checks.items():
+    if not re.search(pattern, text, re.MULTILINE):
+        raise SystemExit(f"missing: {label}")
+for line in [
+    'M.ui = {',
+    'M.syntax = {',
+    'M.semantic = {',
+]:
+    if line not in text:
+        raise SystemExit(f"missing untouched block: {line}")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
 }

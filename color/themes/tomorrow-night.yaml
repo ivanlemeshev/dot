@@ -134,21 +134,50 @@ omp:
   status_error: "#cc6666"
   prompt: "#b5bd68"
 
-# ui:
-#   bg: "#1d1f21"
-#   bg_alt: "#282a2e"
-#   bg_dim: "#303030"
-#   fg: "#c5c8c6"
-#   fg_alt: "#d0d2d1"
-#   fg_dim: "#969896"
-#   muted: "#969896"
-#   border: "#969896"
-#   border_active: "#81a2be"
-#   selection: "#373b41"
-#   visual: "#373b41"
-#   cursorline: "#282a2e"
-#   search_bg: "#f0c674"
-#   search_fg: "#1d1f21"
+statusline:
+  normal_bg: "#c5c8c6"
+  normal_fg: "#1d1f21"
+  insert_bg: "#b5bd68"
+  insert_fg: "#1d1f21"
+  visual_bg: "#b294bb"
+  visual_fg: "#1d1f21"
+  replace_bg: "#cc6666"
+  replace_fg: "#1d1f21"
+  command_bg: "#de935f"
+  command_fg: "#1d1f21"
+  terminal_bg: "#81a2be"
+  terminal_fg: "#1d1f21"
+  section_bg: "#282a2e"
+  section_fg: "#c5c8c6"
+  inactive_bg: "#282a2e"
+  inactive_fg: "#c5c8c6"
+
+syntax:
+  comment: "#969896"
+  string: "#b5bd68"
+  escape: "#8abeb7"
+  number: "#de935f"
+  constant: "#de935f"
+  keyword: "#b294bb"
+  operator: "#8abeb7"
+  type: "#f0c674"
+  function: "#81a2be"
+  variable: "#cc6666"
+  property: "#cc6666"
+  builtin: "#de935f"
+  preproc: "#de935f"
+  special: "#c5c8c6"
+  delimiter: "#c5c8c6"
+
+ui:
+  bg: "#1d1f21"
+  fg: "#c5c8c6"
+  border: "#969896"
+  selection: "#373b41"
+  visual: "#373b41"
+  cursorline: "#282a2e"
+  search_bg: "#f0c674"
+  search_fg: "#1d1f21"
 #   inc_search_bg: "#de935f"
 #   inc_search_fg: "#1d1f21"
 #   popup_bg: "#1d1f21"
@@ -156,30 +185,7 @@ omp:
 #   status_bg: "#282a2e"
 #   status_fg: "#c5c8c6"
 #   status_inactive_fg: "#969896"
-#
-# # Tomorrow Night uses neutral chrome with high-contrast blocks, matching the
-# # original Vim theme's surface and window treatment.
-# statusline:
-#   normal_bg: "#c5c8c6"
-#   normal_fg: "#1d1f21"
-#   insert_bg: "#b5bd68"
-#   insert_fg: "#1d1f21"
-#   visual_bg: "#b294bb"
-#   visual_fg: "#1d1f21"
-#   replace_bg: "#cc6666"
-#   replace_fg: "#1d1f21"
-#   command_bg: "#de935f"
-#   command_fg: "#1d1f21"
-#   terminal_bg: "#81a2be"
-#   terminal_fg: "#1d1f21"
-#   section_bg: "#282a2e"
-#   section_fg: "#c5c8c6"
-#   inactive_bg: "#282a2e"
-#   inactive_fg: "#969896"
-#
-# # Official Tomorrow Night syntax stays on these families: orange for keywords
-# # and constants, green for strings, blue for functions/types, aqua for
-# # operators, purple for structure/preproc, and red for identifiers/errors.
+
 # semantic:
 #   text: "#c5c8c6"
 #   muted: "#969896"
@@ -227,22 +233,7 @@ omp:
 #   popup_sel: "#373b41"
 #
 # # Syntax is copied from the official Vim palette, not from terminal intuition.
-# syntax:
-#   comment: "#969896"
-#   string: "#b5bd68"
-#   escape: "#8abeb7"
-#   number: "#b294bb"
-#   constant: "#de935f"
-#   keyword: "#de935f"
-#   operator: "#8abeb7"
-#   type: "#81a2be"
-#   function: "#81a2be"
-#   variable: "#cc6666"
-#   property: "#81a2be"
-#   builtin: "#b294bb"
-#   preproc: "#b294bb"
-#   special: "#c5c8c6"
-#   delimiter: "#969896"
+
 #
 # tool:
 #   prompt: "#de935f"
