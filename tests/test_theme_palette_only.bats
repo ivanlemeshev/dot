@@ -74,7 +74,7 @@ def parse_section(path, section_name):
     return values
 
 allowed = {}
-for section in ("base_palette", "windows_terminal", "tmux", "fish"):
+for section in ("base_palette", "windows_terminal", "tmux", "fish", "ls_colors"):
     allowed.update(parse_section(theme, section))
 
 allowed_hex = {value.lower() for value in allowed.values()}

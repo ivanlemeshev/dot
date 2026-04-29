@@ -93,7 +93,7 @@ with open(tmux_file, encoding="utf-8") as f:
 
 for var, new_hex in tmux_vars.items():
     content = re.sub(
-        rf'(set -g {re.escape(var)} )"#[0-9a-fA-F]{{6}}"',
+        rf'(set -g\s+{re.escape(var)}\s+)"#[0-9a-fA-F]{{6}}"',
         rf'\g<1>"{new_hex}"',
         content,
     )

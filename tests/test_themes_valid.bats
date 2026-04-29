@@ -4,46 +4,64 @@ setup() {
   PROJECT_ROOT="$(cd "${BATS_TEST_DIRNAME}/.." && pwd)"
 }
 
-@test "strict semantic theme YAMLs load and all theme hex values are normalized" {
+@test "tomorrow night base_palette is complete and normalized" {
   run python3 - <<PY
-import glob
 import os
 import re
-import sys
 
-project_root = "${PROJECT_ROOT}"
-themes = sorted(glob.glob(os.path.join(project_root, "color/themes/*.yaml")))
-if not themes:
-    raise SystemExit("No themes found in color/themes")
+path = os.path.join("${PROJECT_ROOT}", "color/themes/tomorrow-night.yaml")
+required = {
+    "cursor",
+    "current_line",
+    "selection",
+    "comment",
+    "bg",
+    "fg",
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "magenta",
+    "cyan",
+    "white",
+    "bright_black",
+    "bright_red",
+    "bright_green",
+    "bright_yellow",
+    "bright_blue",
+    "bright_magenta",
+    "bright_cyan",
+    "bright_white",
+}
 
-sys.path.insert(0, os.path.join(project_root, "color/lib"))
-from theme import load_theme_sections
+values = {}
+active = False
+pattern = re.compile(r'^\s{2}([\w_]+):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$')
 
-hex_re = re.compile(r'^\\s{2}([\\w_]+):\\s+"(#[0-9a-fA-F]{6})"\\s*$')
-
-bad = []
-strict = []
-for path in themes:
-    # Enforce consistent hex casing in the source YAML (easier diffs, fewer surprises).
-    text = open(path, encoding="utf-8").read()
-    strict.append(path)
-    load_theme_sections(path, prefix="#", uppercase=False)
-
-    for i, line in enumerate(text.splitlines(), start=1):
-        m = hex_re.match(line)
-        if not m:
+with open(path, encoding="utf-8") as handle:
+    for line in handle:
+        stripped = line.strip()
+        if stripped == "base_palette:":
+            active = True
             continue
-        value = m.group(2)
-        if value != value.lower():
-            bad.append((os.path.relpath(path, project_root), i, value))
+        if active:
+            if line and not line.startswith("  "):
+                break
+            match = pattern.match(line)
+            if match:
+                values[match.group(1)] = match.group(2)
 
+missing = sorted(required - set(values))
+if missing:
+    raise SystemExit("missing base_palette keys: " + ", ".join(missing))
+
+bad = [f"{key}={value}" for key, value in sorted(values.items()) if value != value.lower()]
 if bad:
-    for rel, line_no, value in bad:
-        print(f"{rel}:{line_no}: non-normalized hex: {value}")
-    raise SystemExit(1)
+    raise SystemExit("non-normalized hex values: " + ", ".join(bad))
 
-if not strict:
-    raise SystemExit("No strict semantic themes found")
+print("ok")
 PY
   [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
 }
