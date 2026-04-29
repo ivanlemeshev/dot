@@ -78,6 +78,7 @@ except ValueError as exc:
 
 fzf_roles = {
     "fzf_foreground": fzf["fg"],
+    "fzf_selected_foreground": fzf["fg+"],
     "fzf_background": fzf["bg"],
     "fzf_selected_background": fzf["bg+"],
     "fzf_muted": fzf["border"],

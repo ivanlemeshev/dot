@@ -161,8 +161,9 @@ from pathlib import Path
 text = Path("${TEST_ROOT}/.config/fish/conf.d/fzf_colors.fish").read_text(encoding="utf-8")
 checks = {
     r'^set -l fzf_foreground\s+"#C5C8C6"$': 'fzf_foreground',
+    r'^set -l fzf_selected_foreground\s+"#FFFFFF"$': 'fzf_selected_foreground',
     r'^set -l fzf_background\s+"#1D1F21"$': 'fzf_background',
-    r'^set -l fzf_selected_background\s+"#1D1F21"$': 'fzf_selected_background',
+    r'^set -l fzf_selected_background\s+"#373B41"$': 'fzf_selected_background',
     r'^set -l fzf_muted\s+"#969896"$': 'fzf_muted',
     r'^set -l fzf_match\s+"#F0C674"$': 'fzf_match',
     r'^set -l fzf_selected_match\s+"#F0C674"$': 'fzf_selected_match',

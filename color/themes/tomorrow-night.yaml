@@ -106,8 +106,8 @@ fzf:
   fg: "#c5c8c6"
   bg: "#1d1f21"
   hl: "#f0c674"
-  "fg+": "#c5c8c6"
-  "bg+": "#1d1f21"
+  "fg+": "#ffffff"
+  "bg+": "#373b41"
   "hl+": "#f0c674"
   info: "#81a2be"
   border: "#969896"
@@ -263,5 +263,3 @@ fzf:
 #   status_error: "#cc6666"
 #   prompt: "#de935f"
 #
-
-

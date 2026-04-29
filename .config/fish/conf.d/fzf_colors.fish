@@ -6,7 +6,8 @@
 # --- Semantic roles (hex) ---
 set -l fzf_foreground          "#C5C8C6"
 set -l fzf_background          "#1D1F21"
-set -l fzf_selected_background "#1D1F21"
+set -l fzf_selected_foreground  "#FFFFFF"
+set -l fzf_selected_background  "#373B41"
 set -l fzf_muted               "#969896"
 set -l fzf_match               "#F0C674"
 set -l fzf_selected_match      "#F0C674"
@@ -24,7 +25,7 @@ set -l fzf_gutter              "#1D1F21"
 # --- Colors ---
 set -l colors \
     "--color fg:$fzf_foreground" \
-    "--color fg+:$fzf_foreground" \
+    "--color fg+:$fzf_selected_foreground" \
     "--color bg:$fzf_background" \
     "--color bg+:$fzf_selected_background" \
     "--color hl:$fzf_match" \
