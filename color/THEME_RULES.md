@@ -17,8 +17,11 @@ files under `color/themes/`.
   exactly, including any intentional reuse of the same hex value across multiple
   slots.
 - Derived sections such as `ui`, `statusline`, `semantic`, `syntax`, `tool`,
-  `terminal`, `tmux`, `ls_colors`, `fzf`, `fish`, and similar maps must be built
-  from `base_palette` rather than reinterpreting the palette independently.
+  `tmux`, `ls_colors`, `fzf`, `fish`, and similar maps must be built from
+  `base_palette` rather than reinterpreting the palette independently.
 - When a section needs a color that is not present in `base_palette`, add the
   rule to derive it from existing palette values instead of altering the base
   palette itself.
+- Platform-specific override sections such as `windows_terminal` are allowed
+  only for target-specific tweaks. They must be derived from `base_palette` and
+  must not introduce a second source of truth for palette values.

@@ -6,7 +6,7 @@ name: "Tomorrow Night"
 base_palette:
   current_line: "#282a2e"
   selection: "#373b41"
-  commentL: "#969896"
+  comment: "#969896"
   bg: "#1d1f21"
   fg: "#c5c8c6"
   black: #1d1f21
@@ -25,6 +25,11 @@ base_palette:
   bright_magenta: #b294bb
   bright_cyan: #8abeb7
   bright_white: #ffffff
+
+# Some special semantic colors that are used by Windows Terminal only.
+windows_terminal:
+  tab_background: "#1d1f21" # Makes the tab visually merge with the surface (bg)
+  tab_unfocused_background: "#282a2e"
 
 # ui:
 #   bg: "#1d1f21"
@@ -169,12 +174,7 @@ base_palette:
 #   status_error: "#cc6666"
 #   prompt: "#de935f"
 #
-# terminal:
-#   background: "#1d1f21"
-#   foreground: "#c5c8c6"
-#   selection: "#373b41"
-#   tab_background: "#1d1f21"
-#   tab_unfocused_background: "#282a2e"
+
 #
 # # tmux stays visually paired with the statusline using the same surface family
 # # and the same inverted block treatment.
