@@ -17,9 +17,8 @@ yaml_file = sys.argv[1]
 itermcolors_file = sys.argv[2]
 
 BASE_PALETTE_KEYS = {
-    "current_line",
+    "statusline",
     "selection",
-    "comment",
     "bg",
     "fg",
     "black",
@@ -119,11 +118,12 @@ for i, key in enumerate(ANSI_ORDER):
 
 bg = base_palette["bg"]
 fg = base_palette["fg"]
+cursor = base_palette["cursor"]
 selection_bg = base_palette["selection"]
 
 pl["Background Color"] = color_entry_hex(bg)
 pl["Bold Color"] = color_entry_hex(fg)
-pl["Cursor Color"] = color_entry_hex(fg)
+pl["Cursor Color"] = color_entry_hex(cursor)
 pl["Cursor Text Color"] = color_entry_hex(bg)
 pl["Foreground Color"] = color_entry_hex(fg)
 pl["Selected Text Color"] = color_entry_hex(fg)

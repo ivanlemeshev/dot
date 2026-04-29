@@ -41,11 +41,12 @@ print(scheme["foreground"])
 print(scheme["black"])
 print(scheme["brightBlack"])
 print(scheme["brightWhite"])
+print(scheme["cursorColor"])
 print(theme["tab"]["background"])
 print(theme["tabRow"]["unfocusedBackground"])
 PY
   [ "$status" -eq 0 ]
-  [ "$output" = $'#1D1F21\n#C5C8C6\n#1D1F21\n#969896\n#FFFFFF\n#1D1F21FF\n#282A2EFF' ]
+  [ "$output" = $'#1D1F21\n#C5C8C6\n#1D1F21\n#969896\n#FFFFFF\n#C5C8C6\n#1D1F21FF\n#282A2EFF' ]
 }
 
 @test "iterm2 generator uses tomorrow night base palette" {

@@ -5,9 +5,8 @@ name: "Tomorrow Night"
 # truth for all other color groups.
 base_palette:
   cursor: "#c5c8c6"
-  current_line: "#282a2e"
+  statusline: "#282a2e"
   selection: "#373b41"
-  comment: "#969896"
   bg: "#1d1f21"
   fg: "#c5c8c6"
   black: #1d1f21

@@ -14,9 +14,8 @@ yaml_file = sys.argv[1]
 json_file = sys.argv[2]
 
 BASE_PALETTE_KEYS = {
-    "current_line",
+    "statusline",
     "selection",
-    "comment",
     "bg",
     "fg",
     "black",
@@ -129,7 +128,7 @@ scheme = settings["schemes"][0]
 for name, hex_val in colors.items():
     scheme[name] = hex_val
 
-scheme["cursorColor"] = base_palette["fg"]
+scheme["cursorColor"] = base_palette["cursor"]
 scheme["selectionBackground"] = base_palette["selection"]
 
 # Windows Terminal theme colors support alpha; use fully-opaque alpha for consistency.

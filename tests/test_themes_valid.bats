@@ -12,9 +12,8 @@ import re
 path = os.path.join("${PROJECT_ROOT}", "color/themes/tomorrow-night.yaml")
 required = {
     "cursor",
-    "current_line",
+    "statusline",
     "selection",
-    "comment",
     "bg",
     "fg",
     "black",
