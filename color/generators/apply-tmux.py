@@ -5,10 +5,6 @@ import re
 import sys
 import tempfile
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
-
-from theme import load_theme_bundle
-
 if len(sys.argv) < 3:
     print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <.tmux.conf>", file=sys.stderr)
     sys.exit(1)
@@ -16,13 +12,64 @@ if len(sys.argv) < 3:
 yaml_file = sys.argv[1]
 tmux_file = sys.argv[2]
 
+TMUX_KEYS = {
+    "bar_bg",
+    "bar_fg",
+    "block_bg",
+    "block_fg",
+    "alert_bg",
+    "alert_fg",
+    "bell_bg",
+    "bell_fg",
+    "border_fg",
+    "border_active_fg",
+    "message_bg",
+    "message_fg",
+    "mode_bg",
+    "mode_fg",
+}
+
+
+def normalize_hex(value):
+    return "#" + value.lstrip("#").lower()
+
+
+def parse_tmux(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "tmux:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    key = match.group(1) or match.group(2)
+                    values[key] = normalize_hex(match.group(3))
+
+    if not values:
+        raise ValueError("Tmux section is required in YAML")
+
+    missing = sorted(TMUX_KEYS - set(values.keys()))
+    if missing:
+        raise ValueError("Tmux is missing required keys: " + ", ".join(missing))
+
+    return values
+
+
 try:
-    bundle = load_theme_bundle(yaml_file, prefix="#", uppercase=False)
+    tmux = parse_tmux(yaml_file)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
-
-tmux = bundle["tmux"]
 
 tmux_vars = {
     "@tmux_bar_bg": tmux["bar_bg"],
@@ -41,9 +88,8 @@ tmux_vars = {
     "@tmux_mode_fg": tmux["mode_fg"],
 }
 
-with open(tmux_file) as f:
+with open(tmux_file, encoding="utf-8") as f:
     content = f.read()
-
 
 for var, new_hex in tmux_vars.items():
     content = re.sub(

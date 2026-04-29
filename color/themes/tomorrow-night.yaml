@@ -12,7 +12,8 @@ base_palette:
   black: #1d1f21
   red: #cc6666
   green: #b5bd68
-  yellow: #de935f # orange in this palette
+  # yellow is the orange in this palette.
+  yellow: #de935f
   blue: #81a2be
   magenta: #b294bb
   cyan: #8abeb7
@@ -28,8 +29,32 @@ base_palette:
 
 # Some special semantic colors that are used by Windows Terminal only.
 windows_terminal:
-  tab_background: "#1d1f21" # Makes the tab visually merge with the surface (bg)
+  # tab_background uses the same color as the surface (bg) and should visually
+  # merge with it.
+  tab_background: "#1d1f21"
+  # tab_unfocused_background uses the same color as the statusline inactive_bg.
   tab_unfocused_background: "#282a2e"
+
+
+# tmux stays visually paired with the statusline using the same surface family
+# and the same inverted block treatment.
+tmux:
+  # bar_bg matches the statusline section_bg and inactive_bg and should not
+  # merge with the surface (bg).
+  bar_bg: "#282a2e"
+  bar_fg: "#c5c8c6"
+  block_bg: "#c5c8c6"
+  block_fg: "#1d1f21"
+  alert_bg: "#cc6666"
+  alert_fg: "#1d1f21"
+  bell_bg: "#de935f"
+  bell_fg: "#1d1f21"
+  border_fg: "#969896"
+  border_active_fg: "#c5c8c6"
+  message_bg: "#282a2e"
+  message_fg: "#c5c8c6"
+  mode_bg: "#282a2e"
+  mode_fg: "#c5c8c6"
 
 # ui:
 #   bg: "#1d1f21"
@@ -175,24 +200,7 @@ windows_terminal:
 #   prompt: "#de935f"
 #
 
-#
-# # tmux stays visually paired with the statusline using the same surface family
-# # and the same inverted block treatment.
-# tmux:
-#   bar_bg: "#282a2e"
-#   bar_fg: "#c5c8c6"
-#   block_bg: "#c5c8c6"
-#   block_fg: "#1d1f21"
-#   alert_bg: "#cc6666"
-#   alert_fg: "#1d1f21"
-#   bell_bg: "#de935f"
-#   bell_fg: "#1d1f21"
-#   border_fg: "#969896"
-#   border_active_fg: "#81a2be"
-#   message_bg: "#282a2e"
-#   message_fg: "#c5c8c6"
-#   mode_bg: "#282a2e"
-#   mode_fg: "#c5c8c6"
+
 #
 # ls_colors:
 #   foreground: "#c5c8c6"
