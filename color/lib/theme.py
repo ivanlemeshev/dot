@@ -23,6 +23,30 @@ ANSI_KEYS = {
     "bright_white",
 }
 
+BASE_PALETTE_KEYS = {
+    "current_line",
+    "selection",
+    "comment",
+    "bg",
+    "fg",
+    "black",
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "magenta",
+    "cyan",
+    "white",
+    "bright_black",
+    "bright_red",
+    "bright_green",
+    "bright_yellow",
+    "bright_blue",
+    "bright_magenta",
+    "bright_cyan",
+    "bright_white",
+}
+
 UI_KEYS = {
     "bg",
     "bg_alt",
@@ -173,6 +197,11 @@ TERMINAL_KEYS = {
     "tab_unfocused_background",
 }
 
+WINDOWS_TERMINAL_KEYS = {
+    "tab_background",
+    "tab_unfocused_background",
+}
+
 LS_COLORS_KEYS = {
     "foreground",
     "background",
@@ -284,7 +313,7 @@ def _parse_section(yaml_file, section_name, required_keys, prefix="#", uppercase
                     continue
 
                 match = re.match(
-                    r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+"(#[0-9a-fA-F]{6})"\s*$',
+                    r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$',
                     line,
                 )
                 if match:
@@ -309,6 +338,26 @@ def _parse_section(yaml_file, section_name, required_keys, prefix="#", uppercase
 def _parse_ansi(yaml_file, prefix="#", uppercase=False):
     return _parse_section(
         yaml_file, "ansi", ANSI_KEYS, prefix=prefix, uppercase=uppercase
+    )
+
+
+def _parse_base_palette(yaml_file, prefix="#", uppercase=False):
+    return _parse_section(
+        yaml_file,
+        "base_palette",
+        BASE_PALETTE_KEYS,
+        prefix=prefix,
+        uppercase=uppercase,
+    )
+
+
+def _parse_windows_terminal(yaml_file, prefix="#", uppercase=False):
+    return _parse_section(
+        yaml_file,
+        "windows_terminal",
+        WINDOWS_TERMINAL_KEYS,
+        prefix=prefix,
+        uppercase=uppercase,
     )
 
 
@@ -344,6 +393,61 @@ def derive_ansi_roles(source_ansi):
         "brightMagenta": source_ansi["bright_magenta"],
         "brightCyan": source_ansi["bright_cyan"],
         "brightWhite": source_ansi["bright_white"],
+    }
+
+
+def derive_colors_from_base_palette(base_palette):
+    if not base_palette:
+        raise ValueError("Base palette section is required in YAML")
+
+    missing = sorted(BASE_PALETTE_KEYS - set(base_palette.keys()))
+    if missing:
+        raise ValueError("Base palette is missing required keys: " + ", ".join(missing))
+
+    return {
+        "foreground": base_palette["fg"],
+        "background": base_palette["bg"],
+        "black": base_palette["black"],
+        "red": base_palette["red"],
+        "green": base_palette["green"],
+        "yellow": base_palette["yellow"],
+        "blue": base_palette["blue"],
+        "magenta": base_palette["magenta"],
+        "cyan": base_palette["cyan"],
+        "white": base_palette["white"],
+        "brightBlack": base_palette["bright_black"],
+        "brightRed": base_palette["bright_red"],
+        "brightGreen": base_palette["bright_green"],
+        "brightYellow": base_palette["bright_yellow"],
+        "brightBlue": base_palette["bright_blue"],
+        "brightMagenta": base_palette["bright_magenta"],
+        "brightCyan": base_palette["bright_cyan"],
+        "brightWhite": base_palette["bright_white"],
+    }
+
+
+def load_windows_terminal_bundle(yaml_file, prefix="#", uppercase=False):
+    base_palette = _parse_required_section(
+        yaml_file,
+        "base_palette",
+        BASE_PALETTE_KEYS,
+        prefix=prefix,
+        uppercase=uppercase,
+    )
+    windows_terminal = _parse_required_section(
+        yaml_file,
+        "windows_terminal",
+        WINDOWS_TERMINAL_KEYS,
+        prefix=prefix,
+        uppercase=uppercase,
+    )
+
+    colors = derive_colors_from_base_palette(base_palette)
+
+    return {
+        "colors": colors,
+        "base_palette": base_palette,
+        "windows_terminal": windows_terminal,
     }
 
 
