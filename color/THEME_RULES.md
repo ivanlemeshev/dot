@@ -17,7 +17,7 @@ files under `color/themes/`.
   exactly, including any intentional reuse of the same hex value across multiple
   slots.
 - Derived sections such as `ui`, `statusline`, `semantic`, `syntax`, `tool`,
-  `tmux`, `ls_colors`, `fzf`, `fish`, and similar maps must be built from
+  `tmux`, `ls_colors`, `fzf`, `fish`, `omp`, and similar maps must be built from
   `base_palette` rather than reinterpreting the palette independently.
 - When a section needs a color that is not present in `base_palette`, add the
   rule to derive it from existing palette values instead of altering the base

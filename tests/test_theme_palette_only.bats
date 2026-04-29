@@ -6,6 +6,7 @@ setup() {
 
   mkdir -p "$TEST_ROOT/color"
   mkdir -p "$TEST_ROOT/.config/fish/conf.d"
+  mkdir -p "$TEST_ROOT/.config/oh-my-posh"
   mkdir -p "$TEST_ROOT/.config/tmux"
   mkdir -p "$TEST_ROOT/windows/terminal"
   mkdir -p "$TEST_ROOT/macos/iterm2"
@@ -13,6 +14,8 @@ setup() {
   cp -R "$PROJECT_ROOT/color/." "$TEST_ROOT/color/"
   cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
+  cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
+  cp "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json" "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
@@ -48,6 +51,11 @@ teardown() {
     "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   [ "$status" -eq 0 ]
 
+  run python3 "$TEST_ROOT/color/generators/apply-omp.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
+  [ "$status" -eq 0 ]
+
   run python3 - <<PY
 import os
 import re
@@ -80,7 +88,7 @@ def parse_section(path, section_name):
     return values
 
 allowed = {}
-for section in ("base_palette", "windows_terminal", "tmux", "fish", "fzf", "ls_colors"):
+for section in ("base_palette", "windows_terminal", "tmux", "fish", "fzf", "omp", "ls_colors"):
     allowed.update(parse_section(theme, section))
 
 allowed_hex = {value.lower() for value in allowed.values()}
@@ -91,6 +99,7 @@ targets = [
     ".config/tmux/.tmux.conf",
     ".config/fish/conf.d/custom_theme.fish",
     ".config/fish/conf.d/fzf_colors.fish",
+    ".config/oh-my-posh/theme.omp.json",
     "macos/iterm2/custom-color-theme.itermcolors",
 ]
 
@@ -108,6 +117,12 @@ for rel in targets:
                 g = round(value["Green Component"] * 255)
                 b = round(value["Blue Component"] * 255)
                 observed.append((rel, f"#{r:02x}{g:02x}{b:02x}", "hex7"))
+        continue
+
+    if rel.endswith(".omp.json"):
+        text = open(path, encoding="utf-8").read()
+        for h in hex7.findall(text):
+            observed.append((rel, h.lower(), "hex7"))
         continue
 
     text = open(path, encoding="utf-8").read()

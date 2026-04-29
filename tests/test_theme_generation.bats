@@ -6,6 +6,7 @@ setup() {
 
   mkdir -p "$TEST_ROOT/color"
   mkdir -p "$TEST_ROOT/.config/fish/conf.d"
+  mkdir -p "$TEST_ROOT/.config/oh-my-posh"
   mkdir -p "$TEST_ROOT/macos/iterm2"
   mkdir -p "$TEST_ROOT/.config/tmux"
   mkdir -p "$TEST_ROOT/windows/terminal"
@@ -14,6 +15,7 @@ setup() {
   cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
+  cp "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json" "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
@@ -232,4 +234,35 @@ print("ok")
 PY
   [ "$status" -eq 0 ]
   [ "$output" = "ok" ]
+}
+
+@test "oh-my-posh generator uses tomorrow night omp section" {
+  run python3 "$TEST_ROOT/color/generators/apply-omp.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import json
+from pathlib import Path
+
+theme = json.loads(Path("${TEST_ROOT}/.config/oh-my-posh/theme.omp.json").read_text(encoding="utf-8"))
+prompt = theme["blocks"][0]["segments"]
+print(prompt[0]["foreground"])
+print(prompt[1]["foreground"])
+print(prompt[1]["template"])
+print(prompt[2]["foreground"])
+print(prompt[3]["foreground"])
+print(prompt[4]["foreground"])
+print(prompt[4]["foreground_templates"][0])
+print(prompt[4]["foreground_templates"][1])
+print(prompt[4]["foreground_templates"][2])
+print(prompt[5]["foreground"])
+print(prompt[6]["foreground"])
+print(prompt[6]["foreground_templates"][0])
+print(theme["blocks"][1]["segments"][0]["foreground"])
+print(theme["blocks"][1]["segments"][0]["template"])
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = $'#de935f\n#c5c8c6\n{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#b5bd68>{{ .UserName }}</><#c5c8c6>@</></>{{ end }}<#81a2be>{{ .HostName }}</>  \n#cc6666\n#c5c8c6\n#b5bd68\n{{ if or (.Working.Changed) (.Staging.Changed) }}#cc6666{{ end }}\n{{ if gt .Ahead 0 }}#81a2be{{ end }}\n{{ if gt .Behind 0 }}#cc6666{{ end }}\n#f0c674\n#b5bd68\n{{ if gt .Code 0 }}#cc6666{{ end }}\n#c5c8c6\n<#b5bd68>$</>' ]
 }

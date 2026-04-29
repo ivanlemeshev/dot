@@ -4,7 +4,7 @@ generators/apply-tmux.py|.config/tmux/.tmux.conf
 generators/apply-fish.py|.config/fish/conf.d/custom_theme.fish
 generators/apply-fish-ls-colors.py|.config/fish/conf.d/ls_colors.fish
 generators/apply-fish-fzf.py|.config/fish/conf.d/fzf_colors.fish
+generators/apply-omp.py|.config/oh-my-posh/theme.omp.json
 generators/apply-tmtheme.py|.config/bat/themes/custom.tmTheme
-generators/apply-omp-theme.py|.config/oh-my-posh/theme.omp.json
 generators/apply-vim-theme.py|.config/vim/colors/custom.vim
 generators/apply-nvim-theme.py|.config/nvim/lua/lem/colorscheme.lua
