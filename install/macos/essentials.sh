@@ -20,6 +20,7 @@ packages=(
   "fzf"
   "grpcurl"
   "jq"
+  "coreutils"
   "openssl"
   "readline"
   "ripgrep"

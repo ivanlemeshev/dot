@@ -218,3 +218,18 @@ PY
   [ "$status" -eq 0 ]
   [ "$output" = "ok" ]
 }
+
+@test "fish ls colors config prefers gls on macos" {
+  run python3 - <<PY
+from pathlib import Path
+
+text = Path("${PROJECT_ROOT}/.config/fish/conf.d/ls_colors.fish").read_text(encoding="utf-8")
+if 'set -gx __fish_ls_command gls' not in text:
+    raise SystemExit("missing macos gls override")
+if 'set -gx __fish_ls_color_opt --color=auto' not in text:
+    raise SystemExit("missing macos ls color option")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
+}

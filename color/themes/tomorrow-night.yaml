@@ -119,6 +119,21 @@ fzf:
   label: "#c5c8c6"
   gutter: "#1d1f21"
 
+omp:
+  foreground: "#c5c8c6"
+  time: "#de935f"
+  user: "#b5bd68"
+  host: "#81a2be"
+  root: "#cc6666"
+  git_clean: "#b5bd68"
+  git_dirty: "#cc6666"
+  git_ahead: "#81a2be"
+  git_behind: "#cc6666"
+  duration: "#f0c674"
+  status_ok: "#b5bd68"
+  status_error: "#cc6666"
+  prompt: "#b5bd68"
+
 # ui:
 #   bg: "#1d1f21"
 #   bg_alt: "#282a2e"
@@ -246,19 +261,3 @@ fzf:
 #   media: "#8abeb7"
 #   document: "#de935f"
 #   backup: "#969896"
-#
-# omp:
-#   foreground: "#c5c8c6"
-#   time: "#969896"
-#   user: "#81a2be"
-#   host: "#81a2be"
-#   root: "#cc6666"
-#   git_clean: "#b5bd68"
-#   git_dirty: "#cc6666"
-#   git_ahead: "#81a2be"
-#   git_behind: "#cc6666"
-#   duration: "#f0c674"
-#   status_ok: "#b5bd68"
-#   status_error: "#cc6666"
-#   prompt: "#de935f"
-#

@@ -555,3 +555,9 @@ set -a ls \
     "*Icon\r=$it;$ls_backup"
 
 set -x LS_COLORS (string join ":" $ls)
+
+# macOS BSD ls ignores LS_COLORS, so prefer GNU ls when it is installed.
+if test (uname) = Darwin; and command -sq gls
+    set -gx __fish_ls_command gls
+    set -gx __fish_ls_color_opt --color=auto
+end
