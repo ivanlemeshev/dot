@@ -12,6 +12,7 @@ setup() {
 
   cp -R "$PROJECT_ROOT/color/." "$TEST_ROOT/color/"
   cp "$PROJECT_ROOT/.config/fish/conf.d/custom_theme.fish" "$TEST_ROOT/.config/fish/conf.d/custom_theme.fish"
+  cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
@@ -85,24 +86,25 @@ PY
   [ "$status" -eq 0 ]
 
   run python3 - <<PY
+import re
 from pathlib import Path
 
 text = Path("${TEST_ROOT}/.config/tmux/.tmux.conf").read_text(encoding="utf-8")
 for line in [
-    'set -g @tmux_bar_bg "#282a2e"',
-    'set -g @tmux_bar_fg "#c5c8c6"',
-    'set -g @tmux_block_bg "#c5c8c6"',
-    'set -g @tmux_block_fg "#1d1f21"',
-    'set -g @tmux_alert_bg "#cc6666"',
-    'set -g @tmux_alert_fg "#1d1f21"',
-    'set -g @tmux_bell_bg "#de935f"',
-    'set -g @tmux_bell_fg "#1d1f21"',
-    'set -g @tmux_border_fg "#969896"',
+    'set -g @tmux_bar_bg           "#282a2e"',
+    'set -g @tmux_bar_fg           "#c5c8c6"',
+    'set -g @tmux_block_bg         "#c5c8c6"',
+    'set -g @tmux_block_fg         "#1d1f21"',
+    'set -g @tmux_alert_bg         "#cc6666"',
+    'set -g @tmux_alert_fg         "#1d1f21"',
+    'set -g @tmux_bell_bg          "#de935f"',
+    'set -g @tmux_bell_fg          "#1d1f21"',
+    'set -g @tmux_border_fg        "#969896"',
     'set -g @tmux_border_active_fg "#c5c8c6"',
-    'set -g @tmux_message_bg "#282a2e"',
-    'set -g @tmux_message_fg "#c5c8c6"',
-    'set -g @tmux_mode_bg "#282a2e"',
-    'set -g @tmux_mode_fg "#c5c8c6"',
+    'set -g @tmux_message_bg       "#282a2e"',
+    'set -g @tmux_message_fg       "#c5c8c6"',
+    'set -g @tmux_mode_bg          "#282a2e"',
+    'set -g @tmux_mode_fg          "#c5c8c6"',
 ]:
     if line not in text:
         raise SystemExit(f"missing: {line}")
@@ -123,22 +125,53 @@ from pathlib import Path
 
 text = Path("${TEST_ROOT}/.config/fish/conf.d/custom_theme.fish").read_text(encoding="utf-8")
 for line in [
-    'set -l fish_background         1d1f21',
-    'set -l fish_foreground         c5c8c6',
-    'set -l fish_command            81a2be',
-    'set -l fish_keyword            cc6666',
-    'set -l fish_escape             de935f',
-    'set -l fish_autosuggestion     969896',
-    'set -l fish_pager_progress        969896',
-    'set -l fish_pager_prefix          f0c674',
-    'set -l fish_pager_completion      c5c8c6',
-    'set -l fish_pager_description     c5c8c6',
-    'set -l fish_pager_selected_background 373b41',
-    'set -l fish_pager_selected_completion c5c8c6',
+    'set -l fish_background                 1d1f21',
+    'set -l fish_foreground                 c5c8c6',
+    'set -l fish_command                    81a2be',
+    'set -l fish_keyword                    cc6666',
+    'set -l fish_escape                     de935f',
+    'set -l fish_autosuggestion             969896',
+    'set -l fish_pager_progress             969896',
+    'set -l fish_pager_prefix               f0c674',
+    'set -l fish_pager_completion           c5c8c6',
+    'set -l fish_pager_description          c5c8c6',
+    'set -l fish_pager_selected_background  373b41',
+    'set -l fish_pager_selected_completion  c5c8c6',
     'set -l fish_pager_selected_description ffffff',
 ]:
     if line not in text:
         raise SystemExit(f"missing: {line}")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
+}
+
+@test "fish ls colors generator uses tomorrow night ls_colors section" {
+  run python3 "$TEST_ROOT/color/generators/apply-fish-ls-colors.py" \
+    "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
+    "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
+  [ "$status" -eq 0 ]
+
+  run python3 - <<PY
+import re
+from pathlib import Path
+
+text = Path("${TEST_ROOT}/.config/fish/conf.d/ls_colors.fish").read_text(encoding="utf-8")
+checks = {
+    r'^set -l ls_foreground\s+"197;200;198"\s+# #c5c8c6$': 'ls_foreground',
+    r'^set -l ls_background\s+"29;31;33"\s+# #1d1f21$': 'ls_background',
+    r'^set -l ls_error\s+"204;102;102"\s+# #cc6666$': 'ls_error',
+    r'^set -l ls_executable\s+"181;189;104"\s+# #b5bd68$': 'ls_executable',
+    r'^set -l ls_document\s+"222;147;95"\s+# #de935f$': 'ls_document',
+    r'^set -l ls_directory\s+"129;162;190"\s+# #81a2be$': 'ls_directory',
+    r'^set -l ls_special\s+"178;148;187"\s+# #b294bb$': 'ls_special',
+    r'^set -l ls_media\s+"138;190;183"\s+# #8abeb7$': 'ls_media',
+    r'^set -l ls_backup\s+"150;152;150"\s+# #969896$': 'ls_backup',
+}
+for pattern, label in checks.items():
+    if not re.search(pattern, text, re.MULTILINE):
+        raise SystemExit(f"missing: {label}")
 print("ok")
 PY
   [ "$status" -eq 0 ]

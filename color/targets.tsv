@@ -2,7 +2,7 @@ generators/apply-windows-terminal.py|windows/terminal/settings.json
 generators/apply-iterm2.py|macos/iterm2/custom-color-theme.itermcolors
 generators/apply-fish.py|.config/fish/conf.d/custom_theme.fish
 generators/apply-fzf-colors-fish.py|.config/fish/conf.d/fzf_colors.fish
-generators/apply-ls-colors-fish.py|.config/fish/conf.d/ls_colors.fish
+generators/apply-fish-ls-colors.py|.config/fish/conf.d/ls_colors.fish
 generators/apply-tmtheme.py|.config/bat/themes/custom.tmTheme
 generators/apply-omp-theme.py|.config/oh-my-posh/theme.omp.json
 generators/apply-tmux.py|.config/tmux/.tmux.conf

@@ -92,6 +92,17 @@ fish:
   pager_selected_completion: "#c5c8c6"
   pager_selected_description: "#ffffff"
 
+ls_colors:
+  foreground: "#c5c8c6"
+  background: "#1d1f21"
+  error: "#cc6666"
+  executable: "#b5bd68"
+  document: "#de935f"
+  directory: "#81a2be"
+  special: "#b294bb"
+  media: "#8abeb7"
+  backup: "#969896"
+
 # ui:
 #   bg: "#1d1f21"
 #   bg_alt: "#282a2e"
@@ -235,16 +246,7 @@ fish:
 #   status_error: "#cc6666"
 #   prompt: "#de935f"
 #
-# ls_colors:
-#   foreground: "#c5c8c6"
-#   background: "#1d1f21"
-#   error: "#cc6666"
-#   executable: "#b5bd68"
-#   document: "#de935f"
-#   directory: "#81a2be"
-#   special: "#b294bb"
-#   media: "#8abeb7"
-#   backup: "#969896"
+
 #
 # fzf:
 #   fg: "#c5c8c6"

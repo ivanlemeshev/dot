@@ -380,13 +380,6 @@ def load_theme_sections(yaml_file, prefix="#", uppercase=False):
     return bundle["colors"], bundle["ansi"]
 
 
-def load_theme(yaml_file, prefix="#", uppercase=False):
-    colors, _palette = load_theme_sections(
-        yaml_file, prefix=prefix, uppercase=uppercase
-    )
-    return colors
-
-
 def derive_vim_semantic_vars(bundle):
     ui = bundle["ui"]
     statusline = bundle["statusline"]
