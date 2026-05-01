@@ -251,12 +251,12 @@ function M.setup()
   -- `SpecialKey` marks special non-printable key representations.
   hl("SpecialKey", { fg = M.ui.special_key })
 
+  -- `Whitespace` marks listchars whitespace.
+  hl("Whitespace", { fg = M.ui.whitespace })
+
   -- ============================================================================
   -- WhichKey
   -- ============================================================================
-
-  -- `Whitespace` marks listchars whitespace.
-  hl("Whitespace", { fg = M.ui.whitespace })
 
   -- `WhichKeyNormal` is the popup background and text area.
   hl("WhichKeyNormal", { fg = M.ui.fg, bg = M.ui.bg })
