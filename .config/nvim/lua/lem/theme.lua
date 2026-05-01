@@ -18,6 +18,26 @@ M.ui = {
   whitespace = "#282a2e",
 }
 
+-- Syntax
+M.syntax = {
+  builtin = "#de935f",
+  comment = "#969896",
+  constant = "#de935f",
+  delimiter = "#c5c8c6",
+  escape = "#8abeb7",
+  character = "#b5bd68",
+  ["function"] = "#81a2be",
+  keyword = "#b294bb",
+  number = "#de935f",
+  operator = "#8abeb7",
+  preproc = "#de935f",
+  property = "#81a2be",
+  special = "#c5c8c6",
+  string = "#b5bd68",
+  type = "#f0c674",
+  variable = "#cc6666",
+}
+
 -- Fzf
 M.fzf = {
   fg = "#c5c8c6",
@@ -253,6 +273,389 @@ function M.setup()
 
   -- `Whitespace` marks listchars whitespace.
   hl("Whitespace", { fg = M.ui.whitespace })
+
+  -- ============================================================================
+  -- Syntax
+  -- ============================================================================
+
+  -- `Comment` is used for regular comments, like `-- note` or `// note`.
+  hl("Comment", { fg = M.syntax.comment })
+
+  -- `String` is used for quoted strings, like `"hello"` or `'world'`.
+  hl("String", { fg = M.syntax.string })
+
+  -- `Character` is used for character literals, like `'a'` or `'\n'`.
+  hl("Character", { fg = M.syntax.character })
+
+  -- `Number` is used for integer literals, like `42` or `0xff`.
+  hl("Number", { fg = M.syntax.number })
+
+  -- `Float` is used for floating-point literals, like `3.14` or `1e10`.
+  hl("Float", { fg = M.syntax.number })
+
+  -- `Boolean` is used for boolean literals, like `true` or `false`.
+  hl("Boolean", { fg = M.syntax.constant })
+
+  -- `Constant` is used for generic constants, like `PI` or `MAX_SIZE`.
+  hl("Constant", { fg = M.syntax.constant })
+
+  -- `Identifier` is used for variables and identifiers, like `foo` or `count`.
+  hl("Identifier", { fg = M.syntax.variable })
+
+  -- `Function` is used for function names, like `print` or `map`.
+  hl("Function", { fg = M.syntax["function"] })
+
+  -- `Statement` is used for language statements, like `return` or `break`.
+  hl("Statement", { fg = M.syntax.keyword })
+
+  -- `Conditional` is used for if/else style constructs, like `if` or `else`.
+  hl("Conditional", { fg = M.syntax.keyword })
+
+  -- `Repeat` is used for loop constructs, like `for` or `while`.
+  hl("Repeat", { fg = M.syntax.keyword })
+
+  -- `Label` is used for goto-style labels, like `loop:` or `::retry::`.
+  hl("Label", { fg = M.syntax.keyword })
+
+  -- `Operator` is used for symbolic operators, like `+`, `-`, `=`, or `*`.
+  hl("Operator", { fg = M.syntax.operator })
+
+  -- `Keyword` is used for reserved words, like `function`, `local`, or `end`.
+  hl("Keyword", { fg = M.syntax.keyword })
+
+  -- `Exception` is used for error-handling keywords, like `try` or `catch`.
+  hl("Exception", { fg = M.syntax.keyword })
+
+  -- `PreProc` is used for preprocessor directives, like `#include` or `#define`.
+  hl("PreProc", { fg = M.syntax.preproc })
+
+  -- `Include` is used for include/import directives, like `#include <stdio.h>`.
+  hl("Include", { fg = M.syntax.preproc })
+
+  -- `Define` is used for macro or constant definitions, like `#define MAX 10`.
+  hl("Define", { fg = M.syntax.preproc })
+
+  -- `Macro` is used for macro invocations, like `MAX(10)`.
+  hl("Macro", { fg = M.syntax.preproc })
+
+  -- `PreCondit` is used for conditional preprocessing, like `#if` or `#ifdef`.
+  hl("PreCondit", { fg = M.syntax.preproc })
+
+  -- `Type` is used for type names, like `int`, `String`, or `MyStruct`.
+  hl("Type", { fg = M.syntax.type })
+
+  -- `StorageClass` is used for storage modifiers, like `static` or `extern`.
+  hl("StorageClass", { fg = M.syntax.type })
+
+  -- `Structure` is used for composite types, like `struct Point`.
+  hl("Structure", { fg = M.syntax.type })
+
+  -- `Typedef` is used for type aliases, like `typedef Foo Bar`.
+  hl("Typedef", { fg = M.syntax.type })
+
+  -- `Special` is used for special symbols, like punctuation-heavy tokens or atoms.
+  hl("Special", { fg = M.syntax.special })
+
+  -- `SpecialChar` is used for escapes and special characters, like `\n` or `\t`.
+  hl("SpecialChar", { fg = M.syntax.special_char })
+
+  -- `Tag` is used for tag-like names, like `div` in HTML tags.
+  hl("Tag", { fg = M.syntax.special })
+
+  -- `Delimiter` is used for punctuation and separators, like `,` or `;`.
+  hl("Delimiter", { fg = M.syntax.delimiter })
+
+  -- `SpecialComment` is used for comment variants like `TODO` or `FIXME`.
+  hl("SpecialComment", { fg = M.syntax.comment })
+
+  -- `Debug` is used for debugging-related syntax, like `dbg!` or trace markers.
+  hl("Debug", { fg = M.syntax.special })
+
+  -- `Underlined` is used for underlined text, like links or emphasis.
+  hl("Underlined", { fg = M.syntax.special, underline = true })
+
+  -- `Ignore` is used for text that should be ignored.
+  -- hl("Ignore", {})
+
+  -- `Error` is used for syntax errors, like invalid tokens or broken constructs.
+  hl("Error", { fg = M.ui.fg, bg = M.ui.bg, bold = true })
+
+  -- `Todo` is used for TODO/FIXME-style markers, like `TODO`, `FIXME`, or `XXX`.
+  hl("Todo", { fg = M.syntax.comment, bold = true })
+
+  -- ============================================================================
+  -- Treesitter
+  -- ============================================================================
+
+  -- `@variable` matches variable-like identifiers, like `foo`, `count`, or `result`.
+  hl("@variable", { fg = M.syntax.variable })
+
+  -- `@variable.builtin` matches built-in variables, like `self` or `this`.
+  hl("@variable.builtin", { fg = M.syntax.constant })
+
+  -- `@variable.parameter` matches function parameters, like `foo` in `function f(foo) end`.
+  hl("@variable.parameter", { fg = M.syntax.variable })
+
+  -- `@variable.parameter.builtin` matches special built-in parameters, like `_` or `it`.
+  hl("@variable.parameter.builtin", { fg = M.syntax.constant })
+
+  -- `@variable.member` matches object and struct fields, like `user.name` or `point.x`.
+  hl("@variable.member", { fg = M.syntax.variable })
+
+  -- `@constant` matches constant identifiers, like `PI` or `MAX_SIZE`.
+  hl("@constant", { fg = M.syntax.constant })
+
+  -- `@constant.builtin` matches built-in constants, like `true`, `false`, or `nil`.
+  hl("@constant.builtin", { fg = M.syntax.constant })
+
+  -- `@constant.macro` matches macro-defined constants, like `MAX(10)` in a C macro.
+  hl("@constant.macro", { fg = M.syntax.preproc })
+
+  -- `@module` matches module and namespace names, like `vim` in `vim.api`.
+  hl("@module", { fg = M.syntax.type })
+
+  -- `@module.builtin` matches built-in modules or namespaces, like `math` or `vim`.
+  hl("@module.builtin", { fg = M.syntax.type })
+
+  -- `@label` matches labels and goto targets, like `loop:` or `::retry::`.
+  hl("@label", { fg = M.syntax.keyword })
+
+  -- `@string` matches string literals, like `"hello"` or `'world'`.
+  hl("@string", { fg = M.syntax.string })
+
+  -- `@string.documentation` matches documentation strings, like Python docstrings.
+  hl("@string.documentation", { fg = M.syntax.string })
+
+  -- `@string.regexp` matches regular expressions, like `/foo.*/` or `r"[0-9]+"`.
+  hl("@string.regexp", { fg = M.syntax.escape })
+
+  -- `@string.escape` matches escapes inside strings, like `\n` or `\t`.
+  hl("@string.escape", { fg = M.syntax.escape })
+
+  -- `@string.special` matches special string forms, like dates or symbols.
+  hl("@string.special", { fg = M.syntax.special })
+
+  -- `@string.special.symbol` matches symbols or atoms, like `:ok` or `:error`.
+  hl("@string.special.symbol", { fg = M.syntax.special })
+
+  -- `@string.special.path` matches file paths, like `src/main.lua`.
+  hl("@string.special.path", { fg = M.syntax.special })
+
+  -- `@string.special.url` matches URLs, like `https://example.com`.
+  hl("@string.special.url", { fg = M.syntax.special })
+
+  -- `@character` matches character literals, like `'a'` or `'\n'`.
+  hl("@character", { fg = M.syntax.character })
+
+  -- `@character.special` matches special character literals, like `'\t'` or `'\x1b'`.
+  hl("@character.special", { fg = M.syntax.escape })
+
+  -- `@boolean` matches boolean literals, like `true` or `false`.
+  hl("@boolean", { fg = M.syntax.constant })
+
+  -- `@number` matches numeric literals, like `42` or `0xff`.
+  hl("@number", { fg = M.syntax.number })
+
+  -- `@number.float` matches floating-point literals, like `3.14` or `1e10`.
+  hl("@number.float", { fg = M.syntax.number })
+
+  -- `@type` matches type names, like `int`, `String`, or `MyStruct`.
+  hl("@type", { fg = M.syntax.type })
+
+  -- `@type.builtin` matches built-in types, like `int` or `string`.
+  hl("@type.builtin", { fg = M.syntax.type })
+
+  -- `@type.definition` matches type-definition names, like `typedef Foo Bar`.
+  hl("@type.definition", { fg = M.syntax.type })
+
+  -- `@attribute` matches annotations and attributes, like `@deprecated` or `#[test]`.
+  hl("@attribute", { fg = M.syntax.keyword })
+
+  -- `@attribute.builtin` matches built-in attributes, like `@property`.
+  hl("@attribute.builtin", { fg = M.syntax.keyword })
+
+  -- `@property` matches object properties and keys, like `name` in `user.name`.
+  hl("@property", { fg = M.syntax.property or M.syntax.variable })
+
+  -- `@function` matches function definitions, like `function foo() end`.
+  hl("@function", { fg = M.syntax["function"] })
+
+  -- `@function.builtin` matches built-in functions, like `print` or `len`.
+  hl("@function.builtin", { fg = M.syntax["function"] })
+
+  -- `@function.call` matches function call sites, like `print(x)` or `foo(bar)`.
+  hl("@function.call", { fg = M.syntax["function"] })
+
+  -- `@function.macro` matches macro-like functions, like `#define FOO(x)`.
+  hl("@function.macro", { fg = M.syntax.preproc })
+
+  -- `@function.method` matches method definitions, like `obj:method()`.
+  hl("@function.method", { fg = M.syntax["function"] })
+
+  -- `@function.method.call` matches method calls, like `obj:method()`.
+  hl("@function.method.call", { fg = M.syntax["function"] })
+
+  -- `@constructor` matches constructor calls and definitions, like `Foo.new()`.
+  hl("@constructor", { fg = M.syntax.type })
+
+  -- `@operator` matches symbolic operators, like `+`, `-`, `=`, or `*`.
+  hl("@operator", { fg = M.syntax.operator })
+
+  -- `@keyword` matches reserved words, like `return` or `break`.
+  hl("@keyword", { fg = M.syntax.keyword })
+
+  -- `@keyword.coroutine` matches coroutine-related keywords, like `async` or `await`.
+  hl("@keyword.coroutine", { fg = M.syntax.keyword })
+
+  -- `@keyword.function` matches function-defining keywords, like `function` or `def`.
+  hl("@keyword.function", { fg = M.syntax.keyword })
+
+  -- `@keyword.operator` matches word-based operators, like `and`, `or`, or `not`.
+  hl("@keyword.operator", { fg = M.syntax.operator })
+
+  -- `@keyword.import` matches import/export keywords, like `import`, `from`, or `use`.
+  hl("@keyword.import", { fg = M.syntax.keyword })
+
+  -- `@keyword.type` matches type-oriented keywords, like `struct`, `enum`, or `class`.
+  hl("@keyword.type", { fg = M.syntax.type })
+
+  -- `@keyword.modifier` matches modifiers like `const`, `static`, or `public`.
+  hl("@keyword.modifier", { fg = M.syntax.keyword })
+
+  -- `@keyword.repeat` matches loop keywords, like `for`, `while`, or `loop`.
+  hl("@keyword.repeat", { fg = M.syntax.keyword })
+
+  -- `@keyword.return` matches return-style keywords, like `return` or `yield`.
+  hl("@keyword.return", { fg = M.syntax.keyword })
+
+  -- `@keyword.debug` matches debugging keywords, like `breakpoint`-style commands.
+  hl("@keyword.debug", { fg = M.syntax.keyword })
+
+  -- `@keyword.exception` matches exception keywords, like `throw` or `catch`.
+  hl("@keyword.exception", { fg = M.syntax.keyword })
+
+  -- `@keyword.conditional` matches conditionals, like `if`, `else`, and `elseif`.
+  hl("@keyword.conditional", { fg = M.syntax.keyword })
+
+  -- `@keyword.conditional.ternary` matches ternary operators, like `? :`.
+  hl("@keyword.conditional.ternary", { fg = M.syntax.operator })
+
+  -- `@keyword.directive` matches preprocessor directives and shebangs, like `#include` or `#!/usr/bin/env sh`.
+  hl("@keyword.directive", { fg = M.syntax.preproc })
+
+  -- `@keyword.directive.define` matches directive definitions, like `#define`.
+  hl("@keyword.directive.define", { fg = M.syntax.preproc })
+
+  -- `@punctuation.delimiter` matches commas, dots, and separators, like `,` or `.`.
+  hl("@punctuation.delimiter", { fg = M.syntax.delimiter })
+
+  -- `@punctuation.bracket` matches brackets and braces, like `(`, `)`, `{`, or `}`.
+  hl("@punctuation.bracket", { fg = M.syntax.delimiter })
+
+  -- `@punctuation.special` matches special punctuation in interpolations, like `{` in `${var}`.
+  hl("@punctuation.special", { fg = M.syntax.special })
+
+  -- `@comment` matches comments, like `-- note` or `// note`.
+  hl("@comment", { fg = M.syntax.comment })
+
+  -- `@comment.documentation` matches documentation comments, like `/// docs` or `/** docs */`.
+  hl("@comment.documentation", { fg = M.syntax.comment })
+
+  -- `@comment.error` matches error-like comments, like `ERROR` or `BROKEN`.
+  hl("@comment.error", { fg = M.syntax.comment })
+
+  -- `@comment.warning` matches warning-like comments, like `WARNING` or `HACK`.
+  hl("@comment.warning", { fg = M.syntax.comment })
+
+  -- `@comment.todo` matches TODO-style comments, like `TODO`, `FIXME`, or `XXX`.
+  hl("@comment.todo", { fg = M.syntax.comment, bold = true })
+
+  -- `@comment.note` matches note-style comments, like `NOTE` or `INFO`.
+  hl("@comment.note", { fg = M.syntax.comment })
+
+  -- `@markup.strong` matches bold markup, like `**bold**`.
+  hl("@markup.strong", { fg = M.syntax.constant, bold = true })
+
+  -- `@markup.italic` matches italic markup, like `*italic*`.
+  hl("@markup.italic", { fg = M.syntax.constant, italic = true })
+
+  -- `@markup.strikethrough` matches struck-through markup, like `~~deleted~~`.
+  hl("@markup.strikethrough", { fg = M.syntax.constant, strikethrough = true })
+
+  -- `@markup.underline` matches underlined markup, like HTML `<u>` text.
+  hl("@markup.underline", { fg = M.syntax.constant, underline = true })
+
+  -- `@markup.heading` matches headings and titles, like `# Title`.
+  hl("@markup.heading", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.1` matches top-level headings, like `# Title`.
+  hl("@markup.heading.1", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.2` matches second-level headings, like `## Section`.
+  hl("@markup.heading.2", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.3` matches third-level headings, like `### Subsection`.
+  hl("@markup.heading.3", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.4` matches fourth-level headings, like `#### Topic`.
+  hl("@markup.heading.4", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.5` matches fifth-level headings, like `##### Topic`.
+  hl("@markup.heading.5", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.heading.6` matches sixth-level headings, like `###### Topic`.
+  hl("@markup.heading.6", { fg = M.syntax.type, bold = true })
+
+  -- `@markup.quote` matches block quotes, like `> quoted text`.
+  hl("@markup.quote", { fg = M.syntax.special })
+
+  -- `@markup.math` matches math environments, like `$a^2 + b^2$`.
+  hl("@markup.math", { fg = M.syntax.special })
+
+  -- `@markup.link` matches references and citations, like `[label](url)`.
+  hl("@markup.link", { fg = M.syntax["function"], underline = true })
+
+  -- `@markup.link.label` matches link labels, like the `label` part in `[label](url)`.
+  hl("@markup.link.label", { fg = M.syntax["function"] })
+
+  -- `@markup.link.url` matches URL-style links, like `https://example.com`.
+  hl("@markup.link.url", { fg = M.syntax["function"], underline = true })
+
+  -- `@markup.raw` matches inline raw text, like ``code`` or `printf`.
+  hl("@markup.raw", { fg = M.syntax.string })
+
+  -- `@markup.raw.block` matches raw block text, like fenced code blocks.
+  hl("@markup.raw.block", { fg = M.syntax.string })
+
+  -- `@markup.list` matches list markers, like `-` or `*`.
+  hl("@markup.list", { fg = M.syntax.delimiter })
+
+  -- `@markup.list.checked` matches checked list markers, like `[x]`.
+  hl("@markup.list.checked", { fg = M.syntax.delimiter })
+
+  -- `@markup.list.unchecked` matches unchecked list markers, like `[ ]`.
+  hl("@markup.list.unchecked", { fg = M.syntax.delimiter })
+
+  -- `@diff.plus` matches added text, like a line prefixed with `+`.
+  hl("@diff.plus", { fg = M.syntax.constant })
+
+  -- `@diff.minus` matches deleted text, like a line prefixed with `-`.
+  hl("@diff.minus", { fg = M.syntax.constant })
+
+  -- `@diff.delta` matches changed text, like a modified hunk header.
+  hl("@diff.delta", { fg = M.syntax.constant })
+
+  -- `@tag` matches XML/HTML-style tag names, like `div` or `section`.
+  hl("@tag", { fg = M.syntax.special })
+
+  -- `@tag.builtin` matches built-in tag names, like HTML `div` or `span`.
+  hl("@tag.builtin", { fg = M.syntax.special })
+
+  -- `@tag.attribute` matches XML/HTML-style tag attributes, like `class` or `href`.
+  hl("@tag.attribute", { fg = M.syntax.variable })
+
+  -- `@tag.delimiter` matches XML/HTML-style tag delimiters, like `<`, `>`, or `</`.
+  hl("@tag.delimiter", { fg = M.syntax.delimiter })
 
   -- ============================================================================
   -- WhichKey

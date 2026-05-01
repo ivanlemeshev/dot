@@ -45,6 +45,25 @@ UI_KEYS = {
     "whitespace",
 }
 
+SYNTAX_KEYS = {
+    "builtin",
+    "comment",
+    "constant",
+    "delimiter",
+    "escape",
+    "character",
+    "function",
+    "keyword",
+    "number",
+    "operator",
+    "preproc",
+    "property",
+    "special",
+    "string",
+    "type",
+    "variable",
+}
+
 STATUSLINE_KEYS = {
     "normal_bg",
     "normal_fg",
@@ -131,6 +150,37 @@ def parse_fzf(path):
     return values
 
 
+def parse_syntax(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "syntax:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    key = match.group(1) or match.group(2)
+                    values[key] = normalize_hex(match.group(3))
+
+    if not values:
+        raise ValueError("Syntax section is required in YAML")
+
+    missing = sorted(SYNTAX_KEYS - set(values.keys()))
+    if missing:
+        raise ValueError("Syntax is missing required keys: " + ", ".join(missing))
+
+    return values
+
+
 def parse_statusline(path):
     values = {}
     active_section = False
@@ -205,6 +255,30 @@ def render_ui_block(values):
     return "\n".join(lines)
 
 
+def render_syntax_block(values):
+    lines = [
+        "M.syntax = {",
+        f'  builtin = "{values["builtin"]}",',
+        f'  comment = "{values["comment"]}",',
+        f'  constant = "{values["constant"]}",',
+        f'  delimiter = "{values["delimiter"]}",',
+        f'  escape = "{values["escape"]}",',
+        f'  character = "{values["character"]}",',
+        f'  ["function"] = "{values["function"]}",',
+        f'  keyword = "{values["keyword"]}",',
+        f'  number = "{values["number"]}",',
+        f'  operator = "{values["operator"]}",',
+        f'  preproc = "{values["preproc"]}",',
+        f'  property = "{values["property"]}",',
+        f'  special = "{values["special"]}",',
+        f'  string = "{values["string"]}",',
+        f'  type = "{values["type"]}",',
+        f'  variable = "{values["variable"]}",',
+        "}",
+    ]
+    return "\n".join(lines)
+
+
 def render_statusline_block(values):
     lines = [
         "M.statusline = {",
@@ -246,6 +320,7 @@ def replace_table_block(content, table_name, replacement_block):
 
 try:
     ui = parse_ui(yaml_file)
+    syntax = parse_syntax(yaml_file)
     fzf = parse_fzf(yaml_file)
     statusline = parse_statusline(yaml_file)
 except ValueError as exc:
@@ -256,6 +331,7 @@ with open(lua_file, encoding="utf-8") as handle:
     content = handle.read()
 
 content = replace_table_block(content, "ui", render_ui_block(ui))
+content = replace_table_block(content, "syntax", render_syntax_block(syntax))
 content = replace_table_block(content, "fzf", render_fzf_block(fzf))
 content = replace_table_block(
     content, "statusline", render_statusline_block(statusline)
