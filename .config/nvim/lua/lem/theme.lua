@@ -17,7 +17,7 @@ M.ui = {
   end_of_buffer_fg = "#969896",
   error_fg = "#cc6666",
   float_bg = "#1d1f21",
-  float_border_fg = "#c5c8c6",
+  float_border_fg = "#969896",
   float_fg = "#c5c8c6",
   float_title_fg = "#c5c8c6",
   folded_bg = "#282a2e",
@@ -31,10 +31,10 @@ M.ui = {
   non_text = "#969896",
   more_fg = "#de935f",
   msg_area_fg = "#c5c8c6",
-  msg_separator_fg = "#c5c8c6",
+  msg_separator_fg = "#969896",
   pmenu_bg = "#1d1f21",
   pmenu_fg = "#c5c8c6",
-  pmenu_sel_bg = "#373b41",
+  pmenu_sel_bg = "#282a2e",
   pmenu_sel_fg = "#c5c8c6",
   pmenu_sbar_bg = "#282a2e",
   pmenu_thumb_bg = "#969896",
@@ -44,7 +44,7 @@ M.ui = {
   search_fg = "#1d1f21",
   selection_bg = "#373b41",
   selection_fg = "#c5c8c6",
-  split_fg = "#c5c8c6",
+  split_fg = "#969896",
   statusline_bg = "#c5c8c6",
   statusline_fg = "#1d1f21",
   statusline_nc_bg = "#282a2e",
@@ -1083,6 +1083,75 @@ function M.setup()
 
   -- `GitSignsDeleteLnInline` marks deleted inline line regions.
   hl("GitSignsDeleteLnInline", { fg = M.git.delete, bg = M.ui.bg })
+
+  -- ============================================================================
+  -- Completion
+  -- ============================================================================
+
+  -- `CmpItemAbbr` is the main completion label, such as `printf` in a menu row.
+  hl("CmpItemAbbr", { fg = M.ui.fg })
+
+  -- `CmpItemAbbrDeprecated` is a deprecated completion label, such as an old
+  -- function or symbol that still appears in the menu.
+  hl("CmpItemAbbrDeprecated", { fg = M.ui.non_text, strikethrough = true })
+
+  -- `CmpItemAbbrMatch` is the matched part of the completion label, such as
+  -- the `test` inside `test_utils`.
+  hl("CmpItemAbbrMatch", { fg = M.ui.title_fg, bold = true })
+
+  -- `CmpItemAbbrMatchFuzzy` is the fuzzy-match part of the completion label,
+  -- such as a partially matched symbol name.
+  hl("CmpItemAbbrMatchFuzzy", { fg = M.ui.title_fg, bold = true })
+
+  -- `CmpItemKind` is the generic completion kind label shown beside entries.
+  hl("CmpItemKind", { fg = M.syntax.special })
+
+  -- `CmpItemMenu` is the extra menu text on the right, such as the source name.
+  hl("CmpItemMenu", { fg = M.ui.non_text })
+
+  local cmp_kind_groups = {
+    { "Text", M.ui.fg },
+    { "Method", M.syntax["function"] },
+    { "Function", M.syntax["function"] },
+    { "Constructor", M.syntax.type },
+    { "Field", M.syntax.property },
+    { "Variable", M.syntax.variable },
+    { "Class", M.syntax.type },
+    { "Interface", M.syntax.type },
+    { "Module", M.syntax.type },
+    { "Property", M.syntax.property },
+    { "Unit", M.syntax.constant },
+    { "Value", M.syntax.constant },
+    { "Enum", M.syntax.type },
+    { "Keyword", M.syntax.keyword },
+    { "Snippet", M.syntax.preproc },
+    { "Color", M.syntax.special },
+    { "File", M.ui.fg },
+    { "Reference", M.syntax.special },
+    { "Folder", M.ui.directory_fg },
+    { "EnumMember", M.syntax.constant },
+    { "Constant", M.syntax.constant },
+    { "Struct", M.syntax.type },
+    { "Event", M.syntax.keyword },
+    { "Operator", M.syntax.operator },
+    { "TypeParameter", M.syntax.type },
+  }
+
+  for _, item in ipairs(cmp_kind_groups) do
+    hl("CmpItemKind" .. item[1], { fg = item[2] })
+  end
+
+  -- ============================================================================
+  -- Copilot
+  -- ============================================================================
+
+  -- `CopilotSuggestion` is the inline ghost text suggestion, like a faded
+  -- completion hint after the cursor.
+  hl("CopilotSuggestion", { fg = M.ui.non_text, italic = true })
+
+  -- `CopilotAnnotation` is the annotation text shown in Copilot panels and
+  -- suggestion tails.
+  hl("CopilotAnnotation", { fg = M.ui.non_text })
 
   -- ============================================================================
   -- Syntax
