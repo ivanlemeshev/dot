@@ -31,6 +31,20 @@ FZF_KEYS = {
     "gutter",
 }
 
+UI_KEYS = {
+    "bg",
+    "color_column",
+    "cursor",
+    "cursor_line",
+    "cursor_line_nr",
+    "cursor_column",
+    "fg",
+    "line_nr",
+    "non_text",
+    "special_key",
+    "whitespace",
+}
+
 STATUSLINE_KEYS = {
     "normal_bg",
     "normal_fg",
@@ -53,6 +67,37 @@ STATUSLINE_KEYS = {
 
 def normalize_hex(value):
     return "#" + value.lstrip("#").lower()
+
+
+def parse_ui(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "ui:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    key = match.group(1) or match.group(2)
+                    values[key] = normalize_hex(match.group(3))
+
+    if not values:
+        raise ValueError("UI section is required in YAML")
+
+    missing = sorted(UI_KEYS - set(values.keys()))
+    if missing:
+        raise ValueError("UI is missing required keys: " + ", ".join(missing))
+
+    return values
 
 
 def parse_fzf(path):
@@ -141,6 +186,25 @@ def render_fzf_block(values):
     return "\n".join(lines)
 
 
+def render_ui_block(values):
+    lines = [
+        "M.ui = {",
+        f'  bg = "{values["bg"]}",',
+        f'  color_column = "{values["color_column"]}",',
+        f'  cursor = "{values["cursor"]}",',
+        f'  cursor_column = "{values["cursor_column"]}",',
+        f'  cursor_line = "{values["cursor_line"]}",',
+        f'  cursor_line_nr = "{values["cursor_line_nr"]}",',
+        f'  fg = "{values["fg"]}",',
+        f'  line_nr = "{values["line_nr"]}",',
+        f'  non_text = "{values["non_text"]}",',
+        f'  special_key = "{values["special_key"]}",',
+        f'  whitespace = "{values["whitespace"]}",',
+        "}",
+    ]
+    return "\n".join(lines)
+
+
 def render_statusline_block(values):
     lines = [
         "M.statusline = {",
@@ -181,6 +245,7 @@ def replace_table_block(content, table_name, replacement_block):
 
 
 try:
+    ui = parse_ui(yaml_file)
     fzf = parse_fzf(yaml_file)
     statusline = parse_statusline(yaml_file)
 except ValueError as exc:
@@ -190,6 +255,7 @@ except ValueError as exc:
 with open(lua_file, encoding="utf-8") as handle:
     content = handle.read()
 
+content = replace_table_block(content, "ui", render_ui_block(ui))
 content = replace_table_block(content, "fzf", render_fzf_block(fzf))
 content = replace_table_block(
     content, "statusline", render_statusline_block(statusline)

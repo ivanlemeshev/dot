@@ -269,7 +269,7 @@ PY
   [ "$output" = $'#de935f\n#c5c8c6\n{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#b5bd68>{{ .UserName }}</><#c5c8c6>@</></>{{ end }}<#81a2be>{{ .HostName }}</>  \n#cc6666\n#c5c8c6\n#b5bd68\n{{ if or (.Working.Changed) (.Staging.Changed) }}#cc6666{{ end }}\n{{ if gt .Ahead 0 }}#81a2be{{ end }}\n{{ if gt .Behind 0 }}#cc6666{{ end }}\n#f0c674\n#b5bd68\n{{ if gt .Code 0 }}#cc6666{{ end }}\n#c5c8c6\n<#b5bd68>$</>' ]
 }
 
-@test "nvim generator only updates tomorrow night fzf and statusline sections" {
+@test "nvim generator updates ui, fzf, and statusline sections" {
   run python3 "$TEST_ROOT/color/generators/apply-nvim.py" \
     "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
     "$TEST_ROOT/.config/nvim/lua/lem/theme.lua"
@@ -281,6 +281,18 @@ from pathlib import Path
 
 text = Path("${TEST_ROOT}/.config/nvim/lua/lem/theme.lua").read_text(encoding="utf-8")
 checks = {
+    r'^M\.ui = \{$': 'M.ui = {',
+    r'^\s+bg = "#1d1f21",$': 'ui bg',
+    r'^\s+color_column = "#373b41",$': 'ui color_column',
+    r'^\s+cursor = "#c5c8c6",$': 'ui cursor',
+    r'^\s+cursor_column = "#373b41",$': 'ui cursor_column',
+    r'^\s+cursor_line = "#373b41",$': 'ui cursor_line',
+    r'^\s+cursor_line_nr = "#373b41",$': 'ui cursor_line_nr',
+    r'^\s+fg = "#c5c8c6",$': 'ui fg',
+    r'^\s+line_nr = "#c5c8c6",$': 'ui line_nr',
+    r'^\s+non_text = "#969896",$': 'ui non_text',
+    r'^\s+special_key = "#282a2e",$': 'ui special_key',
+    r'^\s+whitespace = "#282a2e",$': 'ui whitespace',
     r'^M\.fzf = \{$': 'M.fzf = {',
     r'^\s+fg = "#c5c8c6",$': 'fg',
     r'^\s+bg = "#1d1f21",$': 'bg',
@@ -320,13 +332,34 @@ for pattern, label in checks.items():
     if not re.search(pattern, text, re.MULTILINE):
         raise SystemExit(f"missing: {label}")
 for line in [
+    'M.ui = {',
     'M.fzf = {',
     'M.statusline = {',
+    '-- \x60Normal\x60 is the default text area for the current window.',
+    'hl("Normal", { fg = M.ui.fg, bg = M.ui.bg })',
+    '-- \x60NormalNC\x60 is the default text area for inactive windows.',
+    'hl("NormalNC", { fg = M.ui.fg, bg = M.ui.bg })',
+    '-- \x60Cursor\x60 is the visual caret in the active window.',
+    'hl("Cursor", { fg = M.ui.bg, bg = M.ui.cursor })',
+    '-- \x60CursorLine\x60 highlights the current line.',
+    'hl("CursorLine", { bg = M.ui.cursor_line })',
+    '-- \x60CursorColumn\x60 highlights the current cursor column.',
+    'hl("CursorColumn", { bg = M.ui.cursor_column })',
+    '-- \x60CursorLineNr\x60 highlights the number on the current line.',
+    'hl("CursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })',
+    '-- \x60ColorColumn\x60 marks preferred text width columns.',
+    'hl("ColorColumn", { bg = M.ui.color_column })',
+    '-- \x60LineNr\x60 is the line number gutter for non-current lines.',
+    'hl("LineNr", { fg = M.ui.line_nr })',
+    '-- \x60NonText\x60 marks invisible buffer filler text like \x60~\x60.',
+    'hl("NonText", { fg = M.ui.non_text })',
+    '-- \x60SpecialKey\x60 marks special non-printable key representations.',
+    'hl("SpecialKey", { fg = M.ui.special_key })',
+    '-- \x60Whitespace\x60 marks listchars whitespace.',
+    'hl("Whitespace", { fg = M.ui.whitespace })',
 ]:
     if line not in text:
         raise SystemExit(f"missing block: {line}")
-if 'M.syntax = {' in text:
-    raise SystemExit('unexpected syntax block')
 print("ok")
 PY
   [ "$status" -eq 0 ]
