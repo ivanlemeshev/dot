@@ -6,7 +6,7 @@
 # --- Semantic roles (RGB values) ---
 set -l ls_foreground "197;200;198"  # #c5c8c6
 set -l ls_background "29;31;33"     # #1d1f21
-set -l ls_error      "204;102;102"   # #cc6666
+set -l ls_error      "204;102;102"  # #cc6666
 set -l ls_executable "181;189;104"  # #b5bd68
 set -l ls_document   "222;147;95"   # #de935f
 set -l ls_directory  "129;162;190"  # #81a2be
