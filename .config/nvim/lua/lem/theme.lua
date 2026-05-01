@@ -798,142 +798,142 @@ function M.setup()
 
   -- `FzfLuaTitleFlags` is the extra flag text in the picker title, such as
   -- mode or source indicators beside the main title.
-  -- hl("FzfLuaTitleFlags", {})
+  hl("FzfLuaTitleFlags", { fg = M.fzf.header, bg = M.fzf.bg, bold = true })
 
-  -- `FzfLuaCursor` is the cursor highlight inside the preview window, such as
-  -- the caret position in a file preview.
-  -- hl("FzfLuaCursor", {})
+  -- `FzfLuaCursor` is the cursor inside the preview window, such as the caret
+  -- position in a file preview.
+  hl("FzfLuaCursor", { fg = M.fzf.bg, bg = M.fzf.hl })
 
   -- `FzfLuaCursorLineNr` is the line number on the cursor line inside the
   -- preview window, such as the active line number in a code preview.
-  -- hl("FzfLuaCursorLineNr", {})
+  hl("FzfLuaCursorLineNr", { fg = M.fzf.info, bg = M.fzf["bg+"] })
 
   -- `FzfLuaScrollBorderEmpty` is the preview border scrollbar when there is no
   -- more content in that direction.
-  -- hl("FzfLuaScrollBorderEmpty", {})
+  hl("FzfLuaScrollBorderEmpty", { fg = M.fzf.border, bg = M.fzf.bg })
 
   -- `FzfLuaScrollBorderFull` is the preview border scrollbar when the preview
   -- is fully scrollable in that direction.
-  -- hl("FzfLuaScrollBorderFull", {})
+  hl("FzfLuaScrollBorderFull", { fg = M.fzf.hl, bg = M.fzf.bg })
 
   -- `FzfLuaScrollFloatEmpty` is the floating scrollbar track for an empty edge
   -- in the preview window.
-  -- hl("FzfLuaScrollFloatEmpty", {})
+  hl("FzfLuaScrollFloatEmpty", { fg = M.fzf.border, bg = M.fzf.bg })
 
   -- `FzfLuaScrollFloatFull` is the floating scrollbar thumb for a filled edge
   -- in the preview window.
-  -- hl("FzfLuaScrollFloatFull", {})
+  hl("FzfLuaScrollFloatFull", { fg = M.fzf.pointer, bg = M.fzf.bg })
 
   -- `FzfLuaHelpNormal` is the base surface for the built-in help window.
-  -- hl("FzfLuaHelpNormal", {})
+  hl("FzfLuaHelpNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
 
   -- `FzfLuaHelpBorder` is the border around the built-in help window.
-  -- hl("FzfLuaHelpBorder", {})
+  hl("FzfLuaHelpBorder", { fg = M.fzf.border, bg = M.fzf.bg })
 
   -- `FzfLuaHeaderBind` is the keybind label text in the fzf-lua header, such
   -- as shortcut hints shown above the results list.
-  -- hl("FzfLuaHeaderBind", {})
+  hl("FzfLuaHeaderBind", { fg = M.fzf.prompt, bg = M.fzf.bg, bold = true })
 
   -- `FzfLuaHeaderText` is the descriptive header text in the fzf-lua title
   -- area, such as the picker name or a short hint.
-  -- hl("FzfLuaHeaderText", {})
+  hl("FzfLuaHeaderText", { fg = M.fzf.header, bg = M.fzf.bg })
 
   -- `FzfLuaPathColNr` is the column number shown in path-based results, such as
   -- diagnostics or quickfix entries with `file:line:col` data.
-  -- hl("FzfLuaPathColNr", {})
+  hl("FzfLuaPathColNr", { fg = M.fzf.info })
 
   -- `FzfLuaPathLineNr` is the line number shown in path-based results, such as
   -- diagnostics or quickfix entries with `file:line:col` data.
-  -- hl("FzfLuaPathLineNr", {})
+  hl("FzfLuaPathLineNr", { fg = M.fzf.marker })
 
   -- `FzfLuaBufName` is the buffer name text in the buffers and lines pickers.
-  -- hl("FzfLuaBufName", {})
+  hl("FzfLuaBufName", { fg = M.fzf.fg })
 
   -- `FzfLuaBufId` is the buffer identifier text in the lines picker.
-  -- hl("FzfLuaBufId", {})
+  hl("FzfLuaBufId", { fg = M.fzf.prompt })
 
   -- `FzfLuaBufNr` is the buffer number text in buffers and tabs lists.
-  -- hl("FzfLuaBufNr", {})
+  hl("FzfLuaBufNr", { fg = M.fzf.border })
 
   -- `FzfLuaBufLineNr` is the line number text in the buffers and blines lists.
-  -- hl("FzfLuaBufLineNr", {})
+  hl("FzfLuaBufLineNr", { fg = M.fzf.border })
 
   -- `FzfLuaBufFlagCur` marks the current buffer entry in the buffers list.
-  -- hl("FzfLuaBufFlagCur", {})
+  hl("FzfLuaBufFlagCur", { fg = M.fzf.header, bold = true })
 
   -- `FzfLuaBufFlagAlt` marks the alternate buffer entry in the buffers list.
-  -- hl("FzfLuaBufFlagAlt", {})
+  hl("FzfLuaBufFlagAlt", { fg = M.fzf.info })
 
   -- `FzfLuaTabTitle` is the tab title text in the tabs picker.
-  -- hl("FzfLuaTabTitle", {})
+  hl("FzfLuaTabTitle", { fg = M.fzf.info, bold = true })
 
   -- `FzfLuaTabMarker` is the tab marker text in the tabs picker.
-  -- hl("FzfLuaTabMarker", {})
+  hl("FzfLuaTabMarker", { fg = M.fzf.prompt })
 
   -- `FzfLuaDirIcon` is the directory icon shown in path-style pickers.
-  -- hl("FzfLuaDirIcon", {})
+  hl("FzfLuaDirIcon", { fg = M.fzf.header })
 
   -- `FzfLuaDirPart` is the directory portion of a path, such as `src/` in a
   -- file path entry.
-  -- hl("FzfLuaDirPart", {})
+  hl("FzfLuaDirPart", { fg = M.fzf.fg })
 
   -- `FzfLuaFilePart` is the file portion of a path, such as `main.lua` in a
   -- file path entry.
-  -- hl("FzfLuaFilePart", {})
+  hl("FzfLuaFilePart", { fg = M.fzf.fg })
 
   -- `FzfLuaLivePrompt` is the prompt text shown while typing live queries.
-  -- hl("FzfLuaLivePrompt", {})
+  hl("FzfLuaLivePrompt", { fg = M.fzf.prompt, bold = true })
 
   -- `FzfLuaLiveSym` is the live symbol match text in the LSP symbol picker.
-  -- hl("FzfLuaLiveSym", {})
+  hl("FzfLuaLiveSym", { fg = M.fzf.hl, bold = true })
 
   -- `FzfLuaCmdEx` is the command text in the command picker for Ex commands.
-  -- hl("FzfLuaCmdEx", {})
+  hl("FzfLuaCmdEx", { fg = M.fzf.prompt })
 
   -- `FzfLuaCmdBuf` is the command text in the command picker for buffer-local
   -- commands.
-  -- hl("FzfLuaCmdBuf", {})
+  hl("FzfLuaCmdBuf", { fg = M.fzf.info })
 
   -- `FzfLuaCmdGlobal` is the command text in the command picker for global
   -- commands.
-  -- hl("FzfLuaCmdGlobal", {})
+  hl("FzfLuaCmdGlobal", { fg = M.fzf.header })
 
   -- `FzfLuaFzfNormal` is the raw fzf fg/bg surface used by the embedded fzf
   -- UI.
-  -- hl("FzfLuaFzfNormal", {})
+  hl("FzfLuaFzfNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
 
   -- `FzfLuaFzfCursorLine` is the embedded fzf current line highlight.
-  -- hl("FzfLuaFzfCursorLine", {})
+  hl("FzfLuaFzfCursorLine", { fg = M.fzf.bg, bg = M.fzf["bg+"] })
 
   -- `FzfLuaFzfMatch` is the embedded fzf match highlight for search hits.
-  -- hl("FzfLuaFzfMatch", {})
+  hl("FzfLuaFzfMatch", { fg = M.fzf.hl })
 
   -- `FzfLuaFzfBorder` is the embedded fzf border color.
-  -- hl("FzfLuaFzfBorder", {})
+  hl("FzfLuaFzfBorder", { fg = M.fzf.border, bg = M.fzf.bg })
 
   -- `FzfLuaFzfScrollbar` is the embedded fzf scrollbar color.
-  -- hl("FzfLuaFzfScrollbar", {})
+  hl("FzfLuaFzfScrollbar", { fg = M.fzf.border })
 
   -- `FzfLuaFzfSeparator` is the embedded fzf separator color.
-  -- hl("FzfLuaFzfSeparator", {})
+  hl("FzfLuaFzfSeparator", { fg = M.fzf.border })
 
   -- `FzfLuaFzfGutter` is the embedded fzf gutter color.
-  -- hl("FzfLuaFzfGutter", {})
+  hl("FzfLuaFzfGutter", { fg = M.fzf.fg, bg = M.fzf.gutter })
 
   -- `FzfLuaFzfHeader` is the embedded fzf header color.
-  -- hl("FzfLuaFzfHeader", {})
+  hl("FzfLuaFzfHeader", { fg = M.fzf.header, bg = M.fzf.bg, bold = true })
 
   -- `FzfLuaFzfInfo` is the embedded fzf info text color.
-  -- hl("FzfLuaFzfInfo", {})
+  hl("FzfLuaFzfInfo", { fg = M.fzf.info })
 
   -- `FzfLuaFzfPointer` is the embedded fzf pointer marker color.
-  -- hl("FzfLuaFzfPointer", {})
+  hl("FzfLuaFzfPointer", { fg = M.fzf.pointer })
 
   -- `FzfLuaFzfMarker` is the embedded fzf multi-select marker color.
-  -- hl("FzfLuaFzfMarker", {})
+  hl("FzfLuaFzfMarker", { fg = M.fzf.marker })
 
   -- `FzfLuaFzfSpinner` is the embedded fzf loading spinner color.
-  -- hl("FzfLuaFzfSpinner", {})
+  hl("FzfLuaFzfSpinner", { fg = M.fzf.spinner })
 
   -- ============================================================================
   -- Diagnostics
