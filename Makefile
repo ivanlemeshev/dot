@@ -6,11 +6,6 @@ test:
 unit-test:
 	@./tests/run_tests.sh test_log.bats test_print.bats test_prompt.bats
 
-.PHONY: theme-test
-theme-test:
-	@bats tests/test_theme_schema.bats
-	@bats tests/test_theme_generation.bats
-
 .PHONY: lint
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh

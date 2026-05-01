@@ -7,7 +7,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 COLOR_DIR="$PROJECT_ROOT/color"
 TARGETS_FILE="$COLOR_DIR/targets.tsv"
 
-YAML="${1:-$COLOR_DIR/themes/gruvbox-dark-material.yaml}"
+YAML="${1:-$COLOR_DIR/themes/gruvbox-material-dark-hard.yaml}"
 if [[ ! -f "$YAML" ]]; then
   echo "Error: Color theme YAML file not found at $YAML"
   echo "Usage: $0 [path/to/theme.yaml]"

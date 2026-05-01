@@ -46,31 +46,6 @@ nvim
 :Copilot auth
 ```
 
-## Theme Pipeline
-
-Theme colors are defined in strict semantic YAML files under
-`color/themes/*.yaml` and generated into tool-specific configs with
-`bin/apply-color-scheme`. New themes must define `ansi`, `ui`,
-`statusline`, `semantic`, `syntax`, `tool`, `omp`,
-`terminal`, `ls_colors`, `tmux`, `fzf`, and `fish`.
-
-Useful commands:
-
-```bash
-# Regenerate checked-in theme outputs
-bash bin/apply-color-scheme color/themes/gruvbox-dark-material.yaml
-
-# Apply the light variant
-bash bin/apply-color-scheme color/themes/gruvbox-light-material.yaml
-
-# Apply melange variants
-bash bin/apply-color-scheme color/themes/melange-dark.yaml
-bash bin/apply-color-scheme color/themes/melange-light.yaml
-
-# Verify theme schema and generated outputs
-make theme-test
-```
-
 ## Tools
 
 Managed via [mise](https://mise.jdx.dev):

@@ -1,0 +1,244 @@
+name: "Gruvbox Material Light Hard"
+
+# Gruvbox Material hard light palette. This is the source of truth for all
+# generated tool colors in the light variant.
+base_palette:
+  cursor: "#654735"
+  statusline: "#ebdbb2"
+  selection: "#f2e5bc"
+  bg: "#f9f5d7"
+  fg: "#654735"
+  black: #654735
+  red: #c14a4a
+  green: #6c782e
+  # yellow is the orange in this palette.
+  yellow: #b47109
+  blue: #45707a
+  magenta: #945e80
+  cyan: #4c7a5d
+  white: #f2e5bc
+  bright_black: #928374
+  bright_red: #c14a4a
+  bright_green: #6c782e
+  bright_yellow: #b47109
+  bright_blue: #45707a
+  bright_magenta: #945e80
+  bright_cyan: #4c7a5d
+  bright_white: #f2e5bc
+
+# Some special semantic colors that are used by Windows Terminal only.
+windows_terminal:
+  # tab_background uses the same color as the surface (bg) and should visually
+  # merge with it.
+  tab_background: "#f9f5d7"
+  # tab_unfocused_background uses the same color as the statusline inactive_bg.
+  tab_unfocused_background: "#ebdbb2"
+
+# tmux stays visually paired with the statusline using the same surface family
+# and the same inverted block treatment.
+tmux:
+  # bar_bg matches the statusline section_bg and inactive_bg and should not
+  # merge with the surface (bg).
+  bar_bg: "#ebdbb2"
+  bar_fg: "#654735"
+  block_bg: "#654735"
+  block_fg: "#f9f5d7"
+  alert_bg: "#c14a4a"
+  alert_fg: "#f9f5d7"
+  bell_bg: "#c35e0a"
+  bell_fg: "#f9f5d7"
+  border_fg: "#928374"
+  border_active_fg: "#654735"
+  message_bg: "#ebdbb2"
+  message_fg: "#654735"
+  mode_bg: "#ebdbb2"
+  mode_fg: "#654735"
+
+fish:
+  background: "#f9f5d7"
+  foreground: "#654735"
+  muted: "#928374"
+  normal: "#654735"
+  command: "#45707a"
+  keyword: "#c14a4a"
+  option: "#4c7a5d"
+  param: "#4c7a5d"
+  quote: "#b47109"
+  redirection: "#4c7a5d"
+  end: "#6c782e"
+  operator: "#4c7a5d"
+  escape: "#c35e0a"
+  comment: "#928374"
+  error: "#c14a4a"
+  autosuggestion: "#928374"
+  valid_path: "#45707a"
+  cancel: "#c14a4a"
+  selection_background: "#ebdbb2"
+  search_match_background: "#b47109"
+  cwd: "#6c782e"
+  cwd_root: "#c14a4a"
+  user: "#6c782e"
+  host: "#45707a"
+  host_remote: "#c35e0a"
+  status: "#c14a4a"
+  pager_progress: "#928374"
+  pager_prefix: "#b47109"
+  pager_completion: "#654735"
+  pager_description: "#654735"
+  pager_selected_background: "#ebdbb2"
+  pager_selected_completion: "#654735"
+  pager_selected_description: "#654735"
+
+ls_colors:
+  foreground: "#654735"
+  background: "#f9f5d7"
+  error: "#c14a4a"
+  executable: "#6c782e"
+  document: "#c35e0a"
+  directory: "#45707a"
+  special: "#945e80"
+  media: "#4c7a5d"
+  backup: "#928374"
+
+fzf:
+  fg: "#654735"
+  bg: "#f9f5d7"
+  hl: "#b47109"
+  "fg+": "#654735"
+  "bg+": "#ebdbb2"
+  "hl+": "#b47109"
+  info: "#45707a"
+  border: "#928374"
+  query: "#654735"
+  prompt: "#c35e0a"
+  pointer: "#c35e0a"
+  marker: "#6c782e"
+  spinner: "#c35e0a"
+  header: "#928374"
+  label: "#654735"
+  gutter: "#f9f5d7"
+
+omp:
+  foreground: "#654735"
+  time: "#c35e0a"
+  user: "#6c782e"
+  host: "#45707a"
+  root: "#c14a4a"
+  git_clean: "#6c782e"
+  git_dirty: "#c14a4a"
+  git_ahead: "#45707a"
+  git_behind: "#c14a4a"
+  duration: "#b47109"
+  status_ok: "#6c782e"
+  status_error: "#c14a4a"
+  prompt: "#6c782e"
+
+statusline:
+  normal_bg: "#654735"
+  normal_fg: "#f9f5d7"
+  insert_bg: "#6c782e"
+  insert_fg: "#f9f5d7"
+  visual_bg: "#945e80"
+  visual_fg: "#f9f5d7"
+  replace_bg: "#c14a4a"
+  replace_fg: "#f9f5d7"
+  command_bg: "#c35e0a"
+  command_fg: "#f9f5d7"
+  terminal_bg: "#45707a"
+  terminal_fg: "#f9f5d7"
+  section_bg: "#ebdbb2"
+  section_fg: "#654735"
+  inactive_bg: "#ebdbb2"
+  inactive_fg: "#654735"
+
+git:
+  add: "#6c782e"
+  change: "#c35e0a"
+  delete: "#c14a4a"
+  rename: "#45707a"
+  ignored: "#928374"
+  blame: "#928374"
+
+diagnostic:
+  error: "#c14a4a"
+  warn: "#c35e0a"
+  info: "#45707a"
+  hint: "#4c7a5d"
+  ok: "#6c782e"
+
+ui:
+  bg: "#f9f5d7"
+  color_column: "#ebdbb2"
+  cur_search_bg: "#b47109"
+  cur_search_fg: "#f9f5d7"
+  cursor: "#654735"
+  cursor_column: "#ebdbb2"
+  cursor_line: "#ebdbb2"
+  cursor_line_nr: "#ebdbb2"
+  directory_fg: "#45707a"
+  end_of_buffer_fg: "#928374"
+  error_fg: "#c14a4a"
+  fg: "#654735"
+  float_bg: "#f9f5d7"
+  float_border_fg: "#928374"
+  float_fg: "#654735"
+  float_title_fg: "#654735"
+  folded_bg: "#ebdbb2"
+  folded_fg: "#928374"
+  inc_search_bg: "#c35e0a"
+  inc_search_fg: "#f9f5d7"
+  line_nr: "#928374"
+  matchparen_bg: "#ebdbb2"
+  mode_fg: "#654735"
+  more_fg: "#c35e0a"
+  msg_area_fg: "#654735"
+  msg_separator_fg: "#928374"
+  non_text: "#928374"
+  pmenu_bg: "#f9f5d7"
+  pmenu_fg: "#654735"
+  pmenu_sbar_bg: "#ebdbb2"
+  pmenu_sel_bg: "#ebdbb2"
+  pmenu_sel_fg: "#654735"
+  pmenu_thumb_bg: "#928374"
+  question_fg: "#45707a"
+  quickfix_line_bg: "#ebdbb2"
+  search_bg: "#b47109"
+  search_fg: "#f9f5d7"
+  selection_bg: "#ebdbb2"
+  selection_fg: "#654735"
+  special_key: "#ebdbb2"
+  split_fg: "#928374"
+  statusline_bg: "#654735"
+  statusline_fg: "#f9f5d7"
+  statusline_nc_bg: "#ebdbb2"
+  statusline_nc_fg: "#654735"
+  tabline_bg: "#ebdbb2"
+  tabline_fg: "#654735"
+  tabline_fill_bg: "#ebdbb2"
+  tabline_sel_bg: "#f9f5d7"
+  tabline_sel_fg: "#654735"
+  title_fg: "#b47109"
+  warning_fg: "#c35e0a"
+  whitespace: "#ebdbb2"
+  winbar_bg: "#ebdbb2"
+  winbar_fg: "#654735"
+  winbar_nc_bg: "#ebdbb2"
+  winbar_nc_fg: "#928374"
+
+syntax:
+  builtin: "#c35e0a"
+  character: "#6c782e"
+  comment: "#928374"
+  constant: "#c35e0a"
+  delimiter: "#654735"
+  function: "#45707a"
+  keyword: "#c14a4a"
+  number: "#c35e0a"
+  operator: "#4c7a5d"
+  preproc: "#c35e0a"
+  property: "#45707a"
+  special: "#4c7a5d"
+  special_char: "#4c7a5d"
+  string: "#6c782e"
+  type: "#b47109"
+  variable: "#654735"
