@@ -110,7 +110,7 @@ function M.setup()
   end
 
   -- ============================================================================
-  -- UI
+  -- Neovim UI
   -- ============================================================================
 
   -- `Normal` is the default text area for the current window.
@@ -251,8 +251,33 @@ function M.setup()
   -- `SpecialKey` marks special non-printable key representations.
   hl("SpecialKey", { fg = M.ui.special_key })
 
+  -- ============================================================================
+  -- WhichKey
+  -- ============================================================================
+
   -- `Whitespace` marks listchars whitespace.
   hl("Whitespace", { fg = M.ui.whitespace })
+
+  -- `WhichKeyNormal` is the popup background and text area.
+  hl("WhichKeyNormal", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeyBorder` is the popup border.
+  hl("WhichKeyBorder", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeyTitle` labels the popup title.
+  hl("WhichKeyTitle", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeyGroup` marks grouped key prefixes. TODO: set fg
+  hl("WhichKeyGroup", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeyDesc` marks mapping descriptions.
+  hl("WhichKeyDesc", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeySeparator` separates keys from descriptions.
+  hl("WhichKeySeparator", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `WhichKeyValue` shows plugin-provided values. TODO: set fg
+  hl("WhichKeyValue", { fg = M.ui.fg, bg = M.ui.bg })
 end
 
 return M
