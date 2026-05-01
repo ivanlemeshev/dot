@@ -375,6 +375,8 @@ function M.setup()
   hl("Underlined", { fg = M.syntax.special, underline = true })
 
   -- `Ignore` is used for text that should be ignored.
+  -- NOTE: This is a special case where the text is typically hidden or not rendered,
+  -- so we set it to the background color to effectively hide it.
   -- hl("Ignore", {})
 
   -- `Error` is used for syntax errors, like invalid tokens or broken constructs.
