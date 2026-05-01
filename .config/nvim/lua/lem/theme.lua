@@ -6,11 +6,11 @@ local M = {}
 -- UI
 M.ui = {
   bg = "#1d1f21",
-  color_column = "#373b41",
+  color_column = "#282a2e",
   cursor = "#c5c8c6",
-  cursor_column = "#373b41",
-  cursor_line = "#373b41",
-  cursor_line_nr = "#373b41",
+  cursor_column = "#282a2e",
+  cursor_line = "#282a2e",
+  cursor_line_nr = "#282a2e",
   cur_search_bg = "#de935f",
   cur_search_fg = "#1d1f21",
   directory_fg = "#81a2be",
@@ -90,7 +90,7 @@ M.fzf = {
   bg = "#1d1f21",
   hl = "#f0c674",
   ["fg+"] = "#ffffff",
-  ["bg+"] = "#373b41",
+  ["bg+"] = "#282a2e",
   ["hl+"] = "#f0c674",
   info = "#81a2be",
   border = "#969896",
@@ -102,6 +102,24 @@ M.fzf = {
   header = "#969896",
   label = "#c5c8c6",
   gutter = "#1d1f21",
+}
+
+-- FzfLua
+M.fzf_lua = {
+  normal_fg = M.fzf.fg,
+  normal_bg = M.fzf.bg,
+  border_fg = M.fzf.border,
+  border_bg = M.fzf.bg,
+  title_fg = M.fzf.hl,
+  title_bg = M.fzf.bg,
+  preview_fg = M.fzf.fg,
+  preview_bg = M.fzf.bg,
+  preview_border_fg = M.fzf.border,
+  preview_border_bg = M.fzf.bg,
+  search_fg = M.fzf.bg,
+  search_bg = M.fzf.hl,
+  cursorline_bg = M.fzf["bg+"],
+  backdrop_bg = M.fzf.bg,
 }
 
 -- StatusLine
@@ -122,6 +140,25 @@ M.statusline = {
   section_fg = "#c5c8c6",
   inactive_bg = "#282a2e",
   inactive_fg = "#c5c8c6",
+}
+
+-- Git
+M.git = {
+  add = "#b5bd68",
+  change = "#de935f",
+  delete = "#cc6666",
+  rename = "#81a2be",
+  ignored = "#969896",
+  blame = "#969896",
+}
+
+-- Diagnostic
+M.diagnostic = {
+  error = "#cc6666",
+  warn = "#de935f",
+  info = "#81a2be",
+  hint = "#8abeb7",
+  ok = "#b5bd68",
 }
 
 -- lualine theme
@@ -374,6 +411,678 @@ function M.setup()
   -- `Whitespace` marks listchars whitespace, such as visible spaces or tabs in
   -- `:set list` mode.
   hl("Whitespace", { fg = M.ui.whitespace })
+
+  -- ============================================================================
+  -- Mason
+  -- ============================================================================
+
+  -- `MasonBackdrop` is the dimmed backdrop behind the Mason window.
+  hl("MasonBackdrop", { bg = M.ui.bg })
+
+  -- `MasonNormal` is the main Mason window surface.
+  hl("MasonNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+
+  -- `MasonHeader` is the primary Mason title bar.
+  hl("MasonHeader", { fg = M.ui.title_fg, bg = M.ui.float_bg, bold = true })
+
+  -- `MasonHeaderSecondary` is the secondary Mason title bar.
+  hl(
+    "MasonHeaderSecondary",
+    { fg = M.ui.question_fg, bg = M.ui.float_bg, bold = true }
+  )
+
+  -- `MasonHighlight` marks emphasized Mason text.
+  hl("MasonHighlight", { fg = M.ui.directory_fg })
+
+  -- `MasonHighlightBlock` marks emphasized block text in Mason.
+  hl("MasonHighlightBlock", { fg = M.ui.bg, bg = M.ui.directory_fg })
+
+  -- `MasonHighlightBlockBold` marks bold emphasized block text in Mason.
+  hl(
+    "MasonHighlightBlockBold",
+    { fg = M.ui.bg, bg = M.ui.directory_fg, bold = true }
+  )
+
+  -- `MasonHighlightSecondary` marks the secondary emphasis color in Mason.
+  hl("MasonHighlightSecondary", { fg = M.ui.title_fg })
+
+  -- `MasonHighlightBlockSecondary` marks the secondary block emphasis color.
+  hl("MasonHighlightBlockSecondary", { fg = M.ui.bg, bg = M.ui.title_fg })
+
+  -- `MasonHighlightBlockBoldSecondary` marks the bold secondary block emphasis.
+  hl(
+    "MasonHighlightBlockBoldSecondary",
+    { fg = M.ui.bg, bg = M.ui.title_fg, bold = true }
+  )
+
+  -- `MasonLink` marks URLs and link-like references in Mason.
+  hl("MasonLink", { fg = M.ui.directory_fg, underline = true })
+
+  -- `MasonMuted` marks low-priority text in Mason.
+  hl("MasonMuted", { fg = M.ui.non_text })
+
+  -- `MasonMutedBlock` marks muted block text in Mason.
+  hl("MasonMutedBlock", { fg = M.ui.bg, bg = M.ui.non_text })
+
+  -- `MasonMutedBlockBold` marks bold muted block text in Mason.
+  hl("MasonMutedBlockBold", { fg = M.ui.bg, bg = M.ui.non_text, bold = true })
+
+  -- `MasonError` marks Mason error text.
+  hl("MasonError", { fg = M.ui.error_fg, bold = true })
+
+  -- `MasonWarning` marks Mason warning text.
+  hl("MasonWarning", { fg = M.ui.warning_fg, bold = true })
+
+  -- `MasonHeading` marks section headings in Mason.
+  hl("MasonHeading", { fg = M.ui.title_fg, bold = true })
+
+  -- ============================================================================
+  -- NvimTree
+  -- ============================================================================
+
+  -- `NvimTreeNormal` is the main file explorer surface.
+  hl("NvimTreeNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+
+  -- `NvimTreeNormalFloat` is the floating help/search surface inside NvimTree.
+  hl("NvimTreeNormalFloat", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+
+  -- `NvimTreeNormalFloatBorder` is the border around floating NvimTree windows.
+  hl(
+    "NvimTreeNormalFloatBorder",
+    { fg = M.ui.float_border_fg, bg = M.ui.float_bg }
+  )
+
+  -- `NvimTreeNormalNC` is the explorer surface when the window is inactive.
+  hl("NvimTreeNormalNC", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+
+  -- `NvimTreeLineNr` is the line number gutter in the tree view.
+  hl("NvimTreeLineNr", { fg = M.ui.line_nr })
+
+  -- `NvimTreeWinSeparator` separates the tree from the main editing window.
+  hl("NvimTreeWinSeparator", { fg = M.ui.split_fg, bg = M.ui.bg })
+
+  -- `NvimTreeEndOfBuffer` is the filler after the last tree entry.
+  hl("NvimTreeEndOfBuffer", { fg = M.ui.end_of_buffer_fg })
+
+  -- `NvimTreePopup` is the base surface for small tree popups.
+  hl("NvimTreePopup", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+
+  -- `NvimTreeSignColumn` is the sign gutter used by the tree window.
+  hl("NvimTreeSignColumn", { fg = M.ui.fg, bg = M.ui.bg })
+
+  -- `NvimTreeCursorColumn` highlights the current tree cursor column.
+  hl("NvimTreeCursorColumn", { bg = M.ui.cursor_column })
+
+  -- `NvimTreeCursorLine` highlights the current tree row.
+  hl("NvimTreeCursorLine", { bg = M.ui.cursor_line })
+
+  -- `NvimTreeCursorLineNr` highlights the current tree line number.
+  hl("NvimTreeCursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })
+
+  -- `NvimTreeStatusLine` is the active status line when the tree window is focused.
+  hl("NvimTreeStatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
+
+  -- `NvimTreeStatusLineNC` is the inactive status line for the tree window.
+  hl(
+    "NvimTreeStatusLineNC",
+    { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg }
+  )
+
+  -- `NvimTreeExecFile` marks executable files, like `script.sh`.
+  hl("NvimTreeExecFile", { fg = M.ui.fg })
+
+  -- `NvimTreeImageFile` marks image files, like `icon.png`.
+  hl("NvimTreeImageFile", { fg = M.ui.fg })
+
+  -- `NvimTreeSpecialFile` marks special files, like help or config entries.
+  hl("NvimTreeSpecialFile", { fg = M.ui.fg })
+
+  -- `NvimTreeSymlink` marks symlink entries, like `link -> target`.
+  hl("NvimTreeSymlink", { fg = M.ui.fg, underline = true })
+
+  -- `NvimTreeRootFolder` marks the project root folder.
+  hl("NvimTreeRootFolder", { fg = M.ui.title_fg, bold = true })
+
+  -- `NvimTreeFolderName` marks regular folder names, like `src/`.
+  hl("NvimTreeFolderName", { fg = M.ui.directory_fg })
+
+  -- `NvimTreeEmptyFolderName` marks empty folders.
+  hl("NvimTreeEmptyFolderName", { fg = M.ui.directory_fg })
+
+  -- `NvimTreeOpenedFolderName` marks folders that are expanded.
+  hl("NvimTreeOpenedFolderName", { fg = M.ui.directory_fg, bold = true })
+
+  -- `NvimTreeSymlinkFolderName` marks symlinked folders.
+  hl("NvimTreeSymlinkFolderName", { fg = M.ui.directory_fg, underline = true })
+
+  -- `NvimTreeFileIcon` marks file icons in the tree.
+  hl("NvimTreeFileIcon", { fg = M.ui.fg })
+
+  -- `NvimTreeSymlinkIcon` marks symlink icons in the tree.
+  hl("NvimTreeSymlinkIcon", { fg = M.ui.directory_fg })
+
+  -- `NvimTreeFolderIcon` marks folder icons in the tree.
+  hl("NvimTreeFolderIcon", { fg = M.ui.directory_fg })
+
+  -- `NvimTreeOpenedFolderIcon` marks open folder icons.
+  hl("NvimTreeOpenedFolderIcon", { fg = M.ui.directory_fg, bold = true })
+
+  -- `NvimTreeClosedFolderIcon` marks closed folder icons.
+  hl("NvimTreeClosedFolderIcon", { fg = M.ui.directory_fg })
+
+  -- `NvimTreeFolderArrowClosed` marks collapsed folder arrows.
+  hl("NvimTreeFolderArrowClosed", { fg = M.ui.non_text })
+
+  -- `NvimTreeFolderArrowOpen` marks expanded folder arrows.
+  hl("NvimTreeFolderArrowOpen", { fg = M.ui.non_text })
+
+  -- `NvimTreeIndentMarker` marks the indentation guide icons.
+  hl("NvimTreeIndentMarker", { fg = M.ui.non_text })
+
+  -- `NvimTreeWindowPicker` marks the window picker prompt in NvimTree.
+  hl("NvimTreeWindowPicker", { fg = M.ui.bg, bg = M.ui.title_fg, bold = true })
+
+  -- `NvimTreeLiveFilterPrefix` marks the live filter prefix text.
+  hl("NvimTreeLiveFilterPrefix", { fg = M.ui.title_fg })
+
+  -- `NvimTreeLiveFilterValue` marks the live filter value text.
+  hl("NvimTreeLiveFilterValue", { fg = M.ui.mode_fg })
+
+  -- `NvimTreeCutHL` marks cut entries.
+  hl("NvimTreeCutHL", { fg = M.ui.error_fg, bold = true })
+
+  -- `NvimTreeCopiedHL` marks copied entries.
+  hl("NvimTreeCopiedHL", { fg = M.ui.question_fg, bold = true })
+
+  -- `NvimTreeBookmarkIcon` marks bookmark icons.
+  hl("NvimTreeBookmarkIcon", { fg = M.ui.title_fg })
+
+  -- `NvimTreeBookmarkHL` marks bookmarked entries.
+  hl("NvimTreeBookmarkHL", { fg = M.ui.title_fg, bold = true })
+
+  -- `NvimTreeModifiedIcon` marks modified files and folders.
+  hl("NvimTreeModifiedIcon", { fg = M.ui.warning_fg })
+
+  -- `NvimTreeModifiedFileHL` marks modified files.
+  hl("NvimTreeModifiedFileHL", { fg = M.ui.warning_fg, bold = true })
+
+  -- `NvimTreeModifiedFolderHL` marks modified folders.
+  hl("NvimTreeModifiedFolderHL", { fg = M.ui.warning_fg, bold = true })
+
+  -- `NvimTreeHiddenIcon` marks hidden entries.
+  hl("NvimTreeHiddenIcon", { fg = M.ui.non_text })
+
+  -- `NvimTreeHiddenFileHL` marks hidden files.
+  hl("NvimTreeHiddenFileHL", { fg = M.ui.non_text })
+
+  -- `NvimTreeHiddenFolderHL` marks hidden folders.
+  hl("NvimTreeHiddenFolderHL", { fg = M.ui.non_text })
+
+  -- `NvimTreeHiddenDisplay` marks the hidden-items summary line.
+  hl("NvimTreeHiddenDisplay", { fg = M.ui.non_text })
+
+  -- `NvimTreeOpenedHL` marks opened entries.
+  hl("NvimTreeOpenedHL", { fg = M.ui.special_key })
+
+  -- `NvimTreeGitDeletedIcon` marks deleted Git states.
+  hl("NvimTreeGitDeletedIcon", { fg = M.git.delete })
+
+  -- `NvimTreeGitDirtyIcon` marks dirty Git states.
+  hl("NvimTreeGitDirtyIcon", { fg = M.git.change })
+
+  -- `NvimTreeGitIgnoredIcon` marks ignored Git states.
+  hl("NvimTreeGitIgnoredIcon", { fg = M.git.ignored })
+
+  -- `NvimTreeGitMergeIcon` marks merge-conflict Git states.
+  hl("NvimTreeGitMergeIcon", { fg = M.git.delete, bold = true })
+
+  -- `NvimTreeGitNewIcon` marks new Git states.
+  hl("NvimTreeGitNewIcon", { fg = M.git.add })
+
+  -- `NvimTreeGitRenamedIcon` marks renamed Git states.
+  hl("NvimTreeGitRenamedIcon", { fg = M.git.rename })
+
+  -- `NvimTreeGitStagedIcon` marks staged Git states.
+  hl("NvimTreeGitStagedIcon", { fg = M.git.add })
+
+  -- `NvimTreeGitFileDeletedHL` marks deleted files.
+  hl("NvimTreeGitFileDeletedHL", { fg = M.git.delete })
+
+  -- `NvimTreeGitFileDirtyHL` marks dirty files.
+  hl("NvimTreeGitFileDirtyHL", { fg = M.git.change })
+
+  -- `NvimTreeGitFileIgnoredHL` marks ignored files.
+  hl("NvimTreeGitFileIgnoredHL", { fg = M.git.ignored })
+
+  -- `NvimTreeGitFileMergeHL` marks merge-conflict files.
+  hl("NvimTreeGitFileMergeHL", { fg = M.git.delete, bold = true })
+
+  -- `NvimTreeGitFileNewHL` marks new files.
+  hl("NvimTreeGitFileNewHL", { fg = M.git.add })
+
+  -- `NvimTreeGitFileRenamedHL` marks renamed files.
+  hl("NvimTreeGitFileRenamedHL", { fg = M.git.rename })
+
+  -- `NvimTreeGitFileStagedHL` marks staged files.
+  hl("NvimTreeGitFileStagedHL", { fg = M.git.add })
+
+  -- `NvimTreeGitFolderDeletedHL` marks deleted folders.
+  hl("NvimTreeGitFolderDeletedHL", { fg = M.git.delete })
+
+  -- `NvimTreeGitFolderDirtyHL` marks dirty folders.
+  hl("NvimTreeGitFolderDirtyHL", { fg = M.git.change })
+
+  -- `NvimTreeGitFolderIgnoredHL` marks ignored folders.
+  hl("NvimTreeGitFolderIgnoredHL", { fg = M.git.ignored })
+
+  -- `NvimTreeGitFolderMergeHL` marks merge-conflict folders.
+  hl("NvimTreeGitFolderMergeHL", { fg = M.git.delete, bold = true })
+
+  -- `NvimTreeGitFolderNewHL` marks new folders.
+  hl("NvimTreeGitFolderNewHL", { fg = M.git.add })
+
+  -- `NvimTreeGitFolderRenamedHL` marks renamed folders.
+  hl("NvimTreeGitFolderRenamedHL", { fg = M.git.rename })
+
+  -- `NvimTreeGitFolderStagedHL` marks staged folders.
+  hl("NvimTreeGitFolderStagedHL", { fg = M.git.add })
+
+  -- `NvimTreeDiagnosticErrorIcon` marks error diagnostics.
+  hl("NvimTreeDiagnosticErrorIcon", { fg = M.diagnostic.error })
+
+  -- `NvimTreeDiagnosticWarnIcon` marks warning diagnostics.
+  hl("NvimTreeDiagnosticWarnIcon", { fg = M.diagnostic.warn })
+
+  -- `NvimTreeDiagnosticInfoIcon` marks info diagnostics.
+  hl("NvimTreeDiagnosticInfoIcon", { fg = M.diagnostic.info })
+
+  -- `NvimTreeDiagnosticHintIcon` marks hint diagnostics.
+  hl("NvimTreeDiagnosticHintIcon", { fg = M.diagnostic.hint })
+
+  -- `NvimTreeDiagnosticErrorFileHL` marks error-highlighted files.
+  hl(
+    "NvimTreeDiagnosticErrorFileHL",
+    { fg = M.diagnostic.error, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticWarnFileHL` marks warning-highlighted files.
+  hl(
+    "NvimTreeDiagnosticWarnFileHL",
+    { fg = M.diagnostic.warn, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticInfoFileHL` marks info-highlighted files.
+  hl(
+    "NvimTreeDiagnosticInfoFileHL",
+    { fg = M.diagnostic.info, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticHintFileHL` marks hint-highlighted files.
+  hl(
+    "NvimTreeDiagnosticHintFileHL",
+    { fg = M.diagnostic.hint, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticErrorFolderHL` marks error-highlighted folders.
+  hl(
+    "NvimTreeDiagnosticErrorFolderHL",
+    { fg = M.diagnostic.error, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticWarnFolderHL` marks warning-highlighted folders.
+  hl(
+    "NvimTreeDiagnosticWarnFolderHL",
+    { fg = M.diagnostic.warn, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticInfoFolderHL` marks info-highlighted folders.
+  hl(
+    "NvimTreeDiagnosticInfoFolderHL",
+    { fg = M.diagnostic.info, undercurl = true }
+  )
+
+  -- `NvimTreeDiagnosticHintFolderHL` marks hint-highlighted folders.
+  hl(
+    "NvimTreeDiagnosticHintFolderHL",
+    { fg = M.diagnostic.hint, undercurl = true }
+  )
+
+  -- ============================================================================
+  -- FzfLua
+  -- ============================================================================
+
+  -- `FzfLuaNormal` is the main picker surface.
+  hl("FzfLuaNormal", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.normal_bg })
+
+  -- `FzfLuaBorder` is the picker border.
+  hl("FzfLuaBorder", { fg = M.fzf_lua.border_fg, bg = M.fzf_lua.border_bg })
+
+  -- `FzfLuaTitle` is the picker title.
+  hl(
+    "FzfLuaTitle",
+    { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.title_bg, bold = true }
+  )
+
+  -- `FzfLuaBackdrop` is the dimmed backdrop behind the picker.
+  hl("FzfLuaBackdrop", { bg = M.fzf_lua.backdrop_bg })
+
+  -- `FzfLuaPreviewNormal` is the preview surface.
+  hl(
+    "FzfLuaPreviewNormal",
+    { fg = M.fzf_lua.preview_fg, bg = M.fzf_lua.preview_bg }
+  )
+
+  -- `FzfLuaPreviewBorder` is the preview border.
+  hl(
+    "FzfLuaPreviewBorder",
+    { fg = M.fzf_lua.preview_border_fg, bg = M.fzf_lua.preview_border_bg }
+  )
+
+  -- `FzfLuaPreviewTitle` is the preview title.
+  hl(
+    "FzfLuaPreviewTitle",
+    { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.preview_bg, bold = true }
+  )
+
+  -- `FzfLuaCursorLine` is the selected row in the picker and preview.
+  hl(
+    "FzfLuaCursorLine",
+    { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.cursorline_bg }
+  )
+
+  -- `FzfLuaSearch` highlights search matches inside the picker or preview.
+  hl(
+    "FzfLuaSearch",
+    { fg = M.fzf_lua.search_fg, bg = M.fzf_lua.search_bg, bold = true }
+  )
+
+  -- `FzfLuaTitleFlags` is the extra flag text in the picker title, such as
+  -- mode or source indicators beside the main title.
+  -- hl("FzfLuaTitleFlags", {})
+
+  -- `FzfLuaCursor` is the cursor highlight inside the preview window, such as
+  -- the caret position in a file preview.
+  -- hl("FzfLuaCursor", {})
+
+  -- `FzfLuaCursorLineNr` is the line number on the cursor line inside the
+  -- preview window, such as the active line number in a code preview.
+  -- hl("FzfLuaCursorLineNr", {})
+
+  -- `FzfLuaScrollBorderEmpty` is the preview border scrollbar when there is no
+  -- more content in that direction.
+  -- hl("FzfLuaScrollBorderEmpty", {})
+
+  -- `FzfLuaScrollBorderFull` is the preview border scrollbar when the preview
+  -- is fully scrollable in that direction.
+  -- hl("FzfLuaScrollBorderFull", {})
+
+  -- `FzfLuaScrollFloatEmpty` is the floating scrollbar track for an empty edge
+  -- in the preview window.
+  -- hl("FzfLuaScrollFloatEmpty", {})
+
+  -- `FzfLuaScrollFloatFull` is the floating scrollbar thumb for a filled edge
+  -- in the preview window.
+  -- hl("FzfLuaScrollFloatFull", {})
+
+  -- `FzfLuaHelpNormal` is the base surface for the built-in help window.
+  -- hl("FzfLuaHelpNormal", {})
+
+  -- `FzfLuaHelpBorder` is the border around the built-in help window.
+  -- hl("FzfLuaHelpBorder", {})
+
+  -- `FzfLuaHeaderBind` is the keybind label text in the fzf-lua header, such
+  -- as shortcut hints shown above the results list.
+  -- hl("FzfLuaHeaderBind", {})
+
+  -- `FzfLuaHeaderText` is the descriptive header text in the fzf-lua title
+  -- area, such as the picker name or a short hint.
+  -- hl("FzfLuaHeaderText", {})
+
+  -- `FzfLuaPathColNr` is the column number shown in path-based results, such as
+  -- diagnostics or quickfix entries with `file:line:col` data.
+  -- hl("FzfLuaPathColNr", {})
+
+  -- `FzfLuaPathLineNr` is the line number shown in path-based results, such as
+  -- diagnostics or quickfix entries with `file:line:col` data.
+  -- hl("FzfLuaPathLineNr", {})
+
+  -- `FzfLuaBufName` is the buffer name text in the buffers and lines pickers.
+  -- hl("FzfLuaBufName", {})
+
+  -- `FzfLuaBufId` is the buffer identifier text in the lines picker.
+  -- hl("FzfLuaBufId", {})
+
+  -- `FzfLuaBufNr` is the buffer number text in buffers and tabs lists.
+  -- hl("FzfLuaBufNr", {})
+
+  -- `FzfLuaBufLineNr` is the line number text in the buffers and blines lists.
+  -- hl("FzfLuaBufLineNr", {})
+
+  -- `FzfLuaBufFlagCur` marks the current buffer entry in the buffers list.
+  -- hl("FzfLuaBufFlagCur", {})
+
+  -- `FzfLuaBufFlagAlt` marks the alternate buffer entry in the buffers list.
+  -- hl("FzfLuaBufFlagAlt", {})
+
+  -- `FzfLuaTabTitle` is the tab title text in the tabs picker.
+  -- hl("FzfLuaTabTitle", {})
+
+  -- `FzfLuaTabMarker` is the tab marker text in the tabs picker.
+  -- hl("FzfLuaTabMarker", {})
+
+  -- `FzfLuaDirIcon` is the directory icon shown in path-style pickers.
+  -- hl("FzfLuaDirIcon", {})
+
+  -- `FzfLuaDirPart` is the directory portion of a path, such as `src/` in a
+  -- file path entry.
+  -- hl("FzfLuaDirPart", {})
+
+  -- `FzfLuaFilePart` is the file portion of a path, such as `main.lua` in a
+  -- file path entry.
+  -- hl("FzfLuaFilePart", {})
+
+  -- `FzfLuaLivePrompt` is the prompt text shown while typing live queries.
+  -- hl("FzfLuaLivePrompt", {})
+
+  -- `FzfLuaLiveSym` is the live symbol match text in the LSP symbol picker.
+  -- hl("FzfLuaLiveSym", {})
+
+  -- `FzfLuaCmdEx` is the command text in the command picker for Ex commands.
+  -- hl("FzfLuaCmdEx", {})
+
+  -- `FzfLuaCmdBuf` is the command text in the command picker for buffer-local
+  -- commands.
+  -- hl("FzfLuaCmdBuf", {})
+
+  -- `FzfLuaCmdGlobal` is the command text in the command picker for global
+  -- commands.
+  -- hl("FzfLuaCmdGlobal", {})
+
+  -- `FzfLuaFzfNormal` is the raw fzf fg/bg surface used by the embedded fzf
+  -- UI.
+  -- hl("FzfLuaFzfNormal", {})
+
+  -- `FzfLuaFzfCursorLine` is the embedded fzf current line highlight.
+  -- hl("FzfLuaFzfCursorLine", {})
+
+  -- `FzfLuaFzfMatch` is the embedded fzf match highlight for search hits.
+  -- hl("FzfLuaFzfMatch", {})
+
+  -- `FzfLuaFzfBorder` is the embedded fzf border color.
+  -- hl("FzfLuaFzfBorder", {})
+
+  -- `FzfLuaFzfScrollbar` is the embedded fzf scrollbar color.
+  -- hl("FzfLuaFzfScrollbar", {})
+
+  -- `FzfLuaFzfSeparator` is the embedded fzf separator color.
+  -- hl("FzfLuaFzfSeparator", {})
+
+  -- `FzfLuaFzfGutter` is the embedded fzf gutter color.
+  -- hl("FzfLuaFzfGutter", {})
+
+  -- `FzfLuaFzfHeader` is the embedded fzf header color.
+  -- hl("FzfLuaFzfHeader", {})
+
+  -- `FzfLuaFzfInfo` is the embedded fzf info text color.
+  -- hl("FzfLuaFzfInfo", {})
+
+  -- `FzfLuaFzfPointer` is the embedded fzf pointer marker color.
+  -- hl("FzfLuaFzfPointer", {})
+
+  -- `FzfLuaFzfMarker` is the embedded fzf multi-select marker color.
+  -- hl("FzfLuaFzfMarker", {})
+
+  -- `FzfLuaFzfSpinner` is the embedded fzf loading spinner color.
+  -- hl("FzfLuaFzfSpinner", {})
+
+  -- ============================================================================
+  -- Diagnostics
+  -- ============================================================================
+
+  -- `DiagnosticError` is the base error color for diagnostics.
+  hl("DiagnosticError", { fg = M.diagnostic.error })
+
+  -- `DiagnosticWarn` is the base warning color for diagnostics.
+  hl("DiagnosticWarn", { fg = M.diagnostic.warn })
+
+  -- `DiagnosticInfo` is the base info color for diagnostics.
+  hl("DiagnosticInfo", { fg = M.diagnostic.info })
+
+  -- `DiagnosticHint` is the base hint color for diagnostics.
+  hl("DiagnosticHint", { fg = M.diagnostic.hint })
+
+  -- `DiagnosticOk` is the base ok color for diagnostics.
+  hl("DiagnosticOk", { fg = M.diagnostic.ok })
+
+  -- `DiagnosticVirtualTextError` colors error virtual text.
+  hl("DiagnosticVirtualTextError", { fg = M.diagnostic.error })
+
+  -- `DiagnosticVirtualTextWarn` colors warning virtual text.
+  hl("DiagnosticVirtualTextWarn", { fg = M.diagnostic.warn })
+
+  -- `DiagnosticVirtualTextInfo` colors info virtual text.
+  hl("DiagnosticVirtualTextInfo", { fg = M.diagnostic.info })
+
+  -- `DiagnosticVirtualTextHint` colors hint virtual text.
+  hl("DiagnosticVirtualTextHint", { fg = M.diagnostic.hint })
+
+  -- `DiagnosticVirtualTextOk` colors ok virtual text.
+  hl("DiagnosticVirtualTextOk", { fg = M.diagnostic.ok })
+
+  -- `DiagnosticUnderlineError` underlines error diagnostics.
+  hl("DiagnosticUnderlineError", { sp = M.diagnostic.error, undercurl = true })
+
+  -- `DiagnosticUnderlineWarn` underlines warning diagnostics.
+  hl("DiagnosticUnderlineWarn", { sp = M.diagnostic.warn, undercurl = true })
+
+  -- `DiagnosticUnderlineInfo` underlines info diagnostics.
+  hl("DiagnosticUnderlineInfo", { sp = M.diagnostic.info, undercurl = true })
+
+  -- `DiagnosticUnderlineHint` underlines hint diagnostics.
+  hl("DiagnosticUnderlineHint", { sp = M.diagnostic.hint, undercurl = true })
+
+  -- `DiagnosticUnderlineOk` underlines ok diagnostics.
+  hl("DiagnosticUnderlineOk", { sp = M.diagnostic.ok, undercurl = true })
+
+  -- `DiagnosticFloatingError` colors error text in floating windows.
+  hl("DiagnosticFloatingError", { fg = M.diagnostic.error, bg = M.ui.float_bg })
+
+  -- `DiagnosticFloatingWarn` colors warning text in floating windows.
+  hl("DiagnosticFloatingWarn", { fg = M.diagnostic.warn, bg = M.ui.float_bg })
+
+  -- `DiagnosticFloatingInfo` colors info text in floating windows.
+  hl("DiagnosticFloatingInfo", { fg = M.diagnostic.info, bg = M.ui.float_bg })
+
+  -- `DiagnosticFloatingHint` colors hint text in floating windows.
+  hl("DiagnosticFloatingHint", { fg = M.diagnostic.hint, bg = M.ui.float_bg })
+
+  -- `DiagnosticFloatingOk` colors ok text in floating windows.
+  hl("DiagnosticFloatingOk", { fg = M.diagnostic.ok, bg = M.ui.float_bg })
+
+  -- `DiagnosticSignError` colors error signs.
+  hl("DiagnosticSignError", { fg = M.diagnostic.error })
+
+  -- `DiagnosticSignWarn` colors warning signs.
+  hl("DiagnosticSignWarn", { fg = M.diagnostic.warn })
+
+  -- `DiagnosticSignInfo` colors info signs.
+  hl("DiagnosticSignInfo", { fg = M.diagnostic.info })
+
+  -- `DiagnosticSignHint` colors hint signs.
+  hl("DiagnosticSignHint", { fg = M.diagnostic.hint })
+
+  -- `DiagnosticSignOk` colors ok signs.
+  hl("DiagnosticSignOk", { fg = M.diagnostic.ok })
+
+  -- ============================================================================
+  -- Git
+  -- ============================================================================
+
+  -- `GitSignsAdd` marks added text in the sign column.
+  hl("GitSignsAdd", { fg = M.git.add })
+
+  -- `GitSignsAddNr` marks added line numbers.
+  hl("GitSignsAddNr", { fg = M.git.add })
+
+  -- `GitSignsAddLn` marks added lines.
+  hl("GitSignsAddLn", { fg = M.git.add })
+
+  -- `GitSignsAddCul` marks added text on the cursor line.
+  hl("GitSignsAddCul", { fg = M.git.add })
+
+  -- `GitSignsChange` marks modified text in the sign column.
+  hl("GitSignsChange", { fg = M.git.change })
+
+  -- `GitSignsChangeNr` marks modified line numbers.
+  hl("GitSignsChangeNr", { fg = M.git.change })
+
+  -- `GitSignsChangeLn` marks modified lines.
+  hl("GitSignsChangeLn", { fg = M.git.change })
+
+  -- `GitSignsChangeCul` marks modified text on the cursor line.
+  hl("GitSignsChangeCul", { fg = M.git.change })
+
+  -- `GitSignsDelete` marks deleted text in the sign column.
+  hl("GitSignsDelete", { fg = M.git.delete })
+
+  -- `GitSignsDeleteNr` marks deleted line numbers.
+  hl("GitSignsDeleteNr", { fg = M.git.delete })
+
+  -- `GitSignsDeleteLn` marks deleted lines.
+  hl("GitSignsDeleteLn", { fg = M.git.delete })
+
+  -- `GitSignsDeleteCul` marks deleted text on the cursor line.
+  hl("GitSignsDeleteCul", { fg = M.git.delete })
+
+  -- `GitSignsCurrentLineBlame` shows blame text for the current line.
+  hl("GitSignsCurrentLineBlame", { fg = M.git.blame })
+
+  -- `GitSignsAddPreview` marks added preview lines.
+  hl("GitSignsAddPreview", { fg = M.git.add })
+
+  -- `GitSignsDeletePreview` marks deleted preview lines.
+  hl("GitSignsDeletePreview", { fg = M.git.delete })
+
+  -- `GitSignsNoEOLPreview` marks the no-newline-at-EOF warning.
+  hl("GitSignsNoEOLPreview", { fg = M.git.change })
+
+  -- `GitSignsAddInline` marks inline added regions.
+  hl("GitSignsAddInline", { fg = M.git.add, bg = M.ui.bg })
+
+  -- `GitSignsChangeInline` marks inline changed regions.
+  hl("GitSignsChangeInline", { fg = M.git.change, bg = M.ui.bg })
+
+  -- `GitSignsDeleteInline` marks inline deleted regions.
+  hl("GitSignsDeleteInline", { fg = M.git.delete, bg = M.ui.bg })
+
+  -- `GitSignsAddLnInline` marks added inline line regions.
+  hl("GitSignsAddLnInline", { fg = M.git.add, bg = M.ui.bg })
+
+  -- `GitSignsChangeLnInline` marks changed inline line regions.
+  hl("GitSignsChangeLnInline", { fg = M.git.change, bg = M.ui.bg })
+
+  -- `GitSignsDeleteLnInline` marks deleted inline line regions.
+  hl("GitSignsDeleteLnInline", { fg = M.git.delete, bg = M.ui.bg })
 
   -- ============================================================================
   -- Syntax
@@ -759,31 +1468,6 @@ function M.setup()
 
   -- `@tag.delimiter` matches XML/HTML-style tag delimiters, like `<`, `>`, or `</`.
   hl("@tag.delimiter", { fg = M.syntax.delimiter })
-
-  -- ============================================================================
-  -- WhichKey
-  -- ============================================================================
-
-  -- `WhichKeyNormal` is the popup background and text area.
-  hl("WhichKeyNormal", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeyBorder` is the popup border.
-  hl("WhichKeyBorder", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeyTitle` labels the popup title.
-  hl("WhichKeyTitle", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeyGroup` marks grouped key prefixes. TODO: set fg
-  hl("WhichKeyGroup", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeyDesc` marks mapping descriptions.
-  hl("WhichKeyDesc", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeySeparator` separates keys from descriptions.
-  hl("WhichKeySeparator", { fg = M.ui.fg, bg = M.ui.bg })
-
-  -- `WhichKeyValue` shows plugin-provided values. TODO: set fg
-  hl("WhichKeyValue", { fg = M.ui.fg, bg = M.ui.bg })
 end
 
 return M

@@ -106,7 +106,7 @@ fzf:
   bg: "#1d1f21"
   hl: "#f0c674"
   "fg+": "#ffffff"
-  "bg+": "#373b41"
+  "bg+": "#282a2e"
   "hl+": "#f0c674"
   info: "#81a2be"
   border: "#969896"
@@ -152,15 +152,30 @@ statusline:
   inactive_bg: "#282a2e"
   inactive_fg: "#c5c8c6"
 
+git:
+  add: "#b5bd68"
+  change: "#de935f"
+  delete: "#cc6666"
+  rename: "#81a2be"
+  ignored: "#969896"
+  blame: "#969896"
+
+diagnostic:
+  error: "#cc6666"
+  warn: "#de935f"
+  info: "#81a2be"
+  hint: "#8abeb7"
+  ok: "#b5bd68"
+
 ui:
   bg: "#1d1f21"
-  color_column: "#373b41"
+  color_column: "#282a2e"
   cur_search_bg: "#de935f"
   cur_search_fg: "#1d1f21"
   cursor: "#c5c8c6"
-  cursor_column: "#373b41"
-  cursor_line: "#373b41"
-  cursor_line_nr: "#373b41"
+  cursor_column: "#282a2e"
+  cursor_line: "#282a2e"
+  cursor_line_nr: "#282a2e"
   directory_fg: "#81a2be"
   end_of_buffer_fg: "#969896"
   error_fg: "#cc6666"

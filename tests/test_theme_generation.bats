@@ -120,6 +120,33 @@ PY
   [ "$output" = "ok" ]
 }
 
+@test "fzf-lua setup maps picker highlights to fzf groups" {
+  run python3 - <<PY
+import re
+from pathlib import Path
+
+text = Path("${PROJECT_ROOT}/.config/nvim/lua/plugins/search.lua").read_text(encoding="utf-8")
+squashed = re.sub(r'\s+', '', text)
+for line in [
+    'hls = {',
+    'normal = "FzfLuaNormal"',
+    'border = "FzfLuaBorder"',
+    'title = "FzfLuaTitle"',
+    'backdrop = "FzfLuaBackdrop"',
+    'preview_normal = "FzfLuaPreviewNormal"',
+    'preview_border = "FzfLuaPreviewBorder"',
+    'preview_title = "FzfLuaPreviewTitle"',
+    'cursorline = "FzfLuaCursorLine"',
+    'search = "FzfLuaSearch"',
+]:
+    if re.sub(r'\s+', '', line) not in squashed:
+        raise SystemExit(f"missing block: {line}")
+print("ok")
+PY
+  [ "$status" -eq 0 ]
+  [ "$output" = "ok" ]
+}
+
 @test "fish generator uses tomorrow night fish section" {
   run python3 "$TEST_ROOT/color/generators/apply-fish.py" \
     "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
@@ -280,14 +307,15 @@ import re
 from pathlib import Path
 
 text = Path("${TEST_ROOT}/.config/nvim/lua/lem/theme.lua").read_text(encoding="utf-8")
+squashed = re.sub(r'\s+', '', text)
 checks = {
     r'^M\.ui = \{$': 'M.ui = {',
     r'^\s+bg = "#1d1f21",$': 'ui bg',
-    r'^\s+color_column = "#373b41",$': 'ui color_column',
+    r'^\s+color_column = "#282a2e",$': 'ui color_column',
     r'^\s+cursor = "#c5c8c6",$': 'ui cursor',
-    r'^\s+cursor_column = "#373b41",$': 'ui cursor_column',
-    r'^\s+cursor_line = "#373b41",$': 'ui cursor_line',
-    r'^\s+cursor_line_nr = "#373b41",$': 'ui cursor_line_nr',
+    r'^\s+cursor_column = "#282a2e",$': 'ui cursor_column',
+    r'^\s+cursor_line = "#282a2e",$': 'ui cursor_line',
+    r'^\s+cursor_line_nr = "#282a2e",$': 'ui cursor_line_nr',
     r'^\s+cur_search_bg = "#de935f",$': 'ui cur_search_bg',
     r'^\s+cur_search_fg = "#1d1f21",$': 'ui cur_search_fg',
     r'^\s+directory_fg = "#81a2be",$': 'ui directory_fg',
@@ -390,6 +418,19 @@ checks = {
     r'^\s+section_fg = "#c5c8c6",$': 'section_fg',
     r'^\s+inactive_bg = "#282a2e",$': 'inactive_bg',
     r'^\s+inactive_fg = "#c5c8c6",$': 'inactive_fg',
+    r'^M\.git = \{$': 'M.git = {',
+    r'^\s+add = "#b5bd68",$': 'git add',
+    r'^\s+change = "#de935f",$': 'git change',
+    r'^\s+delete = "#cc6666",$': 'git delete',
+    r'^\s+rename = "#81a2be",$': 'git rename',
+    r'^\s+ignored = "#969896",$': 'git ignored',
+    r'^\s+blame = "#969896",$': 'git blame',
+    r'^M\.diagnostic = \{$': 'M.diagnostic = {',
+    r'^\s+error = "#cc6666",$': 'diagnostic error',
+    r'^\s+warn = "#de935f",$': 'diagnostic warn',
+    r'^\s+info = "#81a2be",$': 'diagnostic info',
+    r'^\s+hint = "#8abeb7",$': 'diagnostic hint',
+    r'^\s+ok = "#b5bd68",$': 'diagnostic ok',
 }
 for pattern, label in checks.items():
     if not re.search(pattern, text, re.MULTILINE):
@@ -443,13 +484,69 @@ for line in [
     'hl("EndOfBuffer", { fg = M.ui.end_of_buffer_fg })',
     'hl("NonText", { fg = M.ui.non_text })',
     'hl("SpecialKey", { fg = M.ui.special_key })',
-    'hl("WhichKeyNormal", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeyBorder", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeyTitle", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeyGroup", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeyDesc", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeySeparator", { fg = M.ui.fg, bg = M.ui.bg })',
-    'hl("WhichKeyValue", { fg = M.ui.fg, bg = M.ui.bg })',
+    'hl("MasonBackdrop", { bg = M.ui.bg })',
+    'hl("MasonNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })',
+    'hl("MasonHeader", { fg = M.ui.title_fg, bg = M.ui.float_bg, bold = true })',
+    'hl("MasonHeaderSecondary", { fg = M.ui.question_fg, bg = M.ui.float_bg, bold = true })',
+    'hl("MasonHighlight", { fg = M.ui.directory_fg })',
+    'hl("MasonHighlightBlock", { fg = M.ui.bg, bg = M.ui.directory_fg })',
+    'hl("MasonHighlightBlockBold", { fg = M.ui.bg, bg = M.ui.directory_fg, bold = true })',
+    'hl("MasonHighlightSecondary", { fg = M.ui.title_fg })',
+    'hl("MasonHighlightBlockSecondary", { fg = M.ui.bg, bg = M.ui.title_fg })',
+    'hl("MasonHighlightBlockBoldSecondary", { fg = M.ui.bg, bg = M.ui.title_fg, bold = true })',
+    'hl("MasonLink", { fg = M.ui.directory_fg, underline = true })',
+    'hl("MasonMuted", { fg = M.ui.non_text })',
+    'hl("MasonMutedBlock", { fg = M.ui.bg, bg = M.ui.non_text })',
+    'hl("MasonMutedBlockBold", { fg = M.ui.bg, bg = M.ui.non_text, bold = true })',
+    'hl("MasonError", { fg = M.ui.error_fg, bold = true })',
+    'hl("MasonWarning", { fg = M.ui.warning_fg, bold = true })',
+    'hl("MasonHeading", { fg = M.ui.title_fg, bold = true })',
+    'hl("NvimTreeNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })',
+    'hl("NvimTreeNormalFloat", { fg = M.ui.float_fg, bg = M.ui.float_bg })',
+    'hl("NvimTreeNormalFloatBorder", { fg = M.ui.float_border_fg, bg = M.ui.float_bg })',
+    'hl("NvimTreeLineNr", { fg = M.ui.line_nr })',
+    'hl("NvimTreeWinSeparator", { fg = M.ui.split_fg, bg = M.ui.bg })',
+    'hl("NvimTreeCursorLine", { bg = M.ui.cursor_line })',
+    'hl("NvimTreeCursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })',
+    'hl("NvimTreeExecFile", { fg = M.ui.fg })',
+    'hl("NvimTreeImageFile", { fg = M.ui.fg })',
+    'hl("NvimTreeSpecialFile", { fg = M.ui.fg })',
+    'hl("NvimTreeSymlink", { fg = M.ui.fg, underline = true })',
+    'hl("NvimTreeFolderName", { fg = M.ui.directory_fg })',
+    'hl("NvimTreeRootFolder", { fg = M.ui.title_fg, bold = true })',
+    'hl("NvimTreeGitFileNewHL", { fg = M.git.add })',
+    'hl("NvimTreeGitFileDirtyHL", { fg = M.git.change })',
+    'hl("NvimTreeGitFileDeletedHL", { fg = M.git.delete })',
+    'hl("NvimTreeGitFileStagedHL", { fg = M.git.add })',
+    'hl("NvimTreeGitNewIcon", { fg = M.git.add })',
+    'hl("NvimTreeGitStagedIcon", { fg = M.git.add })',
+    'hl("NvimTreeGitRenamedIcon", { fg = M.git.rename })',
+    'hl("NvimTreeGitDirtyIcon", { fg = M.git.change })',
+    'hl("NvimTreeGitDeletedIcon", { fg = M.git.delete })',
+    'hl("NvimTreeGitIgnoredIcon", { fg = M.git.ignored })',
+    'hl("GitSignsAdd", { fg = M.git.add })',
+    'hl("GitSignsChange", { fg = M.git.change })',
+    'hl("GitSignsDelete", { fg = M.git.delete })',
+    'hl("GitSignsCurrentLineBlame", { fg = M.git.blame })',
+    'hl("DiagnosticError", { fg = M.diagnostic.error })',
+    'hl("DiagnosticWarn", { fg = M.diagnostic.warn })',
+    'hl("DiagnosticInfo", { fg = M.diagnostic.info })',
+    'hl("DiagnosticHint", { fg = M.diagnostic.hint })',
+    'hl("DiagnosticOk", { fg = M.diagnostic.ok })',
+    'hl("DiagnosticUnderlineError", { sp = M.diagnostic.error, undercurl = true })',
+    'hl("DiagnosticSignError", { fg = M.diagnostic.error })',
+    'hl("NvimTreeDiagnosticErrorIcon", { fg = M.diagnostic.error })',
+    'hl("NvimTreeDiagnosticWarnIcon", { fg = M.diagnostic.warn })',
+    'M.fzf_lua = {',
+    'hl("FzfLuaNormal", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.normal_bg })',
+    'hl("FzfLuaBorder", { fg = M.fzf_lua.border_fg, bg = M.fzf_lua.border_bg })',
+    'hl("FzfLuaTitle", { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.title_bg, bold = true })',
+    'hl("FzfLuaBackdrop", { bg = M.fzf_lua.backdrop_bg })',
+    'hl("FzfLuaPreviewNormal", { fg = M.fzf_lua.preview_fg, bg = M.fzf_lua.preview_bg })',
+    'hl("FzfLuaPreviewBorder", { fg = M.fzf_lua.preview_border_fg, bg = M.fzf_lua.preview_border_bg })',
+    'hl("FzfLuaPreviewTitle", { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.preview_bg, bold = true })',
+    'hl("FzfLuaCursorLine", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.cursorline_bg })',
+    'hl("FzfLuaSearch", { fg = M.fzf_lua.search_fg, bg = M.fzf_lua.search_bg, bold = true })',
     'hl("Function", { fg = M.syntax["function"] })',
     'hl("Keyword", { fg = M.syntax.keyword })',
     'hl("Type", { fg = M.syntax.type })',
@@ -465,7 +562,7 @@ for line in [
     'hl("@tag.delimiter", { fg = M.syntax.delimiter })',
     'hl("Whitespace", { fg = M.ui.whitespace })',
 ]:
-    if line not in text:
+    if re.sub(r'\s+', '', line) not in squashed:
         raise SystemExit(f"missing block: {line}")
 print("ok")
 PY

@@ -27,7 +27,7 @@ require("lem.ruler").setup({
   },
   filetype_config = {
     lua = {
-      columns = { 120 },
+      columns = { 80 },
     },
     python = {
       columns = { 120 },

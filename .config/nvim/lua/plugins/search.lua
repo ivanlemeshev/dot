@@ -43,6 +43,17 @@ function M.fzf()
 
   fzf.setup({
     fzf_colors = theme.fzf,
+    hls = {
+      normal = "FzfLuaNormal",
+      border = "FzfLuaBorder",
+      title = "FzfLuaTitle",
+      backdrop = "FzfLuaBackdrop",
+      preview_normal = "FzfLuaPreviewNormal",
+      preview_border = "FzfLuaPreviewBorder",
+      preview_title = "FzfLuaPreviewTitle",
+      cursorline = "FzfLuaCursorLine",
+      search = "FzfLuaSearch",
+    },
     fzf_opts = {
       ["--multi"] = true,
     },

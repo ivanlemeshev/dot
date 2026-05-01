@@ -129,6 +129,23 @@ STATUSLINE_KEYS = {
     "inactive_fg",
 }
 
+GIT_KEYS = {
+    "add",
+    "change",
+    "delete",
+    "rename",
+    "ignored",
+    "blame",
+}
+
+DIAGNOSTIC_KEYS = {
+    "error",
+    "warn",
+    "info",
+    "hint",
+    "ok",
+}
+
 
 def normalize_hex(value):
     return "#" + value.lstrip("#").lower()
@@ -254,6 +271,68 @@ def parse_statusline(path):
     missing = sorted(STATUSLINE_KEYS - set(values.keys()))
     if missing:
         raise ValueError("Statusline is missing required keys: " + ", ".join(missing))
+
+    return values
+
+
+def parse_git(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "git:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    key = match.group(1) or match.group(2)
+                    values[key] = normalize_hex(match.group(3))
+
+    if not values:
+        raise ValueError("Git section is required in YAML")
+
+    missing = sorted(GIT_KEYS - set(values.keys()))
+    if missing:
+        raise ValueError("Git is missing required keys: " + ", ".join(missing))
+
+    return values
+
+
+def parse_diagnostic(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}(?:"([^"]+)"|([\w_+]+)):\s+(?:"?(#[0-9a-fA-F]{6})"?)(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "diagnostic:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    key = match.group(1) or match.group(2)
+                    values[key] = normalize_hex(match.group(3))
+
+    if not values:
+        raise ValueError("Diagnostic section is required in YAML")
+
+    missing = sorted(DIAGNOSTIC_KEYS - set(values.keys()))
+    if missing:
+        raise ValueError("Diagnostic is missing required keys: " + ", ".join(missing))
 
     return values
 
@@ -395,6 +474,33 @@ def render_statusline_block(values):
     return "\n".join(lines)
 
 
+def render_git_block(values):
+    lines = [
+        "M.git = {",
+        f'  add = "{values["add"]}",',
+        f'  change = "{values["change"]}",',
+        f'  delete = "{values["delete"]}",',
+        f'  rename = "{values["rename"]}",',
+        f'  ignored = "{values["ignored"]}",',
+        f'  blame = "{values["blame"]}",',
+        "}",
+    ]
+    return "\n".join(lines)
+
+
+def render_diagnostic_block(values):
+    lines = [
+        "M.diagnostic = {",
+        f'  error = "{values["error"]}",',
+        f'  warn = "{values["warn"]}",',
+        f'  info = "{values["info"]}",',
+        f'  hint = "{values["hint"]}",',
+        f'  ok = "{values["ok"]}",',
+        "}",
+    ]
+    return "\n".join(lines)
+
+
 def replace_table_block(content, table_name, replacement_block):
     pattern = re.compile(
         rf"(M\.{re.escape(table_name)}\s*=\s*\{{)(.*?)(^\}})",
@@ -415,6 +521,8 @@ try:
     syntax = parse_syntax(yaml_file)
     fzf = parse_fzf(yaml_file)
     statusline = parse_statusline(yaml_file)
+    git = parse_git(yaml_file)
+    diagnostic = parse_diagnostic(yaml_file)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -428,6 +536,8 @@ content = replace_table_block(content, "fzf", render_fzf_block(fzf))
 content = replace_table_block(
     content, "statusline", render_statusline_block(statusline)
 )
+content = replace_table_block(content, "git", render_git_block(git))
+content = replace_table_block(content, "diagnostic", render_diagnostic_block(diagnostic))
 
 dir_ = os.path.dirname(os.path.abspath(lua_file))
 with tempfile.NamedTemporaryFile(
