@@ -26,11 +26,11 @@
 				<key>guide</key>
 				<string>#969896</string>
 				<key>activeGuide</key>
-				<string>#969896</string>
+				<string>#282a2e</string>
 				<key>gutter</key>
 				<string>#1d1f21</string>
 				<key>gutterForeground</key>
-				<string>#969896</string>
+				<string>#c5c8c6</string>
 				<key>findHighlight</key>
 				<string>#f0c674</string>
 				<key>findHighlightForeground</key>
@@ -536,7 +536,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#cc6666</string>
+				<string>#de935f</string>
 			</dict>
 		</dict>
 		<dict>

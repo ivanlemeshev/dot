@@ -78,38 +78,6 @@ def resolve_color(name):
             return git[key]
         if section == "diagnostic" and key in diagnostic:
             return diagnostic[key]
-        if section == "semantic":
-            semantic_aliases = {
-                "added": git["add"],
-                "removed": git["delete"],
-                "changed": git["change"],
-                "diff_text": ui["selection_bg"],
-                "title": syntax["type"],
-                "hint": diagnostic["hint"],
-                "error": diagnostic["error"],
-                "muted": ui["non_text"],
-            }
-            if key in semantic_aliases:
-                return semantic_aliases[key]
-        ui_aliases = {
-            "cursorline": "cursor_line",
-            "border": "float_border_fg",
-            "bg_dim": "folded_bg",
-            "fg_dim": "non_text",
-            "muted": "non_text",
-            "selection": "selection_bg",
-        }
-        syntax_aliases = {
-            "escape": "special_char",
-        }
-        if section == "ui":
-            alias = ui_aliases.get(key, key)
-            if alias in ui:
-                return ui[alias]
-        if section == "syntax":
-            alias = syntax_aliases.get(key, key)
-            if alias in syntax:
-                return syntax[alias]
     if name in base_palette:
         return base_palette[name]
     if name in ui:

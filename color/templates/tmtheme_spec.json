@@ -3,15 +3,15 @@
 	"global_settings": [
 		{ "key": "background", "color": "ui.bg" },
 		{ "key": "foreground", "color": "ui.fg" },
-		{ "key": "caret", "color": "ui.fg" },
-		{ "key": "lineHighlight", "color": "ui.cursorline" },
-		{ "key": "selection", "color": "ui.selection" },
-		{ "key": "selectionBorder", "color": "ui.border" },
-		{ "key": "invisibles", "color": "ui.bg_dim" },
-		{ "key": "guide", "color": "ui.border" },
-		{ "key": "activeGuide", "color": "ui.fg_dim" },
+		{ "key": "caret", "color": "ui.cursor" },
+		{ "key": "lineHighlight", "color": "ui.cursor_line" },
+		{ "key": "selection", "color": "ui.selection_bg" },
+		{ "key": "selectionBorder", "color": "ui.float_border_fg" },
+		{ "key": "invisibles", "color": "ui.whitespace" },
+		{ "key": "guide", "color": "ui.split_fg" },
+		{ "key": "activeGuide", "color": "ui.cursor_line_nr" },
 		{ "key": "gutter", "color": "ui.bg" },
-		{ "key": "gutterForeground", "color": "ui.muted" },
+		{ "key": "gutterForeground", "color": "ui.line_nr" },
 		{ "key": "findHighlight", "color": "ui.search_bg" },
 		{ "key": "findHighlightForeground", "color": "ui.search_fg" },
 		{ "key": "bracketsForeground", "color": "syntax.delimiter" },
@@ -28,7 +28,7 @@
 		{
 			"name": "Escape Character",
 			"scope": "constant.character.escape",
-			"color": "syntax.escape"
+			"color": "syntax.special_char"
 		},
 		{ "name": "Number", "scope": "constant.numeric", "color": "syntax.number" },
 		{
@@ -156,7 +156,7 @@
 		{
 			"name": "Regular Expression",
 			"scope": "string.regexp",
-			"color": "syntax.escape"
+			"color": "syntax.special_char"
 		},
 		{
 			"name": "CSS Property",
@@ -181,27 +181,27 @@
 		{
 			"name": "Diff Inserted",
 			"scope": "markup.inserted, meta.diff.header.to-file",
-			"color": "semantic.added"
+			"color": "git.add"
 		},
 		{
 			"name": "Diff Deleted",
 			"scope": "markup.deleted, meta.diff.header.from-file",
-			"color": "semantic.removed"
+			"color": "git.delete"
 		},
 		{
 			"name": "Diff Changed",
 			"scope": "markup.changed",
-			"color": "semantic.changed"
+			"color": "git.change"
 		},
 		{
 			"name": "Diff Range",
 			"scope": "meta.diff.range, meta.diff.index",
-			"color": "semantic.diff_text"
+			"color": "ui.selection_bg"
 		},
 		{
 			"name": "Markup Heading",
 			"scope": "markup.heading, punctuation.definition.heading",
-			"color": "semantic.title"
+			"color": "ui.title_fg"
 		},
 		{
 			"name": "Markup Bold",
@@ -221,7 +221,7 @@
 		{
 			"name": "Markup Link Text",
 			"scope": "string.other.link.title, string.other.link.description",
-			"color": "semantic.hint"
+			"color": "diagnostic.hint"
 		},
 		{
 			"name": "Markup Inline Code",
@@ -231,15 +231,15 @@
 		{
 			"name": "Markup List",
 			"scope": "markup.list punctuation.definition.list_item",
-			"color": "semantic.error"
+			"color": "ui.warning_fg"
 		},
 		{
 			"name": "Markup Quote",
 			"scope": "markup.quote",
-			"color": "semantic.muted",
+			"color": "ui.non_text",
 			"fontStyle": "italic"
 		},
-		{ "name": "Invalid", "scope": "invalid", "color": "semantic.error" },
+		{ "name": "Invalid", "scope": "invalid", "color": "ui.error_fg" },
 		{
 			"name": "Invalid Deprecated",
 			"scope": "invalid.deprecated",
