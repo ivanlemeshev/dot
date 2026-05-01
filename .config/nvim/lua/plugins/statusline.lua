@@ -14,16 +14,6 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local separator = "%#LualineSeparator#│"
-local with_separator = function(str)
-  if str == nil or str == "" then
-    return ""
-  end
-  return str .. " " .. separator
-end
-
-local separator_padding = { left = 1, right = 0 }
-
 local mode = {
   "mode",
   fmt = function(str)
@@ -40,8 +30,6 @@ local filename = {
 local branch = {
   "branch",
   icon = "",
-  fmt = with_separator,
-  padding = separator_padding,
 }
 
 local copilot = {
@@ -49,8 +37,6 @@ local copilot = {
   cond = function()
     return package.loaded["copilot"] ~= nil
   end,
-  fmt = with_separator,
-  padding = separator_padding,
   symbols = {
     status = {
       icons = {
@@ -72,8 +58,6 @@ local diagnostics = {
   colored = false,
   update_in_insert = true,
   always_visible = true,
-  fmt = with_separator,
-  padding = separator_padding,
 }
 
 local function human_file_size()
@@ -88,7 +72,7 @@ local function human_file_size()
   end
 
   if size < 1024 then
-    return with_separator(string.format("%d B", size))
+    return string.format("%d B", size)
   end
 
   local units = { "KB", "MB", "GB", "TB" }
@@ -101,10 +85,10 @@ local function human_file_size()
   end
 
   if value >= 10 or unit_index == 1 then
-    return with_separator(string.format("%.0f %s", value, units[unit_index]))
+    return string.format("%.0f %s", value, units[unit_index])
   end
 
-  return with_separator(string.format("%.1f %s", value, units[unit_index]))
+  return string.format("%.1f %s", value, units[unit_index])
 end
 
 local function visible_encoding()
@@ -112,7 +96,7 @@ local function visible_encoding()
     return ""
   end
 
-  return with_separator(vim.opt_local.fileencoding:get())
+  return vim.opt_local.fileencoding:get()
 end
 
 local diff = {
@@ -120,17 +104,15 @@ local diff = {
   colored = false,
   sections = { "added", "modified", "removed" },
   symbols = { added = " ", modified = " ", removed = " " },
-  fmt = with_separator,
-  padding = separator_padding,
 }
 
 require("lualine").setup({
   options = {
-    theme = require("lem.colorscheme").lualine_theme,
+    theme = require("lem.theme").lualine_theme,
     icons_enabled = true,
-    --          
+    --           │
+    component_separators = { left = "│", right = "│" },
     section_separators = { left = "", right = "" },
-    component_separators = { left = "", right = "" },
     always_divide_middle = true,
     disabled_filetypes = {
       "NvimTree",
@@ -148,12 +130,8 @@ require("lualine").setup({
       copilot,
       diagnostics,
       human_file_size,
-      { visible_encoding, padding = { left = 0, right = 0 } },
-      {
-        "filetype",
-        fmt = with_separator,
-        padding = { left = 1, right = 0 },
-      },
+      visible_encoding,
+      "filetype",
       "location",
     },
     lualine_z = { "progress" },

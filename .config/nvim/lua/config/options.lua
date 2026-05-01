@@ -12,7 +12,7 @@ vim.opt.signcolumn = "yes:1"
 
 -- Disable cursor blinking in the terminal mode.
 vim.opt.guicursor =
-  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"
+  "n-v-c-sm:block,i-ci-ve:block-blinkwait700-blinkoff400-blinkon250,r-cr-o:hor20,t:block-blinkon0-blinkoff0-TermCursor"
 
 -- Allow the backspace key to delete over auto-indent, line breaks (enter), and
 -- the start of insert; essentially making backspace work more like it does

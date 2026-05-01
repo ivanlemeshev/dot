@@ -9,10 +9,20 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local colorscheme = require("lem.colorscheme")
 local helpers = require("config.helpers")
+local theme = require("lem.theme")
 local M = {}
 local configured = false
+
+local function hex_to_rgb(hex)
+  hex = hex:gsub("#", "")
+  return string.format(
+    "%d,%d,%d",
+    tonumber(hex:sub(1, 2), 16),
+    tonumber(hex:sub(3, 4), 16),
+    tonumber(hex:sub(5, 6), 16)
+  )
+end
 
 local function clipboard_cmd()
   if vim.fn.has("mac") == 1 then
@@ -42,7 +52,59 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
-    fzf_colors = colorscheme.fzf,
+    fzf_colors = theme.fzf,
+    hls = {
+      normal = "FzfLuaNormal",
+      border = "FzfLuaBorder",
+      title = "FzfLuaTitle",
+      title_flags = "FzfLuaTitleFlags",
+      backdrop = "FzfLuaBackdrop",
+      preview_normal = "FzfLuaPreviewNormal",
+      preview_border = "FzfLuaPreviewBorder",
+      preview_title = "FzfLuaPreviewTitle",
+      cursor = "FzfLuaCursor",
+      cursorline = "FzfLuaCursorLine",
+      cursorlinenr = "FzfLuaCursorLineNr",
+      search = "FzfLuaSearch",
+      scrollborder_e = "FzfLuaScrollBorderEmpty",
+      scrollborder_f = "FzfLuaScrollBorderFull",
+      scrollfloat_e = "FzfLuaScrollFloatEmpty",
+      scrollfloat_f = "FzfLuaScrollFloatFull",
+      help_normal = "FzfLuaHelpNormal",
+      help_border = "FzfLuaHelpBorder",
+      header_bind = "FzfLuaHeaderBind",
+      header_text = "FzfLuaHeaderText",
+      path_colnr = "FzfLuaPathColNr",
+      path_linenr = "FzfLuaPathLineNr",
+      buf_name = "FzfLuaBufName",
+      buf_id = "FzfLuaBufId",
+      buf_nr = "FzfLuaBufNr",
+      buf_linenr = "FzfLuaBufLineNr",
+      buf_flag_cur = "FzfLuaBufFlagCur",
+      buf_flag_alt = "FzfLuaBufFlagAlt",
+      tab_title = "FzfLuaTabTitle",
+      tab_marker = "FzfLuaTabMarker",
+      dir_icon = "FzfLuaDirIcon",
+      dir_part = "FzfLuaDirPart",
+      file_part = "FzfLuaFilePart",
+      live_prompt = "FzfLuaLivePrompt",
+      live_sym = "FzfLuaLiveSym",
+      cmd_ex = "FzfLuaCmdEx",
+      cmd_buf = "FzfLuaCmdBuf",
+      cmd_global = "FzfLuaCmdGlobal",
+      fzf_normal = "FzfLuaFzfNormal",
+      fzf_cursorline = "FzfLuaFzfCursorLine",
+      fzf_match = "FzfLuaFzfMatch",
+      fzf_border = "FzfLuaFzfBorder",
+      fzf_scrollbar = "FzfLuaFzfScrollbar",
+      fzf_separator = "FzfLuaFzfSeparator",
+      fzf_gutter = "FzfLuaFzfGutter",
+      fzf_header = "FzfLuaFzfHeader",
+      fzf_info = "FzfLuaFzfInfo",
+      fzf_pointer = "FzfLuaFzfPointer",
+      fzf_marker = "FzfLuaFzfMarker",
+      fzf_spinner = "FzfLuaFzfSpinner",
+    },
     fzf_opts = {
       ["--multi"] = true,
     },
@@ -68,6 +130,16 @@ function M.fzf()
         "--line-number",
         "--no-heading",
         "--color=always",
+        "--colors",
+        "path:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "--colors",
+        "line:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "--colors",
+        "column:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "--colors",
+        "match:fg:" .. hex_to_rgb(theme.fzf.hl),
+        "--colors",
+        "match:style:bold",
         "--fixed-strings",
         "--smart-case",
         "--max-columns=4096",

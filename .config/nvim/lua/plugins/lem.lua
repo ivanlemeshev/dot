@@ -1,7 +1,7 @@
 -- Local custom lem modules - no need for vim.pack
 -- Just require them directly since they're in lua/lem/
 
-require("lem.colorscheme").setup()
+require("lem.theme").setup()
 require("lem.binary").setup()
 
 require("lem.ruler").setup({
@@ -27,7 +27,7 @@ require("lem.ruler").setup({
   },
   filetype_config = {
     lua = {
-      columns = { 120 },
+      columns = { 80 },
     },
     python = {
       columns = { 120 },

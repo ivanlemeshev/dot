@@ -80,6 +80,11 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim",
       "version": "'master'"
     },
+    "lush.nvim": {
+      "rev": "9c60ec2279d62487d942ce095e49006af28eed6e",
+      "src": "https://github.com/rktjmp/lush.nvim",
+      "version": "'main'"
+    },
     "mason-lspconfig.nvim": {
       "rev": "f2fa60409630ec2d24acf84494fb55e1d28d593c",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim",

@@ -200,17 +200,6 @@ set fillchars=vert:│,eob:\
 " Highlight the current line.
 set cursorline
 
-" Enable true color support.
-if has('termguicolors')
-  set termguicolors
-endif
-
-" Add config directory to runtimepath for custom colorscheme.
-set runtimepath+=~/.config/vim
-
-" Set colorscheme.
-colorscheme custom
-
 " Faster terminal rendering.
 set ttyfast
 
