@@ -24,7 +24,6 @@ M.syntax = {
   comment = "#969896",
   constant = "#de935f",
   delimiter = "#c5c8c6",
-  escape = "#8abeb7",
   character = "#b5bd68",
   ["function"] = "#81a2be",
   keyword = "#b294bb",
@@ -32,7 +31,8 @@ M.syntax = {
   operator = "#8abeb7",
   preproc = "#de935f",
   property = "#81a2be",
-  special = "#c5c8c6",
+  special = "#8abeb7",
+  special_char = "#8abeb7",
   string = "#b5bd68",
   type = "#f0c674",
   variable = "#cc6666",
@@ -429,10 +429,10 @@ function M.setup()
   hl("@string.documentation", { fg = M.syntax.string })
 
   -- `@string.regexp` matches regular expressions, like `/foo.*/` or `r"[0-9]+"`.
-  hl("@string.regexp", { fg = M.syntax.escape })
+  hl("@string.regexp", { fg = M.syntax.special_char })
 
   -- `@string.escape` matches escapes inside strings, like `\n` or `\t`.
-  hl("@string.escape", { fg = M.syntax.escape })
+  hl("@string.escape", { fg = M.syntax.special_char })
 
   -- `@string.special` matches special string forms, like dates or symbols.
   hl("@string.special", { fg = M.syntax.special })
@@ -450,7 +450,7 @@ function M.setup()
   hl("@character", { fg = M.syntax.character })
 
   -- `@character.special` matches special character literals, like `'\t'` or `'\x1b'`.
-  hl("@character.special", { fg = M.syntax.escape })
+  hl("@character.special", { fg = M.syntax.special_char })
 
   -- `@boolean` matches boolean literals, like `true` or `false`.
   hl("@boolean", { fg = M.syntax.constant })
@@ -615,13 +615,13 @@ function M.setup()
   hl("@markup.math", { fg = M.syntax.special })
 
   -- `@markup.link` matches references and citations, like `[label](url)`.
-  hl("@markup.link", { fg = M.syntax["function"], underline = true })
+  hl("@markup.link", { fg = M.syntax.special, underline = true })
 
   -- `@markup.link.label` matches link labels, like the `label` part in `[label](url)`.
-  hl("@markup.link.label", { fg = M.syntax["function"] })
+  hl("@markup.link.label", { fg = M.syntax.special })
 
   -- `@markup.link.url` matches URL-style links, like `https://example.com`.
-  hl("@markup.link.url", { fg = M.syntax["function"], underline = true })
+  hl("@markup.link.url", { fg = M.syntax.special, underline = true })
 
   -- `@markup.raw` matches inline raw text, like ``code`` or `printf`.
   hl("@markup.raw", { fg = M.syntax.string })
