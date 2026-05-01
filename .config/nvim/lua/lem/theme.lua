@@ -11,10 +11,56 @@ M.ui = {
   cursor_column = "#373b41",
   cursor_line = "#373b41",
   cursor_line_nr = "#373b41",
+  cur_search_bg = "#de935f",
+  cur_search_fg = "#1d1f21",
+  directory_fg = "#81a2be",
+  end_of_buffer_fg = "#969896",
+  error_fg = "#cc6666",
+  float_bg = "#1d1f21",
+  float_border_fg = "#c5c8c6",
+  float_fg = "#c5c8c6",
+  float_title_fg = "#c5c8c6",
+  folded_bg = "#282a2e",
+  folded_fg = "#969896",
   fg = "#c5c8c6",
+  inc_search_bg = "#de935f",
+  inc_search_fg = "#1d1f21",
   line_nr = "#c5c8c6",
+  matchparen_bg = "#373b41",
+  mode_fg = "#c5c8c6",
   non_text = "#969896",
+  more_fg = "#de935f",
+  msg_area_fg = "#c5c8c6",
+  msg_separator_fg = "#c5c8c6",
+  pmenu_bg = "#1d1f21",
+  pmenu_fg = "#c5c8c6",
+  pmenu_sel_bg = "#373b41",
+  pmenu_sel_fg = "#c5c8c6",
+  pmenu_sbar_bg = "#282a2e",
+  pmenu_thumb_bg = "#969896",
+  question_fg = "#81a2be",
+  quickfix_line_bg = "#373b41",
+  search_bg = "#f0c674",
+  search_fg = "#1d1f21",
+  selection_bg = "#373b41",
+  selection_fg = "#c5c8c6",
+  split_fg = "#c5c8c6",
+  statusline_bg = "#c5c8c6",
+  statusline_fg = "#1d1f21",
+  statusline_nc_bg = "#282a2e",
+  statusline_nc_fg = "#c5c8c6",
   special_key = "#282a2e",
+  tabline_bg = "#282a2e",
+  tabline_fill_bg = "#282a2e",
+  tabline_fg = "#c5c8c6",
+  tabline_sel_bg = "#1d1f21",
+  tabline_sel_fg = "#c5c8c6",
+  title_fg = "#f0c674",
+  warning_fg = "#de935f",
+  winbar_bg = "#282a2e",
+  winbar_fg = "#c5c8c6",
+  winbar_nc_bg = "#282a2e",
+  winbar_nc_fg = "#969896",
   whitespace = "#282a2e",
 }
 
@@ -133,145 +179,200 @@ function M.setup()
   -- Neovim UI
   -- ============================================================================
 
-  -- `Normal` is the default text area for the current window.
+  -- `Normal` is the default text area for the current window, such as plain
+  -- file contents like `local x = 1`.
   hl("Normal", { fg = M.ui.fg, bg = M.ui.bg })
 
-  -- `NormalNC` is the default text area for inactive windows.
+  -- `NormalNC` is the default text area for inactive windows, such as a split
+  -- showing the same buffer but not currently focused.
   hl("NormalNC", { fg = M.ui.fg, bg = M.ui.bg })
 
-  -- `Cursor` is the visual caret in the active window.
+  -- `Cursor` is the visual caret in the active window, the block or bar that
+  -- marks the insertion point in text like `foo|bar`.
   hl("Cursor", { fg = M.ui.bg, bg = M.ui.cursor })
 
-  -- `CursorLine` highlights the current line. TODO
+  -- `CursorLine` highlights the current line, for example the line containing
+  -- the active word while editing a multi-line file.
   hl("CursorLine", { bg = M.ui.cursor_line })
 
-  -- `CursorColumn` highlights the current cursor column. TODO
+  -- `CursorColumn` highlights the vertical column under the cursor, which is
+  -- useful when tracking a fixed indentation or character position.
   hl("CursorColumn", { bg = M.ui.cursor_column })
 
-  -- `CursorLineNr` highlights the number on the current line.
+  -- `CursorLineNr` highlights the line number on the current line, such as the
+  -- `42` in the gutter when line 42 is active.
   hl("CursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })
 
-  -- `ColorColumn` marks preferred text width columns.
+  -- `ColorColumn` marks preferred text width columns, such as an 80-column wrap
+  -- guide in the editor.
   hl("ColorColumn", { bg = M.ui.color_column })
 
-  -- `LineNr` is the line number gutter for non-current lines.
+  -- `LineNr` is the line number gutter for non-current lines, such as `1`, `2`,
+  -- `3` beside the active line.
   hl("LineNr", { fg = M.ui.line_nr })
 
-  -- `SignColumn` holds signs such as diagnostics and git marks.
+  -- `SignColumn` holds signs such as diagnostics and git marks, for example
+  -- the gutter markers from LSP errors or Git signs.
   hl("SignColumn", { fg = M.ui.fg, bg = M.ui.bg })
 
-  -- `FoldColumn` shows fold markers.
+  -- `FoldColumn` shows fold markers, such as `+--` or closed fold indicators
+  -- beside collapsed code blocks.
   hl("FoldColumn", { fg = M.ui.fg, bg = M.ui.bg })
 
-  -- `Folded` is used for folded text lines.
-  -- hl("Folded", {})
+  -- `Folded` is used for folded text lines, like a collapsed function body or
+  -- block comment preview.
+  hl("Folded", { fg = M.ui.folded_fg, bg = M.ui.folded_bg })
 
-  -- `Search` highlights the last search match.
-  -- hl("Search", {})
+  -- `Search` highlights the last search match, such as the remaining matches
+  -- after running `/pattern`.
+  hl("Search", { fg = M.ui.search_fg, bg = M.ui.search_bg, bold = true })
 
-  -- `CurSearch` highlights the current search match under the cursor.
-  -- hl("CurSearch", {})
+  -- `CurSearch` highlights the current search match under the cursor, the one
+  -- currently selected while stepping through search hits.
+  hl(
+    "CurSearch",
+    { fg = M.ui.cur_search_fg, bg = M.ui.cur_search_bg, bold = true }
+  )
 
-  -- `IncSearch` highlights incremental search matches.
-  -- hl("IncSearch", {})
+  -- `IncSearch` highlights incremental search matches, the live preview while
+  -- typing `/part` before the search is confirmed.
+  hl(
+    "IncSearch",
+    { fg = M.ui.cur_search_fg, bg = M.ui.inc_search_bg, bold = true }
+  )
 
-  -- `Visual` highlights visual selections.
-  -- hl("Visual", {})
+  -- `Visual` highlights visual selections, such as text selected with `v`,
+  -- `V`, or `Ctrl-V`.
+  hl("Visual", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
 
-  -- `VisualNOS` highlights visual selections when not owned by Vim.
-  -- hl("VisualNOS", {})
+  -- `VisualNOS` highlights visual selections when not owned by Vim, which is
+  -- rare but keeps the selection visible in special ownership cases.
+  hl("VisualNOS", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
 
-  -- `Pmenu` styles popup menu entries.
-  -- hl("Pmenu", {})
+  -- `Pmenu` styles popup menu entries, such as completion items in insert mode.
+  hl("Pmenu", { fg = M.ui.pmenu_fg, bg = M.ui.pmenu_bg })
 
-  -- `PmenuSel` styles the selected popup menu entry.
-  -- hl("PmenuSel", {})
+  -- `PmenuSel` styles the selected popup menu entry, the currently highlighted
+  -- completion candidate in the menu.
+  hl("PmenuSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
 
-  -- `PmenuSbar` styles the popup menu scrollbar track.
-  -- hl("PmenuSbar", {})
+  -- `PmenuSbar` styles the popup menu scrollbar track, the background behind
+  -- the completion list thumb.
+  hl("PmenuSbar", { bg = M.ui.pmenu_sbar_bg })
 
-  -- `PmenuThumb` styles the popup menu scrollbar thumb.
-  -- hl("PmenuThumb", {})
+  -- `PmenuThumb` styles the popup menu scrollbar thumb, the small draggable
+  -- block that indicates scroll position in the menu.
+  hl("PmenuThumb", { bg = M.ui.pmenu_thumb_bg })
 
-  -- `NormalFloat` is the base background for floating windows.
-  -- hl("NormalFloat", {})
+  -- `NormalFloat` is the base background for floating windows, such as help,
+  -- diagnostics, hover popups, or command-line floats.
+  hl("NormalFloat", { fg = M.ui.float_fg, bg = M.ui.float_bg })
 
-  -- `FloatBorder` is the border around floating windows.
-  -- hl("FloatBorder", {})
+  -- `FloatBorder` is the border around floating windows, the frame drawn
+  -- around help popups, LSP hovers, and other overlays.
+  hl("FloatBorder", { fg = M.ui.float_border_fg, bg = M.ui.float_bg })
 
-  -- `FloatTitle` is the title of floating windows.
-  -- hl("FloatTitle", {})
+  -- `FloatTitle` is the title of floating windows, such as `Documentation` or
+  -- `Diagnostics` at the top of a popup.
+  hl(
+    "FloatTitle",
+    { fg = M.ui.float_title_fg, bg = M.ui.float_bg, bold = true }
+  )
 
-  -- `StatusLine` is the active status line.
-  -- hl("StatusLine", {})
+  -- `StatusLine` is the active status line, the bar at the bottom showing mode,
+  -- file name, diagnostics, and cursor position.
+  hl("StatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
 
-  -- `StatusLineNC` is the inactive status line.
-  -- hl("StatusLineNC", {})
+  -- `StatusLineNC` is the inactive status line, used for other windows that are
+  -- not currently focused.
+  hl("StatusLineNC", { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg })
 
-  -- `TabLine` is the tab bar for inactive tabs.
-  -- hl("TabLine", {})
+  -- `TabLine` is the tab bar for inactive tabs, the labels for tabs that are
+  -- not currently selected.
+  hl("TabLine", { fg = M.ui.tabline_fg, bg = M.ui.tabline_bg })
 
-  -- `TabLineSel` is the selected tab label.
-  -- hl("TabLineSel", {})
+  -- `TabLineSel` is the selected tab label, the active tab shown in the tab
+  -- bar.
+  hl(
+    "TabLineSel",
+    { fg = M.ui.tabline_sel_fg, bg = M.ui.tabline_sel_bg, bold = true }
+  )
 
-  -- `TabLineFill` fills unused tab bar space.
-  -- hl("TabLineFill", {})
+  -- `TabLineFill` fills unused tab bar space, the empty area around tab labels.
+  hl("TabLineFill", { bg = M.ui.tabline_fill_bg })
 
-  -- `VertSplit` separates vertically split windows.
-  -- hl("VertSplit", {})
+  -- `VertSplit` separates vertically split windows, the divider between side by
+  -- side panes.
+  hl("VertSplit", { fg = M.ui.split_fg, bg = M.ui.bg })
 
-  -- `WinSeparator` separates split windows in newer Neovim.
-  -- hl("WinSeparator", {})
+  -- `WinSeparator` separates split windows in newer Neovim, usually the same
+  -- visual divider as `VertSplit`.
+  hl("WinSeparator", { fg = M.ui.split_fg, bg = M.ui.bg })
 
-  -- `WinBar` is the window-local bar above the buffer.
-  -- hl("WinBar", {})
+  -- `WinBar` is the window-local bar above the buffer, for per-window titles or
+  -- breadcrumbs.
+  hl("WinBar", { fg = M.ui.winbar_fg, bg = M.ui.winbar_bg })
 
-  -- `WinBarNC` is the inactive window bar.
-  -- hl("WinBarNC", {})
+  -- `WinBarNC` is the inactive window bar, shown for windows that are not in
+  -- focus.
+  hl("WinBarNC", { fg = M.ui.winbar_nc_fg, bg = M.ui.winbar_nc_bg })
 
-  -- `Directory` marks directory names in listings.
-  -- hl("Directory", {})
+  -- `Directory` marks directory names in listings, for example `src/` in a file
+  -- explorer or `:edit` path completion.
+  hl("Directory", { fg = M.ui.directory_fg })
 
-  -- `Title` is used for titles and headings.
-  -- hl("Title", {})
+  -- `Title` is used for titles and headings, such as help page headers or
+  -- command output titles.
+  hl("Title", { fg = M.ui.title_fg, bold = true })
 
-  -- `Question` is used for yes/no prompts.
-  -- hl("Question", {})
+  -- `Question` is used for yes/no prompts, such as `Save changes? [y/n]`.
+  hl("Question", { fg = M.ui.question_fg, bold = true })
 
-  -- `WarningMsg` is used for warning messages.
-  -- hl("WarningMsg", {})
+  -- `WarningMsg` is used for warning messages, such as deprecation or caution
+  -- notices.
+  hl("WarningMsg", { fg = M.ui.warning_fg, bold = true })
 
-  -- `ErrorMsg` is used for error messages.
-  -- hl("ErrorMsg", {})
+  -- `ErrorMsg` is used for error messages, such as failed commands or runtime
+  -- errors.
+  hl("ErrorMsg", { fg = M.ui.error_fg, bold = true })
 
-  -- `ModeMsg` is used for mode/status messages.
-  -- hl("ModeMsg", {})
+  -- `ModeMsg` is used for mode/status messages, such as `-- INSERT --`.
+  hl("ModeMsg", { fg = M.ui.mode_fg })
 
-  -- `MoreMsg` is used for pager prompts.
-  -- hl("MoreMsg", {})
+  -- `MoreMsg` is used for pager prompts, such as the `-- More --` message when
+  -- output is paged.
+  hl("MoreMsg", { fg = M.ui.more_fg, bold = true })
 
-  -- `MsgArea` is the message area below the command line.
-  -- hl("MsgArea", {})
+  -- `MsgArea` is the message area below the command line, where echo messages
+  -- and notifications appear.
+  hl("MsgArea", { fg = M.ui.msg_area_fg, bg = M.ui.bg })
 
-  -- `MsgSeparator` separates message chunks in the command area.
-  -- hl("MsgSeparator", {})
+  -- `MsgSeparator` separates message chunks in the command area, for example
+  -- dividers between repeated messages.
+  hl("MsgSeparator", { fg = M.ui.msg_separator_fg, bg = M.ui.bg })
 
-  -- `MatchParen` highlights the matching bracket pair.
-  -- hl("MatchParen", {})
+  -- `MatchParen` highlights the matching bracket pair, such as the `)` that
+  -- matches a `(` under the cursor.
+  hl("MatchParen", { bg = M.ui.matchparen_bg, bold = true })
 
-  -- `QuickFixLine` marks the current quickfix item.
-  -- hl("QuickFixLine", {})
+  -- `QuickFixLine` marks the current quickfix item, the highlighted row in the
+  -- quickfix or location list.
+  hl("QuickFixLine", { bg = M.ui.quickfix_line_bg })
 
-  -- `EndOfBuffer` is the filler after the last line of a buffer.
-  -- hl("EndOfBuffer", {})
+  -- `EndOfBuffer` is the filler after the last line of a buffer, usually shown
+  -- as `~` on empty lines past the file end.
+  hl("EndOfBuffer", { fg = M.ui.end_of_buffer_fg })
 
-  -- `NonText` marks invisible buffer filler text like `~`.
+  -- `NonText` marks invisible buffer filler text like `~` or text shown only
+  -- for layout purposes.
   hl("NonText", { fg = M.ui.non_text })
 
-  -- `SpecialKey` marks special non-printable key representations.
+  -- `SpecialKey` marks special non-printable key representations, such as list
+  -- markers for tabs, trailing spaces, or control characters.
   hl("SpecialKey", { fg = M.ui.special_key })
 
-  -- `Whitespace` marks listchars whitespace.
+  -- `Whitespace` marks listchars whitespace, such as visible spaces or tabs in
+  -- `:set list` mode.
   hl("Whitespace", { fg = M.ui.whitespace })
 
   -- ============================================================================
