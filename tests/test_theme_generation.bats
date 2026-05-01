@@ -17,7 +17,7 @@ setup() {
   cp "$PROJECT_ROOT/.config/fish/conf.d/fzf_colors.fish" "$TEST_ROOT/.config/fish/conf.d/fzf_colors.fish"
   cp "$PROJECT_ROOT/.config/fish/conf.d/ls_colors.fish" "$TEST_ROOT/.config/fish/conf.d/ls_colors.fish"
   cp "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json" "$TEST_ROOT/.config/oh-my-posh/theme.omp.json"
-  cp "$PROJECT_ROOT/.config/nvim/lua/lem/colorscheme.lua" "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+  cp "$PROJECT_ROOT/.config/nvim/lua/lem/theme.lua" "$TEST_ROOT/.config/nvim/lua/lem/theme.lua"
   cp "$PROJECT_ROOT/.config/tmux/.tmux.conf" "$TEST_ROOT/.config/tmux/.tmux.conf"
   cp "$PROJECT_ROOT/macos/iterm2/custom-color-theme.itermcolors" "$TEST_ROOT/macos/iterm2/custom-color-theme.itermcolors"
   cp "$PROJECT_ROOT/windows/terminal/settings.json" "$TEST_ROOT/windows/terminal/settings.json"
@@ -269,17 +269,17 @@ PY
   [ "$output" = $'#de935f\n#c5c8c6\n{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#b5bd68>{{ .UserName }}</><#c5c8c6>@</></>{{ end }}<#81a2be>{{ .HostName }}</>  \n#cc6666\n#c5c8c6\n#b5bd68\n{{ if or (.Working.Changed) (.Staging.Changed) }}#cc6666{{ end }}\n{{ if gt .Ahead 0 }}#81a2be{{ end }}\n{{ if gt .Behind 0 }}#cc6666{{ end }}\n#f0c674\n#b5bd68\n{{ if gt .Code 0 }}#cc6666{{ end }}\n#c5c8c6\n<#b5bd68>$</>' ]
 }
 
-@test "nvim generator only updates tomorrow night fzf section" {
+@test "nvim generator only updates tomorrow night fzf and statusline sections" {
   run python3 "$TEST_ROOT/color/generators/apply-nvim.py" \
     "$TEST_ROOT/color/themes/tomorrow-night.yaml" \
-    "$TEST_ROOT/.config/nvim/lua/lem/colorscheme.lua"
+    "$TEST_ROOT/.config/nvim/lua/lem/theme.lua"
   [ "$status" -eq 0 ]
 
   run python3 - <<PY
 import re
 from pathlib import Path
 
-text = Path("${TEST_ROOT}/.config/nvim/lua/lem/colorscheme.lua").read_text(encoding="utf-8")
+text = Path("${TEST_ROOT}/.config/nvim/lua/lem/theme.lua").read_text(encoding="utf-8")
 checks = {
     r'^M\.fzf = \{$': 'M.fzf = {',
     r'^\s+fg = "#c5c8c6",$': 'fg',
@@ -315,33 +315,18 @@ checks = {
     r'^\s+section_fg = "#c5c8c6",$': 'section_fg',
     r'^\s+inactive_bg = "#282a2e",$': 'inactive_bg',
     r'^\s+inactive_fg = "#c5c8c6",$': 'inactive_fg',
-    r'^M\.syntax = \{$': 'M.syntax = {',
-    r'^\s+comment = "#969896",$': 'syntax comment',
-    r'^\s+string = "#b5bd68",$': 'syntax string',
-    r'^\s+escape = "#8abeb7",$': 'syntax escape',
-    r'^\s+number = "#de935f",$': 'syntax number',
-    r'^\s+constant = "#de935f",$': 'syntax constant',
-    r'^\s+keyword = "#b294bb",$': 'syntax keyword',
-    r'^\s+operator = "#8abeb7",$': 'syntax operator',
-    r'^\s+type = "#f0c674",$': 'syntax type',
-    r'^\s+\["function"\] = "#81a2be",$': 'syntax function',
-    r'^\s+variable = "#cc6666",$': 'syntax variable',
-    r'^\s+property = "#cc6666",$': 'syntax property',
-    r'^\s+builtin = "#de935f",$': 'syntax builtin',
-    r'^\s+preproc = "#de935f",$': 'syntax preproc',
-    r'^\s+special = "#c5c8c6",$': 'syntax special',
-    r'^\s+delimiter = "#c5c8c6",$': 'syntax delimiter',
 }
 for pattern, label in checks.items():
     if not re.search(pattern, text, re.MULTILINE):
         raise SystemExit(f"missing: {label}")
 for line in [
-    'M.ui = {',
-    'M.syntax = {',
-    'M.semantic = {',
+    'M.fzf = {',
+    'M.statusline = {',
 ]:
     if line not in text:
-        raise SystemExit(f"missing untouched block: {line}")
+        raise SystemExit(f"missing block: {line}")
+if 'M.syntax = {' in text:
+    raise SystemExit('unexpected syntax block')
 print("ok")
 PY
   [ "$status" -eq 0 ]
