@@ -152,6 +152,20 @@ statusline:
   inactive_bg: "#282a2e"
   inactive_fg: "#c5c8c6"
 
+
+ui:
+  bg: "#1d1f21"
+  fg: "#c5c8c6"
+  cursor: "#c5c8c6"
+  cursor_line: "#373b41"
+  cursor_column: "#373b41"
+  cursor_line_nr: "#373b41"
+  color_column: "#373b41"
+  line_nr: "#c5c8c6"
+  non_text: "#969896"
+  whitespace: "#282a2e"
+  special_key: "#282a2e"
+
 syntax:
   comment: "#969896"
   string: "#b5bd68"
@@ -168,16 +182,3 @@ syntax:
   preproc: "#de935f"
   special: "#c5c8c6"
   delimiter: "#c5c8c6"
-
-ui:
-  bg: "#1d1f21"
-  fg: "#c5c8c6"
-  cursor: "#c5c8c6"
-  cursor_line: "#373b41"
-  cursor_column: "#373b41"
-  cursor_line_nr: "#373b41"
-  color_column: "#373b41"
-  line_nr: "#c5c8c6"
-  non_text: "#969896"
-  whitespace: "#282a2e"
-  special_key: "#282a2e"
