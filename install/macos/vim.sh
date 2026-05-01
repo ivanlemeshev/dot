@@ -31,24 +31,5 @@ log_info "Creating symlink for Vim configuration"
 ln -s "$VIMRC_SOURCE" "$VIMRC_TARGET"
 log_info "Linked Vim configuration: $VIMRC_SOURCE -> $VIMRC_TARGET"
 
-log_info "Linking Vim colorscheme"
-COLORSCHEME_SOURCE="$PROJECT_ROOT/.config/vim/colors/custom.vim"
-COLORSCHEME_TARGET="$HOME/.config/vim/colors/custom.vim"
-
-mkdir -p "$(dirname "$COLORSCHEME_TARGET")"
-
-if [[ -L "$COLORSCHEME_TARGET" ]]; then
-  log_info "Removing existing symlink at $COLORSCHEME_TARGET"
-  rm "$COLORSCHEME_TARGET"
-elif [[ -e "$COLORSCHEME_TARGET" ]]; then
-  log_info "Backing up existing file at $COLORSCHEME_TARGET"
-  BACKUP="$COLORSCHEME_TARGET.backup.$(date +%Y%m%d%H%M%S)"
-  mv "$COLORSCHEME_TARGET" "$BACKUP"
-  log_info "Created backup: $BACKUP"
-fi
-
-ln -s "$COLORSCHEME_SOURCE" "$COLORSCHEME_TARGET"
-log_info "Linked colorscheme: $COLORSCHEME_SOURCE -> $COLORSCHEME_TARGET"
-
 log_info "Creating undo directory"
 mkdir -p "$HOME/.vim/undodir"
