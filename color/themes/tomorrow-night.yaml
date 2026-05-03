@@ -1,94 +1,82 @@
 name: "Tomorrow Night"
 
-# Tomorrow Night base palette. It is verified against different repos and should
-# be correct. This base palette should not be changed, as it is the source of
-# truth for all other color groups.
 base_palette:
   cursor: "#c5c8c6"
   statusline: "#282a2e"
   selection: "#373b41"
   bg: "#1d1f21"
   fg: "#c5c8c6"
-  black: #1d1f21
-  red: #cc6666
-  green: #b5bd68
-  # yellow is the orange in this palette.
-  yellow: #de935f
-  blue: #81a2be
-  magenta: #b294bb
-  cyan: #8abeb7
-  white: #c5c8c6
-  bright_black: #969896
-  bright_red: #cc6666
-  bright_green: #b5bd68
-  bright_yellow: #f0c674
-  bright_blue: #81a2be
-  bright_magenta: #b294bb
-  bright_cyan: #8abeb7
-  bright_white: #ffffff
+  black: "#1d1f21"
+  red: "#cc6666"
+  green: "#b5bd68"
+  yellow: "#de935f"
+  blue: "#81a2be"
+  magenta: "#b294bb"
+  cyan: "#8abeb7"
+  white: "#c5c8c6"
+  bright_black: "#969896"
+  bright_red: "#cc6666"
+  bright_green: "#b5bd68"
+  bright_yellow: "#f0c674"
+  bright_blue: "#81a2be"
+  bright_magenta: "#b294bb"
+  bright_cyan: "#8abeb7"
+  bright_white: "#ffffff"
 
-# Some special semantic colors that are used by Windows Terminal only.
 windows_terminal:
-  # tab_background uses the same color as the surface (bg) and should visually
-  # merge with it.
   tab_background: "#1d1f21"
-  # tab_unfocused_background uses the same color as the statusline inactive_bg.
   tab_unfocused_background: "#282a2e"
 
-# tmux stays visually paired with the statusline using the same surface family
-# and the same inverted block treatment.
 tmux:
-  # bar_bg matches the statusline section_bg and inactive_bg and should not
-  # merge with the surface (bg).
-  bar_bg: "#282a2e"
-  bar_fg: "#c5c8c6"
-  block_bg: "#c5c8c6"
-  block_fg: "#1d1f21"
   alert_bg: "#cc6666"
   alert_fg: "#1d1f21"
+  bar_bg: "#282a2e"
+  bar_fg: "#c5c8c6"
   bell_bg: "#de935f"
   bell_fg: "#1d1f21"
-  border_fg: "#969896"
+  block_bg: "#c5c8c6"
+  block_fg: "#1d1f21"
   border_active_fg: "#c5c8c6"
+  border_fg: "#c5c8c6"
   message_bg: "#282a2e"
   message_fg: "#c5c8c6"
   mode_bg: "#282a2e"
   mode_fg: "#c5c8c6"
 
 fish:
+  autosuggestion: "#969896"
   background: "#1d1f21"
+  cancel: "#cc6666"
+  command: "#81a2be"
+  comment: "#969896"
+  cwd: "#b5bd68"
+  cwd_root: "#cc6666"
+  end: "#b5bd68"
+  error: "#cc6666"
+  escape: "#de935f"
   foreground: "#c5c8c6"
+  host: "#81a2be"
+  host_remote: "#de935f"
+  keyword: "#cc6666"
   muted: "#969896"
   normal: "#c5c8c6"
-  command: "#81a2be"
-  keyword: "#cc6666"
+  operator: "#8abeb7"
   option: "#8abeb7"
+  pager_completion: "#c5c8c6"
+  pager_description: "#c5c8c6"
+  pager_prefix: "#f0c674"
+  pager_progress: "#969896"
+  pager_selected_background: "#373b41"
+  pager_selected_completion: "#c5c8c6"
+  pager_selected_description: "#c5c8c6"
   param: "#8abeb7"
   quote: "#f0c674"
   redirection: "#8abeb7"
-  end: "#b5bd68"
-  operator: "#8abeb7"
-  escape: "#de935f"
-  comment: "#969896"
-  error: "#cc6666"
-  autosuggestion: "#969896"
-  valid_path: "#81a2be"
-  cancel: "#cc6666"
-  selection_background: "#373b41"
   search_match_background: "#f0c674"
-  cwd: "#b5bd68"
-  cwd_root: "#cc6666"
-  user: "#b5bd68"
-  host: "#81a2be"
-  host_remote: "#de935f"
+  selection_background: "#373b41"
   status: "#cc6666"
-  pager_progress: "#969896"
-  pager_prefix: "#f0c674"
-  pager_completion: "#c5c8c6"
-  pager_description: "#c5c8c6"
-  pager_selected_background: "#373b41"
-  pager_selected_completion: "#c5c8c6"
-  pager_selected_description: "#ffffff"
+  user: "#b5bd68"
+  valid_path: "#81a2be"
 
 ls_colors:
   foreground: "#c5c8c6"
@@ -158,7 +146,7 @@ git:
   delete: "#cc6666"
   rename: "#81a2be"
   ignored: "#969896"
-  blame: "#969896"
+  blame: "#8abeb7"
 
 diagnostic:
   error: "#cc6666"
