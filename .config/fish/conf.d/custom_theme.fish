@@ -6,12 +6,12 @@ set -l fish_foreground                 c5c8c6
 set -l fish_muted                      969896
 set -l fish_normal                     c5c8c6
 set -l fish_command                    81a2be
-set -l fish_keyword                    cc6666
+set -l fish_keyword                    b294bb
 set -l fish_option                     8abeb7
 set -l fish_param                      8abeb7
 set -l fish_quote                      f0c674
 set -l fish_redirection                8abeb7
-set -l fish_end                        b5bd68
+set -l fish_end                        b294bb
 set -l fish_operator                   8abeb7
 set -l fish_escape                     de935f
 set -l fish_comment                    969896
@@ -33,7 +33,7 @@ set -l fish_pager_completion           c5c8c6
 set -l fish_pager_description          c5c8c6
 set -l fish_pager_selected_background  373b41
 set -l fish_pager_selected_completion  c5c8c6
-set -l fish_pager_selected_description ffffff
+set -l fish_pager_selected_description c5c8c6
 
 # --- Syntax highlighting ---
 set -Ux fish_color_normal         $fish_normal

@@ -149,7 +149,7 @@ M.git = {
   delete = "#cc6666",
   rename = "#81a2be",
   ignored = "#969896",
-  blame = "#969896",
+  blame = "#8abeb7",
 }
 
 -- Diagnostic
