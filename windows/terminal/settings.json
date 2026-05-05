@@ -3,15 +3,15 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
     "actions": [
         {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
             "command": {
                 "action": "copy",
                 "singleLine": false
             },
             "id": "User.copy"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
         },
         {
             "command": "paste",
@@ -95,7 +95,7 @@
             },
             {
                 "commandline": "wsl.exe -d Ubuntu --cd ~",
-                "guid": "{2640d4bf-f57f-5ec7-8eec-6ba775d03983}",
+                "guid": "{435d3422-6876-5986-85cd-18a5f0b88409}",
                 "hidden": false,
                 "icon": "\ud83d\udc27",
                 "name": "Ubuntu"
