@@ -30,7 +30,7 @@ fi
 print_key_value "OS" "$OS"
 
 case "$OS" in
-  "Ubuntu 24.04")
+  "Ubuntu 26.04")
     if [[ -f "$PROJECT_ROOT/bin/setup-ubuntu.sh" ]]; then
       source "$PROJECT_ROOT/bin/setup-ubuntu.sh"
     else

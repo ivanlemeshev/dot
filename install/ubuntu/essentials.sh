@@ -90,9 +90,6 @@ packages=(
   # A tool for downloading files from the Internet.
   "wget"
 
-  # A collection of utilities for WSL (Windows Subsystem for Linux).
-  "wslu"
-
   # A set of tools for working with xz compressed files.
   "xz-utils"
 
