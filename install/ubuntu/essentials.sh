@@ -90,9 +90,6 @@ packages=(
   # A tool for downloading files from the Internet.
   "wget"
 
-  # A collection of utilities for WSL (Windows Subsystem for Linux).
-  "wslu"
-
   # A set of tools for working with xz compressed files.
   "xz-utils"
 
@@ -107,10 +104,6 @@ packages=(
 # Default to UTC if not set in config.env or environment variables.
 export DEBIAN_FRONTEND=noninteractive
 
-if [[ -f "$PROJECT_ROOT/config.env" ]]; then
-  source "$PROJECT_ROOT/config.env"
-fi
-
 if [[ -z "${TIMEZONE:-}" ]]; then
   TIMEZONE="UTC"
 fi
@@ -123,7 +116,7 @@ echo "$TIMEZONE" | sudo tee /etc/timezone >/dev/null
 log_info "Updating package lists"
 sudo apt-get update
 
-for package in "${packages[@]}"; do
-  log_info "Installing $package"
-  sudo apt-get install -y "$package"
-done
+log_info "Packages to install:"
+printf '%s\n' "${packages[@]}"
+
+sudo apt-get install -y "${packages[@]}"

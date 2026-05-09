@@ -11,7 +11,7 @@ source "$PROJECT_ROOT/lib/print.sh"
 print_section "Installing fish"
 
 log_info "Adding fish PPA repository"
-sudo apt-add-repository -y ppa:fish-shell/release-3
+sudo apt-add-repository -y ppa:fish-shell/release-4
 sudo apt-get update
 
 log_info "Installing fish package"

@@ -1,3 +1,27 @@
+local function is_docker()
+  return vim.uv.fs_stat("/.dockerenv") ~= nil
+    or vim.uv.fs_stat("/run/.containerenv") ~= nil
+end
+
+local function ensure_pack_lockfile_writable()
+  local config_home = vim.fn.fnamemodify(vim.fn.stdpath("config"), ":h")
+  local lockfile = config_home .. "/nvim-pack-lock.json"
+
+  if vim.fn.filewritable(lockfile) == 1 then
+    return
+  end
+
+  if not is_docker() then
+    return
+  end
+
+  local fallback_config_home = vim.fn.stdpath("state") .. "/xdg-config"
+  vim.fn.mkdir(fallback_config_home, "p")
+  vim.env.XDG_CONFIG_HOME = fallback_config_home
+end
+
+ensure_pack_lockfile_writable()
+
 local plugin_modules = {
   "plugins.lem",
   "plugins.essentials",

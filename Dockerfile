@@ -1,9 +1,9 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# No need to pin versions of packages here, as this image is meant to be used
-# as a base for development and testing.
+# No need to pin versions of packages here, as this image is meant to be used as
+# a base for development and testing.
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
   sudo \

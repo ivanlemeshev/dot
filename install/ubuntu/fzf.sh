@@ -26,11 +26,3 @@ log_info "Installing fzf binary and shell extensions"
 log_info "Creating fzf symlink in ~/.local/bin"
 mkdir -p "$HOME/.local/bin"
 ln -sf "$FZF_DIR/bin/fzf" "$HOME/.local/bin/fzf"
-
-if command -v fzf &>/dev/null; then
-  FZF_VERSION=$(fzf --version | awk '{print $1}')
-  log_info "fzf installed successfully: version $FZF_VERSION"
-else
-  log_error "fzf installation failed"
-  exit 1
-fi
