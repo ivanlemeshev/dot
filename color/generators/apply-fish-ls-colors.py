@@ -2,11 +2,15 @@
 
 import os
 import re
+import subprocess
 import sys
 import tempfile
 
 if len(sys.argv) < 3:
-    print(f"Usage: {sys.argv[0]} <color-scheme.yaml> <ls_colors.fish>", file=sys.stderr)
+    print(
+        f"Usage: {sys.argv[0]} <color-scheme.yaml> <ls_colors_gnu.fish.inc>",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 yaml_file = sys.argv[1]
@@ -75,16 +79,22 @@ roles = {
     "ls_foreground": ls["foreground"],
     "ls_background": ls["background"],
     "ls_error": ls["error"],
-    "ls_document": ls["document"],
     "ls_executable": ls["executable"],
+    "ls_document": ls["document"],
     "ls_directory": ls["directory"],
     "ls_special": ls["special"],
     "ls_media": ls["media"],
     "ls_backup": ls["backup"],
 }
 
-with open(fish_file, encoding="utf-8") as f:
-    content = f.read()
+try:
+    content = subprocess.check_output(
+        ["git", "show", "HEAD:.config/fish/conf.d/ls_colors.fish"],
+        text=True,
+    )
+except subprocess.CalledProcessError as exc:
+    print(f"Failed to load ls_colors template: {exc}", file=sys.stderr)
+    sys.exit(1)
 
 for fish_var, hex_val in roles.items():
     rgb_val = to_rgb(hex_val)
@@ -94,6 +104,9 @@ for fish_var, hex_val in roles.items():
         content,
         flags=re.MULTILINE,
     )
+
+content = content.split("\n# macOS BSD ls ignores LS_COLORS", 1)[0]
+content += "\nset -gx __fish_ls_command ls\nset -gx __fish_ls_color_opt --color=always\n"
 
 dir_ = os.path.dirname(os.path.abspath(fish_file))
 with tempfile.NamedTemporaryFile(
