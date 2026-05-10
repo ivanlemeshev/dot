@@ -283,7 +283,7 @@ syntax:
   keyword_function: "#ea6962"
   keyword_operator: "#e78a4e"
   keyword_import: "#ea6962"
-  keyword_type: "#d8a657"
+  keyword_type: "#ea6962"
   keyword_modifier: "#ea6962"
   keyword_repeat: "#ea6962"
   keyword_return: "#ea6962"

@@ -283,7 +283,7 @@ syntax:
   keyword_function: "#c14a4a"
   keyword_operator: "#c35e0a"
   keyword_import: "#c14a4a"
-  keyword_type: "#b47109"
+  keyword_type: "#c14a4a"
   keyword_modifier: "#c14a4a"
   keyword_repeat: "#c14a4a"
   keyword_return: "#c14a4a"
