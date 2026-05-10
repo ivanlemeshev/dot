@@ -1,0 +1,14 @@
+# YAML sample for keys, strings, numbers, booleans, and lists.
+
+name: theme-sample
+enabled: true
+count: 3
+
+server:
+  host: 127.0.0.1
+  port: 8080
+
+users:
+  - alice
+  - bob
+  - carol

@@ -28,13 +28,13 @@
 		{
 			"name": "Escape Character",
 			"scope": "constant.character.escape",
-			"color": "syntax.special_char"
+			"color": "syntax.string_escape"
 		},
 		{ "name": "Number", "scope": "constant.numeric", "color": "syntax.number" },
 		{
 			"name": "Built-in Constant",
 			"scope": "constant.language",
-			"color": "syntax.constant"
+			"color": "syntax.constant_builtin"
 		},
 		{
 			"name": "Constant",
@@ -52,11 +52,11 @@
 			"scope": "keyword.operator",
 			"color": "syntax.operator"
 		},
-		{ "name": "Storage Type", "scope": "storage.type", "color": "syntax.type" },
+		{ "name": "Storage Type", "scope": "storage.type", "color": "syntax.storageclass" },
 		{
 			"name": "Storage Modifier",
 			"scope": "storage.modifier",
-			"color": "syntax.keyword",
+			"color": "syntax.keyword_modifier",
 			"fontStyle": "italic"
 		},
 		{
@@ -77,7 +77,7 @@
 		{
 			"name": "Function Parameter",
 			"scope": "variable.parameter",
-			"color": "syntax.variable"
+			"color": "syntax.parameter"
 		},
 		{
 			"name": "Variable",
@@ -87,76 +87,76 @@
 		{
 			"name": "Language Variable",
 			"scope": "variable.language",
-			"color": "syntax.variable",
+			"color": "syntax.variable_builtin",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Support Function",
 			"scope": "support.function",
-			"color": "syntax.function"
+			"color": "syntax.function_builtin"
 		},
 		{
 			"name": "Support Type",
 			"scope": "support.type, support.class",
-			"color": "syntax.type"
+			"color": "syntax.type_builtin"
 		},
 		{
 			"name": "Support Constant",
 			"scope": "support.constant",
-			"color": "syntax.constant"
+			"color": "syntax.constant_builtin"
 		},
 		{
 			"name": "Preprocessor",
 			"scope": "meta.preprocessor, keyword.control.import, keyword.control.directive",
-			"color": "syntax.preproc",
+			"color": "syntax.keyword_directive",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Include",
 			"scope": "keyword.control.include, keyword.control.from",
-			"color": "syntax.preproc",
+			"color": "syntax.keyword_import",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Type Annotation",
 			"scope": "meta.type, storage.type.annotation",
-			"color": "syntax.type"
+			"color": "syntax.storageclass"
 		},
 		{
 			"name": "Decorator",
 			"scope": "meta.decorator, punctuation.definition.annotation",
-			"color": "syntax.special",
+			"color": "syntax.attribute",
 			"fontStyle": "italic"
 		},
 		{
 			"name": "Tag Name",
 			"scope": "entity.name.tag",
-			"color": "syntax.type"
+			"color": "syntax.tag"
 		},
 		{
 			"name": "Tag Attribute",
 			"scope": "entity.other.attribute-name",
-			"color": "syntax.property"
+			"color": "syntax.tag_attribute"
 		},
 		{
 			"name": "Punctuation",
 			"scope": "punctuation.separator, punctuation.terminator, punctuation.section",
-			"color": "syntax.delimiter"
+			"color": "syntax.punctuation_delimiter"
 		},
 		{
 			"name": "Tag Punctuation",
 			"scope": "punctuation.definition.tag",
-			"color": "syntax.delimiter"
+			"color": "syntax.punctuation_delimiter"
 		},
 		{
 			"name": "String Punctuation",
 			"scope": "punctuation.definition.string",
-			"color": "syntax.delimiter"
+			"color": "syntax.punctuation_delimiter"
 		},
 		{
 			"name": "Regular Expression",
 			"scope": "string.regexp",
-			"color": "syntax.special_char"
+			"color": "syntax.string_regexp"
 		},
 		{
 			"name": "CSS Property",
@@ -201,7 +201,7 @@
 		{
 			"name": "Markup Heading",
 			"scope": "markup.heading, punctuation.definition.heading",
-			"color": "ui.title_fg"
+			"color": "syntax.markup_heading"
 		},
 		{
 			"name": "Markup Bold",
@@ -216,34 +216,35 @@
 		{
 			"name": "Markup Link URL",
 			"scope": "markup.underline.link, string.other.link",
+			"color": "syntax.markup_link_url",
 			"fontStyle": "underline"
 		},
 		{
 			"name": "Markup Link Text",
 			"scope": "string.other.link.title, string.other.link.description",
-			"color": "diagnostic.hint"
+			"color": "syntax.markup_link_label"
 		},
 		{
 			"name": "Markup Inline Code",
 			"scope": "markup.inline.raw, markup.raw",
-			"color": "syntax.function"
+			"color": "syntax.markup_raw"
 		},
 		{
 			"name": "Markup List",
 			"scope": "markup.list punctuation.definition.list_item",
-			"color": "ui.warning_fg"
+			"color": "syntax.markup_list"
 		},
 		{
 			"name": "Markup Quote",
 			"scope": "markup.quote",
-			"color": "ui.non_text",
+			"color": "syntax.markup_quote",
 			"fontStyle": "italic"
 		},
-		{ "name": "Invalid", "scope": "invalid", "color": "ui.error_fg" },
+		{ "name": "Invalid", "scope": "invalid", "color": "syntax.error" },
 		{
 			"name": "Invalid Deprecated",
 			"scope": "invalid.deprecated",
-			"color": "syntax.type"
+			"color": "syntax.comment_special"
 		}
 	]
 }

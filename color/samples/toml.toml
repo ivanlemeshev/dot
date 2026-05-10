@@ -1,0 +1,12 @@
+# TOML sample for keys, strings, numbers, booleans, and arrays.
+
+title = "theme-sample"
+enabled = true
+count = 3
+
+[server]
+host = "127.0.0.1"
+port = 8080
+
+[users]
+names = ["alice", "bob", "carol"]

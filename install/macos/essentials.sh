@@ -30,7 +30,6 @@ packages=(
   "tree"
   "uv"
   "vim"
-  "vivid"
   "wget"
   "xz"
   "zlib"
