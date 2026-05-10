@@ -42,6 +42,7 @@ local ensure_installed = {
   "powershell",
   "python",
   "regex",
+  "rust",
   "sql",
   "terraform",
   "tmux",
