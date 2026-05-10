@@ -21,17 +21,29 @@ generators.
 6. Slot names are semantic labels, not literal hues. If a theme assigns an
    accent role to an existing slot, keep that assignment consistent for that
    theme.
+7. Keep `bg` as the editor background, not as the default statusline or
+   selection surface.
+8. Keep `selection` as the selection surface and `statusline` as the main
+   status bar surface.
 
 ## Semantics
 
 1. Use semantic slots consistently.
 2. Use dedicated slots for fields, namespaces, modules, parameters, members, and
    constants when those slots exist.
+3. `StatusLine` and lualine `normal_bg` should follow the theme's `statusline`
+   role unless the theme explicitly defines a different convention.
+4. Selection-bearing UI like `Visual`, `PmenuSel`, selected tabs, selected
+   completion rows, and selection backgrounds should follow the theme's
+   `selection` role.
+5. Do not repurpose `normal_bg` while adjusting selection surfaces.
 
 ## Theme Families
 
 1. Do not copy semantic choices from one theme family into another.
 2. Keep each family inside its own palette and style.
+3. When fixing one family, keep the change limited to that family unless the
+   request explicitly includes others.
 
 ## Generated Files
 
@@ -49,3 +61,5 @@ generators.
 5. Keep background-bearing values on neutral base-palette layers.
 6. Do not use accent slots for panels, tabs, floats, menus, borders, or other
    background surfaces unless the theme already does that by convention.
+7. Recheck `normal_bg`, `section_bg`, `selection_bg`, and `statusline_bg`
+   separately when adjusting a theme family.

@@ -112,41 +112,41 @@
   },
   "schemes": [
     {
-      "background": "#1D1F21",
-      "black": "#1D1F21",
-      "blue": "#81A2BE",
-      "brightBlack": "#969896",
-      "brightBlue": "#81A2BE",
-      "brightCyan": "#8ABEB7",
-      "brightGreen": "#B5BD68",
-      "brightPurple": "#B294BB",
-      "brightRed": "#CC6666",
-      "brightWhite": "#FFFFFF",
-      "brightYellow": "#F0C674",
-      "cursorColor": "#C5C8C6",
-      "cyan": "#8ABEB7",
-      "foreground": "#C5C8C6",
-      "green": "#B5BD68",
+      "background": "#1D2021",
+      "black": "#1D2021",
+      "blue": "#7DAEA3",
+      "brightBlack": "#7C6F64",
+      "brightBlue": "#7DAEA3",
+      "brightCyan": "#89B482",
+      "brightGreen": "#A9B665",
+      "brightPurple": "#D3869B",
+      "brightRed": "#EA6962",
+      "brightWhite": "#DDC7A1",
+      "brightYellow": "#D8A657",
+      "cursorColor": "#D4BE98",
+      "cyan": "#89B482",
+      "foreground": "#D4BE98",
+      "green": "#A9B665",
       "name": "Custom Scheme",
-      "purple": "#B294BB",
-      "red": "#CC6666",
-      "selectionBackground": "#282A2E",
-      "white": "#C5C8C6",
-      "yellow": "#DE935F"
+      "purple": "#D3869B",
+      "red": "#EA6962",
+      "selectionBackground": "#282828",
+      "white": "#D4BE98",
+      "yellow": "#E78A4E"
     }
   ],
   "themes": [
     {
       "name": "Custom Scheme",
       "tab": {
-        "background": "#1D1F21FF",
+        "background": "#1D2021FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#1D1F21FF",
-        "unfocusedBackground": "#282A2EFF"
+        "background": "#1D2021FF",
+        "unfocusedBackground": "#282828FF"
       },
       "window": {
         "applicationTheme": "dark",
