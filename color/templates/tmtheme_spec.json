@@ -52,7 +52,7 @@
 			"scope": "keyword.operator",
 			"color": "syntax.operator"
 		},
-		{ "name": "Storage Type", "scope": "storage.type", "color": "syntax.type" },
+		{ "name": "Storage Type", "scope": "storage.type", "color": "syntax.storageclass" },
 		{
 			"name": "Storage Modifier",
 			"scope": "storage.modifier",
@@ -120,7 +120,7 @@
 		{
 			"name": "Type Annotation",
 			"scope": "meta.type, storage.type.annotation",
-			"color": "syntax.type_definition"
+			"color": "syntax.storageclass"
 		},
 		{
 			"name": "Decorator",
@@ -216,12 +216,13 @@
 		{
 			"name": "Markup Link URL",
 			"scope": "markup.underline.link, string.other.link",
+			"color": "syntax.markup_link_url",
 			"fontStyle": "underline"
 		},
 		{
 			"name": "Markup Link Text",
 			"scope": "string.other.link.title, string.other.link.description",
-			"color": "diagnostic.hint"
+			"color": "syntax.markup_link_label"
 		},
 		{
 			"name": "Markup Inline Code",
