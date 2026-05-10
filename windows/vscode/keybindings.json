@@ -98,18 +98,6 @@
         "command": "workbench.action.navigateDown"
     },
     {
-        // Move focus down in the suggest widget
-        "key": "ctrl+n",
-        "command": "selectNextSuggestion",
-        "when": "suggestWidgetVisible"
-    },
-    {
-        // Move focus up in the suggest widget
-        "key": "ctrl+p",
-        "command": "selectPrevSuggestion",
-        "when": "suggestWidgetVisible"
-    },
-    {
         // Move focus down in lists (e.g., file explorer, search results)
         "key": "ctrl+n",
         "command": "list.focusDown",
@@ -161,10 +149,10 @@
                 "workbench.files.action.focusFilesExplorer"
             ]
         },
-        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !sideBarFocus"
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !sideBarVisible"
     },
     {
-        // Toggle file explorer and focus on the active editor group
+        // Toggle file explorer and return focus to the active editor group
         "key": "space e",
         "command": "runCommands",
         "args": {
@@ -173,13 +161,7 @@
                 "workbench.action.focusActiveEditorGroup"
             ]
         },
-        "when": "sideBarFocus && !inputFocus"
-    },
-    {
-        // Toggle file explorer without changing focus
-        "key": "space e",
-        "when": "vim.mode == 'Normal' && editorTextFocus && foldersViewVisible",
-        "command": "workbench.action.toggleSidebarVisibility"
+        "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && sideBarVisible"
     },
     {
         // Rename file or folder
@@ -237,8 +219,7 @@
         "args": {
             "commands": [
                 "workbench.action.splitEditorDown",
-                "explorer.openAndPassFocus",
-                "workbench.action.closeOtherEditors"
+                "explorer.openAndPassFocus"
             ]
         }
     },
@@ -258,38 +239,14 @@
     // ======= TERMINAL ========
     // =========================
     {
-        // Close panel when terminal is focused
-        "key": "ctrl+\\",
-        "command": "workbench.action.closePanel",
-        "when": "terminalFocus && panelVisible"
-    },
-    {
-        // Close panel when terminal is focused (Windows keycode fallback)
-        "key": "ctrl+oem_5",
-        "command": "workbench.action.closePanel",
-        "when": "terminalFocus && panelVisible"
-    },
-    {
         // Close the active bottom panel (terminal, problems, output, etc.)
         "key": "ctrl+\\",
         "command": "workbench.action.closePanel",
         "when": "panelVisible"
     },
     {
-        // Close the active bottom panel (Windows keycode fallback)
-        "key": "ctrl+oem_5",
-        "command": "workbench.action.closePanel",
-        "when": "panelVisible"
-    },
-    {
         // Open terminal when no panel is visible
         "key": "ctrl+\\",
-        "command": "workbench.action.terminal.toggleTerminal",
-        "when": "!panelVisible"
-    },
-    {
-        // Open terminal when no panel is visible (Windows keycode fallback)
-        "key": "ctrl+oem_5",
         "command": "workbench.action.terminal.toggleTerminal",
         "when": "!panelVisible"
     },
@@ -300,13 +257,13 @@
         // Move focus down in the suggest widget
         "key": "ctrl+n",
         "command": "selectNextSuggestion",
-        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+        "when": "suggestWidgetVisible && textInputFocus"
     },
     {
         // Move focus up in the suggest widget
         "key": "ctrl+p",
         "command": "selectPrevSuggestion",
-        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+        "when": "suggestWidgetVisible && textInputFocus"
     },
     {
         // Accept inline suggestion from GitHub Copilot
@@ -337,13 +294,13 @@
     },
     {
         // Go to reference
-        "key": "g r",
+        "key": "g r r",
         "command": "editor.action.goToReferences",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
         // Go to implementation
-        "key": "g i",
+        "key": "g r i",
         "command": "editor.action.goToImplementation",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
