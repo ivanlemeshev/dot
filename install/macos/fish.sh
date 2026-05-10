@@ -57,25 +57,6 @@ for src in "$FISH_CONFD_SOURCE"/*.fish; do
   log_info "Linked: $src -> $target"
 done
 
-for src in "$FISH_CONFD_SOURCE"/*.fish.inc; do
-  name="$(basename "$src")"
-  target="$FISH_CONFD_TARGET/$name"
-
-  if [[ -L "$target" ]]; then
-    log_info "Removing existing symlink at $target"
-    rm "$target"
-  elif [[ -e "$target" ]]; then
-    log_info "Backing up existing file at $target"
-    BACKUP="$target.backup.$(date +%Y%m%d%H%M%S)"
-    mv "$target" "$BACKUP"
-    log_info "Created backup: $BACKUP"
-  fi
-
-  log_info "Creating symlink for $name"
-  ln -s "$src" "$target"
-  log_info "Linked: $src -> $target"
-done
-
 log_info "Installing Fisher plugin manager"
 fish -c "curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 
