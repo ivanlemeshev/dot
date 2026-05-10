@@ -46,3 +46,6 @@ generators.
 2. Confirm no extra palette keys were introduced.
 3. Verify visible UI colors, syntax colors, and mode/status colors separately.
 4. Make the smallest change that satisfies the requested theme behavior.
+5. Keep background-bearing values on neutral base-palette layers.
+6. Do not use accent slots for panels, tabs, floats, menus, borders, or other
+   background surfaces unless the theme already does that by convention.

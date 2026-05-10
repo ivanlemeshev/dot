@@ -19,7 +19,7 @@ set -l fish_error                      cc6666
 set -l fish_autosuggestion             969896
 set -l fish_valid_path                 81a2be
 set -l fish_cancel                     cc6666
-set -l fish_selection_background       373b41
+set -l fish_selection_background       282a2e
 set -l fish_selection_search_match     f0c674
 set -l fish_cwd                        b5bd68
 set -l fish_cwd_root                   cc6666
@@ -31,7 +31,7 @@ set -l fish_pager_progress             969896
 set -l fish_pager_prefix               f0c674
 set -l fish_pager_completion           c5c8c6
 set -l fish_pager_description          c5c8c6
-set -l fish_pager_selected_background  373b41
+set -l fish_pager_selected_background  282a2e
 set -l fish_pager_selected_completion  c5c8c6
 set -l fish_pager_selected_description c5c8c6
 
