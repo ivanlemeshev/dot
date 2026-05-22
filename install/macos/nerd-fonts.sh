@@ -13,6 +13,7 @@ print_section "Installing Nerd Fonts"
 FONTS=(
   "JetBrainsMono"
   "Hack"
+  "Hermit"
 )
 
 TMP_DIR=$(mktemp -d)
