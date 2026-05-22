@@ -371,6 +371,7 @@ function Install-NerdFonts
 	$fonts = @{
 		"JetBrainsMono" = "JetBrainsMono"
 		"Hack" = "Hack"
+		"Hermit" = "Hermit"
 	}
 
 	$changed = $false

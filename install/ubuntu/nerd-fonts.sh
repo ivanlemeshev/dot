@@ -13,6 +13,7 @@ print_section "Installing Nerd Fonts"
 FONTS=(
   "JetBrainsMono"
   "Hack"
+  "Hermit"
 )
 
 [[ -d "/usr/local/share/fonts" ]] || sudo mkdir -p "/usr/local/share/fonts"
