@@ -1,8 +1,9 @@
-.vscode
-lazy-lock.json
-config.env
-tmp
-__pycache__
-.nvimlog
-nvim.log
+.agents
 .codex
+.nvimlog
+.vscode
+__pycache__
+config.env
+lazy-lock.json
+nvim.log
+tmp

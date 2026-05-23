@@ -7,12 +7,12 @@ vim.pack.add({
     version = "v2.2",
   },
   {
-    src = "https://github.com/echasnovski/mini.move",
+    src = "https://github.com/nvim-mini/mini.move",
     name = "mini.move",
     version = "v0.17.0",
   },
   {
-    src = "https://github.com/echasnovski/mini.splitjoin",
+    src = "https://github.com/nvim-mini/mini.splitjoin",
     name = "mini.splitjoin",
     version = "v0.17.0",
   },

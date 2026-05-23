@@ -2,9 +2,14 @@ local helpers = require("config.helpers")
 
 vim.pack.add({
   {
-    src = "https://github.com/echasnovski/mini.indentscope",
+    src = "https://github.com/nvim-mini/mini.indentscope",
     name = "mini.indentscope",
     version = "v0.17.0",
+  },
+  {
+    src = "https://github.com/lukas-reineke/indent-blankline.nvim",
+    name = "indent-blankline.nvim",
+    version = "v3.9.1",
   },
 }, {
   load = false, -- Don't load immediately
@@ -49,3 +54,15 @@ helpers.load_on(
     })
   end
 )
+
+require("ibl").setup({
+  indent = {
+    char = "▏",
+    tab_char = "▏",
+    smart_indent_cap = true,
+  },
+  scope = {
+    show_start = false,
+    show_end = false,
+  },
+})
