@@ -15,7 +15,7 @@ vim.pack.add({
     version = "v3.17.0",
   },
   {
-    src = "https://github.com/echasnovski/mini.hipatterns",
+    src = "https://github.com/nvim-mini/mini.hipatterns",
     name = "mini.hipatterns",
     version = "v0.17.0",
   },
