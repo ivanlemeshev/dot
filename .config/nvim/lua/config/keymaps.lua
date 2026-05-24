@@ -24,7 +24,6 @@ end
 
 helpers.nmap("n", "nzzzv", "Move to the next search result")
 helpers.nmap("N", "Nzzzv", "Move to the previous search result")
-helpers.nmap("<leader>w", "<cmd>w<CR>", "Save the current buffer")
 
 local window_maps = {
   { "<C-k>", "<cmd>wincmd k<CR>", "Move to the pane above" },

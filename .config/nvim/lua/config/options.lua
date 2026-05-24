@@ -130,6 +130,65 @@ vim.opt.termguicolors = true
 vim.opt.timeoutlen = 500
 vim.opt.ttimeoutlen = 10
 
+-- Let Normal/Visual mode commands work when the keyboard is in the standard
+-- Russian ЙЦУКЕН layout.
+vim.opt.langmap = table.concat({
+  -- Lowercase
+  "йq",
+  "цw",
+  "уe",
+  "кr",
+  "еt",
+  "нy",
+  "гu",
+  "шi",
+  "щo",
+  "зp",
+  "фa",
+  "ыs",
+  "вd",
+  "аf",
+  "пg",
+  "рh",
+  "оj",
+  "лk",
+  "дl",
+  "яz",
+  "чx",
+  "сc",
+  "мv",
+  "иb",
+  "тn",
+  "ьm",
+  -- Uppercase
+  "ЙQ",
+  "ЦW",
+  "УE",
+  "КR",
+  "ЕT",
+  "НY",
+  "ГU",
+  "ШI",
+  "ЩO",
+  "ЗP",
+  "ФA",
+  "ЫS",
+  "ВD",
+  "АF",
+  "ПG",
+  "РH",
+  "ОJ",
+  "ЛK",
+  "ДL",
+  "ЯZ",
+  "ЧX",
+  "СC",
+  "МV",
+  "ИB",
+  "ТN",
+  "ЬM",
+}, ",")
+
 -- Reduce update time (faster CursorHold events, gitsigns, diagnostics).
 vim.opt.updatetime = 250
 
