@@ -135,6 +135,10 @@ alias yd-playlist-bq="yt-dlp \
     -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
     -o '%(playlist_index)s - %(title)s.%(ext)s'"
 
+# Download playlist audio as MP3 (best quality)
+alias yd-playlist-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 \
+    --audio-quality 0 --output '%(playlist_index)s - %(title)s.%(ext)s'"
+
 # Download video with Finnish and English subtitles
 alias yd-video-fi="yt-dlp \
     -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
