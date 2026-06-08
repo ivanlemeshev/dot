@@ -28,6 +28,9 @@ abbr --add unset 'set --erase'
 # Add local bin to PATH
 fish_add_path $HOME/.local/bin
 
+# Add Golang bin to PATH
+fish_add_path $HOME/go/bin
+
 # Nvim (Linux-specific installation path)
 if test "$os" = Linux
     set -x PATH "$PATH:/opt/nvim-linux-x86_64/bin"
