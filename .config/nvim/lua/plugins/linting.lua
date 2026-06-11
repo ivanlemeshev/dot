@@ -79,6 +79,7 @@ local function golangci_linter()
     append_fname = false,
     args = {
       "run",
+      "--allow-parallel-runners",
       "--output.json.path=stdout",
       "--issues-exit-code=0",
       "--show-stats=false",
