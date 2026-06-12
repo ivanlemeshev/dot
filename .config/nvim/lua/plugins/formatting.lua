@@ -21,7 +21,7 @@ helpers.load_on(
         c = { "clang_format" },
         go = { "gofumpt", "goimports" },
         javascript = { "biome" },
-        json = { "biome" },
+        json = { "prettier" },
         lua = { "stylua" },
         markdown = { "prettier" },
         proto = { "buf" },
