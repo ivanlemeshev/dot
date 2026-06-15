@@ -44,6 +44,8 @@ tmux kill-server             # Kill tmux server (kills all sessions)
 ### Management
 
 - `<prefix>x` - Kill current pane
+- `<prefix>!` - Break pane into new window
+- `<prefix>space` - Cycle through available pane layouts
 
 ## Copy Mode
 
