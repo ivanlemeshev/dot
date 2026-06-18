@@ -9,6 +9,7 @@
 - `<prefix>:` - Enter command mode
 - `:new` (in command mode) - Create new session
 - `<prefix>d` - Detach current session
+- `<prefix>r` - Reload tmux configuration
 
 ### Command Line
 
