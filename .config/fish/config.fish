@@ -14,6 +14,16 @@ set -x BAT_THEME custom
 # Enable true color support
 set -gx fish_term24bit 1
 
+# Work around iTerm2 + tmux rendering artifacts when pressing Ctrl+L.
+# Use the external `clear` command followed by a Fish prompt repaint
+# instead of Fish's built-in `clear-screen`.
+function my_clear
+    command clear
+    commandline -f repaint
+end
+
+bind \cl my_clear
+
 # Path to the additional config file
 set extra_config ~/.config/fish/extra.fish
 
