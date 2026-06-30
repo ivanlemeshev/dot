@@ -20,7 +20,8 @@ helpers.load_on(
       formatters_by_ft = {
         c = { "clang_format" },
         go = { "gofumpt", "goimports" },
-        javascript = { "biome" },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
         json = { "prettier" },
         lua = { "stylua" },
         markdown = { "prettier" },
