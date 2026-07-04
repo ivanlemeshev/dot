@@ -160,5 +160,7 @@
     },
     "chat.viewSessions.orientation": "stacked",
     "window.newWindowProfile": "Default",
-    "workbench.colorTheme": "Dark Modern"
+    "workbench.colorTheme": "Dark Modern",
+    "prettier.proseWrap": "always",
+    "prettier.printWidth": 80,
 }
