@@ -98,6 +98,11 @@ end
 alias yd-mp3="yt-dlp --verbose --extract-audio --audio-format mp3 \
     --audio-quality 0 --output '%(title)s.%(ext)s'"
 
+# Extract audio as M4A (best quality)
+alias yd-m4a="yt-dlp --verbose --extract-audio --audio-format m4a \
+    --audio-quality 0 --add-metadata --embed-metadata \
+    --output '%(title)s.%(ext)s'"
+
 # Extract audio as MP3 with chapter splitting
 alias yd-mp3c="yt-dlp --verbose --extract-audio --audio-format mp3 \
     --audio-quality 0 --output '%(title)s.%(ext)s' --split-chapters"
@@ -157,3 +162,13 @@ alias yd-video-fi="yt-dlp \
     -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b' \
     -o '%(title)s.%(ext)s' \
     --write-subs --sub-langs 'fi.*,en.*' --sub-format 'srt'"
+
+# Download playlist audio as M4A (best quality)
+alias yd-playlist-m4a="yt-dlp \
+    --verbose \
+    --extract-audio \
+    --audio-format m4a \
+    --audio-quality 0 \
+    --add-metadata \
+    --embed-metadata \
+    --output '%(playlist_index)s - %(title)s.%(ext)s'"

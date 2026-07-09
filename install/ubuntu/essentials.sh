@@ -65,6 +65,9 @@ packages=(
   # A terminal pager program used to view text files and command output.
   "less"
 
+  # A library for reading and writing JPEG image files.
+  "libjpeg-dev"
+
   # A tool for installing Python packages.
   "python3-pip"
 

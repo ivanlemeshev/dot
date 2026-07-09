@@ -41,6 +41,7 @@ local ensure_installed = {
   "php",
   "powershell",
   "python",
+  "racket",
   "regex",
   "rust",
   "sql",

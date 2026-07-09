@@ -22,5 +22,8 @@ vim.filetype.add({
   extension = {
     yml = ansible_yaml_filetype,
     yaml = ansible_yaml_filetype,
+    rkt = "racket",
+    rktd = "racket",
+    rktl = "racket",
   },
 })
