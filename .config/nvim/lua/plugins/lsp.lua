@@ -26,9 +26,17 @@ local lsp_config = {
     filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
   },
   gopls = {
+    cmd = { "gopls", "-remote=auto" },
     settings = {
       gopls = {
-        buildFlags = { "-tags=integration" },
+        directoryFilters = {
+          "-**/vendor",
+          "-**/node_modules",
+          "-**/dist",
+          "-**/build",
+          "-**/.git",
+        },
+        expandWorkspaceToModule = false,
       },
     },
   },
