@@ -122,6 +122,12 @@ helpers.load_on(
   function()
     local lint = require("lint")
 
+    -- Disable MD013 (line-length) warnings for Markdown files.
+    lint.linters.markdownlint.args = {
+      "--disable",
+      "MD013",
+    }
+
     lint.linters.golangcilint_custom = golangci_linter()
     lint.linters_by_ft = {
       dockerfile = { "hadolint" },
