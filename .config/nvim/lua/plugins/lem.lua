@@ -16,7 +16,9 @@ require("lem.ruler").setup({
     "help",
     "lspinfo",
     "man",
+    "markdown",
     "mason",
+    "text",
     "qf",
   },
   exclude_buftypes = {
