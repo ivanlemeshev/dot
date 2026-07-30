@@ -33,6 +33,7 @@ M.ui = {
   msg_area_fg = "#d4be98",
   msg_separator_fg = "#7c6f64",
   pmenu_bg = "#1d2021",
+  pmenu_border_fg = "#7c6f64",
   pmenu_fg = "#d4be98",
   pmenu_sel_bg = "#282828",
   pmenu_sel_fg = "#d4be98",
@@ -403,6 +404,9 @@ function M.setup()
 
   -- `Pmenu` styles popup menu entries, such as completion items in insert mode.
   hl("Pmenu", { fg = M.ui.pmenu_fg, bg = M.ui.pmenu_bg })
+
+  -- `PmenuBorder` frames popup menus, including the built-in right-click menu.
+  hl("PmenuBorder", { fg = M.ui.pmenu_border_fg, bg = M.ui.pmenu_bg })
 
   -- `PmenuSel` styles the selected popup menu entry, the currently highlighted
   -- completion candidate in the menu.

@@ -82,6 +82,10 @@ vim.opt.linebreak = true
 -- Enable the mouse in all modes.
 vim.opt.mouse = "a"
 
+-- Give the built-in right-click and completion popup menus the same frame
+-- style as the other floating windows.
+vim.opt.pumborder = "single"
+
 -- Case-insensitive search, unless uppercase is used.
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
