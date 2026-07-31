@@ -23,6 +23,7 @@ local lsp_config = {
     end,
   },
   clangd = {
+    cmd = { "clangd", "--clang-tidy" },
     filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
   },
   gopls = {
