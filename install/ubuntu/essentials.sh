@@ -26,11 +26,20 @@ packages=(
   # A package for building software from source.
   "build-essential"
 
+  # A compiler for C, C++ and Objective-C programming languages.
+  "clang"
+
   # A tool to format C, C++ and Objective-C code.
   "clang-format"
 
+  # A tool to detect bugs and improve code quality in C, C++ and Objective-C code.
+  "clang-tidy"
+
   # A language server for C, C++ and Objective-C.
   "clangd"
+
+  # A tool for building, testing and packaging software.
+  "cmake"
 
   # A tool for transferring data from or to a server using URLs.
   "curl"
