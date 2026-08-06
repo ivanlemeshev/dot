@@ -20,7 +20,7 @@ if ! command -v kwriteconfig6 >/dev/null; then
   exit 1
 fi
 
-KDE_TERMINAL_FONT="${KDE_TERMINAL_FONT:-JetBrainsMono Nerd Font,11,-1,5,50,0,0,0,0,0}"
+KDE_TERMINAL_FONT="${KDE_TERMINAL_FONT:-JetBrainsMonoNL Nerd Font Mono,11,-1,5,50,0,0,0,0,0}"
 KONSOLE_PROFILE_DIR="$HOME/.local/share/konsole"
 KONSOLE_PROFILE="$KONSOLE_PROFILE_DIR/dot.profile"
 mkdir -p "$KONSOLE_PROFILE_DIR"
@@ -35,16 +35,4 @@ ln -sf "$KONSOLE_COLOR_SOURCE" "$KONSOLE_COLOR_TARGET"
 kwriteconfig6 --file konsolerc --group "Desktop Entry" \
   --key DefaultProfile "dot.profile"
 
-KONSOLE_DESKTOP_SOURCE="/usr/share/applications/org.kde.konsole.desktop"
-KONSOLE_DESKTOP_DIR="$HOME/.local/share/applications"
-KONSOLE_DESKTOP_TARGET="$KONSOLE_DESKTOP_DIR/org.kde.konsole.desktop"
-mkdir -p "$KONSOLE_DESKTOP_DIR"
-cp "$KONSOLE_DESKTOP_SOURCE" "$KONSOLE_DESKTOP_TARGET"
-sed -i 's|^Exec=konsole|Exec=konsole --hide-toolbars|' \
-  "$KONSOLE_DESKTOP_TARGET"
-
-if command -v update-desktop-database >/dev/null; then
-  update-desktop-database "$KONSOLE_DESKTOP_DIR"
-fi
-
-log_info "Konsole now uses dot.profile with its main toolbar hidden"
+log_info "Konsole now uses dot.profile"
