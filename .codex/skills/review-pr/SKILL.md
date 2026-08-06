@@ -1,5 +1,5 @@
 ---
-name: review
+name: review-pr
 description:
   Review a pull request. Use when the user asks to review a PR, review pull
   request changes, or run a code review on a GitHub pull request.
@@ -11,8 +11,8 @@ You are an expert code reviewer. Follow these steps.
 
 ## Gather context
 
-1. If no PR number is provided in the request, run `gh pr list` to show open
-   PRs and ask which one to review.
+1. If no PR number is provided in the request, run `gh pr list` to show open PRs
+   and ask which one to review.
 2. If a PR number is provided, run
    `gh pr view <number> --json title,body,author,baseRefName,headRefName,state,additions,deletions,changedFiles,labels`
    to get PR details.

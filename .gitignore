@@ -1,4 +1,5 @@
 .agents
+.codex/skills/.system
 .nvimlog
 .vscode
 __pycache__
