@@ -49,8 +49,8 @@ generators.
 
 1. Update the matching generator when a palette key changes.
 2. Keep generator inputs and theme files in sync.
-3. Check the generated Neovim, tmTheme, Fish, and terminal outputs after
-   changes.
+3. Check the generated Neovim, tmTheme, Fish, Konsole, and terminal outputs
+   after changes.
 
 ## Validation
 

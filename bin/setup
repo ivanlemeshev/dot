@@ -30,11 +30,18 @@ fi
 print_key_value "OS" "$OS"
 
 case "$OS" in
-  "Ubuntu 26.04")
+  "Ubuntu "*)
     if [[ -f "$PROJECT_ROOT/bin/setup-ubuntu.sh" ]]; then
       source "$PROJECT_ROOT/bin/setup-ubuntu.sh"
     else
       log_fatal "setup-ubuntu.sh not found" 1
+    fi
+    ;;
+  "Fedora Linux "* | "Fedora "*)
+    if [[ -f "$PROJECT_ROOT/bin/setup-fedora.sh" ]]; then
+      source "$PROJECT_ROOT/bin/setup-fedora.sh"
+    else
+      log_fatal "setup-fedora.sh not found" 1
     fi
     ;;
   "Darwin"*)

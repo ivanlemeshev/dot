@@ -1,9 +1,10 @@
 .agents
-.codex
+.codex/skills/.system
 .nvimlog
 .vscode
 __pycache__
 config.env
 lazy-lock.json
+nvim-pack-lock.json
 nvim.log
 tmp
