@@ -24,6 +24,7 @@ INSTALL_SCRIPTS_DIR="$PROJECT_ROOT/install/fedora"
 "$INSTALL_SCRIPTS_DIR/racket.sh"
 "$INSTALL_SCRIPTS_DIR/tree-sitter.sh"
 "$INSTALL_SCRIPTS_DIR/konsole.sh"
+"$INSTALL_SCRIPTS_DIR/ghostty.sh"
 "$INSTALL_SCRIPTS_DIR/keyboard.sh"
 "$INSTALL_SCRIPTS_DIR/clean.sh"
 
