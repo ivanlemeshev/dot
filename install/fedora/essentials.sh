@@ -103,6 +103,14 @@ log_info "Installing packages:"
 printf '%s\n' "${packages[@]}"
 sudo dnf install -y "${packages[@]}"
 
+if [[ -n "${MACHINE_NAME:-}" ]]; then
+  if [[ ! "$MACHINE_NAME" =~ ^[[:alnum:]][[:alnum:].-]*$ ]]; then
+    log_error "Invalid machine name: $MACHINE_NAME"
+    exit 1
+  fi
+  sudo hostnamectl set-hostname "$MACHINE_NAME"
+fi
+
 if [[ -n "${TIMEZONE:-}" ]]; then
   if [[ ! -e "/usr/share/zoneinfo/$TIMEZONE" ]]; then
     log_error "Unknown timezone: $TIMEZONE"
