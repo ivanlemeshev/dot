@@ -162,5 +162,5 @@
     "window.newWindowProfile": "Default",
     "workbench.colorTheme": "Dark Modern",
     "prettier.proseWrap": "always",
-    "prettier.printWidth": 80,
+    "prettier.printWidth": 80
 }

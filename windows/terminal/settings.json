@@ -1,11 +1,9 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": 
-    [
+    "actions": [
         {
-            "command": 
-            {
+            "command": {
                 "action": "copy",
                 "singleLine": false
             },
@@ -20,8 +18,7 @@
             "id": "User.paste"
         },
         {
-            "command": 
-            {
+            "command": {
                 "action": "splitPane",
                 "split": "auto",
                 "splitMode": "duplicate"
@@ -32,8 +29,7 @@
     "copyFormatting": "none",
     "copyOnSelect": true,
     "defaultProfile": "{897c6b3b-dc4f-4c80-9cac-c277cfe2f3f9}",
-    "keybindings": 
-    [
+    "keybindings": [
         {
             "id": "User.copy",
             "keys": "ctrl+shift+c"
@@ -51,20 +47,16 @@
             "keys": "alt+shift+d"
         }
     ],
-    "newTabMenu": 
-    [
+    "newTabMenu": [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles": 
-    {
-        "defaults": 
-        {
+    "profiles": {
+        "defaults": {
             "colorScheme": "Custom Scheme",
             "cursorShape": "filledBox",
-            "font": 
-            {
+            "font": {
                 "builtinGlyphs": true,
                 "cellHeight": "1.4",
                 "colorGlyphs": true,
@@ -76,8 +68,7 @@
             "opacity": 100,
             "useAcrylic": false
         },
-        "list": 
-        [
+        "list": [
             {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "guid": "{c993c0b6-0023-5562-a928-3ea11eb283ce}",
@@ -116,8 +107,7 @@
             }
         ]
     },
-    "schemes": 
-    [
+    "schemes": [
         {
             "background": "#1D2021",
             "black": "#1D2021",
@@ -142,24 +132,20 @@
             "yellow": "#E78A4E"
         }
     ],
-    "themes": 
-    [
+    "themes": [
         {
             "name": "Custom Scheme",
-            "tab": 
-            {
+            "tab": {
                 "background": "#1D2021FF",
                 "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
-            "tabRow": 
-            {
+            "tabRow": {
                 "background": "#1D2021FF",
                 "unfocusedBackground": "#282828FF"
             },
-            "window": 
-            {
+            "window": {
                 "applicationTheme": "dark",
                 "experimental.rainbowFrame": false,
                 "frame": null,

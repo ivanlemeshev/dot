@@ -179,7 +179,6 @@ Write-Host "Checking Windows packages..."
 
 Install-WingetPackage "Git.Git" "Git"
 Install-WingetPackage "GitHub.cli" "GitHub CLI"
-Install-WingetPackage "Neovim.Neovim" "Neovim"
 Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
 Install-WingetPackage "jdx.mise" "mise"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"

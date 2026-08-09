@@ -3,15 +3,9 @@
     // ======= LEADER BINDS ========
     // =============================
     {
-        // Write current file and format document
+        // Write current file
         "key": "space w",
-        "command": "runCommands",
-        "args": {
-            "commands": [
-                "workbench.action.files.save",
-                "editor.action.formatDocument"
-            ]
-        },
+        "command": "workbench.action.files.save",
         "when": "vim.mode == 'Normal' && editorTextFocus"
     },
     {
@@ -77,26 +71,6 @@
     // ================================
     // ========= NAVIGATION ===========
     // ================================
-    {
-        // Move focus to the left editor group
-        "key": "ctrl-h",
-        "command": "workbench.action.navigateLeft"
-    },
-    {
-        // Move focus to the right editor group
-        "key": "ctrl-l",
-        "command": "workbench.action.navigateRight"
-    },
-    {
-        // Move focus to the upper editor group
-        "key": "ctrl-k",
-        "command": "workbench.action.navigateUp"
-    },
-    {
-        // Move focus to the lower editor group
-        "key": "ctrl-j",
-        "command": "workbench.action.navigateDown"
-    },
     {
         // Move focus down in lists (e.g., file explorer, search results)
         "key": "ctrl+n",
