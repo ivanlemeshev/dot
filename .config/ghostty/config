@@ -1,3 +1,9 @@
 theme = custom
 font-family = JetBrainsMonoNL Nerd Font Mono
 font-size = 12
+cursor-style = block
+cursor-style-blink = true
+# Disable the shell-integration cursor feature: it forces a bar at the zsh
+# prompt (\e[5 q). We want a block everywhere, so let cursor-style win. The
+# tmux Ss/Se terminal-override handles resetting the cursor after TUI apps.
+shell-integration-features = no-cursor
