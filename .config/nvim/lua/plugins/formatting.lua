@@ -32,6 +32,9 @@ helpers.load_on(
         yaml = { "yamlfmt" },
       },
       formatters = {
+        prettier = {
+          prepend_args = { "--prose-wrap", "never" },
+        },
         yamlfmt = {
           command = "yamlfmt",
           args = { "-formatter", "retain_line_breaks=true", "indent=2", "-" },

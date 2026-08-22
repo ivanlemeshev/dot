@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CANONICAL_REFERENCES="$PROJECT_ROOT/.agents/skills/lem-review-pr/references"
+CODEX_REFERENCES="$PROJECT_ROOT/.codex/skills/lem-review-pr/references"
+CLAUDE_REFERENCES="$PROJECT_ROOT/.claude/skills/lem/skills/review-pr/references"
+
+for target in "$CODEX_REFERENCES" "$CLAUDE_REFERENCES"; do
+  mkdir -p "$target"
+  cp "$CANONICAL_REFERENCES/review-method.md" "$target/review-method.md"
+  cp "$CANONICAL_REFERENCES/examples.md" "$target/examples.md"
+done

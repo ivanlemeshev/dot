@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lem Review PR"
+  short_description: "Review pull requests and local changes"
+  default_prompt: "Use $lem-review-pr to review the requested pull request or local changes and return the standardized report."
