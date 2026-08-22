@@ -14,10 +14,13 @@ setup() {
   grep -q '^name: review-pr$' "$CLAUDE_PLUGIN/skills/review-pr/SKILL.md"
 }
 
-@test "both adapters contain the canonical review references" {
+@test "both adapters link directly to the canonical review references" {
+  [ -L "$CODEX_SKILL/references" ]
+  [ "$(readlink "$CODEX_SKILL/references")" = '../../../.agents/skills/lem-review-pr/references' ]
+  [ -L "$CLAUDE_PLUGIN/skills/review-pr/references" ]
+  [ "$(readlink "$CLAUDE_PLUGIN/skills/review-pr/references")" = '../../../../../.agents/skills/lem-review-pr/references' ]
+
   cmp "$CANONICAL/review-method.md" "$CODEX_SKILL/references/review-method.md"
-  cmp "$CANONICAL/examples.md" "$CODEX_SKILL/references/examples.md"
-  cmp "$CANONICAL/review-method.md" "$CLAUDE_PLUGIN/skills/review-pr/references/review-method.md"
   cmp "$CANONICAL/examples.md" "$CLAUDE_PLUGIN/skills/review-pr/references/examples.md"
 }
 
