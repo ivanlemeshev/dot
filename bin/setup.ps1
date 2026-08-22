@@ -892,6 +892,7 @@ if ($null -ne $mise)
 }
 
 Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
+Install-NpmGlobalPackage "@fission-ai/openspec@latest" "openspec" "OpenSpec"
 
 #endregion
 
