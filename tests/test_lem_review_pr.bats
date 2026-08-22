@@ -2,8 +2,8 @@
 
 setup() {
   PROJECT_ROOT="${BATS_TEST_DIRNAME}/.."
-  CANONICAL="$PROJECT_ROOT/.agents/skills/lem-review-pr/references"
   CODEX_SKILL="$PROJECT_ROOT/.codex/skills/lem-review-pr"
+  CANONICAL="$CODEX_SKILL/references"
   CLAUDE_PLUGIN="$PROJECT_ROOT/.claude/skills/lem"
 }
 
@@ -14,13 +14,12 @@ setup() {
   grep -q '^name: review-pr$' "$CLAUDE_PLUGIN/skills/review-pr/SKILL.md"
 }
 
-@test "both adapters link directly to the canonical review references" {
-  [ -L "$CODEX_SKILL/references" ]
-  [ "$(readlink "$CODEX_SKILL/references")" = '../../../.agents/skills/lem-review-pr/references' ]
+@test "Claude links directly to the canonical Codex review references" {
+  [ -d "$CANONICAL" ]
+  [ ! -L "$CANONICAL" ]
   [ -L "$CLAUDE_PLUGIN/skills/review-pr/references" ]
-  [ "$(readlink "$CLAUDE_PLUGIN/skills/review-pr/references")" = '../../../../../.agents/skills/lem-review-pr/references' ]
+  [ "$(readlink "$CLAUDE_PLUGIN/skills/review-pr/references")" = '../../../../../.codex/skills/lem-review-pr/references' ]
 
-  cmp "$CANONICAL/review-method.md" "$CODEX_SKILL/references/review-method.md"
   cmp "$CANONICAL/examples.md" "$CLAUDE_PLUGIN/skills/review-pr/references/examples.md"
 }
 
