@@ -124,6 +124,7 @@ helpers.load_on(
 
     -- Disable MD013 (line-length) warnings for Markdown files.
     lint.linters.markdownlint.args = {
+      "--stdin",
       "--disable",
       "MD013",
     }

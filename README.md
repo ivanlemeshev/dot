@@ -1,7 +1,9 @@
 # Dotfiles
 
 [![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
+
 [![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
+
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
 ```bash
@@ -12,8 +14,7 @@
 (_)____/ \___/ |_| |_|   |___|_____|_____|____/
 ```
 
-This repository contains my personal dotfiles and setup scripts. It includes
-configurations for Neovim, Zsh, and various tools.
+This repository contains my personal dotfiles and setup scripts. It includes configurations for Neovim, Zsh, and various tools.
 
 <!-- prettier-ignore -->
 > [!WARNING]
