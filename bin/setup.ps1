@@ -232,6 +232,39 @@ function Test-VSCodeInstallation
 		Select-Object -First 1)
 }
 
+function Get-OhMyPoshCommand
+{
+	$command = Get-Command oh-my-posh -ErrorAction SilentlyContinue
+	if ($null -ne $command)
+	{
+		return $command.Source
+	}
+
+	$candidates = @(
+		"$env:LOCALAPPDATA\Microsoft\WindowsApps\oh-my-posh.exe",
+		"$env:LOCALAPPDATA\Microsoft\WinGet\Links\oh-my-posh.exe",
+		"$env:ProgramFiles\oh-my-posh\bin\oh-my-posh.exe",
+		"${env:ProgramFiles(x86)}\oh-my-posh\bin\oh-my-posh.exe"
+	)
+
+	$appPackage = Get-AppxPackage -Name "JanDeDobbeleer.OhMyPosh" `
+		-ErrorAction SilentlyContinue | Select-Object -First 1
+	if ($null -ne $appPackage)
+	{
+		$candidates += Join-Path $appPackage.InstallLocation "oh-my-posh.exe"
+	}
+
+	foreach ($candidate in $candidates)
+	{
+		if (Test-Path $candidate)
+		{
+			return $candidate
+		}
+	}
+
+	return $null
+}
+
 Write-Host "Checking Windows packages..."
 
 Install-WingetPackage "Git.Git" "Git"
@@ -241,6 +274,7 @@ Install-WingetPackage "jdx.mise" "mise"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
+Install-WingetPackage "JanDeDobbeleer.OhMyPosh" "Oh My Posh"
 
 #endregion
 
@@ -615,6 +649,80 @@ function Add-BlockIfMissing($path, $marker, [string[]]$block)
 
 	$block | Add-Content -Path $path
 	return $true
+}
+
+Write-Host ""
+Write-Host "Setting up Oh My Posh prompt..."
+
+$ohMyPoshThemeSource = "$repoRoot\.config\oh-my-posh\theme.omp.json"
+$ohMyPoshThemeDirectory = "$env:USERPROFILE\.config\oh-my-posh"
+$ohMyPoshThemeTarget = "$ohMyPoshThemeDirectory\theme.omp.json"
+
+if (-not (Test-Path $ohMyPoshThemeSource))
+{
+	Write-Warning "Oh My Posh theme source not found: $ohMyPoshThemeSource"
+	Write-Warning "Skipping Oh My Posh theme setup."
+} else
+{
+	if (-not (Test-Path $ohMyPoshThemeDirectory))
+	{
+		New-Item $ohMyPoshThemeDirectory -ItemType Directory -Force | Out-Null
+	}
+
+	if (Test-Path $ohMyPoshThemeTarget)
+	{
+		$ohMyPoshThemeItem = Get-Item $ohMyPoshThemeTarget
+		$existing = $ohMyPoshThemeItem.Target
+
+		if ($ohMyPoshThemeItem.LinkType -eq "SymbolicLink" -and `
+			$existing -eq $ohMyPoshThemeSource)
+		{
+			Write-Host "Oh My Posh theme already linked."
+		} elseif ($ohMyPoshThemeItem.LinkType -eq "SymbolicLink")
+		{
+			Write-Host "Updating Oh My Posh theme link..."
+			Remove-Item $ohMyPoshThemeTarget -Force
+			New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+				-Value $ohMyPoshThemeSource | Out-Null
+			Write-Host "Oh My Posh theme updated."
+		} else
+		{
+			$backup = "$ohMyPoshThemeTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+			Write-Host "Backing up existing Oh My Posh theme to $backup"
+			Move-Item $ohMyPoshThemeTarget $backup
+			New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+				-Value $ohMyPoshThemeSource | Out-Null
+			Write-Host "Oh My Posh theme linked."
+		}
+	} else
+	{
+		New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+			-Value $ohMyPoshThemeSource | Out-Null
+		Write-Host "Oh My Posh theme linked."
+	}
+}
+
+$ohMyPoshProfileLines = @(
+	'# Oh My Posh prompt',
+	'$ohMyPosh = Get-Command oh-my-posh -ErrorAction SilentlyContinue',
+	'$ohMyPoshTheme = Join-Path $HOME ".config\oh-my-posh\theme.omp.json"',
+	'if ($null -ne $ohMyPosh -and (Test-Path $ohMyPoshTheme)) {',
+	'    (& $ohMyPosh.Source init pwsh --config $ohMyPoshTheme) | Out-String | Invoke-Expression',
+	'}'
+)
+
+if (Add-BlockIfMissing $PROFILE.CurrentUserAllHosts '# Oh My Posh prompt' $ohMyPoshProfileLines)
+{
+	Write-Host "Added Oh My Posh prompt to PowerShell profile."
+} else
+{
+	Write-Host "Oh My Posh prompt already present in PowerShell profile."
+}
+
+$ohMyPosh = Get-OhMyPoshCommand
+if ($null -eq $ohMyPosh)
+{
+	Write-Warning "Oh My Posh was not found in the current session. Restart PowerShell to activate the prompt."
 }
 
 function Initialize-PSReadLineFishLikeExperience
