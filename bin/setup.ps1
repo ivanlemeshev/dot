@@ -175,6 +175,96 @@ function Install-NpmGlobalPackage($package, $commandName, $name)
 	return $true
 }
 
+function Ensure-MSYS2
+{
+	$msysEnv = "C:\msys64\usr\bin\env.exe"
+	if (Test-Path $msysEnv)
+	{
+		return $msysEnv
+	}
+
+	Write-Host "MSYS2 is required for the Windows Lua toolchain."
+	if (-not (Install-WingetPackage "MSYS2.MSYS2" "MSYS2"))
+	{
+		Write-Warning "MSYS2 could not be installed. Skipping Lua and LuaRocks setup."
+		return $null
+	}
+
+	if (-not (Test-Path $msysEnv))
+	{
+		Write-Warning "MSYS2 was installed, but $msysEnv was not found."
+		Write-Warning "Skipping Lua and LuaRocks setup."
+		return $null
+	}
+
+	return $msysEnv
+}
+
+function Get-WindowsTerminalSettingsDirectory
+{
+	$term = Get-AppxPackage -Name "Microsoft.WindowsTerminal*" `
+		-ErrorAction SilentlyContinue | Select-Object -First 1
+	if ($null -eq $term)
+	{
+		return $null
+	}
+
+	return Join-Path $env:LOCALAPPDATA `
+		"Packages\$($term.PackageFamilyName)\LocalState"
+}
+
+function Test-VSCodeInstallation
+{
+	$appPackage = Get-AppxPackage -Name "Microsoft.VisualStudioCode*" `
+		-ErrorAction SilentlyContinue | Select-Object -First 1
+	if ($null -ne $appPackage)
+	{
+		return $true
+	}
+
+	$candidates = @(
+		"$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe",
+		"$env:ProgramFiles\Microsoft VS Code\Code.exe",
+		"${env:ProgramFiles(x86)}\Microsoft VS Code\Code.exe"
+	)
+
+	return $null -ne ($candidates | Where-Object { Test-Path $_ } |
+		Select-Object -First 1)
+}
+
+function Get-OhMyPoshCommand
+{
+	$command = Get-Command oh-my-posh -ErrorAction SilentlyContinue
+	if ($null -ne $command)
+	{
+		return $command.Source
+	}
+
+	$candidates = @(
+		"$env:LOCALAPPDATA\Microsoft\WindowsApps\oh-my-posh.exe",
+		"$env:LOCALAPPDATA\Microsoft\WinGet\Links\oh-my-posh.exe",
+		"$env:ProgramFiles\oh-my-posh\bin\oh-my-posh.exe",
+		"${env:ProgramFiles(x86)}\oh-my-posh\bin\oh-my-posh.exe"
+	)
+
+	$appPackage = Get-AppxPackage -Name "JanDeDobbeleer.OhMyPosh" `
+		-ErrorAction SilentlyContinue | Select-Object -First 1
+	if ($null -ne $appPackage)
+	{
+		$candidates += Join-Path $appPackage.InstallLocation "oh-my-posh.exe"
+	}
+
+	foreach ($candidate in $candidates)
+	{
+		if (Test-Path $candidate)
+		{
+			return $candidate
+		}
+	}
+
+	return $null
+}
+
 Write-Host "Checking Windows packages..."
 
 Install-WingetPackage "Git.Git" "Git"
@@ -184,6 +274,7 @@ Install-WingetPackage "jdx.mise" "mise"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
+Install-WingetPackage "JanDeDobbeleer.OhMyPosh" "Oh My Posh"
 
 #endregion
 
@@ -560,6 +651,80 @@ function Add-BlockIfMissing($path, $marker, [string[]]$block)
 	return $true
 }
 
+Write-Host ""
+Write-Host "Setting up Oh My Posh prompt..."
+
+$ohMyPoshThemeSource = "$repoRoot\.config\oh-my-posh\theme.omp.json"
+$ohMyPoshThemeDirectory = "$env:USERPROFILE\.config\oh-my-posh"
+$ohMyPoshThemeTarget = "$ohMyPoshThemeDirectory\theme.omp.json"
+
+if (-not (Test-Path $ohMyPoshThemeSource))
+{
+	Write-Warning "Oh My Posh theme source not found: $ohMyPoshThemeSource"
+	Write-Warning "Skipping Oh My Posh theme setup."
+} else
+{
+	if (-not (Test-Path $ohMyPoshThemeDirectory))
+	{
+		New-Item $ohMyPoshThemeDirectory -ItemType Directory -Force | Out-Null
+	}
+
+	if (Test-Path $ohMyPoshThemeTarget)
+	{
+		$ohMyPoshThemeItem = Get-Item $ohMyPoshThemeTarget
+		$existing = $ohMyPoshThemeItem.Target
+
+		if ($ohMyPoshThemeItem.LinkType -eq "SymbolicLink" -and `
+			$existing -eq $ohMyPoshThemeSource)
+		{
+			Write-Host "Oh My Posh theme already linked."
+		} elseif ($ohMyPoshThemeItem.LinkType -eq "SymbolicLink")
+		{
+			Write-Host "Updating Oh My Posh theme link..."
+			Remove-Item $ohMyPoshThemeTarget -Force
+			New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+				-Value $ohMyPoshThemeSource | Out-Null
+			Write-Host "Oh My Posh theme updated."
+		} else
+		{
+			$backup = "$ohMyPoshThemeTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+			Write-Host "Backing up existing Oh My Posh theme to $backup"
+			Move-Item $ohMyPoshThemeTarget $backup
+			New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+				-Value $ohMyPoshThemeSource | Out-Null
+			Write-Host "Oh My Posh theme linked."
+		}
+	} else
+	{
+		New-Item $ohMyPoshThemeTarget -ItemType SymbolicLink `
+			-Value $ohMyPoshThemeSource | Out-Null
+		Write-Host "Oh My Posh theme linked."
+	}
+}
+
+$ohMyPoshProfileLines = @(
+	'# Oh My Posh prompt',
+	'$ohMyPosh = Get-Command oh-my-posh -ErrorAction SilentlyContinue',
+	'$ohMyPoshTheme = Join-Path $HOME ".config\oh-my-posh\theme.omp.json"',
+	'if ($null -ne $ohMyPosh -and (Test-Path $ohMyPoshTheme)) {',
+	'    (& $ohMyPosh.Source init pwsh --config $ohMyPoshTheme) | Out-String | Invoke-Expression',
+	'}'
+)
+
+if (Add-BlockIfMissing $PROFILE.CurrentUserAllHosts '# Oh My Posh prompt' $ohMyPoshProfileLines)
+{
+	Write-Host "Added Oh My Posh prompt to PowerShell profile."
+} else
+{
+	Write-Host "Oh My Posh prompt already present in PowerShell profile."
+}
+
+$ohMyPosh = Get-OhMyPoshCommand
+if ($null -eq $ohMyPosh)
+{
+	Write-Warning "Oh My Posh was not found in the current session. Restart PowerShell to activate the prompt."
+}
+
 function Initialize-PSReadLineFishLikeExperience
 {
 	Import-Module PSReadLine -ErrorAction SilentlyContinue
@@ -809,8 +974,8 @@ if ($null -ne $mise)
 		Write-Host "mise bootstrap tools installed."
 	}
 
-	$msysEnv = "C:\msys64\usr\bin\env.exe"
-	if (Test-Path $msysEnv)
+	$msysEnv = Ensure-MSYS2
+	if ($null -ne $msysEnv)
 	{
 		Write-Host "Installing Lua with MSYS2..."
 		& $msysEnv MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -lc `
@@ -868,9 +1033,6 @@ if ($null -ne $mise)
 				Write-Warning "Lua installed, but lua.exe or luarocks was not found in $msysUcrtBin."
 			}
 		}
-	} else
-	{
-		Write-Warning "MSYS2 not found at C:\msys64. Skipping Lua install."
 	}
 
 	# Load mise into this shell so installed tools are available immediately.
@@ -902,17 +1064,13 @@ Write-Host "Setting up configuration files..."
 
 #region Windows Terminal Settings
 
-$term = Get-AppxPackage | Where-Object {
-	$_.Name -match "WindowsTerminal"
-}
+$termDir = Get-WindowsTerminalSettingsDirectory
 
-if ($null -eq $term)
+if ($null -eq $termDir)
 {
 	Write-Warning "Windows Terminal not found. Skipping..."
 } else
 {
-	$termDir = "$env:LOCALAPPDATA\Packages\" +
-	"$($term.PackageFamilyName)\LocalState"
 	$target = "$termDir\settings.json"
 	$source = "$repoRoot\windows\terminal\settings.json"
 
@@ -962,11 +1120,7 @@ if ($null -eq $term)
 
 #region VSCode Settings
 
-$term = Get-AppxPackage | Where-Object {
-	$_.Name -match "VisualStudioCode"
-}
-
-if ($null -eq $term)
+if (-not (Test-VSCodeInstallation))
 {
 	Write-Warning "VSCode not found. Skipping..."
 } else
@@ -993,7 +1147,7 @@ if ($null -eq $term)
 		$targetItem = Get-Item $settingsTarget
 		$existing = $targetItem.Target
 
-		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $source)
+		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $settingsSource)
 		{
 			Write-Host "VSCode settings already linked."
 		} elseif ($targetItem.LinkType -eq "SymbolicLink")
@@ -1029,7 +1183,7 @@ if ($null -eq $term)
 		$targetItem = Get-Item $keybindingsTarget
 		$existing = $targetItem.Target
 
-		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $source)
+		if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $keybindingsSource)
 		{
 			Write-Host "VSCode keybindings already linked."
 		} elseif ($targetItem.LinkType -eq "SymbolicLink")
