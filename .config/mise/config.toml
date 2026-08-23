@@ -1,7 +1,9 @@
 [tools]
 go = "1.26.5"
 golangci-lint = "2.12.2"
-lua = "5.5.0" # Includes luarocks
+# Lua is supplied by MSYS2/UCRT64 on Windows (see bin/setup.ps1).  Installing
+# it through mise there breaks the native Windows environment.
+lua = { version = "5.5.0", os = ["linux", "macos"] } # Includes luarocks
 node = "24.19.0"
 python = "3.14.6"
 racket = "9.2"
