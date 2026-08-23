@@ -102,12 +102,14 @@
         "workbench.action.terminal.toggleTerminal"
     ],
     "diffEditor.ignoreTrimWhitespace": false,
-    // === Lua ===
     "[lua]": {
         "editor.defaultFormatter": "JohnnyMorganz.stylua"
     },
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.rulers": []
     },
     "github.copilot.enable": {
         "*": true,
