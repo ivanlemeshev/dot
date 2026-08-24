@@ -14,6 +14,24 @@ setup() {
   grep -q '^name: review-pr$' "$CLAUDE_PLUGIN/skills/review-pr/SKILL.md"
 }
 
+@test "simplification skill is available in Codex and Claude" {
+  codex_skill="$PROJECT_ROOT/.codex/skills/lem-simplify-pr"
+  claude_skill="$CLAUDE_PLUGIN/skills/simplify-pr"
+
+  grep -q '^name: lem-simplify-pr$' "$codex_skill/SKILL.md"
+  grep -q '^  default_prompt: "Use \$lem-simplify-pr ' "$codex_skill/agents/openai.yaml"
+  grep -q '^name: simplify-pr$' "$claude_skill/SKILL.md"
+  grep -q '\$ARGUMENTS' "$claude_skill/SKILL.md"
+}
+
+@test "simplification skill requires evidence and preserves read-only analysis" {
+  for skill in "$PROJECT_ROOT/.codex/skills/lem-simplify-pr/SKILL.md" "$CLAUDE_PLUGIN/skills/simplify-pr/SKILL.md"; do
+    grep -q 'behavior equivalence' "$skill"
+    grep -q 'When the user asks for analysis, keep the work read-only' "$skill"
+    grep -q 'No worthwhile simplifications identified' "$skill"
+  done
+}
+
 @test "Claude links directly to the canonical Codex review references" {
   [ -d "$CANONICAL" ]
   [ ! -L "$CANONICAL" ]
