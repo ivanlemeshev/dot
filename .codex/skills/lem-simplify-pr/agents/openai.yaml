@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lem Simplify PR"
+  short_description: "Find safe code simplifications in ready PRs"
+  default_prompt: "Use $lem-simplify-pr to analyze the requested ready PR and identify or apply safe code simplifications."
