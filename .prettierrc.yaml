@@ -4,6 +4,7 @@ overrides:
   - files: "*.md"
     options:
       embeddedLanguageFormatting: "auto"
+      printWidth: 120
       proseWrap: "never"
       singleQuote: false
       tabWidth: 2
