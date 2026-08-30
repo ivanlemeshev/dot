@@ -33,7 +33,7 @@ helpers.load_on(
       },
       formatters = {
         prettier = {
-          prepend_args = { "--prose-wrap", "never" },
+          prepend_args = { "--prose-wrap", "preserve" },
         },
         yamlfmt = {
           command = "yamlfmt",
