@@ -27,3 +27,11 @@ _Avoid_: installer, setup script
 **Migration**:
 The controlled change from the current dotfiles to Dotfiles v2 after v2 has passed its acceptance tests.
 _Avoid_: replacement, upgrade
+
+**Windows shell boundary**:
+Fish runs in MSYS2 as the interactive development shell on Windows. PowerShell remains available for Windows-only administration and bootstrap tasks.
+_Avoid_: native Fish, PowerShell replacement
+
+**Shared font stack**:
+JetBrains Mono Nerd Font Mono is the primary coding and icon font. Noto Sans Mono CJK and Noto Color Emoji supply missing language and emoji glyphs.
+_Avoid_: single universal font
