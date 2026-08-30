@@ -16,6 +16,14 @@ _Avoid_: target OS, system
 Configuration that is specific to one target platform.
 _Avoid_: desktop layer, OS layer
 
+**Platform manifest**:
+Data that declares the packages and configuration selections for one target platform.
+_Avoid_: package list, platform script
+
+**Platform adapter**:
+Small native code that applies a platform manifest through that platform's package and system interfaces.
+_Avoid_: installer script, platform script
+
 **Shared core**:
 Command-line and development configuration that is common to supported target platforms.
 _Avoid_: common configuration, universal layer
