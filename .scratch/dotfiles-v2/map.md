@@ -13,7 +13,7 @@ Use the terms in `CONTEXT.md`. Work one decision ticket per session. Dotfiles v2
 <!-- Closed tickets appear here as short links. -->
 
 - [Research Omarchy tool and workflow ideas](issues/01-research-omarchy-tool-and-workflow-ideas.md): [source-linked inventory](research/omarchy-tool-and-workflow-ideas.md) separates portable tool ideas from Omarchy- and Arch-specific components.
-- [Define the Fedora developer desktop profile](issues/02-define-the-fedora-developer-desktop-profile.md): selects a small developer tool set, rootless Docker, and a shared plain-Fish and font policy.
+- [Define the Fedora developer desktop profile](issues/02-define-the-fedora-developer-desktop-profile.md): selects the developer tool set, including LazyGit, Lazydocker, `yt-dlp`, and Cliamp, plus rootless Docker and a shared plain-Fish and font policy.
 - [Choose the Dotfiles v2 configuration model](issues/03-choose-the-dotfiles-v2-configuration-model.md): selects one Chezmoi source tree, TOML manifests, native bootstrap launchers, and platform adapters.
 
 ## Not yet specified
