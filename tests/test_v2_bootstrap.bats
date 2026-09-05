@@ -66,7 +66,7 @@ require_fedora_kde_with_sudo() {
 }
 
 @test "Bootstrap refuses a missing controlled sudo command" {
-  require_fedora_kde_with_sudo
+  require_fedora_kde
 
   run env BOOTSTRAP_SUDO_COMMAND="$BATS_TEST_TMPDIR/missing-sudo" "$BOOTSTRAP"
 
