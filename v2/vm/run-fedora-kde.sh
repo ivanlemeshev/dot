@@ -77,6 +77,7 @@ Fedora KDE Plasma VM plan
 Fedora release: $fedora_release
 Provider: libvirt/QEMU
 Firmware: UEFI
+Secure Boot: disabled
 Memory: $vm_memory_mib MiB
 Disk: $vm_disk_gib GiB
 vCPUs: $vm_vcpus
@@ -265,7 +266,7 @@ run_vm() {
     --disk "size=$vm_disk_gib" \
     --network "network=$vm_network" \
     --os-variant fedora-unknown \
-    --boot uefi \
+    --boot uefi,firmware.feature0.name=secure-boot,firmware.feature0.enabled=no \
     --graphics spice \
     --noautoconsole \
     --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks console=ttyS0,115200n8" \

@@ -18,6 +18,7 @@ setup() {
   [[ "$output" == *"Network: default"* ]]
   [[ "$output" == *"Provider: libvirt/QEMU"* ]]
   [[ "$output" == *"Firmware: UEFI"* ]]
+  [[ "$output" == *"Secure Boot: disabled"* ]]
   [[ "$output" == *"Non-root test user: dotfiles-test"* ]]
   [[ "$output" == *"SDDM KDE Plasma auto-login: enabled"* ]]
   [[ "$output" == *"Cleanup: remove VM and disk after the run"* ]]
