@@ -7,6 +7,7 @@ readonly vm_disk_gib=30
 readonly vm_vcpus=2
 readonly vm_network=default
 readonly test_user=dotfiles-test
+readonly ssh_wait_attempts=540
 readonly fedora_download_root=https://download.fedoraproject.org/pub/fedora/linux/releases
 readonly os_release_file=/etc/os-release
 
@@ -85,6 +86,7 @@ Network: $vm_network
 Non-root test user: $test_user
 SDDM KDE Plasma auto-login: enabled
 SSH check: pgrep plasmashell as $test_user
+SSH timeout: 45 minutes
 Cleanup: remove VM and disk after the run
 Evidence directory: $evidence_dir
 EOF
@@ -212,8 +214,8 @@ wait_for_ssh() {
   local address=""
   local attempt
 
-  for attempt in $(seq 1 60); do
-    printf 'Waiting for KDE Plasma SSH check: attempt %s of 60.\n' "$attempt"
+  for attempt in $(seq 1 "$ssh_wait_attempts"); do
+    printf 'Waiting for KDE Plasma SSH check: attempt %s of %s.\n' "$attempt" "$ssh_wait_attempts"
     address="$(virsh -c qemu:///system domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ { sub("/.*", "", $4); print $4; exit }')"
     if [[ -n "$address" ]] && ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$work_dir/id_ed25519" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >>"$evidence_dir/ssh-check.log" 2>&1; then
       printf '{"result":"passed","check":"KDE Plasma session available through SSH"}\n' >"$evidence_dir/ssh-check.json"

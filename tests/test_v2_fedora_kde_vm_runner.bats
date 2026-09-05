@@ -21,6 +21,7 @@ setup() {
   [[ "$output" == *"Secure Boot: disabled"* ]]
   [[ "$output" == *"Non-root test user: dotfiles-test"* ]]
   [[ "$output" == *"SDDM KDE Plasma auto-login: enabled"* ]]
+  [[ "$output" == *"SSH timeout: 45 minutes"* ]]
   [[ "$output" == *"Cleanup: remove VM and disk after the run"* ]]
   [[ "$output" == *"No changes were made."* ]]
 }
