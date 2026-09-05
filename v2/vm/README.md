@@ -9,7 +9,8 @@ make vm-base-build
 make vm-test-run
 ```
 
-`make vm-base-build` is slow. It installs and retains one clean Fedora KDE base disk. `make vm-test-run` creates a new overlay from that base disk. It is fast and removes the overlay after the SSH check. Use `make vm-test-full` to run the slow installation path without the base disk.
+`make vm-base-build` installs Fedora to a base disk and retains that disk.
+`make vm-test-run` creates an overlay disk, runs the SSH check, and removes the overlay. Use `make vm-test-full` to install Fedora to a new disk.
 
 The runner stores ISO metadata, checksum-signature output, `virt-install` output, and a machine-readable SSH check under `$XDG_STATE_HOME/dotfiles-v2/vm-evidence`. It removes the VM and its disk on success or failure. The ISO remains in `$XDG_CACHE_HOME/dotfiles-v2/iso` for a later run.
 

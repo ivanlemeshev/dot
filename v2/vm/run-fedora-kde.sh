@@ -13,7 +13,7 @@ readonly fedora_download_root=https://download.fedoraproject.org/pub/fedora/linu
 readonly os_release_file=/etc/os-release
 
 dry_run=false
-run_mode=overlay
+readonly run_mode=full
 fedora_release="${FEDORA_RELEASE:-}"
 iso_url=""
 checksum_url=""
@@ -25,7 +25,6 @@ work_dir=""
 vm_created=false
 iso_volume=""
 primary_volume=""
-preserve_primary_volume=false
 libvirt_iso_file=""
 ssh_key_file=""
 
@@ -36,13 +35,12 @@ stop() {
 
 usage() {
   cat <<'EOF'
-Usage: run-fedora-kde.sh [--base-build | --full-install] [--release RELEASE] \
+Usage: run-fedora-kde.sh [--release RELEASE] \
   [--evidence-dir DIRECTORY] [--iso-cache DIRECTORY] [--dry-run]
 
-The default run starts a fresh overlay from a clean Fedora KDE base disk.
---base-build creates that base disk. --full-install creates a fresh disk from
-the official Fedora Everything installer ISO. Every run verifies the signed
-checksum, retains evidence, runs an SSH check, then removes temporary storage.
+The default run creates a new disk from the official Fedora installer ISO.
+Every run verifies the signed checksum. It retains evidence and runs an SSH
+check. It then removes the VM and disk.
 EOF
 }
 
@@ -51,14 +49,6 @@ parse_arguments() {
     case "$1" in
       --dry-run)
         dry_run=true
-        ;;
-      --base-build)
-        [[ "$run_mode" == overlay ]] || stop "Only one installation mode is allowed."
-        run_mode=base
-        ;;
-      --full-install)
-        [[ "$run_mode" == overlay ]] || stop "Only one installation mode is allowed."
-        run_mode=full
         ;;
       --release | --evidence-dir | --iso-cache)
         [[ $# -ge 2 ]] || stop "Missing value for $1."
@@ -88,14 +78,10 @@ parse_arguments() {
 }
 
 print_plan() {
-  local base_volume
-
-  base_volume="$(base_volume_name)"
   cat <<EOF
 Fedora KDE Plasma VM plan
 Fedora release: $fedora_release
 Run mode: $run_mode
-Base volume: $base_volume
 Provider: libvirt/QEMU
 Firmware: UEFI
 Secure Boot: disabled
@@ -132,7 +118,7 @@ cleanup() {
     virsh -c qemu:///system vol-delete "$iso_volume" --pool "$libvirt_pool" >/dev/null 2>&1 || true
   fi
 
-  if [[ -n "$primary_volume" && "$preserve_primary_volume" == false ]]; then
+  if [[ -n "$primary_volume" ]]; then
     virsh -c qemu:///system vol-delete "$primary_volume" --pool "$libvirt_pool" >/dev/null 2>&1 || true
   fi
 
@@ -177,53 +163,14 @@ upload_iso_to_libvirt() {
   libvirt_iso_file="$(virsh -c qemu:///system vol-path "$iso_volume" --pool "$libvirt_pool")"
 }
 
-base_volume_name() {
-  printf 'dotfiles-v2-fedora-kde-base-%s.qcow2\n' "$fedora_release"
-}
-
-base_key_directory() {
-  printf '%s/dotfiles-v2/vm-base/fedora-%s\n' "${XDG_STATE_HOME:-$HOME/.local/state}" "$fedora_release"
-}
-
 prepare_ssh_key() {
-  local base_key
-
-  if [[ "$run_mode" == full ]]; then
-    ssh_key_file="$work_dir/id_ed25519"
-    ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_file"
-    return
-  fi
-
-  base_key="$(base_key_directory)/id_ed25519"
-  if [[ "$run_mode" == base ]]; then
-    mkdir -p "$(base_key_directory)"
-    if [[ ! -f "$base_key" ]]; then
-      ssh-keygen -q -t ed25519 -N '' -f "$base_key"
-    fi
-  fi
-  [[ -r "$base_key" && -r "$base_key.pub" ]] || stop "Build the Fedora KDE base disk first: make vm-base-build."
-  ssh_key_file="$base_key"
+  ssh_key_file="$work_dir/id_ed25519"
+  ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_file"
 }
 
 create_primary_volume() {
-  local base_volume
-
-  if [[ "$run_mode" == base ]]; then
-    primary_volume="$(base_volume_name)"
-    if virsh -c qemu:///system vol-info "$primary_volume" --pool "$libvirt_pool" >/dev/null 2>&1; then
-      stop "Fedora KDE base disk already exists. Remove it before rebuilding."
-    fi
-    preserve_primary_volume=true
-    virsh -c qemu:///system vol-create-as "$libvirt_pool" "$primary_volume" "${vm_disk_gib}G" --format qcow2 >/dev/null
-  elif [[ "$run_mode" == overlay ]]; then
-    base_volume="$(base_volume_name)"
-    virsh -c qemu:///system vol-info "$base_volume" --pool "$libvirt_pool" >/dev/null || stop "Build the Fedora KDE base disk first: make vm-base-build."
-    primary_volume="$vm_name.qcow2"
-    virsh -c qemu:///system vol-create-as "$libvirt_pool" "$primary_volume" "${vm_disk_gib}G" --format qcow2 --backing-vol "$base_volume" --backing-vol-format qcow2 >/dev/null
-  else
-    primary_volume="$vm_name.qcow2"
-    virsh -c qemu:///system vol-create-as "$libvirt_pool" "$primary_volume" "${vm_disk_gib}G" --format qcow2 >/dev/null
-  fi
+  primary_volume="$vm_name.qcow2"
+  virsh -c qemu:///system vol-create-as "$libvirt_pool" "$primary_volume" "${vm_disk_gib}G" --format qcow2 >/dev/null
 }
 
 write_kickstart() {
@@ -325,27 +272,23 @@ run_vm() {
   create_primary_volume
   primary_disk_file="$(virsh -c qemu:///system vol-path "$primary_volume" --pool "$libvirt_pool")"
 
-  if [[ "$run_mode" == overlay ]]; then
-    install_arguments=(--import)
-  else
-    select_installer_media
-    iso_name="$(basename "$iso_url")"
-    iso_file="$iso_cache/$iso_name"
-    checksum_file="$work_dir/CHECKSUM"
-    key_file="/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$fedora_release-primary"
-    [[ -r "$key_file" ]] || stop "Local Fedora release key is unavailable: $key_file."
-    printf 'iso_url=%s\nchecksum_url=%s\ninstall_tree_url=%s\ntrusted_key_file=%s\n' "$iso_url" "$checksum_url" "$install_tree_url" "$key_file" >>"$evidence_dir/run-metadata.env"
-    download "$checksum_url" "$checksum_file"
-    [[ -f "$iso_file" ]] || download "$iso_url" "$iso_file"
-    verify_iso "$iso_file" "$checksum_file" "$key_file"
-    upload_iso_to_libvirt "$iso_file"
-    write_kickstart
-    install_arguments=(
-      --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks"
-      --disk "path=$libvirt_iso_file,device=cdrom,readonly=on"
-      --initrd-inject "$work_dir/fedora-kde.ks"
-    )
-  fi
+  select_installer_media
+  iso_name="$(basename "$iso_url")"
+  iso_file="$iso_cache/$iso_name"
+  checksum_file="$work_dir/CHECKSUM"
+  key_file="/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$fedora_release-primary"
+  [[ -r "$key_file" ]] || stop "Local Fedora release key is unavailable: $key_file."
+  printf 'iso_url=%s\nchecksum_url=%s\ninstall_tree_url=%s\ntrusted_key_file=%s\n' "$iso_url" "$checksum_url" "$install_tree_url" "$key_file" >>"$evidence_dir/run-metadata.env"
+  download "$checksum_url" "$checksum_file"
+  [[ -f "$iso_file" ]] || download "$iso_url" "$iso_file"
+  verify_iso "$iso_file" "$checksum_file" "$key_file"
+  upload_iso_to_libvirt "$iso_file"
+  write_kickstart
+  install_arguments=(
+    --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks"
+    --disk "path=$libvirt_iso_file,device=cdrom,readonly=on"
+    --initrd-inject "$work_dir/fedora-kde.ks"
+  )
 
   vm_created=true
   virt-install \

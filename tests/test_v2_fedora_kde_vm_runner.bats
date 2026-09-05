@@ -34,25 +34,24 @@ setup() {
   [[ "$output" == *"Fedora release: 42"* ]]
 }
 
-@test "Fedora KDE Plasma VM runner previews a base build" {
+@test "Fedora KDE Plasma VM runner previews one standalone installation" {
+  run "$VM_RUNNER" --dry-run --release 42
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Run mode: full"* ]]
+  [[ "$output" == *"Cleanup: remove VM and disk after the run"* ]]
+}
+
+@test "Fedora KDE Plasma VM runner rejects obsolete installation modes" {
   run "$VM_RUNNER" --dry-run --base-build --release 42
 
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"Run mode: base"* ]]
-  [[ "$output" == *"Base volume: dotfiles-v2-fedora-kde-base-42.qcow2"* ]]
-}
-
-@test "Fedora KDE Plasma VM runner rejects conflicting installation modes" {
-  run "$VM_RUNNER" --dry-run --base-build --full-install --release 42
-
   [ "$status" -ne 0 ]
-  [[ "$output" == *"Only one installation mode is allowed."* ]]
+  [[ "$output" == *"Unknown argument: --base-build."* ]]
 }
 
-@test "Make exposes Fedora base and full VM runs" {
-  run make -n vm-base-build vm-test-full
+@test "Make exposes the standalone Fedora VM run" {
+  run make -n vm-test-run
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"--base-build"* ]]
-  [[ "$output" == *"--full-install"* ]]
+  [[ "$output" == *"run-fedora-kde.sh"* ]]
 }
