@@ -24,9 +24,9 @@ setup() {
   [[ "$output" == *"No changes were made."* ]]
 }
 
-@test "Fedora KDE Plasma VM runner requires a selected Fedora release" {
-  run "$VM_RUNNER" --dry-run
+@test "Fedora KDE Plasma VM runner detects the Fedora release for a dry run" {
+  run env FEDORA_RELEASE=42 "$VM_RUNNER" --dry-run
 
-  [ "$status" -ne 0 ]
-  [[ "$output" == *"A Fedora release is required"* ]]
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Fedora release: 42"* ]]
 }

@@ -7,19 +7,20 @@ readonly vm_disk_gib=30
 readonly vm_vcpus=2
 readonly vm_network=default
 readonly test_user=dotfiles-test
-readonly fedora_key_url=https://fedoraproject.org/fedora.gpg
+readonly fedora_download_root=https://download.fedoraproject.org/pub/fedora/linux/releases
+readonly os_release_file=/etc/os-release
 
 dry_run=false
-fedora_release=""
+fedora_release="${FEDORA_RELEASE:-}"
 iso_url=""
 checksum_url=""
-checksum_signature_url=""
-fedora_key_fingerprint=""
+install_tree_url=""
 evidence_dir="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-v2/vm-evidence"
 iso_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-v2/iso"
 vm_name=""
 work_dir=""
 vm_created=false
+iso_volume=""
 
 stop() {
   printf 'VM runner stopped: %s\n' "$1" >&2
@@ -28,13 +29,12 @@ stop() {
 
 usage() {
   cat <<'EOF'
-Usage: run-fedora-kde.sh --release RELEASE --iso-url URL --checksum-url URL \
-  --checksum-signature-url URL --fedora-key-fingerprint FINGERPRINT \
-  [--evidence-dir DIRECTORY] [--iso-cache DIRECTORY]
+Usage: run-fedora-kde.sh [--release RELEASE] [--evidence-dir DIRECTORY] \
+  [--iso-cache DIRECTORY] [--dry-run]
 
-Provision one fresh Fedora KDE Plasma VM from an Anaconda installer ISO with
-libvirt/QEMU. The command verifies the signed ISO checksum, retains evidence,
-runs an SSH check, then removes the VM and its disk.
+Provision one fresh Fedora KDE Plasma VM from the official Fedora Everything
+installer ISO. The command verifies the signed checksum with the local Fedora
+release key, retains evidence, runs an SSH check, then removes the VM and disk.
 EOF
 }
 
@@ -44,20 +44,16 @@ parse_arguments() {
       --dry-run)
         dry_run=true
         ;;
-      --release|--iso-url|--checksum-url|--checksum-signature-url|--fedora-key-fingerprint|--evidence-dir|--iso-cache)
+      --release | --evidence-dir | --iso-cache)
         [[ $# -ge 2 ]] || stop "Missing value for $1."
         case "$1" in
           --release) fedora_release="$2" ;;
-          --iso-url) iso_url="$2" ;;
-          --checksum-url) checksum_url="$2" ;;
-          --checksum-signature-url) checksum_signature_url="$2" ;;
-          --fedora-key-fingerprint) fedora_key_fingerprint="${2^^}" ;;
           --evidence-dir) evidence_dir="$2" ;;
           --iso-cache) iso_cache="$2" ;;
         esac
         shift
         ;;
-      --help|-h)
+      --help | -h)
         usage
         exit 0
         ;;
@@ -68,7 +64,10 @@ parse_arguments() {
     shift
   done
 
-  [[ -n "$fedora_release" ]] || stop "A Fedora release is required."
+  if [[ -z "$fedora_release" ]]; then
+    [[ -r "$os_release_file" ]] || stop "Cannot read Fedora release data."
+    fedora_release="$(awk -F= '$1 == "VERSION_ID" { gsub(/"/, "", $2); print $2 }' "$os_release_file")"
+  fi
   [[ "$fedora_release" =~ ^[0-9]+$ ]] || stop "Fedora release must be a number."
 }
 
@@ -90,16 +89,9 @@ Evidence directory: $evidence_dir
 EOF
 }
 
-require_arguments_for_run() {
-  [[ -n "$iso_url" ]] || stop "An ISO URL is required."
-  [[ -n "$checksum_url" ]] || stop "A checksum URL is required."
-  [[ -n "$checksum_signature_url" ]] || stop "A checksum signature URL is required."
-  [[ "$fedora_key_fingerprint" =~ ^[0-9A-F]{40}$ ]] || stop "A 40-character Fedora signing-key fingerprint is required."
-}
-
 require_commands() {
   local command
-  for command in awk curl gpg sha256sum ssh ssh-keygen virsh virt-install; do
+  for command in awk curl gpg grep sha256sum sort ssh ssh-keygen stat virsh virt-install; do
     command -v "$command" >/dev/null || stop "Required command is unavailable: $command."
   done
 }
@@ -108,8 +100,12 @@ cleanup() {
   local status=$?
 
   if [[ "$vm_created" == true ]]; then
-    virsh destroy "$vm_name" >/dev/null 2>&1 || true
-    virsh undefine "$vm_name" --nvram --remove-all-storage >/dev/null 2>&1 || true
+    virsh -c qemu:///system destroy "$vm_name" >/dev/null 2>&1 || true
+    virsh -c qemu:///system undefine "$vm_name" --nvram --remove-all-storage >/dev/null 2>&1 || true
+  fi
+
+  if [[ -n "$iso_volume" ]]; then
+    virsh -c qemu:///system vol-delete "$iso_volume" --pool default >/dev/null 2>&1 || true
   fi
 
   [[ -z "$work_dir" ]] || rm -rf "$work_dir"
@@ -120,15 +116,44 @@ download() {
   local source_url="$1"
   local target_file="$2"
 
-  printf 'download %s\n' "$source_url" >> "$evidence_dir/acquisition.log"
-  curl --fail --location --retry 3 --output "$target_file" "$source_url" >> "$evidence_dir/acquisition.log" 2>&1
+  printf 'download %s\n' "$source_url" >>"$evidence_dir/acquisition.log"
+  curl --fail --location --retry 3 --output "$target_file" "$source_url" >>"$evidence_dir/acquisition.log" 2>&1
+}
+
+select_installer_media() {
+  local release_directory
+  local listing_file
+  local iso_name
+  local checksum_name
+
+  release_directory="$fedora_download_root/$fedora_release/Everything/x86_64/iso"
+  listing_file="$work_dir/release-directory.html"
+  download "$release_directory/" "$listing_file"
+  iso_name="$(grep -oE "Fedora-Everything-netinst-x86_64-$fedora_release-[0-9]+(\\.[0-9]+)*\\.iso" "$listing_file" | sort -Vu | tail -n 1)"
+  checksum_name="$(grep -oE "Fedora-Everything-$fedora_release-[0-9]+(\\.[0-9]+)*-x86_64-CHECKSUM" "$listing_file" | sort -Vu | tail -n 1)"
+  [[ -n "$iso_name" ]] || stop "Cannot find a Fedora Everything installer ISO for release $fedora_release."
+  [[ -n "$checksum_name" ]] || stop "Cannot find a Fedora checksum file for release $fedora_release."
+  iso_url="$release_directory/$iso_name"
+  checksum_url="$release_directory/$checksum_name"
+  install_tree_url="$fedora_download_root/$fedora_release/Everything/x86_64/os/"
+}
+
+upload_iso_to_libvirt() {
+  local iso_file="$1"
+  local iso_size
+
+  iso_size="$(stat --format=%s "$iso_file")"
+  iso_volume="$vm_name-installer.iso"
+  virsh -c qemu:///system vol-create-as default "$iso_volume" "$iso_size" --format raw >/dev/null
+  virsh -c qemu:///system vol-upload "$iso_volume" "$iso_file" --pool default >/dev/null
+  libvirt_iso_file="$(virsh -c qemu:///system vol-path "$iso_volume" --pool default)"
 }
 
 write_kickstart() {
   local public_key
 
   public_key="$(<"$work_dir/id_ed25519.pub")"
-  cat > "$work_dir/fedora-kde.ks" <<EOF
+  cat >"$work_dir/fedora-kde.ks" <<EOF
 lang en_US.UTF-8
 keyboard us
 timezone UTC --utc
@@ -163,22 +188,23 @@ EOF
 verify_iso() {
   local iso_file="$1"
   local checksum_file="$2"
-  local signature_file="$3"
-  local key_file="$4"
+  local key_file="$3"
   local expected_checksum
   local actual_checksum
+  local gpg_home
   local iso_name
 
   iso_name="$(basename "$iso_file")"
-  gpg --no-default-keyring --keyring "$work_dir/fedora-release-keys.gpg" --import "$key_file" >/dev/null
-  gpg --no-default-keyring --keyring "$work_dir/fedora-release-keys.gpg" --with-colons --list-keys "$fedora_key_fingerprint" | awk -F: -v expected="$fedora_key_fingerprint" '$1 == "fpr" && $10 == expected { found = 1 } END { exit !found }' || stop "Fedora signing key does not match the selected fingerprint."
-  gpg --no-default-keyring --keyring "$work_dir/fedora-release-keys.gpg" --verify "$signature_file" "$checksum_file" > "$evidence_dir/checksum-signature.log" 2>&1
+  gpg_home="$work_dir/gnupg"
+  mkdir -m 700 "$gpg_home"
+  gpg --batch --homedir "$gpg_home" --import "$key_file" >/dev/null
+  gpg --batch --homedir "$gpg_home" --verify "$checksum_file" >"$evidence_dir/checksum-signature.log" 2>&1
   expected_checksum="$(awk -v name="$iso_name" '$0 ~ "SHA256.*\\(" name "\\)" { print $NF }' "$checksum_file")"
   [[ -n "$expected_checksum" ]] || stop "Checksum file has no SHA256 value for $iso_name."
   actual_checksum="$(sha256sum "$iso_file" | awk '{print $1}')"
   [[ "$actual_checksum" == "$expected_checksum" ]] || stop "ISO checksum verification failed."
 
-  printf 'iso_sha256=%s\n' "$actual_checksum" >> "$evidence_dir/run-metadata.env"
+  printf 'iso_sha256=%s\n' "$actual_checksum" >>"$evidence_dir/run-metadata.env"
 }
 
 wait_for_ssh() {
@@ -186,15 +212,16 @@ wait_for_ssh() {
   local attempt
 
   for attempt in $(seq 1 60); do
-    address="$(virsh domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ { sub("/.*", "", $4); print $4; exit }')"
-    if [[ -n "$address" ]] && ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$work_dir/id_ed25519" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >> "$evidence_dir/ssh-check.log" 2>&1; then
-      printf '{"result":"passed","check":"KDE Plasma session available through SSH"}\n' > "$evidence_dir/ssh-check.json"
+    printf 'Waiting for KDE Plasma SSH check: attempt %s of 60.\n' "$attempt"
+    address="$(virsh -c qemu:///system domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ { sub("/.*", "", $4); print $4; exit }')"
+    if [[ -n "$address" ]] && ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$work_dir/id_ed25519" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >>"$evidence_dir/ssh-check.log" 2>&1; then
+      printf '{"result":"passed","check":"KDE Plasma session available through SSH"}\n' >"$evidence_dir/ssh-check.json"
       return 0
     fi
     sleep 5
   done
 
-  printf '{"result":"failed","check":"KDE Plasma session available through SSH"}\n' > "$evidence_dir/ssh-check.json"
+  printf '{"result":"failed","check":"KDE Plasma session available through SSH"}\n' >"$evidence_dir/ssh-check.json"
   stop "SSH check did not find a KDE Plasma session."
 }
 
@@ -203,10 +230,8 @@ run_vm() {
   local iso_name
   local iso_file
   local checksum_file
-  local signature_file
   local key_file
 
-  require_arguments_for_run
   require_commands
   timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
   vm_name="dotfiles-v2-fedora-kde-$timestamp"
@@ -214,24 +239,26 @@ run_vm() {
   mkdir -p "$evidence_dir" "$iso_cache"
   work_dir="$(mktemp -d)"
   trap cleanup EXIT
-  printf 'run_started_at=%s\nvm_name=%s\nprovider=libvirt/QEMU\nfirmware=UEFI\nfedora_release=%s\niso_url=%s\nchecksum_url=%s\nchecksum_signature_url=%s\nfedora_key_fingerprint=%s\nvcpus=%s\nmemory_mib=%s\ndisk_gib=%s\nnetwork=%s\n' \
-    "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$vm_name" "$fedora_release" "$iso_url" "$checksum_url" "$checksum_signature_url" "$fedora_key_fingerprint" "$vm_vcpus" "$vm_memory_mib" "$vm_disk_gib" "$vm_network" > "$evidence_dir/run-metadata.env"
+  printf 'run_started_at=%s\nvm_name=%s\nprovider=libvirt/QEMU\nfirmware=UEFI\nfedora_release=%s\nvcpus=%s\nmemory_mib=%s\ndisk_gib=%s\nnetwork=%s\n' \
+    "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$vm_name" "$fedora_release" "$vm_vcpus" "$vm_memory_mib" "$vm_disk_gib" "$vm_network" >"$evidence_dir/run-metadata.env"
 
-  iso_name="$(basename "${iso_url%%\?*}")"
+  select_installer_media
+  iso_name="$(basename "$iso_url")"
   iso_file="$iso_cache/$iso_name"
   checksum_file="$work_dir/CHECKSUM"
-  signature_file="$work_dir/CHECKSUM.asc"
-  key_file="$work_dir/fedora.gpg"
+  key_file="/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$fedora_release-primary"
+  [[ -r "$key_file" ]] || stop "Local Fedora release key is unavailable: $key_file."
+  printf 'iso_url=%s\nchecksum_url=%s\ninstall_tree_url=%s\ntrusted_key_file=%s\n' "$iso_url" "$checksum_url" "$install_tree_url" "$key_file" >>"$evidence_dir/run-metadata.env"
   download "$checksum_url" "$checksum_file"
-  download "$checksum_signature_url" "$signature_file"
-  download "$fedora_key_url" "$key_file"
   [[ -f "$iso_file" ]] || download "$iso_url" "$iso_file"
-  verify_iso "$iso_file" "$checksum_file" "$signature_file" "$key_file"
+  verify_iso "$iso_file" "$checksum_file" "$key_file"
+  upload_iso_to_libvirt "$iso_file"
   ssh-keygen -q -t ed25519 -N '' -f "$work_dir/id_ed25519"
   write_kickstart
 
   vm_created=true
   virt-install \
+    --connect qemu:///system \
     --name "$vm_name" \
     --memory "$vm_memory_mib" \
     --vcpus "$vm_vcpus" \
@@ -241,10 +268,11 @@ run_vm() {
     --boot uefi \
     --graphics spice \
     --noautoconsole \
-    --location "$iso_file" \
+    --location "$install_tree_url" \
+    --disk "path=$libvirt_iso_file,device=cdrom,readonly=on" \
     --initrd-inject "$work_dir/fedora-kde.ks" \
     --extra-args 'inst.ks=file:/fedora-kde.ks console=ttyS0,115200n8' \
-    --wait 0 > "$evidence_dir/virt-install.log" 2>&1
+    --wait 0 >"$evidence_dir/virt-install.log" 2>&1
   wait_for_ssh
 }
 
