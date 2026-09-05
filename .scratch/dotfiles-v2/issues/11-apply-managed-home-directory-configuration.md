@@ -1,6 +1,6 @@
 # 11: Apply managed home-directory configuration
 
-Status: ready-for-agent
+Status: wontfix
 
 **What to build:** The Bootstrap uses Chezmoi to show, confirm, and apply the selected Shared core and Fedora KDE Plasma home-directory configuration. Unmanaged-file conflicts stop safely.
 
@@ -10,3 +10,7 @@ Status: ready-for-agent
 - [ ] Show the Chezmoi difference and require confirmation before applying it.
 - [ ] Stop without overwrite when a target is unmanaged or conflicts.
 - [ ] Add behavior tests for platform selection, confirmation, and conflict handling.
+
+## Comments
+
+Superseded by [Apply managed home-directory configuration in a fresh VM](22-apply-managed-home-directory-configuration-in-a-fresh-vm.md).

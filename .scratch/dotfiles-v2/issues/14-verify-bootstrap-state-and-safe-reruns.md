@@ -1,6 +1,6 @@
 # 14: Verify Bootstrap state and safe reruns
 
-Status: ready-for-agent
+Status: wontfix
 
 **What to build:** The Bootstrap verifies its result, produces machine-readable evidence, handles network failure clearly, and completes a safe rerun without unexpected managed changes.
 
@@ -10,3 +10,7 @@ Status: ready-for-agent
 - [ ] Record machine-readable results without Local configuration values or secrets.
 - [ ] Stop clearly on unavailable network resources and remain safe to rerun after recovery.
 - [ ] Add behavior tests for verification failures, evidence redaction, and idempotent reruns.
+
+## Comments
+
+Superseded by [Verify Bootstrap state and safe reruns in a fresh VM](25-verify-bootstrap-state-and-safe-reruns-in-a-fresh-vm.md).
