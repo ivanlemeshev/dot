@@ -18,11 +18,11 @@ Use the terms in `CONTEXT.md`. Work one decision ticket per session. Dotfiles v2
 - [Define the Fedora VM acceptance protocol](issues/04-define-the-fedora-vm-acceptance-protocol.md): requires two verified fresh Fedora KDE Plasma VMs, complete automated and manual checks, an idempotent rerun, and retained evidence before migration testing.
 - [Define the migration and replacement gate](issues/05-define-the-migration-and-replacement-gate.md): makes migration a manual decision supported by an archive, reviewed evidence, manual application, and a verified rollback path.
 - [Define the initial KDE Plasma configuration scope](issues/06-define-the-initial-kde-plasma-configuration-scope.md): limits the platform layer to the Caps Lock and diacritics keyboard settings; it leaves the visual desktop and other desktop behavior unchanged.
+- [Define the local configuration and secret boundary](issues/07-define-the-private-configuration-and-secret-workflow.md): selects one untracked local TOML file for non-secret machine data; secrets and private SSH keys remain user-managed.
 
 ## Not yet specified
 
 - The shared core and platform layers for Ubuntu, Arch Linux, macOS, and Windows after the Fedora KDE Plasma path is proven.
-- Ongoing update, rollback, and maintenance policy.
 
 ## Out of scope
 

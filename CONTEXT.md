@@ -36,6 +36,10 @@ _Avoid_: installer, setup script
 The controlled change from the current dotfiles to Dotfiles v2 after v2 has passed its acceptance tests.
 _Avoid_: replacement, upgrade
 
+**Local configuration**:
+An untracked file that supplies non-secret, machine-specific values to Dotfiles v2.
+_Avoid_: private configuration, secret workflow
+
 **Windows shell boundary**:
 Fish runs in MSYS2 as the interactive development shell on Windows. PowerShell remains available for Windows-only administration and bootstrap tasks.
 _Avoid_: native Fish, PowerShell replacement
