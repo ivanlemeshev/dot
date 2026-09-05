@@ -23,8 +23,9 @@ Use the terms in `CONTEXT.md`. Work one decision ticket per session. Dotfiles v2
 
 ## Not yet specified
 
-- The shared core and platform layers for Ubuntu, Arch Linux, macOS, and Windows after the Fedora KDE Plasma path is proven.
+None.
 
 ## Out of scope
 
 - Replacing the current dotfiles before Dotfiles v2 passes its Fedora acceptance tests.
+- The shared core and platform layers for Ubuntu, Arch Linux, macOS, and Windows after the Fedora KDE Plasma path is proven. These target platforms are outside the Fedora KDE Plasma specification destination.
