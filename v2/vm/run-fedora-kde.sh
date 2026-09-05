@@ -217,7 +217,7 @@ wait_for_ssh() {
 
   for attempt in $(seq 1 "$ssh_wait_attempts"); do
     printf 'Waiting for KDE Plasma SSH check: attempt %s of %s.\n' "$attempt" "$ssh_wait_attempts"
-    address="$(virsh -c qemu:///system domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ { sub("/.*", "", $4); print $4; exit }')"
+    address="$(virsh -c qemu:///system domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ && address == "" { sub("/.*", "", $4); address = $4 } END { print address }')"
     if [[ -n "$address" ]] && ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$work_dir/id_ed25519" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >>"$evidence_dir/ssh-check.log" 2>&1; then
       printf '{"result":"passed","check":"KDE Plasma session available through SSH"}\n' >"$evidence_dir/ssh-check.json"
       return 0
