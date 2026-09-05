@@ -6,6 +6,18 @@ test:
 unit-test:
 	@./tests/run_tests.sh test_log.bats test_print.bats test_prompt.bats
 
+.PHONY: vm-test
+vm-test:
+	@./tests/run_tests.sh test_v2_fedora_kde_vm_runner.bats
+
+.PHONY: vm-test-plan
+vm-test-plan:
+	@./v2/vm/run-fedora-kde.sh --dry-run
+
+.PHONY: vm-test-run
+vm-test-run:
+	@./v2/vm/run-fedora-kde.sh
+
 .PHONY: lint
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh
