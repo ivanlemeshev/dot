@@ -8,9 +8,14 @@ It uses the local libvirt/QEMU host. It uses 2 vCPUs and 4 GiB RAM. It uses a
 The runner detects the host Fedora release by default. It selects the current official Fedora Everything installer ISO for that release. The kickstart installs KDE Plasma. It uses the matching local Fedora release key to verify the signed checksum and then checks the ISO SHA-256 value.
 
 ```bash
-make vm-test-plan
+make vm-base-build
 make vm-test-run
 ```
+
+`make vm-base-build` is slow. It installs and retains one clean Fedora KDE
+base disk. `make vm-test-run` creates a new overlay from that base disk. It is
+fast and removes the overlay after the SSH check. Use `make vm-test-full` to
+run the slow installation path without the base disk.
 
 The runner stores ISO metadata, checksum-signature output, `virt-install` output, and a machine-readable SSH check under `$XDG_STATE_HOME/dotfiles-v2/vm-evidence`. It removes the VM and its disk on success or failure. The ISO remains in `$XDG_CACHE_HOME/dotfiles-v2/iso` for a later run.
 

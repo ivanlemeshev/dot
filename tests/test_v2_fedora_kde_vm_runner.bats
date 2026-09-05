@@ -33,3 +33,19 @@ setup() {
   [ "$status" -eq 0 ]
   [[ "$output" == *"Fedora release: 42"* ]]
 }
+
+@test "Fedora KDE Plasma VM runner previews a base build" {
+  run "$VM_RUNNER" --dry-run --base-build --release 42
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Run mode: base"* ]]
+  [[ "$output" == *"Base volume: dotfiles-v2-fedora-kde-base-42.qcow2"* ]]
+}
+
+@test "Make exposes Fedora base and full VM runs" {
+  run make -n vm-base-build vm-test-full
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"--base-build"* ]]
+  [[ "$output" == *"--full-install"* ]]
+}
