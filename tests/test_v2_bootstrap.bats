@@ -10,12 +10,16 @@ require_fedora() {
   fi
 }
 
-require_fedora_kde_with_sudo() {
+require_fedora_kde() {
   require_fedora
 
   if ! /usr/bin/pgrep -u "$(/usr/bin/id -u)" -x plasmashell >/dev/null; then
     skip "requires a KDE Plasma session"
   fi
+}
+
+require_fedora_kde_with_sudo() {
+  require_fedora_kde
 
   if ! /usr/bin/sudo -n -v; then
     skip "requires active sudo access"
@@ -58,6 +62,16 @@ require_fedora_kde_with_sudo() {
 
   [ "$status" -ne 0 ]
   [[ "$output" == *"Unsupported target platform"* ]]
+  [[ "$output" == *"No changes were made."* ]]
+}
+
+@test "Bootstrap refuses a missing controlled sudo command" {
+  require_fedora_kde_with_sudo
+
+  run env BOOTSTRAP_SUDO_COMMAND="$BATS_TEST_TMPDIR/missing-sudo" "$BOOTSTRAP"
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"Controlled sudo is required"* ]]
   [[ "$output" == *"No changes were made."* ]]
 }
 

@@ -4,6 +4,7 @@ set -euo pipefail
 
 readonly supported_platform="Fedora KDE Plasma"
 readonly os_release_file="/etc/os-release"
+readonly sudo_command="${BOOTSTRAP_SUDO_COMMAND:-/usr/bin/sudo}"
 
 stop() {
   printf 'Bootstrap stopped: %s\n' "$1" >&2
@@ -41,11 +42,11 @@ validate_normal_user() {
 }
 
 validate_sudo() {
-  if [[ ! -x /usr/bin/sudo ]]; then
+  if [[ ! -x "$sudo_command" ]]; then
     stop "Controlled sudo is required for privileged actions."
   fi
 
-  if ! /usr/bin/sudo -v; then
+  if ! "$sudo_command" -v; then
     stop "Controlled sudo access is required for privileged actions."
   fi
 }
