@@ -139,7 +139,7 @@ cleanup() {
     virsh -c qemu:///system vol-delete "$iso_volume" --pool "$libvirt_pool" >/dev/null 2>&1 || true
   fi
 
-  if [[ -n "$primary_volume" && ( "$preserve_primary_volume" == false || "$status" -ne 0 ) ]]; then
+  if [[ -n "$primary_volume" && ("$preserve_primary_volume" == false || "$status" -ne 0) ]]; then
     virsh -c qemu:///system vol-delete "$primary_volume" --pool "$libvirt_pool" >/dev/null 2>&1 || true
   fi
 
