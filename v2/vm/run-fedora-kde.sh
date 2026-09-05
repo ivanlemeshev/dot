@@ -85,6 +85,7 @@ vCPUs: $vm_vcpus
 Network: $vm_network
 Non-root test user: $test_user
 SDDM KDE Plasma auto-login: enabled
+Installer display: graphical
 SSH check: pgrep plasmashell as $test_user
 SSH timeout: 45 minutes
 Cleanup: remove VM and disk after the run
@@ -271,7 +272,7 @@ run_vm() {
     --boot uefi,firmware.feature0.name=secure-boot,firmware.feature0.enabled=no \
     --graphics spice \
     --noautoconsole \
-    --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks console=ttyS0,115200n8" \
+    --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks" \
     --disk "path=$libvirt_iso_file,device=cdrom,readonly=on" \
     --initrd-inject "$work_dir/fedora-kde.ks" \
     --wait 0 >"$evidence_dir/virt-install.log" 2>&1
