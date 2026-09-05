@@ -19,6 +19,7 @@ Use the terms in `CONTEXT.md`. Work one decision ticket per session. Dotfiles v2
 - [Define the migration and replacement gate](issues/05-define-the-migration-and-replacement-gate.md): makes migration a manual decision supported by an archive, reviewed evidence, manual application, and a verified rollback path.
 - [Define the initial KDE Plasma configuration scope](issues/06-define-the-initial-kde-plasma-configuration-scope.md): limits the platform layer to the Caps Lock and diacritics keyboard settings; it leaves the visual desktop and other desktop behavior unchanged.
 - [Define the local configuration and secret boundary](issues/07-define-the-private-configuration-and-secret-workflow.md): selects one untracked local TOML file for non-secret machine data; secrets and private SSH keys remain user-managed.
+- [Define the update, rollback, and maintenance policy](issues/08-define-the-update-rollback-and-maintenance-policy.md): selects one staged update command, managed-state rollback, no automatic package downgrades, and a local evidence report.
 
 ## Not yet specified
 
