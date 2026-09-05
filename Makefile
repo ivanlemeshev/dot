@@ -18,6 +18,14 @@ vm-test-plan:
 vm-test-run:
 	@./v2/vm/run-fedora-kde.sh
 
+.PHONY: vm-base-build
+vm-base-build:
+	@./v2/vm/run-fedora-kde.sh --base-build
+
+.PHONY: vm-base-rebuild
+vm-base-rebuild:
+	@./v2/vm/run-fedora-kde.sh --base-rebuild
+
 .PHONY: lint
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh

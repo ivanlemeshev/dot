@@ -23,7 +23,7 @@ setup() {
   [[ "$output" == *"SDDM KDE Plasma auto-login: enabled"* ]]
   [[ "$output" == *"Installer display: graphical"* ]]
   [[ "$output" == *"SSH timeout: 45 minutes"* ]]
-  [[ "$output" == *"Cleanup: remove VM and disk after the run"* ]]
+  [[ "$output" == *"Cleanup: remove VM and overlay disk after the run"* ]]
   [[ "$output" == *"No changes were made."* ]]
 }
 
@@ -34,24 +34,27 @@ setup() {
   [[ "$output" == *"Fedora release: 42"* ]]
 }
 
-@test "Fedora KDE Plasma VM runner previews one standalone installation" {
+@test "Fedora KDE Plasma VM runner previews an overlay from the base disk" {
   run "$VM_RUNNER" --dry-run --release 42
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Run mode: full"* ]]
-  [[ "$output" == *"Cleanup: remove VM and disk after the run"* ]]
+  [[ "$output" == *"Run mode: overlay"* ]]
+  [[ "$output" == *"Base volume: dotfiles-v2-fedora-kde-base-42.qcow2"* ]]
+  [[ "$output" == *"Cleanup: remove VM and overlay disk after the run"* ]]
 }
 
-@test "Fedora KDE Plasma VM runner rejects obsolete installation modes" {
+@test "Fedora KDE Plasma VM runner previews a base-disk build" {
   run "$VM_RUNNER" --dry-run --base-build --release 42
 
-  [ "$status" -ne 0 ]
-  [[ "$output" == *"Unknown argument: --base-build."* ]]
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Run mode: base"* ]]
+  [[ "$output" == *"Base disk: retained after a successful run"* ]]
 }
 
-@test "Make exposes the standalone Fedora VM run" {
-  run make -n vm-test-run
+@test "Make exposes base-disk and overlay VM runs" {
+  run make -n vm-base-build vm-test-run
 
   [ "$status" -eq 0 ]
+  [[ "$output" == *"--base-build"* ]]
   [[ "$output" == *"run-fedora-kde.sh"* ]]
 }
