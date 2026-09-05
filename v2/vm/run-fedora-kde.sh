@@ -317,13 +317,36 @@ verify_iso() {
 wait_for_ssh() {
   local address=""
   local attempt
+  local elapsed_minutes
+  local remaining_minutes
+  local status_key=""
+  local previous_status_key=""
+  local status_message
+  local vm_state
 
+  printf 'Waiting for VM readiness. Status updates appear after each change or every minute.\n'
   for attempt in $(seq 1 "$ssh_wait_attempts"); do
-    printf 'Waiting for KDE Plasma SSH check: attempt %s of %s.\n' "$attempt" "$ssh_wait_attempts"
+    elapsed_minutes=$((attempt * 5 / 60))
+    remaining_minutes=$(((ssh_wait_attempts - attempt) * 5 / 60))
+    vm_state="$(virsh -c qemu:///system domstate "$vm_name" 2>/dev/null || printf unknown)"
     address="$(virsh -c qemu:///system domifaddr "$vm_name" --source lease 2>/dev/null | awk '/ipv4/ && address == "" { sub("/.*", "", $4); address = $4 } END { print address }')"
-    if [[ -n "$address" ]] && ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$ssh_key_file" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >>"$evidence_dir/ssh-check.log" 2>&1; then
+    if [[ -z "$address" ]]; then
+      status_key="lease:$vm_state"
+      status_message="VM state: $vm_state. Waiting for a DHCP lease."
+    elif ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$ssh_key_file" "$test_user@$address" true >>"$evidence_dir/ssh-check.log" 2>&1; then
+      status_key="ssh:$address"
+      status_message="VM address: $address. Waiting for SSH."
+    elif ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new -i "$ssh_key_file" "$test_user@$address" 'pgrep -x plasmashell >/dev/null' >>"$evidence_dir/ssh-check.log" 2>&1; then
       printf '{"result":"passed","check":"KDE Plasma session available through SSH"}\n' >"$evidence_dir/ssh-check.json"
       return 0
+    else
+      status_key="plasma:$address"
+      status_message="VM address: $address. SSH is ready. Waiting for the KDE Plasma session."
+    fi
+    if [[ "$status_key" != "$previous_status_key" || $((attempt % 12)) -eq 0 ]]; then
+      printf '%s Elapsed: %s minutes. Remaining: %s minutes.\n' "$status_message" "$elapsed_minutes" "$remaining_minutes"
+      printf '%s Elapsed: %s minutes. Remaining: %s minutes.\n' "$status_message" "$elapsed_minutes" "$remaining_minutes" >>"$evidence_dir/ssh-check.log"
+      previous_status_key="$status_key"
     fi
     sleep 5
   done
