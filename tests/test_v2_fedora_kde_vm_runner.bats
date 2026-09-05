@@ -51,6 +51,14 @@ setup() {
   [[ "$output" == *"Base disk: retained after a successful run"* ]]
 }
 
+@test "Fedora KDE Plasma VM runner retains the current base during a rebuild" {
+  run "$VM_RUNNER" --dry-run --base-rebuild --release 42
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Run mode: rebuild"* ]]
+  [[ "$output" == *"Current base disk: retained until the new base passes"* ]]
+}
+
 @test "Make exposes base-disk and overlay VM runs" {
   run make -n vm-base-build vm-test-run
 

@@ -26,6 +26,7 @@ vm_created=false
 iso_volume=""
 primary_volume=""
 preserve_primary_volume=false
+previous_base_volume=""
 libvirt_iso_file=""
 ssh_key_file=""
 
@@ -114,6 +115,9 @@ EOF
   if [[ "$run_mode" == base || "$run_mode" == rebuild ]]; then
     printf 'Base disk: retained after a successful run\n'
   fi
+  if [[ "$run_mode" == rebuild ]]; then
+    printf 'Current base disk: retained until the new base passes\n'
+  fi
 }
 
 require_commands() {
@@ -181,11 +185,23 @@ upload_iso_to_libvirt() {
 }
 
 base_volume_name() {
+  local pointer_file
+  local active_base_volume
+
+  pointer_file="$(base_key_directory)/base-volume"
+  if [[ -r "$pointer_file" ]] && read -r active_base_volume <"$pointer_file"; then
+    printf '%s\n' "$active_base_volume"
+    return
+  fi
   printf 'dotfiles-v2-fedora-kde-base-%s.qcow2\n' "$fedora_release"
 }
 
 base_key_directory() {
   printf '%s/dotfiles-v2/vm-base/fedora-%s\n' "${XDG_STATE_HOME:-$HOME/.local/state}" "$fedora_release"
+}
+
+candidate_base_volume_name() {
+  printf '%s-base.qcow2\n' "$vm_name"
 }
 
 prepare_ssh_key() {
@@ -218,12 +234,26 @@ create_primary_volume() {
   fi
 
   if virsh -c qemu:///system vol-info "$base_volume" --pool "$libvirt_pool" >/dev/null 2>&1; then
-    [[ "$run_mode" == rebuild ]] || stop "Fedora KDE base disk already exists. Use make vm-base-rebuild to replace it."
-    virsh -c qemu:///system vol-delete "$base_volume" --pool "$libvirt_pool" >/dev/null
+    [[ "$run_mode" == rebuild ]] || stop "Fedora KDE base disk already exists. Use make vm-base-rebuild to rebuild it."
+    previous_base_volume="$base_volume"
   fi
-  primary_volume="$base_volume"
+  primary_volume="$(candidate_base_volume_name)"
   preserve_primary_volume=true
   virsh -c qemu:///system vol-create-as "$libvirt_pool" "$primary_volume" "${vm_disk_gib}G" --format qcow2 >/dev/null
+}
+
+activate_base_volume() {
+  local pointer_file
+  local pointer_temp_file
+
+  pointer_file="$(base_key_directory)/base-volume"
+  pointer_temp_file="$work_dir/base-volume"
+  printf '%s\n' "$primary_volume" >"$pointer_temp_file"
+  mv "$pointer_temp_file" "$pointer_file"
+  if [[ -n "$previous_base_volume" ]]; then
+    virsh -c qemu:///system vol-delete "$previous_base_volume" --pool "$libvirt_pool" >/dev/null
+  fi
+  printf 'active_base_volume=%s\n' "$primary_volume" >>"$evidence_dir/run-metadata.env"
 }
 
 write_kickstart() {
@@ -362,6 +392,9 @@ run_vm() {
     "${install_arguments[@]}" \
     --wait 0 >"$evidence_dir/virt-install.log" 2>&1
   wait_for_ssh
+  if [[ "$run_mode" == base || "$run_mode" == rebuild ]]; then
+    activate_base_volume
+  fi
 }
 
 main() {
