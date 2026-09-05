@@ -53,9 +53,11 @@ parse_arguments() {
         dry_run=true
         ;;
       --base-build)
+        [[ "$run_mode" == overlay ]] || stop "Only one installation mode is allowed."
         run_mode=base
         ;;
       --full-install)
+        [[ "$run_mode" == overlay ]] || stop "Only one installation mode is allowed."
         run_mode=full
         ;;
       --release | --evidence-dir | --iso-cache)

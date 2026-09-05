@@ -42,6 +42,13 @@ setup() {
   [[ "$output" == *"Base volume: dotfiles-v2-fedora-kde-base-42.qcow2"* ]]
 }
 
+@test "Fedora KDE Plasma VM runner rejects conflicting installation modes" {
+  run "$VM_RUNNER" --dry-run --base-build --full-install --release 42
+
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"Only one installation mode is allowed."* ]]
+}
+
 @test "Make exposes Fedora base and full VM runs" {
   run make -n vm-base-build vm-test-full
 
