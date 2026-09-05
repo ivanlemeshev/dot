@@ -268,10 +268,9 @@ run_vm() {
     --boot uefi \
     --graphics spice \
     --noautoconsole \
-    --location "$install_tree_url" \
+    --install "kernel=${install_tree_url}images/pxeboot/vmlinuz,initrd=${install_tree_url}images/pxeboot/initrd.img,kernel_args=inst.repo=${install_tree_url} inst.ks=file:/fedora-kde.ks console=ttyS0,115200n8" \
     --disk "path=$libvirt_iso_file,device=cdrom,readonly=on" \
     --initrd-inject "$work_dir/fedora-kde.ks" \
-    --extra-args 'inst.ks=file:/fedora-kde.ks console=ttyS0,115200n8' \
     --wait 0 >"$evidence_dir/virt-install.log" 2>&1
   wait_for_ssh
 }
