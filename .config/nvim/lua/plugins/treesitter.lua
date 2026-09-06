@@ -46,7 +46,6 @@ local ensure_installed = {
   "rust",
   "sql",
   "terraform",
-  "tmux",
   "toml",
   "typescript",
   "vim",
