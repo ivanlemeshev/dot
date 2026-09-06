@@ -5,7 +5,7 @@
 - Keep changes focused and preserve unrelated work.
 - Use ASD-STE100 Simplified Technical English for replies and documentation. Keep code identifiers, commands, and file paths unchanged. Report the changes, the checks, and any remaining limitations.
 - Keep Markdown paragraphs and list items on single source lines. Do not hard-wrap prose at 80 characters or another fixed width.
-- Use inline code backticks for commands, file names, paths, and code identifiers, such as `git diff --cached --check` and `AGENTS.md`. Use normal Markdown links when a file reference needs a link.
+- Use inline code backticks for commands, file names, paths, and code identifiers. Use normal Markdown links when a file reference needs a link.
 - Run checks appropriate to the change. Add tests for meaningful behavior and avoid redundant verification.
 - Test installers and file-linking behavior in temporary or disposable environments. Preserve existing user files and verify repeated runs.
 - Keep credentials and machine-specific values out of tracked files and tool output.
