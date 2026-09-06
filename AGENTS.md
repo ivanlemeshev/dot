@@ -14,5 +14,5 @@
 - Create a branch for changes. Keep `main` for merged work.
 - Check the diff before each commit. Stage only files for the current task and use a clear commit message.
 - Push branches and create pull requests when the user asks. Keep that permission for the current task.
-- Write pull request descriptions with the purpose, changes, and check results.
+- Use [the pull request template](.github/pull_request_template.md). Keep descriptions brief and remove sections that do not apply.
 - Get explicit permission before you merge, force-push, delete remote branches, or discard uncommitted work.
