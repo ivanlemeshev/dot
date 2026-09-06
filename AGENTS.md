@@ -16,4 +16,5 @@
 - Check the diff before each commit. Stage only files for the current task and use a clear commit message.
 - Push branches and create pull requests when the user asks. Keep that permission for the current task.
 - Use [the pull request template](.github/pull_request_template.md). Keep descriptions brief and remove sections that do not apply.
-- Get explicit permission before you merge, force-push, delete remote branches, or discard uncommitted work.
+- After a squash merge, switch to `main`, pull with `--ff-only`, and delete the merged local and remote branches. Confirm the merge and preserve uncommitted work before cleanup.
+- Get explicit permission before you merge, force-push, delete branches outside merge cleanup, or discard uncommitted work.
