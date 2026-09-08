@@ -101,6 +101,10 @@ Return only this report structure, with sections in the exact order shown:
 ## Coverage limitations
 
 None.
+
+## Decision
+
+`<Approve | Approve with minor findings | Request changes | Review incomplete>`
 ```
 
 Order findings by severity. Use these exact empty states:
@@ -109,12 +113,12 @@ Order findings by severity. Use these exact empty states:
 - No validation: `- Not run: <reason>`
 - No material coverage limitation: `None.`
 
-Derive the verdict deterministically:
+Derive the verdict and decision deterministically:
 
-1. `Incomplete review` when material changed code or required context could not be inspected sufficiently, regardless of findings already identified.
-2. `Changes required` when at least one `critical` or `major` finding exists.
-3. `Non-blocking findings` when every finding is `minor`.
-4. `Clean` when there are no actionable findings and no material limitation.
+1. Use `Incomplete review` and `Review incomplete` when material changed code or required context could not be inspected sufficiently, regardless of findings already identified.
+2. Use `Changes required` and `Request changes` when at least one `critical` or `major` finding exists.
+3. Use `Non-blocking findings` and `Approve with minor findings` when every finding is `minor`.
+4. Use `Clean` and `Approve` when there are no actionable findings and no material limitation.
 
 ## Preserve read-only review behavior
 

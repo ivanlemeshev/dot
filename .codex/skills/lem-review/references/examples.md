@@ -36,6 +36,10 @@ The change adds refresh-token rotation, but concurrent exchanges can still reuse
 ## Coverage limitations
 
 None.
+
+## Decision
+
+Request changes
 ```
 
 ## Clean report without formal project artifacts
@@ -62,6 +66,10 @@ No actionable findings.
 ## Coverage limitations
 
 None.
+
+## Decision
+
+Approve
 ```
 
 ## Incomplete report
@@ -88,4 +96,8 @@ No actionable findings.
 ## Coverage limitations
 
 - The source schema and regeneration output could not be verified.
+
+## Decision
+
+Review incomplete
 ```

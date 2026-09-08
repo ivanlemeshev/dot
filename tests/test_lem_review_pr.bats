@@ -49,7 +49,7 @@ setup() {
   done
 
   previous_line=0
-  for heading in '# Code Review' '## Summary' '## Findings' '## Validation' '## Coverage limitations'; do
+  for heading in '# Code Review' '## Summary' '## Findings' '## Validation' '## Coverage limitations' '## Decision'; do
     current_line="$(grep -n -m1 "^${heading}$" "$CANONICAL/review-method.md" | cut -d: -f1)"
     [ -n "$current_line" ]
     [ "$current_line" -gt "$previous_line" ]
@@ -58,6 +58,8 @@ setup() {
 
   grep -q 'No actionable findings\.' "$CANONICAL/review-method.md"
   grep -q 'Incomplete review' "$CANONICAL/review-method.md"
+  grep -q 'Approve with minor findings' "$CANONICAL/review-method.md"
+  grep -q 'Request changes' "$CANONICAL/review-method.md"
 }
 
 @test "review method is read-only by default" {

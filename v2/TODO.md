@@ -2,8 +2,8 @@
 
 ## Next
 
-- [ ] Update the `/lem-review` skill.
-
 ## Later
 
 ## Done
+
+- [x] Update the `/lem-review` skill.
