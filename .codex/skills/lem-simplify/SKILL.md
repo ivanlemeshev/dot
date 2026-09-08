@@ -1,5 +1,5 @@
 ---
-name: simplify
+name: lem-simplify
 description: Analyze a ready pull request or local diff for behavior-preserving simplifications.
 disable-model-invocation: true
 ---

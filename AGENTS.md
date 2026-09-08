@@ -30,4 +30,8 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Personal skills
 
-When you add, change, or remove a personal skill, update both the Codex and Claude packages.
+Keep Codex personal skill folders and names in the `lem-` namespace.
+
+Keep Claude personal skills in the `lem` plugin namespace.
+
+When you add, change, or remove a personal skill, update both packages.
