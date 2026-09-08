@@ -27,3 +27,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
 - After a squash merge, confirm the merge and preserve uncommitted work. Then switch to `main`, pull with `--ff-only`, and delete the merged local and remote branches.
 - Get explicit permission before you merge, force-push, delete branches outside merge cleanup, or discard uncommitted work.
+
+## Personal skills
+
+When you add, change, or remove a personal skill, update both the Codex and Claude packages.
