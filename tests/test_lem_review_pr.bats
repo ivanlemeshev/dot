@@ -17,19 +17,19 @@ setup() {
 }
 
 @test "simplification skill is available in Codex and Claude" {
-  codex_skill="$PROJECT_ROOT/.codex/skills/simplify"
+  codex_skill="$PROJECT_ROOT/.codex/skills/lem-simplify"
   claude_skill="$CLAUDE_PLUGIN/skills/simplify"
 
-  grep -q '^name: simplify$' "$codex_skill/SKILL.md"
+  grep -q '^name: lem-simplify$' "$codex_skill/SKILL.md"
   grep -q '^disable-model-invocation: true$' "$codex_skill/SKILL.md"
-  grep -q '^  default_prompt: "Use \$simplify ' "$codex_skill/agents/openai.yaml"
+  grep -q '^  default_prompt: "Use \$lem-simplify ' "$codex_skill/agents/openai.yaml"
   grep -q '^name: simplify$' "$claude_skill/SKILL.md"
   grep -q '^disable-model-invocation: true$' "$claude_skill/SKILL.md"
   grep -q '\$ARGUMENTS' "$claude_skill/SKILL.md"
 }
 
 @test "simplification skill requires evidence and preserves read-only analysis" {
-  for skill in "$PROJECT_ROOT/.codex/skills/simplify/references/simplification-method.md" "$CLAUDE_PLUGIN/skills/simplify/references/simplification-method.md"; do
+  for skill in "$PROJECT_ROOT/.codex/skills/lem-simplify/references/simplification-method.md" "$CLAUDE_PLUGIN/skills/simplify/references/simplification-method.md"; do
     grep -q 'behavior equivalence' "$skill"
     grep -q 'For analysis requests, keep the work read-only' "$skill"
     grep -q 'No worthwhile simplifications identified' "$skill"
@@ -38,9 +38,9 @@ setup() {
 
 @test "Claude links directly to the canonical simplification reference" {
   [ -L "$CLAUDE_PLUGIN/skills/simplify/references" ]
-  [ "$(readlink "$CLAUDE_PLUGIN/skills/simplify/references")" = '../../../../../.codex/skills/simplify/references' ]
+  [ "$(readlink "$CLAUDE_PLUGIN/skills/simplify/references")" = '../../../../../.codex/skills/lem-simplify/references' ]
 
-  cmp "$PROJECT_ROOT/.codex/skills/simplify/references/simplification-method.md" "$CLAUDE_PLUGIN/skills/simplify/references/simplification-method.md"
+  cmp "$PROJECT_ROOT/.codex/skills/lem-simplify/references/simplification-method.md" "$CLAUDE_PLUGIN/skills/simplify/references/simplification-method.md"
 }
 
 @test "Claude links directly to the canonical Codex review references" {
