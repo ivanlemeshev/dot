@@ -1,0 +1,4 @@
+interface:
+  display_name: "Simplify"
+  short_description: "Simplify ready pull requests and local changes"
+  default_prompt: "Use $simplify to analyze the requested pull request or local changes for behavior-preserving simplifications."
