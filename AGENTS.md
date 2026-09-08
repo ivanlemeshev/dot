@@ -1,15 +1,29 @@
-# Agent instructions
+# Agents instructions
 
-- Complete authorized work and relevant verification. Make routine decisions independently; ask when missing information materially changes the outcome.
-- Follow the user's instructions over repository and skill guidance, within system and developer constraints. If a skill blocks progress, identify the file and rule.
-- Keep changes focused and preserve unrelated work.
-- Use ASD-STE100 Simplified Technical English for replies and documentation. Keep code identifiers, commands, and file paths unchanged. Report the changes, the checks, and any remaining limitations.
-- Keep Markdown paragraphs and list items on single source lines. Do not hard-wrap prose at 80 characters or another fixed width.
-- Use Markdown tables only for short entries, and align columns with spaces in the source. Use sections or lists for long text.
-- Use inline code backticks for commands, file names, paths, and code identifiers. Use normal Markdown links when a file reference needs a link.
-- Run checks appropriate to the change. Add tests for meaningful behavior and avoid redundant verification.
-- Test installers and file-linking behavior in temporary or disposable environments. Preserve existing user files and verify repeated runs.
-- Keep credentials and machine-specific values out of tracked files and tool output.
+## Simplified Technical English
+
+Write ASD-STE100 in a code comment, in `AGENTS.md`, and in the documentation of this repo. One idea in one sentence. The simple present tense. The active voice.
+
+## Comments
+
+Let the code carry the what. Comment only where the code cannot: one short line on the why, on the gotcha, or on the constraint that is not obvious.
+
+Do not repeat the name of the function in a comment above it. Do not explain why something is absent.
+
+## Marker comments
+
+A marker is uppercase, and a colon follows it: `TODO: ...`. Without the colon it is not a marker.
+
+Use these four and no others:
+
+- `TODO:` work that someone must do later.
+- `FIXME:` a defect that you see in the code and do not fix now.
+- `NOTE:` the why, or the gotcha, of the code below it.
+- `WARNING:` what breaks if someone changes that code. Say what breaks.
+
+Do not add a marker of your own.
+
+Apply this to a marker that you write. Do not go and annotate the markers that are already there.
 
 ## Git
 
