@@ -9,9 +9,11 @@ setup() {
 
 @test "Codex and Claude expose the requested personal names" {
   grep -q '^name: lem-review$' "$CODEX_SKILL/SKILL.md"
+  grep -q '^disable-model-invocation: true$' "$CODEX_SKILL/SKILL.md"
   grep -q '^  default_prompt: "Use \$lem-review ' "$CODEX_SKILL/agents/openai.yaml"
   grep -q '^  "name": "lem"' "$CLAUDE_PLUGIN/.claude-plugin/plugin.json"
   grep -q '^name: review$' "$CLAUDE_PLUGIN/skills/review/SKILL.md"
+  grep -q '^disable-model-invocation: true$' "$CLAUDE_PLUGIN/skills/review/SKILL.md"
 }
 
 @test "simplification skill is available in Codex and Claude" {

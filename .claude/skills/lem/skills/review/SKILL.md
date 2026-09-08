@@ -1,11 +1,12 @@
 ---
 name: review
-description: Review GitHub pull requests, branches, revision ranges, staged changes, or working-tree changes and return an evidence-based local report. Use for code review requests; do not use to post review comments unless separately requested.
+description: Review changes and return an evidence-based local report.
+disable-model-invocation: true
 argument-hint: "[PR number or URL | branch or range | staged | local changes]"
 ---
 
 # Review changes
 
-Read [references/review-method.md](references/review-method.md) completely and follow it for every review. Read [references/examples.md](references/examples.md) when target interpretation or report formatting would benefit from an example.
+Read and follow [references/review-method.md](references/review-method.md) for every review. Read [references/examples.md](references/examples.md) when you need an example for target selection or report format.
 
-Treat `$ARGUMENTS` as explicit target input when it is non-empty; otherwise infer the target according to the shared method. Keep the review read-only and return the standardized report in the conversation.
+Use `$ARGUMENTS` as the target when it is set. Otherwise, use the target rules in the shared method. Keep the review read-only. Return the standard report in the conversation.
