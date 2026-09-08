@@ -2,16 +2,16 @@
 
 setup() {
   PROJECT_ROOT="${BATS_TEST_DIRNAME}/.."
-  CODEX_SKILL="$PROJECT_ROOT/.codex/skills/lem-review-pr"
+  CODEX_SKILL="$PROJECT_ROOT/.codex/skills/lem-review"
   CANONICAL="$CODEX_SKILL/references"
   CLAUDE_PLUGIN="$PROJECT_ROOT/.claude/skills/lem"
 }
 
 @test "Codex and Claude expose the requested personal names" {
-  grep -q '^name: lem-review-pr$' "$CODEX_SKILL/SKILL.md"
-  grep -q '^  default_prompt: "Use \$lem-review-pr ' "$CODEX_SKILL/agents/openai.yaml"
+  grep -q '^name: lem-review$' "$CODEX_SKILL/SKILL.md"
+  grep -q '^  default_prompt: "Use \$lem-review ' "$CODEX_SKILL/agents/openai.yaml"
   grep -q '^  "name": "lem"' "$CLAUDE_PLUGIN/.claude-plugin/plugin.json"
-  grep -q '^name: review-pr$' "$CLAUDE_PLUGIN/skills/review-pr/SKILL.md"
+  grep -q '^name: review$' "$CLAUDE_PLUGIN/skills/review/SKILL.md"
 }
 
 @test "simplification skill is available in Codex and Claude" {
@@ -35,10 +35,10 @@ setup() {
 @test "Claude links directly to the canonical Codex review references" {
   [ -d "$CANONICAL" ]
   [ ! -L "$CANONICAL" ]
-  [ -L "$CLAUDE_PLUGIN/skills/review-pr/references" ]
-  [ "$(readlink "$CLAUDE_PLUGIN/skills/review-pr/references")" = '../../../../../.codex/skills/lem-review-pr/references' ]
+  [ -L "$CLAUDE_PLUGIN/skills/review/references" ]
+  [ "$(readlink "$CLAUDE_PLUGIN/skills/review/references")" = '../../../../../.codex/skills/lem-review/references' ]
 
-  cmp "$CANONICAL/examples.md" "$CLAUDE_PLUGIN/skills/review-pr/references/examples.md"
+  cmp "$CANONICAL/examples.md" "$CLAUDE_PLUGIN/skills/review/references/examples.md"
 }
 
 @test "review method supports every target and the standardized report" {
@@ -80,6 +80,6 @@ setup() {
 }
 
 @test "legacy personal review entrypoints are absent" {
-  [ ! -e "$PROJECT_ROOT/.codex/skills/review-pr" ]
+  [ ! -e "$PROJECT_ROOT/.codex/skills/review" ]
   [ ! -e "$PROJECT_ROOT/.claude/skills/review" ]
 }

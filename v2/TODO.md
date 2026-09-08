@@ -2,7 +2,7 @@
 
 ## Next
 
-- [ ] Update the `/lem-review-pr` skill.
+- [ ] Update the `/lem-review` skill.
 
 ## Later
 

@@ -1,5 +1,5 @@
 ---
-name: lem-review-pr
+name: lem-review
 description: Review GitHub pull requests, branches, revision ranges, staged changes, or working-tree changes and return an evidence-based local report. Use for code review requests; do not use to post review comments unless separately requested.
 ---
 
