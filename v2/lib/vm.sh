@@ -2,10 +2,11 @@
 
 set -euo pipefail
 
-readonly VM_REQUIRED_COMMANDS=(curl jq sha256sum qemu-img virt-install virt-manager virsh)
+readonly VM_REQUIRED_COMMANDS=(curl jq setfacl sha256sum qemu-img virt-install virt-manager virsh)
 readonly VM_ROOT="$(cd "${BASH_SOURCE[0]%/*}/.." && pwd)"
 readonly VM_CACHE_DIR="${VM_CACHE_DIR:-$VM_ROOT/.cache/vms}"
 readonly VM_TARGETS_CONFIG="$VM_ROOT/config/targets.json"
+readonly VM_USER_HOME="${VM_USER_HOME:-$HOME}"
 
 main() {
   case "${1:-}" in
@@ -20,6 +21,15 @@ main() {
       ;;
     rebuild)
       rebuild_guest "${2:-}"
+      ;;
+    stop)
+      stop_guest "${2:-}"
+      ;;
+    run)
+      run_test_guest "${2:-}"
+      ;;
+    remove)
+      remove_test_guest "${2:-}"
       ;;
     open)
       open_guest "${2:-}"
@@ -161,6 +171,7 @@ build_guest() {
   disk_size="$(target_disk_size "$target")"
   mkdir -p "${image_path%/*}"
   qemu-img create -f qcow2 "$image_path" "$disk_size"
+  prepare_qemu_access
 
   if ! install_guest "$target" "$iso_path" "$image_path"; then
     printf 'Installation did not complete: %s\n' "$target" >&2
@@ -200,6 +211,97 @@ rebuild_guest() {
   build_guest "$target"
 }
 
+stop_guest() {
+  local target="$1"
+  local iso_name
+  local iso_url
+  local iso_sha256
+
+  read_target "$target" iso_name iso_url iso_sha256 || return $?
+  virsh -c qemu:///system destroy "dot-v2-$target"
+  printf 'Guest stopped: %s\n' "$target"
+}
+
+run_test_guest() {
+  local target="$1"
+  local iso_name
+  local iso_url
+  local iso_sha256
+  local base_image_path
+  local base_ready_path
+  local test_image_path
+  local base_domain_state
+
+  read_target "$target" iso_name iso_url iso_sha256 || return $?
+  base_image_path="$VM_CACHE_DIR/images/$target.qcow2"
+  base_ready_path="$base_image_path.ready"
+  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
+  base_domain_state="$(virsh -c qemu:///system domstate "dot-v2-$target" 2>/dev/null || true)"
+
+  if [ ! -f "$base_image_path" ] || [ ! -f "$base_ready_path" ]; then
+    printf 'Base image is not ready: %s\n' "$target" >&2
+    return 1
+  fi
+  if [ -n "$base_domain_state" ] && [ "$base_domain_state" != 'shut off' ]; then
+    printf 'Base guest must be shut off before run: %s\n' "$target" >&2
+    return 1
+  fi
+  if [ -e "$test_image_path" ]; then
+    printf 'Test overlay already exists: %s. Run remove first.\n' "$target" >&2
+    return 1
+  fi
+
+  mkdir -p "${test_image_path%/*}"
+  qemu-img create -f qcow2 -F qcow2 -b "$base_image_path" "$test_image_path"
+  prepare_qemu_access
+  virt-install \
+    --connect qemu:///system \
+    --name "dot-v2-$target-test" \
+    --memory 4096 \
+    --vcpus 2 \
+    --disk "path=$test_image_path,format=qcow2,bus=virtio" \
+    --network network=default \
+    --os-variant detect=on,require=off \
+    --graphics spice \
+    --import \
+    --noautoconsole
+  printf 'Test guest is running: %s\n' "$target"
+}
+
+remove_test_guest() {
+  local target="$1"
+  local iso_name
+  local iso_url
+  local iso_sha256
+  local test_domain_name
+  local test_image_path
+
+  read_target "$target" iso_name iso_url iso_sha256 || return $?
+  test_domain_name="dot-v2-$target-test"
+  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
+
+  if virsh -c qemu:///system domstate "$test_domain_name" >/dev/null 2>&1; then
+    virsh -c qemu:///system destroy "$test_domain_name" >/dev/null 2>&1 || true
+    virsh -c qemu:///system undefine "$test_domain_name" --nvram >/dev/null 2>&1 || \
+      virsh -c qemu:///system undefine "$test_domain_name"
+  fi
+  rm -f "$test_image_path"
+  printf 'Test guest removed: %s\n' "$target"
+}
+
+prepare_qemu_access() {
+  local parent_path="${VM_CACHE_DIR%/*}"
+
+  while [ -n "$parent_path" ] && [ "$parent_path" != / ]; do
+    setfacl -m 'u:qemu:--x' "$parent_path"
+    if [ "$parent_path" = "$VM_USER_HOME" ]; then
+      break
+    fi
+    parent_path="${parent_path%/*}"
+  done
+  setfacl -R -m 'u:qemu:rwX' "$VM_CACHE_DIR"
+}
+
 target_disk_size() {
   jq -er --arg target "$1" '.targets[$target].disk_size' "$VM_TARGETS_CONFIG"
 }
@@ -216,15 +318,17 @@ install_guest() {
   local target="$1"
   local iso_path="$2"
   local image_path="$3"
+  local -a console_options=(--noautoconsole)
   local -a install_source=()
   local -a install_data=()
   local -a install_args=()
 
   case "$target" in
     fedora)
+      console_options=(--serial pty --autoconsole text)
       install_source=(--location "$(target_install_url "$target")")
       install_data=(--initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg")
-      install_args=(--extra-args 'inst.ks=file:/kickstart.cfg')
+      install_args=(--extra-args "console=ttyS0 inst.text inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
       ;;
     ubuntu)
       install_source=(--location "$iso_path")
@@ -252,7 +356,7 @@ install_guest() {
     --network network=default \
     --os-variant detect=on,require=off \
     --graphics spice \
-    --noautoconsole \
+    "${console_options[@]}" \
     --wait -1 \
     "${install_source[@]}" \
     "${install_data[@]}" \
@@ -265,10 +369,15 @@ open_guest() {
   local iso_url
   local iso_sha256
 
+  local domain_name="dot-v2-$target"
+
   read_target "$target" iso_name iso_url iso_sha256 || return $?
-  exec virt-manager --connect qemu:///system --show-domain "dot-v2-$target"
+  if virsh -c qemu:///system domstate "$domain_name-test" >/dev/null 2>&1; then
+    domain_name="$domain_name-test"
+  fi
+  exec virt-manager --connect qemu:///system --show-domain-console "$domain_name"
 }
 
 print_usage() {
-  printf '%s\n' 'Usage: v2/bin/vm <check|fetch|build|rebuild|open> [target]'
+  printf '%s\n' 'Usage: v2/bin/vm <check|fetch|build|rebuild|stop|run|remove|open> [target]'
 }
