@@ -41,7 +41,7 @@ stub_command() {
 @test "fetch reuses a verified cached ISO" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/Fedora-KDE-Live-x86_64-44-1.7.iso"
+  : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
   stub_command curl 'exit 99'
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
 
@@ -49,7 +49,7 @@ stub_command() {
 
   rm -rf "$cache_dir"
   [ "$status" -eq 0 ]
-  [ "$output" = "ISO is ready: Fedora-KDE-Live-x86_64-44-1.7.iso" ]
+  [ "$output" = "ISO is ready: Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso" ]
 }
 
 @test "fetch rejects an unknown target" {
@@ -57,6 +57,13 @@ stub_command() {
 
   [ "$status" -eq 2 ]
   [ "$output" = "Unknown target: debian" ]
+}
+
+@test "Fedora target uses the official release filename" {
+  run jq -r '.targets.fedora.iso.name' "$PROJECT_ROOT/v2/config/targets.json"
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso" ]
 }
 
 @test "build reuses a completed base image" {
