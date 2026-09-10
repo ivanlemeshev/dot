@@ -1,0 +1,36 @@
+{
+  "targets": {
+    "fedora": {
+      "iso": {
+        "name": "Fedora-KDE-Live-x86_64-44-1.7.iso",
+        "url": "https://download.fedoraproject.org/pub/fedora/linux/releases/44/KDE/x86_64/iso/Fedora-KDE-Live-x86_64-44-1.7.iso",
+        "sha256": "c8295961d4c41adbf785a31a17c21a971d3b7415fda72dcad0c11c49577bf03a"
+      },
+      "disk_size": "50G"
+    },
+    "ubuntu": {
+      "iso": {
+        "name": "ubuntu-26.04-desktop-amd64.iso",
+        "url": "https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso",
+        "sha256": "487f87faaf547ea30e0aba4d5b53346292571256b25333a978db1692bcee9dd2"
+      },
+      "disk_size": "50G"
+    },
+    "arch": {
+      "iso": {
+        "name": "archlinux-2026.09.01-x86_64.iso",
+        "url": "https://geo.mirror.pkgbuild.com/iso/2026.09.01/archlinux-2026.09.01-x86_64.iso",
+        "sha256": "be8458032f8105e60ee2a3067f950b6e3c007ee51b38dac50e8b48e765561c91"
+      },
+      "disk_size": "50G"
+    },
+    "windows": {
+      "iso": {
+        "name": "Windows_11_Enterprise_25H2_x64.iso",
+        "url": "https://www.microsoft.com/evalcenter/evaluate-windows-11-enterprise",
+        "sha256": null
+      },
+      "disk_size": "64G"
+    }
+  }
+}

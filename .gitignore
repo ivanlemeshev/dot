@@ -8,4 +8,5 @@ lazy-lock.json
 nvim-pack-lock.json
 nvim.log
 tmp
+v2/.cache/vms/
 openspec

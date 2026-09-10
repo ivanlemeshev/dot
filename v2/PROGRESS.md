@@ -1,3 +1,4 @@
 # V2 progress
 
-- I created a plan to prepare virtual machines for tests.
+- Create the virtual machine cache plan.
+- Implement the virtual machine command seam and target configuration.

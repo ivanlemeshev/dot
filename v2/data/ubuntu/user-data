@@ -1,0 +1,15 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: dot-v2-ubuntu
+    username: tester
+    password: "$6$0vQfY9V3QziQBBqX$ySzgyAUrE2T7wM0jDD7H8sjDHpE6K6Qyyo2dPTr3PyWjKoWxsD3BMy1xqB9lZv7vxmrvPByoXRKQcoNIJzC8d/"
+  storage:
+    layout:
+      name: lvm
+  packages:
+    - ubuntu-desktop
+  late-commands:
+    - curtin in-target --target=/target -- sh -c 'echo "tester ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/tester'
+    - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/tester
