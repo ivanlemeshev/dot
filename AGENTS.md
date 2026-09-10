@@ -21,7 +21,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Git
 
-- Create a branch for changes. Keep `main` for merged work.
+- Ask for explicit permission before you create a branch. Keep `main` for merged work.
 - Check the diff before each commit. Stage only task files. Use a clear commit message.
 - Push branches and create pull requests when the user asks. Permission applies to the current task.
 - For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
