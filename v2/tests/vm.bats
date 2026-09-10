@@ -66,6 +66,13 @@ stub_command() {
   [ "$output" = "Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso" ]
 }
 
+@test "Fedora target uses an install tree for unattended setup" {
+  run jq -r '.targets.fedora.install_url' "$PROJECT_ROOT/v2/config/targets.json"
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/" ]
+}
+
 @test "build reuses a completed base image" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/images"
@@ -77,4 +84,21 @@ stub_command() {
   rm -rf "$cache_dir"
   [ "$status" -eq 0 ]
   [ "$output" = "Base image is ready: fedora" ]
+}
+
+@test "rebuild replaces an incomplete base image" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/images" "$cache_dir/iso"
+  : >"$cache_dir/images/fedora.qcow2"
+  : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virt-install 'exit 0'
+  stub_command virsh 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
+
+  rm -rf "$cache_dir"
+  [ "$status" -eq 0 ]
+  [ "$output" = $'ISO is ready: Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso\nBase image is ready: fedora' ]
 }

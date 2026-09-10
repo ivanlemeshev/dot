@@ -18,6 +18,9 @@ main() {
     build)
       build_guest "${2:-}"
       ;;
+    rebuild)
+      rebuild_guest "${2:-}"
+      ;;
     open)
       open_guest "${2:-}"
       ;;
@@ -168,12 +171,45 @@ build_guest() {
   printf 'Base image is ready: %s\n' "$target"
 }
 
+rebuild_guest() {
+  local target="$1"
+  local iso_name
+  local iso_url
+  local iso_sha256
+  local image_path
+  local ready_path
+  local domain_name
+  local domain_state
+
+  read_target "$target" iso_name iso_url iso_sha256 || return $?
+  image_path="$VM_CACHE_DIR/images/$target.qcow2"
+  ready_path="$image_path.ready"
+  domain_name="dot-v2-$target"
+  domain_state="$(virsh -c qemu:///system domstate "$domain_name" 2>/dev/null || true)"
+
+  if [ -n "$domain_state" ] && [ "$domain_state" != 'shut off' ]; then
+    printf 'Guest must be shut off before rebuild: %s\n' "$target" >&2
+    return 1
+  fi
+
+  if [ -n "$domain_state" ]; then
+    virsh -c qemu:///system undefine "$domain_name" --nvram
+  fi
+
+  rm -f "$image_path" "$ready_path"
+  build_guest "$target"
+}
+
 target_disk_size() {
   jq -er --arg target "$1" '.targets[$target].disk_size' "$VM_TARGETS_CONFIG"
 }
 
 target_iso_url() {
   jq -er --arg target "$1" '.targets[$target].iso.url' "$VM_TARGETS_CONFIG"
+}
+
+target_install_url() {
+  jq -er --arg target "$1" '.targets[$target].install_url' "$VM_TARGETS_CONFIG"
 }
 
 install_guest() {
@@ -186,7 +222,7 @@ install_guest() {
 
   case "$target" in
     fedora)
-      install_source=(--location "$iso_path")
+      install_source=(--location "$(target_install_url "$target")")
       install_data=(--initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg")
       install_args=(--extra-args 'inst.ks=file:/kickstart.cfg')
       ;;
@@ -234,5 +270,5 @@ open_guest() {
 }
 
 print_usage() {
-  printf '%s\n' 'Usage: v2/bin/vm <check|fetch|build|open> [target]'
+  printf '%s\n' 'Usage: v2/bin/vm <check|fetch|build|rebuild|open> [target]'
 }
