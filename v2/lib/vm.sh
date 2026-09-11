@@ -335,7 +335,7 @@ install_guest() {
     fedora)
       install_source=(--location "$(target_install_url "$target")")
       install_data=(--initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg")
-      install_args=(--extra-args "console=ttyS0 inst.cmdline inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
+      install_args=(--noreboot --extra-args "console=ttyS0 inst.cmdline inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
       serial_options=(--serial pty)
       ;;
     ubuntu)

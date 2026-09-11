@@ -151,7 +151,9 @@ stub_command() {
 
   grep -Fx 'cmdline' "$kickstart"
   grep -Fx 'services --enabled=plasmalogin' "$kickstart"
+  grep -Fx 'systemctl set-default graphical.target' "$kickstart"
   grep -Fx 'plasma-login-manager' "$kickstart"
+  grep -Fx -- '-plasma-welcome' "$kickstart"
   ! grep -Fx 'sddm' "$kickstart"
 }
 
@@ -252,6 +254,7 @@ stub_command() {
   grep -q -- '--noautoconsole' "$virt_log"
   ! grep -q -- '--autoconsole text' "$virt_log"
   grep -q -- '--serial pty' "$virt_log"
+  grep -q -- '--noreboot' "$virt_log"
   ! grep -q -- 'log.file=' "$virt_log"
   grep -q -- 'console=ttyS0 inst.cmdline' "$virt_log"
   rm -rf "$cache_dir"
