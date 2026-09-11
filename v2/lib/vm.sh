@@ -152,10 +152,12 @@ build_guest() {
   local image_path
   local ready_path
   local disk_size
+  local install_log_path
 
   read_target "$target" iso_name iso_url iso_sha256 || return $?
   image_path="$VM_CACHE_DIR/images/$target.qcow2"
   ready_path="$image_path.ready"
+  install_log_path="$VM_CACHE_DIR/logs/$target-install.log"
 
   if [ -f "$image_path" ] && [ -f "$ready_path" ]; then
     printf 'Base image is ready: %s\n' "$target"
@@ -169,11 +171,12 @@ build_guest() {
   fetch_iso "$target"
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
   disk_size="$(target_disk_size "$target")"
-  mkdir -p "${image_path%/*}"
+  mkdir -p "${image_path%/*}" "${install_log_path%/*}"
+  : >"$install_log_path"
   qemu-img create -f qcow2 "$image_path" "$disk_size"
   prepare_qemu_access
 
-  if ! install_guest "$target" "$iso_path" "$image_path"; then
+  if ! run_guest_install "$target" "$iso_path" "$image_path" "$install_log_path"; then
     printf 'Installation did not complete: %s\n' "$target" >&2
     return 1
   fi
@@ -291,15 +294,18 @@ remove_test_guest() {
 
 prepare_qemu_access() {
   local parent_path="${VM_CACHE_DIR%/*}"
+  local qemu_uid
+
+  qemu_uid="$(id -u qemu)"
 
   while [ -n "$parent_path" ] && [ "$parent_path" != / ]; do
-    setfacl -m 'u:qemu:--x' "$parent_path"
+    setfacl -m "u:$qemu_uid:--x" "$parent_path"
     if [ "$parent_path" = "$VM_USER_HOME" ]; then
       break
     fi
     parent_path="${parent_path%/*}"
   done
-  setfacl -R -m 'u:qemu:rwX' "$VM_CACHE_DIR"
+  setfacl -R -m "u:$qemu_uid:rwX" "$VM_CACHE_DIR"
 }
 
 target_disk_size() {
@@ -318,16 +324,19 @@ install_guest() {
   local target="$1"
   local iso_path="$2"
   local image_path="$3"
+  local install_log_path="$4"
   local -a console_options=(--noautoconsole)
   local -a install_source=()
   local -a install_data=()
   local -a install_args=()
+  local -a serial_options=()
 
   case "$target" in
     fedora)
       install_source=(--location "$(target_install_url "$target")")
       install_data=(--initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg")
-      install_args=(--extra-args "inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
+      install_args=(--extra-args "console=ttyS0 inst.cmdline inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
+      serial_options=(--serial pty)
       ;;
     ubuntu)
       install_source=(--location "$iso_path")
@@ -356,10 +365,53 @@ install_guest() {
     --os-variant detect=on,require=off \
     --graphics spice \
     "${console_options[@]}" \
+    "${serial_options[@]}" \
     --wait -1 \
     "${install_source[@]}" \
     "${install_data[@]}" \
     "${install_args[@]}"
+}
+
+run_guest_install() {
+  local target="$1"
+  local iso_path="$2"
+  local image_path="$3"
+  local install_log_path="$4"
+  local install_pid
+  local log_pid
+  local install_status
+  local domain_name
+
+  if [ "$target" != fedora ]; then
+    install_guest "$target" "$iso_path" "$image_path" "$install_log_path"
+    return $?
+  fi
+
+  install_guest "$target" "$iso_path" "$image_path" "$install_log_path" &
+  install_pid=$!
+  domain_name="dot-v2-$target"
+
+  while ! virsh -c qemu:///system domstate "$domain_name" >/dev/null 2>&1; do
+    if ! kill -0 "$install_pid" 2>/dev/null; then
+      break
+    fi
+    sleep 1
+  done
+  if virsh -c qemu:///system domstate "$domain_name" >/dev/null 2>&1; then
+    virsh -c qemu:///system console "$domain_name" --force | tee "$install_log_path" &
+    log_pid=$!
+  fi
+
+  if wait "$install_pid"; then
+    install_status=0
+  else
+    install_status=$?
+  fi
+  if [ -n "${log_pid:-}" ]; then
+    kill "$log_pid" 2>/dev/null || true
+    wait "$log_pid" || true
+  fi
+  return "$install_status"
 }
 
 open_guest() {

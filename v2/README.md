@@ -12,6 +12,7 @@ Run `v2/bin/vm stop <target>` to force off a guest.
 Run `v2/bin/vm run <target>` to create and boot a disposable test overlay.
 Run `v2/bin/vm remove <target>` to remove a disposable test overlay.
 Run `v2/bin/vm open <target>` to show the guest in Virtual Machine Manager.
+Run `tail -f v2/.cache/vms/logs/fedora-install.log` to view Fedora installer progress.
 
 The cache is in `v2/.cache/vms/`.
 The command reuses a ready ISO and base image.

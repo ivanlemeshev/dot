@@ -74,7 +74,7 @@ stub_command() {
   : >"$cache_dir/images/fedora.qcow2"
   : >"$cache_dir/images/fedora.qcow2.ready"
   stub_command qemu-img ': >"${@: -1}"'
-  stub_command virt-install 'exit 0'
+  stub_command virt-install 'sleep 1'
   stub_command virsh 'exit 1'
   stub_command setfacl 'exit 0'
 
@@ -146,13 +146,21 @@ stub_command() {
   grep -Fx 'clearpart --all --initlabel' "$kickstart"
 }
 
-@test "Fedora Kickstart starts the KDE graphical login" {
+@test "Fedora Kickstart uses the command-line installer and starts KDE" {
   kickstart="$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
 
-  grep -Fx 'graphical' "$kickstart"
+  grep -Fx 'cmdline' "$kickstart"
   grep -Fx 'services --enabled=plasmalogin' "$kickstart"
   grep -Fx 'plasma-login-manager' "$kickstart"
   ! grep -Fx 'sddm' "$kickstart"
+}
+
+@test "Fedora Kickstart sends error logs to the serial console" {
+  kickstart="$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
+
+  grep -Fx '%onerror --interpreter=/bin/bash' "$kickstart"
+  grep -Fx 'exec >/dev/ttyS0 2>&1' "$kickstart"
+  grep -Fx '  tail -n 200 "$log_path"' "$kickstart"
 }
 
 @test "build reuses a completed base image" {
@@ -201,7 +209,7 @@ stub_command() {
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_ACCESS_LOG="$access_log" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
 
   [ "$status" -eq 0 ]
-  grep -q -- 'u:qemu:rwX' "$access_log"
+  grep -q -- "u:$(id -u qemu):rwX" "$access_log"
   rm -rf "$cache_dir"
 }
 
@@ -226,7 +234,7 @@ stub_command() {
   rm -rf "$test_home"
 }
 
-@test "Fedora rebuild does not open an installer console" {
+@test "Fedora rebuild records command-line installer progress" {
   cache_dir="$(mktemp -d)"
   virt_log="$cache_dir/virt-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
@@ -243,5 +251,35 @@ stub_command() {
   [ "$status" -eq 0 ]
   grep -q -- '--noautoconsole' "$virt_log"
   ! grep -q -- '--autoconsole text' "$virt_log"
+  grep -q -- '--serial pty' "$virt_log"
+  ! grep -q -- 'log.file=' "$virt_log"
+  grep -q -- 'console=ttyS0 inst.cmdline' "$virt_log"
+  rm -rf "$cache_dir"
+}
+
+@test "Fedora rebuild streams installer progress" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/images" "$cache_dir/iso"
+  : >"$cache_dir/images/fedora.qcow2"
+  : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virsh '
+    case "$3" in
+      domstate)
+        exit 0
+        ;;
+      console)
+        printf "%s\\n" "Installing Fedora packages"
+        ;;
+    esac
+  '
+  stub_command setfacl 'exit 0'
+  stub_command virt-install 'sleep 1'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Installing Fedora packages"* ]]
   rm -rf "$cache_dir"
 }
