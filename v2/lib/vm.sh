@@ -325,10 +325,9 @@ install_guest() {
 
   case "$target" in
     fedora)
-      console_options=(--serial pty --autoconsole text)
       install_source=(--location "$(target_install_url "$target")")
       install_data=(--initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg")
-      install_args=(--extra-args "console=ttyS0 inst.text inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
+      install_args=(--extra-args "inst.repo=$(target_install_url "$target") inst.ks=file:/kickstart.cfg")
       ;;
     ubuntu)
       install_source=(--location "$iso_path")

@@ -226,7 +226,7 @@ stub_command() {
   rm -rf "$test_home"
 }
 
-@test "Fedora rebuild attaches an installer serial console" {
+@test "Fedora rebuild does not open an installer console" {
   cache_dir="$(mktemp -d)"
   virt_log="$cache_dir/virt-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
@@ -241,8 +241,7 @@ stub_command() {
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" rebuild fedora
 
   [ "$status" -eq 0 ]
-  grep -q -- '--serial pty' "$virt_log"
-  grep -q -- '--autoconsole text' "$virt_log"
-  grep -q -- 'console=ttyS0 inst.text' "$virt_log"
+  grep -q -- '--noautoconsole' "$virt_log"
+  ! grep -q -- '--autoconsole text' "$virt_log"
   rm -rf "$cache_dir"
 }
