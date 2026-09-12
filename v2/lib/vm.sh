@@ -339,12 +339,13 @@ install_guest() {
       serial_options=(--serial pty)
       ;;
     ubuntu)
-      install_source=(--location "$iso_path")
+      install_source=(--location "$iso_path,kernel=casper/vmlinuz,initrd=casper/initrd")
       install_data=(
         --initrd-inject "$VM_ROOT/data/ubuntu/user-data"
         --initrd-inject "$VM_ROOT/data/ubuntu/meta-data"
       )
-      install_args=(--extra-args 'autoinstall ds=nocloud;s=file:///')
+      install_args=(--extra-args 'autoinstall ds=nocloud;s=file:/// console=ttyS0')
+      serial_options=(--serial pty)
       ;;
     arch)
       install_source=(--location "$iso_path")
@@ -382,7 +383,7 @@ run_guest_install() {
   local install_status
   local domain_name
 
-  if [ "$target" != fedora ]; then
+  if [ "$target" != fedora ] && [ "$target" != ubuntu ]; then
     install_guest "$target" "$iso_path" "$image_path" "$install_log_path"
     return $?
   fi

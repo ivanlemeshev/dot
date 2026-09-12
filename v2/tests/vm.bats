@@ -165,6 +165,77 @@ stub_command() {
   grep -Fx '  tail -n 200 "$log_path"' "$kickstart"
 }
 
+@test "Ubuntu autoinstall powers off after setup" {
+  run grep -Fx '  shutdown: poweroff' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+
+  [ "$status" -eq 0 ]
+}
+
+@test "Ubuntu target uses the official 26.04 desktop ISO" {
+  run jq -r '[.targets.ubuntu.iso.name, .targets.ubuntu.iso.url, .targets.ubuntu.iso.sha256] | @tsv' "$PROJECT_ROOT/v2/config/targets.json"
+
+  [ "$status" -eq 0 ]
+  [ "$output" = $'ubuntu-26.04-desktop-amd64.iso\thttps://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso\t487f87faaf547ea30e0aba4d5b53346292571256b25333a978db1692bcee9dd2' ]
+}
+
+@test "Ubuntu autoinstall selects the standard desktop source" {
+  user_data="$PROJECT_ROOT/v2/data/ubuntu/user-data"
+
+  grep -Fx '  source:' "$user_data"
+  grep -Fx '    id: ubuntu-desktop' "$user_data"
+  ! grep -Fx '  packages:' "$user_data"
+}
+
+@test "Ubuntu rebuild injects NoCloud autoinstall data" {
+  cache_dir="$(mktemp -d)"
+  virt_log="$cache_dir/virt-install.log"
+  mkdir -p "$cache_dir/images" "$cache_dir/iso"
+  : >"$cache_dir/images/ubuntu.qcow2"
+  : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_VIRT_LOG"'
+  stub_command virsh 'exit 0'
+  stub_command setfacl 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" rebuild ubuntu
+
+  [ "$status" -eq 0 ]
+  grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$virt_log"
+  grep -q -- '--initrd-inject .*/data/ubuntu/user-data' "$virt_log"
+  grep -q -- '--initrd-inject .*/data/ubuntu/meta-data' "$virt_log"
+  grep -q -- '--serial pty' "$virt_log"
+  grep -q -- 'autoinstall ds=nocloud;s=file:/// console=ttyS0' "$virt_log"
+  rm -rf "$cache_dir"
+}
+
+@test "Ubuntu rebuild streams installer progress" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/images" "$cache_dir/iso"
+  : >"$cache_dir/images/ubuntu.qcow2"
+  : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virsh '
+    case "$3" in
+      domstate)
+        exit 0
+        ;;
+      console)
+        printf "%s\\n" "Installing Ubuntu packages"
+        ;;
+    esac
+  '
+  stub_command setfacl 'exit 0'
+  stub_command virt-install 'sleep 1'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild ubuntu
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Installing Ubuntu packages"* ]]
+  rm -rf "$cache_dir"
+}
+
 @test "build reuses a completed base image" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/images"
