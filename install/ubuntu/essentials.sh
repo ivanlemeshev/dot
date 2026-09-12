@@ -77,6 +77,9 @@ packages=(
   # A library for reading and writing JPEG image files.
   "libjpeg-dev"
 
+  # A document converter that compiles Markdown files.
+  "pandoc"
+
   # A tool for installing Python packages.
   "python3-pip"
 
@@ -89,6 +92,9 @@ packages=(
 
   # A common package for adding PPA repositories.
   "software-properties-common"
+
+  # A static analysis tool for shell scripts.
+  "shellcheck"
 
   # A diagnostic, debugging and instructional userspace utility for Linux.
   "strace"
