@@ -2,11 +2,10 @@
   "targets": {
     "fedora": {
       "iso": {
-        "name": "Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso",
-        "url": "https://download.fedoraproject.org/pub/fedora/linux/releases/44/KDE/x86_64/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso",
-        "sha256": "c8295961d4c41adbf785a31a17c21a971d3b7415fda72dcad0c11c49577bf03a"
+        "name": "Fedora-Everything-netinst-x86_64-44-1.7.iso",
+        "url": "https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso",
+        "sha256": "bd285201494dd0ba09b54d05ac707de1401668b8512a573edb5922dcf9d7067e"
       },
-      "install_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/",
       "disk_size": "50G"
     },
     "ubuntu": {
@@ -31,7 +30,9 @@
         "url": "https://www.microsoft.com/evalcenter/evaluate-windows-11-enterprise",
         "sha256": null
       },
-      "disk_size": "64G"
+      "disk_size": "64G",
+      "disk_bus": "sata",
+      "network_model": "e1000"
     }
   }
 }

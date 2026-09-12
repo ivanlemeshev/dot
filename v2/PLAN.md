@@ -3,17 +3,18 @@
 ## Goal
 
 Create clean local virtual machines for dotfiles checks.
+Use Packer as the immutable image factory.
 Run one virtual machine at a time in Virtual Machine Manager.
 Keep installed base images so later checks do not reinstall the OS.
 
 ## Selected targets
 
-| Name    | Source                                        | Guest type               | Disk         |
-| ------- | --------------------------------------------- | ------------------------ | ------------ |
-| Fedora  | Fedora KDE Plasma Desktop 44 x86_64 ISO       | Clean desktop            | 50 GiB QCOW2 |
-| Ubuntu  | Ubuntu 26.04 Desktop AMD64 ISO                | Clean desktop            | 50 GiB QCOW2 |
-| Arch    | Current Arch Linux x86_64 monthly ISO         | Clean desktop            | 50 GiB QCOW2 |
-| Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO | Clean evaluation desktop | 64 GiB QCOW2 |
+| Name    | Source                                          | Guest type               | Disk         |
+| ------- | ----------------------------------------------- | ------------------------ | ------------ |
+| Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
+| Ubuntu  | Ubuntu 26.04 Desktop AMD64 ISO                  | Clean desktop            | 50 GiB QCOW2 |
+| Arch    | Current Arch Linux x86_64 monthly ISO           | Clean desktop            | 50 GiB QCOW2 |
+| Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
 
 Use 2 vCPUs and 4 GiB RAM for each virtual machine.
 Use the `qemu:///system` libvirt connection.
@@ -70,8 +71,8 @@ Tests do not download ISOs or create virtual machines.
 1. Add the cache ignore rule and the machine configuration.
 2. Add `v2/bin/vm` with dependency checks and safe cache paths.
 3. Add ISO download and SHA-256 verification.
-4. Add unattended Fedora, Ubuntu, and Arch install data.
-5. Add Windows evaluation ISO handling and its UEFI, Secure Boot, and TPM setup.
+4. Add unattended Fedora, Ubuntu, Arch, and Windows install data.
+5. Add Packer QEMU builds that create immutable qcow2 base images.
 6. Add libvirt guest definitions and base-image reuse checks.
 7. Add command-seam tests before each implementation slice.
 8. Build and run every guest from a normal host session.

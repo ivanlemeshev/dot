@@ -30,6 +30,10 @@ Use these skills only when needed, in this order:
 Use `/diagnosing-bugs` when something breaks.
 Use `/prototype` to try an uncertain approach.
 
+## Virtual machines
+
+Do not run VM commands.
+
 ## Git
 
 - Ask for explicit permission before you create a branch. Keep `main` for merged work.
