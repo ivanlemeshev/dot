@@ -138,10 +138,12 @@ stub_command() {
   [ "$status" -eq 1 ]
 }
 
-@test "Fedora Kickstart selects the virtual disk and UTC" {
+@test "Fedora Kickstart sets the US keyboard, UTC, and virtual disk" {
   kickstart="$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
 
+  grep -Fx 'keyboard us' "$kickstart"
   grep -Fx 'timezone UTC --utc' "$kickstart"
+  grep -Fx 'firstboot --disable' "$kickstart"
   grep -Fx 'ignoredisk --only-use=vda' "$kickstart"
   grep -Fx 'clearpart --all --initlabel' "$kickstart"
 }
@@ -154,6 +156,7 @@ stub_command() {
   grep -Fx 'systemctl set-default graphical.target' "$kickstart"
   grep -Fx 'plasma-login-manager' "$kickstart"
   grep -Fx -- '-plasma-welcome' "$kickstart"
+  grep -Fx "printf '[General]\\nColorScheme=BreezeDark\\n' >/etc/xdg/kdeglobals" "$kickstart"
   ! grep -Fx 'sddm' "$kickstart"
 }
 
