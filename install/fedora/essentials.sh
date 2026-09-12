@@ -65,6 +65,9 @@ packages=(
   # JPEG library headers required to build native software.
   libjpeg-turbo-devel
 
+  # Converts documents and compiles Markdown files.
+  pandoc
+
   # Python interpreter and standard library.
   python3
 
@@ -73,6 +76,9 @@ packages=(
 
   # Fast recursive text search.
   ripgrep
+
+  # Performs static analysis on shell scripts.
+  ShellCheck
 
   # Traces system calls and signals.
   strace
