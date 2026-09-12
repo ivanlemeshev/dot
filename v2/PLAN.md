@@ -36,14 +36,20 @@ Rebuild a target only through an explicit command.
 
 ## Planned command seam
 
-Create `v2/bin/vm` as the public command interface.
+Keep `v2/bin/vm` as the internal VM command interface.
+
+Add a `dot` command on the user `PATH` when the v2 CLI expands.
+The command should expose the VM interface as `dot vm <command> [target]`.
+Keep the dispatcher small.
+Review Go only if the CLI needs concurrent jobs, durable structured state,
+libvirt events, or reuse outside this repository.
 
 ```text
-v2/bin/vm check
-v2/bin/vm fetch <fedora|ubuntu|arch|windows>
-v2/bin/vm build <fedora|ubuntu|arch|windows>
-v2/bin/vm refresh arch
-v2/bin/vm open <fedora|ubuntu|arch|windows>
+dot vm check
+dot vm fetch <fedora|ubuntu|arch|windows>
+dot vm build <fedora|ubuntu|arch|windows>
+dot vm refresh arch
+dot vm open <fedora|ubuntu|arch|windows>
 ```
 
 `check` verifies host dependencies and system-libvirt access.
