@@ -10,35 +10,42 @@ readonly VM_USER_HOME="${VM_USER_HOME:-$HOME}"
 
 main() {
   case "${1:-}" in
+    '' | help | -h | --help)
+      print_help
+      ;;
     check)
-      check_host
+      run_or_print_help check_host "${2:-}"
       ;;
     fetch)
-      fetch_iso "${2:-}"
+      run_or_print_help fetch_iso "${2:-}" "${3:-}"
       ;;
     build)
-      build_guest "${2:-}"
-      ;;
-    rebuild)
-      rebuild_guest "${2:-}"
+      run_or_print_help build_guest "${2:-}" "${3:-}"
       ;;
     stop)
-      stop_guest "${2:-}"
+      run_or_print_help stop_guest "${2:-}" "${3:-}"
       ;;
     run)
-      run_test_guest "${2:-}"
-      ;;
-    remove)
-      remove_test_guest "${2:-}"
-      ;;
-    open)
-      open_guest "${2:-}"
+      run_or_print_help run_test_guest "${2:-}" "${3:-}"
       ;;
     *)
-      print_usage >&2
+      printf 'Unknown command: %s\n' "$1" >&2
+      printf '%s\n' 'Run v2/bin/vm --help for usage.' >&2
       return 2
       ;;
   esac
+}
+
+run_or_print_help() {
+  local command="$1"
+  local target="$2"
+  local option="${3:-}"
+
+  if [ "$target" = --help ] || [ "$target" = -h ] || [ "$option" = --help ] || [ "$option" = -h ]; then
+    print_help
+    return 0
+  fi
+  "$command" "$target"
 }
 
 check_host() {
@@ -160,13 +167,19 @@ build_guest() {
   install_log_path="$VM_CACHE_DIR/logs/$target-install.log"
 
   if [ -f "$image_path" ] && [ -f "$ready_path" ]; then
-    printf 'Base image is ready: %s\n' "$target"
-    return 0
+    if [ ! -t 0 ]; then
+      printf 'Base image exists: %s. Run build from a terminal to confirm rebuild.\n' "$target" >&2
+      return 1
+    fi
+    printf 'Base image is ready: %s. Rebuild? [y/N] ' "$target"
+    read -r response
+    if [ "$response" != y ] && [ "$response" != Y ]; then
+      printf 'Base image is ready: %s\n' "$target"
+      return 0
+    fi
   fi
-  if [ -e "$image_path" ]; then
-    printf 'Incomplete base image exists: %s. Run rebuild to replace it.\n' "$target" >&2
-    return 1
-  fi
+
+  replace_base_guest "$target" "$image_path" "$ready_path"
 
   fetch_iso "$target"
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
@@ -177,41 +190,41 @@ build_guest() {
   prepare_qemu_access
 
   if ! run_guest_install "$target" "$iso_path" "$image_path" "$install_log_path"; then
-    printf 'Installation did not complete: %s\n' "$target" >&2
+    remove_base_guest "$target" "$image_path" "$ready_path"
+    printf 'Installation failed: %s. See %s\n' "$target" "$install_log_path" >&2
     return 1
   fi
 
+  stop_base_guest "$target"
   : >"$ready_path"
   printf 'Base image is ready: %s\n' "$target"
 }
 
-rebuild_guest() {
+replace_base_guest() {
   local target="$1"
-  local iso_name
-  local iso_url
-  local iso_sha256
-  local image_path
-  local ready_path
-  local domain_name
-  local domain_state
+  local image_path="$2"
+  local ready_path="$3"
 
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  image_path="$VM_CACHE_DIR/images/$target.qcow2"
-  ready_path="$image_path.ready"
-  domain_name="dot-v2-$target"
-  domain_state="$(virsh -c qemu:///system domstate "$domain_name" 2>/dev/null || true)"
+  remove_base_guest "$target" "$image_path" "$ready_path"
+}
 
-  if [ -n "$domain_state" ] && [ "$domain_state" != 'shut off' ]; then
-    printf 'Guest must be shut off before rebuild: %s\n' "$target" >&2
-    return 1
-  fi
+remove_base_guest() {
+  local target="$1"
+  local image_path="$2"
+  local ready_path="$3"
+  local domain_name="dot-v2-$target"
 
-  if [ -n "$domain_state" ]; then
-    virsh -c qemu:///system undefine "$domain_name" --nvram
+  if virsh -c qemu:///system domstate "$domain_name" >/dev/null 2>&1; then
+    virsh -c qemu:///system destroy "$domain_name" >/dev/null 2>&1 || true
+    virsh -c qemu:///system undefine "$domain_name" --nvram >/dev/null 2>&1 || \
+      virsh -c qemu:///system undefine "$domain_name" >/dev/null 2>&1 || true
   fi
 
   rm -f "$image_path" "$ready_path"
-  build_guest "$target"
+}
+
+stop_base_guest() {
+  virsh -c qemu:///system destroy "dot-v2-$1" >/dev/null 2>&1 || true
 }
 
 stop_guest() {
@@ -219,10 +232,22 @@ stop_guest() {
   local iso_name
   local iso_url
   local iso_sha256
+  local test_domain_name
+  local test_image_path
 
   read_target "$target" iso_name iso_url iso_sha256 || return $?
-  virsh -c qemu:///system destroy "dot-v2-$target"
-  printf 'Guest stopped: %s\n' "$target"
+  test_domain_name="dot-v2-$target-test"
+  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
+
+  if ! virsh -c qemu:///system domstate "$test_domain_name" >/dev/null 2>&1 && [ ! -e "$test_image_path" ]; then
+    printf 'No test guest exists: %s\n' "$target"
+    return 0
+  fi
+  virsh -c qemu:///system destroy "$test_domain_name" >/dev/null 2>&1 || true
+  virsh -c qemu:///system undefine "$test_domain_name" --nvram >/dev/null 2>&1 || \
+    virsh -c qemu:///system undefine "$test_domain_name" >/dev/null 2>&1 || true
+  rm -f "$test_image_path"
+  printf 'Test guest stopped: %s\n' "$target"
 }
 
 run_test_guest() {
@@ -250,7 +275,7 @@ run_test_guest() {
     return 1
   fi
   if [ -e "$test_image_path" ]; then
-    printf 'Test overlay already exists: %s. Run remove first.\n' "$target" >&2
+    printf 'Test overlay already exists: %s. Run stop first.\n' "$target" >&2
     return 1
   fi
 
@@ -269,27 +294,7 @@ run_test_guest() {
     --import \
     --noautoconsole
   printf 'Test guest is running: %s\n' "$target"
-}
-
-remove_test_guest() {
-  local target="$1"
-  local iso_name
-  local iso_url
-  local iso_sha256
-  local test_domain_name
-  local test_image_path
-
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  test_domain_name="dot-v2-$target-test"
-  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
-
-  if virsh -c qemu:///system domstate "$test_domain_name" >/dev/null 2>&1; then
-    virsh -c qemu:///system destroy "$test_domain_name" >/dev/null 2>&1 || true
-    virsh -c qemu:///system undefine "$test_domain_name" --nvram >/dev/null 2>&1 || \
-      virsh -c qemu:///system undefine "$test_domain_name"
-  fi
-  rm -f "$test_image_path"
-  printf 'Test guest removed: %s\n' "$target"
+  exec virt-manager --connect qemu:///system --show-domain-console "dot-v2-$target-test"
 }
 
 prepare_qemu_access() {
@@ -399,7 +404,7 @@ run_guest_install() {
     sleep 1
   done
   if virsh -c qemu:///system domstate "$domain_name" >/dev/null 2>&1; then
-    virsh -c qemu:///system console "$domain_name" --force | tee "$install_log_path" &
+    virsh -c qemu:///system console "$domain_name" --force >"$install_log_path" 2>&1 &
     log_pid=$!
   fi
 
@@ -415,21 +420,28 @@ run_guest_install() {
   return "$install_status"
 }
 
-open_guest() {
-  local target="$1"
-  local iso_name
-  local iso_url
-  local iso_sha256
+print_help() {
+  cat <<'EOF'
+Usage: v2/bin/vm <command> [target]
 
-  local domain_name="dot-v2-$target"
+Create disposable virtual machines for dotfiles checks.
 
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  if virsh -c qemu:///system domstate "$domain_name-test" >/dev/null 2>&1; then
-    domain_name="$domain_name-test"
-  fi
-  exec virt-manager --connect qemu:///system --show-domain-console "$domain_name"
-}
+Commands:
+  check           Check host dependencies and libvirt access.
+  fetch <target>  Download and verify the target ISO.
+  build <target>  Create a stopped base image.
+  run <target>    Boot and open a disposable test overlay.
+  stop <target>   Remove the disposable test overlay.
 
-print_usage() {
-  printf '%s\n' 'Usage: v2/bin/vm <check|fetch|build|rebuild|stop|run|remove|open> [target]'
+Targets: fedora, ubuntu, arch, windows
+
+Examples:
+  v2/bin/vm check
+  v2/bin/vm build fedora
+  v2/bin/vm run fedora
+  v2/bin/vm stop fedora
+
+Run build from a terminal to confirm replacement of a ready base image.
+Run stop to discard the test overlay after each test.
+EOF
 }

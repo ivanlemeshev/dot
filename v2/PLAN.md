@@ -30,9 +30,11 @@ Windows needs no product key for its 90-day evaluation.
 Store local files under `v2/.cache/vms/`.
 Ignore the cache in Git.
 Track scripts, source URLs, ISO versions, and SHA-256 checksums.
-Reuse a verified ISO and a completed base image on normal runs.
-Refresh Arch only through an explicit command.
-Rebuild a target only through an explicit command.
+Reuse a verified ISO on normal runs.
+Ask before `build` replaces a completed base image.
+Replace an incomplete base image during `build`.
+Remove the failed base domain and partial image during `build`.
+Keep test changes only in disposable overlays.
 
 ## Planned command seam
 
@@ -45,18 +47,20 @@ Review Go only if the CLI needs concurrent jobs, durable structured state,
 libvirt events, or reuse outside this repository.
 
 ```text
-dot vm check
-dot vm fetch <fedora|ubuntu|arch|windows>
-dot vm build <fedora|ubuntu|arch|windows>
-dot vm refresh arch
-dot vm open <fedora|ubuntu|arch|windows>
+v2/bin/vm check
+v2/bin/vm fetch <fedora|ubuntu|arch|windows>
+v2/bin/vm build <fedora|ubuntu|arch|windows>
+v2/bin/vm run <fedora|ubuntu|arch|windows>
+v2/bin/vm stop <fedora|ubuntu|arch|windows>
 ```
 
 `check` verifies host dependencies and system-libvirt access.
 `fetch` downloads and verifies one ISO.
-`build` creates or reuses one installed base image.
-`refresh arch` resolves, locks, and rebuilds the current Arch ISO.
-`open` opens the named guest in Virtual Machine Manager.
+`build` creates one stopped installed base image.
+`build` asks before it replaces a completed base image.
+`run` creates, boots, and opens one disposable test overlay.
+`stop` force-stops, undefines, and removes one disposable test overlay.
+`stop` does not change the installed base image.
 
 Tests use this command seam with stubbed host tools.
 Tests do not download ISOs or create virtual machines.
@@ -70,7 +74,7 @@ Tests do not download ISOs or create virtual machines.
 5. Add Windows evaluation ISO handling and its UEFI, Secure Boot, and TPM setup.
 6. Add libvirt guest definitions and base-image reuse checks.
 7. Add command-seam tests before each implementation slice.
-8. Build and open every guest from a normal host session.
+8. Build and run every guest from a normal host session.
 9. Record each completed step in `v2/PROGRESS.md`.
 
 ## Host constraints

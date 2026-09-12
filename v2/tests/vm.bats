@@ -18,6 +18,30 @@ stub_command() {
   chmod +x "$STUB_BIN/$name"
 }
 
+@test "help describes the VM lifecycle" {
+  run /bin/bash "$VM" --help
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Usage: v2/bin/vm <command> [target]"* ]]
+  [[ "$output" == *"build <target>"* ]]
+  [[ "$output" == *"run <target>"* ]]
+  [[ "$output" == *"stop <target>"* ]]
+}
+
+@test "commands accept a help option" {
+  run /bin/bash "$VM" build --help
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"build <target>"* ]]
+}
+
+@test "unknown commands explain how to get help" {
+  run /bin/bash "$VM" unknown
+
+  [ "$status" -eq 2 ]
+  [ "$output" = $'Unknown command: unknown\nRun v2/bin/vm --help for usage.' ]
+}
+
 @test "check reports missing host dependencies" {
   run env PATH="$STUB_BIN" /bin/bash "$VM" check
 
@@ -59,13 +83,40 @@ stub_command() {
   [ "$output" = "Unknown target: debian" ]
 }
 
-@test "stop force powers off the named guest" {
-  stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "destroy" && test "$4" = "dot-v2-fedora"'
+@test "stop removes a disposable test overlay and preserves its base image" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/images" "$cache_dir/overlays"
+  : >"$cache_dir/images/fedora.qcow2"
+  : >"$cache_dir/images/fedora.qcow2.ready"
+  : >"$cache_dir/overlays/fedora.qcow2"
+  stub_command virsh '
+    test "$1" = "-c" && test "$2" = "qemu:///system"
+    case "$3" in
+      domstate) exit 0 ;;
+      destroy) test "$4" = "dot-v2-fedora-test" ;;
+      undefine) test "$4" = "dot-v2-fedora-test" ;;
+    esac
+  '
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" /bin/bash "$VM" stop fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" stop fedora
 
   [ "$status" -eq 0 ]
-  [ "$output" = "Guest stopped: fedora" ]
+  [ "$output" = "Test guest stopped: fedora" ]
+  [ -f "$cache_dir/images/fedora.qcow2" ]
+  [ -f "$cache_dir/images/fedora.qcow2.ready" ]
+  [ ! -e "$cache_dir/overlays/fedora.qcow2" ]
+  rm -rf "$cache_dir"
+}
+
+@test "stop succeeds when no disposable test guest exists" {
+  cache_dir="$(mktemp -d)"
+  stub_command virsh 'exit 1'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" stop fedora
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "No test guest exists: fedora" ]
+  rm -rf "$cache_dir"
 }
 
 @test "run creates a disposable test overlay" {
@@ -77,39 +128,16 @@ stub_command() {
   stub_command virt-install 'sleep 1'
   stub_command virsh 'exit 1'
   stub_command setfacl 'exit 0'
+  manager_log="$cache_dir/virt-manager.log"
+  stub_command virt-manager 'printf "%s\\n" "$*" >"$VM_MANAGER_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" run fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_MANAGER_LOG="$manager_log" /bin/bash "$VM" run fedora
 
   [ "$status" -eq 0 ]
   [ "$output" = "Test guest is running: fedora" ]
   [ -f "$cache_dir/overlays/fedora.qcow2" ]
+  [ "$(<"$manager_log")" = "--connect qemu:///system --show-domain-console dot-v2-fedora-test" ]
   rm -rf "$cache_dir"
-}
-
-@test "remove deletes a test overlay and preserves its base image" {
-  cache_dir="$(mktemp -d)"
-  mkdir -p "$cache_dir/images" "$cache_dir/overlays"
-  : >"$cache_dir/images/fedora.qcow2"
-  : >"$cache_dir/images/fedora.qcow2.ready"
-  : >"$cache_dir/overlays/fedora.qcow2"
-  stub_command virsh 'exit 0'
-
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" remove fedora
-
-  [ "$status" -eq 0 ]
-  [ "$output" = "Test guest removed: fedora" ]
-  [ -f "$cache_dir/images/fedora.qcow2" ]
-  [ -f "$cache_dir/images/fedora.qcow2.ready" ]
-  [ ! -e "$cache_dir/overlays/fedora.qcow2" ]
-  rm -rf "$cache_dir"
-}
-
-@test "open shows the guest graphical console" {
-  stub_command virt-manager 'test "$1" = "--connect" && test "$2" = "qemu:///system" && test "$3" = "--show-domain-console" && test "$4" = "dot-v2-fedora"'
-
-  run env PATH="$STUB_BIN:/usr/bin:/bin" /bin/bash "$VM" open fedora
-
-  [ "$status" -eq 0 ]
 }
 
 @test "Fedora target uses the official release filename" {
@@ -189,7 +217,7 @@ stub_command() {
   ! grep -Fx '  packages:' "$user_data"
 }
 
-@test "Ubuntu rebuild injects NoCloud autoinstall data" {
+@test "Ubuntu build replaces an incomplete image and injects NoCloud autoinstall data" {
   cache_dir="$(mktemp -d)"
   virt_log="$cache_dir/virt-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
@@ -201,7 +229,7 @@ stub_command() {
   stub_command virsh 'exit 0'
   stub_command setfacl 'exit 0'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" rebuild ubuntu
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" build ubuntu
 
   [ "$status" -eq 0 ]
   grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$virt_log"
@@ -212,8 +240,9 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "Ubuntu rebuild streams installer progress" {
+@test "Ubuntu build stores installer progress in its log" {
   cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/logs/ubuntu-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
   : >"$cache_dir/images/ubuntu.qcow2"
   : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
@@ -232,14 +261,15 @@ stub_command() {
   stub_command setfacl 'exit 0'
   stub_command virt-install 'sleep 1'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild ubuntu
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Installing Ubuntu packages"* ]]
+  [ "$output" = "ISO is ready: ubuntu-26.04-desktop-amd64.iso"$'\n'"Base image is ready: ubuntu" ]
+  [ "$(<"$install_log")" = "Installing Ubuntu packages" ]
   rm -rf "$cache_dir"
 }
 
-@test "build reuses a completed base image" {
+@test "build rejects a ready base without an interactive terminal" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/images"
   : >"$cache_dir/images/fedora.qcow2"
@@ -248,11 +278,11 @@ stub_command() {
   run env VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora
 
   rm -rf "$cache_dir"
-  [ "$status" -eq 0 ]
-  [ "$output" = "Base image is ready: fedora" ]
+  [ "$status" -eq 1 ]
+  [ "$output" = "Base image exists: fedora. Run build from a terminal to confirm rebuild." ]
 }
 
-@test "rebuild replaces an incomplete base image" {
+@test "build replaces an incomplete base image" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
   : >"$cache_dir/images/fedora.qcow2"
@@ -263,14 +293,56 @@ stub_command() {
   stub_command virsh 'exit 0'
   stub_command setfacl 'exit 0'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora
 
   rm -rf "$cache_dir"
   [ "$status" -eq 0 ]
   [ "$output" = $'ISO is ready: Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso\nBase image is ready: fedora' ]
 }
 
-@test "rebuild grants qemu access to the cache" {
+@test "failed build removes its base guest and partial image" {
+  cache_dir="$(mktemp -d)"
+  virsh_log="$cache_dir/virsh.log"
+  install_log="$cache_dir/logs/fedora-install.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virt-install 'exit 1'
+  stub_command virsh 'printf "%s\\n" "$*" >>"$VM_VIRSH_LOG"; test "$3" = "domstate" && exit 0'
+  stub_command setfacl 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRSH_LOG="$virsh_log" /bin/bash "$VM" build fedora
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "ISO is ready: Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"$'\n'"Installation failed: fedora. See $install_log" ]
+  grep -Fx -- '-c qemu:///system destroy dot-v2-fedora' "$virsh_log"
+  grep -Fx -- '-c qemu:///system undefine dot-v2-fedora --nvram' "$virsh_log"
+  [ ! -e "$cache_dir/images/fedora.qcow2" ]
+  [ -f "$install_log" ]
+  rm -rf "$cache_dir"
+}
+
+@test "build powers off the base guest after installation" {
+  cache_dir="$(mktemp -d)"
+  virsh_log="$cache_dir/virsh.log"
+  mkdir -p "$cache_dir/images" "$cache_dir/iso"
+  : >"$cache_dir/images/fedora.qcow2"
+  : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command qemu-img ': >"$4"'
+  stub_command virt-install 'exit 0'
+  stub_command virsh 'printf "%s\\n" "$*" >>"$VM_VIRSH_LOG"; test "$3" = "domstate" && exit 1'
+  stub_command setfacl 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRSH_LOG="$virsh_log" /bin/bash "$VM" build fedora
+
+  [ "$status" -eq 0 ]
+  grep -Fx -- '-c qemu:///system destroy dot-v2-fedora' "$virsh_log"
+  rm -rf "$cache_dir"
+}
+
+@test "build grants qemu access to the cache" {
   cache_dir="$(mktemp -d)"
   access_log="$cache_dir/access.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
@@ -282,14 +354,14 @@ stub_command() {
   stub_command virsh 'exit 0'
   stub_command setfacl 'printf "%s\n" "$*" >>"$VM_ACCESS_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_ACCESS_LOG="$access_log" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_ACCESS_LOG="$access_log" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora
 
   [ "$status" -eq 0 ]
   grep -q -- "u:$(id -u qemu):rwX" "$access_log"
   rm -rf "$cache_dir"
 }
 
-@test "rebuild does not change ACLs above the user home directory" {
+@test "build does not change ACLs above the user home directory" {
   test_home="$(mktemp -d)"
   cache_dir="$test_home/project/cache"
   access_log="$test_home/access.log"
@@ -302,7 +374,7 @@ stub_command() {
   stub_command virsh 'exit 0'
   stub_command setfacl 'printf "%s\n" "$*" >>"$VM_ACCESS_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_ACCESS_LOG="$access_log" VM_CACHE_DIR="$cache_dir" VM_USER_HOME="$test_home" /bin/bash "$VM" rebuild fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_ACCESS_LOG="$access_log" VM_CACHE_DIR="$cache_dir" VM_USER_HOME="$test_home" /bin/bash "$VM" build fedora
 
   [ "$status" -eq 0 ]
   grep -q -- "$test_home$" "$access_log"
@@ -310,7 +382,7 @@ stub_command() {
   rm -rf "$test_home"
 }
 
-@test "Fedora rebuild records command-line installer progress" {
+@test "Fedora build records command-line installer progress" {
   cache_dir="$(mktemp -d)"
   virt_log="$cache_dir/virt-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
@@ -322,7 +394,7 @@ stub_command() {
   stub_command virsh 'exit 0'
   stub_command setfacl 'exit 0'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" rebuild fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRT_LOG="$virt_log" /bin/bash "$VM" build fedora
 
   [ "$status" -eq 0 ]
   grep -q -- '--noautoconsole' "$virt_log"
@@ -334,8 +406,9 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "Fedora rebuild streams installer progress" {
+@test "Fedora build stores installer progress in its log" {
   cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/logs/fedora-install.log"
   mkdir -p "$cache_dir/images" "$cache_dir/iso"
   : >"$cache_dir/images/fedora.qcow2"
   : >"$cache_dir/iso/Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"
@@ -354,9 +427,10 @@ stub_command() {
   stub_command setfacl 'exit 0'
   stub_command virt-install 'sleep 1'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" rebuild fedora
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora
 
   [ "$status" -eq 0 ]
-  [[ "$output" == *"Installing Fedora packages"* ]]
+  [ "$output" = "ISO is ready: Fedora-KDE-Desktop-Live-44-1.7.x86_64.iso"$'\n'"Base image is ready: fedora" ]
+  [ "$(<"$install_log")" = "Installing Fedora packages" ]
   rm -rf "$cache_dir"
 }
