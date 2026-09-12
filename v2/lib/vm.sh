@@ -66,12 +66,8 @@ check_host() {
     return 1
   fi
 
-  if [ "$target" != fedora ]; then
-    if ! packer_available; then
-      printf '%s\n' 'Missing host command: packer' >&2
-      has_missing_command=true
-    fi
-    for command in qemu-img setfacl; do
+  if [ -z "$target" ] || [ "$target" = ubuntu ]; then
+    for command in cloud-localds setfacl; do
       if ! command -v "$command" >/dev/null 2>&1; then
         printf 'Missing host command: %s\n' "$command" >&2
         has_missing_command=true
@@ -101,11 +97,6 @@ fetch_iso() {
 
   read_target "$target" iso_name iso_url iso_sha256 || return $?
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
-
-  if [ "$target" = windows ]; then
-    verify_windows_iso "$iso_path"
-    return $?
-  fi
 
   if [ -f "$iso_path" ] && verify_iso "$iso_path" "$iso_sha256"; then
     printf 'ISO is ready: %s\n' "$iso_name"
@@ -157,83 +148,77 @@ verify_iso() {
   )
 }
 
-verify_windows_iso() {
-  local iso_path="$1"
-  local checksum_path="$iso_path.sha256"
-
-  if [ ! -f "$iso_path" ] || [ ! -f "$checksum_path" ]; then
-    printf '%s\n' "Download the Windows ISO from $(target_iso_url windows)." >&2
-    printf 'Rename it to %s and save its official SHA-256 in %s.\n' "${iso_path##*/}" "$checksum_path" >&2
-    return 1
-  fi
-  verify_iso "$iso_path" "$(<"$checksum_path")"
-  printf 'ISO is ready: %s\n' "${iso_path##*/}"
+build_guest() {
+  case "$1" in
+    fedora) build_fedora_guest ;;
+    ubuntu) build_ubuntu_guest ;;
+    *) printf 'Unsupported build target: %s\n' "$1" >&2; return 2 ;;
+  esac
 }
 
-build_guest() {
-  if [ "$1" = fedora ]; then
-    build_fedora_guest
-    return
-  fi
-
-  local target="$1"
+build_ubuntu_guest() {
   local iso_name
   local iso_url
   local iso_sha256
   local iso_path
-  local image_path
-  local ready_path
-  local build_root
-  local build_image_path
+  local volume_name
+  local seed_path="$VM_CACHE_DIR/seeds/ubuntu.iso"
+  local build_domain_name="dot-v2-ubuntu-base-build"
+  local log_path="$VM_LOG_DIR/ubuntu-build.log"
 
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  image_path="$VM_CACHE_DIR/images/$target.qcow2"
-  ready_path="$image_path.ready"
-  build_root="$VM_CACHE_DIR/builds"
-  build_image_path="$build_root/$target/$target.qcow2"
+  read_target ubuntu iso_name iso_url iso_sha256 || return $?
+  volume_name="$(base_volume_name ubuntu)"
+  iso_path="$VM_CACHE_DIR/iso/$iso_name"
 
-  if [ -f "$image_path" ] && [ -f "$ready_path" ]; then
+  if base_volume_exists ubuntu; then
     if [ ! -t 0 ]; then
-      printf 'Base image exists: %s. Run build from a terminal to confirm rebuild.\n' "$target" >&2
+      printf '%s\n' 'Base image exists: ubuntu. Run build from a terminal to confirm rebuild.' >&2
       return 1
     fi
-    printf 'Base image is ready: %s. Rebuild? [y/N] ' "$target"
+    printf 'Base image is ready: ubuntu. Rebuild? [y/N] '
     read -r response
     if [ "$response" != y ] && [ "$response" != Y ]; then
-      printf 'Base image is ready: %s\n' "$target"
+      printf '%s\n' 'Base image is ready: ubuntu'
       return 0
     fi
   fi
 
-  replace_base_guest "$target" "$image_path" "$ready_path"
-
-  fetch_iso "$target"
-  iso_path="$VM_CACHE_DIR/iso/$iso_name"
-  if [ "$target" = windows ]; then
-    iso_sha256="$(<"$iso_path.sha256")"
-  fi
-  if ! run_packer init "$VM_ROOT/packer" || ! run_packer build -force \
-    "-only=qemu.$target" \
-    "-var=iso_checksum=$iso_sha256" \
-    "-var=iso_path=$iso_path" \
-    "-var=output_directory=$build_root" \
-    "$VM_ROOT/packer"; then
-    remove_base_guest "$target" "$image_path" "$ready_path"
-    printf 'Image build failed: %s\n' "$target" >&2
-    return 1
-  fi
-
-  if [ ! -f "$build_image_path" ]; then
-    remove_base_guest "$target" "$image_path" "$ready_path"
-    printf 'Packer did not create an image: %s\n' "$build_image_path" >&2
-    return 1
-  fi
-
-  mkdir -p "${image_path%/*}"
-  mv "$build_image_path" "$image_path"
+  fetch_iso ubuntu
+  mkdir -p "${seed_path%/*}" "$VM_LOG_DIR"
+  cloud-localds "$seed_path" "$VM_ROOT/data/ubuntu/user-data" "$VM_ROOT/data/ubuntu/meta-data"
   prepare_qemu_access
-  : >"$ready_path"
-  printf 'Base image is ready: %s\n' "$target"
+  remove_fedora_build_domain "$build_domain_name"
+  virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+  if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$volume_name" "$(target_disk_size ubuntu)" --format qcow2; then
+    rm -f "$seed_path"
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+    printf '%s\n' 'Cannot create base volume: ubuntu' >&2
+    return 1
+  fi
+
+  if ! virt-install \
+    --connect qemu:///system \
+    --name "$build_domain_name" \
+    --memory 4096 \
+    --vcpus 2 \
+    --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=virtio" \
+    --disk "path=$seed_path,device=cdrom,readonly=on" \
+    --location "$iso_path,kernel=casper/vmlinuz,initrd=casper/initrd" \
+    --extra-args autoinstall \
+    --boot uefi \
+    --graphics none \
+    --noautoconsole \
+    --wait -1 2>&1 | tee "$log_path"; then
+    rm -f "$seed_path"
+    remove_fedora_build_domain "$build_domain_name"
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+    printf 'Image build failed: ubuntu. Log: %s\n' "$log_path" >&2
+    return 1
+  fi
+
+  rm -f "$seed_path" "$log_path"
+  remove_fedora_build_domain "$build_domain_name"
+  printf '%s\n' 'Base image is ready: ubuntu'
 }
 
 build_fedora_guest() {
@@ -317,55 +302,19 @@ remove_fedora_build_domain() {
     virsh -c qemu:///system undefine "$domain_name" >/dev/null 2>&1 || true
 }
 
-replace_base_guest() {
-  local target="$1"
-  local image_path="$2"
-  local ready_path="$3"
-
-  remove_base_guest "$target" "$image_path" "$ready_path"
-}
-
-remove_base_guest() {
-  local target="$1"
-  local image_path="$2"
-  local ready_path="$3"
-  local domain_name="dot-v2-$target"
-
-  if virsh -c qemu:///system domstate "$domain_name" >/dev/null 2>&1; then
-    virsh -c qemu:///system destroy "$domain_name" >/dev/null 2>&1 || true
-    virsh -c qemu:///system undefine "$domain_name" --nvram >/dev/null 2>&1 ||
-      virsh -c qemu:///system undefine "$domain_name" >/dev/null 2>&1 || true
-  fi
-
-  rm -f "$image_path" "$ready_path"
-}
-
 stop_guest() {
   if [ "$1" = fedora ]; then
     stop_fedora_guest
     return
   fi
 
-  local target="$1"
-  local iso_name
-  local iso_url
-  local iso_sha256
-  local test_domain_name
-  local test_image_path
-
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  test_domain_name="dot-v2-$target-test"
-  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
-
-  if ! virsh -c qemu:///system domstate "$test_domain_name" >/dev/null 2>&1 && [ ! -e "$test_image_path" ]; then
-    printf 'No test guest exists: %s\n' "$target"
-    return 0
+  if [ "$1" = ubuntu ]; then
+    stop_ubuntu_guest
+    return
   fi
-  virsh -c qemu:///system destroy "$test_domain_name" >/dev/null 2>&1 || true
-  virsh -c qemu:///system undefine "$test_domain_name" --nvram >/dev/null 2>&1 ||
-    virsh -c qemu:///system undefine "$test_domain_name" >/dev/null 2>&1 || true
-  rm -f "$test_image_path"
-  printf 'Test guest stopped: %s\n' "$target"
+
+  printf 'Unsupported stop target: %s\n' "$1" >&2
+  return 2
 }
 
 stop_fedora_guest() {
@@ -383,56 +332,34 @@ stop_fedora_guest() {
   printf '%s\n' 'No test guest exists: fedora'
 }
 
+stop_ubuntu_guest() {
+  local domain_name="dot-v2-ubuntu-test"
+  local volume_name
+
+  volume_name="$(test_volume_name ubuntu)"
+  virsh -c qemu:///system destroy "$domain_name" >/dev/null 2>&1 || true
+  virsh -c qemu:///system undefine "$domain_name" --nvram >/dev/null 2>&1 ||
+    virsh -c qemu:///system undefine "$domain_name" >/dev/null 2>&1 || true
+  if virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1; then
+    printf '%s\n' 'Test guest stopped: ubuntu'
+    return 0
+  fi
+  printf '%s\n' 'No test guest exists: ubuntu'
+}
+
 run_test_guest() {
   if [ "$1" = fedora ]; then
     run_fedora_test_guest
     return
   fi
 
-  local target="$1"
-  local iso_name
-  local iso_url
-  local iso_sha256
-  local base_image_path
-  local base_ready_path
-  local test_image_path
-  local base_domain_state
-
-  read_target "$target" iso_name iso_url iso_sha256 || return $?
-  base_image_path="$VM_CACHE_DIR/images/$target.qcow2"
-  base_ready_path="$base_image_path.ready"
-  test_image_path="$VM_CACHE_DIR/overlays/$target.qcow2"
-  base_domain_state="$(virsh -c qemu:///system domstate "dot-v2-$target" 2>/dev/null || true)"
-
-  if [ ! -f "$base_image_path" ] || [ ! -f "$base_ready_path" ]; then
-    printf 'Base image is not ready: %s\n' "$target" >&2
-    return 1
-  fi
-  if [ -n "$base_domain_state" ] && [ "$base_domain_state" != 'shut off' ]; then
-    printf 'Base guest must be shut off before run: %s\n' "$target" >&2
-    return 1
-  fi
-  if [ -e "$test_image_path" ]; then
-    printf 'Test overlay already exists: %s. Run stop first.\n' "$target" >&2
-    return 1
+  if [ "$1" = ubuntu ]; then
+    run_ubuntu_test_guest
+    return
   fi
 
-  mkdir -p "${test_image_path%/*}"
-  qemu-img create -f qcow2 -F qcow2 -b "$base_image_path" "$test_image_path"
-  prepare_qemu_access
-  virt-install \
-    --connect qemu:///system \
-    --name "dot-v2-$target-test" \
-    --memory 4096 \
-    --vcpus 2 \
-    --disk "path=$test_image_path,format=qcow2,bus=$(target_disk_bus "$target")" \
-    --network "network=default,model=$(target_network_model "$target")" \
-    --os-variant detect=on,require=off \
-    --graphics spice \
-    --import \
-    --noautoconsole
-  printf 'Test guest is running: %s\n' "$target"
-  virt-manager --connect qemu:///system --show-domain-console "dot-v2-$target-test" >/dev/null 2>&1 &
+  printf 'Unsupported run target: %s\n' "$1" >&2
+  return 2
 }
 
 run_fedora_test_guest() {
@@ -484,6 +411,55 @@ run_fedora_test_guest() {
   virt-manager --connect qemu:///system --show-domain-console dot-v2-fedora-test >/dev/null 2>&1 &
 }
 
+run_ubuntu_test_guest() {
+  local base_volume
+  local test_volume
+  local log_path
+
+  base_volume="$(base_volume_name ubuntu)"
+  test_volume="$(test_volume_name ubuntu)"
+  log_path="$VM_LOG_DIR/ubuntu-test.log"
+
+  if ! base_volume_exists ubuntu; then
+    printf '%s\n' 'Base image is not ready: ubuntu' >&2
+    return 1
+  fi
+  if virsh -c qemu:///system vol-info --pool "$VM_STORAGE_POOL" "$test_volume" >/dev/null 2>&1; then
+    printf '%s\n' 'Test overlay already exists: ubuntu. Run stop first.' >&2
+    return 1
+  fi
+
+  mkdir -p "$VM_LOG_DIR"
+  if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$test_volume" "$(target_disk_size ubuntu)" \
+    --format qcow2 --backing-vol "$base_volume" --backing-vol-format qcow2; then
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$test_volume" >/dev/null 2>&1 || true
+    printf '%s\n' 'Cannot create test volume: ubuntu' >&2
+    return 1
+  fi
+  if ! virt-install \
+    --connect qemu:///system \
+    --name dot-v2-ubuntu-test \
+    --memory 4096 \
+    --vcpus 2 \
+    --disk "vol=$VM_STORAGE_POOL/$test_volume,format=qcow2,bus=virtio" \
+    --network network=default,model=virtio \
+    --boot uefi \
+    --os-variant detect=on,require=off \
+    --graphics spice \
+    --import \
+    --noautoconsole >"$log_path" 2>&1; then
+    virsh -c qemu:///system destroy dot-v2-ubuntu-test >/dev/null 2>&1 || true
+    virsh -c qemu:///system undefine dot-v2-ubuntu-test --nvram >/dev/null 2>&1 || true
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$test_volume" >/dev/null 2>&1 || true
+    printf 'Test guest failed: ubuntu. Log: %s\n' "$log_path" >&2
+    return 1
+  fi
+
+  rm -f "$log_path"
+  printf '%s\n' 'Test guest is running: ubuntu'
+  virt-manager --connect qemu:///system --show-domain-console dot-v2-ubuntu-test >/dev/null 2>&1 &
+}
+
 prepare_qemu_access() {
   local parent_path="${VM_CACHE_DIR%/*}"
   local qemu_uid
@@ -504,33 +480,6 @@ target_disk_size() {
   jq -er --arg target "$1" '.targets[$target].disk_size' "$VM_TARGETS_CONFIG"
 }
 
-target_disk_bus() {
-  jq -er --arg target "$1" '.targets[$target].disk_bus // "virtio"' "$VM_TARGETS_CONFIG"
-}
-
-target_network_model() {
-  jq -er --arg target "$1" '.targets[$target].network_model // "virtio"' "$VM_TARGETS_CONFIG"
-}
-
-target_iso_url() {
-  jq -er --arg target "$1" '.targets[$target].iso.url' "$VM_TARGETS_CONFIG"
-}
-
-packer_available() {
-  if command -v packer >/dev/null 2>&1; then
-    return 0
-  fi
-  command -v mise >/dev/null 2>&1 && mise which packer >/dev/null 2>&1
-}
-
-run_packer() {
-  if command -v packer >/dev/null 2>&1; then
-    packer "$@"
-    return
-  fi
-  mise exec -- packer "$@"
-}
-
 print_help() {
   cat <<'EOF'
 Usage: v2/bin/vm <command> [target]
@@ -544,7 +493,7 @@ Commands:
   run <target>    Boot and open a disposable test overlay.
   stop <target>   Remove the disposable test overlay.
 
-Targets: fedora, ubuntu, arch, windows
+Targets: fedora, ubuntu
 
 Examples:
   v2/bin/vm check
