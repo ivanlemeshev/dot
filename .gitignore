@@ -9,3 +9,4 @@ nvim-pack-lock.json
 nvim.log
 tmp
 openspec
+v2/.cache
