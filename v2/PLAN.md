@@ -13,11 +13,10 @@ Keep installed base images so later checks do not reinstall the OS.
 | ------- | ----------------------------------------------- | ------------------------ | ------------ |
 | Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
 | Ubuntu  | Ubuntu 26.04 Desktop AMD64 ISO + NoCloud seed   | Clean desktop            | 50 GiB QCOW2 |
-| Arch    | Current Arch Linux x86_64 monthly ISO           | Clean desktop            | 50 GiB QCOW2 |
 | Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
 
 Fedora and Ubuntu are the current direct-libvirt targets.
-Arch and Windows remain planned targets.
+Windows remain planned target.
 
 Use 2 vCPUs and 4 GiB RAM for each virtual machine.
 Use the `qemu:///system` libvirt connection.
@@ -25,7 +24,6 @@ Use the libvirt default NAT network.
 Use the `tester` account with the `tester` password in Linux guests.
 Give the Linux account passwordless `sudo` access.
 Do not apply post-install package updates.
-Arch installs packages from its current mirror during installation.
 Windows needs a Microsoft account during its first GUI run.
 Windows needs no product key for its 90-day evaluation.
 
@@ -74,7 +72,7 @@ Tests do not download ISOs or create virtual machines.
 1. Add the cache ignore rule and the machine configuration.
 2. Add `v2/bin/vm` with dependency checks and safe cache paths.
 3. Add ISO download and SHA-256 verification.
-4. Add unattended Fedora, Ubuntu, Arch, and Windows install data.
+4. Add unattended Fedora, Ubuntu, and Windows install data.
 5. Add direct libvirt builds that create immutable qcow2 base images.
 6. Add libvirt guest definitions and base-image reuse checks.
 7. Add command-seam tests before each implementation slice.
