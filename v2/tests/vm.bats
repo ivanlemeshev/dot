@@ -137,6 +137,19 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "build explains a missing Ubuntu seed tool" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu." ]
+  rm -rf "$cache_dir"
+}
+
 @test "run creates a UEFI Fedora overlay from the managed base" {
   cache_dir="$(mktemp -d)"
   manager_log="$cache_dir/virt-manager.log"

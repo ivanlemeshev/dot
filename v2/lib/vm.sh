@@ -166,6 +166,7 @@ build_ubuntu_guest() {
   local build_domain_name="dot-v2-ubuntu-base-build"
   local log_path="$VM_LOG_DIR/ubuntu-build.log"
 
+  require_ubuntu_build_commands || return $?
   read_target ubuntu iso_name iso_url iso_sha256 || return $?
   volume_name="$(base_volume_name ubuntu)"
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
@@ -219,6 +220,17 @@ build_ubuntu_guest() {
   rm -f "$seed_path" "$log_path"
   remove_fedora_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: ubuntu'
+}
+
+require_ubuntu_build_commands() {
+  if ! command -v cloud-localds >/dev/null 2>&1; then
+    printf '%s\n' 'Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu.' >&2
+    return 1
+  fi
+  if ! command -v setfacl >/dev/null 2>&1; then
+    printf '%s\n' 'Missing host command: setfacl. Install acl.' >&2
+    return 1
+  fi
 }
 
 build_fedora_guest() {
