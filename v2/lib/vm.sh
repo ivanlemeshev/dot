@@ -106,7 +106,7 @@ fetch_iso() {
   mkdir -p "${iso_path%/*}"
   partial_path="$iso_path.part"
   rm -f "$partial_path"
-  curl --fail --location --output "$partial_path" "$iso_url"
+  curl --fail --location --progress-bar --output "$partial_path" "$iso_url"
 
   if ! verify_iso "$partial_path" "$iso_sha256"; then
     rm -f "$partial_path"

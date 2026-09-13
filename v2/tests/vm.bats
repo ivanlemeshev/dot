@@ -60,6 +60,18 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "fetch shows a progress bar while it downloads an ISO" {
+  cache_dir="$(mktemp -d)"
+  curl_log="$cache_dir/curl.log"
+  stub_command curl 'printf "%s\\n" "$*" >"$VM_CURL_LOG"; exit 22'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_CURL_LOG="$curl_log" /bin/bash "$VM" fetch ubuntu
+
+  [ "$status" -eq 22 ]
+  grep -Fx -- '--fail --location --progress-bar --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso.part|/tmp/placeholder|" "$curl_log")
+  rm -rf "$cache_dir"
+}
+
 @test "build creates a headless Fedora base with libvirt" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
