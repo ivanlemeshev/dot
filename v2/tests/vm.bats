@@ -60,7 +60,7 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "fetch shows a progress bar while it downloads an ISO" {
+@test "fetch uses curl's detailed transfer meter" {
   cache_dir="$(mktemp -d)"
   curl_log="$cache_dir/curl.log"
   stub_command curl 'printf "%s\\n" "$*" >"$VM_CURL_LOG"; exit 22'
@@ -68,7 +68,7 @@ stub_command() {
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_CURL_LOG="$curl_log" /bin/bash "$VM" fetch ubuntu
 
   [ "$status" -eq 22 ]
-  grep -Fx -- '--fail --location --progress-bar --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso.part|/tmp/placeholder|" "$curl_log")
+  grep -Fx -- '--fail --location --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso.part|/tmp/placeholder|" "$curl_log")
   rm -rf "$cache_dir"
 }
 
@@ -90,11 +90,59 @@ stub_command() {
 
   [ "$status" -eq 0 ]
   [[ "$output" == *"installer status"* ]]
+  [[ "$output" == *"Build completed: fedora in "* ]]
   grep -q -- '--name dot-v2-fedora-base-build' "$install_log"
   grep -q -- "--location $cache_dir/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso" "$install_log"
   grep -q -- '--initrd-inject .*/v2/data/fedora/kickstart.cfg' "$install_log"
   grep -q -- '--boot uefi' "$install_log"
   grep -q -- '--graphics none' "$install_log"
+  grep -q -- '--autoconsole text' "$install_log"
+  rm -rf "$cache_dir"
+}
+
+@test "build preserves Fedora installer terminal output" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'printf "\\033[0;32m  [  OK  ] Started network.service\\033[0m\\n"; exit 1'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora
+
+  [ "$status" -eq 1 ]
+  [[ "$output" == *$'\033[0;32m  [  OK  ] Started network.service\033[0m'* ]]
+  [ ! -e "$cache_dir/logs/fedora-build.log" ]
+  rm -rf "$cache_dir"
+}
+
+@test "build streams Fedora installer progress to the terminal" {
+  cache_dir="$(mktemp -d)"
+  terminal_log="$cache_dir/terminal.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'printf "first\\r"; sleep 1; printf "second\\n"; exit 1'
+
+  env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build fedora >"$terminal_log" 2>&1 &
+  build_pid=$!
+  sleep 0.2
+
+  grep -q 'first' "$terminal_log"
+  if wait "$build_pid"; then
+    false
+  fi
   rm -rf "$cache_dir"
 }
 
@@ -146,6 +194,7 @@ stub_command() {
   grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$install_log"
   grep -q -- '--extra-args autoinstall' "$install_log"
   grep -q -- '--os-variant detect=on,require=off' "$install_log"
+  grep -q -- '--autoconsole text' "$install_log"
   grep -q -- "$cache_dir/seeds/ubuntu.iso .*data/ubuntu/user-data .*data/ubuntu/meta-data" "$seed_log"
   rm -rf "$cache_dir"
 }
@@ -159,7 +208,8 @@ stub_command() {
   run env PATH="$STUB_BIN" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
 
   [ "$status" -eq 1 ]
-  [ "$output" = "Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu." ]
+  [[ "$output" == *"Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu."* ]]
+  [[ "$output" == *"Build failed: ubuntu after "* ]]
   rm -rf "$cache_dir"
 }
 

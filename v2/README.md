@@ -16,7 +16,7 @@ Run `v2/bin/vm run <target>` to create, boot, and open a disposable test overlay
 Run `v2/bin/vm stop <target>` to stop and remove a disposable test overlay.
 `run` returns after it starts Virtual Machine Manager.
 
-The command stores ISOs and failed build logs in `v2/.cache/vms/`.
+The command stores ISOs in `v2/.cache/vms/`.
 Libvirt stores base and test disks in its `default` storage pool.
 On Fedora, this pool usually stores disks in `/var/lib/libvirt/images/`.
 `dot-v2-<target>-base.qcow2` is the reusable base disk.
@@ -26,7 +26,7 @@ The command reuses a verified ISO.
 `build` replaces an incomplete base image without a prompt.
 `build` needs a terminal before it can replace a ready base image.
 `build` removes a partial disk when the installer fails.
-`build` keeps its installer log when the installer fails.
+`build` sends installer output to the terminal.
 `run` refuses when a test overlay already exists.
 `stop` preserves the base image and removes the test overlay.
 

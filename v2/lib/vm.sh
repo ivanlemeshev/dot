@@ -106,7 +106,7 @@ fetch_iso() {
   mkdir -p "${iso_path%/*}"
   partial_path="$iso_path.part"
   rm -f "$partial_path"
-  curl --fail --location --progress-bar --output "$partial_path" "$iso_url"
+  curl --fail --location --output "$partial_path" "$iso_url"
 
   if ! verify_iso "$partial_path" "$iso_sha256"; then
     rm -f "$partial_path"
@@ -148,12 +148,43 @@ verify_iso() {
   )
 }
 
+format_duration() {
+  local total_seconds="$1"
+  local hours=$((total_seconds / 3600))
+  local minutes=$(((total_seconds % 3600) / 60))
+  local seconds=$((total_seconds % 60))
+
+  if [ "$hours" -gt 0 ]; then
+    printf '%dh %02dm %02ds' "$hours" "$minutes" "$seconds"
+  elif [ "$minutes" -gt 0 ]; then
+    printf '%dm %02ds' "$minutes" "$seconds"
+  else
+    printf '%ds' "$seconds"
+  fi
+}
+
 build_guest() {
-  case "$1" in
-    fedora) build_fedora_guest ;;
-    ubuntu) build_ubuntu_guest ;;
+  local target="$1"
+  local start_seconds=$SECONDS
+  local status
+
+  case "$target" in
+    fedora)
+      if build_fedora_guest; then status=0; else status=$?; fi
+      ;;
+    ubuntu)
+      if build_ubuntu_guest; then status=0; else status=$?; fi
+      ;;
     *) printf 'Unsupported build target: %s\n' "$1" >&2; return 2 ;;
   esac
+
+  if [ "$status" -eq 0 ]; then
+    printf 'Build completed: %s in %s\n' "$target" "$(format_duration "$((SECONDS - start_seconds))")"
+    return 0
+  fi
+
+  printf 'Build failed: %s after %s\n' "$target" "$(format_duration "$((SECONDS - start_seconds))")" >&2
+  return "$status"
 }
 
 build_ubuntu_guest() {
@@ -164,7 +195,6 @@ build_ubuntu_guest() {
   local volume_name
   local seed_path="$VM_CACHE_DIR/seeds/ubuntu.iso"
   local build_domain_name="dot-v2-ubuntu-base-build"
-  local log_path="$VM_LOG_DIR/ubuntu-build.log"
 
   require_ubuntu_build_commands || return $?
   read_target ubuntu iso_name iso_url iso_sha256 || return $?
@@ -185,7 +215,7 @@ build_ubuntu_guest() {
   fi
 
   fetch_iso ubuntu
-  mkdir -p "${seed_path%/*}" "$VM_LOG_DIR"
+  mkdir -p "${seed_path%/*}"
   cloud-localds "$seed_path" "$VM_ROOT/data/ubuntu/user-data" "$VM_ROOT/data/ubuntu/meta-data"
   prepare_qemu_access
   remove_fedora_build_domain "$build_domain_name"
@@ -209,16 +239,16 @@ build_ubuntu_guest() {
     --boot uefi \
     --os-variant detect=on,require=off \
     --graphics none \
-    --noautoconsole \
-    --wait -1 2>&1 | tee "$log_path"; then
+    --autoconsole text \
+    --wait -1; then
     rm -f "$seed_path"
     remove_fedora_build_domain "$build_domain_name"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
-    printf 'Image build failed: ubuntu. Log: %s\n' "$log_path" >&2
+    printf '%s\n' 'Image build failed: ubuntu' >&2
     return 1
   fi
 
-  rm -f "$seed_path" "$log_path"
+  rm -f "$seed_path"
   remove_fedora_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: ubuntu'
 }
@@ -241,12 +271,10 @@ build_fedora_guest() {
   local iso_path
   local volume_name
   local build_domain_name="dot-v2-fedora-base-build"
-  local log_path
 
   read_target fedora iso_name iso_url iso_sha256 || return $?
   volume_name="$(base_volume_name fedora)"
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
-  log_path="$VM_LOG_DIR/fedora-build.log"
 
   if base_volume_exists fedora; then
     if [ ! -t 0 ]; then
@@ -262,7 +290,6 @@ build_fedora_guest() {
   fi
 
   fetch_iso fedora
-  mkdir -p "$VM_LOG_DIR"
   remove_fedora_build_domain "$build_domain_name"
   virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
   if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$volume_name" "$(target_disk_size fedora)" --format qcow2; then
@@ -282,16 +309,15 @@ build_fedora_guest() {
     --extra-args 'inst.ks=file:/kickstart.cfg inst.cmdline console=ttyS0' \
     --boot uefi \
     --graphics none \
-    --noautoconsole \
-    --wait -1 2>&1 | tee "$log_path"; then
+    --autoconsole text \
+    --wait -1; then
     remove_fedora_build_domain "$build_domain_name"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
-    printf 'Image build failed: fedora. Log: %s\n' "$log_path" >&2
+    printf '%s\n' 'Image build failed: fedora' >&2
     return 1
   fi
 
   remove_fedora_build_domain "$build_domain_name"
-  rm -f "$log_path"
   printf '%s\n' 'Base image is ready: fedora'
 }
 
