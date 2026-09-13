@@ -207,6 +207,7 @@ build_ubuntu_guest() {
     --location "$iso_path,kernel=casper/vmlinuz,initrd=casper/initrd" \
     --extra-args autoinstall \
     --boot uefi \
+    --os-variant detect=on,require=off \
     --graphics none \
     --noautoconsole \
     --wait -1 2>&1 | tee "$log_path"; then

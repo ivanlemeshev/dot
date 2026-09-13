@@ -11,7 +11,7 @@ teardown() {
 }
 
 stub_command() {
-  printf '%s\n' '#!/usr/bin/env bash' "$2" >"$STUB_BIN/$1"
+  printf '%s\n' '#!/bin/bash' "$2" >"$STUB_BIN/$1"
   chmod +x "$STUB_BIN/$1"
 }
 
@@ -40,7 +40,7 @@ stub_command() {
   done
   stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
 
-  run env PATH="$STUB_BIN:/usr/bin" /bin/bash "$VM" check
+  run env PATH="$STUB_BIN" /bin/bash "$VM" check
 
   [ "$status" -eq 1 ]
   [ "$output" = "Missing host command: cloud-localds" ]
@@ -145,6 +145,7 @@ stub_command() {
   grep -q -- '--name dot-v2-ubuntu-base-build' "$install_log"
   grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$install_log"
   grep -q -- '--extra-args autoinstall' "$install_log"
+  grep -q -- '--os-variant detect=on,require=off' "$install_log"
   grep -q -- "$cache_dir/seeds/ubuntu.iso .*data/ubuntu/user-data .*data/ubuntu/meta-data" "$seed_log"
   rm -rf "$cache_dir"
 }
@@ -155,7 +156,7 @@ stub_command() {
   : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
+  run env PATH="$STUB_BIN" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
 
   [ "$status" -eq 1 ]
   [ "$output" = "Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu." ]
