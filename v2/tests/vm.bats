@@ -279,5 +279,5 @@ stub_command() {
 
 @test "Ubuntu and Fedora install data creates the test account" {
   grep -Fx '    username: tester' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
-  grep -Fx 'user --name=tester --password=tester --groups=wheel' "$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
+  grep -Fx 'user --name=tester --password=tester --plaintext --groups=wheel' "$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
 }
