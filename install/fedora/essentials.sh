@@ -14,6 +14,9 @@ fi
 print_section "Installing essential packages"
 
 packages=(
+  # Sets file access control lists.
+  acl
+
   # Automation, provisioning, and configuration management.
   ansible
 
@@ -25,6 +28,9 @@ packages=(
 
   # Cross-platform build system generator.
   cmake
+
+  # Creates NoCloud seed images for virtual machines.
+  cloud-utils-cloud-localds
 
   # Transfers data using URLs.
   curl
