@@ -1,4 +1,7 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2016
+
+bats_require_minimum_version 1.5.0
 
 setup() {
   PROJECT_ROOT="${BATS_TEST_DIRNAME}/../.."
@@ -200,7 +203,8 @@ stub_command() {
   grep -q -- "$cache_dir/seeds/ubuntu.iso .*data/ubuntu/user-data .*data/ubuntu/meta-data" "$seed_log"
   grep -Fx -- "-m u:107:r-- $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso" "$acl_log"
   grep -Fx -- "-m u:107:r-- $cache_dir/seeds/ubuntu.iso" "$acl_log"
-  ! grep -q -- '-R' "$acl_log"
+  run ! grep -q -- '-R' "$acl_log"
+  [ "$status" -eq 1 ]
   rm -rf "$cache_dir"
 }
 

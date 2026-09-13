@@ -3,7 +3,8 @@
 set -euo pipefail
 
 readonly VM_REQUIRED_COMMANDS=(curl jq sha256sum virt-install virt-manager virsh)
-readonly VM_ROOT="$(cd "${BASH_SOURCE[0]%/*}/.." && pwd)"
+VM_ROOT="$(cd "${BASH_SOURCE[0]%/*}/.." && pwd)"
+readonly VM_ROOT
 readonly VM_CACHE_DIR="${VM_CACHE_DIR:-$VM_ROOT/.cache/vms}"
 readonly VM_LOG_DIR="${VM_LOG_DIR:-$VM_CACHE_DIR/logs}"
 readonly VM_STORAGE_POOL="${VM_STORAGE_POOL:-default}"
@@ -120,9 +121,6 @@ fetch_iso() {
 
 read_target() {
   local target="$1"
-  local -n name_ref="$2"
-  local -n url_ref="$3"
-  local -n sha256_ref="$4"
   local values
 
   if ! values="$(jq -er --arg target "$target" '
@@ -135,7 +133,7 @@ read_target() {
     return 2
   fi
 
-  IFS=$'\t' read -r name_ref url_ref sha256_ref <<<"$values"
+  IFS=$'\t' read -r "$2" "$3" "$4" <<<"$values"
 }
 
 verify_iso() {
