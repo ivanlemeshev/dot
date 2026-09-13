@@ -27,6 +27,27 @@ Do not apply post-install package updates.
 Windows needs a Microsoft account during its first GUI run.
 Windows needs no product key for its 90-day evaluation.
 
+## Selected contract
+
+Use direct libvirt as the VM backend.
+
+Each target has an explicit ISO URL, version, and SHA-256 checksum.
+Fedora uses Kickstart.
+Ubuntu uses Autoinstall.
+Windows uses `Autounattend.xml` and the Enterprise Evaluation ISO.
+The installer files are independent.
+
+`build <target>` creates a base image when no cached base exists.
+`build <target>` asks before it rebuilds an existing base.
+The user does one manual first-boot check before they use a base image.
+The base image remains unchanged after the check.
+
+`run <target>` deletes its previous disposable guest.
+It creates a new QCOW2 overlay from the cached base.
+It starts the guest and opens its graphical console.
+It never deletes the cached base.
+Dotfiles bootstrap tests are outside this VM lifecycle.
+
 ## Cache policy
 
 Store local files under `v2/.cache/vms/`.
@@ -37,6 +58,7 @@ Ask before `build` replaces a completed base image.
 Replace an incomplete base image during `build`.
 Remove the failed base domain and partial image during `build`.
 Keep test changes only in disposable overlays.
+Delete the previous disposable overlay before each `run` command.
 
 ## Planned command seam
 
@@ -50,19 +72,18 @@ libvirt events, or reuse outside this repository.
 
 ```text
 v2/bin/vm check
-v2/bin/vm fetch <fedora|ubuntu>
-v2/bin/vm build <fedora|ubuntu>
-v2/bin/vm run <fedora|ubuntu>
-v2/bin/vm stop <fedora|ubuntu>
+v2/bin/vm fetch <fedora|ubuntu|windows>
+v2/bin/vm build <fedora|ubuntu|windows>
+v2/bin/vm run <fedora|ubuntu|windows>
 ```
 
 `check` verifies host dependencies and system-libvirt access.
 `fetch` downloads and verifies one ISO.
 `build` creates one stopped installed base image.
 `build` asks before it replaces a completed base image.
-`run` creates, boots, and opens one disposable test overlay.
-`stop` force-stops, undefines, and removes one disposable test overlay.
-`stop` does not change the installed base image.
+`run` deletes its previous test overlay, creates a new overlay, boots it, and
+opens its graphical console.
+`run` does not change the installed base image.
 
 Tests use this command seam with stubbed host tools.
 Tests do not download ISOs or create virtual machines.
@@ -77,7 +98,6 @@ Tests do not download ISOs or create virtual machines.
 6. Add libvirt guest definitions and base-image reuse checks.
 7. Add command-seam tests before each implementation slice.
 8. Build and run every guest from a normal host session.
-9. Record each completed step in `v2/PROGRESS.md`.
 
 ## Host constraints
 

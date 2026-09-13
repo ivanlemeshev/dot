@@ -173,6 +173,7 @@ stub_command() {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
   seed_log="$cache_dir/cloud-localds.log"
+  acl_log="$cache_dir/setfacl.log"
   mkdir -p "$cache_dir/iso"
   : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
@@ -184,18 +185,22 @@ stub_command() {
   '
   stub_command cloud-localds 'printf "%s\\n" "$*" >"$VM_SEED_LOG"; : >"$1"'
   stub_command id 'printf "%s\\n" 107'
-  stub_command setfacl 'exit 0'
+  stub_command setfacl 'printf "%s\\n" "$*" >>"$VM_ACL_LOG"'
   stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_SEED_LOG="$seed_log" /bin/bash "$VM" build ubuntu
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_ACL_LOG="$acl_log" VM_INSTALL_LOG="$install_log" VM_SEED_LOG="$seed_log" /bin/bash "$VM" build ubuntu
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-ubuntu-base-build' "$install_log"
+  grep -q -- "--disk path=$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,device=cdrom,readonly=on" "$install_log"
   grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$install_log"
-  grep -q -- '--extra-args autoinstall' "$install_log"
+  grep -q -- '--extra-args autoinstall console=ttyS0' "$install_log"
   grep -q -- '--os-variant detect=on,require=off' "$install_log"
   grep -q -- '--autoconsole text' "$install_log"
   grep -q -- "$cache_dir/seeds/ubuntu.iso .*data/ubuntu/user-data .*data/ubuntu/meta-data" "$seed_log"
+  grep -Fx -- "-m u:107:r-- $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso" "$acl_log"
+  grep -Fx -- "-m u:107:r-- $cache_dir/seeds/ubuntu.iso" "$acl_log"
+  ! grep -q -- '-R' "$acl_log"
   rm -rf "$cache_dir"
 }
 

@@ -217,7 +217,7 @@ build_ubuntu_guest() {
   fetch_iso ubuntu
   mkdir -p "${seed_path%/*}"
   cloud-localds "$seed_path" "$VM_ROOT/data/ubuntu/user-data" "$VM_ROOT/data/ubuntu/meta-data"
-  prepare_qemu_access
+  prepare_qemu_access "$iso_path" "$seed_path"
   remove_fedora_build_domain "$build_domain_name"
   virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
   if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$volume_name" "$(target_disk_size ubuntu)" --format qcow2; then
@@ -233,9 +233,10 @@ build_ubuntu_guest() {
     --memory 4096 \
     --vcpus 2 \
     --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=virtio" \
+    --disk "path=$iso_path,device=cdrom,readonly=on" \
     --disk "path=$seed_path,device=cdrom,readonly=on" \
     --location "$iso_path,kernel=casper/vmlinuz,initrd=casper/initrd" \
-    --extra-args autoinstall \
+    --extra-args 'autoinstall console=ttyS0' \
     --boot uefi \
     --os-variant detect=on,require=off \
     --graphics none \
@@ -500,19 +501,23 @@ run_ubuntu_test_guest() {
 }
 
 prepare_qemu_access() {
-  local parent_path="${VM_CACHE_DIR%/*}"
+  local file_path
+  local parent_path
   local qemu_uid
 
   qemu_uid="$(id -u qemu)"
 
-  while [ -n "$parent_path" ] && [ "$parent_path" != / ]; do
-    setfacl -m "u:$qemu_uid:--x" "$parent_path"
-    if [ "$parent_path" = "$VM_USER_HOME" ]; then
-      break
-    fi
-    parent_path="${parent_path%/*}"
+  for file_path in "$@"; do
+    parent_path="${file_path%/*}"
+    while [ -n "$parent_path" ] && [ "$parent_path" != / ]; do
+      setfacl -m "u:$qemu_uid:--x" "$parent_path"
+      if [ "$parent_path" = "$VM_USER_HOME" ]; then
+        break
+      fi
+      parent_path="${parent_path%/*}"
+    done
+    setfacl -m "u:$qemu_uid:r--" "$file_path"
   done
-  setfacl -R -m "u:$qemu_uid:rwX" "$VM_CACHE_DIR"
 }
 
 target_disk_size() {
