@@ -123,6 +123,16 @@ stub_command() {
   [ "$status" -eq 1 ]
 }
 
+@test "Windows unattended setup selects the Windows PE locale" {
+  run rg -F 'Microsoft-Windows-International-Core-WinPE' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 0 ]
+
+  run rg -F '<UILanguage>en-US</UILanguage>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 0 ]
+}
+
 @test "Windows unattended setup bypasses the TPM requirement" {
   run rg -F 'BypassTPMCheck' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
 
