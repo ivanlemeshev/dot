@@ -104,6 +104,38 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "build creates a headless Arch Hyprland base with libvirt" {
+  cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/virt-install.log"
+  seed_log="$cache_dir/cloud-localds.log"
+  acl_log="$cache_dir/setfacl.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/archlinux-2026.09.01-x86_64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command cloud-localds 'printf "%s\\n" "$*" >"$VM_SEED_LOG"; : >"$1"; chmod 600 "$1"'
+  stub_command id 'printf "%s\\n" 107'
+  stub_command setfacl 'printf "%s\\n" "$*" >>"$VM_ACL_LOG"'
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_ACL_LOG="$acl_log" VM_INSTALL_LOG="$install_log" VM_SEED_LOG="$seed_log" /bin/bash "$VM" build arch
+
+  [ "$status" -eq 0 ]
+  grep -q -- '--name dot-v2-arch-base-build' "$install_log"
+  grep -q -- "--location $cache_dir/iso/archlinux-2026.09.01-x86_64.iso,kernel=/arch/boot/x86_64/vmlinuz-linux,initrd=/arch/boot/x86_64/initramfs-linux.img" "$install_log"
+  grep -q -- "--disk path=$cache_dir/seeds/arch.iso,device=cdrom,bus=sata,readonly=on" "$install_log"
+  grep -q -- "--disk path=$cache_dir/scripts/arch-install.sh,device=disk,bus=virtio,readonly=on" "$install_log"
+  grep -q -- 'archisobasedir=arch archisodevice=/dev/sr0' "$install_log"
+  grep -q -- '--boot uefi' "$install_log"
+  grep -q -- "$cache_dir/seeds/arch.iso .*data/arch/user-data .*data/arch/meta-data" "$seed_log"
+  rm -rf "$cache_dir"
+}
+
 @test "build makes the Fedora installer transient after shutdown" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
@@ -332,6 +364,29 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "run creates a UEFI Arch overlay from the managed base" {
+  cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/virt-install.log"
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*"dot-v2-arch-base.qcow2"*) exit 0 ;;
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
+  stub_command virt-manager 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" /bin/bash "$VM" run arch
+
+  [ "$status" -eq 0 ]
+  grep -q -- 'vol=default/dot-v2-arch-test.qcow2,format=qcow2,bus=virtio' "$install_log"
+  grep -q -- '--video virtio,accel3d=yes' "$install_log"
+  grep -q -- '--graphics spice,gl=on' "$install_log"
+  grep -q -- '--boot uefi' "$install_log"
+  rm -rf "$cache_dir"
+}
+
 @test "stop removes the managed Fedora overlay" {
   cache_dir="$(mktemp -d)"
   virsh_log="$cache_dir/virsh.log"
@@ -367,7 +422,7 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "Ubuntu and Fedora install data creates the test account" {
+@test "Linux install data creates the test account" {
   grep -Fx '    username: tester' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
   grep -Fx '    password: "$6$0vQfY9V3QziQBBqX$6/rOgYG2rwjvKNn4nAtqUdd42Nk4.kx0bxGFwHdzpKXjktFuH/.zMPE8GuaAPD6xhPQ32v41GVsuhYKoeN3tT."' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
   grep -Fx '    - ubuntu-desktop' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
@@ -376,4 +431,8 @@ stub_command() {
   run grep -q '^  source:' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
   [ "$status" -eq 1 ]
   grep -Fx 'user --name=tester --password=tester --plaintext --groups=wheel' "$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
+  grep -Fx "useradd --create-home --groups wheel tester" "$PROJECT_ROOT/v2/data/arch/install.sh"
+  grep -Fx "printf 'tester:tester\\n' | chpasswd" "$PROJECT_ROOT/v2/data/arch/install.sh"
+  grep -Fx '  hyprland foot greetd greetd-tuigreet mesa noto-fonts polkit hyprpolkitagent \' "$PROJECT_ROOT/v2/data/arch/install.sh"
+  grep -Fx '  pipewire wireplumber xdg-desktop-portal-hyprland xorg-xwayland' "$PROJECT_ROOT/v2/data/arch/install.sh"
 }

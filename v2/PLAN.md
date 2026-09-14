@@ -12,10 +12,11 @@ Keep installed base images so later checks do not reinstall the OS.
 | Name    | Source                                          | Guest type               | Disk         |
 | ------- | ----------------------------------------------- | ------------------------ | ------------ |
 | Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
-| Ubuntu  | Ubuntu 26.04 Live Server ISO + NoCloud seed       | Clean desktop            | 50 GiB QCOW2 |
+| Ubuntu  | Ubuntu 26.04 Live Server ISO + NoCloud seed     | Clean desktop            | 50 GiB QCOW2 |
+| Arch    | Arch Linux ISO + injected install script        | Minimal Hyprland desktop | 50 GiB QCOW2 |
 | Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
 
-Fedora and Ubuntu are the current direct-libvirt targets.
+Arch, Fedora, and Ubuntu are the current direct-libvirt targets.
 Windows remain planned target.
 
 Fedora is done.
@@ -37,6 +38,7 @@ Use direct libvirt as the VM backend.
 Each target has an explicit ISO URL, version, and SHA-256 checksum.
 Fedora uses Kickstart.
 Ubuntu uses Server Autoinstall and the `ubuntu-desktop` package.
+Arch uses a NoCloud seed and a script that creates the UEFI disk and installs Hyprland.
 Windows uses `Autounattend.xml` and the Enterprise Evaluation ISO.
 The installer files are independent.
 
@@ -75,9 +77,9 @@ libvirt events, or reuse outside this repository.
 
 ```text
 v2/bin/vm check
-v2/bin/vm fetch <fedora|ubuntu|windows>
-v2/bin/vm build <fedora|ubuntu|windows>
-v2/bin/vm run <fedora|ubuntu|windows>
+v2/bin/vm fetch <arch|fedora|ubuntu|windows>
+v2/bin/vm build <arch|fedora|ubuntu|windows>
+v2/bin/vm run <arch|fedora|ubuntu|windows>
 ```
 
 `check` verifies host dependencies and system-libvirt access.
