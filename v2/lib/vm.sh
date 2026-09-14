@@ -307,6 +307,7 @@ build_fedora_guest() {
     --initrd-inject "$VM_ROOT/data/fedora/kickstart.cfg" \
     --extra-args 'inst.ks=file:/kickstart.cfg inst.cmdline console=ttyS0' \
     --boot uefi \
+    --events on_poweroff=destroy,on_reboot=destroy \
     --graphics none \
     --autoconsole text \
     --wait -1; then

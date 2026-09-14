@@ -98,6 +98,7 @@ stub_command() {
   grep -q -- "--location $cache_dir/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso" "$install_log"
   grep -q -- '--initrd-inject .*/v2/data/fedora/kickstart.cfg' "$install_log"
   grep -q -- '--boot uefi' "$install_log"
+  grep -q -- '--events on_poweroff=destroy,on_reboot=destroy' "$install_log"
   grep -q -- '--graphics none' "$install_log"
   grep -q -- '--autoconsole text' "$install_log"
   rm -rf "$cache_dir"
