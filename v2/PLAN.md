@@ -13,11 +13,10 @@ Keep installed base images so later checks do not reinstall the OS.
 | ------- | ----------------------------------------------- | ------------------------ | ------------ |
 | Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
 | Ubuntu  | Ubuntu 26.04 Live Server ISO + NoCloud seed     | Clean desktop            | 50 GiB QCOW2 |
-| Arch    | Arch Linux ISO + injected install script        | Minimal Hyprland desktop | 50 GiB QCOW2 |
+| Arch    | Arch Linux ISO + NoCloud seed                   | Minimal Hyprland desktop | 50 GiB QCOW2 |
 | Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
 
-Arch, Fedora, and Ubuntu are the current direct-libvirt targets.
-Windows remain planned target.
+Arch, Fedora, Ubuntu, and Windows are the current direct-libvirt targets.
 
 Fedora is done.
 Do not change the Fedora workflow without a new request.
@@ -28,18 +27,19 @@ Use the libvirt default NAT network.
 Use the `tester` account with the `tester` password in Linux guests.
 Give the Linux account passwordless `sudo` access.
 Do not apply post-install package updates.
-Windows needs a Microsoft account during its first GUI run.
+Windows creates the local `tester` account during its first GUI run.
 Windows needs no product key for its 90-day evaluation.
 
 ## Selected contract
 
 Use direct libvirt as the VM backend.
 
-Each target has an explicit ISO URL, version, and SHA-256 checksum.
+Each Linux target has an explicit ISO URL, version, and SHA-256 checksum.
 Fedora uses Kickstart.
 Ubuntu uses Server Autoinstall and the `ubuntu-desktop` package.
 Arch uses a NoCloud seed and a script that creates the UEFI disk and installs Hyprland.
-Windows uses `Autounattend.xml` and the Enterprise Evaluation ISO.
+Windows uses `Autounattend.xml`, a generated unattended CD, and the Enterprise Evaluation ISO.
+Windows requires a manually downloaded evaluation ISO because Microsoft provides no direct checksum URL.
 The installer files are independent.
 
 `build <target>` creates a base image when no cached base exists.

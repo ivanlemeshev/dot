@@ -80,6 +80,13 @@ check_host() {
     return 1
   fi
 
+  if [ "$target" = windows ]; then
+    if ! command -v xorriso >/dev/null 2>&1; then
+      printf '%s\n' 'Missing host command: xorriso' >&2
+      return 1
+    fi
+  fi
+
   if ! virsh -c qemu:///system uri >/dev/null 2>&1; then
     printf '%s\n' 'Cannot connect to qemu:///system.' >&2
     return 1
@@ -98,6 +105,15 @@ fetch_iso() {
 
   read_target "$target" iso_name iso_url iso_sha256 || return $?
   iso_path="$VM_CACHE_DIR/iso/$iso_name"
+
+  if [ -z "$iso_sha256" ]; then
+    if [ -f "$iso_path" ]; then
+      printf 'ISO is ready without checksum: %s\n' "$iso_name"
+      return 0
+    fi
+    printf 'Windows ISO must be downloaded manually: %s\n' "$iso_url" >&2
+    return 1
+  fi
 
   if [ -f "$iso_path" ] && verify_iso "$iso_path" "$iso_sha256"; then
     printf 'ISO is ready: %s\n' "$iso_name"
@@ -170,6 +186,9 @@ build_guest() {
     arch)
       if build_arch_guest; then status=0; else status=$?; fi
       ;;
+    windows)
+      if build_windows_guest; then status=0; else status=$?; fi
+      ;;
     fedora)
       if build_fedora_guest; then status=0; else status=$?; fi
       ;;
@@ -186,6 +205,83 @@ build_guest() {
 
   printf 'Build failed: %s after %s\n' "$target" "$(format_duration "$((SECONDS - start_seconds))")" >&2
   return "$status"
+}
+
+build_windows_guest() {
+  local iso_name
+  local iso_url
+  local iso_sha256
+  local iso_path
+  local volume_name
+  local seed_path="$VM_CACHE_DIR/seeds/windows.iso"
+  local unattend_path="$VM_CACHE_DIR/scripts/Autounattend.xml"
+  local build_domain_name="dot-v2-windows-base-build"
+
+  require_windows_build_commands || return $?
+  read_target windows iso_name iso_url iso_sha256 || return $?
+  volume_name="$(base_volume_name windows)"
+  iso_path="$VM_CACHE_DIR/iso/$iso_name"
+
+  if base_volume_exists windows; then
+    if [ ! -t 0 ]; then
+      printf 'Base image exists: windows. Run build from a terminal to confirm rebuild.\n' >&2
+      return 1
+    fi
+    printf 'Base image is ready: windows. Rebuild? [y/N] '
+    read -r response
+    if [ "$response" != y ] && [ "$response" != Y ]; then
+      printf '%s\n' 'Base image is ready: windows'
+      return 0
+    fi
+  fi
+
+  fetch_iso windows
+  mkdir -p "${seed_path%/*}" "${unattend_path%/*}"
+  cp "$VM_ROOT/data/windows/Autounattend.xml" "$unattend_path"
+  xorriso -as mkisofs -o "$seed_path" -J -r -graft-points "Autounattend.xml=$unattend_path"
+  prepare_qemu_access "$iso_path" "$seed_path"
+  remove_build_domain "$build_domain_name"
+  virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+  if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$volume_name" "$(target_disk_size windows)" --format qcow2; then
+    rm -f "$seed_path" "$unattend_path"
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+    printf '%s\n' 'Cannot create base volume: windows' >&2
+    return 1
+  fi
+
+  if ! virt-install \
+    --connect qemu:///system \
+    --name "$build_domain_name" \
+    --memory 4096 \
+    --vcpus 2 \
+    --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=sata" \
+    --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
+    --disk "path=$seed_path,device=cdrom,bus=sata,readonly=on" \
+    --network network=default,model=e1000 \
+    --boot uefi \
+    --os-variant detect=on,require=off \
+    --events on_poweroff=destroy,on_reboot=destroy \
+    --transient \
+    --graphics none \
+    --autoconsole text \
+    --wait -1; then
+    rm -f "$seed_path" "$unattend_path"
+    remove_build_domain "$build_domain_name"
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+    printf '%s\n' 'Image build failed: windows' >&2
+    return 1
+  fi
+
+  rm -f "$seed_path" "$unattend_path"
+  remove_build_domain "$build_domain_name"
+  printf '%s\n' 'Base image is ready: windows'
+}
+
+require_windows_build_commands() {
+  if ! command -v xorriso >/dev/null 2>&1; then
+    printf '%s\n' 'Missing host command: xorriso' >&2
+    return 1
+  fi
 }
 
 build_arch_guest() {
@@ -461,6 +557,11 @@ stop_guest() {
     return
   fi
 
+  if [ "$1" = windows ]; then
+    stop_windows_guest
+    return
+  fi
+
   if [ "$1" = fedora ]; then
     stop_fedora_guest
     return
@@ -477,6 +578,10 @@ stop_guest() {
 
 stop_arch_guest() {
   stop_target_guest arch
+}
+
+stop_windows_guest() {
+  stop_target_guest windows
 }
 
 stop_fedora_guest() {
@@ -509,6 +614,11 @@ run_test_guest() {
     return
   fi
 
+  if [ "$1" = windows ]; then
+    run_windows_test_guest
+    return
+  fi
+
   if [ "$1" = fedora ]; then
     run_fedora_test_guest
     return
@@ -527,6 +637,10 @@ run_arch_test_guest() {
   run_target_test_guest arch
 }
 
+run_windows_test_guest() {
+  run_target_test_guest windows
+}
+
 run_fedora_test_guest() {
   run_target_test_guest fedora
 }
@@ -540,6 +654,8 @@ run_target_test_guest() {
   local base_volume
   local test_volume
   local log_path
+  local disk_bus=virtio
+  local network_model=virtio
   local -a video_args=()
   local -a graphics_args=(--graphics spice)
 
@@ -550,6 +666,11 @@ run_target_test_guest() {
   if [ "$target" = arch ]; then
     video_args=(--video virtio,accel3d=yes)
     graphics_args=(--graphics spice,gl=on)
+  fi
+
+  if [ "$target" = windows ]; then
+    disk_bus=sata
+    network_model=e1000
   fi
 
   if ! base_volume_exists "$target"; then
@@ -573,8 +694,8 @@ run_target_test_guest() {
     --name "dot-v2-$target-test" \
     --memory 4096 \
     --vcpus 2 \
-    --disk "vol=$VM_STORAGE_POOL/$test_volume,format=qcow2,bus=virtio" \
-    --network network=default,model=virtio \
+    --disk "vol=$VM_STORAGE_POOL/$test_volume,format=qcow2,bus=$disk_bus" \
+    --network "network=default,model=$network_model" \
     --boot uefi \
     --os-variant detect=on,require=off \
     "${graphics_args[@]}" \
@@ -632,11 +753,12 @@ Commands:
   run <target>    Boot and open a disposable test overlay.
   stop <target>   Remove the disposable test overlay.
 
-Targets: arch, fedora, ubuntu
+Targets: arch, fedora, ubuntu, windows
 
 Examples:
   v2/bin/vm check
   v2/bin/vm build arch
+  v2/bin/vm build windows
   v2/bin/vm build fedora
   v2/bin/vm run fedora
   v2/bin/vm stop fedora

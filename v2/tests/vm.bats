@@ -49,6 +49,18 @@ stub_command() {
   [ "$output" = "Missing host command: cloud-localds" ]
 }
 
+@test "check Windows requires the unattended CD tool" {
+  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl; do
+    stub_command "$command" 'exit 0'
+  done
+  stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
+
+  run env PATH="$STUB_BIN" /bin/bash "$VM" check windows
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Missing host command: xorriso" ]
+}
+
 @test "fetch reuses a verified cached ISO" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/iso"
@@ -72,6 +84,28 @@ stub_command() {
 
   [ "$status" -eq 22 ]
   grep -Fx -- '--fail --location --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso.part|/tmp/placeholder|" "$curl_log")
+  rm -rf "$cache_dir"
+}
+
+@test "fetch requires a manually downloaded Windows ISO" {
+  cache_dir="$(mktemp -d)"
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" fetch windows
+
+  [ "$status" -eq 1 ]
+  [ "$output" = "Windows ISO must be downloaded manually: https://www.microsoft.com/evalcenter/evaluate-windows-11-enterprise" ]
+  rm -rf "$cache_dir"
+}
+
+@test "fetch accepts a manually downloaded Windows ISO" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Windows_11_Enterprise_25H2_x64.iso"
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" fetch windows
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "ISO is ready without checksum: Windows_11_Enterprise_25H2_x64.iso" ]
   rm -rf "$cache_dir"
 }
 
@@ -133,6 +167,34 @@ stub_command() {
   grep -q -- 'archisobasedir=arch archisodevice=/dev/sr0' "$install_log"
   grep -q -- '--boot uefi' "$install_log"
   grep -q -- "$cache_dir/seeds/arch.iso .*data/arch/user-data .*data/arch/meta-data" "$seed_log"
+  rm -rf "$cache_dir"
+}
+
+@test "build creates a Windows base with an unattended CD" {
+  cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/virt-install.log"
+  xorriso_log="$cache_dir/xorriso.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Windows_11_Enterprise_25H2_x64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command xorriso 'printf "%s\\n" "$*" >"$VM_XORRISO_LOG"; : >"$4"'
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_XORRISO_LOG="$xorriso_log" /bin/bash "$VM" build windows
+
+  [ "$status" -eq 0 ]
+  grep -q -- '--name dot-v2-windows-base-build' "$install_log"
+  grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
+  grep -q -- "--disk path=$cache_dir/seeds/windows.iso,device=cdrom,bus=sata,readonly=on" "$install_log"
+  grep -q -- '--boot uefi' "$install_log"
+  grep -q -- 'network=default,model=e1000' "$install_log"
+  grep -q -- "-as mkisofs -o $cache_dir/seeds/windows.iso -J -r -graft-points Autounattend.xml=$cache_dir/scripts/Autounattend.xml" "$xorriso_log"
   rm -rf "$cache_dir"
 }
 
@@ -387,6 +449,28 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "run creates a UEFI Windows overlay from the managed base" {
+  cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/virt-install.log"
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*"dot-v2-windows-base.qcow2"*) exit 0 ;;
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
+  stub_command virt-manager 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" /bin/bash "$VM" run windows
+
+  [ "$status" -eq 0 ]
+  grep -q -- 'vol=default/dot-v2-windows-test.qcow2,format=qcow2,bus=sata' "$install_log"
+  grep -q -- 'network=default,model=e1000' "$install_log"
+  grep -q -- '--boot uefi' "$install_log"
+  rm -rf "$cache_dir"
+}
+
 @test "stop removes the managed Fedora overlay" {
   cache_dir="$(mktemp -d)"
   virsh_log="$cache_dir/virsh.log"
@@ -398,6 +482,20 @@ stub_command() {
   [ "$output" = "Test guest stopped: fedora" ]
   grep -q -- 'undefine dot-v2-fedora-test --nvram' "$virsh_log"
   grep -q -- 'vol-delete --pool default dot-v2-fedora-test.qcow2' "$virsh_log"
+  rm -rf "$cache_dir"
+}
+
+@test "stop removes the managed Windows overlay" {
+  cache_dir="$(mktemp -d)"
+  virsh_log="$cache_dir/virsh.log"
+  stub_command virsh 'printf "%s\\n" "$*" >>"$VM_VIRSH_LOG"'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRSH_LOG="$virsh_log" /bin/bash "$VM" stop windows
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "Test guest stopped: windows" ]
+  grep -q -- 'undefine dot-v2-windows-test --nvram' "$virsh_log"
+  grep -q -- 'vol-delete --pool default dot-v2-windows-test.qcow2' "$virsh_log"
   rm -rf "$cache_dir"
 }
 
@@ -435,4 +533,10 @@ stub_command() {
   grep -Fx "printf 'tester:tester\\n' | chpasswd" "$PROJECT_ROOT/v2/data/arch/install.sh"
   grep -Fx '  hyprland foot greetd greetd-tuigreet mesa noto-fonts polkit hyprpolkitagent \' "$PROJECT_ROOT/v2/data/arch/install.sh"
   grep -Fx '  pipewire wireplumber xdg-desktop-portal-hyprland xorg-xwayland' "$PROJECT_ROOT/v2/data/arch/install.sh"
+}
+
+@test "Windows install data creates the test account" {
+  grep -Fx '            <Name>tester</Name>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+  grep -Fx '              <Value>tester</Value>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+  grep -Fx '          <CommandLine>shutdown /s /t 5</CommandLine>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
 }
