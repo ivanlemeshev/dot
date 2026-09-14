@@ -263,11 +263,12 @@ build_windows_guest() {
     --os-variant detect=on,require=off \
     --events on_poweroff=destroy,on_reboot=destroy \
     --transient \
-    --graphics none \
+    --graphics spice \
     --noautoconsole \
     --wait -1 &
   install_pid=$!
   send_windows_boot_keys "$build_domain_name"
+  virt-manager --connect qemu:///system --show-domain-console "$build_domain_name" >/dev/null 2>&1 &
   if ! wait "$install_pid"; then
     rm -f "$seed_path" "$unattend_path"
     remove_build_domain "$build_domain_name"
