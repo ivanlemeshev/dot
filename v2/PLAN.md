@@ -12,7 +12,7 @@ Keep installed base images so later checks do not reinstall the OS.
 | Name    | Source                                          | Guest type               | Disk         |
 | ------- | ----------------------------------------------- | ------------------------ | ------------ |
 | Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
-| Ubuntu  | Ubuntu 26.04 Desktop AMD64 ISO + NoCloud seed   | Clean desktop            | 50 GiB QCOW2 |
+| Ubuntu  | Ubuntu 26.04 Live Server ISO + NoCloud seed       | Clean desktop            | 50 GiB QCOW2 |
 | Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
 
 Fedora and Ubuntu are the current direct-libvirt targets.
@@ -36,7 +36,7 @@ Use direct libvirt as the VM backend.
 
 Each target has an explicit ISO URL, version, and SHA-256 checksum.
 Fedora uses Kickstart.
-Ubuntu uses Autoinstall.
+Ubuntu uses Server Autoinstall and the `ubuntu-desktop` package.
 Windows uses `Autounattend.xml` and the Enterprise Evaluation ISO.
 The installer files are independent.
 

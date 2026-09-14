@@ -38,7 +38,7 @@ stub_command() {
 }
 
 @test "check without a target requires the Ubuntu seed tool" {
-  for command in curl jq sha256sum virt-install virt-manager setfacl; do
+  for command in curl jq sha256sum virt-install virt-manager getfacl setfacl; do
     stub_command "$command" 'exit 0'
   done
   stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
@@ -71,7 +71,7 @@ stub_command() {
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_CURL_LOG="$curl_log" /bin/bash "$VM" fetch ubuntu
 
   [ "$status" -eq 22 ]
-  grep -Fx -- '--fail --location --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-desktop-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso.part|/tmp/placeholder|" "$curl_log")
+  grep -Fx -- '--fail --location --output /tmp/placeholder https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso' <(sed "s|$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso.part|/tmp/placeholder|" "$curl_log")
   rm -rf "$cache_dir"
 }
 
@@ -195,13 +195,14 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "build creates an Ubuntu base with libvirt and a NoCloud seed" {
+@test "build creates an Ubuntu Desktop base from the Server ISO and NoCloud seed" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
   seed_log="$cache_dir/cloud-localds.log"
   acl_log="$cache_dir/setfacl.log"
   mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
+  : >"$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
+  chmod 600 "$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
   stub_command virsh '
     case "$*" in
@@ -209,7 +210,7 @@ stub_command() {
       *) exit 0 ;;
     esac
   '
-  stub_command cloud-localds 'printf "%s\\n" "$*" >"$VM_SEED_LOG"; : >"$1"'
+  stub_command cloud-localds 'printf "%s\\n" "$*" >"$VM_SEED_LOG"; : >"$1"; chmod 600 "$1"'
   stub_command id 'printf "%s\\n" 107'
   stub_command setfacl 'printf "%s\\n" "$*" >>"$VM_ACL_LOG"'
   stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
@@ -218,23 +219,85 @@ stub_command() {
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-ubuntu-base-build' "$install_log"
-  grep -q -- "--disk path=$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,device=cdrom,readonly=on" "$install_log"
-  grep -q -- "--location $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$install_log"
+  grep -q -- "--disk path=$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso,device=cdrom,bus=sata,readonly=on" "$install_log"
+  grep -q -- "--disk path=$cache_dir/seeds/ubuntu.iso,device=disk,bus=virtio,readonly=on" "$install_log"
+  grep -q -- "--location $cache_dir/iso/ubuntu-26.04-live-server-amd64.iso,kernel=casper/vmlinuz,initrd=casper/initrd" "$install_log"
   grep -q -- '--extra-args autoinstall console=ttyS0' "$install_log"
   grep -q -- '--os-variant detect=on,require=off' "$install_log"
+  grep -q -- '--events on_poweroff=destroy,on_reboot=destroy' "$install_log"
+  grep -q -- '--transient' "$install_log"
   grep -q -- '--autoconsole text' "$install_log"
   grep -q -- "$cache_dir/seeds/ubuntu.iso .*data/ubuntu/user-data .*data/ubuntu/meta-data" "$seed_log"
-  grep -Fx -- "-m u:107:r-- $cache_dir/iso/ubuntu-26.04-desktop-amd64.iso" "$acl_log"
+  grep -Fx -- "-m u:107:r-- $cache_dir/iso/ubuntu-26.04-live-server-amd64.iso" "$acl_log"
   grep -Fx -- "-m u:107:r-- $cache_dir/seeds/ubuntu.iso" "$acl_log"
-  run ! grep -q -- '-R' "$acl_log"
+  run grep -q -- '-R' "$acl_log"
   [ "$status" -eq 1 ]
+  rm -rf "$cache_dir"
+}
+
+@test "build accepts a readable Ubuntu ISO when its ACL cannot change" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
+  chmod 644 "$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command cloud-localds ': >"$1"'
+  stub_command id 'printf "%s\\n" 107'
+  stub_command setfacl '
+    case "$*" in
+      *"ubuntu-26.04-live-server-amd64.iso")
+        printf "%s\\n" "setfacl: Operation not permitted" >&2
+        exit 1
+        ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Base image is ready: ubuntu"* ]]
+  [[ "$output" != *"Operation not permitted"* ]]
+  rm -rf "$cache_dir"
+}
+
+@test "build rejects an Ubuntu installer console abort that exits zero" {
+  cache_dir="$(mktemp -d)"
+  virsh_log="$cache_dir/virsh.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    printf "%s\\n" "$*" >>"$VM_VIRSH_LOG"
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command cloud-localds ': >"$1"'
+  stub_command id 'printf "%s\\n" 107'
+  stub_command setfacl 'exit 0'
+  stub_command virt-install 'printf "%s\\n" "Installation aborted at user request"; exit 0'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_VIRSH_LOG="$virsh_log" /bin/bash "$VM" build ubuntu
+
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Image build failed: ubuntu"* ]]
+  grep -q -- 'vol-delete --pool default dot-v2-ubuntu-base.qcow2' "$virsh_log"
   rm -rf "$cache_dir"
 }
 
 @test "build explains a missing Ubuntu seed tool" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/ubuntu-26.04-desktop-amd64.iso"
+  : >"$cache_dir/iso/ubuntu-26.04-live-server-amd64.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
 
   run env PATH="$STUB_BIN" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build ubuntu
@@ -306,5 +369,11 @@ stub_command() {
 
 @test "Ubuntu and Fedora install data creates the test account" {
   grep -Fx '    username: tester' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  grep -Fx '    password: "$6$0vQfY9V3QziQBBqX$6/rOgYG2rwjvKNn4nAtqUdd42Nk4.kx0bxGFwHdzpKXjktFuH/.zMPE8GuaAPD6xhPQ32v41GVsuhYKoeN3tT."' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  grep -Fx '    - ubuntu-desktop' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  grep -Fx '    - |' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  grep -Fx "      curtin in-target --target=/target -- sh -c 'echo \"tester ALL=(ALL) NOPASSWD: ALL\" >/etc/sudoers.d/tester'" "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  run grep -q '^  source:' "$PROJECT_ROOT/v2/data/ubuntu/user-data"
+  [ "$status" -eq 1 ]
   grep -Fx 'user --name=tester --password=tester --plaintext --groups=wheel' "$PROJECT_ROOT/v2/data/fedora/kickstart.cfg"
 }

@@ -32,7 +32,8 @@ The command reuses a verified ISO.
 
 Fedora uses the Everything netinstall ISO and Kickstart.
 Fedora installs KDE Plasma from Kickstart and uses UEFI.
-Ubuntu uses a NoCloud seed ISO and UEFI.
+Ubuntu uses the Live Server ISO, NoCloud Autoinstall, and UEFI.
+Ubuntu installs the official `ubuntu-desktop` package.
 Ubuntu needs `cloud-localds` and `setfacl` on the host.
 Install `cloud-utils-cloud-localds` and `acl` on Fedora.
 Install `cloud-image-utils` and `acl` on Ubuntu.

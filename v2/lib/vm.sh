@@ -68,7 +68,7 @@ check_host() {
   fi
 
   if [ -z "$target" ] || [ "$target" = ubuntu ]; then
-    for command in cloud-localds setfacl; do
+    for command in cloud-localds getfacl setfacl; do
       if ! command -v "$command" >/dev/null 2>&1; then
         printf 'Missing host command: %s\n' "$command" >&2
         has_missing_command=true
@@ -193,6 +193,7 @@ build_ubuntu_guest() {
   local volume_name
   local seed_path="$VM_CACHE_DIR/seeds/ubuntu.iso"
   local build_domain_name="dot-v2-ubuntu-base-build"
+  local installer_log
 
   require_ubuntu_build_commands || return $?
   read_target ubuntu iso_name iso_url iso_sha256 || return $?
@@ -225,21 +226,26 @@ build_ubuntu_guest() {
     return 1
   fi
 
+  mkdir -p "$VM_LOG_DIR"
+  installer_log="$(mktemp "$VM_LOG_DIR/ubuntu-build.XXXXXX")"
   if ! virt-install \
     --connect qemu:///system \
     --name "$build_domain_name" \
     --memory 4096 \
     --vcpus 2 \
     --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=virtio" \
-    --disk "path=$iso_path,device=cdrom,readonly=on" \
-    --disk "path=$seed_path,device=cdrom,readonly=on" \
+    --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
+    --disk "path=$seed_path,device=disk,bus=virtio,readonly=on" \
     --location "$iso_path,kernel=casper/vmlinuz,initrd=casper/initrd" \
     --extra-args 'autoinstall console=ttyS0' \
     --boot uefi \
     --os-variant detect=on,require=off \
+    --events on_poweroff=destroy,on_reboot=destroy \
+    --transient \
     --graphics none \
     --autoconsole text \
-    --wait -1; then
+    --wait -1 2>&1 | tee "$installer_log"; then
+    rm -f "$installer_log"
     rm -f "$seed_path"
     remove_fedora_build_domain "$build_domain_name"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
@@ -247,6 +253,16 @@ build_ubuntu_guest() {
     return 1
   fi
 
+  if grep -Fq 'Installation aborted at user request' "$installer_log"; then
+    rm -f "$installer_log"
+    rm -f "$seed_path"
+    remove_fedora_build_domain "$build_domain_name"
+    virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
+    printf '%s\n' 'Image build failed: ubuntu' >&2
+    return 1
+  fi
+
+  rm -f "$installer_log"
   rm -f "$seed_path"
   remove_fedora_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: ubuntu'
@@ -255,6 +271,10 @@ build_ubuntu_guest() {
 require_ubuntu_build_commands() {
   if ! command -v cloud-localds >/dev/null 2>&1; then
     printf '%s\n' 'Missing host command: cloud-localds. Install cloud-utils-cloud-localds on Fedora or cloud-image-utils on Ubuntu.' >&2
+    return 1
+  fi
+  if ! command -v getfacl >/dev/null 2>&1; then
+    printf '%s\n' 'Missing host command: getfacl. Install acl.' >&2
     return 1
   fi
   if ! command -v setfacl >/dev/null 2>&1; then
@@ -516,7 +536,9 @@ prepare_qemu_access() {
       fi
       parent_path="${parent_path%/*}"
     done
-    setfacl -m "u:$qemu_uid:r--" "$file_path"
+    if ! getfacl --absolute-names --omit-header "$file_path" | grep -Eq '^other::r'; then
+      setfacl -m "u:$qemu_uid:r--" "$file_path"
+    fi
   done
 }
 
