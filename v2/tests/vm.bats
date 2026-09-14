@@ -193,6 +193,7 @@ stub_command() {
 @test "build creates a Windows base with an unattended CD" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
+  key_log="$cache_dir/send-key.log"
   xorriso_log="$cache_dir/xorriso.log"
   mkdir -p "$cache_dir/iso"
   : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
@@ -200,19 +201,23 @@ stub_command() {
   stub_command virsh '
     case "$*" in
       *"vol-info"*) exit 1 ;;
+      *"send-key"*) printf "%s\\n" "$*" >>"$VM_KEY_LOG" ;;
       *) exit 0 ;;
     esac
   '
+  stub_command sleep 'exit 0'
   stub_command xorriso 'printf "%s\\n" "$*" >"$VM_XORRISO_LOG"; : >"$4"'
   stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_XORRISO_LOG="$xorriso_log" /bin/bash "$VM" build windows
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_KEY_LOG="$key_log" VM_XORRISO_LOG="$xorriso_log" /bin/bash "$VM" build windows
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-windows-base-build' "$install_log"
   grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
   grep -q -- "--disk path=$cache_dir/seeds/windows.iso,device=cdrom,bus=sata,readonly=on" "$install_log"
-  grep -q -- '--boot uefi' "$install_log"
+  grep -q -- '--boot uefi,cdrom' "$install_log"
+  grep -q -- '--noautoconsole' "$install_log"
+  [ "$(grep -c -- 'send-key dot-v2-windows-base-build KEY_ENTER' "$key_log")" -eq 3 ]
   grep -q -- 'network=default,model=e1000' "$install_log"
   grep -q -- "-as mkisofs -o $cache_dir/seeds/windows.iso -J -r -graft-points Autounattend.xml=$cache_dir/scripts/Autounattend.xml" "$xorriso_log"
   rm -rf "$cache_dir"

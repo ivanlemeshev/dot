@@ -216,6 +216,7 @@ build_windows_guest() {
   local seed_path="$VM_CACHE_DIR/seeds/windows.iso"
   local unattend_path="$VM_CACHE_DIR/scripts/Autounattend.xml"
   local build_domain_name="dot-v2-windows-base-build"
+  local install_pid
 
   require_windows_build_commands || return $?
   read_target windows iso_name iso_url iso_sha256 || return $?
@@ -249,7 +250,7 @@ build_windows_guest() {
     return 1
   fi
 
-  if ! virt-install \
+  virt-install \
     --connect qemu:///system \
     --name "$build_domain_name" \
     --memory 4096 \
@@ -258,13 +259,16 @@ build_windows_guest() {
     --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
     --disk "path=$seed_path,device=cdrom,bus=sata,readonly=on" \
     --network network=default,model=e1000 \
-    --boot uefi \
+    --boot uefi,cdrom \
     --os-variant detect=on,require=off \
     --events on_poweroff=destroy,on_reboot=destroy \
     --transient \
     --graphics none \
-    --autoconsole text \
-    --wait -1; then
+    --noautoconsole \
+    --wait -1 &
+  install_pid=$!
+  send_windows_boot_keys "$build_domain_name"
+  if ! wait "$install_pid"; then
     rm -f "$seed_path" "$unattend_path"
     remove_build_domain "$build_domain_name"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
@@ -275,6 +279,17 @@ build_windows_guest() {
   rm -f "$seed_path" "$unattend_path"
   remove_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: windows'
+}
+
+send_windows_boot_keys() {
+  local domain_name="$1"
+  local attempts=0
+
+  while [ "$attempts" -lt 3 ]; do
+    sleep 2
+    virsh -c qemu:///system send-key "$domain_name" KEY_ENTER >/dev/null 2>&1 || true
+    attempts=$((attempts + 1))
+  done
 }
 
 require_windows_build_commands() {
