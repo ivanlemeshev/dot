@@ -12,7 +12,7 @@ The installer uses 4 GiB of RAM and 2 vCPUs.
 Install the host tools.
 
 ```bash
-sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager xorriso
+sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager dosfstools mtools
 sudo systemctl enable --now libvirtd
 ```
 
@@ -52,7 +52,7 @@ Windows remains unactivated for this disposable test.
 v2/bin/vm build windows
 ```
 
-The build creates an unattended CD from `data/windows/Autounattend.xml`.
+The build creates an unattended USB drive from `data/windows/Autounattend.xml`.
 The installer creates the local `tester` account with the `tester` password.
 The installer powers off after its first logon.
 

@@ -49,8 +49,8 @@ stub_command() {
   [ "$output" = "Missing host command: cloud-localds" ]
 }
 
-@test "check Windows requires the unattended CD tool" {
-  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl; do
+@test "check Windows requires the unattended USB tools" {
+  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl mcopy truncate; do
     stub_command "$command" 'exit 0'
   done
   stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
@@ -58,7 +58,7 @@ stub_command() {
   run env PATH="$STUB_BIN" /bin/bash "$VM" check windows
 
   [ "$status" -eq 1 ]
-  [ "$output" = "Missing host command: xorriso" ]
+  [ "$output" = "Missing host command: mkfs.vfat" ]
 }
 
 @test "fetch reuses a verified cached ISO" {
@@ -200,12 +200,12 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "build creates a Windows base with an unattended CD" {
+@test "build creates a Windows base with an unattended USB drive" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
   key_log="$cache_dir/send-key.log"
   viewer_log="$cache_dir/virt-manager.log"
-  xorriso_log="$cache_dir/xorriso.log"
+  seed_log="$cache_dir/seed.log"
   mkdir -p "$cache_dir/iso"
   : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
@@ -218,21 +218,24 @@ stub_command() {
   '
   stub_command sleep 'exit 0'
   stub_command virt-manager 'printf "%s\\n" "$*" >>"$VM_VIEWER_LOG"'
-  stub_command xorriso 'printf "%s\\n" "$*" >"$VM_XORRISO_LOG"; : >"$4"'
+  stub_command truncate 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"; : >"$3"'
+  stub_command mkfs.vfat 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"'
+  stub_command mcopy 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"'
   stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_KEY_LOG="$key_log" VM_VIEWER_LOG="$viewer_log" VM_XORRISO_LOG="$xorriso_log" /bin/bash "$VM" build windows
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_KEY_LOG="$key_log" VM_SEED_LOG="$seed_log" VM_VIEWER_LOG="$viewer_log" /bin/bash "$VM" build windows
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-windows-base-build' "$install_log"
   grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
-  grep -q -- "--disk path=$cache_dir/seeds/windows.iso,device=cdrom,bus=sata,readonly=on" "$install_log"
+  grep -q -- "--disk path=$cache_dir/seeds/windows.img,device=disk,bus=usb,readonly=on" "$install_log"
   grep -q -- '--boot uefi,cdrom' "$install_log"
   grep -q -- '--graphics spice' "$install_log"
   [ "$(grep -c -- 'send-key dot-v2-windows-base-build KEY_ENTER' "$key_log")" -eq 3 ]
   grep -q -- '--show-domain-console dot-v2-windows-base-build' "$viewer_log"
   grep -q -- 'network=default,model=e1000' "$install_log"
-  grep -q -- "-as mkisofs -o $cache_dir/seeds/windows.iso -J -r -graft-points Autounattend.xml=$cache_dir/scripts/Autounattend.xml" "$xorriso_log"
+  grep -q -- "-s 4M $cache_dir/seeds/windows.img" "$seed_log"
+  grep -q -- "-i $cache_dir/seeds/windows.img $cache_dir/scripts/Autounattend.xml ::/Autounattend.xml" "$seed_log"
   rm -rf "$cache_dir"
 }
 

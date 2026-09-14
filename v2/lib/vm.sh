@@ -81,10 +81,7 @@ check_host() {
   fi
 
   if [ "$target" = windows ]; then
-    if ! command -v xorriso >/dev/null 2>&1; then
-      printf '%s\n' 'Missing host command: xorriso' >&2
-      return 1
-    fi
+    require_windows_build_commands || return $?
   fi
 
   if ! virsh -c qemu:///system uri >/dev/null 2>&1; then
@@ -213,7 +210,7 @@ build_windows_guest() {
   local iso_sha256
   local iso_path
   local volume_name
-  local seed_path="$VM_CACHE_DIR/seeds/windows.iso"
+  local seed_path="$VM_CACHE_DIR/seeds/windows.img"
   local unattend_path="$VM_CACHE_DIR/scripts/Autounattend.xml"
   local build_domain_name="dot-v2-windows-base-build"
   local install_pid
@@ -239,7 +236,9 @@ build_windows_guest() {
   fetch_iso windows
   mkdir -p "${seed_path%/*}" "${unattend_path%/*}"
   cp "$VM_ROOT/data/windows/Autounattend.xml" "$unattend_path"
-  xorriso -as mkisofs -o "$seed_path" -J -r -graft-points "Autounattend.xml=$unattend_path"
+  truncate -s 4M "$seed_path"
+  mkfs.vfat -n AUTOUNATTEND "$seed_path" >/dev/null
+  mcopy -i "$seed_path" "$unattend_path" ::/Autounattend.xml
   prepare_qemu_access "$iso_path" "$seed_path"
   remove_build_domain "$build_domain_name"
   virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
@@ -257,7 +256,7 @@ build_windows_guest() {
     --vcpus 2 \
     --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=sata" \
     --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
-    --disk "path=$seed_path,device=cdrom,bus=sata,readonly=on" \
+    --disk "path=$seed_path,device=disk,bus=usb,readonly=on" \
     --network network=default,model=e1000 \
     --boot uefi,cdrom \
     --os-variant detect=on,require=off \
@@ -294,10 +293,14 @@ send_windows_boot_keys() {
 }
 
 require_windows_build_commands() {
-  if ! command -v xorriso >/dev/null 2>&1; then
-    printf '%s\n' 'Missing host command: xorriso' >&2
-    return 1
-  fi
+  local command
+
+  for command in mkfs.vfat mcopy; do
+    if ! command -v "$command" >/dev/null 2>&1; then
+      printf 'Missing host command: %s\n' "$command" >&2
+      return 1
+    fi
+  done
 }
 
 build_arch_guest() {
