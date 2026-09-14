@@ -50,7 +50,7 @@ stub_command() {
 }
 
 @test "check Windows requires the unattended USB tools" {
-  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl mcopy truncate; do
+  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl mcopy swtpm truncate; do
     stub_command "$command" 'exit 0'
   done
   stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
@@ -229,7 +229,8 @@ stub_command() {
   grep -q -- '--name dot-v2-windows-base-build' "$install_log"
   grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
   grep -q -- "--disk path=$cache_dir/seeds/windows.img,device=disk,bus=usb,readonly=on" "$install_log"
-  grep -q -- '--boot uefi,cdrom' "$install_log"
+  grep -q -- '--boot uefi,loader.secure=yes,cdrom' "$install_log"
+  grep -q -- '--tpm backend.type=emulator,backend.version=2.0,model=tpm-crb' "$install_log"
   grep -q -- '--graphics spice' "$install_log"
   [ "$(grep -c -- 'send-key dot-v2-windows-base-build KEY_ENTER' "$key_log")" -eq 3 ]
   grep -q -- '--show-domain-console dot-v2-windows-base-build' "$viewer_log"

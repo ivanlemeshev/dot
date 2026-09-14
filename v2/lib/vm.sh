@@ -258,7 +258,8 @@ build_windows_guest() {
     --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
     --disk "path=$seed_path,device=disk,bus=usb,readonly=on" \
     --network network=default,model=e1000 \
-    --boot uefi,cdrom \
+    --boot uefi,loader.secure=yes,cdrom \
+    --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
     --os-variant detect=on,require=off \
     --events on_poweroff=destroy,on_reboot=destroy \
     --transient \
@@ -295,7 +296,7 @@ send_windows_boot_keys() {
 require_windows_build_commands() {
   local command
 
-  for command in mkfs.vfat mcopy; do
+  for command in mkfs.vfat mcopy swtpm; do
     if ! command -v "$command" >/dev/null 2>&1; then
       printf 'Missing host command: %s\n' "$command" >&2
       return 1

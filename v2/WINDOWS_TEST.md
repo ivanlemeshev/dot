@@ -12,7 +12,7 @@ The installer uses 4 GiB of RAM and 2 vCPUs.
 Install the host tools.
 
 ```bash
-sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager dosfstools mtools
+sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager dosfstools mtools swtpm
 sudo systemctl enable --now libvirtd
 ```
 
