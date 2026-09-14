@@ -26,8 +26,8 @@
     },
     "windows": {
       "iso": {
-        "name": "Windows_11_Enterprise_25H2_x64.iso",
-        "url": "https://www.microsoft.com/evalcenter/evaluate-windows-11-enterprise",
+        "name": "Win11_25H2_English_x64_v2.iso",
+        "url": "https://www.microsoft.com/software-download/windows11",
         "sha256": null
       },
       "disk_size": "64G",

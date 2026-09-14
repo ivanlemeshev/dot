@@ -38,8 +38,8 @@ Each Linux target has an explicit ISO URL, version, and SHA-256 checksum.
 Fedora uses Kickstart.
 Ubuntu uses Server Autoinstall and the `ubuntu-desktop` package.
 Arch uses a NoCloud seed and a script that creates the UEFI disk and installs Hyprland.
-Windows uses `Autounattend.xml`, a generated unattended CD, and the Enterprise Evaluation ISO.
-Windows requires a manually downloaded evaluation ISO because Microsoft provides no direct checksum URL.
+Windows uses `Autounattend.xml`, a generated unattended CD, and the Windows 11 multi-edition ISO.
+Windows requires a manually downloaded ISO because Microsoft provides no direct checksum URL.
 The installer files are independent.
 
 `build <target>` creates a base image when no cached base exists.

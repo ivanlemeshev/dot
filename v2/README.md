@@ -46,4 +46,4 @@ Arch uses the official ISO, a NoCloud seed, and an installer script.
 Arch installs a minimal Hyprland desktop with greetd and tuigreet.
 Arch needs `cloud-localds` and `setfacl` on the host.
 Windows needs `xorriso` on the host.
-Windows needs a manually downloaded evaluation ISO because Microsoft does not provide a direct checksum URL.
+Windows needs a manually downloaded Windows 11 ISO because Microsoft does not provide a direct checksum URL.

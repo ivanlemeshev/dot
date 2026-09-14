@@ -3,7 +3,7 @@
 Use this guide on a normal Linux host session.
 The sandbox cannot create virtual machines.
 
-This test uses the Windows 11 Enterprise Evaluation ISO.
+This test uses the Windows 11 multi-edition ISO.
 The test creates a 64 GiB base disk in the libvirt `default` storage pool.
 The installer uses 4 GiB of RAM and 2 vCPUs.
 
@@ -24,14 +24,14 @@ v2/bin/vm check windows
 
 The command must print `Host checks pass.`.
 
-## 2. Download the evaluation ISO
+## 2. Download the Windows ISO
 
 Microsoft does not provide a direct download URL with a SHA-256 checksum.
-Download the Windows 11 Enterprise Evaluation ISO from the Microsoft Evaluation Center.
+Download the Windows 11 multi-edition ISO from the Microsoft download page.
 Save the file with this exact name.
 
 ```text
-Windows_11_Enterprise_25H2_x64.iso
+Win11_25H2_English_x64_v2.iso
 ```
 
 Put the file in `v2/.cache/vms/iso/`.
@@ -42,6 +42,8 @@ v2/bin/vm fetch windows
 ```
 
 The command must print `ISO is ready without checksum:`.
+The unattended setup installs Windows 11 Pro without a product key.
+Windows remains unactivated for this disposable test.
 
 ## 3. Build the clean base image
 

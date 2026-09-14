@@ -93,20 +93,40 @@ stub_command() {
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" fetch windows
 
   [ "$status" -eq 1 ]
-  [ "$output" = "Windows ISO must be downloaded manually: https://www.microsoft.com/evalcenter/evaluate-windows-11-enterprise" ]
+  [ "$output" = "Windows ISO must be downloaded manually: https://www.microsoft.com/software-download/windows11" ]
   rm -rf "$cache_dir"
 }
 
 @test "fetch accepts a manually downloaded Windows ISO" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/Windows_11_Enterprise_25H2_x64.iso"
+  : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
 
   run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" fetch windows
 
   [ "$status" -eq 0 ]
-  [ "$output" = "ISO is ready without checksum: Windows_11_Enterprise_25H2_x64.iso" ]
+  [ "$output" = "ISO is ready without checksum: Win11_25H2_English_x64_v2.iso" ]
   rm -rf "$cache_dir"
+}
+
+@test "Windows unattended setup selects an unactivated Pro image" {
+  run rg -F '<Key>/IMAGE/INDEX</Key>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 0 ]
+
+  run rg -F '<Value>6</Value>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 0 ]
+
+  run rg -F '<ProductKey>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 1 ]
+}
+
+@test "Windows unattended setup bypasses the TPM requirement" {
+  run rg -F 'BypassTPMCheck' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
+
+  [ "$status" -eq 0 ]
 }
 
 @test "build creates a headless Fedora base with libvirt" {
@@ -175,7 +195,7 @@ stub_command() {
   install_log="$cache_dir/virt-install.log"
   xorriso_log="$cache_dir/xorriso.log"
   mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/Windows_11_Enterprise_25H2_x64.iso"
+  : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
   stub_command virsh '
     case "$*" in
