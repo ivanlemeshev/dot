@@ -308,6 +308,7 @@ build_fedora_guest() {
     --extra-args 'inst.ks=file:/kickstart.cfg inst.cmdline console=ttyS0' \
     --boot uefi \
     --events on_poweroff=destroy,on_reboot=destroy \
+    --transient \
     --graphics none \
     --autoconsole text \
     --wait -1; then

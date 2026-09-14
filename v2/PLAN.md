@@ -18,6 +18,9 @@ Keep installed base images so later checks do not reinstall the OS.
 Fedora and Ubuntu are the current direct-libvirt targets.
 Windows remain planned target.
 
+Fedora is done.
+Do not change the Fedora workflow without a new request.
+
 Use 2 vCPUs and 4 GiB RAM for each virtual machine.
 Use the `qemu:///system` libvirt connection.
 Use the libvirt default NAT network.

@@ -104,6 +104,28 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
+@test "build makes the Fedora installer transient after shutdown" {
+  cache_dir="$(mktemp -d)"
+  install_log="$cache_dir/virt-install.log"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Fedora-Everything-netinst-x86_64-44-1.7.iso"
+  stub_command sha256sum 'test "$1" = "--check" && exit 0'
+  stub_command virsh '
+    case "$*" in
+      *"vol-info"*) exit 1 ;;
+      *) exit 0 ;;
+    esac
+  '
+  stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" /bin/bash "$VM" build fedora
+
+  [ "$status" -eq 0 ]
+  grep -q -- '--transient' "$install_log"
+  grep -q -- '--events on_poweroff=destroy,on_reboot=destroy' "$install_log"
+  rm -rf "$cache_dir"
+}
+
 @test "build preserves Fedora installer terminal output" {
   cache_dir="$(mktemp -d)"
   mkdir -p "$cache_dir/iso"
