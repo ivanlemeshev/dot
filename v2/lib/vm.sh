@@ -237,7 +237,7 @@ build_windows_guest() {
   mkdir -p "${seed_path%/*}" "${unattend_path%/*}"
   cp "$VM_ROOT/data/windows/Autounattend.xml" "$unattend_path"
   truncate -s 4M "$seed_path"
-  mkfs.vfat -n AUTOUNATTEND "$seed_path" >/dev/null
+  mkfs.vfat -n UNATTEND "$seed_path" >/dev/null
   mcopy -i "$seed_path" "$unattend_path" ::/Autounattend.xml
   prepare_qemu_access "$iso_path" "$seed_path"
   remove_build_domain "$build_domain_name"

@@ -235,6 +235,7 @@ stub_command() {
   grep -q -- '--show-domain-console dot-v2-windows-base-build' "$viewer_log"
   grep -q -- 'network=default,model=e1000' "$install_log"
   grep -q -- "-s 4M $cache_dir/seeds/windows.img" "$seed_log"
+  grep -q -- "-n UNATTEND $cache_dir/seeds/windows.img" "$seed_log"
   grep -q -- "-i $cache_dir/seeds/windows.img $cache_dir/scripts/Autounattend.xml ::/Autounattend.xml" "$seed_log"
   rm -rf "$cache_dir"
 }
