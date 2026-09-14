@@ -236,9 +236,11 @@ build_windows_guest() {
   fetch_iso windows
   mkdir -p "${seed_path%/*}" "${unattend_path%/*}"
   cp "$VM_ROOT/data/windows/Autounattend.xml" "$unattend_path"
-  truncate -s 4M "$seed_path"
-  mkfs.vfat -n UNATTEND "$seed_path" >/dev/null
-  mcopy -i "$seed_path" "$unattend_path" ::/Autounattend.xml
+  if ! create_windows_answer_drive "$seed_path" "$unattend_path"; then
+    rm -f "$seed_path" "$unattend_path"
+    printf '%s\n' 'Cannot create Windows answer USB drive.' >&2
+    return 1
+  fi
   prepare_qemu_access "$iso_path" "$seed_path"
   remove_build_domain "$build_domain_name"
   virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
@@ -254,6 +256,7 @@ build_windows_guest() {
     --name "$build_domain_name" \
     --memory 4096 \
     --vcpus 2 \
+    --machine q35 \
     --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=sata" \
     --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
     --disk "path=$seed_path,device=disk,bus=usb,readonly=on" \
@@ -280,6 +283,21 @@ build_windows_guest() {
   rm -f "$seed_path" "$unattend_path"
   remove_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: windows'
+}
+
+create_windows_answer_drive() {
+  local seed_path="$1"
+  local unattend_path="$2"
+
+  if ! truncate -s 4M "$seed_path"; then
+    return 1
+  fi
+  if ! mkfs.vfat -n UNATTEND "$seed_path" >/dev/null; then
+    return 1
+  fi
+  if ! mcopy -i "$seed_path" "$unattend_path" ::/Autounattend.xml; then
+    return 1
+  fi
 }
 
 send_windows_boot_keys() {

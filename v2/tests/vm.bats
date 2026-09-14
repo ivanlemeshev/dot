@@ -227,6 +227,7 @@ stub_command() {
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-windows-base-build' "$install_log"
+  grep -q -- '--machine q35' "$install_log"
   grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
   grep -q -- "--disk path=$cache_dir/seeds/windows.img,device=disk,bus=usb,readonly=on" "$install_log"
   grep -q -- '--boot uefi,loader.secure=yes,cdrom' "$install_log"
@@ -238,6 +239,20 @@ stub_command() {
   grep -q -- "-s 4M $cache_dir/seeds/windows.img" "$seed_log"
   grep -q -- "-n UNATTEND $cache_dir/seeds/windows.img" "$seed_log"
   grep -q -- "-i $cache_dir/seeds/windows.img $cache_dir/scripts/Autounattend.xml ::/Autounattend.xml" "$seed_log"
+  rm -rf "$cache_dir"
+}
+
+@test "build stops when it cannot create the Windows answer USB drive" {
+  cache_dir="$(mktemp -d)"
+  mkdir -p "$cache_dir/iso"
+  : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
+  stub_command virsh 'exit 1'
+  stub_command truncate 'exit 1'
+
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build windows
+
+  [ "$status" -eq 1 ]
+  [[ "$output" == *"Cannot create Windows answer USB drive."* ]]
   rm -rf "$cache_dir"
 }
 
