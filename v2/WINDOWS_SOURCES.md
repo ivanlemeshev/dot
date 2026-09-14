@@ -10,7 +10,9 @@ Microsoft says that this multi-edition ISO can create a VM.
 A valid product key selects and activates the correct edition.
 Microsoft publishes a SHA-256 value after the ISO selection.
 The current target uses `Win11_25H2_English_x64_v2.iso`.
-It selects Windows 11 Pro without a product key for a disposable test.
+Click `I don't have a product key` during Setup.
+Select Windows 11 Pro when Setup asks for an edition.
+Windows remains unactivated for this disposable test.
 
 Use the Windows 11 Enterprise Evaluation ISO from the [Microsoft Evaluation
 Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-11-enterprise)

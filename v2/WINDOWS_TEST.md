@@ -42,7 +42,8 @@ v2/bin/vm fetch windows
 ```
 
 The command must print `ISO is ready without checksum:`.
-The unattended setup installs Windows 11 Pro without a product key.
+Click `I don't have a product key` when Setup shows the product-key page.
+Select Windows 11 Pro when Setup asks for an edition.
 Windows remains unactivated for this disposable test.
 
 ## 3. Build the clean base image
