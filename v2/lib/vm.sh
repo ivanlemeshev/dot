@@ -264,7 +264,7 @@ build_windows_guest() {
     --boot uefi,loader.secure=yes,cdrom \
     --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
     --os-variant detect=on,require=off \
-    --events on_poweroff=destroy,on_reboot=destroy \
+    --events on_poweroff=destroy,on_reboot=restart \
     --transient \
     --graphics spice \
     --noautoconsole \

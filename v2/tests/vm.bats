@@ -232,6 +232,7 @@ stub_command() {
   grep -q -- "--disk path=$cache_dir/seeds/windows.img,device=disk,bus=usb,readonly=on" "$install_log"
   grep -q -- '--boot uefi,loader.secure=yes,cdrom' "$install_log"
   grep -q -- '--tpm backend.type=emulator,backend.version=2.0,model=tpm-crb' "$install_log"
+  grep -q -- '--events on_poweroff=destroy,on_reboot=restart' "$install_log"
   grep -q -- '--graphics spice' "$install_log"
   [ "$(grep -c -- 'send-key dot-v2-windows-base-build KEY_ENTER' "$key_log")" -eq 3 ]
   grep -q -- '--show-domain-console dot-v2-windows-base-build' "$viewer_log"
