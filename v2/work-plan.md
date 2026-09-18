@@ -4,7 +4,7 @@
 
 - [x] Create the V2 directory layout.
 - [x] Add `packages/common.txt` with `git`.
-- [ ] Add `apt`, `dnf`, and `pacman` package adapters.
+- [x] Add `apt`, `dnf`, and `pacman` package adapters.
 - [ ] Add the Homebrew package adapter and prerequisite check.
 - [ ] Add the `winget` package adapter and prerequisite check.
 - [ ] Add `bin/bootstrap` and `bin/bootstrap.ps1`.
