@@ -12,7 +12,7 @@ The installer uses 4 GiB of RAM and 2 vCPUs.
 Install the host tools.
 
 ```bash
-sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager dosfstools mtools swtpm
+sudo dnf install curl jq coreutils libvirt-client libvirt-daemon-kvm virt-install virt-manager swtpm
 sudo systemctl enable --now libvirtd
 ```
 
@@ -42,9 +42,6 @@ v2/bin/vm fetch windows
 ```
 
 The command must print `ISO is ready without checksum:`.
-Click `I don't have a product key` when Setup shows the product-key page.
-Select Windows 11 Pro when Setup asks for an edition.
-Windows remains unactivated for this disposable test.
 
 ## 3. Build the clean base image
 
@@ -52,9 +49,13 @@ Windows remains unactivated for this disposable test.
 v2/bin/vm build windows
 ```
 
-The build creates an unattended USB drive from `data/windows/Autounattend.xml`.
-The installer creates the local `tester` account with the `tester` password.
-The installer powers off after its first logon.
+The build opens the Windows installer in Virtual Machine Manager.
+Complete every Setup and first-run page manually.
+Click `I don't have a product key` when Setup asks for a key.
+Select the edition that you want to test.
+Create a local account and finish the first-run setup.
+Shut down Windows from its desktop when the setup is complete.
+The build waits for that shutdown before it saves the base image.
 
 The command must finish with both messages below.
 
@@ -70,7 +71,7 @@ v2/bin/vm run windows
 ```
 
 Virtual Machine Manager opens the guest console.
-Sign in with `tester` and `tester`.
+Sign in with the account that you created during the base build.
 Confirm that the Windows desktop starts.
 Shut down the guest and remove its disposable overlay.
 

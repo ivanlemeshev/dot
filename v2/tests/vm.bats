@@ -49,8 +49,8 @@ stub_command() {
   [ "$output" = "Missing host command: cloud-localds" ]
 }
 
-@test "check Windows requires the unattended USB tools" {
-  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl mcopy swtpm truncate; do
+@test "check Windows requires the TPM emulator" {
+  for command in curl jq sha256sum virt-install virt-manager cloud-localds getfacl setfacl; do
     stub_command "$command" 'exit 0'
   done
   stub_command virsh 'test "$1" = "-c" && test "$2" = "qemu:///system" && test "$3" = "uri"'
@@ -58,7 +58,7 @@ stub_command() {
   run env PATH="$STUB_BIN" /bin/bash "$VM" check windows
 
   [ "$status" -eq 1 ]
-  [ "$output" = "Missing host command: mkfs.vfat" ]
+  [ "$output" = "Missing host command: swtpm" ]
 }
 
 @test "fetch reuses a verified cached ISO" {
@@ -107,36 +107,6 @@ stub_command() {
   [ "$status" -eq 0 ]
   [ "$output" = "ISO is ready without checksum: Win11_25H2_English_x64_v2.iso" ]
   rm -rf "$cache_dir"
-}
-
-@test "Windows unattended setup selects an unactivated Pro image" {
-  run rg -F '<Key>/IMAGE/INDEX</Key>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 0 ]
-
-  run rg -F '<Value>6</Value>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 0 ]
-
-  run rg -F '<ProductKey>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 1 ]
-}
-
-@test "Windows unattended setup selects the Windows PE locale" {
-  run rg -F 'Microsoft-Windows-International-Core-WinPE' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 0 ]
-
-  run rg -F '<UILanguage>en-US</UILanguage>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 0 ]
-}
-
-@test "Windows unattended setup bypasses the TPM requirement" {
-  run rg -F 'BypassTPMCheck' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-
-  [ "$status" -eq 0 ]
 }
 
 @test "build creates a headless Fedora base with libvirt" {
@@ -200,60 +170,35 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "build creates a Windows base with an unattended USB drive" {
+@test "build creates a manual Windows base" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
-  key_log="$cache_dir/send-key.log"
   viewer_log="$cache_dir/virt-manager.log"
-  seed_log="$cache_dir/seed.log"
   mkdir -p "$cache_dir/iso"
   : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
   stub_command sha256sum 'test "$1" = "--check" && exit 0'
   stub_command virsh '
     case "$*" in
       *"vol-info"*) exit 1 ;;
-      *"send-key"*) printf "%s\\n" "$*" >>"$VM_KEY_LOG" ;;
       *) exit 0 ;;
     esac
   '
-  stub_command sleep 'exit 0'
   stub_command virt-manager 'printf "%s\\n" "$*" >>"$VM_VIEWER_LOG"'
-  stub_command truncate 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"; : >"$3"'
-  stub_command mkfs.vfat 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"'
-  stub_command mcopy 'printf "%s\\n" "$*" >>"$VM_SEED_LOG"'
   stub_command virt-install 'printf "%s\\n" "$*" >"$VM_INSTALL_LOG"'
 
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_KEY_LOG="$key_log" VM_SEED_LOG="$seed_log" VM_VIEWER_LOG="$viewer_log" /bin/bash "$VM" build windows
+  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" VM_INSTALL_LOG="$install_log" VM_VIEWER_LOG="$viewer_log" /bin/bash "$VM" build windows
 
   [ "$status" -eq 0 ]
   grep -q -- '--name dot-v2-windows-base-build' "$install_log"
   grep -q -- '--machine q35' "$install_log"
   grep -q -- 'vol=default/dot-v2-windows-base.qcow2,format=qcow2,bus=sata' "$install_log"
-  grep -q -- "--disk path=$cache_dir/seeds/windows.img,device=disk,bus=usb,readonly=on" "$install_log"
+  ! grep -q -- "$cache_dir/seeds" "$install_log"
   grep -q -- '--boot uefi,loader.secure=yes,cdrom' "$install_log"
   grep -q -- '--tpm backend.type=emulator,backend.version=2.0,model=tpm-crb' "$install_log"
   grep -q -- '--events on_poweroff=destroy,on_reboot=restart' "$install_log"
   grep -q -- '--graphics spice' "$install_log"
-  [ "$(grep -c -- 'send-key dot-v2-windows-base-build KEY_ENTER' "$key_log")" -eq 3 ]
   grep -q -- '--show-domain-console dot-v2-windows-base-build' "$viewer_log"
   grep -q -- 'network=default,model=e1000' "$install_log"
-  grep -q -- "-s 4M $cache_dir/seeds/windows.img" "$seed_log"
-  grep -q -- "-n UNATTEND $cache_dir/seeds/windows.img" "$seed_log"
-  grep -q -- "-i $cache_dir/seeds/windows.img $cache_dir/scripts/Autounattend.xml ::/Autounattend.xml" "$seed_log"
-  rm -rf "$cache_dir"
-}
-
-@test "build stops when it cannot create the Windows answer USB drive" {
-  cache_dir="$(mktemp -d)"
-  mkdir -p "$cache_dir/iso"
-  : >"$cache_dir/iso/Win11_25H2_English_x64_v2.iso"
-  stub_command virsh 'exit 1'
-  stub_command truncate 'exit 1'
-
-  run env PATH="$STUB_BIN:/usr/bin:/bin" VM_CACHE_DIR="$cache_dir" /bin/bash "$VM" build windows
-
-  [ "$status" -eq 1 ]
-  [[ "$output" == *"Cannot create Windows answer USB drive."* ]]
   rm -rf "$cache_dir"
 }
 
@@ -508,7 +453,7 @@ stub_command() {
   rm -rf "$cache_dir"
 }
 
-@test "run creates a UEFI Windows overlay from the managed base" {
+@test "run creates a Windows overlay with the build hardware" {
   cache_dir="$(mktemp -d)"
   install_log="$cache_dir/virt-install.log"
   stub_command virsh '
@@ -526,7 +471,9 @@ stub_command() {
   [ "$status" -eq 0 ]
   grep -q -- 'vol=default/dot-v2-windows-test.qcow2,format=qcow2,bus=sata' "$install_log"
   grep -q -- 'network=default,model=e1000' "$install_log"
-  grep -q -- '--boot uefi' "$install_log"
+  grep -q -- '--machine q35' "$install_log"
+  grep -q -- '--boot uefi,loader.secure=yes' "$install_log"
+  grep -q -- '--tpm backend.type=emulator,backend.version=2.0,model=tpm-crb' "$install_log"
   rm -rf "$cache_dir"
 }
 
@@ -592,10 +539,4 @@ stub_command() {
   grep -Fx "printf 'tester:tester\\n' | chpasswd" "$PROJECT_ROOT/v2/data/arch/install.sh"
   grep -Fx '  hyprland foot greetd greetd-tuigreet mesa noto-fonts polkit hyprpolkitagent \' "$PROJECT_ROOT/v2/data/arch/install.sh"
   grep -Fx '  pipewire wireplumber xdg-desktop-portal-hyprland xorg-xwayland' "$PROJECT_ROOT/v2/data/arch/install.sh"
-}
-
-@test "Windows install data creates the test account" {
-  grep -Fx '            <Name>tester</Name>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-  grep -Fx '              <Value>tester</Value>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
-  grep -Fx '          <CommandLine>shutdown /s /t 5</CommandLine>' "$PROJECT_ROOT/v2/data/windows/Autounattend.xml"
 }

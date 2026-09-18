@@ -14,7 +14,7 @@ Keep installed base images so later checks do not reinstall the OS.
 | Fedora  | Fedora Everything 44 netinstall ISO + Kickstart | KDE Plasma desktop       | 50 GiB QCOW2 |
 | Ubuntu  | Ubuntu 26.04 Live Server ISO + NoCloud seed     | Clean desktop            | 50 GiB QCOW2 |
 | Arch    | Arch Linux ISO + NoCloud seed                   | Minimal Hyprland desktop | 50 GiB QCOW2 |
-| Windows | Windows 11 Enterprise 25H2 Evaluation x64 ISO   | Clean evaluation desktop | 64 GiB QCOW2 |
+| Windows | Windows 11 25H2 multi-edition x64 ISO           | Clean desktop            | 64 GiB QCOW2 |
 
 Arch, Fedora, Ubuntu, and Windows are the current direct-libvirt targets.
 
@@ -27,8 +27,8 @@ Use the libvirt default NAT network.
 Use the `tester` account with the `tester` password in Linux guests.
 Give the Linux account passwordless `sudo` access.
 Do not apply post-install package updates.
-Windows creates the local `tester` account during its first GUI run.
-Windows needs no product key for its 90-day evaluation.
+Windows setup creates a local account during its manual first run.
+Windows needs no product key for this disposable test.
 
 ## Selected contract
 
@@ -38,7 +38,7 @@ Each Linux target has an explicit ISO URL, version, and SHA-256 checksum.
 Fedora uses Kickstart.
 Ubuntu uses Server Autoinstall and the `ubuntu-desktop` package.
 Arch uses a NoCloud seed and a script that creates the UEFI disk and installs Hyprland.
-Windows uses `Autounattend.xml`, a generated unattended CD, and the Windows 11 multi-edition ISO.
+Windows uses the Windows 11 multi-edition ISO and a manual graphical setup.
 Windows requires a manually downloaded ISO because Microsoft provides no direct checksum URL.
 The installer files are independent.
 
@@ -98,7 +98,7 @@ Tests do not download ISOs or create virtual machines.
 1. Add the cache ignore rule and the machine configuration.
 2. Add `v2/bin/vm` with dependency checks and safe cache paths.
 3. Add ISO download and SHA-256 verification.
-4. Add unattended Fedora, Ubuntu, and Windows install data.
+4. Add unattended Fedora and Ubuntu install data.
 5. Add direct libvirt builds that create immutable qcow2 base images.
 6. Add libvirt guest definitions and base-image reuse checks.
 7. Add command-seam tests before each implementation slice.
@@ -117,5 +117,5 @@ The normal host session must provide KVM access and allow `qemu:///system` acces
 
 Run every virtual machine one at a time in Virtual Machine Manager.
 Check that each Linux desktop accepts the `tester` login.
-Complete the Windows first-run sign-in and check its desktop.
+Complete the Windows manual setup and check its desktop.
 Leave the installed base images cached for later dotfiles checks.

@@ -210,8 +210,6 @@ build_windows_guest() {
   local iso_sha256
   local iso_path
   local volume_name
-  local seed_path="$VM_CACHE_DIR/seeds/windows.img"
-  local unattend_path="$VM_CACHE_DIR/scripts/Autounattend.xml"
   local build_domain_name="dot-v2-windows-base-build"
   local install_pid
 
@@ -234,18 +232,10 @@ build_windows_guest() {
   fi
 
   fetch_iso windows
-  mkdir -p "${seed_path%/*}" "${unattend_path%/*}"
-  cp "$VM_ROOT/data/windows/Autounattend.xml" "$unattend_path"
-  if ! create_windows_answer_drive "$seed_path" "$unattend_path"; then
-    rm -f "$seed_path" "$unattend_path"
-    printf '%s\n' 'Cannot create Windows answer USB drive.' >&2
-    return 1
-  fi
-  prepare_qemu_access "$iso_path" "$seed_path"
+  prepare_qemu_access "$iso_path"
   remove_build_domain "$build_domain_name"
   virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
   if ! virsh -c qemu:///system vol-create-as "$VM_STORAGE_POOL" "$volume_name" "$(target_disk_size windows)" --format qcow2; then
-    rm -f "$seed_path" "$unattend_path"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
     printf '%s\n' 'Cannot create base volume: windows' >&2
     return 1
@@ -259,7 +249,6 @@ build_windows_guest() {
     --machine q35 \
     --disk "vol=$VM_STORAGE_POOL/$volume_name,format=qcow2,bus=sata" \
     --disk "path=$iso_path,device=cdrom,bus=sata,readonly=on" \
-    --disk "path=$seed_path,device=disk,bus=usb,readonly=on" \
     --network network=default,model=e1000 \
     --boot uefi,loader.secure=yes,cdrom \
     --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
@@ -270,56 +259,23 @@ build_windows_guest() {
     --noautoconsole \
     --wait -1 &
   install_pid=$!
-  send_windows_boot_keys "$build_domain_name"
   virt-manager --connect qemu:///system --show-domain-console "$build_domain_name" >/dev/null 2>&1 &
   if ! wait "$install_pid"; then
-    rm -f "$seed_path" "$unattend_path"
     remove_build_domain "$build_domain_name"
     virsh -c qemu:///system vol-delete --pool "$VM_STORAGE_POOL" "$volume_name" >/dev/null 2>&1 || true
     printf '%s\n' 'Image build failed: windows' >&2
     return 1
   fi
 
-  rm -f "$seed_path" "$unattend_path"
   remove_build_domain "$build_domain_name"
   printf '%s\n' 'Base image is ready: windows'
 }
 
-create_windows_answer_drive() {
-  local seed_path="$1"
-  local unattend_path="$2"
-
-  if ! truncate -s 4M "$seed_path"; then
-    return 1
-  fi
-  if ! mkfs.vfat -n UNATTEND "$seed_path" >/dev/null; then
-    return 1
-  fi
-  if ! mcopy -i "$seed_path" "$unattend_path" ::/Autounattend.xml; then
-    return 1
-  fi
-}
-
-send_windows_boot_keys() {
-  local domain_name="$1"
-  local attempts=0
-
-  while [ "$attempts" -lt 3 ]; do
-    sleep 2
-    virsh -c qemu:///system send-key "$domain_name" KEY_ENTER >/dev/null 2>&1 || true
-    attempts=$((attempts + 1))
-  done
-}
-
 require_windows_build_commands() {
-  local command
-
-  for command in mkfs.vfat mcopy swtpm; do
-    if ! command -v "$command" >/dev/null 2>&1; then
-      printf 'Missing host command: %s\n' "$command" >&2
-      return 1
-    fi
-  done
+  if ! command -v swtpm >/dev/null 2>&1; then
+    printf '%s\n' 'Missing host command: swtpm' >&2
+    return 1
+  fi
 }
 
 build_arch_guest() {
@@ -696,6 +652,9 @@ run_target_test_guest() {
   local network_model=virtio
   local -a video_args=()
   local -a graphics_args=(--graphics spice)
+  local -a machine_args=()
+  local -a boot_args=(--boot uefi)
+  local -a tpm_args=()
 
   base_volume="$(base_volume_name "$target")"
   test_volume="$(test_volume_name "$target")"
@@ -709,6 +668,9 @@ run_target_test_guest() {
   if [ "$target" = windows ]; then
     disk_bus=sata
     network_model=e1000
+    machine_args=(--machine q35)
+    boot_args=(--boot uefi,loader.secure=yes)
+    tpm_args=(--tpm backend.type=emulator,backend.version=2.0,model=tpm-crb)
   fi
 
   if ! base_volume_exists "$target"; then
@@ -732,9 +694,11 @@ run_target_test_guest() {
     --name "dot-v2-$target-test" \
     --memory 4096 \
     --vcpus 2 \
+    "${machine_args[@]}" \
     --disk "vol=$VM_STORAGE_POOL/$test_volume,format=qcow2,bus=$disk_bus" \
     --network "network=default,model=$network_model" \
-    --boot uefi \
+    "${boot_args[@]}" \
+    "${tpm_args[@]}" \
     --os-variant detect=on,require=off \
     "${graphics_args[@]}" \
     "${video_args[@]}" \

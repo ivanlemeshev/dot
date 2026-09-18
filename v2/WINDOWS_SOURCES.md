@@ -11,7 +11,7 @@ A valid product key selects and activates the correct edition.
 Microsoft publishes a SHA-256 value after the ISO selection.
 The current target uses `Win11_25H2_English_x64_v2.iso`.
 Click `I don't have a product key` during Setup.
-Select Windows 11 Pro when Setup asks for an edition.
+Select the edition that you want to test when Setup asks for an edition.
 Windows remains unactivated for this disposable test.
 
 Use the Windows 11 Enterprise Evaluation ISO from the [Microsoft Evaluation
@@ -70,7 +70,7 @@ and [Linux access](https://learn.microsoft.com/en-us/windows-365/end-user-hardwa
 ## Decision
 
 Prefer the standard multi-edition ISO for a local KVM VM.
-The target installs Windows 11 Pro without activation for a disposable test.
+The target uses manual setup without activation for a disposable test.
 Use a valid license before you use the VM beyond that test.
 Do not add an unsupported conversion path for VirtualBox, VMware, or Azure
 images.

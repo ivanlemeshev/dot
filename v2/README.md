@@ -45,5 +45,6 @@ Install `cloud-image-utils` and `acl` on Ubuntu.
 Arch uses the official ISO, a NoCloud seed, and an installer script.
 Arch installs a minimal Hyprland desktop with greetd and tuigreet.
 Arch needs `cloud-localds` and `setfacl` on the host.
-Windows needs `dosfstools`, `mtools`, and `swtpm` on the host.
+Windows needs `swtpm` on the host.
 Windows needs a manually downloaded Windows 11 ISO because Microsoft does not provide a direct checksum URL.
+Windows setup is manual. Shut down Windows after the first-run setup to save its base image.
