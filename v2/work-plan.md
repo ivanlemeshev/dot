@@ -2,7 +2,7 @@
 
 ## Phase 1: Foundation
 
-- [ ] Create the V2 directory layout.
+- [x] Create the V2 directory layout.
 - [ ] Add `packages/common.txt` with `git`.
 - [ ] Add `apt`, `dnf`, and `pacman` package adapters.
 - [ ] Add the Homebrew package adapter and prerequisite check.
