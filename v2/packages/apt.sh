@@ -24,5 +24,5 @@ while IFS= read -r capability; do
   esac
 done <"$1"
 
-sudo apt-get update
-sudo apt-get install -y "${packages[@]}"
+sudo -n apt-get update
+sudo -n apt-get install -y "${packages[@]}"

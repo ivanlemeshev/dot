@@ -16,11 +16,11 @@ install_chezmoi() {
     Darwin) brew install chezmoi ;;
     Linux)
       if command -v apt-get >/dev/null 2>&1; then
-        sudo apt-get install -y chezmoi
+        sudo -n apt-get install -y chezmoi
       elif command -v dnf >/dev/null 2>&1; then
-        sudo dnf install -y chezmoi
+        sudo -n dnf install -y chezmoi
       elif command -v pacman >/dev/null 2>&1; then
-        sudo pacman -S --needed --noconfirm chezmoi
+        sudo -n pacman -S --needed --noconfirm chezmoi
       else
         echo "No supported package manager was found." >&2
         exit 2
@@ -63,4 +63,4 @@ case "$(uname -s)" in
 esac
 
 install_chezmoi
-chezmoi apply --source "$SOURCE_DIR"
+chezmoi apply --force --source "$SOURCE_DIR"

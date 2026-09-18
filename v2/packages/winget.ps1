@@ -28,7 +28,7 @@ $packages = foreach ($capability in Get-Content -Path $Manifest) {
 }
 
 foreach ($package in $packages) {
-  winget install --id $package --exact --silent --accept-package-agreements --accept-source-agreements
+  winget install --id $package --exact --silent --disable-interactivity --accept-package-agreements --accept-source-agreements
   if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
   }

@@ -8,7 +8,7 @@
 - [x] Add the Homebrew package adapter and prerequisite check.
 - [x] Add the `winget` package adapter and prerequisite check.
 - [x] Add `bin/bootstrap` and `bin/bootstrap.ps1`.
-- [ ] Make both bootstrap commands non-interactive for tests.
+- [x] Make both bootstrap commands non-interactive for tests.
 - [ ] Add Chezmoi source state for a generic Git configuration without identity data.
 
 Completion check: each bootstrap command can install Chezmoi and Git, then apply

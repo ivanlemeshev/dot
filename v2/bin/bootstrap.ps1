@@ -17,11 +17,11 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 if (-not (Get-Command chezmoi -ErrorAction SilentlyContinue)) {
-  winget install --id twpayne.chezmoi --exact --silent --accept-package-agreements --accept-source-agreements
+  winget install --id twpayne.chezmoi --exact --silent --disable-interactivity --accept-package-agreements --accept-source-agreements
   if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
   }
 }
 
-chezmoi apply --source $sourceDirectory
+chezmoi apply --force --source $sourceDirectory
 exit $LASTEXITCODE

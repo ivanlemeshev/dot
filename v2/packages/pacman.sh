@@ -24,4 +24,4 @@ while IFS= read -r capability; do
   esac
 done <"$1"
 
-sudo pacman -S --needed --noconfirm "${packages[@]}"
+sudo -n pacman -S --needed --noconfirm "${packages[@]}"

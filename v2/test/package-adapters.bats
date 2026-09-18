@@ -9,7 +9,7 @@ setup() {
 
   mkdir -p "$MOCK_BIN"
   printf '%s\n' git >"$MANIFEST"
-  printf '%s\n' '#!/usr/bin/env bash' 'exec "$@"' >"$MOCK_BIN/sudo"
+  printf '%s\n' '#!/usr/bin/env bash' 'if [ "$1" = -n ]; then shift; fi' 'exec "$@"' >"$MOCK_BIN/sudo"
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/apt-get"
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/dnf"
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/pacman"
@@ -51,7 +51,17 @@ setup() {
   run env PATH="$MOCK_BIN:$PATH" "$BATS_TEST_DIRNAME/../bin/bootstrap"
 
   [ "$status" -eq 0 ]
-  [ "$(<"$TEST_ROOT/commands")" = $'update\ninstall -y git\nchezmoi apply --source '"$(cd "$BATS_TEST_DIRNAME/../home" && pwd)" ]
+  [ "$(<"$TEST_ROOT/commands")" = $'update\ninstall -y git\nchezmoi apply --force --source '"$(cd "$BATS_TEST_DIRNAME/../home" && pwd)" ]
+}
+
+@test "apt adapter uses non-interactive sudo" {
+  printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/sudo"
+  chmod +x "$MOCK_BIN/sudo"
+
+  run env PATH="$MOCK_BIN:$PATH" "$ADAPTER" "$MANIFEST"
+
+  [ "$status" -eq 0 ]
+  [ "$(<"$TEST_ROOT/commands")" = $'-n apt-get update\n-n apt-get install -y git' ]
 }
 
 teardown() {

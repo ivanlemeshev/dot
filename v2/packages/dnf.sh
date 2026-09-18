@@ -24,4 +24,4 @@ while IFS= read -r capability; do
   esac
 done <"$1"
 
-sudo dnf install -y "${packages[@]}"
+sudo -n dnf install -y "${packages[@]}"
