@@ -14,7 +14,9 @@ setup() {
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/dnf"
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/pacman"
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/brew"
-  chmod +x "$MOCK_BIN/sudo" "$MOCK_BIN/apt-get" "$MOCK_BIN/dnf" "$MOCK_BIN/pacman" "$MOCK_BIN/brew"
+  printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" Linux' >"$MOCK_BIN/uname"
+  printf '%s\n' '#!/usr/bin/env bash' 'printf "chezmoi %s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/chezmoi"
+  chmod +x "$MOCK_BIN/sudo" "$MOCK_BIN/apt-get" "$MOCK_BIN/dnf" "$MOCK_BIN/pacman" "$MOCK_BIN/brew" "$MOCK_BIN/uname" "$MOCK_BIN/chezmoi"
 }
 
 @test "dnf adapter installs manifest capabilities" {
@@ -43,6 +45,13 @@ setup() {
 
   [ "$status" -eq 2 ]
   [[ "$output" == *"Homebrew is required"* ]]
+}
+
+@test "bootstrap installs Linux packages and applies the source state" {
+  run env PATH="$MOCK_BIN:$PATH" "$BATS_TEST_DIRNAME/../bin/bootstrap"
+
+  [ "$status" -eq 0 ]
+  [ "$(<"$TEST_ROOT/commands")" = $'update\ninstall -y git\nchezmoi apply --source '"$(cd "$BATS_TEST_DIRNAME/../home" && pwd)" ]
 }
 
 teardown() {

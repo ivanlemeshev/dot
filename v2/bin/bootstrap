@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+V2_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+MANIFEST="$V2_DIR/packages/common.txt"
+SOURCE_DIR="$V2_DIR/home"
+
+install_chezmoi() {
+  if command -v chezmoi >/dev/null 2>&1; then
+    return
+  fi
+
+  case "$(uname -s)" in
+    Darwin) brew install chezmoi ;;
+    Linux)
+      if command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get install -y chezmoi
+      elif command -v dnf >/dev/null 2>&1; then
+        sudo dnf install -y chezmoi
+      elif command -v pacman >/dev/null 2>&1; then
+        sudo pacman -S --needed --noconfirm chezmoi
+      else
+        echo "No supported package manager was found." >&2
+        exit 2
+      fi
+      ;;
+    *)
+      echo "Unsupported operating system: $(uname -s)" >&2
+      exit 2
+      ;;
+  esac
+}
+
+if [ "$(uname -s)" = Darwin ] && ! command -v brew >/dev/null 2>&1; then
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+fi
+
+case "$(uname -s)" in
+  Darwin) "$V2_DIR/packages/brew.sh" "$MANIFEST" ;;
+  Linux)
+    if command -v apt-get >/dev/null 2>&1; then
+      "$V2_DIR/packages/apt.sh" "$MANIFEST"
+    elif command -v dnf >/dev/null 2>&1; then
+      "$V2_DIR/packages/dnf.sh" "$MANIFEST"
+    elif command -v pacman >/dev/null 2>&1; then
+      "$V2_DIR/packages/pacman.sh" "$MANIFEST"
+    else
+      echo "No supported package manager was found." >&2
+      exit 2
+    fi
+    ;;
+  *)
+    echo "Unsupported operating system: $(uname -s)" >&2
+    exit 2
+    ;;
+esac
+
+install_chezmoi
+chezmoi apply --source "$SOURCE_DIR"
