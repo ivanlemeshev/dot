@@ -28,7 +28,7 @@ try
 	 }
 
 		Start-Process $relaunchExe `
-			"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
+			"-NoExit -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
 			-Verb RunAs -WorkingDirectory $scriptDir
 		return
 	}
@@ -86,8 +86,9 @@ try
 
 function Get-MiseCommand
 {
-	$command = Get-Command mise -ErrorAction SilentlyContinue
-	if ($null -ne $command)
+	$command = Get-Command mise -CommandType Application `
+		-ErrorAction SilentlyContinue
+	if ($null -ne $command -and (Test-MiseCommand $command.Source))
 	{
 		return $command.Source
 	}
@@ -101,13 +102,31 @@ function Get-MiseCommand
 
 	foreach ($candidate in $candidates)
 	{
-		if (Test-Path $candidate)
+		if ((Test-Path $candidate) -and (Test-MiseCommand $candidate))
 		{
 			return $candidate
 		}
 	}
 
 	return $null
+}
+
+function Test-MiseCommand($path)
+{
+	$previousErrorActionPreference = $ErrorActionPreference
+
+	try
+	{
+		$ErrorActionPreference = "Stop"
+		& $path --version *> $null
+		return $LASTEXITCODE -eq 0
+	} catch
+	{
+		return $false
+	} finally
+	{
+		$ErrorActionPreference = $previousErrorActionPreference
+	}
 }
 
 function Get-MiseToolVersion($configFile, $tool)
@@ -1039,18 +1058,43 @@ if ($null -ne $mise)
 	(& $mise activate pwsh) | Out-String | Invoke-Expression
 	& $mise reshim
 
-	$miseProfileLine = "(& `"$mise`" activate pwsh) | Out-String | Invoke-Expression"
-
-	if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
-	{
-		Write-Host "Added mise activation to PowerShell profile."
-	} else
-	{
-		Write-Host "mise activation already present in PowerShell profile."
-	}
 } else
 {
 	Write-Warning "mise not found. If it was just installed, restart PowerShell and rerun this script."
+}
+
+$miseProfilePaths = @(
+	$PROFILE.CurrentUserAllHosts,
+	(Join-Path $env:USERPROFILE "Documents\WindowsPowerShell\profile.ps1")
+) | Select-Object -Unique
+$miseProfileLines = @(
+	'# mise activation',
+	'$miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue',
+	'if ($null -ne $miseProfileCommand) {',
+	'    (& $miseProfileCommand.Source activate pwsh) | Out-String | Invoke-Expression',
+	'}'
+)
+
+foreach ($miseProfilePath in $miseProfilePaths)
+{
+	if (Test-Path $miseProfilePath)
+	{
+		$content = Get-Content $miseProfilePath
+		$updated = $content | Where-Object {
+			$_ -notmatch '^\s*mise activate pwsh \| Out-String \| Invoke-Expression\s*$' -and
+			$_ -notmatch 'Microsoft\\WinGet\\Links\\mise\.exe.*activate pwsh'
+		}
+
+		if (@($updated).Count -ne @($content).Count)
+		{
+			Set-Content -Path $miseProfilePath -Value $updated
+		}
+	}
+
+	if (Add-BlockIfMissing $miseProfilePath '# mise activation' $miseProfileLines)
+	{
+		Write-Host "Updated mise activation in $miseProfilePath."
+	}
 }
 
 Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"
@@ -1061,6 +1105,65 @@ Install-NpmGlobalPackage "@fission-ai/openspec@latest" "openspec" "OpenSpec"
 
 Write-Host ""
 Write-Host "Setting up configuration files..."
+
+#region Codex Skills
+
+$codexSkillsSource = "$repoRoot\.codex\skills"
+$codexSkillsTarget = "$env:USERPROFILE\.codex\skills"
+
+if (-not (Test-Path $codexSkillsSource))
+{
+	Write-Warning "Codex skills source not found: $codexSkillsSource"
+	Write-Warning "Skipping Codex skills setup."
+} else
+{
+	if (-not (Test-Path $codexSkillsTarget))
+	{
+		New-Item $codexSkillsTarget -ItemType Directory -Force | Out-Null
+	}
+
+	Get-ChildItem -Force $codexSkillsSource -Directory | Where-Object {
+		$_.Name -ne ".system"
+	} | ForEach-Object {
+		$codexSkillSource = $_.FullName
+		$codexSkillTarget = Join-Path $codexSkillsTarget $_.Name
+
+		if (Test-Path $codexSkillTarget)
+		{
+			$codexSkillItem = Get-Item $codexSkillTarget
+			$existing = $codexSkillItem.Target
+
+			if ($codexSkillItem.LinkType -eq "SymbolicLink" -and `
+				$existing -eq $codexSkillSource)
+			{
+				Write-Host "Codex skill already linked: $($_.Name)"
+			} else
+			{
+				if ($codexSkillItem.LinkType -eq "SymbolicLink")
+				{
+					Write-Host "Updating Codex skill link: $($_.Name)"
+					Remove-Item $codexSkillTarget -Force
+				} else
+				{
+					$backup = "$codexSkillTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+					Write-Host "Backing up existing Codex skill to $backup"
+					Move-Item $codexSkillTarget $backup
+				}
+
+				New-Item $codexSkillTarget -ItemType SymbolicLink `
+					-Value $codexSkillSource | Out-Null
+				Write-Host "Codex skill linked: $($_.Name)"
+			}
+		} else
+		{
+			New-Item $codexSkillTarget -ItemType SymbolicLink `
+				-Value $codexSkillSource | Out-Null
+			Write-Host "Codex skill linked: $($_.Name)"
+		}
+	}
+}
+
+#endregion
 
 #region Windows Terminal Settings
 
@@ -1221,16 +1324,14 @@ if ($restartRequired)
 	Write-Host ""
 	Write-Host "Restart required for keyboard mapping."
 	Write-Host -NoNewLine `
-		"Press any key to restart (or close to restart later)..."
-	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+		"Press Enter to restart (or close to restart later)..."
+	Read-Host | Out-Null
 	Restart-Computer
 } else
 {
 	Write-Host ""
 	Write-Host "No restart required. All changes applied."
-	Write-Host -NoNewLine `
-		"Press any key to exit..."
-	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+	Read-Host "Press Enter to exit" | Out-Null
 }
 } finally {
 	Set-Location $originalLocation

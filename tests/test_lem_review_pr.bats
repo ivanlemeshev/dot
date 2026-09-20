@@ -87,9 +87,23 @@ setup() {
     grep -q 'link_directory.*Codex skills' "$PROJECT_ROOT/install/$platform/codex.sh"
   done
 
+  grep -q '\$codexSkillsSource = "\$repoRoot\\.codex\\skills"' "$PROJECT_ROOT/bin/setup.ps1"
+  grep -q '\$codexSkillsTarget = "\$env:USERPROFILE\\.codex\\skills"' "$PROJECT_ROOT/bin/setup.ps1"
+  grep -q '\$_.Name -ne ".system"' "$PROJECT_ROOT/bin/setup.ps1"
+  grep -q 'New-Item \$codexSkillTarget -ItemType SymbolicLink' "$PROJECT_ROOT/bin/setup.ps1"
+
   for platform in macos ubuntu; do
     grep -q 'link_directory.*Claude Code skills' "$PROJECT_ROOT/install/$platform/claude-code.sh"
   done
+}
+
+@test "Windows setup uses a valid mise command and dynamic profile activation" {
+  setup_script="$PROJECT_ROOT/bin/setup.ps1"
+
+  grep -q 'Test-MiseCommand' "$setup_script"
+  grep -q 'Get-Command mise -CommandType Application' "$setup_script"
+  grep -q '\$miseProfileCommand.Source activate pwsh' "$setup_script"
+  ! grep -q 'miseProfileLine = "(&' "$setup_script"
 }
 
 @test "legacy personal review entrypoints are absent" {
