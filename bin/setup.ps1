@@ -1071,42 +1071,52 @@ if (-not (Test-Path $codexSkillsSource))
 {
 	Write-Warning "Codex skills source not found: $codexSkillsSource"
 	Write-Warning "Skipping Codex skills setup."
-} elseif (Test-Path $codexSkillsTarget)
-{
-	$codexSkillsItem = Get-Item $codexSkillsTarget
-	$existing = $codexSkillsItem.Target
-
-	if ($codexSkillsItem.LinkType -eq "SymbolicLink" -and `
-		$existing -eq $codexSkillsSource)
-	{
-		Write-Host "Codex skills already linked."
-	} elseif ($codexSkillsItem.LinkType -eq "SymbolicLink")
-	{
-		Write-Host "Updating Codex skills link..."
-		Remove-Item $codexSkillsTarget -Force
-		New-Item $codexSkillsTarget -ItemType SymbolicLink `
-			-Value $codexSkillsSource | Out-Null
-		Write-Host "Codex skills updated."
-	} else
-	{
-		$backup = "$codexSkillsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
-		Write-Host "Backing up existing Codex skills to $backup"
-		Move-Item $codexSkillsTarget $backup
-		New-Item $codexSkillsTarget -ItemType SymbolicLink `
-			-Value $codexSkillsSource | Out-Null
-		Write-Host "Codex skills linked."
-	}
 } else
 {
-	$codexSkillsParent = Split-Path -Parent $codexSkillsTarget
-	if (-not (Test-Path $codexSkillsParent))
+	if (-not (Test-Path $codexSkillsTarget))
 	{
-		New-Item $codexSkillsParent -ItemType Directory -Force | Out-Null
+		New-Item $codexSkillsTarget -ItemType Directory -Force | Out-Null
 	}
 
-	New-Item $codexSkillsTarget -ItemType SymbolicLink `
-		-Value $codexSkillsSource | Out-Null
-	Write-Host "Codex skills linked."
+	Get-ChildItem -Force $codexSkillsSource -Directory | Where-Object {
+		$_.Name -ne ".system"
+	} | ForEach-Object {
+		$codexSkillSource = $_.FullName
+		$codexSkillTarget = Join-Path $codexSkillsTarget $_.Name
+
+		if (Test-Path $codexSkillTarget)
+		{
+			$codexSkillItem = Get-Item $codexSkillTarget
+			$existing = $codexSkillItem.Target
+
+			if ($codexSkillItem.LinkType -eq "SymbolicLink" -and `
+				$existing -eq $codexSkillSource)
+			{
+				Write-Host "Codex skill already linked: $($_.Name)"
+			} else
+			{
+				if ($codexSkillItem.LinkType -eq "SymbolicLink")
+				{
+					Write-Host "Updating Codex skill link: $($_.Name)"
+					Remove-Item $codexSkillTarget -Force
+				} else
+				{
+					$backup = "$codexSkillTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+					Write-Host "Backing up existing Codex skill to $backup"
+					Move-Item $codexSkillTarget $backup
+				}
+
+				New-Item $codexSkillTarget -ItemType SymbolicLink `
+					-Value $codexSkillSource | Out-Null
+				Write-Host "Codex skill linked: $($_.Name)"
+			}
+		} else
+		{
+			New-Item $codexSkillTarget -ItemType SymbolicLink `
+				-Value $codexSkillSource | Out-Null
+			Write-Host "Codex skill linked: $($_.Name)"
+		}
+	}
 }
 
 #endregion

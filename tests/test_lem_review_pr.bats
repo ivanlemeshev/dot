@@ -89,7 +89,8 @@ setup() {
 
   grep -q '\$codexSkillsSource = "\$repoRoot\\.codex\\skills"' "$PROJECT_ROOT/bin/setup.ps1"
   grep -q '\$codexSkillsTarget = "\$env:USERPROFILE\\.codex\\skills"' "$PROJECT_ROOT/bin/setup.ps1"
-  grep -q 'New-Item \$codexSkillsTarget -ItemType SymbolicLink' "$PROJECT_ROOT/bin/setup.ps1"
+  grep -q '\$_.Name -ne ".system"' "$PROJECT_ROOT/bin/setup.ps1"
+  grep -q 'New-Item \$codexSkillTarget -ItemType SymbolicLink' "$PROJECT_ROOT/bin/setup.ps1"
 
   for platform in macos ubuntu; do
     grep -q 'link_directory.*Claude Code skills' "$PROJECT_ROOT/install/$platform/claude-code.sh"
