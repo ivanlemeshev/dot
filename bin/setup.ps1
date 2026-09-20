@@ -28,7 +28,7 @@ try
 	 }
 
 		Start-Process $relaunchExe `
-			"-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
+			"-NoExit -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
 			-Verb RunAs -WorkingDirectory $scriptDir
 		return
 	}
