@@ -33,9 +33,17 @@ Make a coverage ledger before you write the final notes. Record every material s
 
 Read long documents in logical sections. For each chapter, record every material content unit or subheading, its definition, its reasoning, its conditions, and its examples. Keep the ledger until the final coverage check is complete.
 
+## Set the depth
+
+For an instructional book, create detailed study notes. Use about 1,000 words for each 20 pages of material content. Use this target to detect missing detail. Do not add filler to meet it.
+
+Give each material source subheading its own output subheading. Keep related source content together only when it forms one explanation. A 20-page or longer chapter normally has several output subheadings. A chapter overview does not replace the detailed notes.
+
+For reports, manuals, and specifications, set the length from the number and complexity of material content units. Do not apply the book target to a document that is concise by design.
+
 ## Write the summary
 
-Use the source title as the level-one heading. Use a heading for every chapter or major section. Use a short subheading for every ledger record within a chapter. If the source has no heading for a material unit, create a descriptive subheading. Preserve source order. Start each section with its material content.
+Use the source title as the level-one heading. Use a heading for every chapter or major section. Use a short subheading for every ledger record within a chapter. Use the source subheading when it is clear. If the source has no heading for a material unit, create a descriptive subheading. Preserve source order. Start each section with its material content.
 
 Write each material content unit as a self-contained explanation. Include its definition, distinctions, relationships, causes, conditions, procedures, trade-offs, and examples when the source gives them. Keep examples that make an abstract rule concrete. Write exercises as their problem context, constraints, decision process, and material solution details.
 
@@ -45,7 +53,7 @@ Preserve exact values, units, dates, names, requirements, and limitations when t
 
 Use paragraphs and lists that remain readable in a plain Markdown viewer. Use a table only for compact comparisons or mappings. A table must have clear headers, no more than three columns, short cells, and no wrapped prose. Replace an unreadable table with headings and lists. Cite source pages for material claims when the user asks for citations, when the document is technical or regulated, or when page tracing improves usefulness.
 
-Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Do not shorten an explanation to make the document brief. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
+Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Do not shorten an explanation to make the document brief. For an instructional book, compare the draft length with the book target before delivery. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
 
 ## Check before delivery
 
