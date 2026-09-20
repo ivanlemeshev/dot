@@ -1062,6 +1062,55 @@ Install-NpmGlobalPackage "@fission-ai/openspec@latest" "openspec" "OpenSpec"
 Write-Host ""
 Write-Host "Setting up configuration files..."
 
+#region Codex Skills
+
+$codexSkillsSource = "$repoRoot\.codex\skills"
+$codexSkillsTarget = "$env:USERPROFILE\.codex\skills"
+
+if (-not (Test-Path $codexSkillsSource))
+{
+	Write-Warning "Codex skills source not found: $codexSkillsSource"
+	Write-Warning "Skipping Codex skills setup."
+} elseif (Test-Path $codexSkillsTarget)
+{
+	$codexSkillsItem = Get-Item $codexSkillsTarget
+	$existing = $codexSkillsItem.Target
+
+	if ($codexSkillsItem.LinkType -eq "SymbolicLink" -and `
+		$existing -eq $codexSkillsSource)
+	{
+		Write-Host "Codex skills already linked."
+	} elseif ($codexSkillsItem.LinkType -eq "SymbolicLink")
+	{
+		Write-Host "Updating Codex skills link..."
+		Remove-Item $codexSkillsTarget -Force
+		New-Item $codexSkillsTarget -ItemType SymbolicLink `
+			-Value $codexSkillsSource | Out-Null
+		Write-Host "Codex skills updated."
+	} else
+	{
+		$backup = "$codexSkillsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+		Write-Host "Backing up existing Codex skills to $backup"
+		Move-Item $codexSkillsTarget $backup
+		New-Item $codexSkillsTarget -ItemType SymbolicLink `
+			-Value $codexSkillsSource | Out-Null
+		Write-Host "Codex skills linked."
+	}
+} else
+{
+	$codexSkillsParent = Split-Path -Parent $codexSkillsTarget
+	if (-not (Test-Path $codexSkillsParent))
+	{
+		New-Item $codexSkillsParent -ItemType Directory -Force | Out-Null
+	}
+
+	New-Item $codexSkillsTarget -ItemType SymbolicLink `
+		-Value $codexSkillsSource | Out-Null
+	Write-Host "Codex skills linked."
+}
+
+#endregion
+
 #region Windows Terminal Settings
 
 $termDir = Get-WindowsTerminalSettingsDirectory
