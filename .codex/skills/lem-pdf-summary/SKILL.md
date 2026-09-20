@@ -51,6 +51,12 @@ Use `# Chapter N: title` for each chapter. Use `##` for its major themes. Use `#
 
 For reports, manuals, and specifications, set the length from the number and complexity of material content units. Do not apply the book target to a document that is concise by design.
 
+## Choose a readable form
+
+Do not write every concept as paragraphs. Use short paragraphs for reasoning, cause and effect, and qualifications. Use lists for peer items, steps, rules, and examples. Use a compact table for a comparison or mapping when it remains readable on one screen. A table has at most three columns, short cells, and no wrapped prose. Use headings and lists when a table would need more space.
+
+Use a simple ASCII diagram in a code block for a flow, relationship, ownership boundary, or state change when the shape makes the content clearer. Use short labels and keep each line within 80 characters. Do not use a diagram for isolated facts.
+
 ## Write the summary
 
 Use the source title as the level-one heading. Use a heading for every chapter or major section. Use a short subheading for every ledger record within a chapter. Use the source subheading when it is clear. If the source has no heading for a material unit, create a descriptive subheading. Preserve source order. Do not add page numbers to headings or text unless the user asks for them. Start each section with its material content.
@@ -61,7 +67,7 @@ Write direct statements about the subject. Remove filler such as "this book expl
 
 Preserve exact values, units, dates, names, requirements, and limitations when they are material. State uncertainty as uncertainty. Do not add facts, explanations, recommendations, or causes that the PDF does not support.
 
-Use paragraphs and lists that remain readable in a plain Markdown viewer. Use a table only for compact comparisons or mappings. A table must have clear headers, no more than three columns, short cells, and no wrapped prose. Replace an unreadable table with headings and lists. Cite source pages only when the user asks for citations.
+Use forms that remain readable in a plain Markdown viewer. Cite source pages only when the user asks for citations.
 
 Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
 
