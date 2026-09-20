@@ -86,8 +86,9 @@ try
 
 function Get-MiseCommand
 {
-	$command = Get-Command mise -ErrorAction SilentlyContinue
-	if ($null -ne $command)
+	$command = Get-Command mise -CommandType Application `
+		-ErrorAction SilentlyContinue
+	if ($null -ne $command -and (Test-MiseCommand $command.Source))
 	{
 		return $command.Source
 	}
@@ -101,13 +102,31 @@ function Get-MiseCommand
 
 	foreach ($candidate in $candidates)
 	{
-		if (Test-Path $candidate)
+		if ((Test-Path $candidate) -and (Test-MiseCommand $candidate))
 		{
 			return $candidate
 		}
 	}
 
 	return $null
+}
+
+function Test-MiseCommand($path)
+{
+	$previousErrorActionPreference = $ErrorActionPreference
+
+	try
+	{
+		$ErrorActionPreference = "Stop"
+		& $path --version *> $null
+		return $LASTEXITCODE -eq 0
+	} catch
+	{
+		return $false
+	} finally
+	{
+		$ErrorActionPreference = $previousErrorActionPreference
+	}
 }
 
 function Get-MiseToolVersion($configFile, $tool)
@@ -1039,18 +1058,43 @@ if ($null -ne $mise)
 	(& $mise activate pwsh) | Out-String | Invoke-Expression
 	& $mise reshim
 
-	$miseProfileLine = "(& `"$mise`" activate pwsh) | Out-String | Invoke-Expression"
-
-	if (Add-LineIfMissing $PROFILE.CurrentUserAllHosts $miseProfileLine)
-	{
-		Write-Host "Added mise activation to PowerShell profile."
-	} else
-	{
-		Write-Host "mise activation already present in PowerShell profile."
-	}
 } else
 {
 	Write-Warning "mise not found. If it was just installed, restart PowerShell and rerun this script."
+}
+
+$miseProfilePaths = @(
+	$PROFILE.CurrentUserAllHosts,
+	(Join-Path $env:USERPROFILE "Documents\WindowsPowerShell\profile.ps1")
+) | Select-Object -Unique
+$miseProfileLines = @(
+	'# mise activation',
+	'$miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue',
+	'if ($null -ne $miseProfileCommand) {',
+	'    (& $miseProfileCommand.Source activate pwsh) | Out-String | Invoke-Expression',
+	'}'
+)
+
+foreach ($miseProfilePath in $miseProfilePaths)
+{
+	if (Test-Path $miseProfilePath)
+	{
+		$content = Get-Content $miseProfilePath
+		$updated = $content | Where-Object {
+			$_ -notmatch '^\s*mise activate pwsh \| Out-String \| Invoke-Expression\s*$' -and
+			$_ -notmatch 'Microsoft\\WinGet\\Links\\mise\.exe.*activate pwsh'
+		}
+
+		if (@($updated).Count -ne @($content).Count)
+		{
+			Set-Content -Path $miseProfilePath -Value $updated
+		}
+	}
+
+	if (Add-BlockIfMissing $miseProfilePath '# mise activation' $miseProfileLines)
+	{
+		Write-Host "Updated mise activation in $miseProfilePath."
+	}
 }
 
 Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"

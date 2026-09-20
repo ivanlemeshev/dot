@@ -97,6 +97,15 @@ setup() {
   done
 }
 
+@test "Windows setup uses a valid mise command and dynamic profile activation" {
+  setup_script="$PROJECT_ROOT/bin/setup.ps1"
+
+  grep -q 'Test-MiseCommand' "$setup_script"
+  grep -q 'Get-Command mise -CommandType Application' "$setup_script"
+  grep -q '\$miseProfileCommand.Source activate pwsh' "$setup_script"
+  ! grep -q 'miseProfileLine = "(&' "$setup_script"
+}
+
 @test "legacy personal review entrypoints are absent" {
   [ ! -e "$PROJECT_ROOT/.codex/skills/review" ]
   [ ! -e "$PROJECT_ROOT/.claude/skills/review" ]
