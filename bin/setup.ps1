@@ -1280,16 +1280,14 @@ if ($restartRequired)
 	Write-Host ""
 	Write-Host "Restart required for keyboard mapping."
 	Write-Host -NoNewLine `
-		"Press any key to restart (or close to restart later)..."
-	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+		"Press Enter to restart (or close to restart later)..."
+	Read-Host | Out-Null
 	Restart-Computer
 } else
 {
 	Write-Host ""
 	Write-Host "No restart required. All changes applied."
-	Write-Host -NoNewLine `
-		"Press any key to exit..."
-	$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+	Read-Host "Press Enter to exit" | Out-Null
 }
 } finally {
 	Set-Location $originalLocation
