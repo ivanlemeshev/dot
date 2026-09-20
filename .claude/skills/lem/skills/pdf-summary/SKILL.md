@@ -42,7 +42,7 @@ Give each material source subheading its own output subheading. Keep related sou
 
 Use the PDF bookmark hierarchy as a coverage map. Record each source learning unit in the ledger. Record each excluded bookmark and its reason. Keep at least 55 percent of the source learning units as note headings in each chapter. This permits grouping related material. It prevents a chapter overview from replacing the source structure.
 
-Before delivery, run `python scripts/book_coverage.py <pdf-path> <notes-path>` for an instructional book. The command must pass. It checks the heading count in each chapter. It does not prove semantic coverage. Complete the ledger check as well.
+Before delivery, run `python scripts/book_coverage.py <pdf-path> <notes-path>` for an instructional book. The command must pass. It checks chapter headings and visual anchors. It does not prove semantic coverage. Complete the ledger check as well.
 
 ## Write book learning notes
 
@@ -57,6 +57,10 @@ For reports, manuals, and specifications, set the length from the number and com
 Do not write every concept as paragraphs. Use short paragraphs for reasoning, cause and effect, and qualifications. Use lists for peer items, steps, rules, and examples. Use a compact table for a comparison or mapping when it remains readable on one screen. A table has at most three columns, short cells, and no wrapped prose. Use headings and lists when a table would need more space.
 
 Use a simple ASCII diagram in a code block for a flow, relationship, ownership boundary, or state change when the shape makes the content clearer. Use short labels and keep each line within 80 characters. Do not use a diagram for isolated facts.
+
+## Add visual anchors
+
+Bold a key term when you define it. Use italics for a short label, contrast, or qualification. Use a list when the source has three or more peer items, rules, steps, or examples. For a long instructional book, include at least two compact comparison tables and two ASCII diagrams when the source contains comparisons, flows, or boundaries. Do not add decorative formatting that does not improve understanding.
 
 ## Write the summary
 
