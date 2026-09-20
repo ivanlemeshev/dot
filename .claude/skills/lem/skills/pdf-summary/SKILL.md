@@ -40,11 +40,17 @@ For an instructional book, create detailed study notes. Use about 1,000 words fo
 
 Give each material source subheading its own output subheading. Keep related source content together only when it forms one explanation. A 20-page or longer chapter normally has several output subheadings. A chapter overview does not replace the detailed notes.
 
+## Write book learning notes
+
+Start with the book's subject matter. Omit author details, publication details, audience statements, reading advice, preface content, and other metadata unless the user asks for them or they change the subject matter.
+
+Use `# Chapter N: title` for each chapter. Use `##` for its major themes. Use `###` for each atomic concept. Write in simple teaching language. For each core concept, state its meaning, why it matters, a source example or comparison, and its consequence when the source provides them. Use lists for examples, categories, questions, and contrasts. Split dense overview prose into these smaller learning units.
+
 For reports, manuals, and specifications, set the length from the number and complexity of material content units. Do not apply the book target to a document that is concise by design.
 
 ## Write the summary
 
-Use the source title as the level-one heading. Use a heading for every chapter or major section. Use a short subheading for every ledger record within a chapter. Use the source subheading when it is clear. If the source has no heading for a material unit, create a descriptive subheading. Preserve source order. Start each section with its material content.
+Use the source title as the level-one heading. Use a heading for every chapter or major section. Use a short subheading for every ledger record within a chapter. Use the source subheading when it is clear. If the source has no heading for a material unit, create a descriptive subheading. Preserve source order. Do not add page numbers to headings or text unless the user asks for them. Start each section with its material content.
 
 Write each material content unit as a self-contained explanation. Include its definition, distinctions, relationships, causes, conditions, procedures, trade-offs, and examples when the source gives them. Keep examples that make an abstract rule concrete. Write exercises as their problem context, constraints, decision process, and material solution details.
 
@@ -52,7 +58,7 @@ Write direct statements about the subject. Remove filler such as "this book expl
 
 Preserve exact values, units, dates, names, requirements, and limitations when they are material. State uncertainty as uncertainty. Do not add facts, explanations, recommendations, or causes that the PDF does not support.
 
-Use paragraphs and lists that remain readable in a plain Markdown viewer. Use a table only for compact comparisons or mappings. A table must have clear headers, no more than three columns, short cells, and no wrapped prose. Replace an unreadable table with headings and lists. Cite source pages for material claims when the user asks for citations, when the document is technical or regulated, or when page tracing improves usefulness.
+Use paragraphs and lists that remain readable in a plain Markdown viewer. Use a table only for compact comparisons or mappings. A table must have clear headers, no more than three columns, short cells, and no wrapped prose. Replace an unreadable table with headings and lists. Cite source pages only when the user asks for citations.
 
 Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Do not shorten an explanation to make the document brief. For an instructional book, compare the draft length with the book target before delivery. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
 

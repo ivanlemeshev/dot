@@ -1,4 +1,4 @@
 interface:
   display_name: "Lem PDF Summary"
   short_description: "Create detailed, source-structured PDF notes"
-  default_prompt: "Use $lem-pdf-summary to create detailed, source-structured Markdown study notes from this PDF. Keep every material source subheading and use about 1,000 words per 20 content pages."
+  default_prompt: "Use $lem-pdf-summary to create detailed, simple Markdown learning notes from this PDF. Keep every material source subheading and use about 1,000 words per 20 content pages. Do not add page references."
