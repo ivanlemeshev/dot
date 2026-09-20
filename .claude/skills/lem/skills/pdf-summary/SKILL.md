@@ -40,6 +40,10 @@ For an instructional book, create detailed study notes. Use about 1,000 words fo
 
 Give each material source subheading its own output subheading. Keep related source content together only when it forms one explanation. A 20-page or longer chapter normally has several output subheadings. A chapter overview does not replace the detailed notes.
 
+Use the PDF bookmark hierarchy as a coverage map. Record each source learning unit in the ledger. Record each excluded bookmark and its reason. Keep at least 55 percent of the source learning units as note headings in each chapter. This permits grouping related material. It prevents a chapter overview from replacing the source structure.
+
+Before delivery, run `python scripts/book_coverage.py <pdf-path> <notes-path>` for an instructional book. The command must pass. It checks the book word target and the heading count in each chapter. It does not prove semantic coverage. Complete the ledger check as well.
+
 ## Write book learning notes
 
 Start with the book's subject matter. Omit author details, publication details, audience statements, reading advice, preface content, and other metadata unless the user asks for them or they change the subject matter.
