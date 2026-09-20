@@ -10,7 +10,6 @@ CHAPTER_TITLE = re.compile(r"^Chapter\s+(\d+)\b", re.IGNORECASE)
 NOTE_CHAPTER = re.compile(r"^#{1,2}\s+(?:Chapter\s+)?(\d+)\b", re.IGNORECASE)
 HEADING = re.compile(r"^(#{1,6})\s+")
 END_SECTION = re.compile(r"^#{1,2}\s+(?:appendix|index|references)\b", re.IGNORECASE)
-WORD = re.compile(r"\b[\w'-]+\b")
 
 
 def item_title(item: object) -> str:
@@ -63,7 +62,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("pdf", type=Path)
     parser.add_argument("notes", type=Path)
     parser.add_argument("--unit-ratio", type=float, default=0.55)
-    parser.add_argument("--words-per-20-pages", type=int, default=1000)
     return parser.parse_args()
 
 
@@ -76,13 +74,9 @@ def main() -> int:
     source = source_chapters(reader)
     notes = args.notes.read_text(encoding="utf-8")
     output = note_chapters(notes)
-    minimum_words = math.ceil(len(reader.pages) / 20) * args.words_per_20_pages
-    note_words = len(WORD.findall(notes))
-    failed = note_words < minimum_words
+    failed = False
 
     print(f"PDF pages: {len(reader.pages)}")
-    print(f"Note words: {note_words}")
-    print(f"Minimum note words: {minimum_words}")
 
     for number, source_units in source.items():
         minimum_units = math.ceil(source_units * args.unit_ratio)

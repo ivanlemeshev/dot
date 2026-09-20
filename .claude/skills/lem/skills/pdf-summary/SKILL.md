@@ -1,14 +1,14 @@
 ---
 name: pdf-summary
-description: Create detailed, source-structured Markdown notes from a large PDF. Use for reports, manuals, specifications, studies, policies, and other long PDF documents.
+description: Create concise, source-structured Markdown notes from a large PDF. Use for reports, manuals, specifications, studies, policies, and other long PDF documents.
 argument-hint: "[PDF path or URL]"
 ---
 
 # Summarize a large PDF
 
-Create detailed Markdown notes. Use `<source-name>-summary.md` in the workspace unless the user gives an output path. Report the created file in the final response.
+Create concise, content-dense Markdown notes. Use `<source-name>-summary.md` in the workspace unless the user gives an output path. Report the created file in the final response.
 
-Keep the document's material meaning and source structure. A large document needs substantial notes. The word “summary” does not require aggressive compression.
+Keep the document's material meaning and source structure. Reduce the text as far as possible without losing material content.
 
 ## Choose the language
 
@@ -36,19 +36,19 @@ Read long documents in logical sections. For each chapter, record every material
 
 ## Set the depth
 
-For an instructional book, create detailed study notes. Use about 1,000 words for each 20 pages of material content. Use this target to detect missing detail. Do not add filler to meet it.
+For an instructional book, create condensed reference notes. Do not use a word-count target. Retain every material concept, definition, rule, condition, process, distinction, decision, consequence, and trade-off.
 
-Give each material source subheading its own output subheading. Keep related source content together only when it forms one explanation. A 20-page or longer chapter normally has several output subheadings. A chapter overview does not replace the detailed notes.
+Give each material source subheading its own output subheading. Keep related source content together only when it forms one explanation. A 20-page or longer chapter normally has several output subheadings. A chapter overview does not replace the condensed notes.
 
 Use the PDF bookmark hierarchy as a coverage map. Record each source learning unit in the ledger. Record each excluded bookmark and its reason. Keep at least 55 percent of the source learning units as note headings in each chapter. This permits grouping related material. It prevents a chapter overview from replacing the source structure.
 
-Before delivery, run `python scripts/book_coverage.py <pdf-path> <notes-path>` for an instructional book. The command must pass. It checks the book word target and the heading count in each chapter. It does not prove semantic coverage. Complete the ledger check as well.
+Before delivery, run `python scripts/book_coverage.py <pdf-path> <notes-path>` for an instructional book. The command must pass. It checks the heading count in each chapter. It does not prove semantic coverage. Complete the ledger check as well.
 
 ## Write book learning notes
 
 Start with the book's subject matter. Omit author details, publication details, audience statements, reading advice, preface content, and other metadata unless the user asks for them or they change the subject matter.
 
-Use `# Chapter N: title` for each chapter. Use `##` for its major themes. Use `###` for each atomic concept. Write in simple teaching language. For each core concept, state its meaning, why it matters, a source example or comparison, and its consequence when the source provides them. Use lists for examples, categories, questions, and contrasts. Split dense overview prose into these smaller learning units.
+Use `# Chapter N: title` for each chapter. Use `##` for its major themes. Use `###` for each atomic concept. Write one dense explanation or a compact list for each concept. Keep examples only when they define a boundary, show a consequence, or make an abstract rule concrete. Remove stories, conversational prompts, activity instructions, repeated recaps, rhetorical questions, and other teaching scaffolding. Use lists for categories, rules, steps, and contrasts.
 
 For reports, manuals, and specifications, set the length from the number and complexity of material content units. Do not apply the book target to a document that is concise by design.
 
@@ -64,7 +64,7 @@ Preserve exact values, units, dates, names, requirements, and limitations when t
 
 Use paragraphs and lists that remain readable in a plain Markdown viewer. Use a table only for compact comparisons or mappings. A table must have clear headers, no more than three columns, short cells, and no wrapped prose. Replace an unreadable table with headings and lists. Cite source pages only when the user asks for citations.
 
-Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Do not shorten an explanation to make the document brief. For an instructional book, compare the draft length with the book target before delivery. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
+Remove duplicate, decorative, and non-material text. Keep the important detail from every material content unit in every chapter. Finish only when the notes let a reader follow each chapter's reasoning without the PDF. If the user asks for both extreme brevity and full detail, retain every material point and say that complete coverage requires a longer summary.
 
 ## Check before delivery
 
