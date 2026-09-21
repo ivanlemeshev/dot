@@ -1,4 +1,4 @@
 interface:
   display_name: "Lem PDF Summary"
-  short_description: "Summarize large PDFs with material coverage"
-  default_prompt: "Use $lem-pdf-summary to create a short, clear summary of this PDF without losing material content."
+  short_description: "Create concise, source-structured PDF notes"
+  default_prompt: "Use $lem-pdf-summary to create concise, content-dense Markdown notes from this PDF. Keep every material source subheading. Use bold key terms, italic labels, lists, compact tables, and ASCII diagrams where they clarify the content. Remove teaching fluff and do not add page references."
