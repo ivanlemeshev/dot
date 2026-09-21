@@ -15,7 +15,7 @@ ITALIC = re.compile(r"(?<!\*)\*[^*\r\n]+\*(?!\*)|(?<!_)_[^_\r\n]+_(?!_)")
 LIST_ITEM = re.compile(r"(?m)^(?:[-*]|\d+\.)\s+")
 TABLE = re.compile(r"(?m)^\|.*\|\r?\n\|[ :|-]+\|")
 FENCED_BLOCK = re.compile(r"(?ms)^```[^\r\n]*\r?\n(.*?)^```")
-DIAGRAM = re.compile(r"-->|->|=>|\+-|\|", re.MULTILINE)
+DIAGRAM = re.compile(r"--!?>|->|=>|\+-|\|", re.MULTILINE)
 
 
 def item_title(item: object) -> str:
