@@ -2,7 +2,7 @@
 ---
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 
-local large_file_max_size = 2 * 1024 * 1024
+local large_file_max_size = 50 * 1024 * 1024
 
 --- Return file size in bytes.
 ---@param path string File path
