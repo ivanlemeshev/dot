@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "english-dictionary",
-  "version": "1.0.0",
-  "description": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/BrE, формы и примеры.",
+  "version": "1.0.1",
+  "description": "Англо-русский словарь для слов и устойчивых выражений.",
   "author": {
     "name": "Ivan Lemeshev"
   },
@@ -10,16 +10,19 @@
     "com.openai": {
       "interface": {
         "displayName": "English Dictionary",
-        "shortDescription": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/Br…",
-        "longDescription": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/BrE, формы и примеры.",
+        "shortDescription": "Слова, формы и выражения",
+        "longDescription": "Разбирает английские слова, словоформы и устойчивые выражения на русском языке.",
         "developerName": "Ivan Lemeshev",
         "category": "Productivity",
         "capabilities": [
           "Interactive"
         ],
-        "composerIcon": "./assets/logo.png",
+        "defaultPrompt": [
+          "Разбери слово get.",
+          "Объясни выражение if it weren't for me."
+        ],
         "logo": "./assets/logo.png",
-        "defaultPrompt": []
+        "composerIcon": "./assets/logo.png"
       }
     }
   }

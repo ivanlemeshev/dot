@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "suomi-teacher",
-  "version": "1.0.0",
-  "description": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподаватель финского: исправления, yleiskieli и puhekieli, лексика, грамматика и мини-тренировка. Используй для изучения естественного выражения мыслей и разбора текста.",
+  "version": "1.0.1",
+  "description": "Полный разбор и перевод финских и русских фраз и предложений.",
   "author": {
     "name": "Ivan Lemeshev"
   },
@@ -10,16 +10,19 @@
     "com.openai": {
       "interface": {
         "displayName": "Suomi Teacher",
-        "shortDescription": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподават…",
-        "longDescription": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподаватель финского: исправления, yleiskieli и puhekieli, лексика, грамматика и мини-тренировка. Используй для изучения естественного выражения мыслей и разбора текста.",
+        "shortDescription": "Фразы, предложения и перевод",
+        "longDescription": "Переводит, исправляет и подробно разбирает финские и русские фразы на yleiskieli и puhekieli.",
         "developerName": "Ivan Lemeshev",
         "category": "Productivity",
         "capabilities": [
           "Interactive"
         ],
-        "composerIcon": "./assets/logo.png",
+        "defaultPrompt": [
+          "Как сказать «Я сегодня работаю из дома»?",
+          "Разбери: Mä oon tänään kotona."
+        ],
         "logo": "./assets/logo.png",
-        "defaultPrompt": []
+        "composerIcon": "./assets/logo.png"
       }
     }
   }

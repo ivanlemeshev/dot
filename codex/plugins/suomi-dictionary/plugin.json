@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "suomi-dictionary",
-  "version": "1.0.0",
-  "description": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь: значения по контекстам, частотность каждого значения, IPA, грамматические формы и примеры.",
+  "version": "1.0.1",
+  "description": "Финско-русский словарь для слов, словоформ и выражений.",
   "author": {
     "name": "Ivan Lemeshev"
   },
@@ -10,16 +10,19 @@
     "com.openai": {
       "interface": {
         "displayName": "Suomi Dictionary",
-        "shortDescription": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь…",
-        "longDescription": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь: значения по контекстам, частотность каждого значения, IPA, грамматические формы и примеры.",
+        "shortDescription": "Слова, формы и выражения",
+        "longDescription": "Подробно разбирает финские слова, словоформы и устойчивые выражения.",
         "developerName": "Ivan Lemeshev",
         "category": "Productivity",
         "capabilities": [
           "Interactive"
         ],
-        "composerIcon": "./assets/logo.png",
+        "defaultPrompt": [
+          "Разбери слово pitää.",
+          "Объясни выражение ei se mitään."
+        ],
         "logo": "./assets/logo.png",
-        "defaultPrompt": []
+        "composerIcon": "./assets/logo.png"
       }
     }
   }

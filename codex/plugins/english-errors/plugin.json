@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "english-errors",
-  "version": "1.0.0",
-  "description": "Анализируй повторяющиеся ошибки в английском по текстам, ответам или журналу; проводи короткую целевую практику.",
+  "version": "1.0.1",
+  "description": "Поиск повторяющихся ошибок в английском и целевая практика.",
   "author": {
     "name": "Ivan Lemeshev"
   },
@@ -10,16 +10,18 @@
     "com.openai": {
       "interface": {
         "displayName": "English Errors",
-        "shortDescription": "Анализируй повторяющиеся ошибки в английском по текстам, ответам или журналу; проводи короткую це…",
-        "longDescription": "Анализируй повторяющиеся ошибки в английском по текстам, ответам или журналу; проводи короткую целевую практику.",
+        "shortDescription": "Повторяющиеся ошибки",
+        "longDescription": "Находит закономерности в ошибках и предлагает практику по слабым местам.",
         "developerName": "Ivan Lemeshev",
         "category": "Productivity",
         "capabilities": [
           "Interactive"
         ],
-        "composerIcon": "./assets/logo.png",
+        "defaultPrompt": [
+          "Найди повторяющиеся ошибки в моих фразах: ..."
+        ],
         "logo": "./assets/logo.png",
-        "defaultPrompt": []
+        "composerIcon": "./assets/logo.png"
       }
     }
   }
