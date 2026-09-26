@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-grammar",
+  "version": "1.0.0",
+  "description": "Тренируй одну конструкцию английской грамматики через последовательные упражнения и проверку ответов.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Grammar",
+        "shortDescription": "Тренируй одну конструкцию английской грамматики через последовательные упражнения и проверку отве…",
+        "longDescription": "Тренируй одну конструкцию английской грамматики через последовательные упражнения и проверку ответов.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}

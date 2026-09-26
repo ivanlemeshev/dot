@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-grammar",
+  "version": "1.0.0",
+  "description": "Тренируй активное использование грамматики финского языка через последовательные упражнения. Используй, когда пользователь просит отработать конструкцию, потренироваться по грамматической теме или разобрать собственную ошибку через упражнения.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi Grammar",
+        "shortDescription": "Тренируй активное использование грамматики финского языка через последовательные упражнения. Испо…",
+        "longDescription": "Тренируй активное использование грамматики финского языка через последовательные упражнения. Используй, когда пользователь просит отработать конструкцию, потренироваться по грамматической теме или разобрать собственную ошибку через упражнения.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}

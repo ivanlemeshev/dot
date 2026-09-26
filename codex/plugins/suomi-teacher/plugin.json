@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-teacher",
+  "version": "1.0.0",
+  "description": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподаватель финского: исправления, yleiskieli и puhekieli, лексика, грамматика и мини-тренировка. Используй для изучения естественного выражения мыслей и разбора текста.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi Teacher",
+        "shortDescription": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподават…",
+        "longDescription": "Переводи и подробно разбирай русские и финские фразы, предложения и диалоги как личный преподаватель финского: исправления, yleiskieli и puhekieli, лексика, грамматика и мини-тренировка. Используй для изучения естественного выражения мыслей и разбора текста.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-dictionary",
+  "version": "1.0.0",
+  "description": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/BrE, формы и примеры.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Dictionary",
+        "shortDescription": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/Br…",
+        "longDescription": "Разбирай английские слова, словоформы и выражения как англо-русский словарь: значения, IPA AmE/BrE, формы и примеры.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}

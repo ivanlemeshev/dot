@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-dictionary",
+  "version": "1.0.0",
+  "description": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь: значения по контекстам, частотность каждого значения, IPA, грамматические формы и примеры.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi Dictionary",
+        "shortDescription": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь…",
+        "longDescription": "Объясняй финские слова, словоформы и выражения на русском языке как полный финско-русский словарь: значения по контекстам, частотность каждого значения, IPA, грамматические формы и примеры.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}

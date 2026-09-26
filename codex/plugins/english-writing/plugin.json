@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-writing",
+  "version": "1.0.0",
+  "description": "Проверяй и улучшай письменные английские тексты, сохраняя смысл и стиль; отделяй ошибки от стилистических улучшений.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Writing",
+        "shortDescription": "Проверяй и улучшай письменные английские тексты, сохраняя смысл и стиль; отделяй ошибки от стилис…",
+        "longDescription": "Проверяй и улучшай письменные английские тексты, сохраняя смысл и стиль; отделяй ошибки от стилистических улучшений.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
+        "defaultPrompt": []
+      }
+    }
+  }
+}
