@@ -60,3 +60,11 @@ setup() {
   grep -q 'volume inspect' "$PROJECT_ROOT/tests/container/run.sh"
   grep -q 'CONTAINER_INSTALL_CACHE' "$PROJECT_ROOT/tests/container/run.sh"
 }
+
+@test "container test stops a named container on interrupt" {
+  run_script="$PROJECT_ROOT/tests/container/run.sh"
+
+  grep -q 'trap stop_test_container INT TERM' "$run_script"
+  grep -q -- '--name "$container_name"' "$run_script"
+  grep -q '"\$engine" kill "$container_name"' "$run_script"
+}

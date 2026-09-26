@@ -54,6 +54,20 @@ if ! command -v "$engine" >/dev/null 2>&1; then
   exit 2
 fi
 
+container_name=""
+
+stop_test_container() {
+  local status=$?
+
+  trap - INT TERM
+  if [[ -n "$container_name" ]]; then
+    "$engine" kill "$container_name" >/dev/null 2>&1 || true
+  fi
+  exit "$status"
+}
+
+trap stop_test_container INT TERM
+
 for platform in "${platforms[@]}"; do
   image="dotfiles-install-test-$platform"
   cache_args=()
@@ -96,10 +110,14 @@ for platform in "${platforms[@]}"; do
       "$image" \
       /opt/dotfiles/tests/container/interactive.sh "$platform"
   else
-    "$engine" run --rm \
+    container_name="dotfiles-install-test-run-$platform-$$"
+    "$engine" run --rm --name "$container_name" \
       "${environment[@]}" \
       "${cache_args[@]}" \
       "$image" \
-      /opt/dotfiles/tests/container/verify-installation.sh "$platform"
+      /opt/dotfiles/tests/container/verify-installation.sh "$platform" &
+    container_pid=$!
+    wait "$container_pid"
+    container_name=""
   fi
 done
