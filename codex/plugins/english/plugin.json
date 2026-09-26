@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "english",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Помощник по современному английскому языку для русскоязычных.",
   "author": {
     "name": "Ivan Lemeshev"
@@ -10,6 +10,8 @@
     "com.openai": {
       "interface": {
         "displayName": "English",
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png",
         "shortDescription": "Словарь, письмо, грамматика и работа над ошибками.",
         "longDescription": "English объединяет англо-русский словарь, тренера письменной речи, грамматический тренажёр и целевую работу над ошибками с учётом AmE и BrE.",
         "developerName": "Ivan Lemeshev",
