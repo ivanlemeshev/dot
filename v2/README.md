@@ -29,6 +29,10 @@ The command uses Docker when both container engines are installed.
 Set `CONTAINER_ENGINE=podman` to use Podman.
 Exit each shell to continue to the next container.
 
+The bootstrap shows a short banner when its output is a terminal.
+Set `DOTFILES_BANNER=1` to show it without a terminal.
+Set `NO_COLOR=1` to remove its color.
+
 - [Requirements](requirements.md)
 - [Work plan](work-plan.md)
 

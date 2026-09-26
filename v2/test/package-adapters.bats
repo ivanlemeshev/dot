@@ -54,6 +54,15 @@ setup() {
   [ "$(<"$TEST_ROOT/commands")" = $'update\ninstall -y git\nchezmoi apply --force --source '"$(cd "$BATS_TEST_DIRNAME/../home" && pwd)" ]
 }
 
+@test "bootstrap can show its banner without a terminal" {
+  run env DOTFILES_BANNER=1 NO_COLOR=1 PATH="$MOCK_BIN:$PATH" "$BATS_TEST_DIRNAME/../bin/bootstrap"
+
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"> own your shell. shape your system."* ]]
+  [[ "$output" != *".dotfiles v2"* ]]
+  [[ "$output" == *"Preparing your environment..."* ]]
+}
+
 @test "apt adapter uses non-interactive sudo" {
   printf '%s\n' '#!/usr/bin/env bash' 'printf "%s\\n" "$*" >>"$TEST_ROOT/commands"' >"$MOCK_BIN/sudo"
   chmod +x "$MOCK_BIN/sudo"
