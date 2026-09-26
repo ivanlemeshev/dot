@@ -2,7 +2,7 @@
 
 ## Simplified Technical English
 
-Use ASD-STE100 in code comments, `AGENTS.md`, and repo documentation. Write one idea per sentence. Use the simple present tense. Use the active voice.
+Use ASD-STE100 in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
 
 ## Comments
 
@@ -18,6 +18,16 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - `FIXME:` a known defect that remains unfixed.
 - `NOTE:` a reason or risk in the code below.
 - `WARNING:` what breaks if someone changes the code below.
+
+## Dotfiles design
+
+- Evolve the existing setup in place. Keep one implementation.
+- Support Ubuntu 26.04, Fedora KDE Plasma, macOS, and Windows.
+- Start bootstrap with Bash or PowerShell and network access. Install Git when it is absent.
+- Deploy repository configuration through symlinks. Keep machine data in ignored local files. Do not generate managed configuration from machine data.
+- Install each required capability on every supported platform. Keep Caps Lock remapping in the core. Keep optional and desktop-specific behavior in platform extensions.
+- Use a native package when available. Verify every adapter installation.
+- Test Linux changes in containers. Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
 
 ## Git
 
