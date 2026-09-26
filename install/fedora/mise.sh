@@ -27,4 +27,7 @@ fi
 ln -s "$MISE_CONFIG_SOURCE" "$MISE_CONFIG_TARGET"
 "$MISE_BIN" trust "$MISE_CONFIG_TARGET"
 "$MISE_BIN" install
+"$MISE_BIN" install node
+"$MISE_BIN" where node >/dev/null
+"$MISE_BIN" exec -- node --version
 log_info "Linked mise configuration: $MISE_CONFIG_TARGET"

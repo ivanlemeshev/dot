@@ -11,5 +11,5 @@ print_section "Installing tree-sitter CLI"
 
 MISE_BIN="$HOME/.local/bin/mise"
 PATH="$HOME/.local/bin:$PATH" "$MISE_BIN" exec -- \
-  npm install -g tree-sitter-cli
+  npm install -g --allow-scripts=tree-sitter-cli tree-sitter-cli
 log_info "Installed tree-sitter CLI"

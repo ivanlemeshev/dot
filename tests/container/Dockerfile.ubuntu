@@ -1,0 +1,21 @@
+FROM ubuntu:26.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# NOTE: The setup scripts install current package versions.
+# hadolint ignore=DL3008
+RUN apt-get update \
+  && apt-get install --yes --no-install-recommends ca-certificates sudo \
+  && useradd --create-home --shell /bin/bash --uid 10001 tester \
+  && echo 'tester ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/tester \
+  && chmod 0440 /etc/sudoers.d/tester \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY . /opt/dotfiles
+
+RUN mkdir -p /home/tester/.cache/mise /home/tester/.local/share/mise \
+  && chown -R tester:tester /opt/dotfiles /home/tester/.cache /home/tester/.local
+
+USER 10001
+
+WORKDIR /home/tester

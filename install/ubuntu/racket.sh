@@ -9,5 +9,6 @@ source "$PROJECT_ROOT/lib/print.sh"
 
 print_section "Installing Racket packages"
 
-raco pkg install --auto racket-langserver
-raco pkg install --auto sicp
+MISE_BIN="$HOME/.local/bin/mise"
+"$MISE_BIN" exec -- raco pkg install --auto --skip-installed racket-langserver
+"$MISE_BIN" exec -- raco pkg install --auto --skip-installed sicp
