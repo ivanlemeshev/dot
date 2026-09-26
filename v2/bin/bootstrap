@@ -10,62 +10,57 @@ LOCAL_BIN="$HOME/.local/bin"
 
 export PATH="$LOCAL_BIN:$PATH"
 
-install_chezmoi() {
-  if command -v chezmoi >/dev/null 2>&1; then
-    return
-  fi
+main() {
+  local adapter system
+  local -a install_curl
+  system="$(uname -s)"
 
-  case "$(uname -s)" in
-    Darwin) brew install chezmoi ;;
+  case "$system" in
+    Darwin)
+      adapter=brew
+      if ! command -v brew >/dev/null 2>&1; then
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [ -x /opt/homebrew/bin/brew ]; then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [ -x /usr/local/bin/brew ]; then
+          eval "$(/usr/local/bin/brew shellenv)"
+        fi
+      fi
+      ;;
     Linux)
       if command -v apt-get >/dev/null 2>&1; then
-        sudo -n apt-get install -y curl
+        adapter=apt
+        install_curl=(sudo -n apt-get install -y curl)
       elif command -v dnf >/dev/null 2>&1; then
-        sudo -n dnf install -y curl
+        adapter=dnf
+        install_curl=(sudo -n dnf install -y curl)
       elif command -v pacman >/dev/null 2>&1; then
-        sudo -n pacman -S --needed --noconfirm curl
+        adapter=pacman
+        install_curl=(sudo -n pacman -S --needed --noconfirm curl)
       else
         echo "No supported package manager was found." >&2
-        exit 2
+        return 2
       fi
-      mkdir -p "$LOCAL_BIN"
-      sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "$LOCAL_BIN"
       ;;
     *)
-      echo "Unsupported operating system: $(uname -s)" >&2
-      exit 2
+      echo "Unsupported operating system: $system" >&2
+      return 2
       ;;
   esac
+
+  "$V2_DIR/packages/$adapter.sh" "$MANIFEST"
+
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    if [ "$adapter" = brew ]; then
+      brew install chezmoi
+    else
+      "${install_curl[@]}"
+      mkdir -p "$LOCAL_BIN"
+      sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "$LOCAL_BIN"
+    fi
+  fi
+
+  chezmoi apply --force --source "$SOURCE_DIR"
 }
 
-if [ "$(uname -s)" = Darwin ] && ! command -v brew >/dev/null 2>&1; then
-  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [ -x /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [ -x /usr/local/bin/brew ]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
-fi
-
-case "$(uname -s)" in
-  Darwin) "$V2_DIR/packages/brew.sh" "$MANIFEST" ;;
-  Linux)
-    if command -v apt-get >/dev/null 2>&1; then
-      "$V2_DIR/packages/apt.sh" "$MANIFEST"
-    elif command -v dnf >/dev/null 2>&1; then
-      "$V2_DIR/packages/dnf.sh" "$MANIFEST"
-    elif command -v pacman >/dev/null 2>&1; then
-      "$V2_DIR/packages/pacman.sh" "$MANIFEST"
-    else
-      echo "No supported package manager was found." >&2
-      exit 2
-    fi
-    ;;
-  *)
-    echo "Unsupported operating system: $(uname -s)" >&2
-    exit 2
-    ;;
-esac
-
-install_chezmoi
-chezmoi apply --force --source "$SOURCE_DIR"
+main "$@"
