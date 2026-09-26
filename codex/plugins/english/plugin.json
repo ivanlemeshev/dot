@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english",
+  "version": "1.0.0",
+  "description": "Помощник по современному английскому языку для русскоязычных.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English",
+        "shortDescription": "Словарь, письмо, грамматика и работа над ошибками.",
+        "longDescription": "English объединяет англо-русский словарь, тренера письменной речи, грамматический тренажёр и целевую работу над ошибками с учётом AmE и BrE.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Разбери слово get: значения, произношение и примеры.",
+          "Помоги исправить мой текст, сохранив смысл и стиль.",
+          "Давай потренируем Present Perfect и Past Simple."
+        ]
+      }
+    }
+  }
+}
