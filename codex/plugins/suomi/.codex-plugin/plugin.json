@@ -1,0 +1,19 @@
+{
+  "name": "suomi",
+  "version": "0.1.0",
+  "description": "Помощник по изучению современного финского языка для русскоязычных.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Suomi",
+    "shortDescription": "Помощник по финскому языку для русскоязычных.",
+    "longDescription": "Suomi объединяет навыки для изучения современного финского языка для русскоязычных.",
+    "developerName": "Ivan Lemeshev",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "brandColor": "#003580",
+    "defaultPrompt": []
+  }
+}
