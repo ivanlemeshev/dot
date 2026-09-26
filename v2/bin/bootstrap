@@ -6,6 +6,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 V2_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 MANIFEST="$V2_DIR/packages/common.txt"
 SOURCE_DIR="$V2_DIR/home"
+LOCAL_BIN="$HOME/.local/bin"
+
+export PATH="$LOCAL_BIN:$PATH"
 
 install_chezmoi() {
   if command -v chezmoi >/dev/null 2>&1; then
@@ -16,15 +19,17 @@ install_chezmoi() {
     Darwin) brew install chezmoi ;;
     Linux)
       if command -v apt-get >/dev/null 2>&1; then
-        sudo -n apt-get install -y chezmoi
+        sudo -n apt-get install -y curl
       elif command -v dnf >/dev/null 2>&1; then
-        sudo -n dnf install -y chezmoi
+        sudo -n dnf install -y curl
       elif command -v pacman >/dev/null 2>&1; then
-        sudo -n pacman -S --needed --noconfirm chezmoi
+        sudo -n pacman -S --needed --noconfirm curl
       else
         echo "No supported package manager was found." >&2
         exit 2
       fi
+      mkdir -p "$LOCAL_BIN"
+      sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "$LOCAL_BIN"
       ;;
     *)
       echo "Unsupported operating system: $(uname -s)" >&2

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+V2_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+PROJECT_ROOT="$(cd "$V2_DIR/.." && pwd)"
+
+if [ -n "${CONTAINER_ENGINE:-}" ]; then
+  engine="$CONTAINER_ENGINE"
+elif command -v docker >/dev/null 2>&1; then
+  engine=docker
+elif command -v podman >/dev/null 2>&1; then
+  engine=podman
+else
+  echo "Docker or Podman is required." >&2
+  exit 2
+fi
+
+for platform in ubuntu fedora arch; do
+  image="dot-v2-test-$platform"
+  "$engine" build --tag "$image" --file "$V2_DIR/test/$platform/Dockerfile" "$PROJECT_ROOT"
+  "$engine" run --rm "$image" /opt/v2/test/run.sh
+done

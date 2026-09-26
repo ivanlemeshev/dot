@@ -16,12 +16,12 @@ the generic Git configuration.
 
 ## Phase 2: Linux container verification
 
-- [ ] Add an Ubuntu 26.04 container test.
-- [ ] Add a Fedora container test.
-- [ ] Add an Arch container test.
-- [ ] Check package installation and Chezmoi apply.
-- [ ] Check rendered files and installed commands.
-- [ ] Run each test twice to check idempotence.
+- [x] Add an Ubuntu 26.04 container test.
+- [x] Add a Fedora container test.
+- [x] Add an Arch container test.
+- [x] Check package installation and Chezmoi apply.
+- [x] Check rendered files and installed commands.
+- [x] Run each test twice to check idempotence.
 
 Completion check: the three container tests pass from `v2/bin/test`.
 
