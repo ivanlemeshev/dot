@@ -10,6 +10,23 @@ unit-test:
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh
 	@find bin -type f ! -name "*.ps1" -exec shellcheck {} +
+	@shellcheck tests/container/*.sh
+
+.PHONY: container-install-test
+container-install-test:
+	@./tests/container/run.sh
+
+.PHONY: container-install-shell
+container-install-shell:
+	@./tests/container/run.sh --interactive "$(PLATFORM)"
+
+.PHONY: container-install-shell-ubuntu
+container-install-shell-ubuntu:
+	@./tests/container/run.sh --interactive "ubuntu"
+
+.PHONY: container-install-shell-fedora-kde
+container-install-shell-fedora-kde:
+	@./tests/container/run.sh --interactive "fedora-kde"
 
 .PHONY: build-sandbox
 build-sandbox:

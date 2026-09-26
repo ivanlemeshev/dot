@@ -11,6 +11,10 @@ if [[ -f "$PROJECT_ROOT/config.env" ]]; then
   source "$PROJECT_ROOT/config.env"
 fi
 
+is_container() {
+  [[ -f /.dockerenv || -f /run/.containerenv ]]
+}
+
 print_section "Installing essential packages"
 
 packages=(
@@ -114,7 +118,11 @@ if [[ -n "${MACHINE_NAME:-}" ]]; then
     log_error "Invalid machine name: $MACHINE_NAME"
     exit 1
   fi
-  sudo hostnamectl set-hostname "$MACHINE_NAME"
+  if is_container; then
+    log_info "Machine name stays unchanged in container"
+  else
+    sudo hostnamectl set-hostname "$MACHINE_NAME"
+  fi
 fi
 
 if [[ -n "${TIMEZONE:-}" ]]; then
@@ -122,5 +130,9 @@ if [[ -n "${TIMEZONE:-}" ]]; then
     log_error "Unknown timezone: $TIMEZONE"
     exit 1
   fi
-  sudo timedatectl set-timezone "$TIMEZONE"
+  if is_container; then
+    log_info "Timezone stays unchanged in container"
+  else
+    sudo timedatectl set-timezone "$TIMEZONE"
+  fi
 fi
