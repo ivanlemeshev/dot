@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "suomi",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Помощник по изучению современного финского языка для русскоязычных.",
   "author": {
     "name": "Ivan Lemeshev"
