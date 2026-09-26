@@ -69,6 +69,7 @@ v2/
 `bin/bootstrap` bootstraps macOS and Linux.
 `bin/bootstrap.ps1` bootstraps Windows.
 `bin/test` runs the Linux container suite.
+`bin/test --interactive` runs the checks and opens a shell in each selected container.
 
 Bootstrap installs Chezmoi when it is absent.
 It installs required host package prerequisites.
@@ -80,7 +81,7 @@ On Windows, bootstrap reports how to install `winget` when absent.
 
 ## Verification
 
-Docker tests Ubuntu, Fedora, and Arch.
+Docker or Podman tests Ubuntu, Fedora, and Arch.
 Each test uses a fresh non-root home directory.
 Each test installs the selected native packages.
 Each test applies Chezmoi state.

@@ -7,6 +7,28 @@ It does not configure desktop UI in the first version.
 Chezmoi manages user files.
 Native package managers install packages.
 
+Run the automated Linux container checks:
+
+```sh
+v2/bin/test
+```
+
+Run the checks and open a shell in each container:
+
+```sh
+v2/bin/test --interactive
+```
+
+Add one or more platform names to inspect only these containers:
+
+```sh
+v2/bin/test --interactive ubuntu fedora
+```
+
+The command uses Docker when both container engines are installed.
+Set `CONTAINER_ENGINE=podman` to use Podman.
+Exit each shell to continue to the next container.
+
 - [Requirements](requirements.md)
 - [Work plan](work-plan.md)
 

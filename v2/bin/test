@@ -6,6 +6,36 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 V2_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECT_ROOT="$(cd "$V2_DIR/.." && pwd)"
 
+usage() {
+  echo "Usage: $0 [--interactive [ubuntu|fedora|arch]...]"
+}
+
+mode=automated
+platforms=(ubuntu fedora arch)
+
+if [ "${1:-}" = "--interactive" ]; then
+  mode=interactive
+  shift
+
+  if [ "$#" -gt 0 ]; then
+    platforms=("$@")
+  fi
+elif [ "$#" -gt 0 ]; then
+  usage >&2
+  exit 2
+fi
+
+for platform in "${platforms[@]}"; do
+  case "$platform" in
+    ubuntu | fedora | arch) ;;
+    *)
+      echo "Unsupported platform: $platform" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+
 if [ -n "${CONTAINER_ENGINE:-}" ]; then
   engine="$CONTAINER_ENGINE"
 elif command -v docker >/dev/null 2>&1; then
@@ -17,8 +47,13 @@ else
   exit 2
 fi
 
-for platform in ubuntu fedora arch; do
+for platform in "${platforms[@]}"; do
   image="dot-v2-test-$platform"
   "$engine" build --tag "$image" --file "$V2_DIR/test/$platform/Dockerfile" "$PROJECT_ROOT"
-  "$engine" run --rm "$image" /opt/v2/test/run.sh
+
+  if [ "$mode" = interactive ]; then
+    "$engine" run --rm --interactive --tty "$image" /opt/v2/test/interactive.sh
+  else
+    "$engine" run --rm "$image" /opt/v2/test/run.sh
+  fi
 done
