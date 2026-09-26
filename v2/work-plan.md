@@ -2,26 +2,26 @@
 
 ## Phase 1: Foundation
 
-- [ ] Create the V2 directory layout.
-- [ ] Add `packages/common.txt` with `git`.
-- [ ] Add `apt`, `dnf`, and `pacman` package adapters.
-- [ ] Add the Homebrew package adapter and prerequisite check.
-- [ ] Add the `winget` package adapter and prerequisite check.
-- [ ] Add `bin/bootstrap` and `bin/bootstrap.ps1`.
-- [ ] Make both bootstrap commands non-interactive for tests.
-- [ ] Add Chezmoi source state for a generic Git configuration without identity data.
+- [x] Create the V2 directory layout.
+- [x] Add `packages/common.txt` with `git`.
+- [x] Add `apt`, `dnf`, and `pacman` package adapters.
+- [x] Add the Homebrew package adapter and prerequisite check.
+- [x] Add the `winget` package adapter and prerequisite check.
+- [x] Add `bin/bootstrap` and `bin/bootstrap.ps1`.
+- [x] Make both bootstrap commands non-interactive for tests.
+- [x] Add Chezmoi source state for a generic Git configuration without identity data.
 
 Completion check: each bootstrap command can install Chezmoi and Git, then apply
 the generic Git configuration.
 
 ## Phase 2: Linux container verification
 
-- [ ] Add an Ubuntu 26.04 container test.
-- [ ] Add a Fedora container test.
-- [ ] Add an Arch container test.
-- [ ] Check package installation and Chezmoi apply.
-- [ ] Check rendered files and installed commands.
-- [ ] Run each test twice to check idempotence.
+- [x] Add an Ubuntu 26.04 container test.
+- [x] Add a Fedora container test.
+- [x] Add an Arch container test.
+- [x] Check package installation and Chezmoi apply.
+- [x] Check rendered files and installed commands.
+- [x] Run each test twice to check idempotence.
 
 Completion check: the three container tests pass from `v2/bin/test`.
 

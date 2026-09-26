@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+V2_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+MANIFEST="$V2_DIR/packages/common.txt"
+SOURCE_DIR="$V2_DIR/home"
+LOCAL_BIN="$HOME/.local/bin"
+
+export PATH="$LOCAL_BIN:$PATH"
+
+show_banner() {
+  if [ "${DOTFILES_BANNER:-}" != 1 ] && [ ! -t 1 ]; then
+    return
+  fi
+
+  local can_reveal=0 column cursor_up="" frame green="" hide_cursor=""
+  local line line_index reset="" show_cursor="" terminal_width="" width=0
+  local -a logo=(
+    '          _       _    __ _ _'
+    '       __| | ___ | |_ / _(_) | ___  ___'
+    '      / _` |/ _ \| __| |_| | |/ _ \/ __|'
+    "     | (_| | (_) | |_|  _| | |  __/\\__ \\"
+    '    . \__,_|\___/ \__|_| |_|_|\___||___/'
+    ''
+    '    > own your shell. shape your system.'
+  )
+  local -a spinner=('|' '/' '-' "\\")
+
+  if [ -z "${NO_COLOR:-}" ]; then
+    if command -v tput >/dev/null 2>&1; then
+      green="$(tput setaf 2 2>/dev/null || true)"
+      reset="$(tput sgr0 2>/dev/null || true)"
+    fi
+    green="${green:-$'\033[32m'}"
+    reset="${reset:-$'\033[0m'}"
+  fi
+
+  for line in "${logo[@]}"; do
+    if [ "${#line}" -gt "$width" ]; then
+      width="${#line}"
+    fi
+  done
+
+  if [ -t 1 ] && [ "${TERM:-}" != dumb ] && command -v tput >/dev/null 2>&1; then
+    terminal_width="$(tput cols 2>/dev/null || true)"
+    case "$terminal_width" in
+      '' | *[!0-9]*) ;;
+      *)
+        if [ "$terminal_width" -lt "$width" ]; then
+          logo=('.dotfiles' '> own your shell.')
+          width="${#logo[1]}"
+        fi
+        ;;
+    esac
+
+    cursor_up="$(tput cuu "${#logo[@]}" 2>/dev/null || true)"
+    hide_cursor="$(tput civis 2>/dev/null || true)"
+    show_cursor="$(tput cnorm 2>/dev/null || true)"
+    if [ -n "$cursor_up" ]; then
+      can_reveal=1
+    fi
+  fi
+
+  printf '\n'
+
+  if [ "$can_reveal" -eq 1 ]; then
+    trap 'printf "%s" "$show_cursor"' EXIT
+    trap 'printf "%s" "$show_cursor"; exit 130' HUP INT TERM
+    printf '%s' "$hide_cursor"
+
+    for ((column = 1; column <= width; column++)); do
+      for line_index in "${!logo[@]}"; do
+        printf '%s%s%s\n' "$green" "${logo[$line_index]:0:$column}" "$reset"
+      done
+      sleep 0.06
+      if [ "$column" -lt "$width" ]; then
+        printf '%s' "$cursor_up"
+      fi
+    done
+
+    sleep 0.5
+    printf '%s' "$show_cursor"
+    trap - EXIT HUP INT TERM
+    printf '\n%sPreparing your environment...%s\n\n' "$green" "$reset"
+  else
+    for line in "${logo[@]}"; do
+      printf '%s%s%s\n' "$green" "$line" "$reset"
+    done
+    printf '\n'
+  fi
+
+  if [ "$can_reveal" -eq 0 ] && [ -t 1 ] && [ "${TERM:-}" != dumb ]; then
+    for frame in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+      printf '\r%s[%s] Preparing your environment...%s' \
+        "$green" "${spinner[$((frame % ${#spinner[@]}))]}" "$reset"
+      sleep 0.2
+    done
+    printf '\r%s[+] Preparing your environment...%s\n\n' "$green" "$reset"
+  elif [ "$can_reveal" -eq 0 ]; then
+    printf '%sPreparing your environment...%s\n\n' "$green" "$reset"
+  fi
+}
+
+main() {
+  local adapter system
+  local -a install_curl
+
+  show_banner
+  system="$(uname -s)"
+
+  case "$system" in
+    Darwin)
+      adapter=brew
+      if ! command -v brew >/dev/null 2>&1; then
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [ -x /opt/homebrew/bin/brew ]; then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [ -x /usr/local/bin/brew ]; then
+          eval "$(/usr/local/bin/brew shellenv)"
+        fi
+      fi
+      ;;
+    Linux)
+      if command -v apt-get >/dev/null 2>&1; then
+        adapter=apt
+        install_curl=(sudo -n apt-get install -y curl)
+      elif command -v dnf >/dev/null 2>&1; then
+        adapter=dnf
+        install_curl=(sudo -n dnf install -y curl)
+      elif command -v pacman >/dev/null 2>&1; then
+        adapter=pacman
+        install_curl=(sudo -n pacman -S --needed --noconfirm curl)
+      else
+        echo "No supported package manager was found." >&2
+        return 2
+      fi
+      ;;
+    *)
+      echo "Unsupported operating system: $system" >&2
+      return 2
+      ;;
+  esac
+
+  "$V2_DIR/packages/$adapter.sh" "$MANIFEST"
+
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    if [ "$adapter" = brew ]; then
+      brew install chezmoi
+    else
+      "${install_curl[@]}"
+      mkdir -p "$LOCAL_BIN"
+      sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "$LOCAL_BIN"
+    fi
+  fi
+
+  chezmoi apply --force --source "$SOURCE_DIR"
+}
+
+main "$@"

@@ -1,0 +1,14 @@
+FROM fedora:latest
+
+RUN dnf install -y sudo \
+  && useradd --create-home tester \
+  && echo 'tester ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/tester \
+  && chmod 0440 /etc/sudoers.d/tester \
+  && dnf clean all
+
+COPY v2 /opt/v2
+
+RUN chmod +x /opt/v2/bin/bootstrap /opt/v2/bin/test /opt/v2/packages/*.sh /opt/v2/test/*.sh
+
+USER tester
+WORKDIR /home/tester
