@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-dictionary",
+  "version": "1.0.1",
+  "description": "Финско-русский словарь для слов, словоформ и выражений.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi Dictionary",
+        "shortDescription": "Слова, формы и выражения",
+        "longDescription": "Подробно разбирает финские слова, словоформы и устойчивые выражения.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Разбери слово pitää.",
+          "Объясни выражение ei se mitään."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

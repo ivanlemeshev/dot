@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-dictionary",
+  "version": "1.0.1",
+  "description": "Англо-русский словарь для слов и устойчивых выражений.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Dictionary",
+        "shortDescription": "Слова, формы и выражения",
+        "longDescription": "Разбирает английские слова, словоформы и устойчивые выражения на русском языке.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Разбери слово get.",
+          "Объясни выражение if it weren't for me."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

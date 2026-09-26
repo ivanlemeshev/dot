@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-errors",
+  "version": "1.0.1",
+  "description": "Поиск повторяющихся ошибок в английском и целевая практика.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Errors",
+        "shortDescription": "Повторяющиеся ошибки",
+        "longDescription": "Находит закономерности в ошибках и предлагает практику по слабым местам.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Найди повторяющиеся ошибки в моих фразах: ..."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

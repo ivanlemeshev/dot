@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-teacher",
+  "version": "1.0.1",
+  "description": "Полный разбор и перевод финских и русских фраз и предложений.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi Teacher",
+        "shortDescription": "Фразы, предложения и перевод",
+        "longDescription": "Переводит, исправляет и подробно разбирает финские и русские фразы на yleiskieli и puhekieli.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Как сказать «Я сегодня работаю из дома»?",
+          "Разбери: Mä oon tänään kotona."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

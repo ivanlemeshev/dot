@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-grammar",
+  "version": "1.0.1",
+  "description": "Пошаговая практика английской грамматики.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Grammar",
+        "shortDescription": "Тренировка грамматики",
+        "longDescription": "Объясняет одну конструкцию и тренирует её через короткие упражнения.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Потренируем вопросы с was и were.",
+          "Объясни и потренируй Present Perfect."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}
