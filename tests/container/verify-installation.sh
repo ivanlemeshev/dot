@@ -27,7 +27,11 @@ verify_installation() {
   mise exec -- node --version
   mise exec -- racket --version
   mise exec -- tree-sitter --version
-  [[ -x /opt/nvim-linux-x86_64/bin/nvim ]]
+  if [[ "$platform" == "ubuntu" ]]; then
+    [[ -x /opt/nvim-linux-x86_64/bin/nvim ]]
+  else
+    command -v nvim
+  fi
 
   assert_link "$HOME/.vimrc" "$repository/.config/vim/.vimrc"
   assert_link "$HOME/.config/nvim" "$repository/.config/nvim"
