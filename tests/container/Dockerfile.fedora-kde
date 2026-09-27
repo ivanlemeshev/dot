@@ -2,7 +2,7 @@
 # hadolint ignore=DL3007
 FROM fedora:latest
 
-# NOTE: The setup scripts install current package versions.
+# NOTE: The bootstrap scripts install current package versions.
 # hadolint ignore=DL3041
 RUN dnf install --assumeyes sudo plasma-workspace \
   && useradd --create-home --shell /bin/bash --uid 10001 tester \
