@@ -5,20 +5,22 @@
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
 ```bash
-   ____   ___ _____ _____ ___ _     _____ ____
-  |  _ \ / _ \_   _|  ___|_ _| |   | ____/ ___|
-  | | | | | | || | | |_   | || |   |  _| \___ \
- _| |_| | |_| || | |  _|  | || |___| |___ ___) |
-(_)____/ \___/ |_| |_|   |___|_____|_____|____/
+          _       _    __ _ _
+       __| | ___ | |_ / _(_) | ___  ___
+      / _` |/ _ \| __| |_| | |/ _ \/ __|
+     | (_| | (_) | |_|  _| | |  __/\__ \\
+    . \__,_|\___/ \__|_| |_|_|\___||___/
+
+    > own your shell. shape your system.
 ```
 
-This repository contains my personal dotfiles and setup scripts. It includes configurations for Neovim, Zsh, and various tools.
+This repository contains my personal dotfiles and bootstrap scripts. It includes configurations for Neovim, Zsh, and various tools.
 
 <!-- prettier-ignore -->
 > [!WARNING]
 > Review code before running. Use at your own risk.
 
-## Setup
+## Bootstrap
 
 ```bash
 # Clone repo
@@ -29,8 +31,8 @@ cd ~/dotfiles
 cp config.env.example config.env
 vim config.env
 
-# Run setup
-./bin/setup
+# Run bootstrap
+./bin/bootstrap
 ```
 
 ### Windows
@@ -40,13 +42,13 @@ Run the PowerShell bootstrap from an elevated PowerShell session. It requests Ad
 ```powershell
 git clone https://github.com/ivanlemeshev/dot $HOME\dotfiles
 Set-Location $HOME\dotfiles
-.\bin\setup.ps1
+.\bin\bootstrap.ps1
 ```
 
 If the execution policy blocks the script, invoke it explicitly:
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\bin\setup.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 ```
 
 The bootstrap uses winget and an internet connection to manage Git, GitHub CLI, PowerShell 7, mise, ripgrep, fd, psmux, and the MSYS2 dependency used for the Windows Lua/LuaRocks toolchain. It also installs Nerd Fonts, configures the PowerShell profile, maps Caps Lock to Left Ctrl, and links this repository's mise, Windows Terminal, and VS Code settings. Existing linked configuration is kept; existing non-linked configuration is backed up with a timestamp.

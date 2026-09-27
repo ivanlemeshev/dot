@@ -15,7 +15,7 @@ assert_link() {
 }
 
 verify_installation() {
-  "$repository/bin/setup" </dev/null
+  "$repository/bin/bootstrap" </dev/null
 
   command -v git
   command -v fish

@@ -2,7 +2,7 @@ FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# NOTE: The setup scripts install current package versions.
+# NOTE: The bootstrap scripts install current package versions.
 # hadolint ignore=DL3008
 RUN apt-get update \
   && apt-get install --yes --no-install-recommends ca-certificates sudo \
