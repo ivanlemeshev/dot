@@ -11,12 +11,16 @@ permissions:
 
 jobs:
   install:
-    name: Test installation containers
+    name: Test installation (${{ matrix.platform }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu, fedora-kde]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
       - name: Test installation
-        run: make container-install-test
+        run: make container-install-test-platform PLATFORM=${{ matrix.platform }}

@@ -16,6 +16,10 @@ lint:
 container-install-test:
 	@./tests/container/run.sh
 
+.PHONY: container-install-test-platform
+container-install-test-platform:
+	@./tests/container/run.sh --platform "$(PLATFORM)"
+
 .PHONY: container-install-shell
 container-install-shell:
 	@./tests/container/run.sh --interactive "$(PLATFORM)"

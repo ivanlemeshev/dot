@@ -8,12 +8,12 @@ platforms=(ubuntu fedora-kde)
 interactive=false
 
 usage() {
-  echo "Usage: $0 [--interactive PLATFORM]" >&2
+  echo "Usage: $0 [--platform PLATFORM | --interactive PLATFORM]" >&2
   echo "Platforms: ubuntu, fedora-kde" >&2
 }
 
-if [[ "${1:-}" == "--interactive" ]]; then
-  interactive=true
+if [[ "${1:-}" == "--platform" || "${1:-}" == "--interactive" ]]; then
+  mode="$1"
   shift
 
   if [[ "$#" -ne 1 ]]; then
@@ -22,6 +22,9 @@ if [[ "${1:-}" == "--interactive" ]]; then
   fi
 
   platforms=("$1")
+  if [[ "$mode" == "--interactive" ]]; then
+    interactive=true
+  fi
 elif [[ "$#" -ne 0 ]]; then
   usage
   exit 2
