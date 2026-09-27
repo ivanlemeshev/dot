@@ -1,0 +1,26 @@
+name: Container installation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: Test installation (${{ matrix.platform }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu, fedora-kde]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Test installation
+        run: make container-install-test-platform PLATFORM=${{ matrix.platform }}

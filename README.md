@@ -53,6 +53,22 @@ The bootstrap uses winget and an internet connection to manage Git, GitHub CLI, 
 
 Restart Windows if the bootstrap reports that the Caps Lock mapping changed.
 
+## Test installation
+
+```bash
+make container-install-test
+```
+
+The test uses Docker when it is available. The test uses Podman otherwise. The test checks Ubuntu 26.04 and Fedora with KDE Plasma.
+The test caches mise downloads and installed tools in per-platform volumes. Set `CONTAINER_INSTALL_CACHE=0` for a clean run.
+
+Use an interactive shell after the checks finish:
+
+```bash
+make container-install-shell PLATFORM=ubuntu
+make container-install-shell PLATFORM=fedora-kde
+```
+
 ## Post-install
 
 ```bash
