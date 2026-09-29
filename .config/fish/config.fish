@@ -11,6 +11,9 @@ set -gx EDITOR nvim
 # Add bat theme
 set -x BAT_THEME custom
 
+# Set XDG_CONFIG_HOME to ~/.config for applications that respect it
+set -x XDG_CONFIG_HOME $HOME/.config
+
 # Enable true color support
 set -gx fish_term24bit 1
 
