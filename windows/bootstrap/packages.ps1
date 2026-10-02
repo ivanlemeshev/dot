@@ -1,0 +1,9 @@
+Write-Host "Checking Windows packages..."
+
+Install-WingetPackage "Git.Git" "Git"
+Install-WingetPackage "GitHub.cli" "GitHub CLI"
+Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
+Install-WingetPackage "jdx.mise" "mise"
+Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
+Install-WingetPackage "sharkdp.fd" "fd"
+Install-WingetPackage "marlocarlo.psmux" "psmux"

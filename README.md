@@ -37,21 +37,13 @@ vim config.env
 
 ### Windows
 
-Run the PowerShell bootstrap from an elevated PowerShell session. It requests Administrator approval itself when needed:
-
-```powershell
-git clone https://github.com/ivanlemeshev/dot $HOME\dotfiles
-Set-Location $HOME\dotfiles
-.\bin\bootstrap.ps1
-```
+Clone this repository to `$HOME\dotfiles`. Copy `config.env.example` to `config.env`, then set your Git name, email, and default branch in `config.env`. Run `bin/bootstrap.ps1` from the repository folder in an elevated PowerShell session. The script requests Administrator approval itself when needed.
 
 If the execution policy blocks the script, invoke it explicitly:
 
 ```powershell
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 ```
-
-The bootstrap uses winget and an internet connection to manage Git, GitHub CLI, PowerShell 7, mise, ripgrep, fd, psmux, and the MSYS2 dependency used for the Windows Lua/LuaRocks toolchain. It also installs Nerd Fonts, configures the PowerShell profile, maps Caps Lock to Left Ctrl, and links this repository's mise, Windows Terminal, and VS Code settings. Existing linked configuration is kept; existing non-linked configuration is backed up with a timestamp.
 
 Restart Windows if the bootstrap reports that the Caps Lock mapping changed.
 
