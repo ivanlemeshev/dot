@@ -1,58 +1,58 @@
 {
-    "$schema": "https://aka.ms/terminal-profiles-schema",
-    "profiles": {
-        "defaults": {
-            "colorScheme": "Gruvbox Material Dark",
-            "font": {
-                "face": "JetBrainsMonoNL Nerd Font Mono"
-            }
-        }
-    },
-    "schemes": [
-        {
-            "background": "#282828",
-            "black": "#3C3836",
-            "blue": "#7DAEA3",
-            "brightBlack": "#5A524C",
-            "brightBlue": "#7DAEA3",
-            "brightCyan": "#89B482",
-            "brightGreen": "#A9B665",
-            "brightPurple": "#D3869B",
-            "brightRed": "#EA6962",
-            "brightWhite": "#D4BE98",
-            "brightYellow": "#D8A657",
-            "cursorColor": "#D4BE98",
-            "cyan": "#89B482",
-            "foreground": "#D4BE98",
-            "green": "#A9B665",
-            "name": "Gruvbox Material Dark",
-            "purple": "#D3869B",
-            "red": "#EA6962",
-            "selectionBackground": "#5A524C",
-            "white": "#DDC7A1",
-            "yellow": "#D8A657"
-        }
-    ],
-    "themes": [
-        {
-            "name": "Gruvbox Material Dark",
-            "tab": {
-                "background": "#282828FF",
-                "iconStyle": "default",
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "tabRow": {
-                "background": "#1D2021FF",
-                "unfocusedBackground": "#1D2021FF"
-            },
-            "window": {
-                "applicationTheme": "dark",
-                "experimental.rainbowFrame": false,
-                "frame": null,
-                "unfocusedFrame": null,
-                "useMica": false
-            }
-        }
-    ]
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "profiles": {
+    "defaults": {
+      "colorScheme": "Gruvbox Material Dark",
+      "font": {
+        "face": "JetBrainsMonoNL Nerd Font Mono"
+      }
+    }
+  },
+  "schemes": [
+    {
+      "background": "#1D2021",
+      "black": "#1D2021",
+      "blue": "#7DAEA3",
+      "brightBlack": "#7C6F64",
+      "brightBlue": "#7DAEA3",
+      "brightCyan": "#89B482",
+      "brightGreen": "#A9B665",
+      "brightPurple": "#D3869B",
+      "brightRed": "#EA6962",
+      "brightWhite": "#DDC7A1",
+      "brightYellow": "#D8A657",
+      "cursorColor": "#D4BE98",
+      "cyan": "#89B482",
+      "foreground": "#D4BE98",
+      "green": "#A9B665",
+      "name": "Gruvbox Material Dark",
+      "purple": "#D3869B",
+      "red": "#EA6962",
+      "selectionBackground": "#282828",
+      "white": "#D4BE98",
+      "yellow": "#E78A4E"
+    }
+  ],
+  "themes": [
+    {
+      "name": "Gruvbox Material Dark",
+      "tab": {
+        "background": "#1D2021FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#1D2021FF",
+        "unfocusedBackground": "#282828FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
+      }
+    }
+  ]
 }

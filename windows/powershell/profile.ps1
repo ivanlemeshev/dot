@@ -12,8 +12,7 @@ if (Test-Path "C:\msys64\ucrt64\bin") {
 
 if ($PSVersionTable.PSVersion.Major -ge 7) {
     if ($null -ne $PSStyle) {
-        $PSStyle.FileInfo.Directory = $PSStyle.Background.White +
-        $PSStyle.Foreground.Black + $PSStyle.Bold
+        $PSStyle.FileInfo.Directory = $PSStyle.Foreground.Blue + $PSStyle.Bold
     }
 
     $miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue

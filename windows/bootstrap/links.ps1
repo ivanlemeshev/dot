@@ -46,6 +46,47 @@ else {
 
 #endregion
 
+#region Neovim Configuration
+
+$neovimConfigSource = "$repoRoot\windows\neovim"
+$neovimConfigTarget = "$env:LOCALAPPDATA\nvim"
+
+if (-not (Test-Path $neovimConfigSource)) {
+    Write-Warning "Neovim configuration source not found: $neovimConfigSource"
+    Write-Warning "Skipping Neovim configuration."
+}
+elseif (Test-Path $neovimConfigTarget) {
+    $neovimConfigItem = Get-Item $neovimConfigTarget
+    $existing = $neovimConfigItem.Target
+
+    if ($neovimConfigItem.LinkType -eq "SymbolicLink" -and
+        $existing -eq $neovimConfigSource) {
+        Write-Host "Neovim configuration already linked."
+    }
+    elseif ($neovimConfigItem.LinkType -eq "SymbolicLink") {
+        Write-Host "Updating Neovim configuration link..."
+        Remove-Item $neovimConfigTarget -Force
+        New-Item $neovimConfigTarget -ItemType SymbolicLink `
+            -Value $neovimConfigSource | Out-Null
+        Write-Host "Neovim configuration link updated."
+    }
+    else {
+        $backup = "$neovimConfigTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
+        Write-Host "Backing up existing Neovim configuration to $backup"
+        Move-Item $neovimConfigTarget $backup
+        New-Item $neovimConfigTarget -ItemType SymbolicLink `
+            -Value $neovimConfigSource | Out-Null
+        Write-Host "Neovim configuration linked."
+    }
+}
+else {
+    New-Item $neovimConfigTarget -ItemType SymbolicLink `
+        -Value $neovimConfigSource | Out-Null
+    Write-Host "Neovim configuration linked."
+}
+
+#endregion
+
 #region PowerShell Profiles
 
 $powerShellProfileSource = "$repoRoot\windows\powershell\profile.ps1"
