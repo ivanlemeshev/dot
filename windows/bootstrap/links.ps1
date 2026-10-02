@@ -148,8 +148,7 @@ if ($null -eq $termDir) {
     Write-Warning "Windows Terminal not found. Skipping..."
 }
 else {
-    $target = "$termDir\settings.json"
-    $source = "$repoRoot\windows\terminal\settings.json"
+    $source = Join-Path $repoRoot "windows\terminal\settings.json"
 
     if (-not (Test-Path $termDir)) {
         New-Item $termDir -ItemType Directory -Force | Out-Null
@@ -159,34 +158,9 @@ else {
         Write-Warning "Terminal settings source not found: $source"
         Write-Warning "Skipping Windows Terminal settings."
     }
-    elseif (Test-Path $target) {
-        $targetItem = Get-Item $target
-        $existing = $targetItem.Target
-
-        if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $source) {
-            Write-Host "Terminal settings already linked."
-        }
-        elseif ($targetItem.LinkType -eq "SymbolicLink") {
-            Write-Host "Updating Terminal settings link..."
-            Remove-Item $target -Force
-            New-Item $target -ItemType SymbolicLink `
-                -Value $source | Out-Null
-            Write-Host "Terminal settings updated."
-        }
-        else {
-            $backup = "$target.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
-            Write-Host "Backing up existing Terminal settings to $backup"
-            Move-Item $target $backup
-            New-Item $target -ItemType SymbolicLink `
-                -Value $source | Out-Null
-            Write-Host "Terminal settings created."
-        }
-    }
     else {
-        Write-Host "Creating Terminal settings link..."
-        New-Item $target -ItemType SymbolicLink `
-            -Value $source | Out-Null
-        Write-Host "Terminal settings created."
+        Set-WindowsTerminalSettings $termDir $source
+        Write-Host "Windows Terminal settings updated."
     }
 }
 
@@ -280,4 +254,3 @@ else {
 }
 
 #endregion
-

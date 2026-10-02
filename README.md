@@ -37,15 +37,20 @@ vim config.env
 
 ### Windows
 
-Clone this repository to `$HOME\dotfiles`. Copy `config.env.example` to `config.env`, then set your Git name, email, and default branch in `config.env`. Run `bin/bootstrap.ps1` from the repository folder in an elevated PowerShell session. The script requests Administrator approval itself when needed.
-
-If the execution policy blocks the script, invoke it explicitly:
+1. Open PowerShell in the repository folder.
+2. Optional: configure Git settings in `config.env`.
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
+Copy-Item config.env.example config.env
+notepad config.env
 ```
 
-Restart Windows if the bootstrap reports that the Caps Lock mapping changed.
+3. Run the bootstrap. If PowerShell blocks it, use the second command.
+
+```powershell
+.\bin\bootstrap.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
+```
 
 ## Test installation
 

@@ -19,5 +19,5 @@
         "editor.insertSpaces": true,
         "editor.tabSize": 4
     },
-    "workbench.colorTheme": "Tomorrow Night"
+    "workbench.colorTheme": "Catppuccin Mocha"
 }
