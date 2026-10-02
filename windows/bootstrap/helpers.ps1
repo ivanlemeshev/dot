@@ -181,10 +181,10 @@ function Set-WindowsTerminalSettings {
     $localSettings = Join-Path $directory "settings.local.json"
     $sharedSettings = Join-Path $directory "settings.shared.json"
     $shared = Get-Content $sharedSettingsPath -Raw | ConvertFrom-Json
-    $fontFace = $shared.profiles.defaults.font.face
+    $sharedDefaults = $shared.profiles.defaults
 
-    if ([string]::IsNullOrWhiteSpace($fontFace)) {
-        throw "Terminal font face is missing from $sharedSettingsPath"
+    if ($null -eq $sharedDefaults) {
+        throw "Terminal profile defaults are missing from $sharedSettingsPath"
     }
 
     $settings = $null
@@ -241,8 +241,40 @@ function Set-WindowsTerminalSettings {
             -NotePropertyValue @()
     }
 
-    $settings.profiles.defaults.font | Add-Member -Force `
-        -NotePropertyName face -NotePropertyValue $fontFace
+    foreach ($setting in $sharedDefaults.PSObject.Properties) {
+        if ($setting.Name -eq "font") {
+            if ($null -eq $settings.profiles.defaults.font) {
+                $settings.profiles.defaults | Add-Member -Force `
+                    -NotePropertyName font -NotePropertyValue ([pscustomobject]@{})
+            }
+
+            foreach ($fontSetting in $setting.Value.PSObject.Properties) {
+                $settings.profiles.defaults.font | Add-Member -Force `
+                    -NotePropertyName $fontSetting.Name `
+                    -NotePropertyValue $fontSetting.Value
+            }
+        }
+        else {
+            $settings.profiles.defaults | Add-Member -Force `
+                -NotePropertyName $setting.Name -NotePropertyValue $setting.Value
+        }
+    }
+
+    foreach ($scheme in $shared.schemes) {
+        $schemes = @($settings.schemes | Where-Object {
+            $_.name -ne $scheme.name
+        }) + $scheme
+        $settings | Add-Member -Force -NotePropertyName schemes `
+            -NotePropertyValue $schemes
+    }
+
+    foreach ($theme in $shared.themes) {
+        $themes = @($settings.themes | Where-Object {
+            $_.name -ne $theme.name
+        }) + $theme
+        $settings | Add-Member -Force -NotePropertyName themes `
+            -NotePropertyValue $themes
+    }
 
     if ($migrateLocalSettings -and (Test-Path $target)) {
         $backup = "$target.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"

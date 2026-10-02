@@ -11,6 +11,11 @@ if (Test-Path "C:\msys64\ucrt64\bin") {
 }
 
 if ($PSVersionTable.PSVersion.Major -ge 7) {
+    if ($null -ne $PSStyle) {
+        $PSStyle.FileInfo.Directory = $PSStyle.Background.White +
+        $PSStyle.Foreground.Black + $PSStyle.Bold
+    }
+
     $miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue
     if ($null -ne $miseProfileCommand) {
         (& $miseProfileCommand.Source activate pwsh) | Out-String | Invoke-Expression

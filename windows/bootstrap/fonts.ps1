@@ -13,9 +13,7 @@ function Install-NerdFonts {
     }
 
     $fonts = @{
-        "JetBrainsMono"            = "JetBrainsMono"
-        "Iosevka"                  = "Iosevka Nerd Font Mono"
-        "IoskeleyMono-NL-NerdFont" = "IoskeleyMonoNL Nerd Font Mono"
+        "JetBrainsMono" = "JetBrainsMono"
     }
 
     $changed = $false
@@ -36,10 +34,6 @@ function Install-NerdFonts {
 
         $url = "https://github.com/ryanoasis/nerd-fonts/" +
         "releases/latest/download/$fontName.zip"
-        if ($fontName -like "IoskeleyMono-*") {
-            $url = "https://github.com/ahatem/IoskeleyMono/" +
-            "releases/latest/download/$fontName.zip"
-        }
         $zipFile = "$scriptDir\$fontName.zip"
 
         try {

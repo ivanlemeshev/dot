@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "IoskeleyMonoNL Nerd Font Mono, Iosevka Nerd Font Mono, JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
     "editor.fontLigatures": false,
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
@@ -19,5 +19,6 @@
         "editor.insertSpaces": true,
         "editor.tabSize": 4
     },
-    "workbench.colorTheme": "Catppuccin Mocha"
+    "workbench.iconTheme": "gruvbox-material-icon-theme",
+    "workbench.colorTheme": "Gruvbox Material Dark (nv-h)"
 }
