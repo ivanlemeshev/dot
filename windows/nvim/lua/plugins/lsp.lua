@@ -80,6 +80,15 @@ local lsp_config = {
       },
     },
   },
+  powershell_es = {
+    settings = {
+      powershell = {
+        codeFormatting = {
+          Preset = "OTBS",
+        },
+      },
+    },
+  },
   racket_langserver = {
     cmd = { "racket", "-l", "racket-langserver" },
     filetypes = { "racket" },
