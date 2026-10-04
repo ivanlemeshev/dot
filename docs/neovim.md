@@ -1,80 +1,135 @@
 # Neovim
 
-## Default keys
+## Keybindings
+
+*(Default)* means a Neovim or plugin default. *(Custom)* means this setup adds or changes the mapping.
 
 ### Movement
 
-- `h`, `j`, `k`, `l` - Move left, down, up, and right.
-- `w`, `W`, `b`, `B`, `e`, `E` - Move by words or WORDS. Uppercase motions treat spaces as separators.
-- `0`, `^`, `$` - Move to the start, first non-blank, and end of the line.
-- `gg`, `G` - Move to the start and end of the file.
-- `<C-d>`, `<C-u>` - Move down and up by half a screen.
-- `<C-f>`, `<C-b>` - Move down and up by a full screen.
-- `(`, `)` - Move to the previous and next sentence.
-- `{`, `}` - Move to the previous and next paragraph.
+- `h` - Move left. *(Default)*
+- `j` - Move down. *(Default)*
+- `k` - Move up. *(Default)*
+- `l` - Move right. *(Default)*
+- `w` - Move to the start of the next word. *(Default)*
+- `W` - Move to the start of the next WORD. A WORD ends at a space. *(Default)*
+- `b` - Move to the start of the previous word. *(Default)*
+- `B` - Move to the start of the previous WORD. A WORD ends at a space. *(Default)*
+- `e` - Move to the end of the current or next word. *(Default)*
+- `E` - Move to the end of the current or next WORD. A WORD ends at a space. *(Default)*
+- `0` - Move to the start of the line. *(Default)*
+- `^` - Move to the first non-blank character on the line. *(Default)*
+- `$` - Move to the end of the line. *(Default)*
+- `gg` - Move to the start of the file. *(Default)*
+- `G` - Move to the end of the file. *(Default)*
+- `<C-d>` - Scroll down half a screen. *(Default)*
+- `<C-u>` - Scroll up half a screen. *(Default)*
+- `<C-f>` - Scroll forward one screen. *(Default)*
+- `<C-b>` - Scroll backward one screen. *(Default)*
+- `(` - Move to the previous sentence. *(Default)*
+- `)` - Move to the next sentence. *(Default)*
+- `{` - Move to the previous paragraph. *(Default)*
+- `}` - Move to the next paragraph. *(Default)*
 
 ### Editing
 
-- `i`, `a`, `o` - Insert before the cursor, after the cursor, and on a new line below.
-- `I`, `A`, `O` - Insert at the start of the line, at the end of the line, and on a new line above.
-- `x`, `dd`, `yy`, `p`, `P` - Delete a character, delete a line, copy a line, paste after the cursor, and paste before the cursor.
-- `d{motion}`, `c{motion}`, `y{motion}` - Delete, change, or copy text covered by a motion. For example, `dw` deletes to the next word.
-- `di{object}`, `da{object}` - Delete inside or around a text object. For example, `diw` deletes the word under the cursor.
-- `u`, `<C-r>` - Undo and redo.
-- `.` - Repeat the last change.
+- `i` - Insert before the cursor. *(Default)*
+- `a` - Insert after the cursor. *(Default)*
+- `o` - Open a new line below the cursor. *(Default)*
+- `I` - Insert at the start of the line. *(Default)*
+- `A` - Insert at the end of the line. *(Default)*
+- `O` - Open a new line above the cursor. *(Default)*
+- `x` - Delete the character under the cursor. *(Default)*
+- `dd` - Delete the current line. *(Default)*
+- `yy` - Copy the current line. *(Default)*
+- `p` - Paste after the cursor. *(Default)*
+- `P` - Paste before the cursor. *(Default)*
+- `d{motion}` - Delete text covered by a motion. For example, `dw` deletes to the next word. *(Default)*
+- `c{motion}` - Change text covered by a motion. *(Default)*
+- `y{motion}` - Copy text covered by a motion. *(Default)*
+- `di{object}` - Delete inside a text object. For example, `diw` deletes the word under the cursor. *(Default)*
+- `da{object}` - Delete around a text object. For example, `daw` deletes the word and its following space. *(Default)*
+- `u` - Undo the last change. *(Default)*
+- `<C-r>` - Redo the last change. *(Default)*
+- `.` - Repeat the last change. *(Default)*
+
+### Comments
+
+- `gcc` - Toggle the comment on the current line. *(Default)*
+- `gc{motion}` - Toggle comments across the motion. *(Default)*
+- `gc` in visual mode - Toggle comments across the selection. *(Default)*
+- `<leader>c` in normal mode - Run `gcc` to toggle the current line. *(Custom)*
+- `<leader>c` in visual mode - Run `gc` to toggle the selection. *(Custom)*
 
 ### Modes
 
-- `v`, `V`, `<C-v>` - Select characters, lines, or a block.
-- `<Esc>`, `<C-c>` - Return to normal mode.
+- `v` - Select characters. *(Default)*
+- `V` - Select lines. *(Default)*
+- `<C-v>` - Select a block. *(Default)*
+- `<Esc>` - Return to normal mode. *(Default)*
+- `<C-c>` - Return to normal mode. *(Default)*
 
 ### Search
 
-- `/pattern`, `n`, `N` - Search forward, then move to the next and previous match.
-- `?pattern` - Search backward.
-- `*`, `#` - Search forward and backward for the word under the cursor.
-- `f{char}`, `F{char}` - Find the next or previous matching character on the current line.
-- `%` - Move to the matching bracket, parenthesis, or brace.
-- `:noh` - Clear search highlights.
+- `/pattern` - Search forward for a pattern. *(Default)*
+- `n` - Move to the next match. *(Default)*
+- `N` - Move to the previous match. *(Default)*
+- `?pattern` - Search backward for a pattern. *(Default)*
+- `*` - Search forward for the word under the cursor. *(Default)*
+- `#` - Search backward for the word under the cursor. *(Default)*
+- `f{char}` - Find the next matching character on the current line. *(Default)*
+- `F{char}` - Find the previous matching character on the current line. *(Default)*
+- `%` - Move to the matching bracket, parenthesis, or brace. *(Default)*
+- `:noh` - Clear search highlights. *(Default)*
 
 ### Commands
 
-- `:w` - Save the current file.
-- `:q` - Close the current window.
-- `:wq` - Save the current file and close the window.
-- `:q!` - Close the window without saving.
-- `:qa` - Close all windows.
-- `:qa!` - Close all windows without saving.
-- `:s/old/new/g` - Replace text in the current line.
-- `:%s/old/new/g` - Replace text in the whole file.
+- `:w` - Save the current file. *(Default)*
+- `:q` - Close the current window. *(Default)*
+- `:wq` - Save the current file and close the window. *(Default)*
+- `:q!` - Close the window without saving. *(Default)*
+- `:qa` - Close all windows. *(Default)*
+- `:qa!` - Close all windows without saving. *(Default)*
+- `:s/old/new/g` - Replace text in the current line. *(Default)*
+- `:%s/old/new/g` - Replace text in the whole file. *(Default)*
 
 ### Windows
 
-- `<C-w>h`, `<C-w>j`, `<C-w>k`, `<C-w>l` - Move to the left, lower, upper, and right window.
-- `<C-w>s`, `<C-w>v` - Split the window horizontally and vertically.
-- `<C-w>w`, `<C-w>W` - Move to the next and previous window.
-- `<C-w>t`, `<C-w>b` - Move to the top-left and bottom-right window.
-- `<C-w>r`, `<C-w>R` - Rotate windows downwards and upwards.
-- `<C-w>x` - Exchange the current window with the next window.
-- `<C-w>q`, `<C-w>o` - Close the current window and close all other windows.
-- `<C-w>=` - Set windows to equal size.
-- `<C-w>+`, `<C-w>-` - Increase and decrease the current window height.
-- `<C-w><`, `<C-w>>` - Decrease and increase the current window width.
-- `<C-w>_`, `<C-w>|` - Set the current window to maximum height and width.
+- `<C-w>h` - Move to the left window. *(Default)*
+- `<C-w>j` - Move to the lower window. *(Default)*
+- `<C-w>k` - Move to the upper window. *(Default)*
+- `<C-w>l` - Move to the right window. *(Default)*
+- `<C-w>s` - Split the window horizontally. *(Default)*
+- `<C-w>v` - Split the window vertically. *(Default)*
+- `<C-w>w` - Move to the next window. *(Default)*
+- `<C-w>W` - Move to the previous window. *(Default)*
+- `<C-w>t` - Move to the top-left window. *(Default)*
+- `<C-w>b` - Move to the bottom-right window. *(Default)*
+- `<C-w>r` - Rotate windows downwards. *(Default)*
+- `<C-w>R` - Rotate windows upwards. *(Default)*
+- `<C-w>x` - Exchange the current window with the next window. *(Default)*
+- `<C-w>q` - Close the current window. *(Default)*
+- `<C-w>o` - Close all other windows. *(Default)*
+- `<C-w>=` - Set windows to equal size. *(Default)*
+- `<C-w>+` - Increase the current window height. *(Default)*
+- `<C-w>-` - Decrease the current window height. *(Default)*
+- `<C-w><` - Decrease the current window width. *(Default)*
+- `<C-w>>` - Increase the current window width. *(Default)*
+- `<C-w>_` - Set the current window to maximum height. *(Default)*
+- `<C-w>|` - Set the current window to maximum width. *(Default)*
 
 ## General
 
-- `;` - Enter command mode as a shortcut for `:`.
+- `;` - Enter command mode as a shortcut for `:`. *(Custom)*
 
 ## FZF bindings
 
-- `<leader>ff` - Find files by name.
-- `<leader>fb` - Find open buffers.
-- `<leader>fg` - Search text across project files.
-- `<leader>fd` - Find workspace diagnostics.
-- `<leader>fh` - Search help tags.
-- `<leader>fo` - Find recently opened files.
-- `<leader>fw` - Search for the word under the cursor.
-- `<leader>fc` - Search command history.
-- `<leader>fs` - Search search history.
-- `<leader>fr` - Resume the previous search.
+- `<leader>ff` - Find files by name. *(Custom)*
+- `<leader>fb` - Find open buffers. *(Custom)*
+- `<leader>fg` - Search text across project files. *(Custom)*
+- `<leader>fd` - Find workspace diagnostics. *(Custom)*
+- `<leader>fh` - Search help tags. *(Custom)*
+- `<leader>fo` - Find recently opened files. *(Custom)*
+- `<leader>fw` - Search for the word under the cursor. *(Custom)*
+- `<leader>fc` - Search command history. *(Custom)*
+- `<leader>fs` - Search search history. *(Custom)*
+- `<leader>fr` - Resume the previous search. *(Custom)*

@@ -1,18 +1,21 @@
+local helpers = require("config.helpers")
+
 vim.pack.add({
   {
     src = "https://github.com/nvim-tree/nvim-tree.lua",
     name = "nvim-tree.lua",
-    version = "v1.18.0",
+    version = "v1.17.0",
   },
 }, {
-  load = true,
-  confirm = false,
+  load = true, -- Load immediately
+  confirm = false, -- Install without confirmation
 })
 
 require("nvim-tree").setup({
+  filesystem_watchers = { enable = false },
   view = { width = 40 },
   filters = {
-    custom = { "^.git$" },
+    custom = { "^.git$" }, -- Hide .git directory
   },
   renderer = {
     icons = {
@@ -30,20 +33,21 @@ require("nvim-tree").setup({
       },
     },
   },
-  git = { ignore = false },
+  git = { ignore = false }, -- Show git-ignored files
   actions = {
     open_file = {
-      quit_on_open = false,
+      quit_on_open = false, -- Don't close nvim-tree when opening a file
     },
   },
   diagnostics = {
-    enable = true,
+    enable = true, -- Show diagnostics
   },
   update_focused_file = {
-    enable = true,
+    enable = true, -- Update the focused file in the tree
   },
 })
 
+-- Auto-refresh nvim-tree when gaining focus or buffer changes
 local nvim_tree_augroup =
   vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
@@ -55,8 +59,4 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
       api.tree.reload()
     end
   end,
-})
-
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", {
-  desc = "Toggle NvimTree",
 })

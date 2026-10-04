@@ -48,7 +48,7 @@ else {
 
 #region Neovim Configuration
 
-$neovimConfigSource = "$repoRoot\windows\neovim"
+$neovimConfigSource = "$repoRoot\windows\nvim"
 $neovimConfigTarget = "$env:LOCALAPPDATA\nvim"
 
 if (-not (Test-Path $neovimConfigSource)) {

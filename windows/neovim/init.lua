@@ -1,6 +1,0 @@
-require("config.options")
-require("config.theme")
-require("config.keymaps")
-require("plugins.which_key")
-require("plugins.fzf")
-require("plugins.explorer")
