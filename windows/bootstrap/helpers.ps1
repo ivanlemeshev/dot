@@ -276,6 +276,16 @@ function Set-WindowsTerminalSettings {
             -NotePropertyValue $themes
     }
 
+    foreach ($keybinding in $shared.keybindings) {
+        $keybindingKeys = ConvertTo-Json -InputObject $keybinding.keys -Compress
+        $keybindings = @($settings.keybindings | Where-Object {
+            (ConvertTo-Json -InputObject $_.keys -Compress) -ne $keybindingKeys
+        })
+        $keybindings += $keybinding
+        $settings | Add-Member -Force -NotePropertyName keybindings `
+            -NotePropertyValue $keybindings
+    }
+
     if ($migrateLocalSettings -and (Test-Path $target)) {
         $backup = "$target.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
         Copy-Item $target $backup

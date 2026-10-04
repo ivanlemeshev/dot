@@ -4,6 +4,10 @@
 
 Use ASD-STE100 in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
 
+## Line endings
+
+Use LF line endings for all repository text files.
+
 ## Comments
 
 Use one short line to explain a reason, risk, or constraint that the code does not make clear.

@@ -1,5 +1,9 @@
 {
   "$schema": "https://aka.ms/terminal-profiles-schema",
+  "keybindings": [
+    { "id": "unbound", "keys": "ctrl+c" },
+    { "id": "unbound", "keys": "ctrl+v" }
+  ],
   "profiles": {
     "defaults": {
       "colorScheme": "Gruvbox Material Dark",
