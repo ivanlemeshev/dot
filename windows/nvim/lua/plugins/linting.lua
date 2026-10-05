@@ -149,6 +149,6 @@ helpers.load_on(
 
     helpers.nmap("<leader>l", function()
       lint.try_lint()
-    end, "Trigger linting for current file")
+    end, "Lint: run on current file")
   end
 )

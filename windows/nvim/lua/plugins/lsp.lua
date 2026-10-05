@@ -118,11 +118,11 @@ local function setup_lsp_keymaps(event)
 
   local buf = event.buf
   local fzf_maps = {
-    { "gd", "lsp_definitions", "LSP: go to definition" },
-    { "gD", "lsp_declarations", "LSP: go to declaration" },
-    { "grr", "lsp_references", "LSP: find all references" },
-    { "gri", "lsp_implementations", "LSP: go to implementation" },
-    { "grt", "lsp_typedefs", "LSP: go to type definition" },
+    { "gd", "lsp_definitions", "LSP: definition" },
+    { "gD", "lsp_declarations", "LSP: declaration" },
+    { "grr", "lsp_references", "LSP: references" },
+    { "gri", "lsp_implementations", "LSP: implementation" },
+    { "grt", "lsp_typedefs", "LSP: type definition" },
     { "gO", "lsp_document_symbols", "LSP: document symbols" },
   }
 

@@ -26,7 +26,7 @@ helpers.load_on(
     helpers.nmap(
       "<leader>gb",
       "<cmd>Gitsigns blame_line<CR>",
-      "Git: blame line"
+      "Git: show blame for current line"
     )
   end
 )

@@ -21,10 +21,10 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 - `$` - Move to the end of the line. _(Default)_
 - `gg` - Move to the start of the file. _(Default)_
 - `G` - Move to the end of the file. _(Default)_
-- `<C-d>` - Scroll down half a screen, then center the current line with `zz`. _(Custom)_
-- `<C-u>` - Scroll up half a screen, then center the current line with `zz`. _(Custom)_
-- `<C-f>` - Scroll forward one screen, then center the current line with `zz`. _(Custom)_
-- `<C-b>` - Scroll backward one screen, then center the current line with `zz`. _(Custom)_
+- `<C-d>` - Scroll down half a screen. _(Default)_
+- `<C-u>` - Scroll up half a screen. _(Default)_
+- `<C-f>` - Scroll down one screen. _(Default)_
+- `<C-b>` - Scroll up one screen. _(Default)_
 - `(` - Move to the previous sentence. _(Default)_
 - `)` - Move to the next sentence. _(Default)_
 - `{` - Move to the previous paragraph. _(Default)_
@@ -122,15 +122,15 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 
 ### LSP
 
-- `gd` - Go to the LSP definition. _(Default)_
-- `gD` - Go to the LSP declaration. _(Default)_
-- `grr` - Find LSP references. _(Default)_
-- `gri` - Go to the LSP implementation. _(Default)_
-- `grt` - Go to the LSP type definition. _(Default)_
-- `gO` - Show LSP document symbols. _(Default)_
-- `grn` - Rename the symbol under the cursor. _(Default)_
-- `gra` - Show code actions for the cursor or selection. _(Default)_
-- `K` - Show hover documentation. _(Default)_
+- `gd` - LSP definition. _(Default)_
+- `gD` - LSP declaration. _(Default)_
+- `grr` - LSP references. _(Default)_
+- `gri` - LSP implementation. _(Default)_
+- `grt` - LSP type definition. _(Default)_
+- `gO` - LSP document symbols. _(Default)_
+- `grn` - Rename symbol. _(Default)_
+- `gra` - Code action. _(Default)_
+- `K` - Hover documentation. _(Default)_
 
 ### Commands
 
@@ -186,12 +186,12 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 ## FZF bindings
 
 - `<leader>ff` - Find files by name. _(Custom)_
-- `<leader>fb` - Find open buffers. _(Custom)_
-- `<leader>fg` - Search text across project files. _(Custom)_
+- `<leader>fb` - Open buffers. _(Custom)_
+- `<leader>fg` - Project text. _(Custom)_
 - `<leader>fd` - Find workspace diagnostics. _(Custom)_
-- `<leader>fh` - Search help tags. _(Custom)_
-- `<leader>fo` - Find recently opened files. _(Custom)_
-- `<leader>fw` - Search for the word under the cursor. _(Custom)_
-- `<leader>fc` - Search command history. _(Custom)_
-- `<leader>fs` - Search search history. _(Custom)_
-- `<leader>fr` - Resume the previous search. _(Custom)_
+- `<leader>fh` - Help tags. _(Custom)_
+- `<leader>fo` - Recent files. _(Custom)_
+- `<leader>fw` - Word under cursor. _(Custom)_
+- `<leader>fc` - Command history. _(Custom)_
+- `<leader>fs` - Search history. _(Custom)_
+- `<leader>fr` - Resume. _(Custom)_
