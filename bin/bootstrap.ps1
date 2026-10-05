@@ -45,8 +45,11 @@ try {
     . (Join-Path $bootstrapDir "helpers.ps1")
     . (Join-Path $bootstrapDir "packages.ps1")
     . (Join-Path $bootstrapDir "git.ps1")
+    . (Join-Path $bootstrapDir "keyboard-map.ps1")
     . (Join-Path $bootstrapDir "keyboard.ps1")
+    . (Join-Path $bootstrapDir "terminal.ps1")
     . (Join-Path $bootstrapDir "fonts.ps1")
+    . (Join-Path $bootstrapDir "links-common.ps1")
     . (Join-Path $bootstrapDir "mise.ps1")
     . (Join-Path $bootstrapDir "links.ps1")
     . $PROFILE.CurrentUserAllHosts

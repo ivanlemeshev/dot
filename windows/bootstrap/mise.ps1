@@ -3,41 +3,7 @@ Write-Host "Setting up mise configuration..."
 
 $miseTargetDir = "$env:USERPROFILE\.config\mise"
 $miseSourceDir = "$repoRoot\.config\mise"
-
-if (-not (Test-Path $miseSourceDir)) {
-    Write-Warning "mise config source not found: $miseSourceDir"
-    Write-Warning "Skipping mise configuration."
-} elseif (Test-Path $miseTargetDir) {
-    $miseTargetItem = Get-Item $miseTargetDir
-    $existing = $miseTargetItem.Target
-
-    if ($miseTargetItem.LinkType -eq "SymbolicLink" -and $existing -eq $miseSourceDir) {
-        Write-Host "mise configuration already linked."
-    } elseif ($miseTargetItem.LinkType -eq "SymbolicLink") {
-        Write-Host "Updating mise configuration link..."
-        Remove-Item $miseTargetDir -Force
-        New-Item $miseTargetDir -ItemType SymbolicLink `
-            -Value $miseSourceDir | Out-Null
-        Write-Host "mise configuration updated."
-    } else {
-        $backup = "$miseTargetDir.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
-        Write-Host "Backing up existing mise configuration to $backup"
-        Move-Item $miseTargetDir $backup
-        New-Item $miseTargetDir -ItemType SymbolicLink `
-            -Value $miseSourceDir | Out-Null
-        Write-Host "mise configuration created."
-    }
-} else {
-    $miseConfigParent = Split-Path -Parent $miseTargetDir
-    if (-not (Test-Path $miseConfigParent)) {
-        New-Item $miseConfigParent -ItemType Directory -Force | Out-Null
-    }
-
-    Write-Host "Creating mise configuration link..."
-    New-Item $miseTargetDir -ItemType SymbolicLink `
-        -Value $miseSourceDir | Out-Null
-    Write-Host "mise configuration created."
-}
+Set-DotfilesLink $miseSourceDir $miseTargetDir 'mise configuration'
 
 $mise = Get-MiseCommand
 if ($null -ne $mise) {
