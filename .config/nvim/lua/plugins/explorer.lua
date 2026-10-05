@@ -46,10 +46,10 @@ require("nvim-tree").setup({
   },
 })
 
--- Auto-refresh nvim-tree when gaining focus or buffer changes
+-- Auto-refresh nvim-tree when gaining focus
 local nvim_tree_augroup =
   vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+vim.api.nvim_create_autocmd("FocusGained", {
   group = nvim_tree_augroup,
   pattern = "*",
   callback = function()
