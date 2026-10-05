@@ -7,22 +7,19 @@ $miseSourceDir = "$repoRoot\.config\mise"
 if (-not (Test-Path $miseSourceDir)) {
     Write-Warning "mise config source not found: $miseSourceDir"
     Write-Warning "Skipping mise configuration."
-}
-elseif (Test-Path $miseTargetDir) {
+} elseif (Test-Path $miseTargetDir) {
     $miseTargetItem = Get-Item $miseTargetDir
     $existing = $miseTargetItem.Target
 
     if ($miseTargetItem.LinkType -eq "SymbolicLink" -and $existing -eq $miseSourceDir) {
         Write-Host "mise configuration already linked."
-    }
-    elseif ($miseTargetItem.LinkType -eq "SymbolicLink") {
+    } elseif ($miseTargetItem.LinkType -eq "SymbolicLink") {
         Write-Host "Updating mise configuration link..."
         Remove-Item $miseTargetDir -Force
         New-Item $miseTargetDir -ItemType SymbolicLink `
             -Value $miseSourceDir | Out-Null
         Write-Host "mise configuration updated."
-    }
-    else {
+    } else {
         $backup = "$miseTargetDir.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
         Write-Host "Backing up existing mise configuration to $backup"
         Move-Item $miseTargetDir $backup
@@ -30,8 +27,7 @@ elseif (Test-Path $miseTargetDir) {
             -Value $miseSourceDir | Out-Null
         Write-Host "mise configuration created."
     }
-}
-else {
+} else {
     $miseConfigParent = Split-Path -Parent $miseTargetDir
     if (-not (Test-Path $miseConfigParent)) {
         New-Item $miseConfigParent -ItemType Directory -Force | Out-Null
@@ -61,8 +57,7 @@ if ($null -ne $mise) {
 
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "mise install failed."
-    }
-    else {
+    } else {
         Write-Host "mise bootstrap tools installed."
     }
 
@@ -74,8 +69,7 @@ if ($null -ne $mise) {
 
         if ($LASTEXITCODE -ne 0) {
             Write-Warning "Failed to install Lua with MSYS2."
-        }
-        else {
+        } else {
             $msysUcrtBin = "C:\msys64\ucrt64\bin"
             if (($env:PATH -split ";") -notcontains $msysUcrtBin) {
                 $env:PATH = "$msysUcrtBin;$env:PATH"
@@ -105,8 +99,7 @@ if ($null -ne $mise) {
                 & $lua -v
                 & $msysEnv MSYSTEM=UCRT64 CHERE_INVOKING=1 /usr/bin/bash -lc "luarocks --version"
                 Write-Host "Lua installed."
-            }
-            else {
+            } else {
                 Write-Warning "Lua installed, but lua.exe or luarocks was not found in $msysUcrtBin."
             }
         }
@@ -117,8 +110,7 @@ if ($null -ne $mise) {
     }
     & $mise reshim
 
-}
-else {
+} else {
     Write-Warning "mise not found. If it was just installed, restart PowerShell and rerun this script."
 }
 

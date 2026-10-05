@@ -41,8 +41,7 @@ function Install-NerdFonts {
             $web = New-Object System.Net.WebClient
             $web.DownloadFile($url, $zipFile)
             Write-Host "Downloaded successfully."
-        }
-        catch {
+        } catch {
             Write-Host "Error: $($_.Exception.Message)"
             continue
         }
@@ -62,42 +61,41 @@ function Install-NerdFonts {
 
         foreach ($ext in @("*.ttf", "*.otf")) {
             Get-ChildItem $extractDir -Include $ext -Recurse |
-            ForEach-Object {
-                $fontFile = $_.Name
-                $fontPath = $_.FullName
-                $fontDest = "$fontsFolder\$fontFile"
-                $fontBaseName = $_.BaseName
-                $registryName = "$fontBaseName (TrueType)"
+                ForEach-Object {
+                    $fontFile = $_.Name
+                    $fontPath = $_.FullName
+                    $fontDest = "$fontsFolder\$fontFile"
+                    $fontBaseName = $_.BaseName
+                    $registryName = "$fontBaseName (TrueType)"
 
-                if (-not (Test-Path $fontDest)) {
-                    Write-Host "Installing $fontFile..."
-                    Copy-Item $fontPath -Destination $fontDest -Force
-                    $count++
-                }
-
-                $registeredFont = Get-ItemProperty -Path $regPath `
-                    -Name $registryName -ErrorAction SilentlyContinue
-                $registeredPath = $null
-
-                if ($null -ne $registeredFont) {
-                    $registeredPath = $registeredFont.PSObject.Properties[$registryName].Value
-                }
-
-                if ($registeredPath -ne $fontDest) {
-                    try {
-                        Write-Host "Registering $fontBaseName..."
-                        New-ItemProperty -Path $regPath `
-                            -Name $registryName `
-                            -PropertyType String `
-                            -Value $fontDest `
-                            -Force | Out-Null
+                    if (-not (Test-Path $fontDest)) {
+                        Write-Host "Installing $fontFile..."
+                        Copy-Item $fontPath -Destination $fontDest -Force
                         $count++
                     }
-                    catch {
-                        Write-Host "Warning: Could not register $fontBaseName in registry"
+
+                    $registeredFont = Get-ItemProperty -Path $regPath `
+                        -Name $registryName -ErrorAction SilentlyContinue
+                    $registeredPath = $null
+
+                    if ($null -ne $registeredFont) {
+                        $registeredPath = $registeredFont.PSObject.Properties[$registryName].Value
+                    }
+
+                    if ($registeredPath -ne $fontDest) {
+                        try {
+                            Write-Host "Registering $fontBaseName..."
+                            New-ItemProperty -Path $regPath `
+                                -Name $registryName `
+                                -PropertyType String `
+                                -Value $fontDest `
+                                -Force | Out-Null
+                            $count++
+                        } catch {
+                            Write-Host "Warning: Could not register $fontBaseName in registry"
+                        }
                     }
                 }
-            }
         }
 
         Write-Host "Installed or repaired $count font entries."
@@ -112,8 +110,7 @@ function Install-NerdFonts {
 
     if ($changed) {
         Write-Host "Nerd Fonts installation completed."
-    }
-    else {
+    } else {
         Write-Host "All fonts already installed."
     }
 

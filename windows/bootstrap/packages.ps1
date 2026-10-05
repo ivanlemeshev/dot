@@ -16,8 +16,7 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "Failed to install Visual Studio C++ Build Tools."
     }
-}
-else {
+} else {
     Write-Warning "winget not found. Skipping Visual Studio C++ Build Tools."
 }
 Install-WingetPackage "Neovim.Neovim" "Neovim"

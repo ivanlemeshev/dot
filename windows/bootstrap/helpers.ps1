@@ -65,11 +65,9 @@ function Test-MiseCommand($path) {
         $ErrorActionPreference = "Stop"
         & $path --version *> $null
         return $LASTEXITCODE -eq 0
-    }
-    catch {
+    } catch {
         return $false
-    }
-    finally {
+    } finally {
         $ErrorActionPreference = $previousErrorActionPreference
     }
 }
@@ -94,15 +92,13 @@ function Get-MiseToolVersion($configFile, $tool) {
 function Install-NpmGlobalPackage($package, $commandName, $name) {
     if (Get-Command $commandName -ErrorAction SilentlyContinue) {
         Write-Host "$name already installed. Updating..."
-    }
-    else {
+    } else {
         Write-Host "Installing $name..."
     }
 
     if (Get-Command npm -ErrorAction SilentlyContinue) {
         npm install -g $package
-    }
-    else {
+    } else {
         $mise = Get-MiseCommand
         if ($null -eq $mise) {
             Write-Warning "npm and mise not found. Skipping $name."
@@ -195,21 +191,18 @@ function Set-WindowsTerminalSettings {
             $targetItem.LinkType -eq "Junction") {
             if (Test-Path $localSettings) {
                 $settings = Get-Content $localSettings -Raw | ConvertFrom-Json
-            }
-            else {
+            } else {
                 $settings = Get-Content $target -Raw | ConvertFrom-Json
             }
             $migrateLocalSettings = $true
-        }
-        else {
+        } else {
             $settings = Get-Content $target -Raw | ConvertFrom-Json
             if ($settings.import -and (Test-Path $localSettings)) {
                 $settings = Get-Content $localSettings -Raw | ConvertFrom-Json
                 $migrateLocalSettings = $true
             }
         }
-    }
-    elseif (Test-Path $localSettings) {
+    } elseif (Test-Path $localSettings) {
         $settings = Get-Content $localSettings -Raw | ConvertFrom-Json
         $migrateLocalSettings = $true
     }
@@ -253,8 +246,7 @@ function Set-WindowsTerminalSettings {
                     -NotePropertyName $fontSetting.Name `
                     -NotePropertyValue $fontSetting.Value
             }
-        }
-        else {
+        } else {
             $settings.profiles.defaults | Add-Member -Force `
                 -NotePropertyName $setting.Name -NotePropertyValue $setting.Value
         }
@@ -262,16 +254,16 @@ function Set-WindowsTerminalSettings {
 
     foreach ($scheme in $shared.schemes) {
         $schemes = @($settings.schemes | Where-Object {
-            $_.name -ne $scheme.name
-        }) + $scheme
+                $_.name -ne $scheme.name
+            }) + $scheme
         $settings | Add-Member -Force -NotePropertyName schemes `
             -NotePropertyValue $schemes
     }
 
     foreach ($theme in $shared.themes) {
         $themes = @($settings.themes | Where-Object {
-            $_.name -ne $theme.name
-        }) + $theme
+                $_.name -ne $theme.name
+            }) + $theme
         $settings | Add-Member -Force -NotePropertyName themes `
             -NotePropertyValue $themes
     }
@@ -279,8 +271,8 @@ function Set-WindowsTerminalSettings {
     foreach ($keybinding in $shared.keybindings) {
         $keybindingKeys = ConvertTo-Json -InputObject $keybinding.keys -Compress
         $keybindings = @($settings.keybindings | Where-Object {
-            (ConvertTo-Json -InputObject $_.keys -Compress) -ne $keybindingKeys
-        })
+                (ConvertTo-Json -InputObject $_.keys -Compress) -ne $keybindingKeys
+            })
         $keybindings += $keybinding
         $settings | Add-Member -Force -NotePropertyName keybindings `
             -NotePropertyValue $keybindings
@@ -301,8 +293,7 @@ function Set-WindowsTerminalSettings {
         $sharedItem = Get-Item $sharedSettings
         if ($sharedItem.LinkType -in @("SymbolicLink", "Junction")) {
             Remove-Item $sharedSettings -Force
-        }
-        else {
+        } else {
             $backup = "$sharedSettings.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
             Move-Item $sharedSettings $backup
         }
@@ -323,5 +314,5 @@ function Test-VSCodeInstallation {
     )
 
     return $null -ne ($candidates | Where-Object { Test-Path $_ } |
-        Select-Object -First 1)
+            Select-Object -First 1)
 }

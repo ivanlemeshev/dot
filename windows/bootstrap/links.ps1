@@ -7,8 +7,7 @@ $ytDlpHelpersTarget = "$ytDlpHelpersDirectory\yt-dlp.ps1"
 if (-not (Test-Path $ytDlpHelpersSource)) {
     Write-Warning "yt-dlp helpers source not found: $ytDlpHelpersSource"
     Write-Warning "Skipping yt-dlp helpers setup."
-}
-else {
+} else {
     if (-not (Test-Path $ytDlpHelpersDirectory)) {
         New-Item $ytDlpHelpersDirectory -ItemType Directory -Force | Out-Null
     }
@@ -20,15 +19,13 @@ else {
         if ($ytDlpHelpersItem.LinkType -eq "SymbolicLink" -and `
                 $existing -eq $ytDlpHelpersSource) {
             Write-Host "yt-dlp helpers already linked."
-        }
-        elseif ($ytDlpHelpersItem.LinkType -eq "SymbolicLink") {
+        } elseif ($ytDlpHelpersItem.LinkType -eq "SymbolicLink") {
             Write-Host "Updating yt-dlp helpers link..."
             Remove-Item $ytDlpHelpersTarget -Force
             New-Item $ytDlpHelpersTarget -ItemType SymbolicLink `
                 -Value $ytDlpHelpersSource | Out-Null
             Write-Host "yt-dlp helpers link updated."
-        }
-        else {
+        } else {
             $backup = "$ytDlpHelpersTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
             Write-Host "Backing up existing yt-dlp helpers to $backup"
             Move-Item $ytDlpHelpersTarget $backup
@@ -36,8 +33,7 @@ else {
                 -Value $ytDlpHelpersSource | Out-Null
             Write-Host "yt-dlp helpers linked."
         }
-    }
-    else {
+    } else {
         New-Item $ytDlpHelpersTarget -ItemType SymbolicLink `
             -Value $ytDlpHelpersSource | Out-Null
         Write-Host "yt-dlp helpers linked."
@@ -54,23 +50,20 @@ $neovimConfigTarget = "$env:LOCALAPPDATA\nvim"
 if (-not (Test-Path $neovimConfigSource)) {
     Write-Warning "Neovim configuration source not found: $neovimConfigSource"
     Write-Warning "Skipping Neovim configuration."
-}
-elseif (Test-Path $neovimConfigTarget) {
+} elseif (Test-Path $neovimConfigTarget) {
     $neovimConfigItem = Get-Item $neovimConfigTarget
     $existing = $neovimConfigItem.Target
 
     if ($neovimConfigItem.LinkType -eq "SymbolicLink" -and
         $existing -eq $neovimConfigSource) {
         Write-Host "Neovim configuration already linked."
-    }
-    elseif ($neovimConfigItem.LinkType -eq "SymbolicLink") {
+    } elseif ($neovimConfigItem.LinkType -eq "SymbolicLink") {
         Write-Host "Updating Neovim configuration link..."
         Remove-Item $neovimConfigTarget -Force
         New-Item $neovimConfigTarget -ItemType SymbolicLink `
             -Value $neovimConfigSource | Out-Null
         Write-Host "Neovim configuration link updated."
-    }
-    else {
+    } else {
         $backup = "$neovimConfigTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
         Write-Host "Backing up existing Neovim configuration to $backup"
         Move-Item $neovimConfigTarget $backup
@@ -78,8 +71,7 @@ elseif (Test-Path $neovimConfigTarget) {
             -Value $neovimConfigSource | Out-Null
         Write-Host "Neovim configuration linked."
     }
-}
-else {
+} else {
     New-Item $neovimConfigTarget -ItemType SymbolicLink `
         -Value $neovimConfigSource | Out-Null
     Write-Host "Neovim configuration linked."
@@ -112,8 +104,7 @@ foreach ($powerShellProfileTarget in $powerShellProfileTargets) {
 
         if ($profileItem.LinkType -eq "SymbolicLink") {
             Remove-Item $powerShellProfileTarget -Force
-        }
-        else {
+        } else {
             $backup = "$powerShellProfileTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
             Move-Item $powerShellProfileTarget $backup
             Write-Host "Backed up existing PowerShell profile to $backup"
@@ -135,8 +126,7 @@ $codexSkillsTarget = "$env:USERPROFILE\.codex\skills"
 if (-not (Test-Path $codexSkillsSource)) {
     Write-Warning "Codex skills source not found: $codexSkillsSource"
     Write-Warning "Skipping Codex skills setup."
-}
-else {
+} else {
     if (-not (Test-Path $codexSkillsTarget)) {
         New-Item $codexSkillsTarget -ItemType Directory -Force | Out-Null
     }
@@ -154,13 +144,11 @@ else {
             if ($codexSkillItem.LinkType -eq "SymbolicLink" -and `
                     $existing -eq $codexSkillSource) {
                 Write-Host "Codex skill already linked: $($_.Name)"
-            }
-            else {
+            } else {
                 if ($codexSkillItem.LinkType -eq "SymbolicLink") {
                     Write-Host "Updating Codex skill link: $($_.Name)"
                     Remove-Item $codexSkillTarget -Force
-                }
-                else {
+                } else {
                     $backup = "$codexSkillTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
                     Write-Host "Backing up existing Codex skill to $backup"
                     Move-Item $codexSkillTarget $backup
@@ -170,8 +158,7 @@ else {
                     -Value $codexSkillSource | Out-Null
                 Write-Host "Codex skill linked: $($_.Name)"
             }
-        }
-        else {
+        } else {
             New-Item $codexSkillTarget -ItemType SymbolicLink `
                 -Value $codexSkillSource | Out-Null
             Write-Host "Codex skill linked: $($_.Name)"
@@ -187,8 +174,7 @@ $termDir = Get-WindowsTerminalSettingsDirectory
 
 if ($null -eq $termDir) {
     Write-Warning "Windows Terminal not found. Skipping..."
-}
-else {
+} else {
     $source = Join-Path $repoRoot "windows\terminal\settings.json"
 
     if (-not (Test-Path $termDir)) {
@@ -198,8 +184,7 @@ else {
     if (-not (Test-Path $source)) {
         Write-Warning "Terminal settings source not found: $source"
         Write-Warning "Skipping Windows Terminal settings."
-    }
-    else {
+    } else {
         Set-WindowsTerminalSettings $termDir $source
         Write-Host "Windows Terminal settings updated."
     }
@@ -211,8 +196,7 @@ else {
 
 if (-not (Test-VSCodeInstallation)) {
     Write-Warning "VSCode not found. Skipping..."
-}
-else {
+} else {
     $vscodeDir = "$env:APPDATA\Code\User"
 
     $settingsTarget = "$vscodeDir\settings.json"
@@ -228,22 +212,19 @@ else {
     if (-not (Test-Path $settingsSource)) {
         Write-Warning "VSCode settings source not found: $settingsSource"
         Write-Warning "Skipping VSCode settings."
-    }
-    elseif (Test-Path $settingsTarget) {
+    } elseif (Test-Path $settingsTarget) {
         $targetItem = Get-Item $settingsTarget
         $existing = $targetItem.Target
 
         if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $settingsSource) {
             Write-Host "VSCode settings already linked."
-        }
-        elseif ($targetItem.LinkType -eq "SymbolicLink") {
+        } elseif ($targetItem.LinkType -eq "SymbolicLink") {
             Write-Host "Updating VSCode settings link..."
             Remove-Item $settingsTarget -Force
             New-Item $settingsTarget -ItemType SymbolicLink `
                 -Value $settingsSource | Out-Null
             Write-Host "VSCode settings updated."
-        }
-        else {
+        } else {
             $backup = "$settingsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
             Write-Host "Backing up existing VSCode settings to $backup"
             Move-Item $settingsTarget $backup
@@ -251,8 +232,7 @@ else {
                 -Value $settingsSource | Out-Null
             Write-Host "VSCode settings created."
         }
-    }
-    else {
+    } else {
         Write-Host "Creating VSCode settings link..."
         New-Item $settingsTarget -ItemType SymbolicLink `
             -Value $settingsSource | Out-Null
@@ -262,22 +242,19 @@ else {
     if (-not (Test-Path $keybindingsSource)) {
         Write-Warning "VSCode keybindings source not found: $keybindingsSource"
         Write-Warning "Skipping VSCode keybindings."
-    }
-    elseif (Test-Path $keybindingsTarget) {
+    } elseif (Test-Path $keybindingsTarget) {
         $targetItem = Get-Item $keybindingsTarget
         $existing = $targetItem.Target
 
         if ($targetItem.LinkType -eq "SymbolicLink" -and $existing -eq $keybindingsSource) {
             Write-Host "VSCode keybindings already linked."
-        }
-        elseif ($targetItem.LinkType -eq "SymbolicLink") {
+        } elseif ($targetItem.LinkType -eq "SymbolicLink") {
             Write-Host "Updating VSCode keybindings link..."
             Remove-Item $keybindingsTarget -Force
             New-Item $keybindingsTarget -ItemType SymbolicLink `
                 -Value $keybindingsSource | Out-Null
             Write-Host "VSCode keybindings updated."
-        }
-        else {
+        } else {
             $backup = "$keybindingsTarget.backup.$(Get-Date -Format 'yyyyMMddHHmmss')"
             Write-Host "Backing up existing VSCode keybindings to $backup"
             Move-Item $keybindingsTarget $backup
@@ -285,8 +262,7 @@ else {
                 -Value $keybindingsSource | Out-Null
             Write-Host "VSCode keybindings created."
         }
-    }
-    else {
+    } else {
         Write-Host "Creating VSCode keybindings link..."
         New-Item $keybindingsTarget -ItemType SymbolicLink `
             -Value $keybindingsSource | Out-Null

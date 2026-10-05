@@ -146,7 +146,6 @@ local function setup_lsp_keymaps(event)
   helpers.nmap("K", function()
     vim.lsp.buf.hover({ border = "single", focusable = false })
   end, "LSP: hover documentation", { buffer = buf })
-
 end
 
 local function setup_document_highlight(event)

@@ -94,8 +94,7 @@ function Set-CapsLockAsCtrl {
 
         try {
             $currentMappings = Get-ScancodeMappings $current
-        }
-        catch {
+        } catch {
             Write-Warning "Existing keyboard remap is not recognized. Skipping Caps Lock mapping to avoid overwriting it."
             Write-Warning $_.Exception.Message
             return $false
@@ -123,8 +122,7 @@ function Set-CapsLockAsCtrl {
         Set-ItemProperty -Path $regPath -Name $regName -Value $value
         Write-Host "Caps Lock mapping updated."
         return $true
-    }
-    catch {
+    } catch {
         Write-Host "Creating Caps Lock mapping..."
         New-ItemProperty -Path $regPath -Name $regName `
             -PropertyType Binary -Value $value | Out-Null
