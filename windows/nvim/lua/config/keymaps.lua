@@ -4,10 +4,6 @@
 
 local helpers = require("config.helpers")
 
-helpers.nmap(";", function()
-  vim.api.nvim_feedkeys(":", "nt", false)
-end, "Enter command mode")
-
 helpers.nmap("<leader>w", "<cmd>write<CR>", "Save the current buffer")
 
 local scroll_maps = {
@@ -32,6 +28,6 @@ helpers.vmap("<leader>c", "gc", "Toggle comment", { remap = true })
 
 helpers.nmap("<leader>e", "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree")
 
-helpers.nmap("<leader>Pu", function()
+helpers.nmap("<leader>pu", function()
   vim.pack.update()
 end, "Plugins: update")

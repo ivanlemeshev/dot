@@ -119,9 +119,10 @@ local function setup_lsp_keymaps(event)
   local buf = event.buf
   local fzf_maps = {
     { "gd", "lsp_definitions", "LSP: go to definition" },
+    { "gD", "lsp_declarations", "LSP: go to declaration" },
     { "grr", "lsp_references", "LSP: find all references" },
     { "gri", "lsp_implementations", "LSP: go to implementation" },
-    { "gtd", "lsp_typedefs", "LSP: go type definition" },
+    { "grt", "lsp_typedefs", "LSP: go to type definition" },
     { "gO", "lsp_document_symbols", "LSP: document symbols" },
   }
 
@@ -133,7 +134,6 @@ local function setup_lsp_keymaps(event)
   end
 
   local native_maps = {
-    { "gD", vim.lsp.buf.declaration, "LSP: goto declaration" },
     { "grn", vim.lsp.buf.rename, "LSP: rename" },
     { "gra", vim.lsp.buf.code_action, "LSP: code action" },
   }
@@ -147,15 +147,6 @@ local function setup_lsp_keymaps(event)
     vim.lsp.buf.hover({ border = "single", focusable = false })
   end, "LSP: hover documentation", { buffer = buf })
 
-  local client = vim.lsp.get_client_by_id(event.data.client_id)
-  if client and client.server_capabilities.inlayHintProvider then
-    helpers.nmap("<leader>th", function()
-      vim.lsp.inlay_hint.enable(
-        not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }),
-        { bufnr = buf }
-      )
-    end, "LSP: Toggle inlay hints", { buffer = buf })
-  end
 end
 
 local function setup_document_highlight(event)

@@ -72,24 +72,7 @@ helpers.load_on({ "InsertEnter", "CmdlineEnter" }, "pack-cmp", {
     Event = "",
     Operator = "󰆕",
     TypeParameter = "󰊄",
-    Copilot = "",
   }
-
-  local has_words_before = function()
-    -- This ensures compatibility across all Lua versions
-    local unpack = unpack or table.unpack
-
-    if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" then
-      return false
-    end
-
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0
-      and vim.api
-          .nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]
-          :match("^%s*$")
-        == nil
-  end
 
   cmp.setup({
     window = {
@@ -106,28 +89,28 @@ helpers.load_on({ "InsertEnter", "CmdlineEnter" }, "pack-cmp", {
     preselect = cmp.PreselectMode.None,
     completion = {
       keyword_length = 1,
-      completeopt = "menu,menuone,popup,noselect,fuzzy",
+      completeopt = "menu,menuone,popup,fuzzy",
     },
     mapping = cmp.mapping.preset.insert({
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-e>"] = cmp.mapping.abort(),
-      ["<Tab>"] = vim.schedule_wrap(function(fallback)
-        -- Configuration to use with copilot.
-        if cmp.visible() and has_words_before() then
-          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+      ["<Tab>"] = function(fallback)
+        if cmp.visible() then
+          cmp.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          })
         else
           fallback()
         end
-      end),
+      end,
       ["<CR>"] = cmp.mapping({
-        -- If nothing is selected (including pre-selections) add a newline as usual.
-        -- If something has explicitly been selected by the user, select it.
         i = function(fallback)
-          if cmp.visible() and cmp.get_active_entry() then
+          if cmp.visible() then
             cmp.confirm({
               behavior = cmp.ConfirmBehavior.Insert,
-              select = false,
+              select = true,
             })
           else
             fallback()
@@ -161,7 +144,7 @@ helpers.load_on({ "InsertEnter", "CmdlineEnter" }, "pack-cmp", {
     },
   })
 
-  -- Disable cmp in markdown files' insert mode
+  -- Hide completion documentation in Markdown buffers.
   cmp.setup.filetype({ "markdown" }, {
     window = {
       documentation = cmp.config.disable,

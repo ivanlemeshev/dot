@@ -1261,18 +1261,6 @@ function M.setup()
   end
 
   -- ============================================================================
-  -- Copilot
-  -- ============================================================================
-
-  -- `CopilotSuggestion` is the inline ghost text suggestion, like a faded
-  -- completion hint after the cursor.
-  hl("CopilotSuggestion", { fg = M.ui.non_text, italic = true })
-
-  -- `CopilotAnnotation` is the annotation text shown in Copilot panels and
-  -- suggestion tails.
-  hl("CopilotAnnotation", { fg = M.ui.non_text })
-
-  -- ============================================================================
   -- Syntax
   -- ============================================================================
 
