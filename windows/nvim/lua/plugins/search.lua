@@ -123,6 +123,13 @@ function M.fzf()
       hidden = true,
       fd_opts = "--color=never --hidden --type f --type l --exclude .git",
     },
+    diagnostics = {
+      actions = {
+        ["ctrl-y"] = function(selected)
+          vim.fn.setreg("+", table.concat(selected, "\n"))
+        end,
+      },
+    },
     grep = {
       hidden = true,
       rg_opts = table.concat({
