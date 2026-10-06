@@ -2,7 +2,7 @@
 
 ## Keybindings
 
-_(Default)_ means tmux provides the binding. _(Custom)_ means this setup or a plugin adds or changes the binding. Copy mode uses Emacs keys by default. It uses vi keys when `VISUAL` or `EDITOR` contains `vi`.
+_(Default)_ means tmux provides the binding. _(Custom)_ means this setup or a plugin adds or changes the binding. This setup enables vi keys in copy mode for tmux and PSMux.
 
 ### Prefix and sessions
 
@@ -44,12 +44,15 @@ _(Default)_ means tmux provides the binding. _(Custom)_ means this setup or a pl
 ### Copy mode
 
 - `Ctrl+b [` - Enter copy mode. _(Default)_
-- `Up`, `Down`, `Left`, or `Right` - Move the cursor. _(Default)_
-- `PageUp` or `PageDown` - Scroll one page. _(Default)_
-- `Alt+Up` or `Alt+Down` - Scroll half a page. _(Default)_
-- `Ctrl+Space` - Start a selection. _(Default)_
-- `Alt+w` - Copy the selection and exit copy mode. _(Default)_
-- `Esc` - Exit copy mode. _(Default)_
+- `h`, `j`, `k`, or `l` - Move the cursor left, down, up, or right. _(Default)_
+- `w`, `b`, or `e` - Move to the next word, previous word, or word end. _(Default)_
+- `0`, `^`, or `$` - Move to the line start, first non-blank, or line end. _(Default)_
+- `g` or `G` - Move to the top or bottom of scrollback. _(Default)_
+- `Ctrl+u` or `Ctrl+d` - Scroll half a page up or down. _(Default)_
+- `Ctrl+b` or `Ctrl+f` in copy mode - Scroll one page up or down. _(Default)_
+- `Space` - Start a selection. _(Default)_
+- `Enter` - Copy the selection and exit copy mode. _(Default)_
+- `q` - Exit copy mode. _(Default)_
 - `Ctrl+b ]` - Paste the most recently copied buffer. _(Default)_
 
 ### TPM plugin

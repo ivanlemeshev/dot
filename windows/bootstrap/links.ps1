@@ -6,6 +6,10 @@ $neovimSource = Join-Path $repoRoot '.config\nvim'
 $neovimTarget = Join-Path $env:LOCALAPPDATA 'nvim'
 Set-DotfilesLink $neovimSource $neovimTarget 'Neovim configuration'
 
+$psmuxSource = Join-Path $repoRoot '.config\psmux\psmux.conf'
+$psmuxTarget = Join-Path $env:USERPROFILE '.psmux.conf'
+Set-DotfilesLink $psmuxSource $psmuxTarget 'PSMux configuration'
+
 $profileSource = Join-Path $repoRoot 'windows\powershell\profile.ps1'
 $documentsDirectory = [Environment]::GetFolderPath('MyDocuments')
 $profileTargets = @(
