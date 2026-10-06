@@ -123,6 +123,13 @@ function M.fzf()
       hidden = true,
       fd_opts = "--color=never --hidden --type f --type l --exclude .git",
     },
+    diagnostics = {
+      actions = {
+        ["ctrl-y"] = function(selected)
+          vim.fn.setreg("+", table.concat(selected, "\n"))
+        end,
+      },
+    },
     grep = {
       hidden = true,
       rg_opts = table.concat({
@@ -164,22 +171,13 @@ helpers.nmap("<leader>ff", function()
   M.fzf().files()
 end, "Search: find files")
 
-helpers.nmap("<leader>fp", function()
-  M.fzf().live_grep({
-    file_ignore_patterns = {
-      "node_modules",
-      "%.git/",
-      "%.git$",
-      ".venv",
-      "vendor",
-    },
-    hidden = true,
-  })
-end, "Search: find in project files")
+helpers.nmap("<leader>fg", function()
+  M.fzf().live_grep()
+end, "Search: project text")
 
 helpers.nmap("<leader>fd", function()
   M.fzf().diagnostics_workspace()
-end, "Search: find in diagnostics")
+end, "Search: diagnostics")
 
 helpers.nmap("<leader>fb", function()
   M.fzf().buffers({
@@ -197,21 +195,30 @@ helpers.nmap("<leader>fb", function()
         and not name:match("NvimTree_")
     end,
   })
-end, "Search: find in opened buffers")
+end, "Search: open buffers")
 
 helpers.nmap("<leader>fc", function()
-  M.fzf().blines()
-end, "Search: find in the current buffer")
+  M.fzf().command_history()
+end, "Search: command history")
 
 helpers.nmap("<leader>fh", function()
   M.fzf().helptags()
-end, "Search: find in help")
+end, "Search: help tags")
 
-helpers.nmap("<leader>fg", function()
-  M.fzf().live_grep({
-    hidden = true,
-    no_ignore = true,
-  })
-end, "Search: find in all files")
+helpers.nmap("<leader>fo", function()
+  M.fzf().oldfiles()
+end, "Search: recent files")
+
+helpers.nmap("<leader>fw", function()
+  M.fzf().grep_cword()
+end, "Search: word under cursor")
+
+helpers.nmap("<leader>fs", function()
+  M.fzf().search_history()
+end, "Search: search history")
+
+helpers.nmap("<leader>fr", function()
+  M.fzf().resume()
+end, "Search: resume")
 
 return M

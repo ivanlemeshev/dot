@@ -26,7 +26,6 @@ require("mason").setup({
 })
 
 local servers = {
-  "ansible-language-server",
   "bashls",
   "biome",
   "buf_ls",
@@ -58,13 +57,17 @@ local formatters = {
 }
 
 local linters = {
-  "ansible-lint",
   "golangci-lint",
   "hadolint",
   "markdownlint",
   "tflint",
   "tfsec",
 }
+
+if vim.fn.has("win32") ~= 1 then
+  table.insert(servers, 1, "ansible-language-server")
+  table.insert(linters, "ansible-lint")
+end
 
 require("mason-tool-installer").setup({
   ensure_installed = vim

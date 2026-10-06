@@ -41,11 +41,7 @@ helpers.load_on({ "BufReadPost", "BufNewFile" }, "pack-editing", {
 
   require("mini.splitjoin").setup({
     mappings = {
-      toggle = "gS",
+      toggle = "<leader>sj",
     },
   })
-
-  helpers.nmap("gS", function()
-    require("mini.splitjoin").toggle()
-  end, "Split/join code block")
 end)

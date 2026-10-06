@@ -130,13 +130,18 @@ helpers.load_on(
     }
 
     lint.linters.golangcilint_custom = golangci_linter()
-    lint.linters_by_ft = {
+    local linters_by_ft = {
       dockerfile = { "hadolint" },
       go = { "golangcilint_custom" },
       markdown = { "markdownlint" },
       terraform = { "tflint", "tfsec" },
-      ["yaml.ansible"] = { "ansible_lint" },
     }
+
+    if vim.fn.has("win32") ~= 1 then
+      linters_by_ft["yaml.ansible"] = { "ansible_lint" }
+    end
+
+    lint.linters_by_ft = linters_by_ft
 
     setup_try_lint(lint)
 

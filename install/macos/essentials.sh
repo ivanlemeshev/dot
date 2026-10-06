@@ -12,6 +12,7 @@ print_section "Installing essential packages"
 
 packages=(
   "asdf"
+  "ansible"
   "awscli"
   "buf"
   "curl"

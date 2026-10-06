@@ -2,7 +2,7 @@ $ytDlpSource = Join-Path $repoRoot 'windows\powershell\yt-dlp.ps1'
 $ytDlpTarget = Join-Path $env:USERPROFILE '.config\powershell\yt-dlp.ps1'
 Set-DotfilesLink $ytDlpSource $ytDlpTarget 'yt-dlp helpers'
 
-$neovimSource = Join-Path $repoRoot 'windows\nvim'
+$neovimSource = Join-Path $repoRoot '.config\nvim'
 $neovimTarget = Join-Path $env:LOCALAPPDATA 'nvim'
 Set-DotfilesLink $neovimSource $neovimTarget 'Neovim configuration'
 

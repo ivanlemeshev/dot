@@ -1,10 +1,5 @@
 vim.pack.add({
   {
-    src = "https://github.com/AndreM222/copilot-lualine",
-    name = "copilot-lualine",
-    version = "main",
-  },
-  {
     src = "https://github.com/nvim-lualine/lualine.nvim",
     name = "lualine.nvim",
     version = "master",
@@ -30,24 +25,6 @@ local filename = {
 local branch = {
   "branch",
   icon = "",
-}
-
-local copilot = {
-  "copilot",
-  cond = function()
-    return package.loaded["copilot"] ~= nil
-  end,
-  symbols = {
-    status = {
-      icons = {
-        enabled = "",
-        sleep = "", -- auto-trigger disabled
-        disabled = "",
-        warning = "",
-        unknown = "",
-      },
-    },
-  },
 }
 
 local diagnostics = {
@@ -127,7 +104,6 @@ require("lualine").setup({
     lualine_c = {},
     lualine_x = {},
     lualine_y = {
-      copilot,
       diagnostics,
       human_file_size,
       visible_encoding,

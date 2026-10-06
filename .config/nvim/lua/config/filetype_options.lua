@@ -23,7 +23,7 @@ local indent_by_filetype = {
   make = { expandtab = false, width = 4 },
   markdown = { expandtab = true, width = 2 },
   proto = { expandtab = true, width = 2 },
-  ps1 = { expandtab = false, width = 4 },
+  ps1 = { expandtab = true, width = 4 },
   python = { expandtab = true, width = 4 },
   sh = { expandtab = true, width = 2 },
   terraform = { expandtab = true, width = 2 },

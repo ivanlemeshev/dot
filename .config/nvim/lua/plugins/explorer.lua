@@ -12,6 +12,7 @@ vim.pack.add({
 })
 
 require("nvim-tree").setup({
+  filesystem_watchers = { enable = false },
   view = { width = 40 },
   filters = {
     custom = { "^.git$" }, -- Hide .git directory
@@ -46,10 +47,10 @@ require("nvim-tree").setup({
   },
 })
 
--- Auto-refresh nvim-tree when gaining focus or buffer changes
+-- Auto-refresh nvim-tree when Neovim gains focus
 local nvim_tree_augroup =
   vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+vim.api.nvim_create_autocmd("FocusGained", {
   group = nvim_tree_augroup,
   pattern = "*",
   callback = function()
@@ -59,9 +60,3 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     end
   end,
 })
-
-helpers.nmap(
-  "<leader>ft",
-  "<cmd>NvimTreeFindFile<CR>",
-  "Search: find the current file and focus on it"
-)

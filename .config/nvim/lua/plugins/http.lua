@@ -14,8 +14,8 @@ vim.pack.add({
 helpers.load_on("FileType", "pack-kulala", "kulala.nvim", function()
   require("kulala").setup({
     global_keymaps = true,
-    global_keymaps_prefix = "<leader>R",
-    kulala_keymaps_prefix = "",
+    global_keymaps_prefix = "<leader>r",
+    kulala_keymaps_prefix = "<leader>r",
   })
 end, {
   pattern = { "http", "rest" },

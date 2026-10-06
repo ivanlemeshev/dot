@@ -36,9 +36,3 @@ require("lem.ruler").setup({
     },
   },
 })
-
-require("lem.terminal").setup({
-  width_percent = 0.8,
-  height_percent = 0.8,
-  start_in_insert = true,
-})
