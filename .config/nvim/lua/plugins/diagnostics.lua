@@ -25,11 +25,3 @@ helpers.load_on(
     })
   end
 )
-
-helpers.nmap("<leader>dd", function()
-  require("plugins.search").fzf().diagnostics_workspace()
-end, "Diagnostics: workspace")
-
-helpers.nmap("<leader>dc", function()
-  require("plugins.search").fzf().diagnostics_document()
-end, "Diagnostics: current buffer")

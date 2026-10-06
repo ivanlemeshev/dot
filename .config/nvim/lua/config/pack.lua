@@ -40,7 +40,6 @@ local plugin_modules = {
   "plugins.filetypes",
   "plugins.treesitter",
   "plugins.http",
-  "plugins.copilot",
   "plugins.statusline",
 }
 

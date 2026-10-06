@@ -4,6 +4,18 @@
 
 Use ASD-STE100 in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
 
+## Line endings
+
+Use LF line endings for all repository text files.
+
+## User-directed changes
+
+- For requests that may change files or system state, first inspect the relevant state.
+- Present a short analysis, plan, or set of options before making changes.
+- Make changes only after the user names or selects an action.
+- Treat questions and requests for analysis as read-only instructions.
+- Keep approval within the stated action and scope.
+
 ## Comments
 
 Use one short line to explain a reason, risk, or constraint that the code does not make clear.

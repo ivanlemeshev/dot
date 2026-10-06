@@ -87,23 +87,32 @@ setup() {
     grep -q 'link_directory.*Codex skills' "$PROJECT_ROOT/install/$platform/codex.sh"
   done
 
-  grep -q '\$codexSkillsSource = "\$repoRoot\\.codex\\skills"' "$PROJECT_ROOT/bin/bootstrap.ps1"
-  grep -q '\$codexSkillsTarget = "\$env:USERPROFILE\\.codex\\skills"' "$PROJECT_ROOT/bin/bootstrap.ps1"
-  grep -q '\$_.Name -ne ".system"' "$PROJECT_ROOT/bin/bootstrap.ps1"
-  grep -q 'New-Item \$codexSkillTarget -ItemType SymbolicLink' "$PROJECT_ROOT/bin/bootstrap.ps1"
+  bootstrap_script="$PROJECT_ROOT/bin/bootstrap.ps1"
+  links_script="$PROJECT_ROOT/windows/bootstrap/links.ps1"
+  grep -Fq '. (Join-Path $bootstrapDir "links-common.ps1")' "$bootstrap_script"
+  grep -Fq '. (Join-Path $bootstrapDir "links.ps1")' "$bootstrap_script"
+  grep -Fq '$codexSkillsSource = Join-Path $repoRoot' "$links_script"
+  grep -Fq '.codex\skills' "$links_script"
+  grep -Fq "Where-Object { \$_.Name -ne '.system' }" "$links_script"
+  grep -Fq 'Join-Path $env:USERPROFILE ".codex\skills\$($_.Name)"' "$links_script"
+  grep -Fq 'Set-DotfilesLink $_.FullName $target "Codex skill $($_.Name)"' "$links_script"
 
   for platform in macos ubuntu; do
     grep -q 'link_directory.*Claude Code skills' "$PROJECT_ROOT/install/$platform/claude-code.sh"
   done
 }
 
-@test "Windows bootstrap uses a valid mise command and dynamic profile activation" {
+@test "Windows mise modules validate and dynamically activate mise" {
   bootstrap_script="$PROJECT_ROOT/bin/bootstrap.ps1"
+  helpers_script="$PROJECT_ROOT/windows/bootstrap/helpers.ps1"
+  mise_script="$PROJECT_ROOT/windows/bootstrap/mise.ps1"
 
-  grep -q 'Test-MiseCommand' "$bootstrap_script"
-  grep -q 'Get-Command mise -CommandType Application' "$bootstrap_script"
-  grep -q '\$miseProfileCommand.Source activate pwsh' "$bootstrap_script"
-  ! grep -q 'miseProfileLine = "(&' "$bootstrap_script"
+  grep -Fq '. (Join-Path $bootstrapDir "helpers.ps1")' "$bootstrap_script"
+  grep -Fq '. (Join-Path $bootstrapDir "mise.ps1")' "$bootstrap_script"
+  grep -Fq 'function Test-MiseCommand($path)' "$helpers_script"
+  grep -Fq 'Get-Command mise -CommandType Application' "$helpers_script"
+  grep -Fq 'Test-MiseCommand $command.Source' "$helpers_script"
+  grep -Fq '(& $mise activate pwsh) | Out-String | Invoke-Expression' "$mise_script"
 }
 
 @test "legacy personal review entrypoints are absent" {
