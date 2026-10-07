@@ -34,6 +34,7 @@ local servers = {
   "dockerls",
   "gopls",
   "jsonls",
+  "lemminx",
   "lua_ls",
   "powershell_es",
   "pyright",
