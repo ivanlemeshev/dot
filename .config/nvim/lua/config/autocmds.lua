@@ -10,7 +10,9 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   group = reload_augroup,
   pattern = "*",
   callback = function()
-    if vim.fn.mode() ~= "c" then
+    -- NOTE: Skip checktime while you type a command or use the q: window.
+    -- checktime gives an error there.
+    if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
       vim.cmd("checktime")
     end
   end,
