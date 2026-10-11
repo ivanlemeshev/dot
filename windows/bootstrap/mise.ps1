@@ -17,7 +17,7 @@ if ($null -ne $mise) {
         }
     }
 
-    $bootstrapTools = @("go", "golangci-lint", "node", "python", "zig")
+    $bootstrapTools = @("go", "golangci-lint", "julia", "node", "pnpm", "python", "rust", "zig")
     Write-Host "Installing Windows-compatible mise bootstrap tools..."
     & $mise --yes install @bootstrapTools
 
