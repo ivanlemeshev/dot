@@ -35,3 +35,5 @@ log_info "Linked mise configuration: $MISE_CONFIG_SOURCE -> $MISE_CONFIG_TARGET"
 log_info "Installing mise tools"
 mise trust
 mise install
+mise exec -- julia -e 'using Pkg; Pkg.Apps.add("Runic")'
+test -x "$HOME/.julia/bin/runic"

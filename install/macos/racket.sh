@@ -15,4 +15,5 @@ brew install racket
 
 log_info "Installing Racket packages"
 raco pkg install --auto racket-langserver
+raco pkg install --auto fmt racket-linter
 raco pkg install --auto sicp

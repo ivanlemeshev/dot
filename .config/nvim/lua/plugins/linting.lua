@@ -94,6 +94,82 @@ local function golangci_linter()
   }
 end
 
+-- Convert raco's JSON output into Neovim diagnostics.
+local function racket_linter()
+  return {
+    cmd = "raco",
+    append_fname = false,
+    args = {
+      "lint",
+      "--output",
+      "json",
+      function()
+        local buf = vim.api.nvim_get_current_buf()
+        local file = vim.api.nvim_buf_get_name(buf)
+        return vim.fs.root(buf, { "info.rkt", ".git" })
+          or vim.fn.fnamemodify(file, ":h")
+      end,
+    },
+    stream = "stdout",
+    ignore_exitcode = true,
+    parser = function(output, bufnr)
+      if output == "" then
+        return {}
+      end
+
+      local ok, decoded = pcall(vim.json.decode, output)
+      if not ok then
+        return {}
+      end
+
+      local file = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
+      local root = vim.fs.root(bufnr, { "info.rkt", ".git" })
+        or vim.fn.fnamemodify(file, ":h")
+      local severities = {
+        error = vim.diagnostic.severity.ERROR,
+        hint = vim.diagnostic.severity.HINT,
+        info = vim.diagnostic.severity.INFO,
+        warning = vim.diagnostic.severity.WARN,
+      }
+      local diagnostics = {}
+
+      for _, item in ipairs(decoded.diagnostics or {}) do
+        local location = item.location or item.range or item.position or {}
+        local start = location.start or location
+        local item_file = item.path or item.file or item.filename or location.path
+        if item_file then
+          if not vim.fs.is_absolute(item_file) then
+            item_file = root .. "/" .. item_file
+          end
+          if vim.fs.normalize(item_file) == file then
+            local line = item.line
+              or item.line_number
+              or start.line
+              or start.line_number
+              or 1
+            local column = item.column
+              or item.col
+              or item.column_number
+              or start.column
+              or start.column_number
+              or 0
+            table.insert(diagnostics, {
+              lnum = math.max(line - 1, 0),
+              col = math.max(column, 0),
+              severity = severities[string.lower(item.severity or "warning")]
+                or vim.diagnostic.severity.WARN,
+              source = item.rule or item.rule_id or item.id or "racket-linter",
+              message = item.message or "Racket lint diagnostic",
+            })
+          end
+        end
+      end
+
+      return diagnostics
+    end,
+  }
+end
+
 local function setup_try_lint(lint)
   local original_try_lint = lint.try_lint
 
@@ -130,11 +206,14 @@ helpers.load_on(
     }
 
     lint.linters.golangcilint_custom = golangci_linter()
+    lint.linters.racket_linter = racket_linter()
     local linters_by_ft = {
       dockerfile = { "hadolint" },
       go = { "golangcilint_custom" },
       markdown = { "markdownlint" },
+      racket = { "racket_linter" },
       terraform = { "tflint", "tfsec" },
+      zig = { "zlint" },
     }
 
     if vim.fn.has("win32") ~= 1 then

@@ -10,4 +10,5 @@ print_section "Installing Racket packages"
 
 MISE_BIN="$HOME/.local/bin/mise"
 "$MISE_BIN" exec -- raco pkg install --auto --skip-installed racket-langserver
+"$MISE_BIN" exec -- raco pkg install --auto --skip-installed fmt racket-linter
 "$MISE_BIN" exec -- raco pkg install --auto --skip-installed sicp

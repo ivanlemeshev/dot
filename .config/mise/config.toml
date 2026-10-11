@@ -9,6 +9,6 @@ node = "24.21.0"
 pnpm = "12.11.2"
 python = "3.15.0"
 racket = "9.3"
-rust = "1.99.0"
+rust = { version = "1.99.0", profile = "default" }
 uv = "0.13.0"
 zig = "0.17.0"

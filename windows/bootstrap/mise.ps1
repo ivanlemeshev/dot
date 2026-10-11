@@ -25,6 +25,16 @@ if ($null -ne $mise) {
         Write-Warning "mise install failed."
     } else {
         Write-Host "mise bootstrap tools installed."
+        & $mise exec -- julia -e 'using Pkg; Pkg.Apps.add("Runic")'
+        $juliaBin = "$env:USERPROFILE\.julia\bin"
+        if (($env:PATH -split ";") -notcontains $juliaBin) {
+            $env:PATH = "$juliaBin;$env:PATH"
+        }
+        if ($LASTEXITCODE -ne 0 -or -not (Get-Command runic -ErrorAction SilentlyContinue)) {
+            Write-Warning "Failed to install Julia Runic formatter."
+        } else {
+            & runic --version
+        }
     }
 
     $msysEnv = Install-MSYS2
@@ -78,6 +88,27 @@ if ($null -ne $mise) {
 
 } else {
     Write-Warning "mise not found. If it was just installed, restart PowerShell and rerun this script."
+}
+
+$machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$env:PATH = "$machinePath;$userPath;$env:PATH"
+$raco = Get-Command raco -CommandType Application -ErrorAction SilentlyContinue
+if ($null -ne $raco) {
+    & $raco.Source pkg install --auto --skip-installed racket-langserver fmt racket-linter sicp
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "Failed to install Racket language tools."
+    } else {
+        & $raco.Source fmt --help *> $null
+        $fmtInstalled = $LASTEXITCODE -eq 0
+        & $raco.Source lint --help *> $null
+        $lintInstalled = $LASTEXITCODE -eq 0
+        if (-not $fmtInstalled -or -not $lintInstalled) {
+            Write-Warning "Racket formatter or linter verification failed."
+        }
+    }
+} else {
+    Write-Warning "Racket command not found. Racket editor tools were not installed."
 }
 
 Install-NpmGlobalPackage "@openai/codex" "codex" "Codex CLI"

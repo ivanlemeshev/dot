@@ -12,7 +12,7 @@ vim.pack.add({
   {
     src = "https://github.com/mason-org/mason-lspconfig.nvim",
     name = "mason-lspconfig.nvim",
-    version = "v2.1.0",
+    version = "v2.3.0",
   },
 }, {
   load = true, -- Load immediately
@@ -40,8 +40,11 @@ local servers = {
   "pyright",
   "ruff",
   "terraformls",
+  "ts_ls",
   "typos_lsp",
   "yamlls",
+  "rust_analyzer",
+  "julials",
   "zls",
 }
 
@@ -63,6 +66,7 @@ local linters = {
   "markdownlint",
   "tflint",
   "tfsec",
+  "zlint",
 }
 
 if vim.fn.has("win32") ~= 1 then

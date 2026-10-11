@@ -35,6 +35,8 @@ log_info "Linked mise configuration: $MISE_CONFIG_SOURCE -> $MISE_CONFIG_TARGET"
 log_info "Installing mise tools"
 "$HOME/.local/bin/mise" trust
 "$HOME/.local/bin/mise" install
+"$HOME/.local/bin/mise" exec -- julia -e 'using Pkg; Pkg.Apps.add("Runic")'
+test -x "$HOME/.julia/bin/runic"
 "$HOME/.local/bin/mise" install node
 "$HOME/.local/bin/mise" where node >/dev/null
 "$HOME/.local/bin/mise" exec -- node --version
