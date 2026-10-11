@@ -36,6 +36,12 @@ TEMPLATE = r'''{
       "alignment": "left",
       "segments": [
         {
+          "foreground": "__foreground__",
+          "style": "plain",
+          "template": "╭─ ",
+          "type": "text"
+        },
+        {
           "foreground": "__time__",
           "options": {
             "time_format": "15:04:05"
@@ -111,9 +117,79 @@ TEMPLATE = r'''{
       "newline": true,
       "segments": [
         {
+          "foreground": "__language_python__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "<__foreground__>├─ </>python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
+          "type": "python"
+        },
+        {
+          "foreground": "__language_node__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }}<__foreground__>├─ </>{{ end }}node {{ .Full }}  ",
+          "type": "node"
+        },
+        {
+          "foreground": "__language_rust__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }}<__foreground__>├─ </>{{ end }}rust {{ .Full }}  ",
+          "type": "rust"
+        },
+        {
+          "foreground": "__language_julia__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }}<__foreground__>├─ </>{{ end }}julia {{ .Full }}  ",
+          "type": "julia"
+        },
+        {
+          "foreground": "__language_go__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }}<__foreground__>├─ </>{{ end }}go {{ .Full }}  ",
+          "type": "go"
+        },
+        {
+          "foreground": "__language_zig__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }}<__foreground__>├─ </>{{ end }}zig {{ .Full }}  ",
+          "type": "zig"
+        },
+        {
+          "foreground": "__language_lua__",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }}<__foreground__>├─ </>{{ end }}lua {{ .Full }}  ",
+          "type": "lua"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
           "foreground": "__foreground__",
           "style": "plain",
-          "template": "<__prompt__>$</>",
+          "template": "╰─ <__prompt__>❯</>",
           "type": "text"
         }
       ],
@@ -161,8 +237,35 @@ def parse_omp(path):
     return values
 
 
+def parse_base_palette(path):
+    values = {}
+    active_section = False
+    key_pattern = re.compile(
+        r'^\s{2}([\w_+]+):\s+"?(#[0-9a-fA-F]{6})"?(?:\s+#.*)?\s*$'
+    )
+
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped == "base_palette:":
+                active_section = True
+                continue
+            if active_section:
+                if line and not line.startswith("  "):
+                    break
+                match = key_pattern.match(line)
+                if match:
+                    values[match.group(1)] = normalize_hex(match.group(2))
+
+    if "cyan" not in values:
+        raise ValueError("Base palette is missing cyan")
+
+    return values
+
+
 try:
     omp = parse_omp(yaml_file)
+    base_palette = parse_base_palette(yaml_file)
 except ValueError as exc:
     print(str(exc), file=sys.stderr)
     sys.exit(1)
@@ -181,6 +284,13 @@ merged = {
     "status_ok": omp["status_ok"],
     "status_error": omp["status_error"],
     "prompt": omp["prompt"],
+    "language_python": base_palette["cyan"],
+    "language_node": base_palette["cyan"],
+    "language_rust": base_palette["cyan"],
+    "language_julia": base_palette["cyan"],
+    "language_go": base_palette["cyan"],
+    "language_zig": base_palette["cyan"],
+    "language_lua": base_palette["cyan"],
 }
 
 content = TEMPLATE
