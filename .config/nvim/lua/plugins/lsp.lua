@@ -80,6 +80,13 @@ local lsp_config = {
       },
     },
   },
+  rust_analyzer = {
+    settings = {
+      ["rust-analyzer"] = {
+        check = { command = "clippy" },
+      },
+    },
+  },
   powershell_es = {
     settings = {
       powershell = {

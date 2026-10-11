@@ -16,6 +16,10 @@ helpers.load_on(
   "pack-conform",
   "conform.nvim",
   function()
+    local julia_bin = vim.fn.expand("~/.julia/bin")
+    local path_separator = vim.fn.has("win32") == 1 and ";" or ":"
+    vim.env.PATH = vim.env.PATH .. path_separator .. julia_bin
+
     require("conform").setup({
       formatters_by_ft = {
         c = { "clang_format" },
@@ -28,10 +32,20 @@ helpers.load_on(
         markdown = { "prettier" },
         proto = { "buf" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+        racket = { "raco_fmt" },
+        rust = { "rustfmt" },
         sh = { "shfmt" },
+        julia = { "runic" },
+        typescript = { "biome" },
+        typescriptreact = { "biome" },
         yaml = { "yamlfmt" },
       },
       formatters = {
+        raco_fmt = {
+          command = "raco",
+          args = { "fmt" },
+        },
+        runic = { command = "runic" },
         prettier = {
           prepend_args = { "--prose-wrap", "preserve" },
         },

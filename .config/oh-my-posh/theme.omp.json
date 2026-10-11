@@ -5,6 +5,12 @@
       "alignment": "left",
       "segments": [
         {
+          "foreground": "#d4be98",
+          "style": "plain",
+          "template": "╭─ ",
+          "type": "text"
+        },
+        {
           "foreground": "#e78a4e",
           "options": {
             "time_format": "15:04:05"
@@ -80,9 +86,79 @@
       "newline": true,
       "segments": [
         {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "<#d4be98>├─ </>python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
+          "type": "python"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }}<#d4be98>├─ </>{{ end }}node {{ .Full }}  ",
+          "type": "node"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }}<#d4be98>├─ </>{{ end }}rust {{ .Full }}  ",
+          "type": "rust"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }}<#d4be98>├─ </>{{ end }}julia {{ .Full }}  ",
+          "type": "julia"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }}<#d4be98>├─ </>{{ end }}go {{ .Full }}  ",
+          "type": "go"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }}<#d4be98>├─ </>{{ end }}zig {{ .Full }}  ",
+          "type": "zig"
+        },
+        {
+          "foreground": "#89b482",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }}<#d4be98>├─ </>{{ end }}lua {{ .Full }}  ",
+          "type": "lua"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
           "foreground": "#d4be98",
           "style": "plain",
-          "template": "<#a9b665>$</>",
+          "template": "╰─ <#a9b665>❯</>",
           "type": "text"
         }
       ],
