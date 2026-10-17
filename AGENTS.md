@@ -8,6 +8,10 @@ Use ASD-STE100 in code comments and all repository text, including Markdown file
 
 Use LF line endings for all repository text files.
 
+## Markdown
+
+Do not wrap text in Markdown files.
+
 ## User-directed changes
 
 - Read all applicable `AGENTS.md` files before each task.
