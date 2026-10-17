@@ -123,7 +123,7 @@ omp:
   prompt: "#aab28a"
 
 statusline:
-  normal_bg: "#e8e3df"
+  normal_bg: "#f2e8df"
   normal_fg: "#121110"
   insert_bg: "#aab28a"
   insert_fg: "#121110"
@@ -160,7 +160,7 @@ ui:
   color_column: "#30221d"
   cur_search_bg: "#d9a15f"
   cur_search_fg: "#121110"
-  cursor: "#e8e3df"
+  cursor: "#f2e8df"
   cursor_column: "#30221d"
   cursor_line: "#30221d"
   cursor_line_nr: "#30221d"
@@ -176,7 +176,7 @@ ui:
   folded_fg: "#716b66"
   inc_search_bg: "#d9a15f"
   inc_search_fg: "#121110"
-  line_nr: "#e8e3df"
+  line_nr: "#716b66"
   matchparen_bg: "#292624"
   mode_fg: "#e8e3df"
   more_fg: "#d9a15f"

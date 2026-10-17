@@ -7,7 +7,7 @@ local M = {}
 M.ui = {
   bg = "#121110",
   color_column = "#30221d",
-  cursor = "#e8e3df",
+  cursor = "#f2e8df",
   cursor_column = "#30221d",
   cursor_line = "#30221d",
   cursor_line_nr = "#30221d",
@@ -25,7 +25,7 @@ M.ui = {
   fg = "#e8e3df",
   inc_search_bg = "#d9a15f",
   inc_search_fg = "#121110",
-  line_nr = "#e8e3df",
+  line_nr = "#716b66",
   matchparen_bg = "#292624",
   mode_fg = "#e8e3df",
   non_text = "#716b66",
@@ -239,7 +239,7 @@ M.fzf_lua = {
 
 -- StatusLine
 M.statusline = {
-  normal_bg = "#e8e3df",
+  normal_bg = "#f2e8df",
   normal_fg = "#121110",
   insert_bg = "#aab28a",
   insert_fg = "#121110",

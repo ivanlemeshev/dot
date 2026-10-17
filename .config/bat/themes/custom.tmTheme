@@ -14,7 +14,7 @@
 				<key>foreground</key>
 				<string>#e8e3df</string>
 				<key>caret</key>
-				<string>#e8e3df</string>
+				<string>#f2e8df</string>
 				<key>lineHighlight</key>
 				<string>#30221d</string>
 				<key>selection</key>
@@ -30,7 +30,7 @@
 				<key>gutter</key>
 				<string>#121110</string>
 				<key>gutterForeground</key>
-				<string>#e8e3df</string>
+				<string>#716b66</string>
 				<key>findHighlight</key>
 				<string>#e9ba77</string>
 				<key>findHighlightForeground</key>
