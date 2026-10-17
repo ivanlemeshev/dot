@@ -20,41 +20,41 @@
   },
   "schemes": [
     {
-      "background": "#1D2021",
-      "black": "#1D2021",
-      "blue": "#7DAEA3",
-      "brightBlack": "#7C6F64",
-      "brightBlue": "#7DAEA3",
-      "brightCyan": "#89B482",
-      "brightGreen": "#A9B665",
-      "brightPurple": "#D3869B",
-      "brightRed": "#EA6962",
-      "brightWhite": "#DDC7A1",
-      "brightYellow": "#D8A657",
-      "cursorColor": "#D4BE98",
-      "cyan": "#89B482",
-      "foreground": "#D4BE98",
-      "green": "#A9B665",
+      "background": "#121110",
+      "black": "#121110",
+      "blue": "#87A8BA",
+      "brightBlack": "#716B66",
+      "brightBlue": "#A4C2D0",
+      "brightCyan": "#ACD0C8",
+      "brightGreen": "#BBC49B",
+      "brightPurple": "#D4A3B2",
+      "brightRed": "#DD8768",
+      "brightWhite": "#F6F1EC",
+      "brightYellow": "#E9BA77",
+      "cursorColor": "#F2E8DF",
+      "cyan": "#8FBAB2",
+      "foreground": "#E8E3DF",
+      "green": "#AAB28A",
       "name": "Gruvbox Material Dark",
-      "purple": "#D3869B",
-      "red": "#EA6962",
-      "selectionBackground": "#282828",
-      "white": "#D4BE98",
-      "yellow": "#E78A4E"
+      "purple": "#BD8F9F",
+      "red": "#C8785B",
+      "selectionBackground": "#30221D",
+      "white": "#E8E3DF",
+      "yellow": "#D9A15F"
     }
   ],
   "themes": [
     {
       "name": "Gruvbox Material Dark",
       "tab": {
-        "background": "#1D2021FF",
+        "background": "#121110FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#1D2021FF",
-        "unfocusedBackground": "#282828FF"
+        "background": "#121110FF",
+        "unfocusedBackground": "#30221DFF"
       },
       "window": {
         "applicationTheme": "dark",
