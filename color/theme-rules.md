@@ -5,16 +5,16 @@ generators.
 
 ## Structure
 
-1. Use `tomorrow-night.yaml` as the structural baseline.
-2. Keep the same top-level sections in every theme file.
-3. Do not invent new `base_palette` keys unless the baseline already has them.
-4. Do not add standalone hex values outside `base_palette`.
+1. Keep the same top-level sections and `base_palette` keys in every theme
+   file.
+2. Do not add standalone hex values outside `base_palette`.
 
 ## Palette
 
 1. Every section value must come from that theme's own `base_palette`.
 2. If a slot already exists, reuse it.
-3. If a slot does not exist in the baseline, do not create it just for one case.
+3. Do not add a palette slot for one theme only. Add a required slot to every
+   theme and update the affected generators.
 4. Accent slots may be the same or different, depending on the theme.
 5. Use the theme's existing convention for accent slots; do not change one
    without a reason.
