@@ -4,15 +4,15 @@
 # semantics without changing the file-type mapping.
 
 # --- Semantic roles (RGB values) ---
-set -l ls_foreground "232;227;223"  # #e8e3df
-set -l ls_background "18;17;16"     # #121110
-set -l ls_error      "200;120;91"  # #c8785b
-set -l ls_executable "170;178;138"  # #aab28a
-set -l ls_document   "233;186;119"   # #e9ba77
-set -l ls_directory  "135;168;186"  # #87a8ba
-set -l ls_special    "189;143;159"  # #bd8f9f
-set -l ls_media      "143;186;178"  # #8fbab2
-set -l ls_backup     "113;107;102"  # #716b66
+set -l ls_foreground "250;249;245"  # #faf9f5
+set -l ls_background "20;20;19"     # #141413
+set -l ls_error      "201;79;79"  # #c94f4f
+set -l ls_executable "93;155;117"  # #5d9b75
+set -l ls_document   "233;161;125"   # #e9a17d
+set -l ls_directory  "91;141;184"  # #5b8db8
+set -l ls_special    "183;107;157"  # #b76b9d
+set -l ls_media      "88;166;173"  # #58a6ad
+set -l ls_backup     "176;174;165"  # #b0aea5
 
 # --- ANSI style helpers ---
 set -l n  "0;38;2"  # normal
