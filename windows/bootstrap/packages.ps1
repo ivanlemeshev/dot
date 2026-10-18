@@ -22,3 +22,4 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
 }
 Install-WingetPackage "Neovim.Neovim" "Neovim"
 Install-WingetPackage "marlocarlo.psmux" "psmux"
+Install-WingetPackage "max-sixty.worktrunk" "Worktrunk"
