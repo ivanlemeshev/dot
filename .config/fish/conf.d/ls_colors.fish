@@ -29,7 +29,7 @@ set -l ls \
     "rs=0" \
     "mh=1" \
     "no=$n;$ls_foreground;48;2;$ls_background" \
-    "fi=$n;$ls_foreground;48;2;$ls_background" \
+    "fi=0" \
     "di=$n;$ls_directory" \
     "ln=$it;$ls_media" \
     "or=$it;$ls_error" \
