@@ -18,7 +18,7 @@
 				<key>lineHighlight</key>
 				<string>#252522</string>
 				<key>selection</key>
-				<string>#252522</string>
+				<string>#d97757</string>
 				<key>selectionBorder</key>
 				<string>#b0aea5</string>
 				<key>invisibles</key>
@@ -459,7 +459,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#252522</string>
+				<string>#d97757</string>
 			</dict>
 		</dict>
 		<dict>
