@@ -8,6 +8,7 @@ generators.
 1. Keep the same top-level sections and `base_palette` keys in every theme
    file.
 2. Do not add standalone hex values outside `base_palette`.
+3. Keep Codex theme roles in the `codex` section and map them to each theme's `base_palette`.
 
 ## Palette
 

@@ -23,6 +23,23 @@ base_palette:
   bright_cyan: "#89b482"
   bright_white: "#ddc7a1"
 
+codex:
+  background: #1d2021
+  foreground: #d4be98
+  caret: #d4be98
+  line_highlight: #282828
+  selection: #282828
+  selection_border: #7c6f64
+  invisibles: #7c6f64
+  guide: #7c6f64
+  active_guide: #7c6f64
+  gutter: #1d2021
+  gutter_foreground: #7c6f64
+  find_highlight: #d8a657
+  find_highlight_foreground: #1d2021
+  brackets_foreground: #d4be98
+  bracket_contents_foreground: #d4be98
+
 windows_terminal:
   tab_background: "#1d2021"
   tab_unfocused_background: "#282828"
