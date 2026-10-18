@@ -8,7 +8,7 @@ set -l ls_foreground "232;227;223"  # #e8e3df
 set -l ls_background "18;17;16"     # #121110
 set -l ls_error      "200;120;91"  # #c8785b
 set -l ls_executable "170;178;138"  # #aab28a
-set -l ls_document   "217;161;95"   # #d9a15f
+set -l ls_document   "233;186;119"   # #e9ba77
 set -l ls_directory  "135;168;186"  # #87a8ba
 set -l ls_special    "189;143;159"  # #bd8f9f
 set -l ls_media      "143;186;178"  # #8fbab2

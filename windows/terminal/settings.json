@@ -38,7 +38,7 @@
       "name": "Gruvbox Material Dark",
       "purple": "#BD8F9F",
       "red": "#C8785B",
-      "selectionBackground": "#30221D",
+      "selectionBackground": "#292624",
       "white": "#E8E3DF",
       "yellow": "#D9A15F"
     }
@@ -54,7 +54,7 @@
       },
       "tabRow": {
         "background": "#121110FF",
-        "unfocusedBackground": "#30221DFF"
+        "unfocusedBackground": "#292624FF"
       },
       "window": {
         "applicationTheme": "dark",

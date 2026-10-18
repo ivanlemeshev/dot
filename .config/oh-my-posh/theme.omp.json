@@ -45,7 +45,7 @@
           "foreground_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}#c8785b{{ end }}",
             "{{ if gt .Ahead 0 }}#87a8ba{{ end }}",
-            "{{ if gt .Behind 0 }}#c8785b{{ end }}"
+            "{{ if gt .Behind 0 }}#d9a15f{{ end }}"
           ],
           "options": {
             "branch_icon": "",
@@ -53,7 +53,7 @@
             "fetch_upstream_icon": false
           },
           "style": "plain",
-          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#c8785b> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#aab28a> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#d9a15f> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#aab28a> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
           "type": "git"
         },
         {
