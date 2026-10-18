@@ -44,6 +44,7 @@ try {
     $bootstrapDir = Join-Path $repoRoot "windows\bootstrap"
     . (Join-Path $bootstrapDir "helpers.ps1")
     . (Join-Path $bootstrapDir "packages.ps1")
+    . (Join-Path $bootstrapDir "worktrunk.ps1")
     . (Join-Path $bootstrapDir "git.ps1")
     . (Join-Path $bootstrapDir "keyboard-map.ps1")
     . (Join-Path $bootstrapDir "keyboard.ps1")
