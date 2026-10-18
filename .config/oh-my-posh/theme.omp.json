@@ -5,13 +5,13 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#d4be98",
+          "foreground": "#e8e3df",
           "style": "plain",
           "template": "╭─ ",
           "type": "text"
         },
         {
-          "foreground": "#e78a4e",
+          "foreground": "#d9a15f",
           "options": {
             "time_format": "15:04:05"
           },
@@ -20,19 +20,19 @@
           "type": "time"
         },
         {
-          "foreground": "#d4be98",
+          "foreground": "#e8e3df",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#a9b665>{{ .UserName }}</><#d4be98>@</></>{{ end }}<#7daea3>{{ .HostName }}</>  ",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<#aab28a>{{ .UserName }}</><#e8e3df>@</></>{{ end }}<#87a8ba>{{ .HostName }}</>  ",
           "type": "session"
         },
         {
-          "foreground": "#ea6962",
+          "foreground": "#c8785b",
           "style": "plain",
           "template": "󱐋  ",
           "type": "root"
         },
         {
-          "foreground": "#d4be98",
+          "foreground": "#e8e3df",
           "options": {
             "style": "folder"
           },
@@ -41,11 +41,11 @@
           "type": "path"
         },
         {
-          "foreground": "#a9b665",
+          "foreground": "#aab28a",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#ea6962{{ end }}",
-            "{{ if gt .Ahead 0 }}#7daea3{{ end }}",
-            "{{ if gt .Behind 0 }}#e78a4e{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#c8785b{{ end }}",
+            "{{ if gt .Ahead 0 }}#87a8ba{{ end }}",
+            "{{ if gt .Behind 0 }}#c8785b{{ end }}"
           ],
           "options": {
             "branch_icon": "",
@@ -53,11 +53,11 @@
             "fetch_upstream_icon": false
           },
           "style": "plain",
-          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#e78a4e> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#a9b665> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<#c8785b> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<#aab28a> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
           "type": "git"
         },
         {
-          "foreground": "#d8a657",
+          "foreground": "#e9ba77",
           "options": {
             "style": "roundrock",
             "threshold": 500
@@ -67,9 +67,9 @@
           "type": "executiontime"
         },
         {
-          "foreground": "#a9b665",
+          "foreground": "#aab28a",
           "foreground_templates": [
-            "{{ if gt .Code 0 }}#ea6962{{ end }}"
+            "{{ if gt .Code 0 }}#c8785b{{ end }}"
           ],
           "options": {
             "always_enabled": false
@@ -86,66 +86,66 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "<#d4be98>├─ </>python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
+          "template": "<#e8e3df>├─ </>python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
           "type": "python"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }}<#d4be98>├─ </>{{ end }}node {{ .Full }}  ",
+          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }}<#e8e3df>├─ </>{{ end }}node {{ .Full }}  ",
           "type": "node"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }}<#d4be98>├─ </>{{ end }}rust {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }}<#e8e3df>├─ </>{{ end }}rust {{ .Full }}  ",
           "type": "rust"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }}<#d4be98>├─ </>{{ end }}julia {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }}<#e8e3df>├─ </>{{ end }}julia {{ .Full }}  ",
           "type": "julia"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }}<#d4be98>├─ </>{{ end }}go {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }}<#e8e3df>├─ </>{{ end }}go {{ .Full }}  ",
           "type": "go"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }}<#d4be98>├─ </>{{ end }}zig {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }}<#e8e3df>├─ </>{{ end }}zig {{ .Full }}  ",
           "type": "zig"
         },
         {
-          "foreground": "#89b482",
+          "foreground": "#8fbab2",
           "options": {
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }}<#d4be98>├─ </>{{ end }}lua {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }}<#e8e3df>├─ </>{{ end }}lua {{ .Full }}  ",
           "type": "lua"
         }
       ],
@@ -156,9 +156,9 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#d4be98",
+          "foreground": "#e8e3df",
           "style": "plain",
-          "template": "╰─ <#a9b665>❯</>",
+          "template": "╰─ <#aab28a>❯</>",
           "type": "text"
         }
       ],

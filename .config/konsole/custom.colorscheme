@@ -1,96 +1,96 @@
 [Background]
-Color=29,32,33
+Color=18,17,16
 
 [BackgroundFaint]
-Color=29,32,33
+Color=18,17,16
 
 [BackgroundIntense]
-Color=29,32,33
+Color=18,17,16
 
 [Color0]
-Color=29,32,33
+Color=18,17,16
 
 [Color0Faint]
-Color=29,32,33
+Color=18,17,16
 
 [Color0Intense]
-Color=124,111,100
+Color=113,107,102
 
 [Color1]
-Color=234,105,98
+Color=200,120,91
 
 [Color1Faint]
-Color=234,105,98
+Color=200,120,91
 
 [Color1Intense]
-Color=234,105,98
+Color=221,135,104
 
 [Color2]
-Color=169,182,101
+Color=170,178,138
 
 [Color2Faint]
-Color=169,182,101
+Color=170,178,138
 
 [Color2Intense]
-Color=169,182,101
+Color=187,196,155
 
 [Color3]
-Color=231,138,78
+Color=217,161,95
 
 [Color3Faint]
-Color=231,138,78
+Color=217,161,95
 
 [Color3Intense]
-Color=216,166,87
+Color=233,186,119
 
 [Color4]
-Color=125,174,163
+Color=135,168,186
 
 [Color4Faint]
-Color=125,174,163
+Color=135,168,186
 
 [Color4Intense]
-Color=125,174,163
+Color=164,194,208
 
 [Color5]
-Color=211,134,155
+Color=189,143,159
 
 [Color5Faint]
-Color=211,134,155
+Color=189,143,159
 
 [Color5Intense]
-Color=211,134,155
+Color=212,163,178
 
 [Color6]
-Color=137,180,130
+Color=143,186,178
 
 [Color6Faint]
-Color=137,180,130
+Color=143,186,178
 
 [Color6Intense]
-Color=137,180,130
+Color=172,208,200
 
 [Color7]
-Color=212,190,152
+Color=232,227,223
 
 [Color7Faint]
-Color=212,190,152
+Color=232,227,223
 
 [Color7Intense]
-Color=221,199,161
+Color=246,241,236
 
 [Foreground]
-Color=212,190,152
+Color=232,227,223
 
 [ForegroundFaint]
-Color=212,190,152
+Color=232,227,223
 
 [ForegroundIntense]
-Color=221,199,161
+Color=246,241,236
 
 [General]
 Blur=false
 ColorRandomization=false
-Description=Gruvbox Material Dark Hard
+Description=Sienna Night
 Opacity=1
 Wallpaper=
