@@ -35,6 +35,39 @@ setup() {
   done
 }
 
+@test "AlmaLinux bootstrap uses its own GNOME installers" {
+  bootstrap_script="$PROJECT_ROOT/bin/bootstrap-almalinux.sh"
+
+  grep -q 'install/almalinux' "$bootstrap_script"
+  grep -q 'install/almalinux/keyboard.sh' "$bootstrap_script"
+  ! grep -q 'install/fedora' "$bootstrap_script"
+  ! grep -q 'konsole.sh' "$bootstrap_script"
+  grep -q 'gsettings set org.gnome.desktop.input-sources xkb-options' \
+    "$PROJECT_ROOT/install/almalinux/keyboard.sh"
+  grep -q 'sudo snap install ghostty --classic' \
+    "$PROJECT_ROOT/install/almalinux/ghostty.sh"
+  grep -q 'sudo systemctl enable --now snapd.socket' \
+    "$PROJECT_ROOT/install/almalinux/ghostty.sh"
+}
+
+@test "AlmaLinux installers keep the Fedora scripts' executable modes" {
+  for script in \
+    bat.sh clean.sh emacs.sh essentials.sh fish.sh fzf.sh gh.sh ghostty.sh \
+    git.sh grpcurl.sh keyboard.sh mise.sh nerd-fonts.sh nvim.sh oh-my-posh.sh \
+    racket.sh tmux.sh tree-sitter.sh update.sh vim.sh worktrunk.sh yt-dlp.sh; do
+    [[ "$(stat -c '%a' "$PROJECT_ROOT/install/almalinux/$script")" == \
+      "$(stat -c '%a' "$PROJECT_ROOT/install/fedora/$script")" ]]
+  done
+  [[ "$(stat -c '%a' "$PROJECT_ROOT/bin/bootstrap-almalinux.sh")" == \
+    "$(stat -c '%a' "$PROJECT_ROOT/bin/bootstrap-fedora.sh")" ]]
+}
+
+@test "AlmaLinux container test uses its current release image" {
+  grep -q '^FROM almalinux:10$' \
+    "$PROJECT_ROOT/tests/container/Dockerfile.almalinux"
+  grep -q 'almalinux' "$PROJECT_ROOT/tests/container/run.sh"
+}
+
 @test "Fedora test sets machine and KDE font values" {
   grep -q -- '--env MACHINE_NAME=dotfiles-test' \
     "$PROJECT_ROOT/tests/container/run.sh"
@@ -45,7 +78,7 @@ setup() {
 }
 
 @test "container images use a fixed non-conflicting test user ID" {
-  for platform in ubuntu fedora-kde; do
+  for platform in ubuntu fedora-kde almalinux; do
     dockerfile="$PROJECT_ROOT/tests/container/Dockerfile.$platform"
     grep -q -- '--uid 10001 tester' "$dockerfile"
     grep -q '^USER 10001$' "$dockerfile"

@@ -9,6 +9,7 @@ unit-test:
 .PHONY: lint
 lint:
 	@shellcheck lib/*.sh install/ubuntu/*.sh install/macos/*.sh
+	@shellcheck install/almalinux/*.sh
 	@find bin -type f ! -name "*.ps1" -exec shellcheck {} +
 	@shellcheck tests/container/*.sh
 

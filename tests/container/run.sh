@@ -4,12 +4,12 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-platforms=(ubuntu fedora-kde)
+platforms=(ubuntu fedora-kde almalinux)
 interactive=false
 
 usage() {
   echo "Usage: $0 [--platform PLATFORM | --interactive PLATFORM]" >&2
-  echo "Platforms: ubuntu, fedora-kde" >&2
+  echo "Platforms: ubuntu, fedora-kde, almalinux" >&2
 }
 
 if [[ "${1:-}" == "--platform" || "${1:-}" == "--interactive" ]]; then
@@ -32,7 +32,7 @@ fi
 
 for platform in "${platforms[@]}"; do
   case "$platform" in
-    ubuntu | fedora-kde) ;;
+    ubuntu | fedora-kde | almalinux) ;;
     *)
       echo "Unsupported platform: $platform" >&2
       usage
@@ -86,6 +86,10 @@ for platform in "${platforms[@]}"; do
       --env MACHINE_NAME=dotfiles-test
       --env KDE_TERMINAL_FONT="JetBrainsMonoNL Nerd Font Mono,11,-1,5,50,0,0,0,0,0"
     )
+  fi
+
+  if [[ "$platform" == "almalinux" ]]; then
+    environment+=(--env MACHINE_NAME=dotfiles-test)
   fi
 
   if [[ "${CONTAINER_INSTALL_CACHE:-1}" == "1" ]]; then

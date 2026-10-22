@@ -32,5 +32,8 @@ jobs:
       - name: Lint install scripts (macOS)
         run: shellcheck install/macos/*.sh
 
+      - name: Lint install scripts (AlmaLinux)
+        run: shellcheck install/almalinux/*.sh
+
       - name: Lint bin scripts
         run: find bin -type f ! -name "*.ps1" -exec shellcheck {} +

@@ -129,6 +129,13 @@ main() {
         log_fatal "bootstrap-fedora.sh not found" 1
       fi
       ;;
+    "AlmaLinux "*)
+      if [[ -f "$PROJECT_ROOT/bin/bootstrap-almalinux.sh" ]]; then
+        source "$PROJECT_ROOT/bin/bootstrap-almalinux.sh"
+      else
+        log_fatal "bootstrap-almalinux.sh not found" 1
+      fi
+      ;;
     "Darwin"*)
       if [[ -f "$PROJECT_ROOT/bin/bootstrap-macos.sh" ]]; then
         source "$PROJECT_ROOT/bin/bootstrap-macos.sh"

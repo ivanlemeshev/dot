@@ -15,7 +15,11 @@ assert_link() {
 }
 
 verify_installation() {
-  "$repository/bin/bootstrap" </dev/null
+  if [[ "$platform" == "almalinux" ]]; then
+    dbus-run-session -- "$repository/bin/bootstrap" </dev/null
+  else
+    "$repository/bin/bootstrap" </dev/null
+  fi
 
   command -v git
   command -v fish
@@ -64,4 +68,12 @@ if [[ "$platform" == "fedora-kde" ]]; then
     "$HOME/.local/share/konsole/dot.profile"
   assert_link "$HOME/.local/share/konsole/custom.colorscheme" \
     "$repository/.config/konsole/custom.colorscheme"
+fi
+
+if [[ "$platform" == "almalinux" ]]; then
+  [[ "$(dbus-run-session -- gsettings get \
+    org.gnome.desktop.input-sources xkb-options)" == *ctrl:nocaps* ]]
+  command -v dbus-run-session
+  command -v snap
+  snap version
 fi

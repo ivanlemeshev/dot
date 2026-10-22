@@ -58,7 +58,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 make container-install-test
 ```
 
-The test uses Docker when it is available. The test uses Podman otherwise. The test checks Ubuntu 26.04 and Fedora with KDE Plasma.
+The test uses Docker when it is available. The test uses Podman otherwise. The test checks Ubuntu 26.04, Fedora with KDE Plasma, and AlmaLinux 10 with GNOME settings.
+The AlmaLinux container checks the `snapd` client. The container does not start systemd. The AlmaLinux host installs Ghostty through Snap.
 The test caches mise downloads and installed tools in per-platform volumes. Set `CONTAINER_INSTALL_CACHE=0` for a clean run.
 
 Use an interactive shell after the checks finish:
@@ -66,6 +67,7 @@ Use an interactive shell after the checks finish:
 ```bash
 make container-install-shell PLATFORM=ubuntu
 make container-install-shell PLATFORM=fedora-kde
+make container-install-shell PLATFORM=almalinux
 ```
 
 ## Post-install
