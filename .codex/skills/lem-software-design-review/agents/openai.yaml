@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lem Software Design Review"
+  short_description: "Find design problems that increase complexity"
+  default_prompt: "Use $lem-software-design-review to review code for change amplification, cognitive load, unknown unknowns, and dependencies and obscurity."
