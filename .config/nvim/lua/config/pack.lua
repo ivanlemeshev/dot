@@ -39,6 +39,7 @@ local plugin_modules = {
   "plugins.diagnostics",
   "plugins.filetypes",
   "plugins.treesitter",
+  "plugins.markdown",
   "plugins.http",
   "plugins.statusline",
 }
