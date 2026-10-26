@@ -4,6 +4,19 @@ Install-WingetPackage "Git.Git" "Git"
 Install-WingetPackage "GitHub.cli" "GitHub CLI"
 Install-WingetPackage "Microsoft.PowerShell" "PowerShell 7"
 Install-WingetPackage "jdx.mise" "mise"
+if ($null -eq (Get-MiseCommand)) {
+    Write-Host "mise was not found after the winget install. Trying the official installer..."
+    try {
+        $miseInstaller = Invoke-RestMethod "https://mise.run/powershell" -ErrorAction Stop
+        Invoke-Expression $miseInstaller
+    } catch {
+        Write-Warning "The official mise installer failed: $($_.Exception.Message)"
+    }
+
+    if ($null -eq (Get-MiseCommand)) {
+        throw "mise installation failed. Node.js shims cannot run without mise."
+    }
+}
 Install-WingetPackage "Racket.Racket" "Racket"
 Install-WingetPackage "BurntSushi.ripgrep.MSVC" "ripgrep"
 Install-WingetPackage "sharkdp.fd" "fd"

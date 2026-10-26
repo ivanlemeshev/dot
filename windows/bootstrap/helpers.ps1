@@ -42,12 +42,21 @@ function Get-MiseCommand {
         return $command.Source
     }
 
+    $wingetCandidates = @(
+        Get-ChildItem "$env:LOCALAPPDATA\Microsoft\WinGet\Packages" `
+            -Directory -Filter "jdx.mise_*" -ErrorAction SilentlyContinue |
+            ForEach-Object {
+                Get-ChildItem $_.FullName -File -Filter "mise.exe" -Recurse `
+                    -Force -ErrorAction SilentlyContinue
+            } | ForEach-Object { $_.FullName }
+    )
     $candidates = @(
         "$env:LOCALAPPDATA\Microsoft\WinGet\Links\mise.exe",
+        "$env:USERPROFILE\.local\bin\mise.exe",
         "$env:LOCALAPPDATA\mise\bin\mise.exe",
         "$env:ProgramFiles\mise\bin\mise.exe",
         "$env:ProgramFiles\mise\mise.exe"
-    )
+    ) + $wingetCandidates
 
     foreach ($candidate in $candidates) {
         if ((Test-Path $candidate) -and (Test-MiseCommand $candidate)) {
@@ -96,12 +105,19 @@ function Install-NpmGlobalPackage($package, $commandName, $name) {
         Write-Host "Installing $name..."
     }
 
-    if (Get-Command npm -ErrorAction SilentlyContinue) {
-        npm install -g $package
+    $npm = Get-Command npm -CommandType Application -ErrorAction SilentlyContinue
+    $npmWorks = $false
+    if ($null -ne $npm) {
+        & $npm.Source --version *> $null
+        $npmWorks = $LASTEXITCODE -eq 0
+    }
+
+    if ($npmWorks) {
+        & $npm.Source install -g $package
     } else {
         $mise = Get-MiseCommand
         if ($null -eq $mise) {
-            Write-Warning "npm and mise not found. Skipping $name."
+            Write-Warning "npm and mise not found or could not run. Skipping $name."
             Write-Warning "If mise was just installed, restart PowerShell and rerun this script."
             return $false
         }

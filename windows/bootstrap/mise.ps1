@@ -7,6 +7,26 @@ Set-DotfilesLink $miseSourceDir $miseTargetDir 'mise configuration'
 
 $mise = Get-MiseCommand
 if ($null -ne $mise) {
+    $miseDir = [IO.Path]::GetFullPath((Split-Path -Parent $mise)).TrimEnd('\')
+    $userPathEntries = @(
+        [Environment]::GetEnvironmentVariable("Path", "User") -split ";" |
+            Where-Object { $_ }
+    )
+    $miseInUserPath = $userPathEntries | Where-Object {
+        [string]::Equals($_.TrimEnd('\'), $miseDir, [StringComparison]::OrdinalIgnoreCase)
+    }
+    if (-not $miseInUserPath) {
+        $userPathEntries += $miseDir
+        [Environment]::SetEnvironmentVariable("Path", ($userPathEntries -join ";"), "User")
+    }
+
+    $miseInProcessPath = $env:PATH -split ";" | Where-Object {
+        [string]::Equals($_.TrimEnd('\'), $miseDir, [StringComparison]::OrdinalIgnoreCase)
+    }
+    if (-not $miseInProcessPath) {
+        $env:PATH = "$miseDir;$env:PATH"
+    }
+
     $miseConfigFile = "$miseSourceDir\config.toml"
     if (Test-Path $miseConfigFile) {
         Write-Host "Trusting mise config..."
