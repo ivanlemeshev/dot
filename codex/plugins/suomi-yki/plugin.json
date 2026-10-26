@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "suomi-yki",
+  "version": "1.0.0",
+  "description": "Готовься к финскому тесту YKI и тренируй все четыре языковых навыка.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Suomi YKI",
+        "shortDescription": "Подготовка к финскому YKI",
+        "longDescription": "Тренируй устную речь, аудирование, чтение и письмо для финского теста YKI и получай понятную обратную связь.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Подготовь меня к устной части финского YKI.",
+          "Дай задание на письмо уровня YKI 3 и проверь мой ответ."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

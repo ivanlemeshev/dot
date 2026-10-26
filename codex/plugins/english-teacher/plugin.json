@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "english-teacher",
+  "version": "1.0.0",
+  "description": "Изучай английский с переводом, понятными объяснениями, исправлениями и практикой.",
+  "author": {
+    "name": "Ivan Lemeshev"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "English Teacher",
+        "shortDescription": "Практика английского языка",
+        "longDescription": "Переводи фразы, исправляй ошибки и изучай английский через понятные объяснения и короткие упражнения.",
+        "developerName": "Ivan Lemeshev",
+        "category": "Productivity",
+        "capabilities": [
+          "Interactive"
+        ],
+        "defaultPrompt": [
+          "Переведи на естественный английский: Я сегодня работаю из дома.",
+          "Объясни это предложение и помоги потренировать грамматику: ..."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      }
+    }
+  }
+}

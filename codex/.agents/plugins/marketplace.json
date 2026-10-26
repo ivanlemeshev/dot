@@ -1,0 +1,116 @@
+{
+  "name": "lem-plugins",
+  "interface": {
+    "displayName": "Lem Plugins"
+  },
+  "plugins": [
+    {
+      "name": "suomi-dictionary",
+      "source": {
+        "source": "local",
+        "path": "./plugins/suomi-dictionary"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "suomi-grammar",
+      "source": {
+        "source": "local",
+        "path": "./plugins/suomi-grammar"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "suomi-teacher",
+      "source": {
+        "source": "local",
+        "path": "./plugins/suomi-teacher"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "english-dictionary",
+      "source": {
+        "source": "local",
+        "path": "./plugins/english-dictionary"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "english-writing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/english-writing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "english-grammar",
+      "source": {
+        "source": "local",
+        "path": "./plugins/english-grammar"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "english-errors",
+      "source": {
+        "source": "local",
+        "path": "./plugins/english-errors"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "english-teacher",
+      "source": {
+        "source": "local",
+        "path": "./plugins/english-teacher"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "suomi-yki",
+      "source": {
+        "source": "local",
+        "path": "./plugins/suomi-yki"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
