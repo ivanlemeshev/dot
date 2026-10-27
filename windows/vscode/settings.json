@@ -1,24 +1,25 @@
 {
-    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
-    "editor.fontLigatures": false,
-    "editor.formatOnSave": true,
-    "editor.minimap.enabled": false,
-    "editor.renderWhitespace": "all",
-    "editor.rulers": [
-        80,
-        100,
-        120
-    ],
-    "editor.wordWrap": "on",
-    "files.eol": "\n",
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-    "window.density.layout": "compact",
-    "[powershell]": {
-        "editor.detectIndentation": false,
-        "editor.insertSpaces": true,
-        "editor.tabSize": 4
-    },
-    "workbench.iconTheme": "gruvbox-material-icon-theme",
-    "workbench.colorTheme": "Gruvbox Material Dark (nv-h)"
+  "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": false,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
+  "editor.wordWrap": "on",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "window.density.layout": "compact",
+  "[powershell]": {
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "workbench.iconTheme": "gruvbox-material-icon-theme",
+  "workbench.colorTheme": "Ayu Dark Bordered",
+  "cSpell.language": "en,ru-RU"
 }
