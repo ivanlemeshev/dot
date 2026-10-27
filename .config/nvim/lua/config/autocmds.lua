@@ -42,6 +42,28 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
+--- Hide the cursor line while entering text.
+local insert_cursorline_augroup = helpers.augroup("insert-cursorline")
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = insert_cursorline_augroup,
+  callback = function()
+    vim.w._cursorline_before_insert = vim.wo.cursorline
+    vim.wo.cursorline = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = insert_cursorline_augroup,
+  callback = function()
+    if vim.w._cursorline_before_insert == nil then
+      return
+    end
+
+    vim.wo.cursorline = vim.w._cursorline_before_insert
+    vim.w._cursorline_before_insert = nil
+  end,
+})
+
 --- Force Unix line endings before writing files.
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
