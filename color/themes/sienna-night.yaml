@@ -175,7 +175,7 @@ diagnostic:
 ui:
   bg: "#141413"
   color_column: "#252522"
-  cur_search_bg: "#d97757"
+  cur_search_bg: "#e9a17d"
   cur_search_fg: "#141413"
   cursor: "#d97757"
   cursor_column: "#252522"

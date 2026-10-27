@@ -164,13 +164,19 @@ local function setup_document_highlight(event)
   local highlight_augroup =
     vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
-  vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  vim.api.nvim_create_autocmd("CursorHold", {
     buffer = event.buf,
     group = highlight_augroup,
     callback = vim.lsp.buf.document_highlight,
   })
 
-  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = event.buf,
+    group = highlight_augroup,
+    callback = vim.lsp.buf.clear_references,
+  })
+
+  vim.api.nvim_create_autocmd("InsertEnter", {
     buffer = event.buf,
     group = highlight_augroup,
     callback = vim.lsp.buf.clear_references,

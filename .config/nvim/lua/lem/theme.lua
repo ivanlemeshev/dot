@@ -11,7 +11,7 @@ M.ui = {
   cursor_column = "#252522",
   cursor_line = "#252522",
   cursor_line_nr = "#252522",
-  cur_search_bg = "#d97757",
+  cur_search_bg = "#e9a17d",
   cur_search_fg = "#141413",
   directory_fg = "#5b8db8",
   end_of_buffer_fg = "#252522",
@@ -392,6 +392,11 @@ function M.setup()
     "IncSearch",
     { fg = M.ui.cur_search_fg, bg = M.ui.inc_search_bg, bold = true }
   )
+
+  -- LSP reference groups highlight the word under the cursor in normal mode.
+  hl("LspReferenceText", { fg = M.ui.search_fg, bg = M.ui.search_bg })
+  hl("LspReferenceRead", { fg = M.ui.search_fg, bg = M.ui.search_bg })
+  hl("LspReferenceWrite", { fg = M.ui.search_fg, bg = M.ui.search_bg })
 
   -- `Visual` highlights visual selections, such as text selected with `v`,
   -- `V`, or `Ctrl-V`.
