@@ -41,6 +41,9 @@ helpers.load_on(
         yaml = { "yamlfmt" },
       },
       formatters = {
+        clang_format = {
+          args = { "--style=LLVM", "--assume-filename", "$FILENAME" },
+        },
         raco_fmt = {
           command = "raco",
           args = { "fmt" },
