@@ -9,12 +9,30 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-local mode = {
-  "mode",
-  fmt = function(str)
-    return " " .. str
-  end,
+local function ansi_mode(color)
+  return {
+    a = { fg = color, bg = "NONE", gui = "bold" },
+    b = { fg = "NONE", bg = "NONE" },
+    c = { fg = "NONE", bg = "NONE" },
+  }
+end
+
+-- Use ANSI palette indexes so the terminal supplies the colors.
+local ansi_theme = {
+  normal = ansi_mode(6),
+  insert = ansi_mode(2),
+  visual = ansi_mode(5),
+  replace = ansi_mode(1),
+  command = ansi_mode(3),
+  terminal = ansi_mode(6),
+  inactive = {
+    a = { fg = 8, bg = "NONE" },
+    b = { fg = "NONE", bg = "NONE" },
+    c = { fg = "NONE", bg = "NONE" },
+  },
 }
+
+local mode = { "mode" }
 
 local filename = {
   "filename",
@@ -24,14 +42,13 @@ local filename = {
 
 local branch = {
   "branch",
-  icon = "",
 }
 
 local diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
   sections = { "error", "warn", "info", "hint" },
-  symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
+  symbols = { error = "E ", warn = "W ", info = "I ", hint = "H " },
   colored = false,
   update_in_insert = true,
   always_visible = true,
@@ -80,15 +97,14 @@ local diff = {
   "diff",
   colored = false,
   sections = { "added", "modified", "removed" },
-  symbols = { added = " ", modified = " ", removed = " " },
+  symbols = { added = "+", modified = "~", removed = "-" },
 }
 
 require("lualine").setup({
   options = {
-    icons_enabled = true,
-    theme = "16color",
-    --           │
-    component_separators = { left = "│", right = "│" },
+    icons_enabled = false,
+    theme = ansi_theme,
+    component_separators = { left = "|", right = "|" },
     section_separators = { left = "", right = "" },
     always_divide_middle = true,
     disabled_filetypes = {
