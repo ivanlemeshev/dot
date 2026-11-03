@@ -1,4 +1,5 @@
-$command = Get-Command git-wt -CommandType Application -ErrorAction SilentlyContinue
+$command = Get-Command git-wt -CommandType Application `
+    -ErrorAction SilentlyContinue | Select-Object -First 1
 $commandPath = if ($null -ne $command) { $command.Source } else { $null }
 
 if ($null -eq $commandPath) {
