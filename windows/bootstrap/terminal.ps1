@@ -74,6 +74,12 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         }
     }
 
+    if ($null -ne $settings.schemes) {
+        $settings.schemes = @($settings.schemes | Where-Object {
+                $_.name -ne 'Gruvbox Material Dark'
+            })
+    }
+
     foreach ($keybinding in $shared.keybindings) {
         $keybindingKeys = ConvertTo-Json -InputObject $keybinding.keys -Compress
         $keybindings = @($settings.keybindings | Where-Object {
