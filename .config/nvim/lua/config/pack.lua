@@ -23,7 +23,6 @@ end
 ensure_pack_lockfile_writable()
 
 local plugin_modules = {
-  "plugins.colorscheme",
   "plugins.lem",
   "plugins.essentials",
   "plugins.ui",
