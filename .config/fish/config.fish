@@ -8,8 +8,7 @@ set -l os (uname)
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
 
-# Add bat theme
-set -x BAT_THEME custom
+set -x BAT_THEME ansi
 
 # Set XDG_CONFIG_HOME to ~/.config for applications that respect it
 set -x XDG_CONFIG_HOME $HOME/.config

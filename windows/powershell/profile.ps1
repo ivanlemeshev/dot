@@ -1,3 +1,5 @@
+$env:BAT_THEME = "ansi"
+
 $ytDlpProfile = Join-Path $env:USERPROFILE ".config\powershell\yt-dlp.ps1"
 if (Test-Path $ytDlpProfile) {
     . $ytDlpProfile
