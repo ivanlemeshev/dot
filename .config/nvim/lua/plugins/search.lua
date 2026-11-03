@@ -95,7 +95,7 @@ function M.fzf()
     },
     fzf_opts = {
       ["--multi"] = true,
-      ["--color"] = "base16",
+      ["--color"] = "16",
     },
     winopts = {
       fullscreen = true, -- Let's try it
