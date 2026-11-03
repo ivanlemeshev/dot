@@ -12,7 +12,7 @@
   ],
   "profiles": {
     "defaults": {
-      "colorScheme": "Gruvbox Material Dark",
+      "colorScheme": "Sienna Night",
       "font": {
         "face": "JetBrainsMonoNL Nerd Font Mono"
       }
@@ -35,7 +35,7 @@
       "cyan": "#58A6AD",
       "foreground": "#FAF9F5",
       "green": "#5D9B75",
-      "name": "Gruvbox Material Dark",
+      "name": "Sienna Night",
       "purple": "#B76B9D",
       "red": "#C94F4F",
       "selectionBackground": "#D97757",
@@ -45,7 +45,7 @@
   ],
   "themes": [
     {
-      "name": "Gruvbox Material Dark",
+      "name": "Sienna Night",
       "tab": {
         "background": "#141413FF",
         "iconStyle": "default",

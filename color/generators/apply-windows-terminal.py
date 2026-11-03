@@ -67,6 +67,15 @@ def normalize_hex(value):
     return "#" + value.lstrip("#").upper()
 
 
+def parse_theme_name(path):
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            match = re.match(r'^name:\s+"([^"]+)"\s*$', line)
+            if match:
+                return match.group(1)
+    raise ValueError("Theme name is required in YAML")
+
+
 def parse_section(path, section_name, required_keys):
     values = {}
     active_section = None
@@ -108,6 +117,7 @@ def parse_section(path, section_name, required_keys):
 
 
 try:
+    theme_name = parse_theme_name(yaml_file)
     base_palette = parse_section(yaml_file, "base_palette", BASE_PALETTE_KEYS)
     windows_terminal = parse_section(
         yaml_file, "windows_terminal", WINDOWS_TERMINAL_KEYS
@@ -125,6 +135,8 @@ with open(json_file) as f:
     settings = json.load(f)
 
 scheme = settings["schemes"][0]
+scheme["name"] = theme_name
+settings["profiles"]["defaults"]["colorScheme"] = theme_name
 for name, hex_val in colors.items():
     scheme[name] = hex_val
 
@@ -135,6 +147,7 @@ scheme["selectionBackground"] = base_palette["selection"]
 tab_bg = windows_terminal["tab_background"] + "FF"
 tab_unfocused_background = windows_terminal["tab_unfocused_background"] + "FF"
 settings["themes"][0]["tab"]["background"] = tab_bg
+settings["themes"][0]["name"] = theme_name
 settings["themes"][0]["tabRow"]["background"] = tab_bg
 settings["themes"][0]["tabRow"]["unfocusedBackground"] = tab_unfocused_background
 
