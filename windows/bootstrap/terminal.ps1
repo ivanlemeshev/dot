@@ -67,6 +67,12 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         }
     }
 
+    if ($sharedDefaults.colorScheme) {
+        foreach ($profile in $settings.profiles.list) {
+            $profile | Add-Member -Force -NotePropertyName colorScheme `
+                -NotePropertyValue $sharedDefaults.colorScheme
+        }
+    }
 
     foreach ($keybinding in $shared.keybindings) {
         $keybindingKeys = ConvertTo-Json -InputObject $keybinding.keys -Compress
