@@ -12,3 +12,6 @@ print_section "Installing iTerm2"
 
 log_info "Installing iTerm2 package"
 brew install iterm2
+
+log_info "Disabling the removed custom preferences folder"
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool false
