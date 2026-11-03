@@ -1,0 +1,17 @@
+[init]
+	defaultBranch = main
+
+[diff]
+	tool = nvim_difftool
+
+[color]
+	ui = auto
+
+[difftool "nvim_difftool"]
+	cmd = nvim -c "packadd nvim.difftool" -c "DiffTool $LOCAL $REMOTE"
+
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+
+[include]
+	path = ~/.config/git/config.local

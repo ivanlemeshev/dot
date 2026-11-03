@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Install Fish plugins and set Fish as the login shell"
+
+set -euo pipefail
+
+fish -c 'for color_var in fish_color_normal fish_color_command fish_color_keyword fish_color_option fish_color_param fish_color_quote fish_color_redirection fish_color_end fish_color_operator fish_color_escape fish_color_comment fish_color_error fish_color_autosuggestion fish_color_valid_path fish_color_cancel fish_color_selection fish_color_search_match fish_color_cwd fish_color_cwd_root fish_color_user fish_color_host fish_color_host_remote fish_color_status fish_pager_color_progress fish_pager_color_prefix fish_pager_color_completion fish_pager_color_description fish_pager_color_selected_background fish_pager_color_selected_completion fish_pager_color_selected_description; if set --query --universal $color_var; set --erase --universal $color_var; end; end'
+fish -c 'curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher && fisher install PatrickF1/fzf.fish'
+
+fish_path="$(command -v fish)"
+passwd_entry="$(getent passwd "$(id -u)")"
+
+if [[ -z "$passwd_entry" ]]; then
+  printf 'No account exists for UID %s.\n' "$(id -u)" >&2
+  exit 1
+fi
+
+login_name="${passwd_entry%%:*}"
+sudo usermod --shell "$fish_path" "$login_name"

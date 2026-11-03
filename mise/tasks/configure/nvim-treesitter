@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Install Neovim Tree-sitter parsers"
+#MISE depends=["configure:nvim", "configure:tree-sitter"]
+
+set -euo pipefail
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+case "$(uname -m)" in
+  x86_64) nvim_arch=x86_64 ;;
+  aarch64) nvim_arch=arm64 ;;
+  *)
+    printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
+    exit 1
+    ;;
+esac
+
+MISE_TREESITTER_INSTALL=1 "/opt/nvim-linux-$nvim_arch/bin/nvim" --headless -c "qa"

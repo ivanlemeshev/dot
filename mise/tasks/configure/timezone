@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#MISE description="Set the system time zone"
+
+set -euo pipefail
+
+timezone="${TIMEZONE:-UTC}"
+zoneinfo_file="/usr/share/zoneinfo/$timezone"
+
+if [[ ! -f "$zoneinfo_file" ]]; then
+  printf 'Unknown time zone: %s\n' "$timezone" >&2
+  exit 1
+fi
+
+sudo ln -snf "$zoneinfo_file" /etc/localtime
+printf '%s\n' "$timezone" | sudo tee /etc/timezone >/dev/null

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#MISE description="Install Neovim"
+
+set -euo pipefail
+
+case "$(uname -m)" in
+  x86_64) archive_arch=x86_64 ;;
+  aarch64) archive_arch=arm64 ;;
+  *)
+    printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
+    exit 1
+    ;;
+esac
+
+archive="nvim-linux-${archive_arch}.tar.gz"
+install_dir="/opt/nvim-linux-${archive_arch}"
+temp_dir="$(mktemp -d)"
+extracted_root="$temp_dir/extracted"
+trap 'rm -rf "$temp_dir"' EXIT
+
+curl -fsSL "https://github.com/neovim/neovim/releases/latest/download/${archive}" -o "$temp_dir/$archive"
+mkdir "$extracted_root"
+tar -xzf "$temp_dir/$archive" -C "$extracted_root"
+nvim_bin="$(find "$extracted_root" -path '*/bin/nvim' -print -quit)"
+
+if [[ -z "$nvim_bin" || ! -x "$nvim_bin" ]]; then
+  printf 'Neovim binary is missing from %s.\n' "$archive" >&2
+  exit 1
+fi
+
+extracted_dir="${nvim_bin%/bin/nvim}"
+sudo rm -rf "$install_dir"
+sudo mv "$extracted_dir" "$install_dir"
+sudo chown -R root:root "$install_dir"
+"$install_dir/bin/nvim" --version
