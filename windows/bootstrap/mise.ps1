@@ -113,7 +113,8 @@ if ($null -ne $mise) {
 $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
 $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 $env:PATH = "$machinePath;$userPath;$env:PATH"
-$raco = Get-Command raco -CommandType Application -ErrorAction SilentlyContinue
+$raco = Get-Command raco -CommandType Application `
+    -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($null -ne $raco) {
     & $raco.Source pkg install --auto --skip-installed racket-langserver fmt racket-linter sicp
     if ($LASTEXITCODE -ne 0) {
