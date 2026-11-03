@@ -34,3 +34,34 @@ set -l old_color_variables \
 for variable in $old_color_variables
     set --erase --universal $variable
 end
+
+set -g fish_color_normal normal
+set -g fish_color_command green
+set -g fish_color_keyword magenta
+set -g fish_color_option yellow
+set -g fish_color_param normal
+set -g fish_color_quote yellow
+set -g fish_color_redirection cyan
+set -g fish_color_end cyan
+set -g fish_color_operator cyan
+set -g fish_color_escape brcyan
+set -g fish_color_comment brblack
+set -g fish_color_error brred
+set -g fish_color_autosuggestion brblack
+set -g fish_color_valid_path cyan --underline
+set -g fish_color_cancel normal --reverse
+set -g fish_color_selection --background=blue
+set -g fish_color_search_match --background=blue
+set -g fish_color_cwd green
+set -g fish_color_cwd_root brred
+set -g fish_color_user brgreen
+set -g fish_color_host cyan
+set -g fish_color_host_remote brcyan
+set -g fish_color_status brred
+set -g fish_pager_color_progress brwhite --background=cyan
+set -g fish_pager_color_prefix brwhite --bold --underline
+set -g fish_pager_color_completion normal
+set -g fish_pager_color_description brblack
+set -g fish_pager_color_selected_background --background=blue
+set -g fish_pager_color_selected_completion brwhite --background=blue --bold
+set -g fish_pager_color_selected_description brwhite --background=blue

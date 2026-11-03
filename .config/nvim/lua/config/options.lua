@@ -128,6 +128,7 @@ vim.opt.fillchars:append({
 })
 
 vim.opt.termguicolors = false
+vim.cmd.colorscheme("default")
 
 -- Faster key sequence timeout (snappier escape and leader combos).
 vim.opt.timeoutlen = 500
