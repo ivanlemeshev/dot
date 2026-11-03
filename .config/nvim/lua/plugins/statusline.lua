@@ -32,7 +32,12 @@ local ansi_theme = {
   },
 }
 
-local mode = { "mode" }
+local mode = {
+  "mode",
+  fmt = function(str)
+    return " " .. str
+  end,
+}
 
 local filename = {
   "filename",
@@ -42,13 +47,16 @@ local filename = {
 
 local branch = {
   "branch",
+  icon = "",
 }
+
+local filetype = { "filetype", colored = false }
 
 local diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
   sections = { "error", "warn", "info", "hint" },
-  symbols = { error = "E ", warn = "W ", info = "I ", hint = "H " },
+  symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
   colored = false,
   update_in_insert = true,
   always_visible = true,
@@ -97,14 +105,14 @@ local diff = {
   "diff",
   colored = false,
   sections = { "added", "modified", "removed" },
-  symbols = { added = "+", modified = "~", removed = "-" },
+  symbols = { added = " ", modified = " ", removed = " " },
 }
 
 require("lualine").setup({
   options = {
-    icons_enabled = false,
+    icons_enabled = true,
     theme = ansi_theme,
-    component_separators = { left = "|", right = "|" },
+    component_separators = { left = "│", right = "│" },
     section_separators = { left = "", right = "" },
     always_divide_middle = true,
     disabled_filetypes = {
@@ -123,7 +131,7 @@ require("lualine").setup({
       diagnostics,
       human_file_size,
       visible_encoding,
-      "filetype",
+      filetype,
       "location",
     },
     lualine_z = { "progress" },
