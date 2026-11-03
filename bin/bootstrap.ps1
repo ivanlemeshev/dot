@@ -71,6 +71,13 @@ try {
         Read-Host "Press Enter to exit" | Out-Null
     }
 }
+catch {
+    Write-Host ""
+    Write-Host "Bootstrap failed: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host $_.ScriptStackTrace -ForegroundColor DarkGray
+    Read-Host "Press Enter to close this window" | Out-Null
+    throw
+}
 finally {
     Set-Location $originalLocation
 }

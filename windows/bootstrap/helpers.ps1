@@ -37,9 +37,9 @@ function Install-WingetPackage($id, $name) {
 
 function Get-MiseCommand {
     $command = Get-Command mise -CommandType Application `
-        -ErrorAction SilentlyContinue
-    if ($null -ne $command -and (Test-MiseCommand $command.Source)) {
-        return $command.Source
+        -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -ne $command -and (Test-MiseCommand $command.Path)) {
+        return $command.Path
     }
 
     $wingetCandidates = @(
@@ -105,15 +105,16 @@ function Install-NpmGlobalPackage($package, $commandName, $name) {
         Write-Host "Installing $name..."
     }
 
-    $npm = Get-Command npm -CommandType Application -ErrorAction SilentlyContinue
+    $npm = Get-Command npm -CommandType Application `
+        -ErrorAction SilentlyContinue | Select-Object -First 1
     $npmWorks = $false
     if ($null -ne $npm) {
-        & $npm.Source --version *> $null
+        & $npm.Path --version *> $null
         $npmWorks = $LASTEXITCODE -eq 0
     }
 
     if ($npmWorks) {
-        & $npm.Source install -g $package
+        & $npm.Path install -g $package
     } else {
         $mise = Get-MiseCommand
         if ($null -eq $mise) {

@@ -1,8 +1,8 @@
 function Get-GitCommand {
     $command = Get-Command git -CommandType Application `
-        -ErrorAction SilentlyContinue
+        -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($null -ne $command) {
-        return $command.Source
+        return $command.Path
     }
 
     $candidates = @(
