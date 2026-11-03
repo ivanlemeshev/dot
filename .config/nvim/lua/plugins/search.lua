@@ -10,19 +10,8 @@ vim.pack.add({
 })
 
 local helpers = require("config.helpers")
-local theme = require("lem.theme")
 local M = {}
 local configured = false
-
-local function hex_to_rgb(hex)
-  hex = hex:gsub("#", "")
-  return string.format(
-    "%d,%d,%d",
-    tonumber(hex:sub(1, 2), 16),
-    tonumber(hex:sub(3, 4), 16),
-    tonumber(hex:sub(5, 6), 16)
-  )
-end
 
 local function clipboard_cmd()
   if vim.fn.has("mac") == 1 then
@@ -52,7 +41,8 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
-    fzf_colors = theme.fzf,
+    defaults = { color_icons = false },
+    fzf_colors = false,
     hls = {
       normal = "FzfLuaNormal",
       border = "FzfLuaBorder",
@@ -106,6 +96,7 @@ function M.fzf()
       fzf_spinner = "FzfLuaFzfSpinner",
     },
     fzf_opts = {
+      ["--color"] = "16",
       ["--multi"] = true,
     },
     winopts = {
@@ -138,13 +129,13 @@ function M.fzf()
         "--no-heading",
         "--color=always",
         "--colors",
-        "path:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "path:fg:white",
         "--colors",
-        "line:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "line:fg:white",
         "--colors",
-        "column:fg:" .. hex_to_rgb(theme.fzf.fg),
+        "column:fg:white",
         "--colors",
-        "match:fg:" .. hex_to_rgb(theme.fzf.hl),
+        "match:fg:yellow",
         "--colors",
         "match:style:bold",
         "--fixed-strings",

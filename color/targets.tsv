@@ -2,5 +2,4 @@ generators/apply-windows-terminal.py|windows/terminal/settings.json
 generators/apply-iterm2.py|macos/iterm2/custom-color-theme.itermcolors
 generators/apply-ghostty.py|.config/ghostty/themes/custom
 generators/apply-konsole.py|.config/konsole/custom.colorscheme
-generators/apply-nvim.py|.config/nvim/lua/lem/theme.lua
 generators/apply-codex.py|.config/codex/themes

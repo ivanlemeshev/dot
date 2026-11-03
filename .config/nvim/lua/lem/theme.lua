@@ -3,220 +3,239 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 local M = {}
 
+local ansi = {
+  black = 0,
+  red = 1,
+  green = 2,
+  yellow = 3,
+  blue = 4,
+  magenta = 5,
+  cyan = 6,
+  white = 7,
+  bright_black = 8,
+  bright_red = 9,
+  bright_green = 10,
+  bright_yellow = 11,
+  bright_blue = 12,
+  bright_magenta = 13,
+  bright_cyan = 14,
+  bright_white = 15,
+}
+
 -- UI
 M.ui = {
-  bg = "#141413",
-  color_column = "#252522",
-  cursor = "#d97757",
-  cursor_column = "#252522",
-  cursor_line = "#252522",
-  cursor_line_nr = "#252522",
-  cur_search_bg = "#e9a17d",
-  cur_search_fg = "#141413",
-  directory_fg = "#5b8db8",
-  end_of_buffer_fg = "#252522",
-  error_fg = "#c94f4f",
-  float_bg = "#141413",
-  float_border_fg = "#b0aea5",
-  float_fg = "#faf9f5",
-  float_title_fg = "#faf9f5",
-  folded_bg = "#252522",
-  folded_fg = "#b0aea5",
-  fg = "#faf9f5",
-  inc_search_bg = "#e9a17d",
-  inc_search_fg = "#141413",
-  line_nr = "#b0aea5",
-  matchparen_bg = "#252522",
-  mode_fg = "#faf9f5",
-  non_text = "#b0aea5",
-  more_fg = "#d97757",
-  msg_area_fg = "#faf9f5",
-  msg_separator_fg = "#b0aea5",
-  pmenu_bg = "#141413",
-  pmenu_fg = "#faf9f5",
-  pmenu_sel_bg = "#252522",
-  pmenu_sel_fg = "#faf9f5",
-  pmenu_sbar_bg = "#252522",
-  pmenu_thumb_bg = "#b0aea5",
-  question_fg = "#5b8db8",
-  quickfix_line_bg = "#252522",
-  search_bg = "#e9a17d",
-  search_fg = "#141413",
-  selection_bg = "#d97757",
-  selection_fg = "#141413",
-  split_fg = "#b0aea5",
-  statusline_bg = "#252522",
-  statusline_fg = "#faf9f5",
-  statusline_nc_bg = "#141413",
-  statusline_nc_fg = "#b0aea5",
-  special_key = "#252522",
-  tabline_bg = "#252522",
-  tabline_fill_bg = "#141413",
-  tabline_fg = "#faf9f5",
-  tabline_sel_bg = "#252522",
-  tabline_sel_fg = "#faf9f5",
-  title_fg = "#e9a17d",
-  warning_fg = "#d97757",
-  winbar_bg = "#252522",
-  winbar_fg = "#faf9f5",
-  winbar_nc_bg = "#252522",
-  winbar_nc_fg = "#b0aea5",
-  whitespace = "#252522",
+  bg = ansi.black,
+  color_column = ansi.bright_black,
+  cursor = ansi.yellow,
+  cursor_column = ansi.bright_black,
+  cursor_line = ansi.bright_black,
+  cursor_line_nr = ansi.yellow,
+  cur_search_bg = ansi.bright_yellow,
+  cur_search_fg = ansi.black,
+  directory_fg = ansi.blue,
+  end_of_buffer_fg = ansi.bright_black,
+  error_fg = ansi.red,
+  float_bg = ansi.black,
+  float_border_fg = ansi.white,
+  float_fg = ansi.bright_white,
+  float_title_fg = ansi.bright_white,
+  folded_bg = ansi.bright_black,
+  folded_fg = ansi.white,
+  fg = ansi.bright_white,
+  inc_search_bg = ansi.bright_yellow,
+  inc_search_fg = ansi.black,
+  line_nr = ansi.white,
+  matchparen_bg = ansi.bright_black,
+  mode_fg = ansi.bright_white,
+  non_text = ansi.white,
+  more_fg = ansi.yellow,
+  msg_area_fg = ansi.bright_white,
+  msg_separator_fg = ansi.white,
+  pmenu_bg = ansi.black,
+  pmenu_fg = ansi.bright_white,
+  pmenu_sel_bg = ansi.bright_black,
+  pmenu_sel_fg = ansi.bright_white,
+  pmenu_sbar_bg = ansi.bright_black,
+  pmenu_thumb_bg = ansi.white,
+  question_fg = ansi.blue,
+  quickfix_line_bg = ansi.bright_black,
+  search_bg = ansi.bright_yellow,
+  search_fg = ansi.black,
+  selection_bg = ansi.yellow,
+  selection_fg = ansi.black,
+  split_fg = ansi.white,
+  statusline_bg = ansi.bright_black,
+  statusline_fg = ansi.bright_white,
+  statusline_nc_bg = ansi.black,
+  statusline_nc_fg = ansi.white,
+  special_key = ansi.bright_black,
+  tabline_bg = ansi.bright_black,
+  tabline_fill_bg = ansi.black,
+  tabline_fg = ansi.bright_white,
+  tabline_sel_bg = ansi.bright_black,
+  tabline_sel_fg = ansi.bright_white,
+  title_fg = ansi.bright_yellow,
+  warning_fg = ansi.yellow,
+  winbar_bg = ansi.bright_black,
+  winbar_fg = ansi.bright_white,
+  winbar_nc_bg = ansi.bright_black,
+  winbar_nc_fg = ansi.white,
+  whitespace = ansi.bright_black,
 }
 
 -- Syntax
 M.syntax = {
-  comment = "#b0aea5",
-  constant = "#faf9f5",
-  constant_builtin = "#b76b9d",
-  constant_macro = "#b76b9d",
-  error = "#c94f4f",
-  delimiter = "#faf9f5",
-  character = "#58a6ad",
-  character_special = "#e9a17d",
-  float = "#b76b9d",
-  variable_builtin = "#b76b9d",
-  variable_parameter = "#faf9f5",
-  variable_parameter_builtin = "#b76b9d",
-  variable_member = "#5b8db8",
-  identifier = "#faf9f5",
-  namespace = "#e9a17d",
-  namespace_builtin = "#e9a17d",
-  field = "#5b8db8",
-  field_builtin = "#5b8db8",
-  parameter = "#faf9f5",
-  parameter_builtin = "#faf9f5",
-  boolean = "#b76b9d",
-  module = "#e9a17d",
-  module_builtin = "#e9a17d",
-  label = "#e9a17d",
-  statement = "#d97757",
-  conditional = "#d97757",
-  ["repeat"] = "#d97757",
-  exception = "#d97757",
-  attribute = "#b76b9d",
-  attribute_builtin = "#b76b9d",
-  property = "#5b8db8",
-  constructor = "#5d9b75",
-  include = "#d97757",
-  define = "#d97757",
-  macro = "#58a6ad",
-  precondit = "#d97757",
-  text = "#5d9b75",
-  text_strong = "#5d9b75",
-  text_emphasis = "#5d9b75",
-  text_strike = "#b0aea5",
-  text_underline = "#5b8db8",
-  text_title = "#5d9b75",
-  text_literal = "#58a6ad",
-  text_quote = "#b0aea5",
-  text_uri = "#5b8db8",
-  text_math = "#5b8db8",
-  text_todo = "#e9a17d",
-  text_note = "#5b8db8",
-  text_warning = "#d97757",
-  text_reference = "#faf9f5",
-  ["function"] = "#5d9b75",
-  function_builtin = "#5d9b75",
-  function_call = "#5d9b75",
-  function_macro = "#5d9b75",
-  function_method = "#5d9b75",
-  function_method_call = "#5d9b75",
-  keyword = "#d97757",
-  keyword_coroutine = "#d97757",
-  keyword_function = "#d97757",
-  keyword_operator = "#d97757",
-  keyword_import = "#d97757",
-  keyword_type = "#d97757",
-  keyword_modifier = "#d97757",
-  keyword_repeat = "#d97757",
-  keyword_return = "#d97757",
-  keyword_debug = "#d97757",
-  keyword_exception = "#d97757",
-  keyword_conditional = "#d97757",
-  keyword_conditional_ternary = "#d97757",
-  keyword_directive = "#d97757",
-  keyword_directive_define = "#d97757",
-  number = "#b76b9d",
-  number_float = "#b76b9d",
-  operator = "#d97757",
-  preproc = "#d97757",
-  storageclass = "#e9a17d",
-  structure = "#e9a17d",
-  typedef = "#e9a17d",
-  punctuation_delimiter = "#faf9f5",
-  punctuation_bracket = "#faf9f5",
-  punctuation_special = "#d97757",
-  special = "#e9a17d",
-  comment_special = "#b0aea5",
-  debug = "#b0aea5",
-  underlined = "#5b8db8",
-  todo = "#e9a17d",
-  string = "#58a6ad",
-  string_documentation = "#58a6ad",
-  string_regexp = "#82b997",
-  string_escape = "#82b997",
-  string_special = "#e9a17d",
-  string_special_symbol = "#e9a17d",
-  string_special_path = "#5b8db8",
-  string_special_url = "#5b8db8",
-  type = "#e9a17d",
-  type_builtin = "#e9a17d",
-  type_definition = "#e9a17d",
-  variable = "#faf9f5",
-  comment_documentation = "#b0aea5",
-  comment_error = "#c94f4f",
-  comment_warning = "#d97757",
-  comment_todo = "#e9a17d",
-  comment_note = "#5b8db8",
-  markup_strong = "#5d9b75",
-  markup_italic = "#5d9b75",
-  markup_strikethrough = "#b0aea5",
-  markup_underline = "#5b8db8",
-  markup_heading = "#5d9b75",
-  markup_heading_1 = "#5d9b75",
-  markup_heading_2 = "#5d9b75",
-  markup_heading_3 = "#5d9b75",
-  markup_heading_4 = "#5d9b75",
-  markup_heading_5 = "#5d9b75",
-  markup_heading_6 = "#5d9b75",
-  markup_quote = "#b0aea5",
-  markup_math = "#5b8db8",
-  markup_link = "#5b8db8",
-  markup_link_label = "#5b8db8",
-  markup_link_url = "#5b8db8",
-  markup_raw = "#faf9f5",
-  markup_raw_block = "#faf9f5",
-  markup_list = "#b0aea5",
-  markup_list_checked = "#5d9b75",
-  markup_list_unchecked = "#b0aea5",
-  diff_plus = "#5d9b75",
-  diff_minus = "#c94f4f",
-  diff_delta = "#e9a17d",
-  tag = "#5d9b75",
-  tag_builtin = "#5d9b75",
-  tag_attribute = "#5b8db8",
-  tag_delimiter = "#5d9b75",
+  comment = ansi.white,
+  constant = ansi.bright_white,
+  constant_builtin = ansi.magenta,
+  constant_macro = ansi.magenta,
+  error = ansi.red,
+  delimiter = ansi.bright_white,
+  character = ansi.cyan,
+  character_special = ansi.bright_yellow,
+  float = ansi.magenta,
+  variable_builtin = ansi.magenta,
+  variable_parameter = ansi.bright_white,
+  variable_parameter_builtin = ansi.magenta,
+  variable_member = ansi.blue,
+  identifier = ansi.bright_white,
+  namespace = ansi.bright_yellow,
+  namespace_builtin = ansi.bright_yellow,
+  field = ansi.blue,
+  field_builtin = ansi.blue,
+  parameter = ansi.bright_white,
+  parameter_builtin = ansi.bright_white,
+  boolean = ansi.magenta,
+  module = ansi.bright_yellow,
+  module_builtin = ansi.bright_yellow,
+  label = ansi.bright_yellow,
+  statement = ansi.yellow,
+  conditional = ansi.yellow,
+  ["repeat"] = ansi.yellow,
+  exception = ansi.yellow,
+  attribute = ansi.magenta,
+  attribute_builtin = ansi.magenta,
+  property = ansi.blue,
+  constructor = ansi.green,
+  include = ansi.yellow,
+  define = ansi.yellow,
+  macro = ansi.cyan,
+  precondit = ansi.yellow,
+  text = ansi.green,
+  text_strong = ansi.green,
+  text_emphasis = ansi.green,
+  text_strike = ansi.white,
+  text_underline = ansi.blue,
+  text_title = ansi.green,
+  text_literal = ansi.cyan,
+  text_quote = ansi.white,
+  text_uri = ansi.blue,
+  text_math = ansi.blue,
+  text_todo = ansi.bright_yellow,
+  text_note = ansi.blue,
+  text_warning = ansi.yellow,
+  text_reference = ansi.bright_white,
+  ["function"] = ansi.green,
+  function_builtin = ansi.green,
+  function_call = ansi.green,
+  function_macro = ansi.green,
+  function_method = ansi.green,
+  function_method_call = ansi.green,
+  keyword = ansi.yellow,
+  keyword_coroutine = ansi.yellow,
+  keyword_function = ansi.yellow,
+  keyword_operator = ansi.yellow,
+  keyword_import = ansi.yellow,
+  keyword_type = ansi.yellow,
+  keyword_modifier = ansi.yellow,
+  keyword_repeat = ansi.yellow,
+  keyword_return = ansi.yellow,
+  keyword_debug = ansi.yellow,
+  keyword_exception = ansi.yellow,
+  keyword_conditional = ansi.yellow,
+  keyword_conditional_ternary = ansi.yellow,
+  keyword_directive = ansi.yellow,
+  keyword_directive_define = ansi.yellow,
+  number = ansi.magenta,
+  number_float = ansi.magenta,
+  operator = ansi.yellow,
+  preproc = ansi.yellow,
+  storageclass = ansi.bright_yellow,
+  structure = ansi.bright_yellow,
+  typedef = ansi.bright_yellow,
+  punctuation_delimiter = ansi.bright_white,
+  punctuation_bracket = ansi.bright_white,
+  punctuation_special = ansi.yellow,
+  special = ansi.bright_yellow,
+  comment_special = ansi.white,
+  debug = ansi.white,
+  underlined = ansi.blue,
+  todo = ansi.bright_yellow,
+  string = ansi.cyan,
+  string_documentation = ansi.cyan,
+  string_regexp = ansi.bright_green,
+  string_escape = ansi.bright_green,
+  string_special = ansi.bright_yellow,
+  string_special_symbol = ansi.bright_yellow,
+  string_special_path = ansi.blue,
+  string_special_url = ansi.blue,
+  type = ansi.bright_yellow,
+  type_builtin = ansi.bright_yellow,
+  type_definition = ansi.bright_yellow,
+  variable = ansi.bright_white,
+  comment_documentation = ansi.white,
+  comment_error = ansi.red,
+  comment_warning = ansi.yellow,
+  comment_todo = ansi.bright_yellow,
+  comment_note = ansi.blue,
+  markup_strong = ansi.green,
+  markup_italic = ansi.green,
+  markup_strikethrough = ansi.white,
+  markup_underline = ansi.blue,
+  markup_heading = ansi.green,
+  markup_heading_1 = ansi.green,
+  markup_heading_2 = ansi.green,
+  markup_heading_3 = ansi.green,
+  markup_heading_4 = ansi.green,
+  markup_heading_5 = ansi.green,
+  markup_heading_6 = ansi.green,
+  markup_quote = ansi.white,
+  markup_math = ansi.blue,
+  markup_link = ansi.blue,
+  markup_link_label = ansi.blue,
+  markup_link_url = ansi.blue,
+  markup_raw = ansi.bright_white,
+  markup_raw_block = ansi.bright_white,
+  markup_list = ansi.white,
+  markup_list_checked = ansi.green,
+  markup_list_unchecked = ansi.white,
+  diff_plus = ansi.green,
+  diff_minus = ansi.red,
+  diff_delta = ansi.bright_yellow,
+  tag = ansi.green,
+  tag_builtin = ansi.green,
+  tag_attribute = ansi.blue,
+  tag_delimiter = ansi.green,
 }
 
 -- Fzf
 M.fzf = {
-  fg = "#faf9f5",
-  bg = "#141413",
-  hl = "#e9a17d",
-  ["fg+"] = "#faf9f5",
-  ["bg+"] = "#252522",
-  ["hl+"] = "#e9a17d",
-  info = "#5b8db8",
-  border = "#b0aea5",
-  query = "#faf9f5",
-  prompt = "#d97757",
-  pointer = "#5d9b75",
-  marker = "#5b8db8",
-  spinner = "#d97757",
-  header = "#b0aea5",
-  label = "#faf9f5",
-  gutter = "#141413",
+  fg = ansi.bright_white,
+  bg = ansi.black,
+  hl = ansi.bright_yellow,
+  ["fg+"] = ansi.bright_white,
+  ["bg+"] = ansi.bright_black,
+  ["hl+"] = ansi.bright_yellow,
+  info = ansi.blue,
+  border = ansi.white,
+  query = ansi.bright_white,
+  prompt = ansi.yellow,
+  pointer = ansi.green,
+  marker = ansi.blue,
+  spinner = ansi.yellow,
+  header = ansi.white,
+  label = ansi.bright_white,
+  gutter = ansi.black,
 }
 
 -- FzfLua
@@ -239,41 +258,41 @@ M.fzf_lua = {
 
 -- StatusLine
 M.statusline = {
-  normal_bg = "#d97757",
-  normal_fg = "#141413",
-  insert_bg = "#5d9b75",
-  insert_fg = "#141413",
-  visual_bg = "#b76b9d",
-  visual_fg = "#141413",
-  replace_bg = "#c94f4f",
-  replace_fg = "#141413",
-  command_bg = "#e9a17d",
-  command_fg = "#141413",
-  terminal_bg = "#5b8db8",
-  terminal_fg = "#141413",
-  section_bg = "#252522",
-  section_fg = "#faf9f5",
-  inactive_bg = "#252522",
-  inactive_fg = "#b0aea5",
+  normal_bg = ansi.yellow,
+  normal_fg = ansi.black,
+  insert_bg = ansi.green,
+  insert_fg = ansi.black,
+  visual_bg = ansi.magenta,
+  visual_fg = ansi.black,
+  replace_bg = ansi.red,
+  replace_fg = ansi.black,
+  command_bg = ansi.bright_yellow,
+  command_fg = ansi.black,
+  terminal_bg = ansi.blue,
+  terminal_fg = ansi.black,
+  section_bg = ansi.bright_black,
+  section_fg = ansi.bright_white,
+  inactive_bg = ansi.bright_black,
+  inactive_fg = ansi.white,
 }
 
 -- Git
 M.git = {
-  add = "#5d9b75",
-  change = "#e9a17d",
-  delete = "#c94f4f",
-  rename = "#5b8db8",
-  ignored = "#b0aea5",
-  blame = "#58a6ad",
+  add = ansi.green,
+  change = ansi.bright_yellow,
+  delete = ansi.red,
+  rename = ansi.blue,
+  ignored = ansi.white,
+  blame = ansi.cyan,
 }
 
 -- Diagnostic
 M.diagnostic = {
-  error = "#c94f4f",
-  warn = "#d97757",
-  info = "#5b8db8",
-  hint = "#58a6ad",
-  ok = "#5d9b75",
+  error = ansi.red,
+  warn = ansi.yellow,
+  info = ansi.blue,
+  hint = ansi.cyan,
+  ok = ansi.green,
 }
 
 -- lualine theme
@@ -322,8 +341,57 @@ M.lualine_theme = {
   },
 }
 
+function M.setup_inline_diagnostics()
+  local prefix = "TinyInlineDiagnosticVirtualText"
+  local inverse = "TinyInlineInvDiagnosticVirtualText"
+  local severities = {
+    Error = ansi.bright_red,
+    Warn = ansi.bright_yellow,
+    Info = ansi.bright_blue,
+    Hint = ansi.bright_cyan,
+  }
+
+  vim.api.nvim_set_hl(0, prefix .. "Bg", { ctermbg = ansi.black })
+  for _, suffix in ipairs({ "", "NoBg" }) do
+    vim.api.nvim_set_hl(0, prefix .. "Arrow" .. suffix, {
+      ctermfg = ansi.white,
+      ctermbg = ansi.black,
+    })
+  end
+
+  for name, color in pairs(severities) do
+    for _, suffix in ipairs({ "", "CursorLine", "NoBg" }) do
+      vim.api.nvim_set_hl(0, prefix .. name .. suffix, {
+        ctermfg = color,
+        ctermbg = ansi.black,
+      })
+      vim.api.nvim_set_hl(0, inverse .. name .. suffix, {
+        ctermfg = ansi.black,
+        ctermbg = ansi.black,
+      })
+    end
+    for other in pairs(severities) do
+      vim.api.nvim_set_hl(0, prefix .. name .. "Mix" .. other, {
+        ctermfg = color,
+        ctermbg = ansi.black,
+      })
+    end
+  end
+end
+
 function M.setup()
+  vim.opt.termguicolors = false
+  M.setup_inline_diagnostics()
+
   local function hl(group, opts)
+    opts.ctermfg = opts.fg
+    opts.ctermbg = opts.bg
+    opts.fg = nil
+    opts.bg = nil
+    opts.sp = nil
+    if opts.ctermfg == ansi.black then
+      opts.bold = false
+    end
     vim.api.nvim_set_hl(0, group, opts)
   end
 
@@ -343,9 +411,7 @@ function M.setup()
   -- marks the insertion point in text like `foo|bar`.
   hl("Cursor", { fg = M.ui.bg, bg = M.ui.cursor })
 
-  -- `CursorLine` highlights the current line, for example the line containing
-  -- the active word while editing a multi-line file.
-  hl("CursorLine", { bg = M.ui.cursor_line })
+  hl("CursorLine", {})
 
   -- `CursorColumn` highlights the vertical column under the cursor, which is
   -- useful when tracking a fixed indentation or character position.
@@ -353,7 +419,7 @@ function M.setup()
 
   -- `CursorLineNr` highlights the line number on the current line, such as the
   -- `42` in the gutter when line 42 is active.
-  hl("CursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })
+  hl("CursorLineNr", { fg = M.ui.cursor_line_nr })
 
   -- `ColorColumn` marks preferred text width columns, such as an 80-column wrap
   -- guide in the editor.
@@ -394,9 +460,9 @@ function M.setup()
   )
 
   -- LSP reference groups highlight the word under the cursor in normal mode.
-  hl("LspReferenceText", { fg = M.ui.search_fg, bg = M.ui.search_bg })
-  hl("LspReferenceRead", { fg = M.ui.search_fg, bg = M.ui.search_bg })
-  hl("LspReferenceWrite", { fg = M.ui.search_fg, bg = M.ui.search_bg })
+  hl("LspReferenceText", { fg = M.ui.fg, bg = M.ui.statusline_bg })
+  hl("LspReferenceRead", { fg = M.ui.fg, bg = M.ui.statusline_bg })
+  hl("LspReferenceWrite", { fg = M.ui.fg, bg = M.ui.statusline_bg })
 
   -- `Visual` highlights visual selections, such as text selected with `v`,
   -- `V`, or `Ctrl-V`.
@@ -637,10 +703,10 @@ function M.setup()
   hl("NvimTreeCursorColumn", { bg = M.ui.cursor_column })
 
   -- `NvimTreeCursorLine` highlights the current tree row.
-  hl("NvimTreeCursorLine", { bg = M.ui.cursor_line })
+  hl("NvimTreeCursorLine", { fg = ansi.black, bg = ansi.yellow })
 
   -- `NvimTreeCursorLineNr` highlights the current tree line number.
-  hl("NvimTreeCursorLineNr", { bg = M.ui.cursor_line_nr, bold = true })
+  hl("NvimTreeCursorLineNr", { fg = M.ui.cursor_line_nr })
 
   -- `NvimTreeStatusLine` is the active status line when the tree window is focused.
   hl("NvimTreeStatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
@@ -673,7 +739,7 @@ function M.setup()
   hl("NvimTreeEmptyFolderName", { fg = M.ui.directory_fg })
 
   -- `NvimTreeOpenedFolderName` marks folders that are expanded.
-  hl("NvimTreeOpenedFolderName", { fg = M.ui.directory_fg, bold = true })
+  hl("NvimTreeOpenedFolderName", { fg = M.ui.directory_fg })
 
   -- `NvimTreeSymlinkFolderName` marks symlinked folders.
   hl("NvimTreeSymlinkFolderName", { fg = M.ui.directory_fg, underline = true })
@@ -688,7 +754,7 @@ function M.setup()
   hl("NvimTreeFolderIcon", { fg = M.ui.directory_fg })
 
   -- `NvimTreeOpenedFolderIcon` marks open folder icons.
-  hl("NvimTreeOpenedFolderIcon", { fg = M.ui.directory_fg, bold = true })
+  hl("NvimTreeOpenedFolderIcon", { fg = M.ui.directory_fg })
 
   -- `NvimTreeClosedFolderIcon` marks closed folder icons.
   hl("NvimTreeClosedFolderIcon", { fg = M.ui.directory_fg })
@@ -875,6 +941,10 @@ function M.setup()
   -- ============================================================================
 
   -- `FzfLuaNormal` is the main picker surface.
+  hl("fzf1", { fg = M.fzf.pointer, bg = M.ui.statusline_bg })
+  hl("fzf2", { fg = M.fzf.marker, bg = M.ui.statusline_bg })
+  hl("fzf3", { fg = M.fzf.fg, bg = M.ui.statusline_bg })
+
   hl("FzfLuaNormal", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.normal_bg })
 
   -- `FzfLuaBorder` is the picker border.
