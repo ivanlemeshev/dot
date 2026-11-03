@@ -13,8 +13,8 @@ base_palette:
   blue: "#5b8db8"
   magenta: "#b76b9d"
   cyan: "#58a6ad"
-  white: "#faf9f5"
-  bright_black: "#b0aea5"
+  white: "#b0aea5"
+  bright_black: "#55534e"
   bright_red: "#e17872"
   bright_green: "#82b997"
   bright_yellow: "#e9a17d"
@@ -28,7 +28,7 @@ codex:
   foreground: #faf9f5
   caret: #d97757
   line_highlight: #d97757
-  selection: #d9775
+  selection: #d97757
   selection_border: #b0aea5
   invisibles: #b0aea5
   guide: #b0aea5

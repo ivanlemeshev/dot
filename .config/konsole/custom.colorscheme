@@ -14,7 +14,7 @@ Color=20,20,19
 Color=20,20,19
 
 [Color0Intense]
-Color=176,174,165
+Color=85,83,78
 
 [Color1]
 Color=201,79,79
@@ -71,10 +71,10 @@ Color=88,166,173
 Color=128,197,201
 
 [Color7]
-Color=250,249,245
+Color=176,174,165
 
 [Color7Faint]
-Color=250,249,245
+Color=176,174,165
 
 [Color7Intense]
 Color=255,255,255
