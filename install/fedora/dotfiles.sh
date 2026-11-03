@@ -41,8 +41,7 @@ done
 
 link_config "$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json" \
   "$HOME/.config/oh-my-posh/theme.omp.json"
-link_config "$PROJECT_ROOT/.config/bat/themes/custom.tmTheme" \
-  "$HOME/.config/bat/themes/custom.tmTheme"
+
 
 mkdir -p "$HOME/.vim/undodir"
 bat cache --build

@@ -48,18 +48,6 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - Use a native package when available. Verify every adapter installation.
 - Test Linux changes in containers. Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
 
-## Color themes
-
-- Treat `color/themes/*.yaml` as the source of truth for color themes.
-- Keep the sections and `base_palette` keys consistent across all theme files. Follow `color/theme-rules.md`.
-- Use only colors from each theme's `base_palette` in its semantic sections.
-- Map semantic color roles to app-specific settings in `color/generators/` or `color/templates/tmtheme_spec.json`.
-- Keep `color/targets.tsv` in sync with generator output paths.
-- Run `bin/apply-color-scheme path/to/theme.yaml` to regenerate all configured outputs. The default theme is `gruvbox-material-dark-hard.yaml`.
-- Review generated outputs in the repository after changing a theme or generator.
-- Deploy generated configuration through the platform install scripts. Do not edit generated outputs as the source of a theme change.
-- Keep theme families stylistically independent. Limit a family fix to that family unless the request includes other themes.
-
 ## Git
 
 - Create a branch for changes. Keep `main` for merged work.

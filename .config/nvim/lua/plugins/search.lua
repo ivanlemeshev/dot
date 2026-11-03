@@ -10,19 +10,8 @@ vim.pack.add({
 })
 
 local helpers = require("config.helpers")
-local theme = require("lem.theme")
 local M = {}
 local configured = false
-
-local function hex_to_rgb(hex)
-  hex = hex:gsub("#", "")
-  return string.format(
-    "%d,%d,%d",
-    tonumber(hex:sub(1, 2), 16),
-    tonumber(hex:sub(3, 4), 16),
-    tonumber(hex:sub(5, 6), 16)
-  )
-end
 
 local function clipboard_cmd()
   if vim.fn.has("mac") == 1 then
@@ -52,7 +41,6 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
-    fzf_colors = theme.fzf,
     hls = {
       normal = "FzfLuaNormal",
       border = "FzfLuaBorder",
@@ -107,6 +95,7 @@ function M.fzf()
     },
     fzf_opts = {
       ["--multi"] = true,
+      ["--color"] = "base16",
     },
     winopts = {
       fullscreen = true, -- Let's try it
@@ -137,14 +126,6 @@ function M.fzf()
         "--line-number",
         "--no-heading",
         "--color=always",
-        "--colors",
-        "path:fg:" .. hex_to_rgb(theme.fzf.fg),
-        "--colors",
-        "line:fg:" .. hex_to_rgb(theme.fzf.fg),
-        "--colors",
-        "column:fg:" .. hex_to_rgb(theme.fzf.fg),
-        "--colors",
-        "match:fg:" .. hex_to_rgb(theme.fzf.hl),
         "--colors",
         "match:style:bold",
         "--fixed-strings",

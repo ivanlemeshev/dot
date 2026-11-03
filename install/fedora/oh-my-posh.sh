@@ -11,17 +11,15 @@ print_section "Installing Oh My Posh"
 
 curl -fsSL https://ohmyposh.dev/install.sh | bash -s
 
-OMP_THEME_SOURCE="$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json"
-OMP_THEME_TARGET="$HOME/.config/oh-my-posh/theme.omp.json"
-mkdir -p "$(dirname "$OMP_THEME_TARGET")"
-
-if [[ -L "$OMP_THEME_TARGET" ]]; then
-  rm "$OMP_THEME_TARGET"
-elif [[ -e "$OMP_THEME_TARGET" ]]; then
-  BACKUP="${OMP_THEME_TARGET}.backup.$(date +%Y%m%d%H%M%S)"
-  mv "$OMP_THEME_TARGET" "$BACKUP"
-  log_info "Backed up existing Oh My Posh theme to $BACKUP"
+OMP_CONFIG_SOURCE="$PROJECT_ROOT/.config/oh-my-posh/theme.omp.json"
+OMP_CONFIG_TARGET="$HOME/.config/oh-my-posh/theme.omp.json"
+mkdir -p "$(dirname "$OMP_CONFIG_TARGET")"
+if [[ -L "$OMP_CONFIG_TARGET" ]]; then
+  rm "$OMP_CONFIG_TARGET"
+elif [[ -e "$OMP_CONFIG_TARGET" ]]; then
+  BACKUP="${OMP_CONFIG_TARGET}.backup.$(date +%Y%m%d%H%M%S)"
+  mv "$OMP_CONFIG_TARGET" "$BACKUP"
+  log_info "Backed up existing Oh My Posh config to $BACKUP"
 fi
-
-ln -s "$OMP_THEME_SOURCE" "$OMP_THEME_TARGET"
-log_info "Linked Oh My Posh theme: $OMP_THEME_TARGET"
+ln -s "$OMP_CONFIG_SOURCE" "$OMP_CONFIG_TARGET"
+log_info "Linked Oh My Posh config: $OMP_CONFIG_TARGET"

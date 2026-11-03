@@ -28,10 +28,6 @@ mkdir -p "$KONSOLE_PROFILE_DIR"
 sed "s|@FONT@|$KDE_TERMINAL_FONT|" \
   "$PROJECT_ROOT/.config/konsole/dot.profile.in" >"$KONSOLE_PROFILE"
 
-KONSOLE_COLOR_SOURCE="$PROJECT_ROOT/.config/konsole/custom.colorscheme"
-KONSOLE_COLOR_TARGET="$KONSOLE_PROFILE_DIR/custom.colorscheme"
-ln -sf "$KONSOLE_COLOR_SOURCE" "$KONSOLE_COLOR_TARGET"
-
 kwriteconfig6 --file konsolerc --group "Desktop Entry" \
   --key DefaultProfile "dot.profile"
 

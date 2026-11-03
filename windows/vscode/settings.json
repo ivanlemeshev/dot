@@ -20,6 +20,5 @@
     "editor.tabSize": 4
   },
   "workbench.iconTheme": "gruvbox-material-icon-theme",
-  "workbench.colorTheme": "Ayu Dark Bordered",
   "cSpell.language": "en,ru-RU"
 }

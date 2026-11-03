@@ -85,7 +85,6 @@ local diff = {
 
 require("lualine").setup({
   options = {
-    theme = require("lem.theme").lualine_theme,
     icons_enabled = true,
     --           │
     component_separators = { left = "│", right = "│" },

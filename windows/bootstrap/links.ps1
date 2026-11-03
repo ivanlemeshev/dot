@@ -32,13 +32,6 @@ if (Test-Path -LiteralPath $codexSkillsSource) {
     Write-Warning "Codex skills source not found: $codexSkillsSource"
 }
 
-$codexThemesSource = Join-Path $repoRoot '.config\codex\themes'
-if (Test-Path -LiteralPath $codexThemesSource) {
-    $codexThemesTarget = Join-Path $env:USERPROFILE '.codex\themes'
-    Set-DotfilesLink $codexThemesSource $codexThemesTarget 'Codex themes'
-} else {
-    Write-Warning "Codex themes source not found: $codexThemesSource"
-}
 
 $termDir = Get-WindowsTerminalSettingsDirectory
 if ($null -eq $termDir) {

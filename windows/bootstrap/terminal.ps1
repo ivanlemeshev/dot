@@ -67,21 +67,6 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         }
     }
 
-    foreach ($scheme in $shared.schemes) {
-        $schemes = @($settings.schemes | Where-Object {
-                $_.name -ne $scheme.name
-            }) + $scheme
-        $settings | Add-Member -Force -NotePropertyName schemes `
-            -NotePropertyValue $schemes
-    }
-
-    foreach ($theme in $shared.themes) {
-        $themes = @($settings.themes | Where-Object {
-                $_.name -ne $theme.name
-            }) + $theme
-        $settings | Add-Member -Force -NotePropertyName themes `
-            -NotePropertyValue $themes
-    }
 
     foreach ($keybinding in $shared.keybindings) {
         $keybindingKeys = ConvertTo-Json -InputObject $keybinding.keys -Compress

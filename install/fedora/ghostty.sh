@@ -18,8 +18,6 @@ sudo dnf install -y ghostty
 log_info "Configuring Ghostty"
 GHOSTTY_CONFIG_SOURCE="$PROJECT_ROOT/.config/ghostty/config"
 GHOSTTY_CONFIG_TARGET="$HOME/.config/ghostty/config"
-GHOSTTY_THEME_SOURCE="$PROJECT_ROOT/.config/ghostty/themes/custom"
-GHOSTTY_THEME_TARGET="$HOME/.config/ghostty/themes/custom"
 
 link_ghostty_file() {
   local source_path="$1"
@@ -38,8 +36,6 @@ link_ghostty_file() {
   ln -s "$source_path" "$target_path"
   log_info "Linked $target_path"
 }
-
 link_ghostty_file "$GHOSTTY_CONFIG_SOURCE" "$GHOSTTY_CONFIG_TARGET"
-link_ghostty_file "$GHOSTTY_THEME_SOURCE" "$GHOSTTY_THEME_TARGET"
 
 log_info "Ghostty installation complete"

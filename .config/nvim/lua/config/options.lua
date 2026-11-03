@@ -127,8 +127,7 @@ vim.opt.fillchars:append({
   verthoriz = "┼",
 })
 
--- Enable true color support in the terminal.
-vim.opt.termguicolors = true
+vim.opt.termguicolors = false
 
 -- Faster key sequence timeout (snappier escape and leader combos).
 vim.opt.timeoutlen = 500

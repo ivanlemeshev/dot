@@ -7,7 +7,7 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = false, -- Load after colorscheme
+  load = false,
   confirm = false, -- Install without confirmation
 })
 
