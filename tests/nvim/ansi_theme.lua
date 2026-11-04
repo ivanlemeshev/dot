@@ -49,6 +49,8 @@ check(fish_colors:find("hl+:0:strip:underline", 1, true), "Selected matches lose
 check(fish_config:find('"--highlight-line"', 1, true), "Fish does not highlight the current result row")
 check(fish_config:find('"--no-bold"', 1, true), "Fish can promote ANSI colors through bold")
 
+check(fish_colors:find("bg+:8", 1, true), "fzf uses the wrong selection background")
+
 check(not vim.o.termguicolors, "The theme enables true color")
 for _, name in ipairs({
 	"Normal",
@@ -75,13 +77,17 @@ check(theme.ui.search_bg ~= theme.ui.cur_search_bg, "Search states use the same 
 check(theme.ui.search_bg % 8 ~= theme.ui.cur_search_bg % 8, "Search states differ only in brightness")
 for _, name in ipairs({
 	"Visual",
+	"VisualNOS",
 	"PmenuSel",
+	"PmenuKindSel",
+	"PmenuExtraSel",
 	"NvimTreeCursorLine",
 	"FzfLuaCursorLine",
+	"FzfLuaFzfCursorLine",
 	"QuickFixLine",
 }) do
 	local attributes = highlight(name)
-	check(attributes.ctermfg == 0 and attributes.ctermbg == 3, name .. " has inconsistent selection colors")
+	check(attributes.ctermfg == 0 and attributes.ctermbg == 8, name .. " has inconsistent selection colors")
 end
 
 local settings = vim.json.decode(table.concat(vim.fn.readfile("windows/terminal/settings.json"), "\n"))

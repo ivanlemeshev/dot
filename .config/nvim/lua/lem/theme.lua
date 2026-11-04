@@ -53,15 +53,15 @@ M.ui = {
   msg_separator_fg = ansi.white,
   pmenu_bg = ansi.black,
   pmenu_fg = ansi.white,
-  pmenu_sel_bg = ansi.yellow,
+  pmenu_sel_bg = ansi.bright_black,
   pmenu_sel_fg = ansi.black,
   pmenu_sbar_bg = ansi.black,
   pmenu_thumb_bg = ansi.white,
   question_fg = ansi.blue,
-  quickfix_line_bg = ansi.yellow,
+  quickfix_line_bg = ansi.bright_black,
   search_bg = ansi.bright_yellow,
   search_fg = ansi.black,
-  selection_bg = ansi.yellow,
+  selection_bg = ansi.bright_black,
   selection_fg = ansi.black,
   split_fg = ansi.bright_black,
   statusline_bg = ansi.black,
@@ -224,7 +224,7 @@ M.fzf = {
   bg = ansi.black,
   hl = ansi.bright_yellow,
   ["fg+"] = ansi.black,
-  ["bg+"] = ansi.yellow,
+  ["bg+"] = ansi.bright_black,
   ["hl+"] = ansi.black,
   info = ansi.blue,
   border = ansi.bright_black,
@@ -445,11 +445,14 @@ function M.setup()
   hl("DiffTextAdd", { fg = ansi.black, bg = ansi.bright_green })
 
   hl("PmenuMatch", { fg = ansi.bright_yellow, underline = true })
-  hl("PmenuMatchSel", { fg = ansi.black, bg = ansi.yellow, underline = true })
+  hl(
+    "PmenuMatchSel",
+    { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg, underline = true }
+  )
   hl("PmenuKind", { fg = ansi.bright_black })
   hl("PmenuExtra", { fg = ansi.bright_black })
-  hl("PmenuKindSel", { fg = ansi.black, bg = ansi.yellow })
-  hl("PmenuExtraSel", { fg = ansi.black, bg = ansi.yellow })
+  hl("PmenuKindSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
+  hl("PmenuExtraSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
   hl("FloatFooter", { fg = ansi.bright_black, bg = ansi.black })
   hl("Conceal", { fg = ansi.bright_black })
   hl("CursorLineSign", {})
@@ -776,7 +779,7 @@ function M.setup()
   hl("NvimTreeCursorColumn", { bg = M.ui.cursor_column })
 
   -- `NvimTreeCursorLine` highlights the current tree row.
-  hl("NvimTreeCursorLine", { fg = ansi.black, bg = ansi.yellow })
+  hl("NvimTreeCursorLine", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
 
   -- `NvimTreeCursorLineNr` highlights the current tree line number.
   hl("NvimTreeCursorLineNr", { fg = M.ui.cursor_line_nr })
@@ -1169,7 +1172,7 @@ function M.setup()
   hl("FzfLuaFzfNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
 
   -- `FzfLuaFzfCursorLine` is the embedded fzf current line highlight.
-  hl("FzfLuaFzfCursorLine", { fg = M.fzf.bg, bg = M.fzf["bg+"] })
+  hl("FzfLuaFzfCursorLine", { fg = M.fzf["fg+"], bg = M.fzf["bg+"] })
 
   -- `FzfLuaFzfMatch` is the embedded fzf match highlight for search hits.
   hl("FzfLuaFzfMatch", { fg = M.fzf.hl })

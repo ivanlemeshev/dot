@@ -268,18 +268,18 @@ highlight SignColumn cterm=NONE ctermfg=7 ctermbg=0
 highlight VertSplit cterm=NONE ctermfg=8 ctermbg=0
 highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=0
 highlight Folded cterm=NONE ctermfg=8 ctermbg=0
-highlight Visual cterm=NONE ctermfg=0 ctermbg=3
-highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=3
+highlight Visual cterm=NONE ctermfg=0 ctermbg=8
+highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=8
 highlight Search cterm=NONE ctermfg=0 ctermbg=11
 highlight CurSearch cterm=NONE ctermfg=0 ctermbg=14
 highlight IncSearch cterm=NONE ctermfg=0 ctermbg=14
 highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
-highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=3
+highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=8
 highlight Pmenu cterm=NONE ctermfg=7 ctermbg=0
-highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=3
+highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=8
 highlight PmenuSbar cterm=NONE ctermfg=0 ctermbg=0
 highlight PmenuThumb cterm=NONE ctermfg=7 ctermbg=7
-highlight WildMenu cterm=NONE ctermfg=0 ctermbg=3
+highlight WildMenu cterm=NONE ctermfg=0 ctermbg=8
 highlight StatusLine cterm=NONE ctermfg=7 ctermbg=0
 highlight StatusLineNC cterm=NONE ctermfg=8 ctermbg=0
 highlight StatusLineTerm cterm=NONE ctermfg=7 ctermbg=0
@@ -345,3 +345,5 @@ highlight Debug cterm=NONE ctermfg=7 ctermbg=NONE
 highlight Underlined cterm=underline ctermfg=4 ctermbg=NONE
 highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
 highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
+
+highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=8

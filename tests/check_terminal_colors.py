@@ -37,6 +37,7 @@ settings = json.loads((ROOT / "windows/terminal/settings.json").read_text())
 scheme = next(item for item in settings["schemes"] if item["name"] == "Tomorrow Night")
 check([scheme[key].lower() for key in KEYS], EXPECTED, "Windows Terminal ANSI colors")
 check(settings["profiles"]["defaults"]["colorScheme"], "Tomorrow Night", "Windows Terminal selection")
+check(scheme["selectionBackground"].lower(), scheme["brightBlack"].lower(), "Terminal selection background")
 
 palette = {}
 ghostty = {}
@@ -75,6 +76,8 @@ for section, key in [("Background", "background"), ("Foreground", "foreground")]
     check(rgb_hex(konsole[section]["Color"]), scheme[key].lower(), f"Konsole {section}")
 check(iterm_hex(iterm["Cursor Text Color"]), scheme["background"].lower(), "iTerm2 cursor text")
 check(ghostty["cursor-text"], scheme["background"].lower(), "Ghostty cursor text")
+check(ghostty["selection-foreground"], scheme["black"].lower(), "Ghostty selected text")
+check(iterm_hex(iterm["Selected Text Color"]), scheme["black"].lower(), "iTerm2 selected text")
 vscode = json.loads((ROOT / "windows/vscode/settings.json").read_text())["workbench.colorCustomizations"]
 vscode_keys = ["terminal.ansi" + key[0].upper() + key[1:] for key in KEYS]
 vscode_keys = [key.replace("Purple", "Magenta") for key in vscode_keys]
@@ -82,4 +85,5 @@ check([vscode[key].lower() for key in vscode_keys], EXPECTED, "VS Code terminal 
 for name, key in [("background", "background"), ("foreground", "foreground"), ("selectionBackground", "selectionBackground")]:
     check(vscode["terminal." + name].lower(), scheme[key].lower(), f"VS Code terminal {name}")
 check(vscode["terminalCursor.foreground"].lower(), scheme["cursorColor"].lower(), "VS Code terminal cursor")
+check(vscode["terminal.selectionForeground"].lower(), scheme["black"].lower(), "VS Code selected text")
 print("All five terminals use the same Tomorrow Night ANSI 16 palette")
