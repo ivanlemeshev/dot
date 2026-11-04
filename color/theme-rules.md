@@ -8,7 +8,6 @@ generators.
 1. Keep the same top-level sections and `base_palette` keys in every theme
    file.
 2. Do not add standalone hex values outside `base_palette`.
-3. Keep Codex theme roles in the `codex` section and map them to each theme's `base_palette`.
 
 ## Palette
 
@@ -50,8 +49,7 @@ generators.
 
 1. Update the matching generator when a palette key changes.
 2. Keep generator inputs and theme files in sync.
-3. Check the generated Neovim, tmTheme, Fish, Konsole, and terminal outputs
-   after changes.
+3. Check the generated terminal configurations after changes.
 
 ## Validation
 

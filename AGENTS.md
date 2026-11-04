@@ -53,7 +53,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - Treat `color/themes/*.yaml` as the source of truth for color themes.
 - Keep the sections and `base_palette` keys consistent across all theme files. Follow `color/theme-rules.md`.
 - Use only colors from each theme's `base_palette` in its semantic sections.
-- Map semantic color roles to app-specific settings in `color/generators/` or `color/templates/tmtheme_spec.json`.
+- Map semantic color roles to app-specific settings in `color/generators/`.
 - Keep `color/targets.tsv` in sync with generator output paths.
 - Run `bin/apply-color-scheme path/to/theme.yaml` to regenerate all configured outputs. The default theme is `gruvbox-material-dark-hard.yaml`.
 - Review generated outputs in the repository after changing a theme or generator.
