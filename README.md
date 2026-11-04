@@ -54,6 +54,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 
 ## Test installation
 
+Run `make test` for the library and terminal palette checks.
+Run `make editor-test` for the Vim and Neovim checks.
+The editor checks require Git, Vim, Neovim 0.12 or later, and network access.
+The runner downloads two pinned plugins into a temporary directory.
+CI runs both test suites on Ubuntu and macOS.
+
 ```bash
 make container-install-test
 ```
