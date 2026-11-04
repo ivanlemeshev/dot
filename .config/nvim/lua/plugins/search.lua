@@ -96,7 +96,10 @@ function M.fzf()
       fzf_spinner = "FzfLuaFzfSpinner",
     },
     fzf_opts = {
-      ["--color"] = "16",
+      ["--color"] = require("lem.theme").fzf_colors(),
+      ["--no-bold"] = true,
+      ["--pointer"] = "◆",
+      ["--marker"] = ">",
       ["--multi"] = true,
     },
     winopts = {

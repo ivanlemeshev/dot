@@ -10,7 +10,8 @@ vim.g.loaded_netrwPlugin = 1
 -- Always show the sign column to prevent text shifting when signs appear.
 vim.opt.signcolumn = "yes:1"
 
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block,a:blinkwait500-blinkoff500-blinkon500"
+vim.opt.guicursor =
+  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block,a:blinkwait500-blinkoff500-blinkon500"
 
 -- Allow the backspace key to delete over auto-indent, line breaks (enter), and
 -- the start of insert; essentially making backspace work more like it does
@@ -45,7 +46,7 @@ vim.opt.autowriteall = true
 
 -- Highlight the line where the cursor is currently positioned.
 vim.opt.cursorline = true
-vim.opt.cursorlineopt = "number"
+vim.opt.cursorlineopt = "number,line"
 vim.opt.colorcolumn = ""
 
 -- Display the line numbers next to each line.
@@ -57,16 +58,10 @@ vim.opt.relativenumber = false
 -- Display whitespace characters using special symbols.
 vim.opt.list = true
 
--- Display tabs, whitespaces, the end of the line.
 vim.opt.listchars = {
-  eol = " ",
-  tab = "  ",
-  space = ".",
-  multispace = ".",
-  lead = ".",
-  leadmultispace = ".",
-  trail = ".",
-  nbsp = ".",
+  tab = "▸ ",
+  trail = "·",
+  nbsp = "␣",
 }
 
 -- Ensure files end with a newline character.

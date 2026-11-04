@@ -16,12 +16,23 @@ helpers.load_on(
   "pack-diagnostics",
   "tiny-inline-diagnostic.nvim",
   function()
+    require("lem.diagnostic_border").setup()
     require("tiny-inline-diagnostic").setup({
-      preset = "modern",
+      signs = {
+        left = "",
+        right = "",
+        diag = "●",
+        arrow = "",
+        up_arrow = "",
+        vertical = "",
+        vertical_end = "",
+      },
       transparent_bg = true,
       options = {
         show_source = true,
         use_icons_from_diagnostic = true,
+        -- NOTE: The frame needs four extra columns.
+        overflow = { mode = "wrap", padding = 4 },
       },
     })
 
