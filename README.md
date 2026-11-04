@@ -79,6 +79,14 @@ nvim
 :Copilot auth
 ```
 
+## Terminal colors
+
+Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal use the same Tomorrow Night ANSI 16 palette.
+Each terminal uses its native configuration format.
+Terminal applications use ANSI color indices instead of fixed RGB colors.
+Use dark terminal themes with the current application mappings.
+Run `make test` to check palette consistency.
+
 ## Tools
 
 Managed via [mise](https://mise.jdx.dev):

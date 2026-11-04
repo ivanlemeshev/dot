@@ -42,9 +42,7 @@
             "{{ if gt .Behind 0 }}yellow{{ end }}"
           ],
           "options": {
-            "branch_icon": "",
-            "fetch_status": true,
-            "fetch_upstream_icon": false
+            "branch_icon": ""
           },
           "style": "plain",
           "template": "git({{ .HEAD }}){{ if .Working.Changed }}<yellow> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<green> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",

@@ -16,8 +16,13 @@ brew install --cask ghostty
 log_info "Configuring Ghostty"
 GHOSTTY_CONFIG_SOURCE="$PROJECT_ROOT/.config/ghostty/config"
 GHOSTTY_CONFIG_TARGET="$HOME/.config/ghostty/config"
-GHOSTTY_THEME_SOURCE="$PROJECT_ROOT/.config/ghostty/themes/custom"
-GHOSTTY_THEME_TARGET="$HOME/.config/ghostty/themes/custom"
+GHOSTTY_THEME_SOURCE="$PROJECT_ROOT/.config/ghostty/themes/TomorrowNight"
+GHOSTTY_THEME_TARGET="$HOME/.config/ghostty/themes/TomorrowNight"
+
+if [[ -L "$HOME/.config/ghostty/themes/custom" ]] && \
+  [[ "$(readlink "$HOME/.config/ghostty/themes/custom")" == "$PROJECT_ROOT/.config/ghostty/themes/custom" ]]; then
+  rm "$HOME/.config/ghostty/themes/custom"
+fi
 
 mkdir -p "$(dirname "$GHOSTTY_CONFIG_TARGET")"
 mkdir -p "$(dirname "$GHOSTTY_THEME_TARGET")"

@@ -308,6 +308,10 @@ M.statusline = {
 
 -- Git
 M.git = {
+  clean = ansi.green,
+  dirty = ansi.red,
+  ahead = ansi.blue,
+  behind = ansi.yellow,
   add = ansi.green,
   change = ansi.bright_yellow,
   delete = ansi.red,

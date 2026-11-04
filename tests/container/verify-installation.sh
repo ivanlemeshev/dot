@@ -66,6 +66,6 @@ if [[ "$platform" == "fedora-kde" ]]; then
   [[ -f "$HOME/.local/share/konsole/dot.profile" ]]
   grep -qx "Font=$KDE_TERMINAL_FONT" \
     "$HOME/.local/share/konsole/dot.profile"
-  assert_link "$HOME/.local/share/konsole/custom.colorscheme" \
-    "$repository/.config/konsole/custom.colorscheme"
+  assert_link "$HOME/.local/share/konsole/TomorrowNight.colorscheme" \
+    "$repository/.config/konsole/TomorrowNight.colorscheme"
 fi

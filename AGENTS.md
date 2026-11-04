@@ -50,15 +50,12 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Color themes
 
-- Treat `color/themes/*.yaml` as the source of truth for color themes.
-- Keep the sections and `base_palette` keys consistent across all theme files. Follow `color/theme-rules.md`.
-- Use only colors from each theme's `base_palette` in its semantic sections.
-- Map semantic color roles to app-specific settings in `color/generators/`.
-- Keep `color/targets.tsv` in sync with generator output paths.
-- Run `bin/apply-color-scheme path/to/theme.yaml` to regenerate all configured outputs. The default theme is `gruvbox-material-dark-hard.yaml`.
-- Review generated outputs in the repository after changing a theme or generator.
-- Deploy generated configuration through the platform install scripts. Do not edit generated outputs as the source of a theme change.
-- Keep theme families stylistically independent. Limit a family fix to that family unless the request includes other themes.
+- Use terminal ANSI colors 0–15 in terminal applications.
+- Keep application color roles independent of terminal palette RGB values.
+- Use the same Tomorrow Night palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
+- Maintain native terminal palette files directly.
+- Keep installer symlinks in sync with palette file paths.
+- Run `make test` to check terminal palette consistency.
 
 ## Git
 

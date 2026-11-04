@@ -1,89 +1,89 @@
 [Background]
-Color=20,20,19
+Color=29,31,33
 
 [BackgroundFaint]
-Color=20,20,19
+Color=29,31,33
 
 [BackgroundIntense]
-Color=20,20,19
+Color=29,31,33
 
 [Color0]
-Color=20,20,19
+Color=29,31,33
 
 [Color0Faint]
-Color=20,20,19
+Color=29,31,33
 
 [Color0Intense]
-Color=85,83,78
+Color=150,152,150
 
 [Color1]
-Color=201,79,79
+Color=204,102,102
 
 [Color1Faint]
-Color=201,79,79
+Color=204,102,102
 
 [Color1Intense]
-Color=225,120,114
+Color=204,102,102
 
 [Color2]
-Color=93,155,117
+Color=181,189,104
 
 [Color2Faint]
-Color=93,155,117
+Color=181,189,104
 
 [Color2Intense]
-Color=130,185,151
+Color=181,189,104
 
 [Color3]
-Color=217,119,87
+Color=240,198,116
 
 [Color3Faint]
-Color=217,119,87
+Color=240,198,116
 
 [Color3Intense]
-Color=233,161,125
+Color=240,198,116
 
 [Color4]
-Color=91,141,184
+Color=129,162,190
 
 [Color4Faint]
-Color=91,141,184
+Color=129,162,190
 
 [Color4Intense]
-Color=132,172,208
+Color=129,162,190
 
 [Color5]
-Color=183,107,157
+Color=178,148,187
 
 [Color5Faint]
-Color=183,107,157
+Color=178,148,187
 
 [Color5Intense]
-Color=212,147,186
+Color=178,148,187
 
 [Color6]
-Color=88,166,173
+Color=138,190,183
 
 [Color6Faint]
-Color=88,166,173
+Color=138,190,183
 
 [Color6Intense]
-Color=128,197,201
+Color=138,190,183
 
 [Color7]
-Color=176,174,165
+Color=197,200,198
 
 [Color7Faint]
-Color=176,174,165
+Color=197,200,198
 
 [Color7Intense]
 Color=255,255,255
 
 [Foreground]
-Color=250,249,245
+Color=197,200,198
 
 [ForegroundFaint]
-Color=250,249,245
+Color=197,200,198
 
 [ForegroundIntense]
 Color=255,255,255
@@ -91,6 +91,6 @@ Color=255,255,255
 [General]
 Blur=false
 ColorRandomization=false
-Description=Sienna Night
+Description=Tomorrow Night
 Opacity=1
 Wallpaper=
