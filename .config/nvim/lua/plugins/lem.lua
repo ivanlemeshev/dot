@@ -3,36 +3,3 @@
 
 require("lem.theme").setup()
 require("lem.binary").setup()
-
-require("lem.ruler").setup({
-  char = "┆", -- e.g. '┆', '┊', "│", etc.
-  columns = { 80 }, -- default for all files
-  exclude_filetypes = {
-    "NvimTree",
-    "checkhealth",
-    "csv",
-    "gitcommit",
-    "gitrebase",
-    "help",
-    "lspinfo",
-    "man",
-    "markdown",
-    "mason",
-    "text",
-    "qf",
-  },
-  exclude_buftypes = {
-    "nofile",
-    "prompt",
-    "quickfix",
-    "terminal",
-  },
-  filetype_config = {
-    lua = {
-      columns = { 80 },
-    },
-    python = {
-      columns = { 120 },
-    },
-  },
-})

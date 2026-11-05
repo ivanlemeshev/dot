@@ -4,11 +4,11 @@
 [![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
-```bash
+```text
           _       _    __ _ _
        __| | ___ | |_ / _(_) | ___  ___
       / _` |/ _ \| __| |_| | |/ _ \/ __|
-     | (_| | (_) | |_|  _| | |  __/\__ \\
+     | (_| | (_) | |_|  _| | |  __/\__ \
     . \__,_|\___/ \__|_| |_|_|\___||___/
 
     > own your shell. shape your system.
@@ -54,6 +54,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 
 ## Test installation
 
+Run `make test` for the library and terminal palette checks.
+Run `make editor-test` for the Vim and Neovim checks.
+The editor checks require Git, Vim, Neovim 0.12 or later, and network access.
+The runner downloads two pinned plugins into a temporary directory.
+CI runs both test suites on Ubuntu and macOS.
+
 ```bash
 make container-install-test
 ```
@@ -78,6 +84,17 @@ gh auth login
 nvim
 :Copilot auth
 ```
+
+## Terminal colors
+
+Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal use the same Tomorrow Night ANSI 16 palette.
+Each terminal uses its native configuration format.
+Terminal applications use ANSI color indices instead of fixed RGB colors.
+Selection backgrounds use ANSI blue (4) with ANSI black (0) text.
+Vim and Neovim show the current line number in bold yellow with no line background.
+Native terminal selection settings use the same blue (`#81a2be`) where supported.
+Use dark terminal themes with the current application mappings.
+Run `make test` to check palette consistency.
 
 ## Tools
 

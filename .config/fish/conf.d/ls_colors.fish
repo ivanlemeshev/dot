@@ -1,23 +1,18 @@
 # LS_COLORS for ls, fd, etc.
-#
-# Colors are defined as file roles so each theme can choose its own values
-# semantics without changing the file-type mapping.
 
-# --- Semantic roles (RGB values) ---
-set -l ls_foreground "250;249;245"  # #faf9f5
-set -l ls_background "20;20;19"     # #141413
-set -l ls_error      "201;79;79"  # #c94f4f
-set -l ls_executable "93;155;117"  # #5d9b75
-set -l ls_document   "233;161;125"   # #e9a17d
-set -l ls_directory  "91;141;184"  # #5b8db8
-set -l ls_special    "183;107;157"  # #b76b9d
-set -l ls_media      "88;166;173"  # #58a6ad
-set -l ls_backup     "176;174;165"  # #b0aea5
+set -l ls_foreground 39
+set -l ls_error      31
+set -l ls_executable 32
+set -l ls_document   93
+set -l ls_directory  34
+set -l ls_special    35
+set -l ls_media      36
+set -l ls_backup     37
 
 # --- ANSI style helpers ---
-set -l n  "0;38;2"  # normal
-set -l b  "1;38;2"  # bold
-set -l it "3;38;2"  # italic
+set -l n  "0"  # normal
+set -l b  "1"  # bold
+set -l it "3"  # italic
 
 # --- Core file types ---
 # rs = reset, mh = multi-hardlink, no = normal, fi = regular file,
@@ -28,24 +23,24 @@ set -l it "3;38;2"  # italic
 set -l ls \
     "rs=0" \
     "mh=1" \
-    "no=$n;$ls_foreground;48;2;$ls_background" \
+    "no=$n;$ls_foreground;49" \
     "fi=0" \
     "di=$n;$ls_directory" \
     "ln=$it;$ls_media" \
     "or=$it;$ls_error" \
-    "mi=$n;$ls_foreground;48;2;$ls_error" \
+    "mi=$n;30;101" \
     "ex=$b;$ls_executable" \
     "pi=$n;$ls_special" \
     "so=$b;$ls_special" \
     "do=$b;$ls_special" \
     "bd=$b;$ls_document" \
     "cd=$it;$ls_document" \
-    "su=$n;$ls_foreground;48;2;$ls_error" \
-    "sg=$n;$ls_background;48;2;$ls_document" \
-    "ca=$n;$ls_background;48;2;$ls_error" \
-    "st=$n;$ls_foreground;48;2;$ls_directory" \
+    "su=$n;30;101" \
+    "sg=$n;30;103" \
+    "ca=$n;30;101" \
+    "st=$n;30;104" \
     "ow=$b;$ls_executable" \
-    "tw=$it;$ls_foreground;48;2;$ls_directory"
+    "tw=$it;30;104"
 
 # --- Plain text ---
 set -a ls \

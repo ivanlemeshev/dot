@@ -113,15 +113,16 @@ if ($null -ne $mise) {
 $machinePath = [Environment]::GetEnvironmentVariable("Path", "Machine")
 $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 $env:PATH = "$machinePath;$userPath;$env:PATH"
-$raco = Get-Command raco -CommandType Application -ErrorAction SilentlyContinue
+$raco = Get-Command raco -CommandType Application `
+    -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($null -ne $raco) {
-    & $raco.Source pkg install --auto --skip-installed racket-langserver fmt racket-linter sicp
+    & $raco.Path pkg install --auto --skip-installed racket-langserver fmt racket-linter sicp
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "Failed to install Racket language tools."
     } else {
-        & $raco.Source fmt --help *> $null
+        & $raco.Path fmt --help *> $null
         $fmtInstalled = $LASTEXITCODE -eq 0
-        & $raco.Source lint --help *> $null
+        & $raco.Path lint --help *> $null
         $lintInstalled = $LASTEXITCODE -eq 0
         if (-not $fmtInstalled -or -not $lintInstalled) {
             Write-Warning "Racket formatter or linter verification failed."

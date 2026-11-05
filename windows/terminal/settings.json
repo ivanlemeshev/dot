@@ -12,7 +12,7 @@
   ],
   "profiles": {
     "defaults": {
-      "colorScheme": "Gruvbox Material Dark",
+      "colorScheme": "Tomorrow Night",
       "font": {
         "face": "JetBrainsMonoNL Nerd Font Mono"
       }
@@ -20,41 +20,41 @@
   },
   "schemes": [
     {
-      "background": "#141413",
-      "black": "#141413",
-      "blue": "#5B8DB8",
-      "brightBlack": "#B0AEA5",
-      "brightBlue": "#84ACD0",
-      "brightCyan": "#80C5C9",
-      "brightGreen": "#82B997",
-      "brightPurple": "#D493BA",
-      "brightRed": "#E17872",
+      "background": "#1D1F21",
+      "black": "#1D1F21",
+      "blue": "#81A2BE",
+      "brightBlack": "#969896",
+      "brightBlue": "#81A2BE",
+      "brightCyan": "#8ABEB7",
+      "brightGreen": "#B5BD68",
+      "brightPurple": "#B294BB",
+      "brightRed": "#CC6666",
       "brightWhite": "#FFFFFF",
-      "brightYellow": "#E9A17D",
-      "cursorColor": "#D97757",
-      "cyan": "#58A6AD",
-      "foreground": "#FAF9F5",
-      "green": "#5D9B75",
-      "name": "Gruvbox Material Dark",
-      "purple": "#B76B9D",
-      "red": "#C94F4F",
-      "selectionBackground": "#D97757",
-      "white": "#FAF9F5",
-      "yellow": "#D97757"
+      "brightYellow": "#F0C674",
+      "cursorColor": "#C5C8C6",
+      "cyan": "#8ABEB7",
+      "foreground": "#C5C8C6",
+      "green": "#B5BD68",
+      "name": "Tomorrow Night",
+      "purple": "#B294BB",
+      "red": "#CC6666",
+      "selectionBackground": "#81A2BE",
+      "white": "#C5C8C6",
+      "yellow": "#F0C674"
     }
   ],
   "themes": [
     {
-      "name": "Gruvbox Material Dark",
+      "name": "Tomorrow Night",
       "tab": {
-        "background": "#141413FF",
+        "background": "#1D1F21FF",
         "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
       "tabRow": {
-        "background": "#141413FF",
-        "unfocusedBackground": "#252522FF"
+        "background": "#1D1F21FF",
+        "unfocusedBackground": "#282A2EFF"
       },
       "window": {
         "applicationTheme": "dark",

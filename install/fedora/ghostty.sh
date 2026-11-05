@@ -18,8 +18,13 @@ sudo dnf install -y ghostty
 log_info "Configuring Ghostty"
 GHOSTTY_CONFIG_SOURCE="$PROJECT_ROOT/.config/ghostty/config"
 GHOSTTY_CONFIG_TARGET="$HOME/.config/ghostty/config"
-GHOSTTY_THEME_SOURCE="$PROJECT_ROOT/.config/ghostty/themes/custom"
-GHOSTTY_THEME_TARGET="$HOME/.config/ghostty/themes/custom"
+GHOSTTY_THEME_SOURCE="$PROJECT_ROOT/.config/ghostty/themes/TomorrowNight"
+GHOSTTY_THEME_TARGET="$HOME/.config/ghostty/themes/TomorrowNight"
+
+if [[ -L "$HOME/.config/ghostty/themes/custom" ]] && \
+  [[ "$(readlink "$HOME/.config/ghostty/themes/custom")" == "$PROJECT_ROOT/.config/ghostty/themes/custom" ]]; then
+  rm "$HOME/.config/ghostty/themes/custom"
+fi
 
 link_ghostty_file() {
   local source_path="$1"
@@ -30,7 +35,8 @@ link_ghostty_file() {
   if [[ -L "$target_path" ]]; then
     rm "$target_path"
   elif [[ -e "$target_path" ]]; then
-    local backup="${target_path}.backup.$(date +%Y%m%d%H%M%S)"
+    local backup
+    backup="${target_path}.backup.$(date +%Y%m%d%H%M%S)"
     mv "$target_path" "$backup"
     log_info "Backed up $target_path to $backup"
   fi

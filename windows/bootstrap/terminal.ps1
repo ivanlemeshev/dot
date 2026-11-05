@@ -67,6 +67,11 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         }
     }
 
+    foreach ($profile in $settings.profiles.list) {
+        $profile | Add-Member -Force -NotePropertyName colorScheme `
+            -NotePropertyValue $sharedDefaults.colorScheme
+    }
+
     foreach ($scheme in $shared.schemes) {
         $schemes = @($settings.schemes | Where-Object {
                 $_.name -ne $scheme.name

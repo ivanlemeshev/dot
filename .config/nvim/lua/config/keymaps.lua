@@ -28,6 +28,17 @@ helpers.vmap("<leader>c", "gc", "Toggle comment", { remap = true })
 
 helpers.nmap("<leader>e", "<cmd>NvimTreeToggle<CR>", "Toggle file tree")
 
+helpers.nmap("<leader>tw", function()
+  local markers = vim.opt_local.listchars:get()
+  if markers.space == "·" then
+    markers.space = nil
+  else
+    markers.space = "·"
+  end
+  vim.opt_local.listchars = markers
+  vim.wo.list = true
+end, "Toggle all space markers")
+
 helpers.nmap("<leader>pu", function()
   vim.pack.update()
 end, "Plugins: update")

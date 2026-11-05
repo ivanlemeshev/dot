@@ -1,5 +1,5 @@
 [Appearance]
-ColorScheme=custom
+ColorScheme=TomorrowNight
 Font=@FONT@
 
 [General]
@@ -11,4 +11,4 @@ HistoryMode=2
 ScrollBarPosition=2
 
 [Terminal Features]
-BlinkingCursorEnabled=true
+BlinkingCursorEnabled=false

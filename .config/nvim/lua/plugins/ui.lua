@@ -24,6 +24,13 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
+require("nvim-web-devicons").setup({
+  color_icons = false,
+  override = {
+    default_icon = { icon = "", cterm_color = "7", name = "Default" },
+  },
+})
+
 require("fidget").setup({})
 
 require("which-key").setup({
@@ -57,6 +64,5 @@ require("mini.hipatterns").setup({
       pattern = "%f[%w]()WARNING()%f[%W]",
       group = "MiniHipatternsFixme",
     },
-    hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
   },
 })
