@@ -17,9 +17,11 @@ helpers.load_on(
   "gitsigns.nvim",
   function()
     require("gitsigns").setup({
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 1000,
+      current_line_blame = false,
+      preview_config = {
+        border = "single",
+        row = 1,
+        col = 0,
       },
     })
 

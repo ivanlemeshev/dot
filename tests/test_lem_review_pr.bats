@@ -111,7 +111,7 @@ setup() {
   grep -Fq '. (Join-Path $bootstrapDir "mise.ps1")' "$bootstrap_script"
   grep -Fq 'function Test-MiseCommand($path)' "$helpers_script"
   grep -Fq 'Get-Command mise -CommandType Application' "$helpers_script"
-  grep -Fq 'Test-MiseCommand $command.Source' "$helpers_script"
+  grep -Fq 'Test-MiseCommand $command.Path' "$helpers_script"
   grep -Fq '(& $mise activate pwsh) | Out-String | Invoke-Expression' "$mise_script"
 }
 

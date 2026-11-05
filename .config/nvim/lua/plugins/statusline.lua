@@ -22,17 +22,37 @@ local filename = {
   path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
 }
 
+local theme = require("lem.theme")
+
 local branch = {
   "branch",
   icon = "",
+  color = require("lem.git_status").color,
 }
+
+local diagnostic_colors = {}
+for name, severity in pairs({
+  error = vim.diagnostic.severity.ERROR,
+  warn = vim.diagnostic.severity.WARN,
+  info = vim.diagnostic.severity.INFO,
+  hint = vim.diagnostic.severity.HINT,
+}) do
+  diagnostic_colors[name] = function()
+    local count = vim.diagnostic.count(0)[severity] or 0
+    return {
+      fg = count > 0 and theme.diagnostic[name] or theme.statusline.inactive_fg,
+      bg = theme.statusline.section_bg,
+    }
+  end
+end
 
 local diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
   sections = { "error", "warn", "info", "hint" },
   symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
-  colored = false,
+  colored = true,
+  diagnostics_color = diagnostic_colors,
   update_in_insert = true,
   always_visible = true,
 }
@@ -85,10 +105,9 @@ local diff = {
 
 require("lualine").setup({
   options = {
-    theme = require("lem.theme").lualine_theme,
+    theme = theme.lualine_theme,
     icons_enabled = true,
-    --           │
-    component_separators = { left = "│", right = "│" },
+    component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     always_divide_middle = true,
     disabled_filetypes = {

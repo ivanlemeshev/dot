@@ -28,8 +28,12 @@ mkdir -p "$KONSOLE_PROFILE_DIR"
 sed "s|@FONT@|$KDE_TERMINAL_FONT|" \
   "$PROJECT_ROOT/.config/konsole/dot.profile.in" >"$KONSOLE_PROFILE"
 
-KONSOLE_COLOR_SOURCE="$PROJECT_ROOT/.config/konsole/custom.colorscheme"
-KONSOLE_COLOR_TARGET="$KONSOLE_PROFILE_DIR/custom.colorscheme"
+KONSOLE_COLOR_SOURCE="$PROJECT_ROOT/.config/konsole/TomorrowNight.colorscheme"
+KONSOLE_COLOR_TARGET="$KONSOLE_PROFILE_DIR/TomorrowNight.colorscheme"
+if [[ -L "$KONSOLE_PROFILE_DIR/custom.colorscheme" ]] && \
+  [[ "$(readlink "$KONSOLE_PROFILE_DIR/custom.colorscheme")" == "$PROJECT_ROOT/.config/konsole/custom.colorscheme" ]]; then
+  rm "$KONSOLE_PROFILE_DIR/custom.colorscheme"
+fi
 ln -sf "$KONSOLE_COLOR_SOURCE" "$KONSOLE_COLOR_TARGET"
 
 kwriteconfig6 --file konsolerc --group "Desktop Entry" \

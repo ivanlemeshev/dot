@@ -10,9 +10,8 @@
 "   Ps = 6  -> steady bar (xterm).
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
-
-" Set leader key.
-let mapleader = " "
+let &t_SR = "\e[4 q"
+set guicursor+=a:blinkon0
 
 " Remap ; to : in normal mode.
 nnoremap ; :
@@ -48,7 +47,11 @@ nnoremap N Nzzzv
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
-" Enable syntax highlig.
+set notermguicolors
+set t_Co=16
+set background=dark
+
+" Enable syntax highlighting.
 syntax on
 
 " Enable file type detection, plugins, and indentation.
@@ -88,12 +91,22 @@ set belloff=all
 " Disable swap file.
 set noswapfile
 
-" Show tabs, spaces and line endings.
-set list
-set listchars=eol:\ ,tab:>\ ,space:.,trail:.,nbsp:.
-
 " Explicit UTF-8 encoding.
 set encoding=utf-8
+
+set list
+set listchars=tab:▸\ ,trail:·,nbsp:␣
+
+function! s:ToggleWhitespace() abort
+  if &listchars =~# '\(^\|,\)space:·\($\|,\)'
+    setlocal listchars-=space:·
+  else
+    setlocal listchars+=space:·
+  endif
+  setlocal list
+endfunction
+
+nnoremap <silent> <leader>tw :call <SID>ToggleWhitespace()<CR>
 
 " Prioritize Unix (LF) line endings for new and edited files, while still
 " allowing Vim to read and write files with DOS (CRLF) line endings when
@@ -178,9 +191,9 @@ function! ActiveStatusline() abort
   let l:s .= '%#StatusModeC# '
   let l:s .= '%f %m'
   let l:s .= '%='
-  let l:s .= '%{&encoding} | %{&filetype} '
+  let l:s .= '%{&encoding}  %{&filetype} '
   let l:s .= '%#StatusModeB# %l:%c '
-  let l:s .= '%#StatusModeNormal# %p%% '
+  let l:s .= '%#StatusModeC# %p%% '
   return l:s
 endfunction
 
@@ -195,10 +208,10 @@ augroup Statusline
 augroup END
 
 " Hide ~ end-of-buffer filler characters and use line chars for separators.
-set fillchars=vert:│,eob:\
+let &fillchars = 'vert:│,eob: '
 
-" Highlight the current line.
 set cursorline
+set cursorlineopt=number
 
 " Faster terminal rendering.
 set ttyfast
@@ -241,3 +254,98 @@ augroup RemoveTrailingSpaces
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//e
 augroup END
+
+" NOTE: Numeric colors use the terminal ANSI palette.
+highlight Normal cterm=NONE ctermfg=7 ctermbg=0
+highlight NonText cterm=NONE ctermfg=8 ctermbg=NONE
+highlight EndOfBuffer cterm=NONE ctermfg=8 ctermbg=NONE
+highlight SpecialKey cterm=NONE ctermfg=8 ctermbg=NONE
+highlight Whitespace cterm=NONE ctermfg=8 ctermbg=NONE
+highlight LineNr cterm=NONE ctermfg=8 ctermbg=NONE
+highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight CursorLineNr cterm=bold ctermfg=11 ctermbg=NONE
+highlight CursorColumn cterm=NONE ctermfg=0 ctermbg=8
+highlight ColorColumn cterm=NONE ctermfg=0 ctermbg=8
+highlight SignColumn cterm=NONE ctermfg=7 ctermbg=0
+highlight VertSplit cterm=NONE ctermfg=8 ctermbg=0
+highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=0
+highlight Folded cterm=NONE ctermfg=8 ctermbg=0
+highlight Visual cterm=NONE ctermfg=0 ctermbg=4
+highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=4
+highlight Search cterm=NONE ctermfg=0 ctermbg=11
+highlight CurSearch cterm=NONE ctermfg=0 ctermbg=14
+highlight IncSearch cterm=NONE ctermfg=0 ctermbg=14
+highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
+highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=4
+highlight Pmenu cterm=NONE ctermfg=7 ctermbg=0
+highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=4
+highlight PmenuSbar cterm=NONE ctermfg=0 ctermbg=0
+highlight PmenuThumb cterm=NONE ctermfg=7 ctermbg=7
+highlight WildMenu cterm=NONE ctermfg=0 ctermbg=4
+highlight StatusLine cterm=NONE ctermfg=7 ctermbg=0
+highlight StatusLineNC cterm=NONE ctermfg=8 ctermbg=0
+highlight StatusLineTerm cterm=NONE ctermfg=7 ctermbg=0
+highlight StatusLineTermNC cterm=NONE ctermfg=8 ctermbg=0
+highlight StatusModeNormal cterm=NONE ctermfg=3 ctermbg=0
+highlight StatusModeInsert cterm=NONE ctermfg=2 ctermbg=0
+highlight StatusModeVisual cterm=NONE ctermfg=5 ctermbg=0
+highlight StatusModeReplace cterm=NONE ctermfg=1 ctermbg=0
+highlight StatusModeCommand cterm=NONE ctermfg=6 ctermbg=0
+highlight StatusModeTerminal cterm=NONE ctermfg=4 ctermbg=0
+highlight StatusModeB cterm=NONE ctermfg=7 ctermbg=0
+highlight StatusModeC cterm=NONE ctermfg=7 ctermbg=0
+highlight StatusInactive cterm=NONE ctermfg=8 ctermbg=0
+highlight TabLine cterm=NONE ctermfg=8 ctermbg=0
+highlight TabLineSel cterm=NONE ctermfg=3 ctermbg=0
+highlight TabLineFill cterm=NONE ctermfg=8 ctermbg=0
+highlight Title cterm=NONE ctermfg=15 ctermbg=NONE
+highlight Directory cterm=NONE ctermfg=4 ctermbg=NONE
+highlight ErrorMsg cterm=NONE ctermfg=9 ctermbg=0
+highlight WarningMsg cterm=NONE ctermfg=11 ctermbg=0
+highlight ModeMsg cterm=NONE ctermfg=7 ctermbg=0
+highlight MoreMsg cterm=NONE ctermfg=3 ctermbg=0
+highlight Question cterm=NONE ctermfg=4 ctermbg=0
+highlight DiffAdd cterm=NONE ctermfg=10 ctermbg=0
+highlight DiffChange cterm=NONE ctermfg=14 ctermbg=0
+highlight DiffDelete cterm=NONE ctermfg=9 ctermbg=0
+highlight DiffText cterm=NONE ctermfg=0 ctermbg=11
+highlight SpellBad cterm=undercurl ctermfg=NONE ctermbg=NONE
+highlight SpellCap cterm=undercurl ctermfg=NONE ctermbg=NONE
+highlight SpellLocal cterm=undercurl ctermfg=NONE ctermbg=NONE
+highlight SpellRare cterm=undercurl ctermfg=NONE ctermbg=NONE
+highlight Comment cterm=NONE ctermfg=8 ctermbg=NONE
+highlight Constant cterm=NONE ctermfg=5 ctermbg=NONE
+highlight String cterm=NONE ctermfg=2 ctermbg=NONE
+highlight Character cterm=NONE ctermfg=2 ctermbg=NONE
+highlight Number cterm=NONE ctermfg=5 ctermbg=NONE
+highlight Boolean cterm=NONE ctermfg=5 ctermbg=NONE
+highlight Float cterm=NONE ctermfg=5 ctermbg=NONE
+highlight Identifier cterm=NONE ctermfg=7 ctermbg=NONE
+highlight Function cterm=NONE ctermfg=3 ctermbg=NONE
+highlight Statement cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Conditional cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Repeat cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Label cterm=NONE ctermfg=3 ctermbg=NONE
+highlight Operator cterm=NONE ctermfg=6 ctermbg=NONE
+highlight Keyword cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Exception cterm=NONE ctermfg=1 ctermbg=NONE
+highlight PreProc cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Include cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Define cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Macro cterm=NONE ctermfg=13 ctermbg=NONE
+highlight PreCondit cterm=NONE ctermfg=1 ctermbg=NONE
+highlight Type cterm=NONE ctermfg=4 ctermbg=NONE
+highlight StorageClass cterm=NONE ctermfg=3 ctermbg=NONE
+highlight Structure cterm=NONE ctermfg=4 ctermbg=NONE
+highlight Typedef cterm=NONE ctermfg=4 ctermbg=NONE
+highlight Special cterm=NONE ctermfg=3 ctermbg=NONE
+highlight SpecialChar cterm=NONE ctermfg=14 ctermbg=NONE
+highlight Tag cterm=NONE ctermfg=2 ctermbg=NONE
+highlight Delimiter cterm=NONE ctermfg=7 ctermbg=NONE
+highlight SpecialComment cterm=NONE ctermfg=8 ctermbg=NONE
+highlight Debug cterm=NONE ctermfg=7 ctermbg=NONE
+highlight Underlined cterm=underline ctermfg=4 ctermbg=NONE
+highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
+highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
+
+highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=4

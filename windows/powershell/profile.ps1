@@ -1,3 +1,9 @@
+$env:BAT_THEME = "ansi"
+
+if ($Host.Name -eq "ConsoleHost" -and -not [Console]::IsOutputRedirected) {
+    [Console]::Write("$([char]27)[2 q")
+}
+
 $ytDlpProfile = Join-Path $env:USERPROFILE ".config\powershell\yt-dlp.ps1"
 if (Test-Path $ytDlpProfile) {
     . $ytDlpProfile
