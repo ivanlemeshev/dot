@@ -16,8 +16,8 @@ set -Ux fish_color_valid_path     blue --underline
 set -Ux fish_color_cancel         red
 
 # --- Selection & search ---
-set -Ux fish_color_selection    black --background=brblack
-set -Ux fish_color_search_match black --background=brblack
+set -Ux fish_color_selection    black --background=blue
+set -Ux fish_color_search_match black --background=blue
 
 # --- Prompt ---
 set -Ux fish_color_cwd         green
@@ -32,7 +32,7 @@ set -Ux fish_pager_color_progress            white
 set -Ux fish_pager_color_prefix              yellow
 set -Ux fish_pager_color_completion          normal
 set -Ux fish_pager_color_description         white
-set -Ux fish_pager_color_selected_background --background=brblack
+set -Ux fish_pager_color_selected_background --background=blue
 set -Ux fish_pager_color_selected_completion black
 set -Ux fish_pager_color_selected_description black
 set -Ux fish_pager_color_selected_prefix black

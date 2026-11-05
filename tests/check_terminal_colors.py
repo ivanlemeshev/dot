@@ -37,7 +37,7 @@ settings = json.loads((ROOT / "windows/terminal/settings.json").read_text())
 scheme = next(item for item in settings["schemes"] if item["name"] == "Tomorrow Night")
 check([scheme[key].lower() for key in KEYS], EXPECTED, "Windows Terminal ANSI colors")
 check(settings["profiles"]["defaults"]["colorScheme"], "Tomorrow Night", "Windows Terminal selection")
-check(scheme["selectionBackground"].lower(), scheme["brightBlack"].lower(), "Terminal selection background")
+check(scheme["selectionBackground"].lower(), scheme["blue"].lower(), "Terminal selection background")
 
 palette = {}
 ghostty = {}
@@ -50,7 +50,9 @@ for line in (ROOT / ".config/ghostty/themes/TomorrowNight").read_text().splitlin
         ghostty[key.strip()] = value.strip().lower()
 check(sorted(palette), list(range(16)), "Ghostty ANSI indices")
 check([palette[index] for index in range(16)], EXPECTED, "Ghostty ANSI colors")
-check((ROOT / ".config/ghostty/config").read_text().splitlines()[0], "theme = TomorrowNight", "Ghostty selection")
+ghostty_config = (ROOT / ".config/ghostty/config").read_text().splitlines()
+check(ghostty_config[0], "theme = TomorrowNight", "Ghostty selection")
+check("cursor-style-blink = false" in ghostty_config, True, "Ghostty cursor blinking")
 
 konsole = configparser.ConfigParser()
 konsole.read(ROOT / ".config/konsole/TomorrowNight.colorscheme")
@@ -59,9 +61,11 @@ check([rgb_hex(konsole[f"Color{i}"]["Color"]) for i in range(8)]
 profile = configparser.ConfigParser()
 profile.read(ROOT / ".config/konsole/dot.profile.in")
 check(profile["Appearance"]["ColorScheme"], "TomorrowNight", "Konsole selection")
+check(profile["Terminal Features"].getboolean("BlinkingCursorEnabled"), False, "Konsole cursor blinking")
 
 iterm = json.loads((ROOT / "macos/iterm2/TomorrowNight.json").read_text())["Profiles"][0]
 check(iterm["Name"], "Tomorrow Night", "iTerm2 profile name")
+check(iterm["Blinking Cursor"], False, "iTerm2 cursor blinking")
 check([iterm_hex(iterm[f"Ansi {i} Color"]) for i in range(16)], EXPECTED, "iTerm2 ANSI colors")
 for terminal_key, ghostty_key, iterm_key in [
     ("background", "background", "Background Color"),
@@ -78,7 +82,10 @@ check(iterm_hex(iterm["Cursor Text Color"]), scheme["background"].lower(), "iTer
 check(ghostty["cursor-text"], scheme["background"].lower(), "Ghostty cursor text")
 check(ghostty["selection-foreground"], scheme["black"].lower(), "Ghostty selected text")
 check(iterm_hex(iterm["Selected Text Color"]), scheme["black"].lower(), "iTerm2 selected text")
-vscode = json.loads((ROOT / "windows/vscode/settings.json").read_text())["workbench.colorCustomizations"]
+vscode_settings = json.loads((ROOT / "windows/vscode/settings.json").read_text())
+check(vscode_settings["editor.cursorBlinking"], "solid", "VS Code editor cursor blinking")
+check(vscode_settings["terminal.integrated.cursorBlinking"], False, "VS Code terminal cursor blinking")
+vscode = vscode_settings["workbench.colorCustomizations"]
 vscode_keys = ["terminal.ansi" + key[0].upper() + key[1:] for key in KEYS]
 vscode_keys = [key.replace("Purple", "Magenta") for key in vscode_keys]
 check([vscode[key].lower() for key in vscode_keys], EXPECTED, "VS Code terminal ANSI colors")

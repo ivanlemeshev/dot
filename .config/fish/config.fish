@@ -1,6 +1,18 @@
 # Disable fish greeting
 set fish_greeting
 
+set -g fish_vi_force_cursor 1
+set -g fish_cursor_default block
+set -g fish_cursor_insert line
+set -g fish_cursor_replace_one underscore
+set -g fish_cursor_replace underscore
+set -g fish_cursor_visual block
+set -g fish_cursor_external block
+
+if status is-interactive
+    fish_vi_cursor
+end
+
 # Store OS type in a variable for later use
 set -l os (uname)
 

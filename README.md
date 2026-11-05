@@ -90,8 +90,9 @@ nvim
 Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal use the same Tomorrow Night ANSI 16 palette.
 Each terminal uses its native configuration format.
 Terminal applications use ANSI color indices instead of fixed RGB colors.
-Current-line and selection backgrounds use ANSI bright black (8) with ANSI black (0) text.
-Native terminal selection settings use the same bright black (`#969896`) where supported.
+Selection backgrounds use ANSI blue (4) with ANSI black (0) text.
+Vim and Neovim show the current line number in bold yellow with no line background.
+Native terminal selection settings use the same blue (`#81a2be`) where supported.
 Use dark terminal themes with the current application mappings.
 Run `make test` to check palette consistency.
 

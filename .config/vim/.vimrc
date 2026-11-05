@@ -10,6 +10,8 @@
 "   Ps = 6  -> steady bar (xterm).
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
+let &t_SR = "\e[4 q"
+set guicursor+=a:blinkon0
 
 " Remap ; to : in normal mode.
 nnoremap ; :
@@ -208,8 +210,8 @@ augroup END
 " Hide ~ end-of-buffer filler characters and use line chars for separators.
 let &fillchars = 'vert:│,eob: '
 
-" Highlight the current line.
 set cursorline
+set cursorlineopt=number
 
 " Faster terminal rendering.
 set ttyfast
@@ -260,26 +262,26 @@ highlight EndOfBuffer cterm=NONE ctermfg=8 ctermbg=NONE
 highlight SpecialKey cterm=NONE ctermfg=8 ctermbg=NONE
 highlight Whitespace cterm=NONE ctermfg=8 ctermbg=NONE
 highlight LineNr cterm=NONE ctermfg=8 ctermbg=NONE
-highlight CursorLine cterm=NONE ctermfg=0 ctermbg=8
-highlight CursorLineNr cterm=NONE ctermfg=11 ctermbg=NONE
+highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight CursorLineNr cterm=bold ctermfg=11 ctermbg=NONE
 highlight CursorColumn cterm=NONE ctermfg=0 ctermbg=8
 highlight ColorColumn cterm=NONE ctermfg=0 ctermbg=8
 highlight SignColumn cterm=NONE ctermfg=7 ctermbg=0
 highlight VertSplit cterm=NONE ctermfg=8 ctermbg=0
 highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=0
 highlight Folded cterm=NONE ctermfg=8 ctermbg=0
-highlight Visual cterm=NONE ctermfg=0 ctermbg=8
-highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=8
+highlight Visual cterm=NONE ctermfg=0 ctermbg=4
+highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=4
 highlight Search cterm=NONE ctermfg=0 ctermbg=11
 highlight CurSearch cterm=NONE ctermfg=0 ctermbg=14
 highlight IncSearch cterm=NONE ctermfg=0 ctermbg=14
 highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
-highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=8
+highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=4
 highlight Pmenu cterm=NONE ctermfg=7 ctermbg=0
-highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=8
+highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=4
 highlight PmenuSbar cterm=NONE ctermfg=0 ctermbg=0
 highlight PmenuThumb cterm=NONE ctermfg=7 ctermbg=7
-highlight WildMenu cterm=NONE ctermfg=0 ctermbg=8
+highlight WildMenu cterm=NONE ctermfg=0 ctermbg=4
 highlight StatusLine cterm=NONE ctermfg=7 ctermbg=0
 highlight StatusLineNC cterm=NONE ctermfg=8 ctermbg=0
 highlight StatusLineTerm cterm=NONE ctermfg=7 ctermbg=0
@@ -346,4 +348,4 @@ highlight Underlined cterm=underline ctermfg=4 ctermbg=NONE
 highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
 highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
 
-highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=8
+highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=4

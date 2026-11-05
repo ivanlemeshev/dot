@@ -11,7 +11,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.signcolumn = "yes:1"
 
 vim.opt.guicursor =
-  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block,a:blinkwait500-blinkoff500-blinkon500"
+  "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block,a:blinkon0"
 
 -- Allow the backspace key to delete over auto-indent, line breaks (enter), and
 -- the start of insert; essentially making backspace work more like it does
@@ -44,9 +44,8 @@ vim.opt.autowrite = true
 -- that all changes are consistently saved.
 vim.opt.autowriteall = true
 
--- Highlight the line where the cursor is currently positioned.
 vim.opt.cursorline = true
-vim.opt.cursorlineopt = "number,line"
+vim.opt.cursorlineopt = "number"
 vim.opt.colorcolumn = ""
 
 -- Display the line numbers next to each line.

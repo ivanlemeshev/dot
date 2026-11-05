@@ -1,6 +1,8 @@
 {
   "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono, Consolas, 'Courier New', monospace",
   "editor.fontLigatures": false,
+  "editor.cursorBlinking": "solid",
+  "terminal.integrated.cursorBlinking": false,
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "all",
@@ -27,7 +29,7 @@
     "terminal.foreground": "#c5c8c6",
     "terminalCursor.foreground": "#c5c8c6",
     "terminalCursor.background": "#1d1f21",
-    "terminal.selectionBackground": "#969896",
+    "terminal.selectionBackground": "#81a2be",
     "terminal.ansiBlack": "#1d1f21",
     "terminal.ansiRed": "#cc6666",
     "terminal.ansiGreen": "#b5bd68",

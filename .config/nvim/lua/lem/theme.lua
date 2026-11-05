@@ -28,7 +28,6 @@ M.ui = {
   color_column = ansi.black,
   cursor = ansi.yellow,
   cursor_column = ansi.black,
-  cursor_line = ansi.bright_black,
   cursor_line_nr = ansi.bright_yellow,
   cur_search_bg = ansi.bright_cyan,
   cur_search_fg = ansi.black,
@@ -53,15 +52,15 @@ M.ui = {
   msg_separator_fg = ansi.white,
   pmenu_bg = ansi.black,
   pmenu_fg = ansi.white,
-  pmenu_sel_bg = ansi.bright_black,
+  pmenu_sel_bg = ansi.blue,
   pmenu_sel_fg = ansi.black,
   pmenu_sbar_bg = ansi.black,
   pmenu_thumb_bg = ansi.white,
   question_fg = ansi.blue,
-  quickfix_line_bg = ansi.bright_black,
+  quickfix_line_bg = ansi.blue,
   search_bg = ansi.bright_yellow,
   search_fg = ansi.black,
-  selection_bg = ansi.bright_black,
+  selection_bg = ansi.blue,
   selection_fg = ansi.black,
   split_fg = ansi.bright_black,
   statusline_bg = ansi.black,
@@ -224,7 +223,7 @@ M.fzf = {
   bg = ansi.black,
   hl = ansi.bright_yellow,
   ["fg+"] = ansi.black,
-  ["bg+"] = ansi.bright_black,
+  ["bg+"] = ansi.blue,
   ["hl+"] = ansi.black,
   info = ansi.blue,
   border = ansi.bright_black,
@@ -424,7 +423,7 @@ function M.setup()
     opts.bg = nil
     opts.sp = nil
     -- NOTE: Some terminals use bright ANSI colors for bold text.
-    opts.cterm = { bold = false }
+    opts.cterm = { bold = group == "CursorLineNr" }
     for _, attr in ipairs({
       "italic",
       "underline",
@@ -487,7 +486,7 @@ function M.setup()
   -- marks the insertion point in text like `foo|bar`.
   hl("Cursor", { fg = M.ui.bg, bg = M.ui.cursor })
 
-  hl("CursorLine", { fg = ansi.black, bg = M.ui.cursor_line })
+  hl("CursorLine", {})
 
   -- `CursorColumn` highlights the vertical column under the cursor, which is
   -- useful when tracking a fixed indentation or character position.
@@ -495,7 +494,7 @@ function M.setup()
 
   -- `CursorLineNr` highlights the line number on the current line, such as the
   -- `42` in the gutter when line 42 is active.
-  hl("CursorLineNr", { fg = M.ui.cursor_line_nr })
+  hl("CursorLineNr", { fg = M.ui.cursor_line_nr, bold = true })
 
   -- `ColorColumn` marks preferred text width columns, such as an 80-column wrap
   -- guide in the editor.

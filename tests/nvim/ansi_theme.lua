@@ -35,7 +35,7 @@ for name in pairs(definitions) do
 	for _, key in ipairs({ "fg", "bg", "sp" }) do
 		check(attributes[key] == nil, name .. " uses an RGB color")
 	end
-	check(not (attributes.cterm or {}).bold, name .. " uses terminal bold")
+	check(not (attributes.cterm or {}).bold or name == "CursorLineNr", name .. " uses terminal bold")
 end
 for index = 0, 15 do
 	check(used[index], "ANSI index " .. index .. " has no role")
@@ -49,7 +49,7 @@ check(fish_colors:find("hl+:0:strip:underline", 1, true), "Selected matches lose
 check(fish_config:find('"--highlight-line"', 1, true), "Fish does not highlight the current result row")
 check(fish_config:find('"--no-bold"', 1, true), "Fish can promote ANSI colors through bold")
 
-check(fish_colors:find("bg+:8", 1, true), "fzf uses the wrong selection background")
+check(fish_colors:find("bg+:4", 1, true), "fzf uses the wrong selection background")
 
 check(not vim.o.termguicolors, "The theme enables true color")
 for _, name in ipairs({
@@ -61,8 +61,9 @@ for _, name in ipairs({
 }) do
 	check(highlight(name).ctermbg == 0, name .. " uses a light surface")
 end
-check(highlight("CursorLine").ctermbg == 8 and highlight("CursorLine").ctermfg == 0, "The cursor line has low contrast")
+check(highlight("CursorLine").ctermbg == nil and highlight("CursorLine").ctermfg == nil, "The cursor line has a highlight")
 check(highlight("CursorLineNr").ctermbg == nil, "The active line number has a background")
+check(highlight("CursorLineNr").ctermfg == 11 and highlight("CursorLineNr").cterm.bold, "The active line number is not yellow and bold")
 
 for _, name in ipairs({
 	"LspReferenceText",
@@ -87,7 +88,7 @@ for _, name in ipairs({
 	"QuickFixLine",
 }) do
 	local attributes = highlight(name)
-	check(attributes.ctermfg == 0 and attributes.ctermbg == 8, name .. " has inconsistent selection colors")
+	check(attributes.ctermfg == 0 and attributes.ctermbg == 4, name .. " has inconsistent selection colors")
 end
 
 local settings = vim.json.decode(table.concat(vim.fn.readfile("windows/terminal/settings.json"), "\n"))
@@ -150,11 +151,11 @@ for name, attributes in pairs(first) do
 end
 dofile(".config/nvim/lua/config/options.lua")
 dofile(".config/nvim/lua/config/autocmds.lua")
-check(vim.wo.cursorline, "The cursor line is disabled")
-check(vim.wo.cursorlineopt:find("line", 1, true), "The cursor line marks only its number")
+check(vim.o.guicursor:find("a:blinkon0", 1, true), "The cursor can blink")
+check(vim.wo.cursorline and vim.wo.cursorlineopt == "number", "The active line number is not the only highlighted area")
 for _, event in ipairs({ "InsertEnter", "InsertLeave" }) do
 	vim.api.nvim_exec_autocmds(event, {})
-	check(vim.wo.cursorline, event .. " hides the cursor line")
+	check(vim.wo.cursorline and vim.wo.cursorlineopt == "number", event .. " changes the line-number highlight")
 end
 
 print(
