@@ -4,11 +4,11 @@
 [![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
-```bash
+```text
           _       _    __ _ _
        __| | ___ | |_ / _(_) | ___  ___
       / _` |/ _ \| __| |_| | |/ _ \/ __|
-     | (_| | (_) | |_|  _| | |  __/\__ \\
+     | (_| | (_) | |_|  _| | |  __/\__ \
     . \__,_|\___/ \__|_| |_|_|\___||___/
 
     > own your shell. shape your system.
