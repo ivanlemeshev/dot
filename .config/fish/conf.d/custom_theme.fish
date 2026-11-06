@@ -9,9 +9,9 @@ set -gx fish_color_redirection    brblue
 set -gx fish_color_end            brmagenta
 set -gx fish_color_operator       cyan
 set -gx fish_color_escape         yellow
-set -gx fish_color_comment        white --italics
+set -gx fish_color_comment        brblack --italics
 set -gx fish_color_error          brred
-set -gx fish_color_autosuggestion white
+set -gx fish_color_autosuggestion brblack
 set -gx fish_color_valid_path     brblue --underline
 set -gx fish_color_cancel         brred
 
