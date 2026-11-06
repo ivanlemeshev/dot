@@ -40,7 +40,22 @@ end
 check(used[0] and used[15], "The theme omits a text or surface role")
 check(used[2] and used[9], "The theme omits normal or bright colors")
 check(highlight("Normal").ctermfg == 15, "Main text does not use bright white")
-check(not used[8], "The theme uses bright black for text")
+check(used[8], "The theme omits bright black for secondary text")
+for name in pairs({
+	EndOfBuffer = true,
+	FoldColumn = true,
+	NonText = true,
+	SpecialKey = true,
+	Whitespace = true,
+	IblIndent = true,
+	IblWhitespace = true,
+	NvimTreeIndentMarker = true,
+}) do
+	check(highlight(name).ctermfg == 8, name .. " does not use bright black")
+end
+for _, name in ipairs({ "Comment", "SpecialComment" }) do
+	check(highlight(name).ctermfg == 7, name .. " does not use white")
+end
 
 local fish_config = table.concat(vim.fn.readfile(".config/fish/conf.d/fzf_colors.fish"), "\n")
 local fish_colors = fish_config:match('set %-l colors "([^"]+)"')

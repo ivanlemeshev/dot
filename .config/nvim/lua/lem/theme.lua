@@ -32,7 +32,7 @@ M.ui = {
   cur_search_bg = ansi.bright_cyan,
   cur_search_fg = ansi.black,
   directory_fg = ansi.bright_blue,
-  end_of_buffer_fg = ansi.white,
+  end_of_buffer_fg = ansi.bright_black,
   error_fg = ansi.bright_red,
   float_bg = ansi.black,
   float_border_fg = ansi.white,
@@ -46,7 +46,7 @@ M.ui = {
   line_nr = ansi.white,
   matchparen_bg = ansi.cyan,
   mode_fg = ansi.bright_white,
-  non_text = ansi.white,
+  non_text = ansi.bright_black,
   more_fg = ansi.yellow,
   msg_area_fg = ansi.bright_white,
   msg_separator_fg = ansi.white,
@@ -67,7 +67,7 @@ M.ui = {
   statusline_fg = ansi.bright_white,
   statusline_nc_bg = ansi.black,
   statusline_nc_fg = ansi.white,
-  special_key = ansi.white,
+  special_key = ansi.bright_black,
   tabline_bg = ansi.black,
   tabline_fill_bg = ansi.black,
   tabline_fg = ansi.white,
@@ -79,7 +79,7 @@ M.ui = {
   winbar_fg = ansi.bright_white,
   winbar_nc_bg = ansi.black,
   winbar_nc_fg = ansi.white,
-  whitespace = ansi.white,
+  whitespace = ansi.bright_black,
 }
 
 -- Syntax
@@ -472,8 +472,8 @@ function M.setup()
     hl(name, { undercurl = true })
   end
 
-  hl("IblIndent", { fg = ansi.white })
-  hl("IblWhitespace", { fg = ansi.white })
+  hl("IblIndent", { fg = ansi.bright_black })
+  hl("IblWhitespace", { fg = ansi.bright_black })
   hl("IblScope", { fg = ansi.bright_blue })
   hl("MiniIndentscopeSymbol", { fg = ansi.bright_blue })
   hl("MiniHipatternsFixme", { fg = ansi.black, bg = ansi.bright_red })
