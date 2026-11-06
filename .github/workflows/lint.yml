@@ -34,6 +34,3 @@ jobs:
 
       - name: Lint bin scripts
         run: find bin -type f ! -name "*.ps1" -exec shellcheck {} +
-
-      - name: Lint editor test runner
-        run: shellcheck tests/run_editor_tests.sh
