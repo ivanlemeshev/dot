@@ -1,15 +1,30 @@
 # Disable fish greeting
 set fish_greeting
 
-# Store OS type in a variable for later use
-set -l os (uname)
+set -g fish_vi_force_cursor 1
+set -g fish_cursor_default block
+set -g fish_cursor_insert line
+set -g fish_cursor_replace_one underscore
+set -g fish_cursor_replace underscore
+set -g fish_cursor_visual block
+set -g fish_cursor_external block
+
+if status is-interactive
+    fish_vi_cursor
+end
 
 # Set nvim as default editor
 # https://fishshell.com/docs/current/faq.html#why-doesn-t-set-ux-exported-universal-variables-seem-to-work
 set -gx EDITOR nvim
 
+set -x BAT_THEME custom
+set -gx RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/config
+
 # Set XDG_CONFIG_HOME to ~/.config for applications that respect it
 set -x XDG_CONFIG_HOME $HOME/.config
+
+# Enable true color support
+set -gx fish_term24bit 1
 
 # Work around iTerm2 + tmux rendering artifacts when pressing Ctrl+L.
 # Use the external `clear` command followed by a Fish prompt repaint
@@ -38,41 +53,24 @@ fish_add_path $HOME/.local/bin
 # Add Golang bin to PATH
 fish_add_path $HOME/go/bin
 
-# Nvim (Linux-specific installation path)
-if test "$os" = Linux
-    set -l nvim_arch (uname -m)
-    if test "$nvim_arch" = aarch64
-        set nvim_arch arm64
-    end
-    fish_add_path --append "/opt/nvim-linux-$nvim_arch/bin"
+# NOTE: Neovim release paths use different names for ARM.
+set -l nvim_arch (uname -m)
+if test "$nvim_arch" = aarch64
+    set nvim_arch arm64
 end
-
-# Homebrew (Apple Silicon)
-if test "$os" = Darwin
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-end
+fish_add_path --append "/opt/nvim-linux-$nvim_arch/bin"
+fish_add_path $HOME/.julia/bin
 
 # Activate mise if it's installed
 if command -q mise
     mise activate fish | source
 end
 
-# ASDF configuration code
-if test -z $ASDF_DATA_DIR
-    set _asdf_shims "$HOME/.asdf/shims"
-else
-    set _asdf_shims "$ASDF_DATA_DIR/shims"
+if command -q wt
+    wt config shell init fish | source
 end
 
-# Do not use fish_add_path (added in Fish 3.2) because it potentially changes
-# the order of items in PATH
-if not contains $_asdf_shims $PATH
-    set -gx --prepend PATH $_asdf_shims
-end
-
-set --erase _asdf_shims
-
-# Activate Oh My Posh if it is installed.
+# Activate oh-my-posh if it's installed
 if command -q oh-my-posh
     set -l theme_file "$HOME/.config/oh-my-posh/theme.omp.json"
 

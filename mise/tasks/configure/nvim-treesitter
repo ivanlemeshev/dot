@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-#MISE description="Install Neovim Tree-sitter parsers"
-#MISE depends=["configure:nvim", "configure:tree-sitter"]
+#MISE description="Install Neovim tools and Tree-sitter parsers"
+#MISE depends=["configure:nvim", "configure:tree-sitter", "configure:racket", "configure:runic"]
 
 set -euo pipefail
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 case "$(uname -m)" in
   x86_64) nvim_arch=x86_64 ;;
@@ -15,4 +16,4 @@ case "$(uname -m)" in
     ;;
 esac
 
-MISE_TREESITTER_INSTALL=1 "/opt/nvim-linux-$nvim_arch/bin/nvim" --headless -c "qa"
+MISE_NVIM_INSTALL=1 "/opt/nvim-linux-$nvim_arch/bin/nvim" --headless -u NONE -l "$SCRIPT_DIR/../../nvim/bootstrap.lua"

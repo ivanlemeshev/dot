@@ -7,7 +7,7 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = false, -- Load when Neovim opens.
+  load = false, -- Load after colorscheme
   confirm = false, -- Install without confirmation
 })
 
@@ -16,12 +16,31 @@ helpers.load_on(
   "pack-diagnostics",
   "tiny-inline-diagnostic.nvim",
   function()
+    require("lem.diagnostic_border").setup()
     require("tiny-inline-diagnostic").setup({
-      preset = "modern",
+      signs = {
+        left = "",
+        right = "",
+        diag = "●",
+        arrow = "",
+        up_arrow = "",
+        vertical = "",
+        vertical_end = "",
+      },
+      transparent_bg = true,
       options = {
         show_source = true,
         use_icons_from_diagnostic = true,
+        -- NOTE: The frame needs four extra columns.
+        overflow = { mode = "wrap", padding = 4 },
       },
+    })
+
+    local apply_colors = require("lem.theme").setup_inline_diagnostics
+    apply_colors()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = helpers.augroup("inline-diagnostic-colors"),
+      callback = apply_colors,
     })
   end
 )

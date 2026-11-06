@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#MISE description="Check terminal color settings"
+
+set -euo pipefail
+
+test "${BAT_THEME:-}" = custom
+test "${CLICOLOR:-}" = 1
+test "${LESS:-}" = -FRX
+test "${NO_COLOR+x}" != x
+test "$(git config --get color.ui)" = auto
+test "$(git config --get color.diff.old)" = brightred
+test "$(gh config get accessible_colors)" = enabled
+test "$(gh config get color_labels)" = disabled
+batcat --list-themes | rg '^custom$'
+fish --no-config --command "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""

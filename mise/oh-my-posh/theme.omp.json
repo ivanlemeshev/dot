@@ -5,13 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "white",
-          "style": "plain",
-          "template": "╭─ ",
-          "type": "text"
-        },
-        {
-          "foreground": "yellow",
+          "foreground": "blue",
           "options": {
             "time_format": "15:04:05"
           },
@@ -20,19 +14,19 @@
           "type": "time"
         },
         {
-          "foreground": "white",
+          "foreground": "default",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<green>{{ .UserName }}</><white>@</></>{{ end }}<blue>{{ .HostName }}</>  ",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<green>{{ .UserName }}@{{ end }}{{ .HostName }}</>  ",
           "type": "session"
         },
         {
-          "foreground": "red",
+          "foreground": "lightRed",
           "style": "plain",
           "template": "󱐋  ",
           "type": "root"
         },
         {
-          "foreground": "white",
+          "foreground": "default",
           "options": {
             "style": "folder"
           },
@@ -43,14 +37,12 @@
         {
           "foreground": "green",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}red{{ end }}",
-            "{{ if gt .Ahead 0 }}blue{{ end }}",
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}lightRed{{ end }}",
+            "{{ if gt .Ahead 0 }}lightBlue{{ end }}",
             "{{ if gt .Behind 0 }}yellow{{ end }}"
           ],
           "options": {
-            "branch_icon": "",
-            "fetch_status": true,
-            "fetch_upstream_icon": false
+            "branch_icon": ""
           },
           "style": "plain",
           "template": "git({{ .HEAD }}){{ if .Working.Changed }}<yellow> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<green> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
@@ -68,9 +60,7 @@
         },
         {
           "foreground": "green",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}red{{ end }}"
-          ],
+          "foreground_templates": ["{{ if gt .Code 0 }}lightRed{{ end }}"],
           "options": {
             "always_enabled": false
           },
@@ -91,7 +81,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "<white>├─ </>python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
+          "template": " python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
           "type": "python"
         },
         {
@@ -100,7 +90,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }}<white>├─ </>{{ end }}node {{ .Full }}  ",
+          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }} {{ end }}node {{ .Full }}  ",
           "type": "node"
         },
         {
@@ -109,7 +99,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }}<white>├─ </>{{ end }}rust {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }} {{ end }}rust {{ .Full }}  ",
           "type": "rust"
         },
         {
@@ -118,7 +108,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }}<white>├─ </>{{ end }}julia {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }} {{ end }}julia {{ .Full }}  ",
           "type": "julia"
         },
         {
@@ -127,7 +117,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }}<white>├─ </>{{ end }}go {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }} {{ end }}go {{ .Full }}  ",
           "type": "go"
         },
         {
@@ -136,7 +126,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }}<white>├─ </>{{ end }}zig {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }} {{ end }}zig {{ .Full }}  ",
           "type": "zig"
         },
         {
@@ -145,7 +135,7 @@
             "display_mode": "context"
           },
           "style": "plain",
-          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }}<white>├─ </>{{ end }}lua {{ .Full }}  ",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }} {{ end }}lua {{ .Full }}  ",
           "type": "lua"
         }
       ],
@@ -156,9 +146,9 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "white",
+          "foreground": "default",
           "style": "plain",
-          "template": "╰─ <green>❯</>",
+          "template": "<green>$</>",
           "type": "text"
         }
       ],

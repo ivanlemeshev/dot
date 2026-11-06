@@ -24,7 +24,12 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-require("nvim-web-devicons").setup({ color_icons = false })
+require("nvim-web-devicons").setup({
+  color_icons = false,
+  override = {
+    default_icon = { icon = "", cterm_color = "7", name = "Default" },
+  },
+})
 
 require("fidget").setup({})
 

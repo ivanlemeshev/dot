@@ -2,17 +2,57 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 dry_run=false
+start_shell=true
 
-case "${1:-}" in
-  "") ;;
-  --dry-run) dry_run=true ;;
+for argument in "$@"; do
+  case "$argument" in
+    --dry-run) dry_run=true ;;
+    --no-shell) start_shell=false ;;
+    *)
+      printf 'Usage: %s [--dry-run] [--no-shell]\n' "${BASH_SOURCE[0]}" >&2
+      exit 2
+      ;;
+  esac
+done
+
+if [[ ! -r /etc/os-release ]] || ! . /etc/os-release || [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 26.04 ]]; then
+  printf 'This setup requires Ubuntu 26.04.\n' >&2
+  exit 1
+fi
+
+case "$(uname -m)" in
+  x86_64) nvim_arch=x86_64 ;;
+  aarch64) nvim_arch=arm64 ;;
   *)
-    printf 'Usage: %s [--dry-run]\n' "${BASH_SOURCE[0]}" >&2
-    exit 2
+    printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
+    exit 1
     ;;
 esac
+
+export PATH="$HOME/.local/bin:/opt/nvim-linux-$nvim_arch/bin:$PATH"
+export MISE_CONFIG_DIR="$SCRIPT_DIR"
+MISE_CONFIG_LINK="$HOME/.config/mise"
+
+if [[ "$dry_run" == true ]]; then
+  if ! command -v mise >/dev/null 2>&1; then
+    printf 'Install mise before the dry run.\n' >&2
+    exit 1
+  fi
+  MISE_TRUSTED_CONFIG_PATHS="$SCRIPT_DIR" mise bootstrap --dry-run
+  exit 0
+fi
+
+if [[ -L "$MISE_CONFIG_LINK" ]]; then
+  if [[ "$(readlink -f "$MISE_CONFIG_LINK")" != "$SCRIPT_DIR" ]]; then
+    printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
+    exit 1
+  fi
+elif [[ -e "$MISE_CONFIG_LINK" ]]; then
+  printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
+  exit 1
+fi
 
 run_as_root() {
   if [[ "$(id -u)" -eq 0 ]]; then
@@ -25,69 +65,32 @@ run_as_root() {
   fi
 }
 
-if [[ ! -r /etc/os-release ]] || ! . /etc/os-release || [[ "${ID:-}" != ubuntu ]]; then
-  printf 'This setup supports Ubuntu.\n' >&2
-  exit 1
-fi
-
-if ! command -v git >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1 || ! dpkg-query -W ca-certificates >/dev/null 2>&1; then
-  run_as_root apt-get update
-  run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git
-fi
-
 run_as_root apt-get update
-run_as_root env DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo
 
-if ! command -v mise >/dev/null 2>&1 && [[ ! -x "$HOME/.local/bin/mise" ]]; then
+if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | sh
 fi
-
-export PATH="$HOME/.local/bin:$PATH"
-MISE_BIN="$(command -v mise || printf '%s' "$HOME/.local/bin/mise")"
-MISE_CONFIG_SOURCE="$SCRIPT_DIR"
-MISE_CONFIG_LINK="$HOME/.config/mise"
-export MISE_CONFIG_DIR="$MISE_CONFIG_SOURCE"
-
-cd "$SCRIPT_DIR"
-"$MISE_BIN" trust
-
-if [[ "$dry_run" == true ]]; then
-  "$MISE_BIN" bootstrap --dry-run
-  exit 0
-fi
+MISE_BIN="$(command -v mise)"
 
 mkdir -p "$HOME/.config"
-
-if [[ -L "$MISE_CONFIG_LINK" ]]; then
-  if [[ "$(readlink -f "$MISE_CONFIG_LINK")" != "$(readlink -f "$MISE_CONFIG_SOURCE")" ]]; then
-    printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
-    exit 1
-  fi
-elif [[ -e "$MISE_CONFIG_LINK" ]]; then
-  printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
-  exit 1
-else
-  ln -s "$MISE_CONFIG_SOURCE" "$MISE_CONFIG_LINK"
+if [[ ! -L "$MISE_CONFIG_LINK" ]]; then
+  ln -s "$SCRIPT_DIR" "$MISE_CONFIG_LINK"
 fi
-
 export MISE_CONFIG_DIR="$MISE_CONFIG_LINK"
+cd "$SCRIPT_DIR"
+"$MISE_BIN" trust
 
 mkdir -p "$HOME/.config/git"
 touch "$HOME/.config/git/config.local"
 chmod 600 "$HOME/.config/git/config.local"
 
-"$MISE_BIN" bootstrap --yes
+"$MISE_BIN" bootstrap --yes --only packages,dotfiles,mise-shell-activate
 "$MISE_BIN" install
 "$MISE_BIN" run configure
-"$MISE_BIN" run configure:cleanup
-
-case "$(uname -m)" in
-  x86_64) nvim_arch=x86_64 ;;
-  aarch64) nvim_arch=arm64 ;;
-esac
-
-export PATH="/opt/nvim-linux-$nvim_arch/bin:$PATH"
 "$MISE_BIN" run verify
 
-unset MISE_CONFIG_DIR
-exec fish -l
+if [[ "$start_shell" == true ]]; then
+  unset MISE_CONFIG_DIR
+  exec fish -l
+fi

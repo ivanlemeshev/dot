@@ -41,6 +41,8 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
+    defaults = { color_icons = false },
+    fzf_colors = false,
     hls = {
       normal = "FzfLuaNormal",
       border = "FzfLuaBorder",
@@ -94,6 +96,10 @@ function M.fzf()
       fzf_spinner = "FzfLuaFzfSpinner",
     },
     fzf_opts = {
+      ["--color"] = require("lem.theme").fzf_colors(),
+      ["--no-bold"] = true,
+      ["--pointer"] = "◆",
+      ["--marker"] = ">",
       ["--multi"] = true,
     },
     winopts = {
@@ -124,7 +130,17 @@ function M.fzf()
         "--column",
         "--line-number",
         "--no-heading",
-        "--color=never",
+        "--color=always",
+        "--colors",
+        "path:fg:15",
+        "--colors",
+        "line:fg:7",
+        "--colors",
+        "column:fg:7",
+        "--colors",
+        "match:fg:yellow",
+        "--colors",
+        "match:style:bold",
         "--fixed-strings",
         "--smart-case",
         "--max-columns=4096",

@@ -56,13 +56,18 @@ local ensure_installed = {
   "zig",
 }
 
-local treesitter = require("nvim-treesitter")
-treesitter.setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
+local already_installed = require("nvim-treesitter.config").get_installed("parsers")
+local parsers_to_install = vim
+  .iter(ensure_installed)
+  :filter(function(parser)
+    return not vim.tbl_contains(already_installed, parser)
+  end)
+  :totable()
 
-local install_task = treesitter.install(ensure_installed)
-if vim.env.MISE_TREESITTER_INSTALL == "1" then
-  if not install_task:wait(300000) then
-    error("Tree-sitter parser installation failed or timed out")
+if #parsers_to_install > 0 and vim.env.MISE_NVIM_VERIFY ~= "1" then
+  local task = require("nvim-treesitter").install(parsers_to_install)
+  if vim.env.MISE_NVIM_INSTALL == "1" and not task:wait(600000) then
+    error("Tree-sitter parser installation fails or exceeds the time limit")
   end
 end
 
@@ -75,3 +80,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
 })
+
+return ensure_installed

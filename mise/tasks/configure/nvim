@@ -33,3 +33,7 @@ sudo rm -rf "$install_dir"
 sudo mv "$extracted_dir" "$install_dir"
 sudo chown -R root:root "$install_dir"
 "$install_dir/bin/nvim" --version
+
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$install_dir/bin/nvim" "$HOME/.local/bin/nvim"
+nvim --version
