@@ -124,7 +124,7 @@ local border = vim.api.nvim_get_hl(
   { name = "TinyInlineInvDiagnosticVirtualTextWarn", link = false }
 )
 assert(
-  border.ctermfg == 8 and border.ctermbg == 0,
+  border.ctermfg == 15 and border.ctermbg == 0,
   "Border uses invisible colors"
 )
 vim.api.nvim_exec_autocmds("ColorScheme", {})
@@ -133,6 +133,6 @@ border = vim.api.nvim_get_hl(
   { name = "TinyInlineInvDiagnosticVirtualTextWarn", link = false }
 )
 assert(
-  border.ctermfg == 8 and border.ctermbg == 0,
+  border.ctermfg == 15 and border.ctermbg == 0,
   "ColorScheme replaces ANSI border colors"
 )

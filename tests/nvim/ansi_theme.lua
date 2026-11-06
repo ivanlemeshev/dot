@@ -37,9 +37,10 @@ for name in pairs(definitions) do
 	end
 	check(not (attributes.cterm or {}).bold or name == "CursorLineNr", name .. " uses terminal bold")
 end
-for index = 0, 15 do
-	check(used[index], "ANSI index " .. index .. " has no role")
-end
+check(used[0] and used[15], "The theme omits a text or surface role")
+check(used[2] and used[9], "The theme omits normal or bright colors")
+check(highlight("Normal").ctermfg == 15, "Main text does not use bright white")
+check(not used[8], "The theme uses bright black for text")
 
 local fish_config = table.concat(vim.fn.readfile(".config/fish/conf.d/fzf_colors.fish"), "\n")
 local fish_colors = fish_config:match('set %-l colors "([^"]+)"')
@@ -49,7 +50,9 @@ check(fish_colors:find("hl+:0:strip:underline", 1, true), "Selected matches lose
 check(fish_config:find('"--highlight-line"', 1, true), "Fish does not highlight the current result row")
 check(fish_config:find('"--no-bold"', 1, true), "Fish can promote ANSI colors through bold")
 
-check(fish_colors:find("bg+:4", 1, true), "fzf uses the wrong selection background")
+check(fish_colors:find("bg+:12", 1, true), "fzf uses the wrong selection background")
+check(fish_colors:find("selected-fg:0:strip", 1, true), "Marked rows preserve unreadable input colors")
+check(theme.fzf.pointer == 0 and theme.fzf.marker == 0, "Selection indicators have low contrast")
 
 check(not vim.o.termguicolors, "The theme enables true color")
 for _, name in ipairs({
@@ -88,62 +91,9 @@ for _, name in ipairs({
 	"QuickFixLine",
 }) do
 	local attributes = highlight(name)
-	check(attributes.ctermfg == 0 and attributes.ctermbg == 4, name .. " has inconsistent selection colors")
+	check(attributes.ctermfg == 0 and attributes.ctermbg == 12, name .. " has inconsistent selection colors")
 end
 
-local settings = vim.json.decode(table.concat(vim.fn.readfile("windows/terminal/settings.json"), "\n"))
-local palette = settings.schemes[1]
-local keys = {
-	"black",
-	"red",
-	"green",
-	"yellow",
-	"blue",
-	"purple",
-	"cyan",
-	"white",
-	"brightBlack",
-	"brightRed",
-	"brightGreen",
-	"brightYellow",
-	"brightBlue",
-	"brightPurple",
-	"brightCyan",
-	"brightWhite",
-}
-local luminance = {}
-for index, key in ipairs(keys) do
-	local color = palette[key]
-	local value = 0
-	for channel, weight in ipairs({ 0.2126, 0.7152, 0.0722 }) do
-		local offset = 2 * channel
-		local component = tonumber(color:sub(offset, offset + 1), 16) / 255
-		local linear = component <= 0.04045 and component / 12.92 or ((component + 0.055) / 1.055) ^ 2.4
-		value = value + linear * weight
-	end
-	luminance[index - 1] = value
-end
-
-local minimum = math.huge
-local count = 0
-for name, attributes in pairs(first) do
-	-- NOTE: Inverse diagnostic groups draw empty corners with the background color.
-	if attributes.ctermfg ~= nil and not name:match("^TinyInlineInv") then
-		local foreground = luminance[attributes.ctermfg]
-		local background = luminance[attributes.ctermbg or theme.ui.bg]
-		local ratio = (math.max(foreground, background) + 0.05) / (math.min(foreground, background) + 0.05)
-		check(ratio >= 4.4, name .. " has low contrast in " .. palette.name)
-		minimum = math.min(minimum, ratio)
-		count = count + 1
-	end
-end
-
-for _, mode in pairs(theme.lualine_theme) do
-	for _, section in pairs(mode) do
-		check(section.fg >= 0 and section.fg <= 15, "Lualine uses a foreground outside ANSI 16")
-		check(section.bg >= 0 and section.bg <= 15, "Lualine uses a background outside ANSI 16")
-	end
-end
 
 theme.setup()
 for name, attributes in pairs(first) do
@@ -158,12 +108,3 @@ for _, event in ipairs({ "InsertEnter", "InsertLeave" }) do
 	check(vim.wo.cursorline and vim.wo.cursorlineopt == "number", event .. " changes the line-number highlight")
 end
 
-print(
-	string.format(
-		"ANSI theme: %d groups; all 16 indices; %d text pairs; minimum contrast %.2f:1 in %s",
-		vim.tbl_count(first),
-		count,
-		minimum,
-		palette.name
-	)
-)

@@ -6,8 +6,8 @@
 # ANSI color codes (for standalone use)
 readonly PRINT_COLOR_RESET="\033[0m"
 readonly PRINT_COLOR_CYAN="\033[0;36m"
-readonly PRINT_COLOR_GRAY="\033[0;90m"
-readonly PRINT_COLOR_BOLD_BLUE="\033[1;34m"
+readonly PRINT_COLOR_GRAY="\033[0;37m"
+readonly PRINT_COLOR_BOLD_BLUE="\033[0;94m"
 readonly PRINT_COLOR_GREEN="\033[0;32m"
 
 # Enable/disable colors (can be overridden)
@@ -34,9 +34,9 @@ print_section() {
   separator=$(printf '=%.0s' $(seq 1 "$width"))
 
   if [[ "$PRINT_COLORS" == true ]] && { [[ -t 1 ]] || [[ -n "${FORCE_COLOR:-}" ]]; }; then
-    echo -e "\n${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}"
+    echo -e "\n${PRINT_COLOR_GRAY}${separator}${PRINT_COLOR_RESET}"
     echo -e "${PRINT_COLOR_BOLD_BLUE}${message}${PRINT_COLOR_RESET}"
-    echo -e "${PRINT_COLOR_BOLD_BLUE}${separator}${PRINT_COLOR_RESET}\n"
+    echo -e "${PRINT_COLOR_GRAY}${separator}${PRINT_COLOR_RESET}\n"
   else
     echo -e "\n${separator}"
     echo -e "${message}"

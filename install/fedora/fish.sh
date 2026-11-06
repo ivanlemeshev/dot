@@ -43,3 +43,9 @@ if [[ "$current_shell" != "$fish_path" ]]; then
 fi
 
 log_info "Fish configuration complete"
+
+mkdir -p "$HOME/.config/ripgrep"
+if [[ -e "$HOME/.config/ripgrep/config" && ! -L "$HOME/.config/ripgrep/config" ]]; then
+  mv "$HOME/.config/ripgrep/config" "$HOME/.config/ripgrep/config.backup.$(date +%Y%m%d%H%M%S)"
+fi
+ln -sf "$PROJECT_ROOT/.config/ripgrep/config" "$HOME/.config/ripgrep/config"

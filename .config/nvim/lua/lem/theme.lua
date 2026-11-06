@@ -31,43 +31,43 @@ M.ui = {
   cursor_line_nr = ansi.bright_yellow,
   cur_search_bg = ansi.bright_cyan,
   cur_search_fg = ansi.black,
-  directory_fg = ansi.blue,
-  end_of_buffer_fg = ansi.bright_black,
-  error_fg = ansi.red,
+  directory_fg = ansi.bright_blue,
+  end_of_buffer_fg = ansi.white,
+  error_fg = ansi.bright_red,
   float_bg = ansi.black,
-  float_border_fg = ansi.bright_black,
-  float_fg = ansi.white,
+  float_border_fg = ansi.white,
+  float_fg = ansi.bright_white,
   float_title_fg = ansi.bright_white,
   folded_bg = ansi.black,
   folded_fg = ansi.white,
-  fg = ansi.white,
+  fg = ansi.bright_white,
   inc_search_bg = ansi.bright_cyan,
   inc_search_fg = ansi.black,
-  line_nr = ansi.bright_black,
+  line_nr = ansi.white,
   matchparen_bg = ansi.cyan,
-  mode_fg = ansi.white,
-  non_text = ansi.bright_black,
+  mode_fg = ansi.bright_white,
+  non_text = ansi.white,
   more_fg = ansi.yellow,
-  msg_area_fg = ansi.white,
+  msg_area_fg = ansi.bright_white,
   msg_separator_fg = ansi.white,
   pmenu_bg = ansi.black,
-  pmenu_fg = ansi.white,
-  pmenu_sel_bg = ansi.blue,
+  pmenu_fg = ansi.bright_white,
+  pmenu_sel_bg = ansi.bright_blue,
   pmenu_sel_fg = ansi.black,
   pmenu_sbar_bg = ansi.black,
-  pmenu_thumb_bg = ansi.white,
-  question_fg = ansi.blue,
-  quickfix_line_bg = ansi.blue,
+  pmenu_thumb_bg = ansi.bright_white,
+  question_fg = ansi.bright_blue,
+  quickfix_line_bg = ansi.bright_blue,
   search_bg = ansi.bright_yellow,
   search_fg = ansi.black,
-  selection_bg = ansi.blue,
+  selection_bg = ansi.bright_blue,
   selection_fg = ansi.black,
-  split_fg = ansi.bright_black,
+  split_fg = ansi.white,
   statusline_bg = ansi.black,
-  statusline_fg = ansi.white,
+  statusline_fg = ansi.bright_white,
   statusline_nc_bg = ansi.black,
-  statusline_nc_fg = ansi.bright_black,
-  special_key = ansi.bright_black,
+  statusline_nc_fg = ansi.white,
+  special_key = ansi.white,
   tabline_bg = ansi.black,
   tabline_fill_bg = ansi.black,
   tabline_fg = ansi.white,
@@ -76,99 +76,99 @@ M.ui = {
   title_fg = ansi.bright_white,
   warning_fg = ansi.yellow,
   winbar_bg = ansi.black,
-  winbar_fg = ansi.white,
+  winbar_fg = ansi.bright_white,
   winbar_nc_bg = ansi.black,
-  winbar_nc_fg = ansi.bright_black,
-  whitespace = ansi.bright_black,
+  winbar_nc_fg = ansi.white,
+  whitespace = ansi.white,
 }
 
 -- Syntax
 M.syntax = {
-  comment = ansi.bright_black,
-  constant = ansi.magenta,
+  comment = ansi.white,
+  constant = ansi.bright_magenta,
   constant_builtin = ansi.bright_magenta,
-  constant_macro = ansi.magenta,
-  error = ansi.red,
-  delimiter = ansi.white,
+  constant_macro = ansi.bright_magenta,
+  error = ansi.bright_red,
+  delimiter = ansi.bright_white,
   character = ansi.green,
   character_special = ansi.yellow,
-  float = ansi.magenta,
-  variable_builtin = ansi.magenta,
-  variable_parameter = ansi.white,
-  variable_parameter_builtin = ansi.magenta,
-  variable_member = ansi.blue,
-  identifier = ansi.white,
-  namespace = ansi.blue,
-  namespace_builtin = ansi.blue,
-  field = ansi.blue,
-  field_builtin = ansi.blue,
-  parameter = ansi.white,
-  parameter_builtin = ansi.white,
-  boolean = ansi.magenta,
-  module = ansi.blue,
-  module_builtin = ansi.blue,
+  float = ansi.bright_magenta,
+  variable_builtin = ansi.bright_magenta,
+  variable_parameter = ansi.bright_white,
+  variable_parameter_builtin = ansi.bright_magenta,
+  variable_member = ansi.bright_blue,
+  identifier = ansi.bright_white,
+  namespace = ansi.bright_blue,
+  namespace_builtin = ansi.bright_blue,
+  field = ansi.bright_blue,
+  field_builtin = ansi.bright_blue,
+  parameter = ansi.bright_white,
+  parameter_builtin = ansi.bright_white,
+  boolean = ansi.bright_magenta,
+  module = ansi.bright_blue,
+  module_builtin = ansi.bright_blue,
   label = ansi.yellow,
-  statement = ansi.red,
-  conditional = ansi.red,
-  ["repeat"] = ansi.red,
-  exception = ansi.red,
-  attribute = ansi.magenta,
-  attribute_builtin = ansi.magenta,
-  property = ansi.blue,
+  statement = ansi.bright_red,
+  conditional = ansi.bright_red,
+  ["repeat"] = ansi.bright_red,
+  exception = ansi.bright_red,
+  attribute = ansi.bright_magenta,
+  attribute_builtin = ansi.bright_magenta,
+  property = ansi.bright_blue,
   constructor = ansi.yellow,
-  include = ansi.red,
-  define = ansi.red,
+  include = ansi.bright_red,
+  define = ansi.bright_red,
   macro = ansi.cyan,
-  precondit = ansi.red,
+  precondit = ansi.bright_red,
   text = ansi.green,
   text_strong = ansi.green,
   text_emphasis = ansi.green,
-  text_strike = ansi.bright_black,
-  text_underline = ansi.blue,
+  text_strike = ansi.bright_white,
+  text_underline = ansi.bright_blue,
   text_title = ansi.green,
   text_literal = ansi.cyan,
-  text_quote = ansi.bright_black,
-  text_uri = ansi.blue,
-  text_math = ansi.blue,
+  text_quote = ansi.bright_white,
+  text_uri = ansi.bright_blue,
+  text_math = ansi.bright_blue,
   text_todo = ansi.bright_yellow,
-  text_note = ansi.blue,
+  text_note = ansi.bright_blue,
   text_warning = ansi.yellow,
-  text_reference = ansi.white,
+  text_reference = ansi.bright_white,
   ["function"] = ansi.yellow,
   function_builtin = ansi.yellow,
   function_call = ansi.yellow,
   function_macro = ansi.yellow,
   function_method = ansi.yellow,
   function_method_call = ansi.yellow,
-  keyword = ansi.red,
-  keyword_coroutine = ansi.red,
-  keyword_function = ansi.red,
-  keyword_operator = ansi.red,
-  keyword_import = ansi.red,
-  keyword_type = ansi.red,
-  keyword_modifier = ansi.red,
-  keyword_repeat = ansi.red,
-  keyword_return = ansi.red,
-  keyword_debug = ansi.red,
-  keyword_exception = ansi.red,
-  keyword_conditional = ansi.red,
-  keyword_conditional_ternary = ansi.red,
-  keyword_directive = ansi.red,
-  keyword_directive_define = ansi.red,
-  number = ansi.magenta,
-  number_float = ansi.magenta,
+  keyword = ansi.bright_red,
+  keyword_coroutine = ansi.bright_red,
+  keyword_function = ansi.bright_red,
+  keyword_operator = ansi.bright_red,
+  keyword_import = ansi.bright_red,
+  keyword_type = ansi.bright_red,
+  keyword_modifier = ansi.bright_red,
+  keyword_repeat = ansi.bright_red,
+  keyword_return = ansi.bright_red,
+  keyword_debug = ansi.bright_red,
+  keyword_exception = ansi.bright_red,
+  keyword_conditional = ansi.bright_red,
+  keyword_conditional_ternary = ansi.bright_red,
+  keyword_directive = ansi.bright_red,
+  keyword_directive_define = ansi.bright_red,
+  number = ansi.bright_magenta,
+  number_float = ansi.bright_magenta,
   operator = ansi.cyan,
-  preproc = ansi.red,
+  preproc = ansi.bright_red,
   storageclass = ansi.yellow,
-  structure = ansi.blue,
-  typedef = ansi.blue,
-  punctuation_delimiter = ansi.white,
-  punctuation_bracket = ansi.white,
+  structure = ansi.bright_blue,
+  typedef = ansi.bright_blue,
+  punctuation_delimiter = ansi.bright_white,
+  punctuation_bracket = ansi.bright_white,
   punctuation_special = ansi.yellow,
   special = ansi.yellow,
-  comment_special = ansi.bright_black,
-  debug = ansi.white,
-  underlined = ansi.blue,
+  comment_special = ansi.white,
+  debug = ansi.bright_white,
+  underlined = ansi.bright_blue,
   todo = ansi.bright_yellow,
   string = ansi.green,
   string_documentation = ansi.green,
@@ -176,21 +176,21 @@ M.syntax = {
   string_escape = ansi.bright_cyan,
   string_special = ansi.yellow,
   string_special_symbol = ansi.yellow,
-  string_special_path = ansi.blue,
-  string_special_url = ansi.blue,
-  type = ansi.blue,
+  string_special_path = ansi.bright_blue,
+  string_special_url = ansi.bright_blue,
+  type = ansi.bright_blue,
   type_builtin = ansi.bright_blue,
-  type_definition = ansi.blue,
-  variable = ansi.white,
-  comment_documentation = ansi.bright_black,
-  comment_error = ansi.red,
+  type_definition = ansi.bright_blue,
+  variable = ansi.bright_white,
+  comment_documentation = ansi.white,
+  comment_error = ansi.bright_red,
   comment_warning = ansi.yellow,
   comment_todo = ansi.bright_yellow,
-  comment_note = ansi.blue,
+  comment_note = ansi.bright_blue,
   markup_strong = ansi.green,
   markup_italic = ansi.green,
-  markup_strikethrough = ansi.bright_black,
-  markup_underline = ansi.blue,
+  markup_strikethrough = ansi.bright_white,
+  markup_underline = ansi.bright_blue,
   markup_heading = ansi.green,
   markup_heading_1 = ansi.green,
   markup_heading_2 = ansi.green,
@@ -198,41 +198,46 @@ M.syntax = {
   markup_heading_4 = ansi.green,
   markup_heading_5 = ansi.green,
   markup_heading_6 = ansi.green,
-  markup_quote = ansi.bright_black,
-  markup_math = ansi.blue,
-  markup_link = ansi.blue,
-  markup_link_label = ansi.blue,
-  markup_link_url = ansi.blue,
-  markup_raw = ansi.white,
-  markup_raw_block = ansi.white,
-  markup_list = ansi.white,
+  markup_quote = ansi.bright_white,
+  markup_math = ansi.bright_blue,
+  markup_link = ansi.bright_blue,
+  markup_link_label = ansi.bright_blue,
+  markup_link_url = ansi.bright_blue,
+  markup_raw = ansi.bright_white,
+  markup_raw_block = ansi.bright_white,
+  markup_list = ansi.bright_white,
   markup_list_checked = ansi.bright_green,
-  markup_list_unchecked = ansi.white,
+  markup_list_unchecked = ansi.bright_white,
   diff_plus = ansi.green,
-  diff_minus = ansi.red,
+  diff_minus = ansi.bright_red,
   diff_delta = ansi.yellow,
   tag = ansi.green,
   tag_builtin = ansi.green,
-  tag_attribute = ansi.blue,
+  tag_attribute = ansi.bright_blue,
   tag_delimiter = ansi.green,
 }
 
 -- Fzf
 M.fzf = {
-  fg = ansi.white,
+  fg = ansi.bright_white,
   bg = ansi.black,
   hl = ansi.bright_yellow,
   ["fg+"] = ansi.black,
-  ["bg+"] = ansi.blue,
+  ["bg+"] = ansi.bright_blue,
   ["hl+"] = ansi.black,
-  info = ansi.blue,
-  border = ansi.bright_black,
-  query = ansi.white,
+  info = ansi.white,
+  border = ansi.white,
+  query = ansi.bright_white,
+  ghost = ansi.white,
+  disabled = ansi.white,
   prompt = ansi.yellow,
-  pointer = ansi.bright_yellow,
-  marker = ansi.bright_magenta,
+  pointer = ansi.black,
+  marker = ansi.black,
+  ["selected-fg"] = ansi.black,
+  ["selected-bg"] = ansi.bright_blue,
+  ["selected-hl"] = ansi.black,
   spinner = ansi.yellow,
-  header = ansi.bright_black,
+  header = ansi.white,
   label = ansi.white,
   gutter = ansi.black,
 }
@@ -247,6 +252,12 @@ function M.fzf_colors()
     "fg+",
     "bg+",
     "hl+",
+    "selected-fg",
+    "selected-bg",
+    "selected-hl",
+    "query",
+    "ghost",
+    "disabled",
     "info",
     "border",
     "prompt",
@@ -257,8 +268,8 @@ function M.fzf_colors()
     "label",
     "gutter",
   }) do
-    local attributes = role == "hl+" and ":strip:underline"
-      or role == "fg+" and ":strip"
+    local attributes = (role == "hl+" or role == "selected-hl") and ":strip:underline"
+      or (role == "fg+" or role == "selected-fg") and ":strip"
       or ""
     colors[#colors + 1] = role .. ":" .. palette[role] .. attributes
   end
@@ -292,31 +303,31 @@ M.statusline = {
   insert_bg = ansi.black,
   insert_fg = ansi.green,
   visual_bg = ansi.black,
-  visual_fg = ansi.magenta,
+  visual_fg = ansi.bright_magenta,
   replace_bg = ansi.black,
-  replace_fg = ansi.red,
+  replace_fg = ansi.bright_red,
   command_bg = ansi.black,
   command_fg = ansi.cyan,
   terminal_bg = ansi.black,
-  terminal_fg = ansi.blue,
+  terminal_fg = ansi.bright_blue,
   section_bg = ansi.black,
-  section_fg = ansi.white,
+  section_fg = ansi.bright_white,
   inactive_bg = ansi.black,
-  inactive_fg = ansi.bright_black,
+  inactive_fg = ansi.white,
 }
 
 -- Git
 M.git = {
   clean = ansi.green,
-  dirty = ansi.red,
-  ahead = ansi.blue,
+  dirty = ansi.bright_red,
+  ahead = ansi.bright_blue,
   behind = ansi.yellow,
   add = ansi.green,
   change = ansi.bright_yellow,
-  delete = ansi.red,
-  rename = ansi.blue,
-  ignored = ansi.bright_black,
-  blame = ansi.bright_black,
+  delete = ansi.bright_red,
+  rename = ansi.bright_blue,
+  ignored = ansi.white,
+  blame = ansi.white,
 }
 
 -- Diagnostic
@@ -387,7 +398,7 @@ function M.setup_inline_diagnostics()
   vim.api.nvim_set_hl(0, prefix .. "Bg", { ctermbg = ansi.black })
   for _, suffix in ipairs({ "", "NoBg" }) do
     vim.api.nvim_set_hl(0, prefix .. "Arrow" .. suffix, {
-      ctermfg = ansi.white,
+      ctermfg = ansi.bright_white,
       ctermbg = ansi.black,
     })
   end
@@ -399,7 +410,7 @@ function M.setup_inline_diagnostics()
         ctermbg = ansi.black,
       })
       vim.api.nvim_set_hl(0, inverse .. name .. suffix, {
-        ctermfg = ansi.bright_black,
+        ctermfg = ansi.white,
         ctermbg = ansi.black,
       })
     end
@@ -448,12 +459,12 @@ function M.setup()
     "PmenuMatchSel",
     { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg, underline = true }
   )
-  hl("PmenuKind", { fg = ansi.bright_black })
-  hl("PmenuExtra", { fg = ansi.bright_black })
+  hl("PmenuKind", { fg = ansi.white })
+  hl("PmenuExtra", { fg = ansi.white })
   hl("PmenuKindSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
   hl("PmenuExtraSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
-  hl("FloatFooter", { fg = ansi.bright_black, bg = ansi.black })
-  hl("Conceal", { fg = ansi.bright_black })
+  hl("FloatFooter", { fg = ansi.white, bg = ansi.black })
+  hl("Conceal", { fg = ansi.white })
   hl("CursorLineSign", {})
   hl("CursorLineFold", {})
 
@@ -461,10 +472,10 @@ function M.setup()
     hl(name, { undercurl = true })
   end
 
-  hl("IblIndent", { fg = ansi.bright_black })
-  hl("IblWhitespace", { fg = ansi.bright_black })
-  hl("IblScope", { fg = ansi.blue })
-  hl("MiniIndentscopeSymbol", { fg = ansi.blue })
+  hl("IblIndent", { fg = ansi.white })
+  hl("IblWhitespace", { fg = ansi.white })
+  hl("IblScope", { fg = ansi.bright_blue })
+  hl("MiniIndentscopeSymbol", { fg = ansi.bright_blue })
   hl("MiniHipatternsFixme", { fg = ansi.black, bg = ansi.bright_red })
   hl("MiniHipatternsHack", { fg = ansi.black, bg = ansi.bright_magenta })
   hl("MiniHipatternsTodo", { fg = ansi.black, bg = ansi.bright_yellow })
@@ -510,7 +521,7 @@ function M.setup()
 
   -- `FoldColumn` shows fold markers, such as `+--` or closed fold indicators
   -- beside collapsed code blocks.
-  hl("FoldColumn", { fg = M.ui.fg, bg = M.ui.bg })
+  hl("FoldColumn", { fg = M.ui.non_text, bg = M.ui.bg })
 
   -- `Folded` is used for folded text lines, like a collapsed function body or
   -- block comment preview.
@@ -820,7 +831,7 @@ function M.setup()
   hl("NvimTreeSymlinkFolderName", { fg = M.ui.directory_fg, underline = true })
 
   -- `NvimTreeFileIcon` marks file icons in the tree.
-  hl("NvimTreeFileIcon", { fg = M.ui.fg })
+  hl("NvimTreeFileIcon", { fg = M.ui.non_text })
 
   -- `NvimTreeSymlinkIcon` marks symlink icons in the tree.
   hl("NvimTreeSymlinkIcon", { fg = M.ui.directory_fg })
@@ -1016,8 +1027,8 @@ function M.setup()
   -- ============================================================================
 
   -- `FzfLuaNormal` is the main picker surface.
-  hl("fzf1", { fg = M.fzf.pointer, bg = M.ui.statusline_bg })
-  hl("fzf2", { fg = M.fzf.marker, bg = M.ui.statusline_bg })
+  hl("fzf1", { fg = M.fzf.hl, bg = M.ui.statusline_bg })
+  hl("fzf2", { fg = ansi.bright_magenta, bg = M.ui.statusline_bg })
   hl("fzf3", { fg = M.fzf.fg, bg = M.ui.statusline_bg })
 
   hl("FzfLuaNormal", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.normal_bg })
@@ -1090,7 +1101,7 @@ function M.setup()
 
   -- `FzfLuaScrollFloatFull` is the floating scrollbar thumb for a filled edge
   -- in the preview window.
-  hl("FzfLuaScrollFloatFull", { fg = M.fzf.pointer, bg = M.fzf.bg })
+  hl("FzfLuaScrollFloatFull", { fg = M.fzf.hl, bg = M.fzf.bg })
 
   -- `FzfLuaHelpNormal` is the base surface for the built-in help window.
   hl("FzfLuaHelpNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
@@ -1112,7 +1123,7 @@ function M.setup()
 
   -- `FzfLuaPathLineNr` is the line number shown in path-based results, such as
   -- diagnostics or quickfix entries with `file:line:col` data.
-  hl("FzfLuaPathLineNr", { fg = M.fzf.marker })
+  hl("FzfLuaPathLineNr", { fg = M.fzf.info })
 
   -- `FzfLuaBufName` is the buffer name text in the buffers and lines pickers.
   hl("FzfLuaBufName", { fg = M.fzf.fg })
@@ -1195,10 +1206,10 @@ function M.setup()
   hl("FzfLuaFzfInfo", { fg = M.fzf.info })
 
   -- `FzfLuaFzfPointer` is the embedded fzf pointer marker color.
-  hl("FzfLuaFzfPointer", { fg = M.fzf.pointer })
+  hl("FzfLuaFzfPointer", { fg = M.fzf.pointer, bg = M.fzf["bg+"] })
 
   -- `FzfLuaFzfMarker` is the embedded fzf multi-select marker color.
-  hl("FzfLuaFzfMarker", { fg = M.fzf.marker })
+  hl("FzfLuaFzfMarker", { fg = M.fzf.marker, bg = M.fzf["selected-bg"] })
 
   -- `FzfLuaFzfSpinner` is the embedded fzf loading spinner color.
   hl("FzfLuaFzfSpinner", { fg = M.fzf.spinner })

@@ -22,7 +22,8 @@ for s:sample in glob('tests/fixtures/syntax/*', 0, 1)
     endfor
   endfor
 endfor
-call assert_equal(16, len(s:used))
+call assert_true(has_key(s:used, '2') && has_key(s:used, '9'))
+call assert_equal('15', synIDattr(hlID('Normal'), 'fg', 'cterm'))
 call assert_true(&cursorline)
 call assert_equal("number", &cursorlineopt)
 call assert_equal('', synIDattr(hlID('CursorLine'), 'fg', 'cterm'))
@@ -36,7 +37,7 @@ call assert_equal('0', synIDattr(hlID('StatusModeNormal'), 'bg', 'cterm'))
 call assert_false(ActiveStatusline() =~# '|')
 for s:group in s:selections
   call assert_equal('0', synIDattr(hlID(s:group), 'fg', 'cterm'))
-  call assert_equal('4', synIDattr(hlID(s:group), 'bg', 'cterm'))
+  call assert_equal('12', synIDattr(hlID(s:group), 'bg', 'cterm'))
 endfor
 source .config/vim/.vimrc
 call assert_true(&cursorline)

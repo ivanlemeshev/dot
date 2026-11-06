@@ -21,7 +21,7 @@ Do not wrap text in Markdown files.
 - Make changes only after the user names or selects an action.
 - Treat questions and requests for analysis as read-only instructions.
 - Keep approval within the stated action and scope.
-- Review the final diff against the applicable instructions before finishing.
+- Review the final diff against :the applicable instructions before finishing.
 
 ## Comments
 
@@ -52,7 +52,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 - Use terminal ANSI colors 0–15 in terminal applications.
 - Keep application color roles independent of terminal palette RGB values.
-- Use the same Tomorrow Night palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
+- Use the same custom palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
 - Maintain native terminal palette files directly.
 - Keep installer symlinks in sync with palette file paths.
 - Run `make test` to check terminal palette consistency.

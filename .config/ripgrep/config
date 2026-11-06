@@ -1,0 +1,5 @@
+--colors=path:fg:12
+--colors=line:fg:7
+--colors=column:fg:7
+--colors=match:fg:11
+--colors=match:style:nobold

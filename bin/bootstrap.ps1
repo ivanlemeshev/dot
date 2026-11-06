@@ -74,7 +74,7 @@ try {
 catch {
     Write-Host ""
     Write-Host "Bootstrap failed: $($_.Exception.Message)" -ForegroundColor Red
-    Write-Host $_.ScriptStackTrace -ForegroundColor DarkGray
+    Write-Host $_.ScriptStackTrace -ForegroundColor White
     Read-Host "Press Enter to close this window" | Out-Null
     throw
 }
