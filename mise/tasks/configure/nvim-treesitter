@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #MISE description="Install Neovim tools and Tree-sitter parsers"
-#MISE depends=["configure:nvim", "configure:tree-sitter", "configure:racket", "configure:runic"]
+#MISE depends=["configure:nvim", "configure:tree-sitter", "configure:runic"]
 
 set -euo pipefail
 

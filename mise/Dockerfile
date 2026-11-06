@@ -1,6 +1,7 @@
 FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
 ENV PATH="/home/tester/.local/bin:${PATH}"
 
 RUN apt-get update \

@@ -52,6 +52,9 @@
 "apt:zlib1g-dev" = "latest"
 "apt:zstd" = "latest"
 
+[bootstrap.apt.sources]
+github-cli = { uris = "https://cli.github.com/packages", suites = "stable", components = "main", key = "https://cli.github.com/packages/githubcli-archive-keyring.gpg", fingerprint = "7F38BBB59D064DBCB3D84D725612B36462313325" }
+
 [dotfiles]
 "~/.config/bat" = { source = "bat" }
 "~/.config/ripgrep" = { source = "ripgrep" }
@@ -66,19 +69,20 @@
 "~/.config/oh-my-posh/theme.omp.json" = { source = "oh-my-posh/theme.omp.json" }
 "~/.tmux.conf" = { source = "tmux/.tmux.conf" }
 "~/.gitconfig" = { source = "git/config" }
-"~/.bash_profile/mise-bin" = { block = 'export PATH="$HOME/.local/bin:$PATH"' }
-"~/.bashrc/mise-bin" = { block = 'export PATH="$HOME/.local/bin:$PATH"' }
-"~/.bash_profile/neovim" = { block = 'case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac' }
-"~/.bashrc/neovim" = { block = 'case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac' }
-
-[bootstrap.mise_shell_activate]
-bash = true
+"~/.bash_profile/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
+case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
+eval "$(mise activate bash --shims)"''' }
+"~/.bashrc/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
+case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
+eval "$(mise activate bash)"''' }
 
 [env]
 BAT_THEME = "custom"
 RIPGREP_CONFIG_PATH = "{{env.HOME}}/.config/ripgrep/config"
 _.path = ["{{env.HOME}}/.local/bin", "{{env.HOME}}/.julia/bin"]
 CLICOLOR = "1"
+GH_ACCESSIBLE_COLORS = "1"
+GH_COLOR_LABELS = false
 LESS = "-FRX"
 NO_COLOR = false
 
@@ -102,17 +106,9 @@ run = "mkdir -p $HOME/.vim/undodir && command -v vim"
 description = "Install tmux plugins"
 run = "mkdir -p ~/.tmux/plugins && if test -d ~/.tmux/plugins/tpm/.git; then git -C ~/.tmux/plugins/tpm pull --ff-only; else git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi && ~/.tmux/plugins/tpm/bin/install_plugins"
 
-[tasks."configure:gh"]
-description = "Set GitHub CLI defaults"
-run = "gh config set editor vim && gh config set pager less && gh config set git_protocol ssh --host github.com && gh config set accessible_colors enabled && gh config set color_labels disabled && command -v gh"
-
 [tasks."configure:tools"]
 description = "Install command line tools"
-depends = ["configure:worktrunk", "configure:grpcurl", "configure:runic", "configure:racket", "configure:tree-sitter"]
-
-[tasks."configure:worktrunk"]
-description = "Install Worktrunk"
-run = "cargo install worktrunk --locked --root $HOME/.local && $HOME/.local/bin/wt --version"
+depends = ["configure:worktrunk", "configure:grpcurl", "configure:runic", "configure:tree-sitter"]
 
 [tasks."configure:grpcurl"]
 description = "Install grpcurl"
@@ -121,10 +117,6 @@ run = "mkdir -p $HOME/.local/bin && GOBIN=$HOME/.local/bin go install github.com
 [tasks."configure:runic"]
 description = "Install the Runic formatter"
 run = "julia -e 'using Pkg; Pkg.Apps.add(\"Runic\")' && test -x $HOME/.julia/bin/runic"
-
-[tasks."configure:racket"]
-description = "Install Racket tools"
-run = "raco pkg install --auto --skip-installed racket-langserver && raco pkg install --auto --skip-installed fmt racket-linter && raco pkg install --auto --skip-installed sicp && raco pkg show --all"
 
 # NOTE: Neovim parsers require a newer CLI than the Ubuntu package.
 [tasks."configure:tree-sitter"]
@@ -159,10 +151,6 @@ run = "mise bootstrap packages status --missing"
 description = "Check managed file links"
 run = "mise dot status --missing"
 
-[tasks."verify:nvim"]
-description = "Check Neovim parsers and tools"
-run = 'MISE_NVIM_VERIFY=1 nvim --headless -u NONE -l "{{config_root}}/nvim/bootstrap.lua"'
-
 [tasks."configure:cleanup"]
 description = "Remove unused apt packages and cached packages"
 run = "sudo apt-get autoremove -y && sudo apt-get autoclean -y"
@@ -176,7 +164,6 @@ node = "24.21.0"
 pnpm = "12.11.2"
 powershell = "latest"
 python = "3.15.0"
-racket = "9.3"
 rust = { version = "1.99.0", profile = "default" }
 uv = "0.13.0"
 zig = "0.17.0"

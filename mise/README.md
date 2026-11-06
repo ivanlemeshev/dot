@@ -30,9 +30,9 @@ Run one command from the repository root:
 ./mise/bootstrap.sh
 ```
 
-The script installs Git, curl, mise, Ubuntu packages, and mise tools. It links the application configuration. It installs Fish plugins, Nerd Fonts, Racket tools, the Tree-sitter CLI, Neovim tools, and Neovim parsers. It checks the setup. It then starts Fish with mise active.
+The script installs Git, curl, mise, Ubuntu packages, and mise tools. It links the application configuration. It installs Fish plugins, Nerd Fonts, the Tree-sitter CLI, Neovim tools, and Neovim parsers. It checks the setup. It then starts Fish with mise active.
 
-The setup installs Fish, fzf, Vim, and Ghostty from Ubuntu packages. It installs Neovim from the latest stable GitHub release.
+The setup installs Fish, fzf, Vim, and Ghostty from Ubuntu packages. GitHub CLI uses its official apt repository. It installs Neovim from the latest stable GitHub release.
 
 The script runs from Bash and ends in Fish. This matches the current Ubuntu bootstrap flow.
 
@@ -72,3 +72,5 @@ The terminal controls the ANSI palette. Mise enables automatic CLI colors and ke
 Bootstrap stops before package changes if the global mise configuration points elsewhere. It preserves that configuration. Move it before setup to select this configuration. Bootstrap does not upgrade all system packages or remove unused packages.
 
 Neovim setup waits for Mason tools and Tree-sitter parsers. Verification fails if a required tool, parser, or managed link is missing.
+
+Bash activation keeps PATH setup and mise activation in one managed block. Link removal and restoration keep this order.

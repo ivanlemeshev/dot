@@ -11,6 +11,10 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
+require("nvim-treesitter").setup({
+  install_dir = vim.fn.stdpath("data") .. "/site",
+})
+
 local ensure_installed = {
   "bash",
   "c",
@@ -42,7 +46,6 @@ local ensure_installed = {
   "php",
   "powershell",
   "python",
-  "racket",
   "regex",
   "rust",
   "sql",

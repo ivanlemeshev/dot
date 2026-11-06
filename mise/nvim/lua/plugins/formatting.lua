@@ -32,7 +32,6 @@ helpers.load_on(
         markdown = { "prettier" },
         proto = { "buf" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-        racket = { "raco_fmt" },
         rust = { "rustfmt" },
         sh = { "shfmt" },
         julia = { "runic" },
@@ -43,10 +42,6 @@ helpers.load_on(
       formatters = {
         clang_format = {
           args = { "--style=LLVM", "--assume-filename", "$FILENAME" },
-        },
-        raco_fmt = {
-          command = "raco",
-          args = { "fmt" },
         },
         runic = { command = "runic" },
         prettier = {

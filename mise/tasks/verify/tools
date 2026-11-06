@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-for tool in go golangci-lint julia lua node pnpm powershell python racket rust uv zig yt-dlp; do
+for tool in go golangci-lint julia lua node pnpm powershell python rust uv zig yt-dlp; do
   mise where "$tool"
 done
 
@@ -11,7 +11,7 @@ for command_name in ansible bat batcat bwrap cc clang clang-format clang-tidy cl
   command -v "$command_name"
 done
 
-for command_name in go golangci-lint julia lua node pnpm pwsh python racket rustc uv zig yt-dlp; do
+for command_name in go golangci-lint julia lua node pnpm pwsh python rustc uv zig yt-dlp; do
   mise which "$command_name"
 done
 
@@ -21,7 +21,6 @@ julia --startup-file=no --version
 lua -v
 node --version
 pnpm --version
-racket --version
 uv --version
 zig version
 yt-dlp --version
@@ -38,10 +37,6 @@ claude --version
 runic --help >/dev/null
 pwsh -NoProfile -Command "\$PSVersionTable.PSVersion.ToString()"
 fc-match --format '%{family}\n' 'JetBrainsMonoNL Nerd Font Mono' | grep -F 'JetBrainsMonoNL Nerd Font Mono'
-racket_packages="$(raco pkg show --all)"
-for package in racket-langserver racket-linter fmt sicp; do
-  printf '%s\n' "$racket_packages" | grep -E "^[[:space:]]+${package}\*?[[:space:]]"
-done
 
 test -x "$HOME/.tmux/plugins/tpm/tpm"
 test -d "$HOME/.tmux/plugins/tmux-yank"

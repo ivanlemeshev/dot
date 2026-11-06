@@ -1,8 +1,4 @@
-local extensions = {
-  rkt = "racket",
-  rktd = "racket",
-  rktl = "racket",
-}
+local extensions = {}
 
 if vim.fn.has("win32") ~= 1 then
   local function ansible_yaml_filetype(path)

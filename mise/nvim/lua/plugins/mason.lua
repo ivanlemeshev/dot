@@ -49,7 +49,6 @@ local servers = {
 }
 
 local formatters = {
-  "buf",
   "clang-format",
   "gofumpt",
   "goimports",

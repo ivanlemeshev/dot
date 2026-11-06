@@ -95,11 +95,6 @@ local lsp_config = {
       },
     },
   },
-  racket_langserver = {
-    cmd = { "racket", "-l", "racket-langserver" },
-    filetypes = { "racket" },
-    root_markers = { ".git", "info.rkt", "racket.pkg" },
-  },
   yamlls = {
     settings = {
       yaml = {
@@ -219,8 +214,6 @@ local function apply_lsp_config()
       }, config)
     )
   end
-
-  vim.lsp.enable("racket_langserver")
 end
 
 helpers.load_on("FileType", "pack-lsp", {
