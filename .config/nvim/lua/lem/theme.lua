@@ -84,7 +84,7 @@ M.ui = {
 
 -- Syntax
 M.syntax = {
-  comment = ansi.white,
+  comment = ansi.bright_black,
   constant = ansi.bright_magenta,
   constant_builtin = ansi.bright_magenta,
   constant_macro = ansi.bright_magenta,
@@ -166,7 +166,7 @@ M.syntax = {
   punctuation_bracket = ansi.bright_white,
   punctuation_special = ansi.yellow,
   special = ansi.yellow,
-  comment_special = ansi.white,
+  comment_special = ansi.bright_black,
   debug = ansi.bright_white,
   underlined = ansi.bright_blue,
   todo = ansi.bright_yellow,
@@ -182,7 +182,7 @@ M.syntax = {
   type_builtin = ansi.bright_blue,
   type_definition = ansi.bright_blue,
   variable = ansi.bright_white,
-  comment_documentation = ansi.white,
+  comment_documentation = ansi.bright_black,
   comment_error = ansi.bright_red,
   comment_warning = ansi.yellow,
   comment_todo = ansi.bright_yellow,

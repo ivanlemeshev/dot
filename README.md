@@ -98,8 +98,8 @@ ANSI black (0) and the terminal background use `#1d1f21`.
 Normal colors use indices 0–7.
 Bright colors use indices 8–15.
 ANSI bright white (15) supplies main text.
-Borders, window separators, inactive line numbers, comments, and secondary text use ANSI white (7), `#707880`.
-Indentation guides and hidden characters use ANSI bright black (8), `#373b41`.
+Borders, window separators, inactive line numbers, and secondary text use ANSI white (7), `#a7adb1`.
+Comments, indentation guides, and hidden characters use ANSI bright black (8), `#5d666e`.
 PowerShell uses ANSI colors for PSReadLine syntax and prediction lists.
 Text roles use bright red, blue, and magenta.
 Text roles use normal green, yellow, and cyan where the contrast passes 4.4:1.

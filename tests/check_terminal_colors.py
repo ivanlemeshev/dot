@@ -7,9 +7,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 EXPECTED = [
     "#1d1f21", "#a54242", "#8c9440", "#de935f",
-    "#5f819d", "#85678f", "#5e8d87", "#707880",
-    "#373b41", "#cc6666", "#b5bd68", "#f0c674",
-    "#81a2be", "#b294bb", "#8abeb7", "#c5c8c6",
+    "#5f819d", "#85678f", "#5e8d87", "#a7adb1",
+    "#5d666e", "#cc6666", "#b5bd68", "#f0c674",
+    "#81a2be", "#b294bb", "#8abeb7", "#e6e8e6",
 ]
 KEYS = [
     "black", "red", "green", "yellow", "blue", "purple", "cyan", "white",
@@ -45,8 +45,8 @@ for theme in settings["themes"]:
         for value in theme[section].values():
             if isinstance(value, str) and value.startswith("#"):
                 check(value[:7].lower() in EXPECTED, True, "Terminal chrome uses the ANSI palette")
-check(scheme["foreground"].lower(), "#c5c8c6", "Terminal foreground")
-check(scheme["cursorColor"].lower(), "#c5c8c6", "Terminal cursor")
+check(scheme["foreground"].lower(), "#e6e8e6", "Terminal foreground")
+check(scheme["cursorColor"].lower(), "#e6e8e6", "Terminal cursor")
 
 palette = {}
 ghostty = {}
@@ -76,7 +76,7 @@ check(profile["Terminal Features"].getboolean("BlinkingCursorEnabled"), False, "
 
 iterm = json.loads((ROOT / "macos/iterm2/custom.json").read_text())["Profiles"][0]
 check(iterm["Name"], "custom", "iTerm2 profile name")
-check(iterm_hex(iterm["Bold Color"]), "#c5c8c6", "iTerm2 bold text")
+check(iterm_hex(iterm["Bold Color"]), "#e6e8e6", "iTerm2 bold text")
 check(iterm["Blinking Cursor"], False, "iTerm2 cursor blinking")
 check([iterm_hex(iterm[f"Ansi {i} Color"]) for i in range(16)], EXPECTED, "iTerm2 ANSI colors")
 for terminal_key, ghostty_key, iterm_key in [

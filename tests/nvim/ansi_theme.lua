@@ -54,7 +54,7 @@ for name in pairs({
 	check(highlight(name).ctermfg == 8, name .. " does not use bright black")
 end
 for _, name in ipairs({ "Comment", "SpecialComment" }) do
-	check(highlight(name).ctermfg == 7, name .. " does not use white")
+	check(highlight(name).ctermfg == 8, name .. " does not use bright black")
 end
 
 local fish_config = table.concat(vim.fn.readfile(".config/fish/conf.d/fzf_colors.fish"), "\n")

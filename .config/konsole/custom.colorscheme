@@ -14,7 +14,7 @@ Color=29,31,33
 Color=29,31,33
 
 [Color0Intense]
-Color=55,59,65
+Color=93,102,110
 
 [Color1]
 Color=165,66,66
@@ -71,22 +71,22 @@ Color=94,141,135
 Color=138,190,183
 
 [Color7]
-Color=112,120,128
+Color=167,173,177
 
 [Color7Faint]
-Color=112,120,128
+Color=167,173,177
 
 [Color7Intense]
-Color=197,200,198
+Color=230,232,230
 
 [Foreground]
-Color=197,200,198
+Color=230,232,230
 
 [ForegroundFaint]
-Color=197,200,198
+Color=230,232,230
 
 [ForegroundIntense]
-Color=197,200,198
+Color=230,232,230
 
 [General]
 Blur=false

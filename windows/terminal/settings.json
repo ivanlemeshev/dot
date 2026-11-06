@@ -23,23 +23,23 @@
       "background": "#1D1F21",
       "black": "#1D1F21",
       "blue": "#5F819D",
-      "brightBlack": "#373B41",
+      "brightBlack": "#5D666E",
       "brightBlue": "#81A2BE",
       "brightCyan": "#8ABEB7",
       "brightGreen": "#B5BD68",
       "brightPurple": "#B294BB",
       "brightRed": "#CC6666",
-      "brightWhite": "#C5C8C6",
+      "brightWhite": "#E6E8E6",
       "brightYellow": "#F0C674",
-      "cursorColor": "#C5C8C6",
+      "cursorColor": "#E6E8E6",
       "cyan": "#5E8D87",
-      "foreground": "#C5C8C6",
+      "foreground": "#E6E8E6",
       "green": "#8C9440",
       "name": "custom",
       "purple": "#85678F",
       "red": "#A54242",
       "selectionBackground": "#81A2BE",
-      "white": "#707880",
+      "white": "#A7ADB1",
       "yellow": "#DE935F"
     }
   ],
@@ -54,7 +54,7 @@
       },
       "tabRow": {
         "background": "#1D1F21FF",
-        "unfocusedBackground": "#707880FF"
+        "unfocusedBackground": "#A7ADB1FF"
       },
       "window": {
         "applicationTheme": "dark",

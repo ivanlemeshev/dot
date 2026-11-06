@@ -26,8 +26,8 @@
   "cSpell.language": "en,ru-RU",
   "workbench.colorCustomizations": {
     "terminal.background": "#1d1f21",
-    "terminal.foreground": "#c5c8c6",
-    "terminalCursor.foreground": "#c5c8c6",
+    "terminal.foreground": "#e6e8e6",
+    "terminalCursor.foreground": "#e6e8e6",
     "terminalCursor.background": "#1d1f21",
     "terminal.selectionBackground": "#81a2be",
     "terminal.ansiBlack": "#1d1f21",
@@ -37,15 +37,15 @@
     "terminal.ansiBlue": "#5f819d",
     "terminal.ansiMagenta": "#85678f",
     "terminal.ansiCyan": "#5e8d87",
-    "terminal.ansiWhite": "#707880",
-    "terminal.ansiBrightBlack": "#373b41",
+    "terminal.ansiWhite": "#a7adb1",
+    "terminal.ansiBrightBlack": "#5d666e",
     "terminal.ansiBrightRed": "#cc6666",
     "terminal.ansiBrightGreen": "#b5bd68",
     "terminal.ansiBrightYellow": "#f0c674",
     "terminal.ansiBrightBlue": "#81a2be",
     "terminal.ansiBrightMagenta": "#b294bb",
     "terminal.ansiBrightCyan": "#8abeb7",
-    "terminal.ansiBrightWhite": "#c5c8c6",
+    "terminal.ansiBrightWhite": "#e6e8e6",
     "terminal.selectionForeground": "#1d1f21"
   }
 }
