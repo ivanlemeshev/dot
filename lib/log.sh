@@ -5,11 +5,11 @@
 
 # ANSI color codes
 readonly LOG_COLOR_RESET="\033[0m"
-readonly LOG_COLOR_RED="\033[0;31m"     # Error, Fatal
+readonly LOG_COLOR_RED="\033[0;91m"     # Error, Fatal
 readonly LOG_COLOR_GREEN="\033[0;32m"   # Success
 readonly LOG_COLOR_YELLOW="\033[0;33m"  # Warning
-readonly LOG_COLOR_BLUE="\033[0;34m"    # Info
-readonly LOG_COLOR_MAGENTA="\033[0;35m" # Debug
+readonly LOG_COLOR_BLUE="\033[0;94m"    # Info
+readonly LOG_COLOR_MAGENTA="\033[0;95m" # Debug
 
 # Log level constants
 readonly LOG_LEVEL_DEBUG=0

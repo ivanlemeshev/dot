@@ -12,7 +12,7 @@
   ],
   "profiles": {
     "defaults": {
-      "colorScheme": "Tomorrow Night",
+      "colorScheme": "custom",
       "font": {
         "face": "JetBrainsMonoNL Nerd Font Mono"
       }
@@ -22,30 +22,30 @@
     {
       "background": "#1D1F21",
       "black": "#1D1F21",
-      "blue": "#81A2BE",
-      "brightBlack": "#969896",
+      "blue": "#5F819D",
+      "brightBlack": "#373B41",
       "brightBlue": "#81A2BE",
       "brightCyan": "#8ABEB7",
       "brightGreen": "#B5BD68",
       "brightPurple": "#B294BB",
       "brightRed": "#CC6666",
-      "brightWhite": "#FFFFFF",
+      "brightWhite": "#C5C8C6",
       "brightYellow": "#F0C674",
       "cursorColor": "#C5C8C6",
-      "cyan": "#8ABEB7",
+      "cyan": "#5E8D87",
       "foreground": "#C5C8C6",
-      "green": "#B5BD68",
-      "name": "Tomorrow Night",
-      "purple": "#B294BB",
-      "red": "#CC6666",
+      "green": "#8C9440",
+      "name": "custom",
+      "purple": "#85678F",
+      "red": "#A54242",
       "selectionBackground": "#81A2BE",
-      "white": "#C5C8C6",
-      "yellow": "#F0C674"
+      "white": "#707880",
+      "yellow": "#DE935F"
     }
   ],
   "themes": [
     {
-      "name": "Tomorrow Night",
+      "name": "custom",
       "tab": {
         "background": "#1D1F21FF",
         "iconStyle": "default",
@@ -54,7 +54,7 @@
       },
       "tabRow": {
         "background": "#1D1F21FF",
-        "unfocusedBackground": "#282A2EFF"
+        "unfocusedBackground": "#707880FF"
       },
       "window": {
         "applicationTheme": "dark",

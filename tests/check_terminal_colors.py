@@ -6,10 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 EXPECTED = [
-    "#1d1f21", "#cc6666", "#b5bd68", "#f0c674",
+    "#1d1f21", "#a54242", "#8c9440", "#de935f",
+    "#5f819d", "#85678f", "#5e8d87", "#707880",
+    "#373b41", "#cc6666", "#b5bd68", "#f0c674",
     "#81a2be", "#b294bb", "#8abeb7", "#c5c8c6",
-    "#969896", "#cc6666", "#b5bd68", "#f0c674",
-    "#81a2be", "#b294bb", "#8abeb7", "#ffffff",
 ]
 KEYS = [
     "black", "red", "green", "yellow", "blue", "purple", "cyan", "white",
@@ -34,14 +34,23 @@ def iterm_hex(value):
 
 
 settings = json.loads((ROOT / "windows/terminal/settings.json").read_text())
-scheme = next(item for item in settings["schemes"] if item["name"] == "Tomorrow Night")
+scheme = next(item for item in settings["schemes"] if item["name"] == "custom")
 check([scheme[key].lower() for key in KEYS], EXPECTED, "Windows Terminal ANSI colors")
-check(settings["profiles"]["defaults"]["colorScheme"], "Tomorrow Night", "Windows Terminal selection")
-check(scheme["selectionBackground"].lower(), scheme["blue"].lower(), "Terminal selection background")
+check(settings["profiles"]["defaults"]["colorScheme"], "custom", "Windows Terminal selection")
+check(scheme["selectionBackground"].lower(), scheme["brightBlue"].lower(), "Terminal selection background")
+check(scheme["background"].lower(), "#1d1f21", "Terminal background")
+check(scheme["black"].lower(), scheme["background"].lower(), "ANSI black matches the background")
+for theme in settings["themes"]:
+    for section in ("tab", "tabRow"):
+        for value in theme[section].values():
+            if isinstance(value, str) and value.startswith("#"):
+                check(value[:7].lower() in EXPECTED, True, "Terminal chrome uses the ANSI palette")
+check(scheme["foreground"].lower(), "#c5c8c6", "Terminal foreground")
+check(scheme["cursorColor"].lower(), "#c5c8c6", "Terminal cursor")
 
 palette = {}
 ghostty = {}
-for line in (ROOT / ".config/ghostty/themes/TomorrowNight").read_text().splitlines():
+for line in (ROOT / ".config/ghostty/themes/custom").read_text().splitlines():
     key, _, value = line.partition("=")
     if key.strip() == "palette":
         index, color = value.strip().split("=")
@@ -51,20 +60,23 @@ for line in (ROOT / ".config/ghostty/themes/TomorrowNight").read_text().splitlin
 check(sorted(palette), list(range(16)), "Ghostty ANSI indices")
 check([palette[index] for index in range(16)], EXPECTED, "Ghostty ANSI colors")
 ghostty_config = (ROOT / ".config/ghostty/config").read_text().splitlines()
-check(ghostty_config[0], "theme = TomorrowNight", "Ghostty selection")
+check(ghostty_config[0], "theme = custom", "Ghostty selection")
 check("cursor-style-blink = false" in ghostty_config, True, "Ghostty cursor blinking")
 
 konsole = configparser.ConfigParser()
-konsole.read(ROOT / ".config/konsole/TomorrowNight.colorscheme")
+konsole.read(ROOT / ".config/konsole/custom.colorscheme")
 check([rgb_hex(konsole[f"Color{i}"]["Color"]) for i in range(8)]
       + [rgb_hex(konsole[f"Color{i}Intense"]["Color"]) for i in range(8)], EXPECTED, "Konsole ANSI colors")
+check([rgb_hex(konsole[f"Color{i}Faint"]["Color"]) for i in range(8)], EXPECTED[:8], "Konsole faint colors")
+check(konsole["General"]["Description"], "custom", "Konsole theme name")
 profile = configparser.ConfigParser()
 profile.read(ROOT / ".config/konsole/dot.profile.in")
-check(profile["Appearance"]["ColorScheme"], "TomorrowNight", "Konsole selection")
+check(profile["Appearance"]["ColorScheme"], "custom", "Konsole selection")
 check(profile["Terminal Features"].getboolean("BlinkingCursorEnabled"), False, "Konsole cursor blinking")
 
-iterm = json.loads((ROOT / "macos/iterm2/TomorrowNight.json").read_text())["Profiles"][0]
-check(iterm["Name"], "Tomorrow Night", "iTerm2 profile name")
+iterm = json.loads((ROOT / "macos/iterm2/custom.json").read_text())["Profiles"][0]
+check(iterm["Name"], "custom", "iTerm2 profile name")
+check(iterm_hex(iterm["Bold Color"]), "#c5c8c6", "iTerm2 bold text")
 check(iterm["Blinking Cursor"], False, "iTerm2 cursor blinking")
 check([iterm_hex(iterm[f"Ansi {i} Color"]) for i in range(16)], EXPECTED, "iTerm2 ANSI colors")
 for terminal_key, ghostty_key, iterm_key in [
@@ -80,8 +92,8 @@ for section, key in [("Background", "background"), ("Foreground", "foreground")]
     check(rgb_hex(konsole[section]["Color"]), scheme[key].lower(), f"Konsole {section}")
 check(iterm_hex(iterm["Cursor Text Color"]), scheme["background"].lower(), "iTerm2 cursor text")
 check(ghostty["cursor-text"], scheme["background"].lower(), "Ghostty cursor text")
-check(ghostty["selection-foreground"], scheme["black"].lower(), "Ghostty selected text")
-check(iterm_hex(iterm["Selected Text Color"]), scheme["black"].lower(), "iTerm2 selected text")
+check(ghostty["selection-foreground"], scheme["background"].lower(), "Ghostty selected text")
+check(iterm_hex(iterm["Selected Text Color"]), scheme["background"].lower(), "iTerm2 selected text")
 vscode_settings = json.loads((ROOT / "windows/vscode/settings.json").read_text())
 check(vscode_settings["editor.cursorBlinking"], "solid", "VS Code editor cursor blinking")
 check(vscode_settings["terminal.integrated.cursorBlinking"], False, "VS Code terminal cursor blinking")
@@ -92,5 +104,5 @@ check([vscode[key].lower() for key in vscode_keys], EXPECTED, "VS Code terminal 
 for name, key in [("background", "background"), ("foreground", "foreground"), ("selectionBackground", "selectionBackground")]:
     check(vscode["terminal." + name].lower(), scheme[key].lower(), f"VS Code terminal {name}")
 check(vscode["terminalCursor.foreground"].lower(), scheme["cursorColor"].lower(), "VS Code terminal cursor")
-check(vscode["terminal.selectionForeground"].lower(), scheme["black"].lower(), "VS Code selected text")
-print("All five terminals use the same Tomorrow Night ANSI 16 palette")
+check(vscode["terminal.selectionForeground"].lower(), scheme["background"].lower(), "VS Code selected text")
+print("All five terminals use the same custom ANSI 16 palette")

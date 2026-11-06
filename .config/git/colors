@@ -1,0 +1,34 @@
+[color "diff"]
+	meta = white
+	frag = cyan
+	old = brightred
+	new = green
+	commit = yellow
+	whitespace = black brightred
+[color "status"]
+	header = white
+	added = green
+	changed = brightred
+	untracked = brightred
+	branch = cyan
+	nobranch = brightred
+	unmerged = brightred
+[color "branch"]
+	current = green
+	local = white
+	remote = brightred
+	upstream = cyan
+[color "grep"]
+	filename = brightblue
+	linenumber = white
+	column = white
+	match = yellow
+	separator = white
+[color "decorate"]
+	branch = green
+	remoteBranch = brightred
+	tag = yellow
+	stash = brightmagenta
+	HEAD = cyan
+[log]
+	graphColors = brightred,green,yellow,brightblue,brightmagenta,cyan,brightwhite

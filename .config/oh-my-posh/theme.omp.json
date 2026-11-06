@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "yellow",
+          "foreground": "blue",
           "options": {
             "time_format": "15:04:05"
           },
@@ -16,11 +16,11 @@
         {
           "foreground": "default",
           "style": "plain",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<green>{{ .UserName }}</><default>@</></>{{ end }}<blue>{{ .HostName }}</>  ",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<green>{{ .UserName }}@{{ end }}{{ .HostName }}</>  ",
           "type": "session"
         },
         {
-          "foreground": "red",
+          "foreground": "lightRed",
           "style": "plain",
           "template": "󱐋  ",
           "type": "root"
@@ -37,8 +37,8 @@
         {
           "foreground": "green",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}red{{ end }}",
-            "{{ if gt .Ahead 0 }}blue{{ end }}",
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}lightRed{{ end }}",
+            "{{ if gt .Ahead 0 }}lightBlue{{ end }}",
             "{{ if gt .Behind 0 }}yellow{{ end }}"
           ],
           "options": {
@@ -60,7 +60,7 @@
         },
         {
           "foreground": "green",
-          "foreground_templates": ["{{ if gt .Code 0 }}red{{ end }}"],
+          "foreground_templates": ["{{ if gt .Code 0 }}lightRed{{ end }}"],
           "options": {
             "always_enabled": false
           },

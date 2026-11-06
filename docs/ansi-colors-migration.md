@@ -1,6 +1,6 @@
 # ANSI color migration
 
-This guide covers the migration from generated application themes to the Tomorrow Night ANSI palette.
+This guide covers the migration from generated application themes to the custom ANSI palette.
 Run these steps on each machine after the branch merge.
 Run Bash commands from the repository root unless a step names another shell.
 Run only the steps for applications that you use.
@@ -43,10 +43,10 @@ bash install/macos/ghostty.sh
 bash install/macos/iterm2.sh
 ```
 
-The iTerm2 installer links only `TomorrowNight.json` inside `DynamicProfiles`.
+The iTerm2 installer links only `custom.json` inside `DynamicProfiles`.
 It keeps other active profiles in place.
 It replaces the old directory link when that link points to this checkout.
-It stores a conflicting regular profile as `TomorrowNight.json.backup.TIMESTAMP` in the parent iTerm2 directory.
+It stores a conflicting regular profile as `custom.json.backup.TIMESTAMP` in the parent iTerm2 directory.
 
 If you use the old installer, check for profile directory backups:
 
@@ -59,7 +59,7 @@ find "$(dirname "$profiles")" -maxdepth 1 -type d \
 Inspect each backup for personal profiles.
 Restore each personal profile to the active directory with a new file name.
 Replace the example backup path and profile name with the actual values.
-Do not replace the managed `TomorrowNight.json` link.
+Do not replace the managed `custom.json` link.
 
 ```bash
 profile_backup="$HOME/Library/Application Support/iTerm2/DynamicProfiles.backup.TIMESTAMP"
@@ -68,7 +68,7 @@ cp -i "$profile_backup/Personal.json" "$profiles/Personal.json"
 ```
 
 Start iTerm2.
-Confirm that Tomorrow Night is the default profile.
+Confirm that custom is the default profile.
 Confirm that all personal profiles remain available.
 After the check, remove the obsolete custom preference path if the key exists:
 
@@ -89,8 +89,8 @@ The commands preserve an existing file or a different link as a backup.
 ```bash
 repo="$(git rev-parse --show-toplevel)"
 theme_dir="$HOME/.config/ghostty/themes"
-theme_target="$theme_dir/TomorrowNight"
-theme_source="$repo/.config/ghostty/themes/TomorrowNight"
+theme_target="$theme_dir/custom"
+theme_source="$repo/.config/ghostty/themes/custom"
 mkdir -p "$theme_dir"
 if [[ ! -L "$theme_target" ]] || [[ "$(readlink "$theme_target")" != "$theme_source" ]]; then
     if [[ -e "$theme_target" || -L "$theme_target" ]]; then
@@ -123,7 +123,7 @@ Keep a copy of its `settings.json` before the update.
 
 The settings merge keeps old color schemes and themes with different names.
 In the local Windows Terminal settings, remove unused `Sienna Night` entries from `schemes` and `themes`.
-If the top-level `theme` selects `Sienna Night`, change it to `Tomorrow Night`.
+If the top-level `theme` selects `Sienna Night` or `Tomorrow Night`, change it to `custom`.
 Keep machine-specific profiles and settings.
 
 Confirm that VS Code settings and PowerShell profiles still link to this repository.
@@ -152,12 +152,10 @@ remove_repo_link "$HOME/.codex/themes" "$repo/.config/codex/themes"
 if [[ -n "${CODEX_HOME:-}" ]]; then
     remove_repo_link "$CODEX_HOME/themes" "$repo/.config/codex/themes"
 fi
-remove_repo_link "$HOME/.config/bat/themes/custom.tmTheme" \
-    "$repo/.config/bat/themes/custom.tmTheme"
-remove_repo_link "$HOME/.config/ghostty/themes/custom" \
-    "$repo/.config/ghostty/themes/custom"
-remove_repo_link "$HOME/.local/share/konsole/custom.colorscheme" \
-    "$repo/.config/konsole/custom.colorscheme"
+remove_repo_link "$HOME/.config/ghostty/themes/TomorrowNight" \
+    "$repo/.config/ghostty/themes/TomorrowNight"
+remove_repo_link "$HOME/.local/share/konsole/TomorrowNight.colorscheme" \
+    "$repo/.config/konsole/TomorrowNight.colorscheme"
 remove_repo_link "$HOME/.config/opencode/opencode.json" \
     "$repo/.config/opencode/opencode.json"
 
@@ -169,8 +167,6 @@ elif command -v batcat >/dev/null; then
 fi
 if [[ -n "$bat_cmd" ]]; then
     bat_config="$("$bat_cmd" --config-dir)"
-    remove_repo_link "$bat_config/themes/custom.tmTheme" \
-        "$repo/.config/bat/themes/custom.tmTheme"
     "$bat_cmd" cache --build
 fi
 unset -f remove_repo_link
@@ -207,6 +203,14 @@ On each machine, select the built-in `ansi` theme in Codex if a removed custom t
 
 ## 5. Reload applications
 
+Deploy the new bat theme before you reload the shell.
+Run the bat, Git, and Fish installers for the current platform.
+The installers preserve conflicting configuration files as backups.
+The bat installer builds the theme cache.
+The Git installer adds the shared ANSI color settings.
+The Fish installer links the ripgrep color settings.
+On Windows, run `bin/bootstrap.ps1` to update the configuration links.
+
 In Fish, start a new login shell:
 
 ```fish
@@ -232,7 +236,7 @@ Reload the terminal configuration or open a new terminal window.
 - [ ] Confirm blue selections with readable text.
 - [ ] Confirm steady cursors in the shell and editors.
 - [ ] Confirm the yellow active line number with no line background.
-- [ ] Confirm Tomorrow Night in each terminal that you use.
+- [ ] Confirm custom in each terminal that you use.
 - [ ] Confirm that iTerm2 keeps personal profiles active after a second installer run.
 - [ ] Keep backups until the machine checks pass.
 

@@ -69,3 +69,9 @@ fish -c "fisher install PatrickF1/fzf.fish"
 
 log_info "Changing default shell to Fish"
 sudo chsh -s "$(which fish)" "$(whoami)"
+
+mkdir -p "$HOME/.config/ripgrep"
+if [[ -e "$HOME/.config/ripgrep/config" && ! -L "$HOME/.config/ripgrep/config" ]]; then
+  mv "$HOME/.config/ripgrep/config" "$HOME/.config/ripgrep/config.backup.$(date +%Y%m%d%H%M%S)"
+fi
+ln -sf "$PROJECT_ROOT/.config/ripgrep/config" "$HOME/.config/ripgrep/config"
