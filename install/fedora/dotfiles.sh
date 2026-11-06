@@ -7,6 +7,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 source "$PROJECT_ROOT/lib/log.sh"
 source "$PROJECT_ROOT/lib/print.sh"
 source "$PROJECT_ROOT/lib/prompt.sh"
+source "$PROJECT_ROOT/lib/git-colors.sh"
 
 if [[ -f "$PROJECT_ROOT/config.env" ]]; then
   source "$PROJECT_ROOT/config.env"
@@ -54,7 +55,8 @@ GIT_USER_NAME="${GIT_USER_NAME:-$(prompt_input "Git name?")}"
 git config --global init.defaultBranch "$GIT_DEFAULT_BRANCH"
 git config --global user.email "$GIT_USER_EMAIL"
 git config --global user.name "$GIT_USER_NAME"
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
+git config --global alias.lg "log --color --graph --pretty=format:'%C(brightred)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(brightblue)<%an>%Creset' --abbrev-commit"
+configure_git_colors
 
 gh config set editor vim
 gh config set pager less

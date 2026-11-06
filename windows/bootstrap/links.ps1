@@ -64,3 +64,27 @@ if (-not (Test-VSCodeInstallation)) {
         Set-DotfilesLink $source $target $file.Name
     }
 }
+
+$batCommand = Get-Command bat -CommandType Application -ErrorAction SilentlyContinue
+if ($null -ne $batCommand) {
+    $batConfigDirectory = (& $batCommand.Source --config-dir).Trim()
+    if ($LASTEXITCODE -ne 0 -or -not $batConfigDirectory) {
+        throw 'The bat configuration directory is unavailable.'
+    }
+    Set-DotfilesLink (Join-Path $repoRoot '.config\bat') $batConfigDirectory 'bat configuration'
+    & $batCommand.Source cache --build
+    if ($LASTEXITCODE -ne 0) {
+        throw 'The bat theme cache fails to build.'
+    }
+}
+
+Set-DotfilesLink (Join-Path $repoRoot '.config\ripgrep\config') (Join-Path $env:USERPROFILE '.config\ripgrep\config') 'ripgrep colors'
+$gitColorsTarget = Join-Path $env:USERPROFILE '.config\git\colors'
+Set-DotfilesLink (Join-Path $repoRoot '.config\git\colors') $gitColorsTarget 'Git colors'
+$gitIncludes = @(git config --global --get-all include.path)
+if ($gitColorsTarget -notin $gitIncludes) {
+    git config --global --add include.path $gitColorsTarget
+    if ($LASTEXITCODE -ne 0) {
+        throw 'The Git color include fails to install.'
+    }
+}

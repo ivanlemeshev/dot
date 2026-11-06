@@ -23,7 +23,7 @@ local function check_render(active)
     index = index + 1
     local name = diagnostics.sections[index]
     local expected = name == active and require("lem.theme").diagnostic[name]
-      or 8
+      or 15
     local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
     assert(
       highlight.ctermfg == expected and highlight.ctermbg == 0,
@@ -36,7 +36,7 @@ local namespace = vim.api.nvim_create_namespace("statusline-color-test")
 for name, severity in pairs({ error = 1, warn = 2, info = 3, hint = 4 }) do
   vim.diagnostic.reset(namespace, 0)
   assert(
-    diagnostics.diagnostics_color[name]().fg == 8,
+    diagnostics.diagnostics_color[name]().fg == 15,
     name .. " zero count is not gray"
   )
   vim.diagnostic.set(namespace, 0, {
@@ -104,11 +104,11 @@ local function check_status(expected)
 end
 check_status(2)
 vim.fn.writefile({ "untracked" }, root .. "/new")
-check_status(1)
+check_status(9)
 git("add", "new")
-check_status(1)
+check_status(9)
 git("commit", "-m", "Add test file")
-check_status(4)
+check_status(12)
 local ahead = git("rev-parse", "HEAD")
 git("update-ref", "refs/remotes/origin/main", ahead)
 check_status(2)
@@ -117,16 +117,16 @@ git("update-index", "--force-remove", "new")
 vim.fn.delete(root .. "/new")
 check_status(3)
 git("commit", "--allow-empty", "-m", "Divergent test commit")
-check_status(4)
+check_status(12)
 vim.fn.writefile({ "modified" }, root .. "/tracked")
-check_status(1)
+check_status(9)
 rawset(vim, "system", system)
 
 vim.cmd.enew()
 local outside = vim.fn.tempname()
 vim.fn.mkdir(outside, "p")
 vim.cmd.lcd(vim.fn.fnameescape(outside))
-assert(color().fg == 8, "A buffer outside Git does not use gray")
+assert(color().fg == 15, "A buffer outside Git does not use gray")
 print(
   "Status-line colors: diagnostic severities and zero counts; clean, untracked, staged, ahead, behind, diverged, dirty Git states"
 )

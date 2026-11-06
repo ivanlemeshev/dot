@@ -1,38 +1,38 @@
 # --- Syntax highlighting ---
-set -Ux fish_color_normal         normal
-set -Ux fish_color_command        green
-set -Ux fish_color_keyword        yellow
-set -Ux fish_color_option         blue
-set -Ux fish_color_param          blue
-set -Ux fish_color_quote          bryellow
-set -Ux fish_color_redirection    blue
-set -Ux fish_color_end            magenta
-set -Ux fish_color_operator       cyan
-set -Ux fish_color_escape         yellow
-set -Ux fish_color_comment        white --italics
-set -Ux fish_color_error          red
-set -Ux fish_color_autosuggestion white
-set -Ux fish_color_valid_path     blue --underline
-set -Ux fish_color_cancel         red
+set -gx fish_color_normal         normal
+set -gx fish_color_command        green
+set -gx fish_color_keyword        yellow
+set -gx fish_color_option         brblue
+set -gx fish_color_param          brblue
+set -gx fish_color_quote          bryellow
+set -gx fish_color_redirection    brblue
+set -gx fish_color_end            brmagenta
+set -gx fish_color_operator       cyan
+set -gx fish_color_escape         yellow
+set -gx fish_color_comment        brblack --italics
+set -gx fish_color_error          brred
+set -gx fish_color_autosuggestion brblack
+set -gx fish_color_valid_path     brblue --underline
+set -gx fish_color_cancel         brred
 
 # --- Selection & search ---
-set -Ux fish_color_selection    black --background=blue
-set -Ux fish_color_search_match black --background=blue
+set -gx fish_color_selection    black --background=brblue
+set -gx fish_color_search_match black --background=brblue
 
 # --- Prompt ---
-set -Ux fish_color_cwd         green
-set -Ux fish_color_cwd_root    red
-set -Ux fish_color_user        green
-set -Ux fish_color_host        blue
-set -Ux fish_color_host_remote bryellow
-set -Ux fish_color_status      red
+set -gx fish_color_cwd         green
+set -gx fish_color_cwd_root    brred
+set -gx fish_color_user        green
+set -gx fish_color_host        brblue
+set -gx fish_color_host_remote bryellow
+set -gx fish_color_status      brred
 
 # --- Pager (completions) ---
-set -Ux fish_pager_color_progress            white
-set -Ux fish_pager_color_prefix              yellow
-set -Ux fish_pager_color_completion          normal
-set -Ux fish_pager_color_description         white
-set -Ux fish_pager_color_selected_background --background=blue
-set -Ux fish_pager_color_selected_completion black
-set -Ux fish_pager_color_selected_description black
-set -Ux fish_pager_color_selected_prefix black
+set -gx fish_pager_color_progress            white
+set -gx fish_pager_color_prefix              yellow
+set -gx fish_pager_color_completion          normal
+set -gx fish_pager_color_description         white
+set -gx fish_pager_color_selected_background --background=brblue
+set -gx fish_pager_color_selected_completion black
+set -gx fish_pager_color_selected_description black
+set -gx fish_pager_color_selected_prefix black

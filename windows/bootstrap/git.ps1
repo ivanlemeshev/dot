@@ -79,7 +79,7 @@ function Set-DotfilesGitConfig {
     & $git config --global difftool.nvim_difftool.cmd `
         'nvim -c "packadd nvim.difftool" -c "DiffTool $LOCAL $REMOTE"'
     & $git config --global alias.lg `
-        "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
+        "log --color --graph --pretty=format:'%C(brightred)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(brightblue)<%an>%Creset' --abbrev-commit"
 
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to complete Git configuration."

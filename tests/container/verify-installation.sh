@@ -47,7 +47,7 @@ verify_installation() {
     bat_command=batcat
   fi
   "$bat_command" --version
-  BAT_THEME=ansi "$bat_command" --color=always --paging=never "$repository/README.md" >/dev/null
+  BAT_THEME=custom "$bat_command" --color=always --paging=never "$repository/README.md" >/dev/null
 
   [[ "$(git config --global --get init.defaultBranch)" == "main" ]]
   [[ "$(git config --global --get user.email)" == "container@example.com" ]]
@@ -66,6 +66,6 @@ if [[ "$platform" == "fedora-kde" ]]; then
   [[ -f "$HOME/.local/share/konsole/dot.profile" ]]
   grep -qx "Font=$KDE_TERMINAL_FONT" \
     "$HOME/.local/share/konsole/dot.profile"
-  assert_link "$HOME/.local/share/konsole/TomorrowNight.colorscheme" \
-    "$repository/.config/konsole/TomorrowNight.colorscheme"
+  assert_link "$HOME/.local/share/konsole/custom.colorscheme" \
+    "$repository/.config/konsole/custom.colorscheme"
 fi
