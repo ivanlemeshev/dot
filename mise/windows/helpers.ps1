@@ -40,9 +40,10 @@ function Update-ProcessPath {
         (Join-Path $env:LOCALAPPDATA 'Programs/Microsoft VS Code/bin'),
         'C:\msys64\ucrt64\bin'
     )
+    # NOTE: Keep mise tool paths ahead of preinstalled machine tools.
+    $paths += $env:PATH -split ';'
     $paths += [Environment]::GetEnvironmentVariable('Path', 'Machine') -split ';'
     $paths += [Environment]::GetEnvironmentVariable('Path', 'User') -split ';'
-    $paths += $env:PATH -split ';'
     $env:PATH = ($paths | Where-Object { $_ } | Select-Object -Unique) -join ';'
 }
 
