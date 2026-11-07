@@ -1,9 +1,11 @@
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'helpers.ps1')
+. (Join-Path $PSScriptRoot 'toolchains.ps1')
 . (Join-Path $PSScriptRoot 'keyboard-map.ps1')
 . (Join-Path $PSScriptRoot 'terminal.ps1')
 Assert-Windows
 Update-ProcessPath
+Assert-WindowsMsys2
 Assert-EditorVersions
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
 if (-not (Test-Path -LiteralPath $vswhere)) { throw 'Visual Studio Build Tools is missing.' }

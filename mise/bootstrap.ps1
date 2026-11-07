@@ -6,6 +6,7 @@ $originalLocation = Get-Location
 
 try {
     . (Join-Path $PSScriptRoot 'windows/helpers.ps1')
+    . (Join-Path $PSScriptRoot 'windows/toolchains.ps1')
     Assert-Windows
     $MiseRoot = $PSScriptRoot
     $env:MISE_CONFIG_DIR = $MiseRoot
@@ -20,6 +21,10 @@ try {
         $env:MISE_TRUSTED_CONFIG_PATHS = $MiseRoot
         Invoke-Checked $mise @('bootstrap', 'packages', 'upgrade', '--manager', 'winget', '--dry-run')
         Invoke-Checked $mise @('bootstrap', '--dry-run', '--only', 'packages')
+        if (-not (Test-WindowsMsys2)) {
+            if (Test-Path -LiteralPath 'C:\msys64') { throw 'C:\msys64 exists but its MSYS2 runtime is incomplete.' }
+            Invoke-Checked $mise @('bootstrap', 'packages', 'apply', 'winget:MSYS2.MSYS2', '--dry-run')
+        }
         Invoke-Checked $mise @('dot', 'apply', '--dry-run', '--force')
         return
     }

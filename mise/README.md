@@ -230,6 +230,9 @@ The default opens PowerShell 7 with mise active.
 WinGet installs native applications and command line packages.
 Mise installs the shared language tools.
 MSYS2 supplies native Lua, LuaRocks, GCC, and GDB.
+The mise configuration task reuses a working MSYS2 runtime in `C:\msys64`.
+When it is absent, the task runs `mise bootstrap packages apply winget:MSYS2.MSYS2 --yes`.
+The task stops if that directory contains an incomplete runtime.
 Visual Studio Build Tools supplies the Microsoft C++ compiler.
 The setup checks the required Neovim and Tree-sitter versions.
 It upgrades these packages when the installed versions are too old.
@@ -290,6 +293,7 @@ A push to `feat/mise-ubuntu-dotfiles` starts the jobs when mise files or the wor
 The jobs cover Ubuntu 26.04, Fedora 44 in Docker, Windows Server 2025, and macOS 26 on Apple Silicon.
 Each job runs bootstrap, verification, a repeat bootstrap, restoration, and reapplication.
 The Ubuntu native job also checks GNOME keyboard settings in a temporary D-Bus session.
+The Windows job uses the runner's existing MSYS2 runtime.
 The workflow uses read-only repository permissions.
 Logs use short artifact retention.
 The migration plan removes this temporary workflow after final root verification.

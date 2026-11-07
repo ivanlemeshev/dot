@@ -1,4 +1,30 @@
+function Test-WindowsMsys2 {
+    foreach ($name in @('env.exe', 'bash.exe', 'pacman.exe')) {
+        if (-not (Test-Path -LiteralPath "C:\msys64\usr\bin\$name" -PathType Leaf)) { return $false }
+    }
+    return $true
+}
+
+function Assert-WindowsMsys2 {
+    if (-not (Test-WindowsMsys2)) { throw 'The MSYS2 runtime is incomplete in C:\msys64.' }
+    Invoke-Checked 'C:\msys64\usr\bin\env.exe' @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman --version')
+}
+
+function Install-WindowsMsys2 {
+    # NOTE: Portable MSYS2 installations can lack WinGet registration.
+    if (-not (Test-WindowsMsys2)) {
+        if (Test-Path -LiteralPath 'C:\msys64') {
+            throw 'C:\msys64 exists but its MSYS2 runtime is incomplete. Repair that installation before bootstrap.'
+        }
+        $mise = Find-Mise
+        if ($null -eq $mise) { throw 'The mise command is missing.' }
+        Invoke-Checked $mise @('bootstrap', 'packages', 'apply', 'winget:MSYS2.MSYS2', '--yes')
+    }
+    Assert-WindowsMsys2
+}
+
 function Install-WindowsLua {
+    Install-WindowsMsys2
     $msys = 'C:\msys64\usr\bin\env.exe'
     if (-not (Test-Path -LiteralPath $msys)) { throw 'The MSYS2 package is missing from C:\msys64.' }
     $lua = 'C:\msys64\ucrt64\bin\lua.exe'

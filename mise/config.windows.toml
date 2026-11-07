@@ -4,7 +4,6 @@
 "winget:Microsoft.PowerShell" = "latest"
 "winget:Microsoft.WindowsTerminal" = "latest"
 "winget:Microsoft.VisualStudioCode" = "latest"
-"winget:MSYS2.MSYS2" = "latest"
 "winget:LLVM.LLVM" = "latest"
 "winget:Kitware.CMake" = "latest"
 "winget:Neovim.Neovim" = "latest"
