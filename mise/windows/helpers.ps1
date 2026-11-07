@@ -74,10 +74,24 @@ function Install-WinGetPackage {
 }
 
 function Update-SystemPackages {
-    & winget upgrade --all --silent --accept-package-agreements --accept-source-agreements --disable-interactivity
+    $previousVersion = (& winget --version | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot read the WinGet version before package upgrades.' }
+    $arguments = @('upgrade', '--all', '--silent', '--accept-package-agreements', '--accept-source-agreements', '--disable-interactivity')
+    & winget @arguments
+    $upgradeExitCode = $LASTEXITCODE
+    # NOTE: App Installer can replace WinGet and cancel its active batch.
+    if ($upgradeExitCode -eq -2147467260) {
+        Update-ProcessPath
+        $currentVersion = (& winget --version | Out-String).Trim()
+        if ($LASTEXITCODE -eq 0 -and $currentVersion -and $currentVersion -ne $previousVersion) {
+            Write-Host 'WinGet updates during package upgrades. Retry the batch once with the updated client.'
+            & winget @arguments
+            $upgradeExitCode = $LASTEXITCODE
+        }
+    }
     # NOTE: WinGet returns this code when no package needs an upgrade.
-    if ($LASTEXITCODE -notin @(0, -1978335189)) {
-        throw "WinGet package upgrades fail with exit code $LASTEXITCODE."
+    if ($upgradeExitCode -notin @(0, -1978335189)) {
+        throw "WinGet package upgrades fail with exit code $upgradeExitCode."
     }
     Update-ProcessPath
 }
