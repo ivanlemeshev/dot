@@ -46,8 +46,10 @@ Before link replacement, bootstrap copies existing global Git name, email, and d
 The KDE adapter uses a local profile that inherits the shared profile.
 The shared repository profile stays unchanged.
 
-Every normal bootstrap run upgrades installed native packages before configuration.
-Ubuntu uses APT, Fedora uses DNF, macOS uses Homebrew, and Windows uses WinGet and MSYS2.
+Every normal bootstrap run upgrades native packages before configuration.
+Ubuntu uses APT, Fedora uses DNF, and macOS uses Homebrew.
+Windows uses `mise bootstrap packages upgrade --manager winget --yes` for packages declared in `config.windows.toml`.
+Windows also updates its MSYS2 toolchain packages.
 These commands do not upgrade the operating system to a new release.
 The dry run reports this step without running upgrades.
 

@@ -14,7 +14,7 @@
 "brew:gh" = "latest"
 "brew:git" = "latest"
 "brew:grpcurl" = "latest"
-"brew:icu4c" = "latest"
+"brew:icu4c@79" = "latest"
 "brew:jq" = "latest"
 "brew:less" = "latest"
 "brew:llvm" = "latest"

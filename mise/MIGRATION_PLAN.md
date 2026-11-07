@@ -85,7 +85,7 @@ Record the selected result in this table before its dependent step starts.
 | D09 | Does the configurable KDE terminal font remain supported? | Keep an optional machine-specific Konsole font override. Use JetBrainsMonoNL Nerd Font Mono, size 11, as the default. Keep the shared profile unchanged. | Selected by user |
 | D10 | Who runs the platform checks? | Use temporary GitHub Actions jobs for Ubuntu, Fedora, Windows, and macOS. CI supplies the automated migration evidence. Keep the macOS work machine unchanged. Record desktop appearance and physical keyboard behavior as separate limitations. | Selected by user |
 | D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup, then promote mise contents to root in the final layout change. | Confirmed by user |
-| D12 | What replaces the legacy full-system upgrade step? | Upgrade all system packages during bootstrap through each platform package manager. | Selected by user |
+| D12 | What replaces the legacy full-system upgrade step? | Upgrade native packages during bootstrap. Limit Windows WinGet upgrades to packages declared in the mise setup. Keep full package upgrades on the other platforms. | Selected by user |
 | D13 | What happens to the Claude `ub-mode` skill during export? | Keep the upstream name. Install on demand from `unclebob/ub-mode` at a pinned commit. The separate skills repository keeps its installation command. | Selected by user |
 
 ## Step 1: Record the exact inventory
@@ -122,7 +122,8 @@ Completion condition: every legacy item has a recorded disposition.
 - [ ] Verify both personal skill packages when their contents change.
 - [x] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
 - [x] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
-- [x] Upgrade all system packages during bootstrap under D12.
+- [x] Upgrade native packages during bootstrap under D12.
+- [x] Limit Windows WinGet upgrades to packages declared in mise under the revised D12 scope.
 - [x] Use the native package manager on each platform.
 - [x] Keep operating system version upgrades outside this package upgrade step.
 - [x] Map Caps Lock to Ctrl in Ubuntu desktop sessions under D07.
@@ -361,3 +362,8 @@ ShellCheck, Python syntax, TOML syntax, and workflow validation pass.
 Workflow validation explicitly recognizes the documented `ubuntu-26.04` runner label because the current Actionlint label list lacks it.
 Windows and macOS full bootstrap verification waits for the temporary remote jobs.
 The next checkpoint requires a user commit and push to start these jobs.
+
+The user limits Windows WinGet upgrades to packages declared by mise.
+Bootstrap uses the built-in mise package upgrade command.
+The custom bulk WinGet upgrade and self-update recovery code are removed.
+The Windows CI job must verify this revised upgrade path.

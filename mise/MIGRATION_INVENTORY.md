@@ -25,7 +25,8 @@ The cleanup manifest uses the selected decisions and the later live link audit.
 - The import preserves the legacy `KDE_TERMINAL_FONT` value.
 - D10 uses temporary GitHub Actions jobs for automated verification on all four platforms.
 - The macOS work machine stays unchanged.
-- D12 upgrades all system packages during bootstrap.
+- D12 upgrades native packages during bootstrap.
+- Windows WinGet upgrades apply only to packages declared in mise.
 - D13 retains `ub-mode` as an upstream skill with on-demand installation from a pinned commit.
 - The final layout promotes mise contents to root after legacy cleanup.
 
@@ -33,7 +34,8 @@ The cleanup manifest uses the selected decisions and the later live link audit.
 
 The legacy Ubuntu and Fedora bootstrap paths run a full system upgrade.
 The new bootstrap installs required packages without a full system upgrade.
-D12 selects full package upgrades during bootstrap.
+D12 selects full package upgrades on Unix platforms.
+Windows WinGet upgrades use the declared mise packages.
 Bootstrap contains native package upgrade steps.
 Remote Windows and macOS verification remains pending.
 

@@ -13,11 +13,12 @@ try {
     Set-Location $MiseRoot
 
     if ($DryRun) {
-        Write-Host 'Bootstrap upgrades all installed WinGet and MSYS2 packages before configuration.'
+        Write-Host 'Bootstrap upgrades declared WinGet packages and MSYS2 toolchain packages before configuration.'
         Update-ProcessPath
         $mise = Find-Mise
         if ($null -eq $mise) { throw 'Install mise before the dry run.' }
         $env:MISE_TRUSTED_CONFIG_PATHS = $MiseRoot
+        Invoke-Checked $mise @('bootstrap', 'packages', 'upgrade', '--manager', 'winget', '--dry-run')
         Invoke-Checked $mise @('bootstrap', '--dry-run', '--only', 'packages')
         Invoke-Checked $mise @('dot', 'apply', '--dry-run', '--force')
         return
@@ -40,7 +41,6 @@ try {
         Repair-WinGetPackageManager -Force -Latest
     }
     Update-ProcessPath
-    Update-SystemPackages
     Install-WinGetPackage 'Git.Git'
     Install-WinGetPackage 'Microsoft.PowerShell'
     Install-WinGetPackage 'jdx.mise'
@@ -64,6 +64,7 @@ try {
 
     Set-LocalGitConfig
     Invoke-Checked $mise @('trust', (Join-Path $MiseRoot 'config.toml'))
+    Invoke-Checked $mise @('bootstrap', 'packages', 'upgrade', '--manager', 'winget', '--yes')
     Invoke-Checked $mise @('bootstrap', '--yes', '--only', 'packages')
     Backup-ConflictingDotfiles $mise
     Invoke-Checked $mise @('dot', 'apply', '--yes')
