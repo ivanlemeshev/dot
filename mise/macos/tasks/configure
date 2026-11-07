@@ -21,7 +21,7 @@ fish -c 'curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/f
 fish_path="$(command -v fish)"
 if ! grep -Fxq "$fish_path" /etc/shells; then printf '%s\n' "$fish_path" | sudo tee -a /etc/shells >/dev/null; fi
 login_shell="$(dscl . -read "/Users/$(id -un)" UserShell)"
-if [[ "$login_shell" != "UserShell: $fish_path" ]]; then chsh -s "$fish_path"; fi
+if [[ "$login_shell" != "UserShell: $fish_path" ]]; then sudo chsh -s "$fish_path" "$(id -un)"; fi
 
 if [[ ! -d "$HOME/.tmux/plugins/tpm/.git" ]]; then
   mkdir -p "$HOME/.tmux/plugins"
