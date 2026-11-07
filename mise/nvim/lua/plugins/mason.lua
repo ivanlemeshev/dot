@@ -49,7 +49,6 @@ local servers = {
 }
 
 local formatters = {
-  "clang-format",
   "gofumpt",
   "goimports",
   "golines",
@@ -69,6 +68,8 @@ local linters = {
 }
 
 if vim.fn.has("win32") ~= 1 then
+  -- NOTE: LLVM supplies clang-format on Windows.
+  table.insert(formatters, 1, "clang-format")
   table.insert(servers, 1, "ansible-language-server")
   table.insert(linters, "ansible-lint")
 end
