@@ -1,6 +1,6 @@
 # Migration and root replacement plan
 
-Status: proposed.
+Status: inventory and decisions in progress.
 The implementation starts after the user selects the open decisions.
 This file records the plan.
 It does not authorize deletion or machine changes.
@@ -67,31 +67,36 @@ They can change after this audit.
 
 Each decision starts as pending.
 A recommendation does not count as approval.
+The user selects the remaining decisions one at a time.
 Record the selected result in this table before its dependent step starts.
 
-| ID | Decision | Recommendation | Status |
+| ID | Decision | Recommendation or selected result | Status |
 | --- | --- | --- | --- |
-| D01 | Which repository metadata remains at root during cleanup? | Keep Git control data, `AGENTS.md`, the license, ignore rules, attributes, and the CI metadata that the final setup needs. | Pending |
-| D02 | What replaces `bin/reset-nvim` and `bin/set-git-repo-user`? | Keep their useful functions as explicit mise tasks with portable implementations. | Pending |
-| D03 | Where do the Codex and Claude packages live before and after promotion? | Preserve both packages and their required discovery paths. Keep Codex personal skills in `lem-*` folders and Claude personal skills in the `lem` package. | Pending |
-| D04 | Do Copilot CLI and Specify CLI remain supported? | Keep them as optional capabilities with explicit install and verify tasks. | Pending |
-| D05 | Does VM tooling remain supported? | Keep it as an optional platform extension. Do not install it during the core bootstrap. | Pending |
-| D06 | Does OpenSpec apply to every platform? | Add it to Linux so the supported platforms have the same capability. | Pending |
-| D07 | How does Ubuntu map Caps Lock to Ctrl? | Support the normal Ubuntu desktop session and define the supported behavior for WSL and containers. | Pending |
-| D08 | How do existing machine values enter the new setup? | Use a one-time migration or a guided local configuration step. Preserve existing Git identity when no replacement value exists. | Pending |
-| D09 | Does the configurable KDE terminal font remain supported? | Preserve the capability through an approved local override without rendering a managed profile from machine values. | Pending |
+| D01 | Which repository metadata remains at root during cleanup? | Keep the approved repository metadata at root during cleanup. | Selected by user |
+| D02 | What replaces `bin/reset-nvim` and `bin/set-git-repo-user`? | Keep both utilities as explicit mise tasks. | Selected by user |
+| D03 | Where do the Codex and Claude packages live before and after promotion? | Use a separate skills repository with tagged releases and on-demand installation. Dotfiles keeps installation commands. | Selected by user |
+| D04 | Do Copilot CLI and Specify CLI remain supported? | Remove Copilot CLI and Specify CLI support. | Selected by user |
+| D05 | Does VM tooling remain supported? | Remove VM tooling support. | Selected by user |
+| D06 | Does OpenSpec apply to every platform? | Remove OpenSpec installation and support from all platforms. | Selected by user |
+| D07 | How does Ubuntu map Caps Lock to Ctrl? | Map Caps Lock to Ctrl in Ubuntu desktop sessions. WSL and containers use the host keyboard mapping. | Selected by user |
+| D08 | How do existing machine values enter the new setup? | Provide an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`. Preserve existing Git identity when no replacement value exists. | Selected by user |
+| D09 | Does the configurable KDE terminal font remain supported? | Keep an optional machine-specific Konsole font override. Use JetBrainsMonoNL Nerd Font Mono, size 11, as the default. Keep the shared profile unchanged. | Selected by user |
 | D10 | Who runs the native machine checks? | Record a Windows, macOS, Ubuntu desktop, and Fedora KDE run before deleting the fallback implementation. | Pending |
-| D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup first, then promote `mise/` contents to root as one final layout change. | Pending |
+| D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup, then promote mise contents to root in the final layout change. | Confirmed by user |
+| D12 | What replaces the legacy full-system upgrade step? | Keep system upgrades as an explicit maintenance action outside bootstrap. | Pending |
+| D13 | What happens to the Claude `ub-mode` skill during export? | Choose removal or a compliant namespace and update both skill packages when needed. | Pending |
 
 ## Step 1: Record the exact inventory
 
-- [ ] Record the current commit and clean or dirty worktree state.
-- [ ] Inventory `bin/`, `install/`, `lib/`, `.config/`, `windows/`, and `macos/`.
-- [ ] Inventory root documentation, build files, workflows, ignore rules, and machine setting examples.
-- [ ] Inventory both skill packages and their deployment paths.
+See [the tracked-file inventory](MIGRATION_INVENTORY.md).
+
+- [x] Record the current commit and clean or dirty worktree state.
+- [x] Inventory `bin/`, `install/`, `lib/`, `.config/`, `windows/`, and `macos/`.
+- [x] Inventory root documentation, build files, workflows, ignore rules, and machine setting examples.
+- [x] Inventory both skill packages and their deployment paths.
 - [ ] Map each legacy item to a replacement, an approved removal, or a retained repository file.
-- [ ] Separate active bootstrap behavior from optional standalone installers.
-- [ ] Record the intentional removal of Racket, Emacs, and ASDF integration.
+- [x] Separate active bootstrap behavior from optional standalone installers.
+- [x] Record the intentional removal of Racket, Emacs, and ASDF integration.
 - [ ] Record the decisions for optional tools without treating them as core requirements.
 
 Completion condition: every legacy item has a recorded disposition.
@@ -102,21 +107,31 @@ Completion condition: every legacy item has a recorded disposition.
 - [ ] Keep Neovim reset separate from automatic bootstrap actions.
 - [ ] Define exactly which Neovim paths a reset removes.
 - [ ] Preserve repository-specific Git settings when the Git utility changes one value.
-- [ ] Implement Codex and Claude deployment on the approved platforms.
+- [ ] Prepare the selected skills export without deleting the current sources.
+- [ ] Create the separate repository only after its name and visibility have approval.
+- [ ] Publish and verify the selected release before removing the dotfiles skill sources.
+- [ ] Implement explicit on-demand Codex and Claude installation commands.
+- [ ] Keep skill installation outside the default bootstrap.
 - [ ] Preserve installed system skills and unrelated user skills.
 - [ ] Verify both personal skill packages when their contents change.
-- [ ] Add the approved Linux OpenSpec installation and verification.
-- [ ] Add optional tool tasks for the capabilities selected in D04 and D05.
-- [ ] Add Ubuntu Caps Lock support from D07.
+- [ ] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
+- [ ] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
+- [ ] Add the maintenance behavior selected in D12.
+- [ ] Map Caps Lock to Ctrl in Ubuntu desktop sessions under D07.
+- [ ] Leave keyboard mapping to the host in WSL and containers.
 - [ ] Keep Fedora, macOS, and Windows keyboard adapters consistent with their native platforms.
-- [ ] Resolve the KDE font setting from D09.
+- [ ] Add the optional local Konsole font override under D09.
+- [ ] Preserve `KDE_TERMINAL_FONT` through the explicit import command.
+- [ ] Keep the shared Konsole profile unchanged when a local override applies.
 - [ ] Add verification for every new installation adapter.
 
 Completion condition: each retained capability has an installation path, configuration path, and verification command.
 
 ## Step 3: Preserve machine settings and existing configuration
 
-- [ ] Map `config.env` values to the ignored local configuration format.
+- [ ] Add an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`.
+- [ ] Import supported values without executing the source file.
+- [ ] Preserve existing local values unless the user explicitly selects replacement.
 - [ ] Cover Git name, email, default branch, time zone, computer name, and the approved desktop settings.
 - [ ] Preserve existing values when a replacement is absent.
 - [ ] Keep private values out of commits, Docker build contexts, and shared reports.
