@@ -27,7 +27,9 @@ function Update-ProcessPath {
     $env:HOME = $HOME
     $env:DOTFILES_DOCUMENTS = [Environment]::GetFolderPath('MyDocuments')
     if (-not $env:DOTFILES_DOCUMENTS) { $env:DOTFILES_DOCUMENTS = Join-Path $HOME 'Documents' }
-    $paths = @(
+    # NOTE: Keep activated mise tools ahead of Windows aliases and fallback tools.
+    $paths = @($env:PATH -split ';')
+    $paths += @(
         (Join-Path $HOME '.local/bin'),
         (Join-Path $HOME '.julia/bin'),
         (Join-Path $env:LOCALAPPDATA 'Microsoft/WinGet/Links'),
@@ -40,8 +42,6 @@ function Update-ProcessPath {
         (Join-Path $env:LOCALAPPDATA 'Programs/Microsoft VS Code/bin'),
         'C:\msys64\ucrt64\bin'
     )
-    # NOTE: Keep mise tool paths ahead of preinstalled machine tools.
-    $paths += $env:PATH -split ';'
     $paths += [Environment]::GetEnvironmentVariable('Path', 'Machine') -split ';'
     $paths += [Environment]::GetEnvironmentVariable('Path', 'User') -split ';'
     $env:PATH = ($paths | Where-Object { $_ } | Select-Object -Unique) -join ';'
