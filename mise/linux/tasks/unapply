@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#MISE description="Remove Linux configuration and restore Fedora KDE settings"
+
+set -euo pipefail
+. /etc/os-release
+if [[ "$ID" == fedora ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  python "$SCRIPT_DIR/../../fedora/state.py" unapply
+fi
+mise dot unapply --yes

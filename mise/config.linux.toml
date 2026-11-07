@@ -1,59 +1,5 @@
-[bootstrap.packages]
-"apt:ansible" = "latest"
-"apt:bat" = "latest"
-"apt:bubblewrap" = "latest"
-"apt:build-essential" = "latest"
-"apt:clang" = "latest"
-"apt:clang-format" = "latest"
-"apt:clang-tidy" = "latest"
-"apt:clangd" = "latest"
-"apt:cmake" = "latest"
-"apt:curl" = "latest"
-"apt:direnv" = "latest"
-"apt:fd-find" = "latest"
-"apt:ffmpeg" = "latest"
-"apt:fish" = "latest"
-"apt:fontconfig" = "latest"
-"apt:fzf" = "latest"
-"apt:gcc" = "latest"
-"apt:gdb" = "latest"
-"apt:gh" = "latest"
-"apt:ghostty" = "latest"
-"apt:git" = "latest"
-"apt:htop" = "latest"
-"apt:jq" = "latest"
-"apt:less" = "latest"
-"apt:libbz2-dev" = "latest"
-"apt:libffi-dev" = "latest"
-"apt:libicu-dev" = "latest"
-"apt:libjpeg-dev" = "latest"
-"apt:liblzma-dev" = "latest"
-"apt:libncurses-dev" = "latest"
-"apt:libreadline-dev" = "latest"
-"apt:libsqlite3-dev" = "latest"
-"apt:libssl-dev" = "latest"
-"apt:pandoc" = "latest"
-"apt:pkg-config" = "latest"
-"apt:python3-pip" = "latest"
-"apt:python3-venv" = "latest"
-"apt:ripgrep" = "latest"
-"apt:shellcheck" = "latest"
-"apt:strace" = "latest"
-"apt:tmux" = "latest"
-"apt:tree" = "latest"
-"apt:tzdata" = "latest"
-"apt:unzip" = "latest"
-"apt:vim" = "latest"
-"apt:wget" = "latest"
-"apt:wl-clipboard" = "latest"
-"apt:xclip" = "latest"
-"apt:xxd" = "latest"
-"apt:xz-utils" = "latest"
-"apt:zlib1g-dev" = "latest"
-"apt:zstd" = "latest"
-
-[bootstrap.apt.sources]
-github-cli = { uris = "https://cli.github.com/packages", suites = "stable", components = "main", key = "https://cli.github.com/packages/githubcli-archive-keyring.gpg", fingerprint = "7F38BBB59D064DBCB3D84D725612B36462313325" }
+# NOTE: Package names and repositories depend on the Linux distribution.
+include = ["{{config_source | dirname}}/linux/packages/{% set release = read_file(path='/etc/os-release') %}{% if 'ID=fedora' in release or 'ID=\"fedora\"' in release %}fedora{% else %}ubuntu{% endif %}.toml"]
 
 [dotfiles]
 "~/.config/ghostty" = { source = "ghostty" }
@@ -73,15 +19,7 @@ eval "$(mise activate bash --shims)"''' }
 
 [tasks.configure]
 description = "Configure shell plugins and command line tools"
-depends = ["configure:timezone", "configure:hostname", "configure:fish", "configure:vim", "configure:nvim", "configure:nvim-treesitter", "configure:bat", "configure:commands", "configure:fonts", "configure:oh-my-posh", "configure:tmux", "configure:git", "configure:gh", "configure:tools", "configure:assistants"]
-
-[tasks."configure:bat"]
-description = "Build the bat theme cache"
-run = "batcat cache --build && batcat --list-themes | rg '^custom$'"
-
-[tasks."configure:commands"]
-description = "Set Ubuntu command names"
-run = 'mkdir -p "$HOME/.local/bin" && ln -sfn /usr/bin/fdfind "$HOME/.local/bin/fd" && ln -sfn /usr/bin/batcat "$HOME/.local/bin/bat" && ln -sfn /usr/bin/fzf "$HOME/.local/bin/fzf" && fd --version && bat --version'
+depends = ["configure:timezone", "configure:hostname", "configure:fish", "configure:vim", "configure:nvim", "configure:nvim-treesitter", "configure:bat", "configure:commands", "configure:fonts", "configure:oh-my-posh", "configure:tmux", "configure:git", "configure:gh", "configure:tools", "configure:assistants", "configure:desktop"]
 
 [tasks."configure:vim"]
 description = "Prepare Vim"
@@ -102,11 +40,6 @@ run = "mkdir -p $HOME/.local/bin && GOBIN=$HOME/.local/bin go install github.com
 [tasks."configure:runic"]
 description = "Install the Runic formatter"
 run = "julia -e 'using Pkg; Pkg.Apps.add(\"Runic\")' && test -x $HOME/.julia/bin/runic"
-
-# NOTE: Neovim parsers require a newer CLI than the Ubuntu package.
-[tasks."configure:tree-sitter"]
-description = "Install the Tree-sitter CLI"
-run = 'cargo install tree-sitter-cli --version 0.26.12 --locked --root "$HOME/.local" && "$HOME/.local/bin/tree-sitter" --version'
 
 [tasks."configure:assistants"]
 description = "Install command line assistants"
@@ -135,10 +68,6 @@ run = "mise bootstrap packages status --missing"
 [tasks."verify:files"]
 description = "Check managed file links"
 run = "mise dot status --missing"
-
-[tasks."configure:cleanup"]
-description = "Remove unused apt packages and cached packages"
-run = "sudo apt-get autoremove -y && sudo apt-get autoclean -y"
 
 [tools]
 lua = "5.5.0"

@@ -11,5 +11,10 @@ if [[ ! -f "$zoneinfo_file" ]]; then
   exit 1
 fi
 
-sudo ln -snf "$zoneinfo_file" /etc/localtime
-printf '%s\n' "$timezone" | sudo tee /etc/timezone >/dev/null
+. /etc/os-release
+if [[ "$ID" == fedora && ! -e /.dockerenv && ! -e /run/.containerenv ]]; then
+  sudo timedatectl set-timezone "$timezone"
+else
+  sudo ln -snf "$zoneinfo_file" /etc/localtime
+  if [[ "$ID" != fedora ]]; then printf '%s\n' "$timezone" | sudo tee /etc/timezone >/dev/null; fi
+fi

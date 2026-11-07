@@ -7,13 +7,4 @@ set -euo pipefail
 export PATH="$HOME/.local/bin:$PATH"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-case "$(uname -m)" in
-  x86_64) nvim_arch=x86_64 ;;
-  aarch64) nvim_arch=arm64 ;;
-  *)
-    printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
-    exit 1
-    ;;
-esac
-
-MISE_NVIM_INSTALL=1 "/opt/nvim-linux-$nvim_arch/bin/nvim" --headless -u NONE -l "$SCRIPT_DIR/../../../nvim/bootstrap.lua"
+MISE_NVIM_INSTALL=1 nvim --headless -u NONE -l "$SCRIPT_DIR/../../../nvim/bootstrap.lua"

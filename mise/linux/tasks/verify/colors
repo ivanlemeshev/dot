@@ -12,5 +12,5 @@ test "$(git config --get color.diff.old)" = brightred
 test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${GH_COLOR_LABELS+x}" != x
 gh help environment | rg 'GH_ACCESSIBLE_COLORS'
-batcat --list-themes | rg '^custom$'
+bat --list-themes | rg '^custom$'
 fish --no-config --command "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""

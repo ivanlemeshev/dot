@@ -1,15 +1,16 @@
 # Setup with mise
 
-This folder contains the Ubuntu 26.04, macOS, and Windows x64 setup.
+This folder contains the Ubuntu 26.04, Fedora KDE, macOS, and Windows x64 setup.
 Clone the repository before setup.
 
 `config.toml` declares shared tools, colors, and links.
 `linux/tasks`, `macos/tasks`, and `windows/tasks` contain the platform tasks.
 `miserc.toml` selects `config.linux.toml`, `config.macos.toml`, or `config.windows.toml` for the current platform.
+The Linux configuration selects Ubuntu or Fedora packages from `/etc/os-release`.
 It excludes the old repository configuration from discovery.
 The setup links `~/.config/mise` to this folder.
-Ubuntu stops if that path contains another configuration.
-Move that configuration before Ubuntu setup.
+Ubuntu and Fedora stop if that path contains another configuration.
+Move that configuration before Linux setup.
 macOS and Windows move an existing configuration to a backup before they create the link.
 
 ## Machine settings
@@ -19,12 +20,12 @@ Edit the values before setup.
 Git ignores the local file.
 Docker excludes it from the build context.
 
-`TIMEZONE` sets the Ubuntu or macOS time zone.
+`TIMEZONE` sets the Ubuntu, Fedora, or macOS time zone.
 `WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
 `MACHINE_NAME` sets the computer name.
 Windows applies the new name after a restart.
 Omit these values to keep the current macOS or Windows settings.
-Ubuntu uses UTC when `TIMEZONE` is absent.
+Ubuntu and Fedora use UTC when `TIMEZONE` is absent.
 
 `GIT_USER_NAME`, `GIT_USER_EMAIL`, and `GIT_DEFAULT_BRANCH` set local Git values.
 The setup stores them in `~/.config/git/config.local`.
@@ -65,6 +66,56 @@ docker run --rm dot-mise-current ./bootstrap.sh --no-shell
 
 Pass machine values with Docker environment variables.
 Set the container hostname with `--hostname`.
+
+## Fedora KDE
+
+Run the shared Bash bootstrap on mutable Fedora KDE with Plasma 6:
+
+```sh
+./mise/bootstrap.sh
+```
+
+The setup supports Fedora 43 and later.
+It installs Git, curl, sudo, and the DNF plugins before mise.
+DNF installs the Fedora packages.
+The package configuration enables `scottames/ghostty` through COPR.
+Fedora uses native `bat`, `fd`, and fzf commands.
+`clang-tools-extra` supplies the Clang utilities.
+Fedora supplies `ffmpeg-free` and Wayland clipboard support.
+The setup keeps the Fedora codec selection.
+It does not add RPM Fusion.
+
+The shared Linux tasks configure Fish, Vim, Neovim, tmux, fonts, Git, and the command line tools.
+The setup uses Fedora Neovim when it provides version 0.12 or later.
+It upgrades an older package before it tries the stable upstream release.
+It uses the native Tree-sitter CLI when it meets the Neovim version requirement.
+Ubuntu keeps its newer Tree-sitter CLI installation.
+
+Konsole uses the static `dot.profile` and the shared custom ANSI palette.
+The KDE adapter links both files into `~/.local/share/konsole`.
+It selects the profile through the native KDE settings tool.
+It maps Caps Lock to Ctrl and disables the diacritics popup.
+It preserves unrelated XKB options and KDE settings.
+It reloads the keyboard configuration when the desktop session bus is available.
+Otherwise, log out and back in to apply the keyboard settings.
+KDE settings and Konsole backups use `~/.local/state/dotfiles-fedora`.
+
+Preview packages and shared links with `./mise/bootstrap.sh --dry-run`.
+The preview does not run the KDE adapter.
+Use `--no-shell` to stop after verification.
+Use `mise run unapply` to restore the KDE settings and Konsole files, then remove the shared Linux links.
+The task stops if later changes conflict with restoration.
+
+Build the Fedora container from the repository root:
+
+```sh
+docker build --file mise/Dockerfile.fedora --tag dot-mise-fedora .
+docker run --rm dot-mise-fedora ./bootstrap.sh --no-shell
+```
+
+The container checks packages, tools, links, and KDE configuration files.
+It does not check keyboard input or Konsole rendering in a live Plasma session.
+Run that smoke check on the Fedora desktop.
 
 ## macOS
 
@@ -179,7 +230,7 @@ Keep the repository and state files until restoration completes.
 
 The terminal supplies the ANSI palette.
 Terminal applications use color indexes 0–15.
-Windows Terminal, VS Code, Ghostty, and iTerm2 use the shared custom palette.
+Windows Terminal, VS Code, Ghostty, Konsole, and iTerm2 use the shared custom palette.
 Mise keeps `NO_COLOR` unset and enables accessible GitHub CLI colors.
-Ubuntu and macOS use tmux.
+Ubuntu, Fedora, and macOS use tmux.
 Windows uses PSMux.

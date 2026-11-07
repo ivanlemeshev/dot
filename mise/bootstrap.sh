@@ -129,10 +129,19 @@ case "$platform" in
     export PATH="$HOME/.local/bin:$PATH"
     ;;
   Linux)
-    if [[ ! -r /etc/os-release ]] || ! . /etc/os-release || [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 26.04 ]]; then
-      printf 'This setup requires Ubuntu 26.04 or macOS.\n' >&2
-      exit 1
-    fi
+    if [[ ! -r /etc/os-release ]]; then printf 'Cannot read the Linux distribution.\n' >&2; exit 1; fi
+    . /etc/os-release
+    case "${ID:-}" in
+      ubuntu) [[ "${VERSION_ID:-}" == 26.04 ]] || { printf 'Ubuntu 26.04 is required.\n' >&2; exit 1; } ;;
+      fedora)
+        if [[ ! "${VERSION_ID:-}" =~ ^[0-9]+$ ]] || (( VERSION_ID < 43 )); then
+          printf 'Fedora 43 or later is required.\n' >&2
+          exit 1
+        fi
+        if [[ -e /run/ostree-booted ]]; then printf 'This setup requires mutable Fedora with DNF.\n' >&2; exit 1; fi
+        ;;
+      *) printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2; exit 1 ;;
+    esac
     case "$(uname -m)" in
       x86_64) nvim_arch=x86_64 ;;
       aarch64) nvim_arch=arm64 ;;
@@ -140,7 +149,7 @@ case "$platform" in
     esac
     export PATH="$HOME/.local/bin:/opt/nvim-linux-$nvim_arch/bin:$PATH"
     ;;
-  *) printf 'This setup requires Ubuntu 26.04 or macOS.\n' >&2; exit 1 ;;
+  *) printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2; exit 1 ;;
 esac
 
 export MISE_CONFIG_DIR="$SCRIPT_DIR"
@@ -207,6 +216,8 @@ if [[ "$platform" == Darwin ]]; then
   if (( BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1) )); then
     brew upgrade mise
   fi
+elif [[ "$ID" == fedora ]]; then
+  run_as_root dnf install -y ca-certificates curl git sudo dnf5-plugins
 else
   run_as_root apt-get update
   run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo

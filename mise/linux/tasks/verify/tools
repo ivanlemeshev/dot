@@ -7,7 +7,7 @@ for tool in go golangci-lint julia lua node pnpm powershell python rust uv zig y
   mise where "$tool"
 done
 
-for command_name in ansible bat batcat bwrap cc clang clang-format clang-tidy clangd cmake curl direnv fd fdfind ffmpeg fish fc-list fzf gcc gdb gh git ghostty htop jq less nvim pandoc pip3 pkg-config pwsh rg rustfmt shellcheck strace tmux tree tree-sitter unzip vim wget wt xxd yt-dlp grpcurl runic codex claude wl-copy xclip; do
+for command_name in ansible bat bwrap cc clang clang-format clang-tidy clangd cmake curl direnv fd ffmpeg fish fc-list fzf gcc gdb gh git ghostty htop jq less nvim pandoc pip3 pkg-config pwsh rg rustfmt shellcheck strace tmux tree tree-sitter unzip vim wget wt xxd yt-dlp grpcurl runic codex claude wl-copy xclip; do
   command -v "$command_name"
 done
 
@@ -40,3 +40,13 @@ fc-match --format '%{family}\n' 'JetBrainsMonoNL Nerd Font Mono' | grep -F 'JetB
 
 test -x "$HOME/.tmux/plugins/tpm/tpm"
 test -d "$HOME/.tmux/plugins/tmux-yank"
+
+. /etc/os-release
+if [[ "$ID" == fedora ]]; then
+  for command_name in konsole kreadconfig6 kwriteconfig6 dbus-send; do command -v "$command_name"; done
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  python "$SCRIPT_DIR/../../../fedora/state.py" verify
+else
+  command -v batcat
+  command -v fdfind
+fi
