@@ -112,21 +112,37 @@ done
 
 show_banner
 
-if [[ ! -r /etc/os-release ]] || ! . /etc/os-release || [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 26.04 ]]; then
-  printf 'This setup requires Ubuntu 26.04.\n' >&2
-  exit 1
-fi
-
-case "$(uname -m)" in
-  x86_64) nvim_arch=x86_64 ;;
-  aarch64) nvim_arch=arm64 ;;
-  *)
-    printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
-    exit 1
+platform="$(uname -s)"
+case "$platform" in
+  Darwin)
+    if [[ "$(id -u)" -eq 0 ]]; then
+      printf 'Run macOS setup as your regular user.\n' >&2
+      exit 1
+    fi
+    case "$(uname -m)" in arm64 | x86_64) ;; *) printf 'Unsupported architecture.\n' >&2; exit 1 ;; esac
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+      if [[ -x "$brew_bin" ]]; then
+        eval "$("$brew_bin" shellenv)"
+        break
+      fi
+    done
+    export PATH="$HOME/.local/bin:$PATH"
     ;;
+  Linux)
+    if [[ ! -r /etc/os-release ]] || ! . /etc/os-release || [[ "${ID:-}" != ubuntu || "${VERSION_ID:-}" != 26.04 ]]; then
+      printf 'This setup requires Ubuntu 26.04 or macOS.\n' >&2
+      exit 1
+    fi
+    case "$(uname -m)" in
+      x86_64) nvim_arch=x86_64 ;;
+      aarch64) nvim_arch=arm64 ;;
+      *) printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2; exit 1 ;;
+    esac
+    export PATH="$HOME/.local/bin:/opt/nvim-linux-$nvim_arch/bin:$PATH"
+    ;;
+  *) printf 'This setup requires Ubuntu 26.04 or macOS.\n' >&2; exit 1 ;;
 esac
 
-export PATH="$HOME/.local/bin:/opt/nvim-linux-$nvim_arch/bin:$PATH"
 export MISE_CONFIG_DIR="$SCRIPT_DIR"
 MISE_CONFIG_LINK="$HOME/.config/mise"
 
@@ -139,14 +155,24 @@ if [[ "$dry_run" == true ]]; then
   exit 0
 fi
 
+replace_config=false
 if [[ -L "$MISE_CONFIG_LINK" ]]; then
-  if [[ "$(readlink -f "$MISE_CONFIG_LINK")" != "$SCRIPT_DIR" ]]; then
-    printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
-    exit 1
+  existing_config="$(cd "$MISE_CONFIG_LINK" 2>/dev/null && pwd -P || true)"
+  if [[ "$existing_config" != "$SCRIPT_DIR" ]]; then
+    if [[ "$platform" == Darwin ]]; then
+      replace_config=true
+    else
+      printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
+      exit 1
+    fi
   fi
 elif [[ -e "$MISE_CONFIG_LINK" ]]; then
-  printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
-  exit 1
+  if [[ "$platform" == Darwin ]]; then
+    replace_config=true
+  else
+    printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
+    exit 1
+  fi
 fi
 
 run_as_root() {
@@ -160,8 +186,31 @@ run_as_root() {
   fi
 }
 
-run_as_root apt-get update
-run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo
+if [[ "$platform" == Darwin ]]; then
+  if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+      if [[ -x "$brew_bin" ]]; then eval "$("$brew_bin" shellenv)"; break; fi
+    done
+  fi
+  if ! xcode-select -p >/dev/null 2>&1; then
+    xcode-select --install
+    printf 'Complete the Command Line Tools installation, then run setup again.\n' >&2
+    exit 1
+  fi
+  brew install git mise
+  mise_version="$(mise --version)"
+  if [[ ! "$mise_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+    printf 'Cannot read the installed mise version: %s\n' "$mise_version" >&2
+    exit 1
+  fi
+  if (( BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1) )); then
+    brew upgrade mise
+  fi
+else
+  run_as_root apt-get update
+  run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo
+fi
 
 if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | sh
@@ -169,6 +218,11 @@ fi
 MISE_BIN="$(command -v mise)"
 
 mkdir -p "$HOME/.config"
+if [[ "$replace_config" == true ]]; then
+  backup_path="$MISE_CONFIG_LINK.backup.$(date +%Y%m%d%H%M%S).$$"
+  mv "$MISE_CONFIG_LINK" "$backup_path"
+  printf 'Backup: %s\n' "$backup_path"
+fi
 if [[ ! -L "$MISE_CONFIG_LINK" ]]; then
   ln -s "$SCRIPT_DIR" "$MISE_CONFIG_LINK"
 fi
@@ -180,8 +234,15 @@ mkdir -p "$HOME/.config/git"
 touch "$HOME/.config/git/config.local"
 chmod 600 "$HOME/.config/git/config.local"
 
-"$MISE_BIN" bootstrap --yes --only packages,dotfiles
-"$MISE_BIN" install
+if [[ "$platform" == Darwin ]]; then
+  "$MISE_BIN" bootstrap --yes --only packages
+  "$MISE_BIN" install
+  "$MISE_BIN" run prepare
+  "$MISE_BIN" dot apply --yes
+else
+  "$MISE_BIN" bootstrap --yes --only packages,dotfiles
+  "$MISE_BIN" install
+fi
 "$MISE_BIN" run configure
 "$MISE_BIN" run verify
 

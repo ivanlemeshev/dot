@@ -1,0 +1,76 @@
+[bootstrap.packages]
+"brew:ansible" = "latest"
+"brew:awscli" = "latest"
+"brew:bat" = "latest"
+"brew:buf" = "latest"
+"brew:cmake" = "latest"
+"brew:coreutils" = "latest"
+"brew:curl" = "latest"
+"brew:direnv" = "latest"
+"brew:fd" = "latest"
+"brew:ffmpeg" = "latest"
+"brew:fish" = "latest"
+"brew:fzf" = "latest"
+"brew:gh" = "latest"
+"brew:git" = "latest"
+"brew:grpcurl" = "latest"
+"brew:icu4c" = "latest"
+"brew:jq" = "latest"
+"brew:less" = "latest"
+"brew:llvm" = "latest"
+"brew:lua" = "latest"
+"brew:luarocks" = "latest"
+"brew:neovim" = "latest"
+"brew:oh-my-posh" = "latest"
+"brew:openssl@3" = "latest"
+"brew:pkgconf" = "latest"
+"brew:readline" = "latest"
+"brew:ripgrep" = "latest"
+"brew:ruff" = "latest"
+"brew:shellcheck" = "latest"
+"brew:sqlite" = "latest"
+"brew:tcl-tk" = "latest"
+"brew:tmux" = "latest"
+"brew:tree" = "latest"
+"brew:tree-sitter-cli" = "latest"
+"brew:vim" = "latest"
+"brew:wget" = "latest"
+"brew:worktrunk" = "latest"
+"brew:xz" = "latest"
+"brew:yt-dlp" = "latest"
+"brew:zlib" = "latest"
+"brew-cask:claude-code" = "latest"
+"brew-cask:codex" = "latest"
+"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
+"brew-cask:font-hack-nerd-font" = "latest"
+"brew-cask:font-hurmit-nerd-font" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:iterm2" = "latest"
+
+[dotfiles]
+"~/.config/ghostty" = { source = "ghostty" }
+"~/.config/fish/conf.d/custom_theme.fish" = { source = "fish/conf.d/custom_theme.fish" }
+"~/.config/fish/conf.d/fzf_colors.fish" = { source = "fish/conf.d/fzf_colors.fish" }
+"~/.config/fish/conf.d/ls_colors.fish" = { source = "fish/conf.d/ls_colors.fish" }
+"~/.config/fish/config.fish" = { source = "fish/config.fish" }
+"~/.config/nvim" = { source = "nvim" }
+"~/.vimrc" = { source = "vim/.vimrc" }
+"~/.tmux.conf" = { source = "tmux/.tmux.conf" }
+"~/Library/Application Support/iTerm2/DynamicProfiles/custom.json" = { source = "macos/iterm2/custom.json" }
+"~/Library/LaunchAgents/com.dotfiles.caps-lock.plist" = { source = "macos/com.dotfiles.caps-lock.plist" }
+"~/.zshrc/activate" = { block = '''for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if test -x "$brew_bin"; then eval "$("$brew_bin" shellenv)"; break; fi
+done
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(mise activate zsh)"''' }
+"~/.bash_profile/activate" = { block = '''for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if test -x "$brew_bin"; then eval "$("$brew_bin" shellenv)"; break; fi
+done
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(mise activate bash --shims)"''' }
+
+[env]
+_.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin", "{{env.HOMEBREW_PREFIX | default(value='/opt/homebrew')}}/opt/llvm/bin"]
+
+[tools]
+powershell = "latest"

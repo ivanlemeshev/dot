@@ -22,7 +22,7 @@ LESS = "-FRX"
 NO_COLOR = false
 
 [task_config]
-includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% else %}linux/tasks{% endif %}"]
+includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% elif os() == 'macos' %}macos/tasks{% else %}linux/tasks{% endif %}"]
 
 [tools]
 go = "1.27.2"

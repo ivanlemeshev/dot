@@ -1,16 +1,16 @@
 # Setup with mise
 
-This folder contains the Ubuntu 26.04 and Windows x64 setup.
+This folder contains the Ubuntu 26.04, macOS, and Windows x64 setup.
 Clone the repository before setup.
 
 `config.toml` declares shared tools, colors, and links.
-`linux/tasks` and `windows/tasks` contain the platform tasks.
-`miserc.toml` selects `config.linux.toml` on Ubuntu and `config.windows.toml` on Windows.
+`linux/tasks`, `macos/tasks`, and `windows/tasks` contain the platform tasks.
+`miserc.toml` selects `config.linux.toml`, `config.macos.toml`, or `config.windows.toml` for the current platform.
 It excludes the old repository configuration from discovery.
 The setup links `~/.config/mise` to this folder.
 Ubuntu stops if that path contains another configuration.
 Move that configuration before Ubuntu setup.
-Windows moves an existing configuration to a backup before it creates the link.
+macOS and Windows move an existing configuration to a backup before they create the link.
 
 ## Machine settings
 
@@ -19,11 +19,11 @@ Edit the values before setup.
 Git ignores the local file.
 Docker excludes it from the build context.
 
-`TIMEZONE` sets the Ubuntu time zone.
+`TIMEZONE` sets the Ubuntu or macOS time zone.
 `WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
 `MACHINE_NAME` sets the computer name.
 Windows applies the new name after a restart.
-Omit these values to keep the current Windows settings.
+Omit these values to keep the current macOS or Windows settings.
 Ubuntu uses UTC when `TIMEZONE` is absent.
 
 `GIT_USER_NAME`, `GIT_USER_EMAIL`, and `GIT_DEFAULT_BRANCH` set local Git values.
@@ -65,6 +65,49 @@ docker run --rm dot-mise-current ./bootstrap.sh --no-shell
 
 Pass machine values with Docker environment variables.
 Set the container hostname with `--hostname`.
+
+## macOS
+
+Run the shared Bash bootstrap from the repository root:
+
+```sh
+./mise/bootstrap.sh
+```
+
+The script finds Homebrew in the Apple Silicon or Intel prefix.
+It installs Homebrew when absent.
+It installs Git and mise before the main setup.
+It upgrades mise when the installed version is too old.
+Homebrew can request administrator access during its initial installation.
+Complete the Xcode Command Line Tools installation if the script requests it.
+Then run setup again.
+Use a macOS version that Homebrew supports.
+
+Homebrew supplies native applications, compilers, Lua, LuaRocks, and command line tools.
+Mise supplies the shared language tools and PowerShell.
+The setup upgrades Neovim, Tree-sitter CLI, and GitHub CLI when their capabilities are insufficient.
+It installs Fish plugins, tmux plugins, Runic, and OpenSpec.
+It installs Codex CLI and Claude Code as native Homebrew casks.
+It keeps Racket outside this setup.
+
+The setup links the shared application configurations and the iTerm2 dynamic profile.
+It selects the custom iTerm2 profile and preserves the previous iTerm2 preference values.
+It installs JetBrains Mono, Hack, and Hurmit Nerd Fonts.
+Zsh and Bash load Homebrew and mise through managed activation blocks.
+Fish loads Homebrew before mise.
+The setup registers Fish in `/etc/shells` and selects it as the login shell.
+
+Caps Lock maps to Ctrl through `hidutil`.
+A managed LaunchAgent applies the map at login and checks it every minute after keyboard reconnection.
+The adapter preserves other key mappings.
+Machine state and application configuration backups use `~/.local/state/dotfiles-macos`.
+The global mise configuration backup sits beside `~/.config/mise`.
+Restore that backup manually after configuration removal if you want the old setup.
+The setup stops before replacement when an existing iTerm2 directory link contains other profiles.
+
+Preview packages and links with `./mise/bootstrap.sh --dry-run`.
+This mode requires mise.
+Use `--no-shell` to stop after verification.
 
 ## Windows
 
@@ -122,6 +165,9 @@ Run `mise dot status --missing` to check managed links.
 Neovim verification checks every required tool and parser.
 
 On Ubuntu, run `mise dot unapply` to remove managed links and activation blocks.
+On macOS, run `mise run unapply` to unload the keyboard agent, restore the keyboard mapping and iTerm2 preferences, remove managed links, and restore configuration backups.
+The task stops if later changes conflict with restoration.
+Installed packages, fonts, the selected login shell, and optional computer settings remain.
 On Windows, run `mise run unapply` from an elevated PowerShell.
 The Windows task removes managed links and restores their backups.
 It also restores the keyboard map and Terminal settings when they still match the applied state.
@@ -133,7 +179,7 @@ Keep the repository and state files until restoration completes.
 
 The terminal supplies the ANSI palette.
 Terminal applications use color indexes 0–15.
-Windows Terminal, VS Code, and Ghostty use the shared custom palette.
+Windows Terminal, VS Code, Ghostty, and iTerm2 use the shared custom palette.
 Mise keeps `NO_COLOR` unset and enables accessible GitHub CLI colors.
-Ubuntu uses tmux.
+Ubuntu and macOS use tmux.
 Windows uses PSMux.

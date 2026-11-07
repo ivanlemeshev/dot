@@ -47,6 +47,15 @@ end
 # Set up abbreviations
 abbr --add unset 'set --erase'
 
+if test (uname -s) = Darwin
+    for brew_path in /opt/homebrew/bin/brew /usr/local/bin/brew
+        if test -x $brew_path
+            $brew_path shellenv fish | source
+            break
+        end
+    end
+end
+
 # Add local bin to PATH
 fish_add_path $HOME/.local/bin
 
@@ -54,11 +63,13 @@ fish_add_path $HOME/.local/bin
 fish_add_path $HOME/go/bin
 
 # NOTE: Neovim release paths use different names for ARM.
-set -l nvim_arch (uname -m)
-if test "$nvim_arch" = aarch64
-    set nvim_arch arm64
+if test (uname -s) = Linux
+    set -l nvim_arch (uname -m)
+    if test "$nvim_arch" = aarch64
+        set nvim_arch arm64
+    end
+    fish_add_path --append "/opt/nvim-linux-$nvim_arch/bin"
 end
-fish_add_path --append "/opt/nvim-linux-$nvim_arch/bin"
 fish_add_path $HOME/.julia/bin
 
 # Activate mise if it's installed
