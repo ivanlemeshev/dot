@@ -7,6 +7,8 @@ $ErrorActionPreference = 'Stop'
 Assert-Windows
 if (-not (Test-Administrator)) { throw 'Run Windows configuration from an elevated PowerShell.' }
 Update-ProcessPath
+Invoke-Checked ffmpeg @('-version')
+Invoke-Checked ffprobe @('-version')
 Assert-EditorVersions -Upgrade
 Install-WindowsLua
 Install-WindowsCompiler

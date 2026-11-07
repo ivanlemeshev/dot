@@ -15,7 +15,7 @@
 "winget:marlocarlo.psmux" = "latest"
 "winget:max-sixty.worktrunk" = "latest"
 "winget:JanDeDobbeleer.OhMyPosh" = "latest"
-"winget:yt-dlp.FFmpeg" = "latest"
+# NOTE: WinGet installs FFmpeg as a yt-dlp dependency.
 "winget:yt-dlp.yt-dlp" = "latest"
 "winget:jqlang.jq" = "latest"
 "winget:jftuga.less" = "latest"
