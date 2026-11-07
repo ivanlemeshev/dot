@@ -106,6 +106,7 @@ function Set-RepositoryLink {
             [IO.Path]::GetFullPath(@($item.Target)[0]) -eq [IO.Path]::GetFullPath($Source)) { return }
         $backup = "$Target.backup.$([DateTime]::UtcNow.ToString('yyyyMMddHHmmssfff'))"
         Move-Item -LiteralPath $Target -Destination $backup
+        Write-Host "Backup: $backup"
     }
     New-Item -ItemType Directory -Path (Split-Path -Parent $Target) -Force | Out-Null
     New-Item -ItemType SymbolicLink -Path $Target -Value $Source | Out-Null

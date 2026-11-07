@@ -8,8 +8,9 @@ Clone the repository before setup.
 `miserc.toml` selects `config.linux.toml` on Ubuntu and `config.windows.toml` on Windows.
 It excludes the old repository configuration from discovery.
 The setup links `~/.config/mise` to this folder.
-It stops if that path contains another configuration.
-Move that configuration before setup.
+Ubuntu stops if that path contains another configuration.
+Move that configuration before Ubuntu setup.
+Windows moves an existing configuration to a backup before it creates the link.
 
 ## Machine settings
 
@@ -74,6 +75,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\mise\bootstrap.ps1
 ```
 
 The script requests administrator access for symlinks, system packages, and the Caps Lock map.
+It opens the elevated window in this folder.
+The original window returns after launch.
+The elevated window shows errors and waits for Enter before it closes.
+`-NoShell` disables this wait.
 It installs WinGet when absent.
 It installs Git, PowerShell 7, and mise before the main setup.
 Use `-NoShell` to stop after verification.
@@ -97,6 +102,8 @@ The Terminal adapter adds the custom palette and theme to Windows Terminal setti
 It preserves personal profiles and stores a restore record outside the repository.
 Existing conflicting dotfiles receive backups before link replacement.
 Backup paths appear in the output.
+The global mise configuration backup sits beside `~/.config/mise`.
+Restore that backup manually after configuration removal if you want the old setup.
 State files use `~/.local/state/dotfiles-windows`.
 
 This preview requires mise:
