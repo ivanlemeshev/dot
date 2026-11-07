@@ -160,6 +160,7 @@ if [[ "$dry_run" == true ]]; then
     printf 'Install mise before the dry run.\n' >&2
     exit 1
   fi
+  printf 'Bootstrap upgrades all installed native packages before package installation.\n'
   MISE_TRUSTED_CONFIG_PATHS="$SCRIPT_DIR" mise bootstrap --dry-run
   exit 0
 fi
@@ -207,6 +208,8 @@ if [[ "$platform" == Darwin ]]; then
     printf 'Complete the Command Line Tools installation, then run setup again.\n' >&2
     exit 1
   fi
+  brew update
+  brew upgrade --greedy
   brew install git mise
   mise_version="$(mise --version)"
   if [[ ! "$mise_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
@@ -217,9 +220,11 @@ if [[ "$platform" == Darwin ]]; then
     brew upgrade mise
   fi
 elif [[ "$ID" == fedora ]]; then
+  run_as_root dnf upgrade --refresh -y
   run_as_root dnf install -y ca-certificates curl git sudo dnf5-plugins
 else
   run_as_root apt-get update
+  run_as_root env DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
   run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo
 fi
 
@@ -241,9 +246,7 @@ export MISE_CONFIG_DIR="$MISE_CONFIG_LINK"
 cd "$SCRIPT_DIR"
 "$MISE_BIN" trust
 
-mkdir -p "$HOME/.config/git"
-touch "$HOME/.config/git/config.local"
-chmod 600 "$HOME/.config/git/config.local"
+bash "$SCRIPT_DIR/git/preserve.sh"
 
 if [[ "$platform" == Darwin ]]; then
   "$MISE_BIN" bootstrap --yes --only packages
@@ -251,8 +254,10 @@ if [[ "$platform" == Darwin ]]; then
   "$MISE_BIN" run prepare
   "$MISE_BIN" dot apply --yes
 else
-  "$MISE_BIN" bootstrap --yes --only packages,dotfiles
+  "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
+  "$MISE_BIN" exec -- python "$SCRIPT_DIR/linux/links.py" prepare
+  "$MISE_BIN" dot apply --yes
 fi
 "$MISE_BIN" run configure
 "$MISE_BIN" run verify

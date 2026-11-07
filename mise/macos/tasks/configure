@@ -29,7 +29,6 @@ if [[ ! -d "$HOME/.tmux/plugins/tpm/.git" ]]; then
 fi
 "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 julia -e 'using Pkg; Pkg.Apps.add("Runic")'
-npm install --global @fission-ai/openspec@latest
 python "$SCRIPT_DIR/../state.py" preferences
 python "$SCRIPT_DIR/../state.py" apply
 agent="$HOME/Library/LaunchAgents/com.dotfiles.caps-lock.plist"

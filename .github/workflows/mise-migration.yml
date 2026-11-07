@@ -1,0 +1,167 @@
+name: Temporary migration verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/mise-ubuntu-dotfiles]
+    paths: ['mise/**', '.github/workflows/mise-migration.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mise-migration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-containers:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ubuntu
+            dockerfile: mise/Dockerfile
+          - platform: fedora
+            dockerfile: mise/Dockerfile.fedora
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build the platform image
+        run: docker build --file '${{ matrix.dockerfile }}' --tag dot-migration .
+      - name: Check bootstrap and restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --name dot-migration dot-migration sleep infinity
+          docker exec dot-migration bash -c 'printf "personal-vim\n" > "$HOME/.vimrc"'
+          docker exec dot-migration ./bootstrap.sh --no-shell 2>&1 | tee first.log
+          docker exec dot-migration ./bootstrap.sh --no-shell 2>&1 | tee repeat.log
+          docker exec --workdir /tmp dot-migration bash -c 'export MISE_CONFIG_DIR="$HOME/.config/mise"; mise run verify' 2>&1 | tee verify.log
+          docker exec dot-migration bash -c 'export MISE_CONFIG_DIR="$HOME/.config/mise"; mise run unapply; test "$(cat "$HOME/.vimrc")" = personal-vim' 2>&1 | tee restore.log
+          docker exec dot-migration ./bootstrap.sh --no-shell 2>&1 | tee reapply.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-${{ matrix.platform }}
+          path: '*.log'
+          retention-days: 3
+
+  ubuntu-desktop-adapter:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run the native bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$HOME/.local/bin" >> "$GITHUB_PATH"
+          printf 'personal-vim\n' > "$HOME/.vimrc"
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee first.log
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee repeat.log
+      - name: Check the GNOME adapter in a temporary session
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y dbus-x11 libglib2.0-bin gsettings-desktop-schemas
+          dbus-run-session -- bash -euo pipefail <<'KEYBOARD' 2>&1 | tee keyboard.log
+          export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+          gsettings set org.gnome.desktop.input-sources xkb-options "['compose:ralt']"
+          mise exec -- python mise/ubuntu/keyboard.py apply
+          mise exec -- python mise/ubuntu/keyboard.py verify
+          mise exec -- python mise/ubuntu/keyboard.py apply
+          mise exec -- python mise/ubuntu/keyboard.py unapply
+          test "$(gsettings get org.gnome.desktop.input-sources xkb-options)" = "['compose:ralt']"
+          KEYBOARD
+      - name: Check verification and restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          mise run verify 2>&1 | tee "$GITHUB_WORKSPACE/verify.log"
+          mise run unapply 2>&1 | tee "$GITHUB_WORKSPACE/restore.log"
+          test "$(cat "$HOME/.vimrc")" = personal-vim
+          cd "$GITHUB_WORKSPACE"
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee reapply.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-ubuntu-native
+          path: '*.log'
+          retention-days: 3
+
+  macos:
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-26, macos-26-intel]
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check the session and bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$HOME/.local/bin" >> "$GITHUB_PATH"
+          sw_vers
+          uname -m
+          launchctl print "gui/$(id -u)" > session.log
+          printf 'personal-vim\n' > "$HOME/.vimrc"
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee first.log
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee repeat.log
+      - name: Check verification and restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          mise run verify 2>&1 | tee "$GITHUB_WORKSPACE/verify.log"
+          mise run unapply 2>&1 | tee "$GITHUB_WORKSPACE/restore.log"
+          test "$(cat "$HOME/.vimrc")" = personal-vim
+          cd "$GITHUB_WORKSPACE"
+          ./mise/bootstrap.sh --no-shell 2>&1 | tee reapply.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-${{ matrix.runner }}
+          path: '*.log'
+          retention-days: 3
+
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check bootstrap with Windows PowerShell
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          . ./mise/windows/helpers.ps1
+          if (-not (Test-Administrator)) { throw 'The runner requires administrator access.' }
+          Set-Content -LiteralPath (Join-Path $HOME '_vimrc') -Value 'personal-vim'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object first.log
+          if ($LASTEXITCODE -ne 0) { throw 'The first bootstrap fails.' }
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object repeat.log
+          if ($LASTEXITCODE -ne 0) { throw 'The repeat bootstrap fails.' }
+      - name: Check verification and restoration
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          . ./mise/windows/helpers.ps1
+          Update-ProcessPath
+          $mise = Find-Mise
+          $env:MISE_CONFIG_DIR = Join-Path $HOME '.config/mise'
+          Set-Location $env:RUNNER_TEMP
+          Invoke-Checked $mise @('run', 'verify') *>&1 | Tee-Object (Join-Path $env:GITHUB_WORKSPACE 'verify.log')
+          Invoke-Checked $mise @('run', 'unapply') *>&1 | Tee-Object (Join-Path $env:GITHUB_WORKSPACE 'restore.log')
+          if ((Get-Content -LiteralPath (Join-Path $HOME '_vimrc') -Raw).Trim() -ne 'personal-vim') { throw 'Vim restoration fails.' }
+          Set-Location $env:GITHUB_WORKSPACE
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object reapply.log
+          if ($LASTEXITCODE -ne 0) { throw 'Reapplication fails.' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-windows
+          path: '*.log'
+          retention-days: 3

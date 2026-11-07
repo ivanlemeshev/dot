@@ -49,4 +49,6 @@ if [[ "$ID" == fedora ]]; then
 else
   command -v batcat
   command -v fdfind
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  python "$SCRIPT_DIR/../../../ubuntu/keyboard.py" verify
 fi

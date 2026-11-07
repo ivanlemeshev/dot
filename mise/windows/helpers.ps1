@@ -73,6 +73,15 @@ function Install-WinGetPackage {
     Update-ProcessPath
 }
 
+function Update-SystemPackages {
+    & winget upgrade --all --silent --accept-package-agreements --accept-source-agreements --disable-interactivity
+    # NOTE: WinGet returns this code when no package needs an upgrade.
+    if ($LASTEXITCODE -notin @(0, -1978335189)) {
+        throw "WinGet package upgrades fail with exit code $LASTEXITCODE."
+    }
+    Update-ProcessPath
+}
+
 function Save-StateText {
     param([string]$Name, [string]$Value)
     New-Item -ItemType Directory -Path $StateDirectory -Force | Out-Null
@@ -93,6 +102,16 @@ function Set-LocalGitConfig {
     foreach ($key in $values.Keys) {
         if (-not [string]::IsNullOrWhiteSpace($values[$key])) {
             Invoke-Checked git @('config', '--file', $localConfig, '--replace-all', $key, $values[$key])
+        } else {
+            $existing = & git config --file $localConfig --get $key
+            if ($LASTEXITCODE -eq 0) { continue }
+            if ($LASTEXITCODE -ne 1) { throw 'Cannot read the local Git configuration.' }
+            $previous = & git config --global --get $key
+            if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($previous)) {
+                Invoke-Checked git @('config', '--file', $localConfig, '--replace-all', $key, $previous)
+            } elseif ($LASTEXITCODE -ne 1 -and $LASTEXITCODE -ne 0) {
+                throw 'Cannot read the existing global Git configuration.'
+            }
         }
     }
 }
@@ -137,21 +156,6 @@ function Backup-ConflictingDotfiles {
         if ($entry.mode -ne 'symlink') { throw "Unexpected dotfile mode: $($entry.mode)" }
         Backup-Dotfile $entry.target
     }
-}
-
-function Set-WindowsSkills {
-    $source = Join-Path (Split-Path -Parent $MiseRoot) '.codex/skills'
-    if (-not (Test-Path -LiteralPath $source)) { return }
-    $managed = @()
-    foreach ($skill in Get-ChildItem -LiteralPath $source -Directory -Filter 'lem-*') {
-        $managed += [pscustomobject]@{ target = (Join-Path $HOME ".codex/skills/$($skill.Name)"); source = $skill.FullName }
-        $target = Join-Path $HOME ".codex/skills/$($skill.Name)"
-        $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
-        if ($null -ne $item -and $item.LinkType -eq 'SymbolicLink' -and @($item.Target)[0] -eq $skill.FullName) { continue }
-        Backup-Dotfile $target
-        Set-RepositoryLink $skill.FullName $target
-    }
-    Save-StateText 'skills.json' (ConvertTo-Json -InputObject @($managed) -Depth 10)
 }
 
 function Restore-DotfileBackups {

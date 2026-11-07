@@ -13,6 +13,7 @@ try {
     Set-Location $MiseRoot
 
     if ($DryRun) {
+        Write-Host 'Bootstrap upgrades all installed WinGet and MSYS2 packages before configuration.'
         Update-ProcessPath
         $mise = Find-Mise
         if ($null -eq $mise) { throw 'Install mise before the dry run.' }
@@ -39,6 +40,7 @@ try {
         Repair-WinGetPackageManager -Force -Latest
     }
     Update-ProcessPath
+    Update-SystemPackages
     Install-WinGetPackage 'Git.Git'
     Install-WinGetPackage 'Microsoft.PowerShell'
     Install-WinGetPackage 'jdx.mise'

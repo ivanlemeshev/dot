@@ -15,7 +15,18 @@ macOS and Windows move an existing configuration to a backup before they create 
 
 ## Machine settings
 
-Copy `config.local.toml.example` to `config.local.toml` in this folder.
+Copy `config.local.toml.example` to `config.local.toml` in this folder for a new machine.
+For an existing machine, use the explicit import command after Python is available:
+
+```sh
+python mise/utilities.py import-settings --source config.env --dry-run
+python mise/utilities.py import-settings --source config.env
+```
+
+The importer reads supported assignments without executing `config.env`.
+It preserves values that already exist in the local TOML file.
+It prints setting names without their private values.
+After bootstrap, `mise run import-settings --source /path/to/config.env` provides the same command.
 Edit the values before setup.
 Git ignores the local file.
 Docker excludes it from the build context.
@@ -24,12 +35,44 @@ Docker excludes it from the build context.
 `WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
 `MACHINE_NAME` sets the computer name.
 Windows applies the new name after a restart.
-Omit these values to keep the current macOS or Windows settings.
-Ubuntu and Fedora use UTC when `TIMEZONE` is absent.
+Omit these values to keep the current machine settings.
 
 `GIT_USER_NAME`, `GIT_USER_EMAIL`, and `GIT_DEFAULT_BRANCH` set local Git values.
 The setup stores them in `~/.config/git/config.local`.
 The managed Git configuration includes that file.
+Before link replacement, bootstrap copies existing global Git name, email, and default branch values when their local values are absent.
+
+`KDE_TERMINAL_FONT` sets an optional local Konsole font override.
+The KDE adapter uses a local profile that inherits the shared profile.
+The shared repository profile stays unchanged.
+
+Every normal bootstrap run upgrades installed native packages before configuration.
+Ubuntu uses APT, Fedora uses DNF, macOS uses Homebrew, and Windows uses WinGet and MSYS2.
+These commands do not upgrade the operating system to a new release.
+The dry run reports this step without running upgrades.
+
+## Explicit utilities
+
+Run these commands after mise and its Python tool are available:
+
+```sh
+mise run reset-nvim --dry-run
+mise run reset-nvim --yes
+mise run set-git-repo-user --repo /path/to/repository --name "Your Name" --email "you@example.com"
+```
+
+The reset removes the Neovim configuration, data, state, and cache directories on Unix.
+On Windows, it removes `%LOCALAPPDATA%/nvim` and `%LOCALAPPDATA%/nvim-data`.
+It unlinks a configuration symlink without deleting its source.
+It respects the Unix XDG directory variables.
+Run bootstrap to restore the Neovim configuration link after reset.
+The Git task changes only the repository user name and email.
+
+Skill installation stays outside bootstrap.
+The separate `ivanlemeshev/skills` repository supplies tagged personal skill releases and explicit installation commands.
+The upstream `ub-mode` skill keeps its name and uses a pinned commit for on-demand installation.
+Skill export and release verification remain pending.
+Existing skill sources stay in place until migration completes.
 
 ## Ubuntu
 
@@ -47,6 +90,10 @@ It verifies the setup and starts Fish.
 Use `--no-shell` to stop after verification.
 
 The setup installs Fish, fzf, Vim, and Ghostty from Ubuntu packages.
+In an Ubuntu GNOME desktop session, Caps Lock maps to Ctrl.
+The adapter preserves unrelated XKB options and records the previous value for restoration.
+WSL and containers use the host keyboard mapping.
+Without an active desktop session, run `mise run configure:desktop` from the desktop session later.
 GitHub CLI uses its official apt repository.
 Neovim uses the latest stable GitHub release.
 PowerShell runs through mise for the PowerShell language server.
@@ -137,7 +184,7 @@ Use a macOS version that Homebrew supports.
 Homebrew supplies native applications, compilers, Lua, LuaRocks, and command line tools.
 Mise supplies the shared language tools and PowerShell.
 The setup upgrades Neovim, Tree-sitter CLI, and GitHub CLI when their capabilities are insufficient.
-It installs Fish plugins, tmux plugins, Runic, and OpenSpec.
+It installs Fish plugins, tmux plugins, and Runic.
 It installs Codex CLI and Claude Code as native Homebrew casks.
 It keeps Racket outside this setup.
 
@@ -187,8 +234,7 @@ It upgrades these packages when the installed versions are too old.
 
 The setup deploys PowerShell profiles, Neovim, Vim, PSMux, VS Code, bat, ripgrep, Git colors, and the Oh My Posh theme.
 It installs the VS Code theme, icon theme, spelling tools, and PowerShell extension.
-It links the repository Codex skills when their source folder exists.
-It installs Runic, grpcurl, Codex CLI, Claude Code, and OpenSpec.
+It installs Runic, grpcurl, Codex CLI, and Claude Code.
 It installs the JetBrains Mono Nerd Font and maps Caps Lock to Ctrl.
 Restart Windows to apply the keyboard map.
 
@@ -215,7 +261,7 @@ Run `mise run verify` from any directory after setup.
 Run `mise dot status --missing` to check managed links.
 Neovim verification checks every required tool and parser.
 
-On Ubuntu, run `mise dot unapply` to remove managed links and activation blocks.
+On Ubuntu, run `mise run unapply` to restore the desktop keyboard setting and remove managed links and activation blocks.
 On macOS, run `mise run unapply` to unload the keyboard agent, restore the keyboard mapping and iTerm2 preferences, remove managed links, and restore configuration backups.
 The task stops if later changes conflict with restoration.
 Installed packages, fonts, the selected login shell, and optional computer settings remain.
@@ -234,3 +280,15 @@ Windows Terminal, VS Code, Ghostty, Konsole, and iTerm2 use the shared custom pa
 Mise keeps `NO_COLOR` unset and enables accessible GitHub CLI colors.
 Ubuntu, Fedora, and macOS use tmux.
 Windows uses PSMux.
+
+## Temporary migration CI
+
+`.github/workflows/mise-migration.yml` verifies the migration on standard GitHub runners.
+A push to `feat/mise-ubuntu-dotfiles` starts the jobs when mise files or the workflow change.
+The jobs cover Ubuntu 26.04, Fedora 44 in Docker, Windows Server 2025, and macOS 26 on ARM64 and Intel.
+Each job runs bootstrap, verification, a repeat bootstrap, restoration, and reapplication.
+The Ubuntu native job also checks GNOME keyboard settings in a temporary D-Bus session.
+The workflow uses read-only repository permissions.
+Logs use short artifact retention.
+The migration plan removes this temporary workflow after final root verification.
+CI does not prove terminal rendering or physical keyboard behavior.

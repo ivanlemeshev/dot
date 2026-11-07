@@ -16,7 +16,7 @@ Invoke-Checked $mise @('dot', 'status', '--missing')
 foreach ($tool in @('go', 'golangci-lint', 'julia', 'node', 'pnpm', 'python', 'rust', 'uv', 'zig')) {
     Invoke-Checked $mise @('where', $tool)
 }
-foreach ($command in @('git', 'gh', 'code', 'pwsh', 'nvim', 'vim', 'bat', 'rg', 'fd', 'fzf', 'tree-sitter', 'psmux', 'git-wt', 'oh-my-posh', 'ffmpeg', 'yt-dlp', 'jq', 'less', 'lua', 'luarocks', 'gcc', 'gdb', 'clang', 'clang-format', 'clang-tidy', 'clangd', 'cmake', 'grpcurl', 'runic', 'codex', 'openspec', 'claude')) {
+foreach ($command in @('git', 'gh', 'code', 'pwsh', 'nvim', 'vim', 'bat', 'rg', 'fd', 'fzf', 'tree-sitter', 'psmux', 'git-wt', 'oh-my-posh', 'ffmpeg', 'yt-dlp', 'jq', 'less', 'lua', 'luarocks', 'gcc', 'gdb', 'clang', 'clang-format', 'clang-tidy', 'clangd', 'cmake', 'grpcurl', 'runic', 'codex', 'claude')) {
     if (-not (Get-Command $command -ErrorAction SilentlyContinue)) { throw "Required command is missing: $command" }
 }
 Invoke-Checked node @('--version')
@@ -39,7 +39,6 @@ Invoke-Checked git-wt @('--version')
 Invoke-Checked grpcurl @('-version')
 Invoke-Checked runic @('--help')
 Invoke-Checked codex @('--version')
-Invoke-Checked openspec @('--version')
 Invoke-Checked claude @('--version')
 if ($env:BAT_THEME -ne 'custom' -or $env:GH_ACCESSIBLE_COLORS -ne '1' -or (Test-Path Env:NO_COLOR) -or (Test-Path Env:GH_COLOR_LABELS)) {
     throw 'The activated terminal color environment is invalid.'

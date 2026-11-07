@@ -8,7 +8,7 @@ MISE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd -P)"
 mise bootstrap packages status --missing
 mise dot status --missing
 for tool in go golangci-lint julia node pnpm powershell python rust uv zig; do mise where "$tool"; done
-for command_name in ansible aws bat buf cc clang-format clang-tidy clangd cmake curl direnv fd ffmpeg fish fzf gh git grpcurl jq less lldb lua luarocks nvim oh-my-posh openspec pkg-config rg ruff runic shellcheck tmux tree tree-sitter vim wget wt xz yt-dlp codex claude; do command -v "$command_name"; done
+for command_name in ansible aws bat buf cc clang-format clang-tidy clangd cmake curl direnv fd ffmpeg fish fzf gh git grpcurl jq less lldb lua luarocks nvim oh-my-posh pkg-config rg ruff runic shellcheck tmux tree tree-sitter vim wget wt xz yt-dlp codex claude; do command -v "$command_name"; done
 lua -v
 luarocks --version
 pwsh -NoProfile -Command "\$PSVersionTable.PSVersion.ToString()"
@@ -17,7 +17,6 @@ wt --version
 runic --help >/dev/null
 codex --version
 claude --version
-openspec --version
 tree-sitter --version
 python "$SCRIPT_DIR/../state.py" verify-versions
 test "${BAT_THEME:-}" = custom

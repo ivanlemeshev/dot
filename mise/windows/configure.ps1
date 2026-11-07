@@ -12,7 +12,6 @@ Install-WindowsLua
 Install-WindowsCompiler
 New-Item -ItemType Directory -Path (Join-Path $HOME '.vim/undodir') -Force | Out-Null
 Set-LocalGitConfig
-Set-WindowsSkills
 Install-NerdFont
 Set-CapsLockMapping
 Invoke-Checked gh @('config', 'set', 'editor', 'nvim')
@@ -24,7 +23,7 @@ if ($LASTEXITCODE -ne 0) { throw 'The VS Code extension list is unavailable.' }
 foreach ($extension in Get-RequiredVSCodeExtensions) {
     if ($extensions -notcontains $extension) { Invoke-Checked code @('--install-extension', $extension) }
 }
-Invoke-Checked npm @('install', '--global', '@openai/codex', '@fission-ai/openspec@latest')
+Invoke-Checked npm @('install', '--global', '@openai/codex')
 $previousGoBin = $env:GOBIN
 try {
     $env:GOBIN = Join-Path $HOME '.local/bin'

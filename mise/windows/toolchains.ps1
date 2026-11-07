@@ -5,9 +5,9 @@ function Install-WindowsLua {
     $gcc = 'C:\msys64\ucrt64\bin\gcc.exe'
     $gdb = 'C:\msys64\ucrt64\bin\gdb.exe'
     $rocks = 'C:\msys64\ucrt64\bin\luarocks'
+    Invoke-Checked $msys @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman -Syu --noconfirm')
+    Invoke-Checked $msys @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman -Syu --noconfirm')
     if (-not ((Test-Path -LiteralPath $lua) -and (Test-Path -LiteralPath $gcc) -and (Test-Path -LiteralPath $gdb) -and (Test-Path -LiteralPath $rocks))) {
-        Invoke-Checked $msys @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman -Syu --noconfirm')
-        Invoke-Checked $msys @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman -Syu --noconfirm')
         Invoke-Checked $msys @('MSYSTEM=UCRT64', 'CHERE_INVOKING=1', '/usr/bin/bash', '-lc', 'pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-lua mingw-w64-ucrt-x86_64-lua-luarocks mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gdb')
     }
     Invoke-Checked $lua @('-v')

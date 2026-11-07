@@ -3,7 +3,8 @@
 
 set -euo pipefail
 
-timezone="${TIMEZONE:-UTC}"
+timezone="${TIMEZONE:-}"
+if [[ -z "$timezone" ]]; then exit 0; fi
 zoneinfo_file="/usr/share/zoneinfo/$timezone"
 
 if [[ ! -f "$zoneinfo_file" ]]; then

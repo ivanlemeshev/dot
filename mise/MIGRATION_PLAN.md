@@ -1,7 +1,8 @@
 # Migration and root replacement plan
 
-Status: inventory and decisions in progress.
-The implementation starts after the user selects the open decisions.
+Status: implementation and verification in progress.
+The user selects D01 through D13.
+The implementation follows these decisions.
 This file records the plan.
 It does not authorize deletion or machine changes.
 
@@ -28,6 +29,7 @@ Machine values and recovery records stay outside managed configuration.
 - Keep all work on `feat/mise-ubuntu-dotfiles`.
 - Do not create or switch branches.
 - Keep implementation changes inside `mise/` until the approved cleanup stage.
+- The user approves `.github/workflows/mise-migration.yml` as the temporary CI exception.
 - Do not add, restore, or change repository tests.
 - Keep temporary verification scripts outside the repository.
 - Read the applicable `AGENTS.md` files before each implementation step.
@@ -74,14 +76,14 @@ Record the selected result in this table before its dependent step starts.
 | --- | --- | --- | --- |
 | D01 | Which repository metadata remains at root during cleanup? | Keep the approved repository metadata at root during cleanup. | Selected by user |
 | D02 | What replaces `bin/reset-nvim` and `bin/set-git-repo-user`? | Keep both utilities as explicit mise tasks. | Selected by user |
-| D03 | Where do the Codex and Claude packages live before and after promotion? | Use a separate skills repository with tagged releases and on-demand installation. Dotfiles keeps installation commands. | Selected by user |
+| D03 | Where do the Codex and Claude packages live before and after promotion? | Use `ivanlemeshev/skills` with tagged releases and on-demand installation. Dotfiles keeps installation commands. | Selected by user |
 | D04 | Do Copilot CLI and Specify CLI remain supported? | Remove Copilot CLI and Specify CLI support. | Selected by user |
 | D05 | Does VM tooling remain supported? | Remove VM tooling support. | Selected by user |
 | D06 | Does OpenSpec apply to every platform? | Remove OpenSpec installation and support from all platforms. | Selected by user |
 | D07 | How does Ubuntu map Caps Lock to Ctrl? | Map Caps Lock to Ctrl in Ubuntu desktop sessions. WSL and containers use the host keyboard mapping. | Selected by user |
 | D08 | How do existing machine values enter the new setup? | Provide an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`. Preserve existing Git identity when no replacement value exists. | Selected by user |
 | D09 | Does the configurable KDE terminal font remain supported? | Keep an optional machine-specific Konsole font override. Use JetBrainsMonoNL Nerd Font Mono, size 11, as the default. Keep the shared profile unchanged. | Selected by user |
-| D10 | Who runs the platform checks? | Use a temporary macOS GitHub Actions job as the macOS verification gate. Keep the macOS work machine unchanged. The user runs Linux desktop checks and confirms the Windows test scope. | Selected by user |
+| D10 | Who runs the platform checks? | Use temporary GitHub Actions jobs for Ubuntu, Fedora, Windows, and macOS. CI supplies the automated migration evidence. Keep the macOS work machine unchanged. Record desktop appearance and physical keyboard behavior as separate limitations. | Selected by user |
 | D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup, then promote mise contents to root in the final layout change. | Confirmed by user |
 | D12 | What replaces the legacy full-system upgrade step? | Upgrade all system packages during bootstrap through each platform package manager. | Selected by user |
 | D13 | What happens to the Claude `ub-mode` skill during export? | Keep the upstream name. Install on demand from `unclebob/ub-mode` at a pinned commit. The separate skills repository keeps its installation command. | Selected by user |
@@ -97,48 +99,48 @@ See [the tracked-file inventory](MIGRATION_INVENTORY.md).
 - [ ] Map each legacy item to a replacement, an approved removal, or a retained repository file.
 - [x] Separate active bootstrap behavior from optional standalone installers.
 - [x] Record the intentional removal of Racket, Emacs, and ASDF integration.
-- [ ] Record the decisions for optional tools without treating them as core requirements.
+- [x] Record the decisions for optional tools without treating them as core requirements.
 
 Completion condition: every legacy item has a recorded disposition.
 
 ## Step 2: Close the capability gaps inside mise
 
-- [ ] Implement the approved replacements for the two utility scripts.
-- [ ] Keep Neovim reset separate from automatic bootstrap actions.
-- [ ] Define exactly which Neovim paths a reset removes.
-- [ ] Preserve repository-specific Git settings when the Git utility changes one value.
+- [x] Implement the approved replacements for the two utility scripts.
+- [x] Keep Neovim reset separate from automatic bootstrap actions.
+- [x] Define exactly which Neovim paths a reset removes.
+- [x] Preserve repository-specific Git settings when the Git utility changes one value.
 - [ ] Prepare the selected skills export without deleting the current sources.
 - [ ] Create the separate repository only after its name and visibility have approval.
 - [ ] Publish and verify the selected release before removing the dotfiles skill sources.
 - [ ] Implement explicit on-demand Codex and Claude installation commands.
-- [ ] Keep skill installation outside the default bootstrap.
+- [x] Keep skill installation outside the default bootstrap.
 - [ ] Add an on-demand `ub-mode` installation command to the separate skills repository under D13.
 - [ ] Pin the upstream source to a specific commit.
 - [ ] Keep the upstream skill name and source separate from personal `lem` skills.
 - [ ] Preserve the current `ub-mode` copy until replacement installation and live link migration pass.
 - [ ] Preserve installed system skills and unrelated user skills.
 - [ ] Verify both personal skill packages when their contents change.
-- [ ] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
-- [ ] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
-- [ ] Upgrade all system packages during bootstrap under D12.
-- [ ] Use the native package manager on each platform.
-- [ ] Keep operating system version upgrades outside this package upgrade step.
-- [ ] Map Caps Lock to Ctrl in Ubuntu desktop sessions under D07.
-- [ ] Leave keyboard mapping to the host in WSL and containers.
+- [x] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
+- [x] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
+- [x] Upgrade all system packages during bootstrap under D12.
+- [x] Use the native package manager on each platform.
+- [x] Keep operating system version upgrades outside this package upgrade step.
+- [x] Map Caps Lock to Ctrl in Ubuntu desktop sessions under D07.
+- [x] Leave keyboard mapping to the host in WSL and containers.
 - [ ] Keep Fedora, macOS, and Windows keyboard adapters consistent with their native platforms.
-- [ ] Add the optional local Konsole font override under D09.
-- [ ] Preserve `KDE_TERMINAL_FONT` through the explicit import command.
-- [ ] Keep the shared Konsole profile unchanged when a local override applies.
+- [x] Add the optional local Konsole font override under D09.
+- [x] Preserve `KDE_TERMINAL_FONT` through the explicit import command.
+- [x] Keep the shared Konsole profile unchanged when a local override applies.
 - [ ] Add verification for every new installation adapter.
 
 Completion condition: each retained capability has an installation path, configuration path, and verification command.
 
 ## Step 3: Preserve machine settings and existing configuration
 
-- [ ] Add an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`.
-- [ ] Import supported values without executing the source file.
-- [ ] Preserve existing local values unless the user explicitly selects replacement.
-- [ ] Cover Git name, email, default branch, time zone, computer name, and the approved desktop settings.
+- [x] Add an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`.
+- [x] Import supported values without executing the source file.
+- [x] Preserve existing local values unless the user explicitly selects replacement.
+- [x] Cover Git name, email, default branch, time zone, computer name, and the approved desktop settings.
 - [ ] Preserve existing values when a replacement is absent.
 - [ ] Keep private values out of commits, Docker build contexts, and shared reports.
 - [ ] Preserve user profiles, Git includes, terminal profiles, and unrelated keyboard settings.
@@ -153,29 +155,62 @@ Completion condition: migration does not silently discard a machine value or use
 
 - [ ] Build fresh Ubuntu and Fedora images from the current source.
 - [ ] Run the full bootstrap and `mise run verify` in both images.
-- [ ] Run the full bootstrap again in each installed container.
-- [ ] Check verification from a directory outside the repository.
-- [ ] Check link removal and reapplication.
-- [ ] Check restoration of seeded personal files and settings.
+- [x] Run the full bootstrap again in each installed container.
+- [x] Check verification from a directory outside the repository.
+- [x] Check link removal and reapplication.
+- [x] Check restoration of seeded personal files and settings.
 - [ ] Check Fish, Vim, Neovim, tmux, fzf, and the terminal palette files.
 - [ ] Check PowerShell 5.1 bootstrap compatibility and PowerShell 7 runtime behavior.
 - [ ] Check Windows elevation, paths with spaces, and redirected Documents paths.
-- [ ] Confirm the Windows test scope before the full installation.
-- [ ] Run the approved full Windows installation on the target machine.
-- [ ] Prepare a temporary macOS GitHub Actions workflow during the approved automation stage.
-- [ ] Run bootstrap, verification, a second bootstrap, and link restoration checks in the macOS job.
-- [ ] Save the job logs and source commit.
-- [ ] Remove the temporary workflow after the final successful run.
+- [x] Prepare temporary GitHub Actions jobs for all four supported platforms during the approved automation stage.
+- [x] Use the standard runner labels in the CI matrix below.
+- [x] Use PowerShell for the Windows job.
+- [ ] Run bootstrap, verification, a second bootstrap, and link restoration checks in every job.
+- [ ] Check package upgrades during bootstrap in each platform job.
+- [ ] Seed temporary user configuration and verify restoration.
+- [ ] Run verification from outside the checkout.
+- [ ] Record missing desktop services as failures or explicit coverage limits.
+- [ ] Keep the production checks active in CI.
+- [ ] Save small job logs with the source commit, runner label, architecture, and OS version.
+- [ ] Use a branch-restricted push trigger and manual dispatch with read-only repository permissions.
+- [ ] Keep the push trigger restricted to `feat/mise-ubuntu-dotfiles`.
+- [ ] Set job timeouts within the GitHub-hosted six-hour limit.
+- [ ] Keep private machine settings and credentials out of logs and artifacts.
+- [ ] Remove the temporary workflow after the final successful run with the promoted root paths.
 - [ ] Keep bootstrap, package installation, link changes, and preference changes off the macOS work machine.
-- [ ] Check Konsole rendering and keyboard behavior in Fedora KDE.
-- [ ] Check Ubuntu desktop keyboard behavior.
-- [ ] Check physical Caps Lock behavior on Windows.
-- [ ] Record macOS visual appearance and physical keyboard behavior as unverified.
+- [ ] Record terminal rendering and physical keyboard behavior as unverified by CI on every platform.
+- [ ] Record optional desktop checks separately when the user runs them.
 - [ ] Record the source commit, platform version, commands, outcomes, and remaining limitations.
 
 Completion condition: each supported platform has the evidence selected in D10.
-The macOS CI job replaces the required check on the macOS work machine under D10.
+The temporary CI jobs replace the required installation runs on personal machines under D10.
 CI does not verify terminal appearance or physical keyboard behavior.
+The user accepts these coverage limits for the automated migration gate.
+Live installations still require the link audit in Step 5 before deletion.
+
+### Temporary CI matrix
+
+| Target | Standard runner | Execution |
+| --- | --- | --- |
+| Ubuntu 26.04 x64 | `ubuntu-26.04` | Native bootstrap and the Ubuntu Docker workflow |
+| Fedora 44 x64 | `ubuntu-26.04` | Existing Fedora Dockerfile with a non-root test user |
+| Windows x64 | `windows-2025` | PowerShell bootstrap on Windows Server |
+| macOS ARM64 | `macos-26` | Bash bootstrap |
+| macOS Intel | `macos-26-intel` | Bash bootstrap |
+
+Ubuntu 24.04 stays outside the target matrix because bootstrap requires Ubuntu 26.04.
+Windows Server CI does not prove Windows desktop application behavior on a personal machine.
+The Fedora container uses the host kernel and does not provide a full KDE session.
+The workflow checks runner session services before the desktop adapter runs.
+The workflow does not convert an unsupported desktop check into a passing installation check.
+
+Standard GitHub-hosted runners are free for public repositories.
+This plan excludes larger runners.
+Artifact storage has separate limits.
+Recheck runner labels and repository visibility before enabling the workflow.
+Manual dispatch requires the workflow on the default branch.
+The temporary feature-branch push trigger permits verification before merge.
+See [the runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners), [Actions limits](https://docs.github.com/en/actions/reference/limits), and [runner images](https://github.com/actions/runner-images).
 
 ## Step 5: Migrate the machines that use legacy links
 
@@ -268,9 +303,8 @@ The final commands use `./bootstrap.sh` or `.\bootstrap.ps1`.
 
 - [ ] Build and run fresh Ubuntu and Fedora containers from the promoted root.
 - [ ] Repeat bootstrap, verification, and reversible link checks.
-- [ ] Run the temporary macOS CI job with the promoted paths.
-- [ ] Run the approved Windows smoke checks with the promoted paths.
-- [ ] Run the Ubuntu and Fedora desktop smoke checks.
+- [ ] Run all temporary platform CI jobs with the promoted paths.
+- [ ] Record desktop smoke checks separately when available.
 - [ ] Check that no active link still points to `<checkout>/mise/` or the deleted legacy configuration tree.
 - [ ] Check that no runtime code depends on `bin/`, `install/`, `lib/`, or the old root `.config/` tree.
 - [ ] Check optional tools, utility tasks, skill deployment, and machine setting preservation.
@@ -295,3 +329,36 @@ Then reapply links from that layout.
 Restore native preference values through their recorded adapters.
 Keep installed packages unless their removal has separate approval.
 Keep private configuration outside the versioned cleanup.
+
+## Implementation checkpoint
+
+The first implementation batch adds explicit utility tasks and the local settings importer.
+Bootstrap upgrades native packages on all four platforms.
+Bootstrap preserves existing Git identity before managed link replacement.
+Linux leaves the current time zone unchanged when `TIMEZONE` is absent.
+Ubuntu has a GNOME Caps Lock adapter with restoration.
+Fedora has a local Konsole font override with restoration.
+Linux configuration conflicts receive backups before link replacement.
+OpenSpec installation and verification are removed from mise.
+Windows bootstrap no longer installs repository skills automatically.
+
+The temporary workflow uses `.github/workflows/mise-migration.yml` with user approval.
+It runs only on the current feature branch or through manual dispatch.
+The workflow has no recorded remote run until the user commits and pushes it.
+The skills export, machine link migration, deletion manifest, and root promotion remain pending.
+
+Local verification passes for the current implementation batch.
+Ubuntu and Fedora each pass a full container bootstrap and a repeat run.
+Both platforms pass verification from outside the checkout.
+Both platforms restore seeded personal Vim and Neovim configuration after removal.
+The Ubuntu adapter passes native GNOME apply, repeat, verify, and restoration checks in a temporary D-Bus session.
+The Fedora font override passes native KDE apply, repeat, verify, and restoration checks.
+The importer preserves existing values and rejects shell expansion.
+Imported local settings load through mise.
+The reset preserves a symlink source.
+The Git utility preserves unrelated repository settings.
+PowerShell 5.1 syntax checks and mocked WinGet upgrade return-code checks pass.
+ShellCheck, Python syntax, TOML syntax, and workflow validation pass.
+Workflow validation explicitly recognizes the documented `ubuntu-26.04` runner label because the current Actionlint label list lacks it.
+Windows and macOS full bootstrap verification waits for the temporary remote jobs.
+The next checkpoint requires a user commit and push to start these jobs.

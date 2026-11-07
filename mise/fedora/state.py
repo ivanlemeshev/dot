@@ -3,6 +3,7 @@
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -46,8 +47,14 @@ def set_preference(state, file, group, key, value):
     previous = read(file, group, key)
     if previous == value:
         return
-    if not any((record['file'], record['group'], record['key']) == (file, group, key) for record in state['preferences']):
+    record = next((record for record in state['preferences'] if (record['file'], record['group'], record['key']) == (file, group, key)), None)
+    if record is None:
         state['preferences'].append({'file': file, 'group': group, 'key': key, 'previous': previous, 'applied': value})
+        save(state)
+    else:
+        if previous not in (record['previous'], record['applied']):
+            raise RuntimeError(f'The KDE preference changes after setup: {file}/{key}')
+        record['applied'] = value
         save(state)
     write(file, group, key, value)
 
@@ -98,6 +105,17 @@ def conflicts(option):
     return option.startswith('caps:') or (option.startswith('ctrl:') and 'caps' in option)
 
 
+def font_override():
+    font = os.environ.get('KDE_TERMINAL_FONT', '')
+    if '\n' in font or '\r' in font or '\x00' in font:
+        raise ValueError('KDE_TERMINAL_FONT must contain one line.')
+    return font
+
+
+def default_profile():
+    return 'dot-local.profile' if font_override() else 'dot.profile'
+
+
 def apply():
     state = load()
     deploy(state)
@@ -106,7 +124,18 @@ def apply():
     set_preference(state, 'kxkbrc', 'Layout', 'Use', 'true')
     set_preference(state, 'kxkbrc', 'Layout', 'ResetOldOptions', 'true')
     set_preference(state, 'plasmakeyboardrc', 'General', 'diacriticsPopupEnabled', 'false')
-    set_preference(state, 'konsolerc', 'Desktop Entry', 'DefaultProfile', 'dot.profile')
+    font = font_override()
+    if font:
+        local_profile = str(PROFILE / 'dot-local.profile')
+        if Path(local_profile).is_symlink():
+            raise RuntimeError('The local Konsole font profile must not be a symlink.')
+        if not Path(local_profile).exists():
+            state['local_profile_created'] = True
+            save(state)
+        set_preference(state, local_profile, 'General', 'Parent', 'dot.profile')
+        set_preference(state, local_profile, 'General', 'Name', 'dot-local')
+        set_preference(state, local_profile, 'Appearance', 'Font', font)
+    set_preference(state, 'konsolerc', 'Desktop Entry', 'DefaultProfile', default_profile())
     reload_keyboard()
     verify()
 
@@ -123,10 +152,15 @@ def verify():
         ('kxkbrc', 'Layout', 'Use', 'true'),
         ('kxkbrc', 'Layout', 'ResetOldOptions', 'true'),
         ('plasmakeyboardrc', 'General', 'diacriticsPopupEnabled', 'false'),
-        ('konsolerc', 'Desktop Entry', 'DefaultProfile', 'dot.profile'),
+        ('konsolerc', 'Desktop Entry', 'DefaultProfile', default_profile()),
     ]:
         if read(file, group, key) != value:
             raise RuntimeError(f'The KDE preference differs: {file}/{group}/{key}')
+    if font_override():
+        file = str(PROFILE / 'dot-local.profile')
+        for group, key, value in [('General', 'Parent', 'dot.profile'), ('General', 'Name', 'dot-local'), ('Appearance', 'Font', font_override())]:
+            if read(file, group, key) != value:
+                raise RuntimeError(f'The local Konsole font profile differs: {key}')
 
 
 def unapply():
@@ -151,6 +185,11 @@ def unapply():
         write(record['file'], record['group'], record['key'], record['previous'])
         state['preferences'].remove(record)
         save(state)
+    local_profile = PROFILE / 'dot-local.profile'
+    if state.get('local_profile_created') and local_profile.exists():
+        remaining = re.sub(r'(?m)^\[[^\]]+\][ \t]*$', '', local_profile.read_text()).strip()
+        if not remaining:
+            local_profile.unlink()
     (STATE / 'state.json').unlink(missing_ok=True)
     reload_keyboard()
 
