@@ -12,20 +12,6 @@ vim.pack.add({
 })
 
 local function golangci_cmd()
-  local project_root = vim.fs.root(0, "go.mod")
-  if project_root then
-    for _, path in ipairs({
-      project_root .. "/temp/bin/golangci-lint",
-      project_root .. "/bin/golangci-lint",
-      project_root .. "/.bin/golangci-lint",
-      project_root .. "/tools/bin/golangci-lint",
-    }) do
-      if vim.fn.filereadable(path) == 1 then
-        return path
-      end
-    end
-  end
-
   return "golangci-lint"
 end
 
