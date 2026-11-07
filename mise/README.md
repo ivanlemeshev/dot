@@ -285,7 +285,7 @@ Windows uses PSMux.
 
 `.github/workflows/mise-migration.yml` verifies the migration on standard GitHub runners.
 A push to `feat/mise-ubuntu-dotfiles` starts the jobs when mise files or the workflow change.
-The jobs cover Ubuntu 26.04, Fedora 44 in Docker, Windows Server 2025, and macOS 26 on ARM64 and Intel.
+The jobs cover Ubuntu 26.04, Fedora 44 in Docker, Windows Server 2025, and macOS 26 on Apple Silicon.
 Each job runs bootstrap, verification, a repeat bootstrap, restoration, and reapplication.
 The Ubuntu native job also checks GNOME keyboard settings in a temporary D-Bus session.
 The workflow uses read-only repository permissions.

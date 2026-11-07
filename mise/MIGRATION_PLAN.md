@@ -196,7 +196,6 @@ Live installations still require the link audit in Step 5 before deletion.
 | Fedora 44 x64 | `ubuntu-26.04` | Existing Fedora Dockerfile with a non-root test user |
 | Windows x64 | `windows-2025` | PowerShell bootstrap on Windows Server |
 | macOS ARM64 | `macos-26` | Bash bootstrap |
-| macOS Intel | `macos-26-intel` | Bash bootstrap |
 
 Ubuntu 24.04 stays outside the target matrix because bootstrap requires Ubuntu 26.04.
 Windows Server CI does not prove Windows desktop application behavior on a personal machine.
