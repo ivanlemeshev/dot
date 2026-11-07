@@ -1,173 +1,36 @@
-[bootstrap.packages]
-"apt:ansible" = "latest"
-"apt:bat" = "latest"
-"apt:bubblewrap" = "latest"
-"apt:build-essential" = "latest"
-"apt:clang" = "latest"
-"apt:clang-format" = "latest"
-"apt:clang-tidy" = "latest"
-"apt:clangd" = "latest"
-"apt:cmake" = "latest"
-"apt:curl" = "latest"
-"apt:direnv" = "latest"
-"apt:fd-find" = "latest"
-"apt:ffmpeg" = "latest"
-"apt:fish" = "latest"
-"apt:fontconfig" = "latest"
-"apt:fzf" = "latest"
-"apt:gcc" = "latest"
-"apt:gdb" = "latest"
-"apt:gh" = "latest"
-"apt:ghostty" = "latest"
-"apt:git" = "latest"
-"apt:htop" = "latest"
-"apt:jq" = "latest"
-"apt:less" = "latest"
-"apt:libbz2-dev" = "latest"
-"apt:libffi-dev" = "latest"
-"apt:libicu-dev" = "latest"
-"apt:libjpeg-dev" = "latest"
-"apt:liblzma-dev" = "latest"
-"apt:libncurses-dev" = "latest"
-"apt:libreadline-dev" = "latest"
-"apt:libsqlite3-dev" = "latest"
-"apt:libssl-dev" = "latest"
-"apt:pandoc" = "latest"
-"apt:pkg-config" = "latest"
-"apt:python3-pip" = "latest"
-"apt:python3-venv" = "latest"
-"apt:ripgrep" = "latest"
-"apt:shellcheck" = "latest"
-"apt:strace" = "latest"
-"apt:tmux" = "latest"
-"apt:tree" = "latest"
-"apt:tzdata" = "latest"
-"apt:unzip" = "latest"
-"apt:vim" = "latest"
-"apt:wget" = "latest"
-"apt:wl-clipboard" = "latest"
-"apt:xclip" = "latest"
-"apt:xxd" = "latest"
-"apt:xz-utils" = "latest"
-"apt:zlib1g-dev" = "latest"
-"apt:zstd" = "latest"
+min_version = "2026.11.1"
 
-[bootstrap.apt.sources]
-github-cli = { uris = "https://cli.github.com/packages", suites = "stable", components = "main", key = "https://cli.github.com/packages/githubcli-archive-keyring.gpg", fingerprint = "7F38BBB59D064DBCB3D84D725612B36462313325" }
+[vars]
+user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=''))}}"
 
 [dotfiles]
 "~/.config/bat" = { source = "bat" }
 "~/.config/ripgrep" = { source = "ripgrep" }
-"~/.config/ghostty" = { source = "ghostty" }
 "~/.config/git/colors" = { source = "git/colors" }
-"~/.config/fish/conf.d/custom_theme.fish" = { source = "fish/conf.d/custom_theme.fish" }
-"~/.config/fish/conf.d/fzf_colors.fish" = { source = "fish/conf.d/fzf_colors.fish" }
-"~/.config/fish/conf.d/ls_colors.fish" = { source = "fish/conf.d/ls_colors.fish" }
-"~/.config/fish/config.fish" = { source = "fish/config.fish" }
-"~/.config/nvim" = { source = "nvim" }
-"~/.vimrc" = { source = "vim/.vimrc" }
 "~/.config/oh-my-posh/theme.omp.json" = { source = "oh-my-posh/theme.omp.json" }
-"~/.tmux.conf" = { source = "tmux/.tmux.conf" }
 "~/.gitconfig" = { source = "git/config" }
-"~/.bash_profile/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
-case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
-eval "$(mise activate bash --shims)"''' }
-"~/.bashrc/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
-case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
-eval "$(mise activate bash)"''' }
 
 [env]
 BAT_THEME = "custom"
-RIPGREP_CONFIG_PATH = "{{env.HOME}}/.config/ripgrep/config"
-_.path = ["{{env.HOME}}/.local/bin", "{{env.HOME}}/.julia/bin"]
+BAT_CONFIG_DIR = "{{vars.user_home}}/.config/bat"
+RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/config"
+_.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin"]
 CLICOLOR = "1"
 GH_ACCESSIBLE_COLORS = "1"
 GH_COLOR_LABELS = false
 LESS = "-FRX"
 NO_COLOR = false
 
-[tasks.configure]
-description = "Configure shell plugins and command line tools"
-depends = ["configure:timezone", "configure:hostname", "configure:fish", "configure:vim", "configure:nvim", "configure:nvim-treesitter", "configure:bat", "configure:commands", "configure:fonts", "configure:oh-my-posh", "configure:tmux", "configure:git", "configure:gh", "configure:tools", "configure:assistants"]
-
-[tasks."configure:bat"]
-description = "Build the bat theme cache"
-run = "batcat cache --build && batcat --list-themes | rg '^custom$'"
-
-[tasks."configure:commands"]
-description = "Set Ubuntu command names"
-run = 'mkdir -p "$HOME/.local/bin" && ln -sfn /usr/bin/fdfind "$HOME/.local/bin/fd" && ln -sfn /usr/bin/batcat "$HOME/.local/bin/bat" && ln -sfn /usr/bin/fzf "$HOME/.local/bin/fzf" && fd --version && bat --version'
-
-[tasks."configure:vim"]
-description = "Prepare Vim"
-run = "mkdir -p $HOME/.vim/undodir && command -v vim"
-
-[tasks."configure:tmux"]
-description = "Install tmux plugins"
-run = "mkdir -p ~/.tmux/plugins && if test -d ~/.tmux/plugins/tpm/.git; then git -C ~/.tmux/plugins/tpm pull --ff-only; else git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; fi && ~/.tmux/plugins/tpm/bin/install_plugins"
-
-[tasks."configure:tools"]
-description = "Install command line tools"
-depends = ["configure:worktrunk", "configure:grpcurl", "configure:runic", "configure:tree-sitter"]
-
-[tasks."configure:grpcurl"]
-description = "Install grpcurl"
-run = "mkdir -p $HOME/.local/bin && GOBIN=$HOME/.local/bin go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest && test -x $HOME/.local/bin/grpcurl"
-
-[tasks."configure:runic"]
-description = "Install the Runic formatter"
-run = "julia -e 'using Pkg; Pkg.Apps.add(\"Runic\")' && test -x $HOME/.julia/bin/runic"
-
-# NOTE: Neovim parsers require a newer CLI than the Ubuntu package.
-[tasks."configure:tree-sitter"]
-description = "Install the Tree-sitter CLI"
-run = 'cargo install tree-sitter-cli --version 0.26.12 --locked --root "$HOME/.local" && "$HOME/.local/bin/tree-sitter" --version'
-
-[tasks."configure:assistants"]
-description = "Install command line assistants"
-depends = ["configure:codex", "configure:claude"]
-
-[tasks."configure:codex"]
-description = "Install Codex CLI"
-run = "npm install --global @openai/codex && command -v codex"
-
-[tasks."configure:claude"]
-description = "Install Claude Code"
-run = "curl -fsSL https://claude.ai/install.sh | bash && command -v claude"
-
-[tasks."configure:oh-my-posh"]
-description = "Install Oh My Posh"
-run = "curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d $HOME/.local/bin && oh-my-posh --version"
-
-[tasks.verify]
-description = "Verify mise tools and linked configuration"
-depends = ["verify:packages", "verify:tools", "verify:files", "verify:colors", "verify:nvim"]
-
-[tasks."verify:packages"]
-description = "Show installed Ubuntu packages"
-run = "mise bootstrap packages status --missing"
-
-[tasks."verify:files"]
-description = "Check managed file links"
-run = "mise dot status --missing"
-
-[tasks."configure:cleanup"]
-description = "Remove unused apt packages and cached packages"
-run = "sudo apt-get autoremove -y && sudo apt-get autoclean -y"
+[task_config]
+includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% else %}linux/tasks{% endif %}"]
 
 [tools]
 go = "1.27.2"
 golangci-lint = "2.14.0"
 julia = "1.13.1"
-lua = "5.5.0"
 node = "24.21.0"
 pnpm = "12.11.2"
-powershell = "latest"
 python = "3.15.0"
 rust = { version = "1.99.0", profile = "default" }
 uv = "0.13.0"
 zig = "0.17.0"
-yt-dlp = { version = "latest", asset_pattern = "yt-dlp", bin = "yt-dlp" }
-
-[tool_alias]
-yt-dlp = "github:yt-dlp/yt-dlp"

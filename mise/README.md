@@ -1,76 +1,132 @@
-# Ubuntu setup with mise
+# Setup with mise
 
-This folder holds a separate Ubuntu setup. It does not change the existing setup.
+This folder contains the Ubuntu 26.04 and Windows x64 setup.
+Clone the repository before setup.
 
-Clone this repository on Ubuntu 26.04.
+`config.toml` declares shared tools, colors, and links.
+`linux/tasks` and `windows/tasks` contain the platform tasks.
+`miserc.toml` selects `config.linux.toml` on Ubuntu and `config.windows.toml` on Windows.
+It excludes the old repository configuration from discovery.
+The setup links `~/.config/mise` to this folder.
+It stops if that path contains another configuration.
+Move that configuration before setup.
 
 ## Machine settings
 
-Copy the example file if you want local machine and Git values:
+Copy `config.local.toml.example` to `config.local.toml` in this folder.
+Edit the values before setup.
+Git ignores the local file.
+Docker excludes it from the build context.
 
-```sh
-cp mise/config.local.toml.example mise/config.local.toml
-```
+`TIMEZONE` sets the Ubuntu time zone.
+`WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
+`MACHINE_NAME` sets the computer name.
+Windows applies the new name after a restart.
+Omit these values to keep the current Windows settings.
+Ubuntu uses UTC when `TIMEZONE` is absent.
 
-Edit `mise/config.local.toml` before setup. Mise loads it as a global configuration override.
+`GIT_USER_NAME`, `GIT_USER_EMAIL`, and `GIT_DEFAULT_BRANCH` set local Git values.
+The setup stores them in `~/.config/git/config.local`.
+The managed Git configuration includes that file.
 
-The setup links `~/.config/mise` to `mise`. Mise then loads one global `config.toml` for packages, tools, dotfiles, and tasks.
+## Ubuntu
 
-The setup stops if `~/.config/mise` already exists and points elsewhere. Move that directory before setup to keep its current contents.
-
-Git ignores `config.local.toml`. Docker excludes it from the build context. The example lists the Ubuntu fields from `config.env.example`.
-
-The setup applies `TIMEZONE` and the Git values from this file. It stores Git settings in `~/.config/git/config.local`. The managed `~/.gitconfig` includes that local file.
-
-The default time zone is UTC. The default Git branch is `main`. The setup leaves Git identity unset when you omit it. `MACHINE_NAME` sets the Ubuntu hostname.
-
-Run one command from the repository root:
+Run this command from the repository root:
 
 ```sh
 ./mise/bootstrap.sh
 ```
 
-The script installs Git, curl, mise, Ubuntu packages, and mise tools. It links the application configuration. It installs Fish plugins, Nerd Fonts, the Tree-sitter CLI, Neovim tools, and Neovim parsers. It checks the setup. It then starts Fish with mise active.
+The script installs Git, curl, mise, Ubuntu packages, and mise tools.
+It links the application configuration.
+It configures Fish, Vim, Neovim, tmux, fonts, colors, and command line tools.
+It installs Mason tools and Tree-sitter parsers.
+It verifies the setup and starts Fish.
+Use `--no-shell` to stop after verification.
 
-The setup installs Fish, fzf, Vim, and Ghostty from Ubuntu packages. GitHub CLI uses its official apt repository. It installs Neovim from the latest stable GitHub release.
+The setup installs Fish, fzf, Vim, and Ghostty from Ubuntu packages.
+GitHub CLI uses its official apt repository.
+Neovim uses the latest stable GitHub release.
+PowerShell runs through mise for the PowerShell language server.
 
-The script runs from Bash and ends in Fish. This matches the current Ubuntu bootstrap flow.
-
-Use the dry run to review package and link changes first. This mode requires mise. It does not install packages or change links:
+This preview requires mise:
 
 ```sh
 ./mise/bootstrap.sh --dry-run
 ```
 
-To test in Docker, build and run the same one-command setup:
+Run the Ubuntu setup in a container:
 
 ```sh
 docker build --file mise/Dockerfile --tag dot-mise-current .
 docker run --rm dot-mise-current ./bootstrap.sh --no-shell
 ```
 
-Docker excludes `config.local.toml`. Pass environment variables to `docker run` if you want to test local values in the container. Set a container hostname with Docker's `--hostname` option.
+Pass machine values with Docker environment variables.
+Set the container hostname with `--hostname`.
 
-Use `--no-shell` to stop after verification.
+## Windows
 
-Run `mise run verify` and `mise dot status --missing` from any directory to review the result. Run `mise dot unapply` to remove managed dotfile links.
+Run this command from the repository root in 64-bit PowerShell:
 
-To remove the global config link, run this command from the repository root after `mise dot unapply`:
-
-```sh
-test "$(readlink -f "$HOME/.config/mise")" = "$(readlink -f mise)" && rm "$HOME/.config/mise"
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\mise\bootstrap.ps1
 ```
 
-Edit `config.local.toml` to set a Git user name and email. The setup keeps these values outside the shared configuration.
+The script requests administrator access for symlinks, system packages, and the Caps Lock map.
+It installs WinGet when absent.
+It installs Git, PowerShell 7, and mise before the main setup.
+Use `-NoShell` to stop after verification.
+The default opens PowerShell 7 with mise active.
 
-Application directories sit beside `config.toml`. Mise links them to the paths that each application reads. Fish links `config.fish` and each managed file in `conf.d/`. Fish keeps plugin files in the home configuration directory.
+WinGet installs native applications and command line packages.
+Mise installs the shared language tools.
+MSYS2 supplies native Lua, LuaRocks, GCC, and GDB.
+Visual Studio Build Tools supplies the Microsoft C++ compiler.
+The setup checks the required Neovim and Tree-sitter versions.
+It upgrades these packages when the installed versions are too old.
 
-The `tasks/` directory holds executable Mise tasks. Long setup actions use Bash file tasks. Mise reads each task description from its `#MISE` header. Short commands and task dependencies stay in `config.toml`.
+The setup deploys PowerShell profiles, Neovim, Vim, PSMux, VS Code, bat, ripgrep, Git colors, and the Oh My Posh theme.
+It installs the VS Code theme, icon theme, spelling tools, and PowerShell extension.
+It links the repository Codex skills when their source folder exists.
+It installs Runic, grpcurl, Codex CLI, Claude Code, and OpenSpec.
+It installs the JetBrains Mono Nerd Font and maps Caps Lock to Ctrl.
+Restart Windows to apply the keyboard map.
 
-The terminal controls the ANSI palette. Mise enables automatic CLI colors and keeps `NO_COLOR` unset in activated shells. It links the custom bat theme and builds the bat cache. Fish sets the fzf color roles. Git uses automatic color output. GitHub CLI uses accessible 4-bit colors. Vim and Neovim use the custom ANSI color roles. Neovim's status line uses ANSI color indexes 0–15. Tmux and Oh My Posh use terminal colors. The setup links Ghostty to the custom terminal palette. It keeps psmux outside the Ubuntu task and link lists. PowerShell runs on Ubuntu through mise for the PowerShell language server.
+The Terminal adapter adds the custom palette and theme to Windows Terminal settings.
+It preserves personal profiles and stores a restore record outside the repository.
+Existing conflicting dotfiles receive backups before link replacement.
+Backup paths appear in the output.
+State files use `~/.local/state/dotfiles-windows`.
 
-Bootstrap stops before package changes if the global mise configuration points elsewhere. It preserves that configuration. Move it before setup to select this configuration. Bootstrap does not upgrade all system packages or remove unused packages.
+This preview requires mise:
 
-Neovim setup waits for Mason tools and Tree-sitter parsers. Verification fails if a required tool, parser, or managed link is missing.
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\mise\bootstrap.ps1 -DryRun
+```
 
-Bash activation keeps PATH setup and mise activation in one managed block. Link removal and restoration keep this order.
+The preview lists packages and links.
+It does not install packages, replace files, change the registry, or update Terminal settings.
+
+## Verification and removal
+
+Run `mise run verify` from any directory after setup.
+Run `mise dot status --missing` to check managed links.
+Neovim verification checks every required tool and parser.
+
+On Ubuntu, run `mise dot unapply` to remove managed links and activation blocks.
+On Windows, run `mise run unapply` from an elevated PowerShell.
+The Windows task removes managed links and restores their backups.
+It also restores the keyboard map and Terminal settings when they still match the applied state.
+The task stops if a later change conflicts with restoration.
+Installed packages and fonts remain on the machine.
+
+Remove the global configuration link after link removal if you want to stop this setup.
+Keep the repository and state files until restoration completes.
+
+The terminal supplies the ANSI palette.
+Terminal applications use color indexes 0–15.
+Windows Terminal, VS Code, and Ghostty use the shared custom palette.
+Mise keeps `NO_COLOR` unset and enables accessible GitHub CLI colors.
+Ubuntu uses tmux.
+Windows uses PSMux.

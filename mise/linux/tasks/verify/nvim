@@ -4,4 +4,4 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-MISE_NVIM_VERIFY=1 nvim --headless -u NONE -l "$SCRIPT_DIR/../../nvim/bootstrap.lua"
+MISE_NVIM_VERIFY=1 nvim --headless -u NONE -l "$SCRIPT_DIR/../../../nvim/bootstrap.lua"

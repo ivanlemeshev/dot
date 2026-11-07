@@ -1,5 +1,6 @@
 [env]
 TIMEZONE = "America/New_York"
+WINDOWS_TIMEZONE = "Eastern Standard Time"
 MACHINE_NAME = "my-machine"
 GIT_USER_NAME = "Your Name"
 GIT_USER_EMAIL = "your.email@example.com"
