@@ -81,10 +81,10 @@ Record the selected result in this table before its dependent step starts.
 | D07 | How does Ubuntu map Caps Lock to Ctrl? | Map Caps Lock to Ctrl in Ubuntu desktop sessions. WSL and containers use the host keyboard mapping. | Selected by user |
 | D08 | How do existing machine values enter the new setup? | Provide an explicit one-time import command from `config.env` to ignored `mise/config.local.toml`. Preserve existing Git identity when no replacement value exists. | Selected by user |
 | D09 | Does the configurable KDE terminal font remain supported? | Keep an optional machine-specific Konsole font override. Use JetBrainsMonoNL Nerd Font Mono, size 11, as the default. Keep the shared profile unchanged. | Selected by user |
-| D10 | Who runs the native machine checks? | Record a Windows, macOS, Ubuntu desktop, and Fedora KDE run before deleting the fallback implementation. | Pending |
+| D10 | Who runs the platform checks? | Use a temporary macOS GitHub Actions job as the macOS verification gate. Keep the macOS work machine unchanged. The user runs Linux desktop checks and confirms the Windows test scope. | Selected by user |
 | D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup, then promote mise contents to root in the final layout change. | Confirmed by user |
-| D12 | What replaces the legacy full-system upgrade step? | Keep system upgrades as an explicit maintenance action outside bootstrap. | Pending |
-| D13 | What happens to the Claude `ub-mode` skill during export? | Choose removal or a compliant namespace and update both skill packages when needed. | Pending |
+| D12 | What replaces the legacy full-system upgrade step? | Upgrade all system packages during bootstrap through each platform package manager. | Selected by user |
+| D13 | What happens to the Claude `ub-mode` skill during export? | Keep the upstream name. Install on demand from `unclebob/ub-mode` at a pinned commit. The separate skills repository keeps its installation command. | Selected by user |
 
 ## Step 1: Record the exact inventory
 
@@ -112,11 +112,17 @@ Completion condition: every legacy item has a recorded disposition.
 - [ ] Publish and verify the selected release before removing the dotfiles skill sources.
 - [ ] Implement explicit on-demand Codex and Claude installation commands.
 - [ ] Keep skill installation outside the default bootstrap.
+- [ ] Add an on-demand `ub-mode` installation command to the separate skills repository under D13.
+- [ ] Pin the upstream source to a specific commit.
+- [ ] Keep the upstream skill name and source separate from personal `lem` skills.
+- [ ] Preserve the current `ub-mode` copy until replacement installation and live link migration pass.
 - [ ] Preserve installed system skills and unrelated user skills.
 - [ ] Verify both personal skill packages when their contents change.
 - [ ] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
 - [ ] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
-- [ ] Add the maintenance behavior selected in D12.
+- [ ] Upgrade all system packages during bootstrap under D12.
+- [ ] Use the native package manager on each platform.
+- [ ] Keep operating system version upgrades outside this package upgrade step.
 - [ ] Map Caps Lock to Ctrl in Ubuntu desktop sessions under D07.
 - [ ] Leave keyboard mapping to the host in WSL and containers.
 - [ ] Keep Fedora, macOS, and Windows keyboard adapters consistent with their native platforms.
@@ -154,15 +160,22 @@ Completion condition: migration does not silently discard a machine value or use
 - [ ] Check Fish, Vim, Neovim, tmux, fzf, and the terminal palette files.
 - [ ] Check PowerShell 5.1 bootstrap compatibility and PowerShell 7 runtime behavior.
 - [ ] Check Windows elevation, paths with spaces, and redirected Documents paths.
+- [ ] Confirm the Windows test scope before the full installation.
 - [ ] Run the approved full Windows installation on the target machine.
-- [ ] Run the full macOS installation on a real Mac.
+- [ ] Prepare a temporary macOS GitHub Actions workflow during the approved automation stage.
+- [ ] Run bootstrap, verification, a second bootstrap, and link restoration checks in the macOS job.
+- [ ] Save the job logs and source commit.
+- [ ] Remove the temporary workflow after the final successful run.
+- [ ] Keep bootstrap, package installation, link changes, and preference changes off the macOS work machine.
 - [ ] Check Konsole rendering and keyboard behavior in Fedora KDE.
 - [ ] Check Ubuntu desktop keyboard behavior.
-- [ ] Check the physical Caps Lock behavior on macOS and Windows.
+- [ ] Check physical Caps Lock behavior on Windows.
+- [ ] Record macOS visual appearance and physical keyboard behavior as unverified.
 - [ ] Record the source commit, platform version, commands, outcomes, and remaining limitations.
 
-Completion condition: each supported platform has the required container or native evidence.
-A fixture result does not replace a native machine result.
+Completion condition: each supported platform has the evidence selected in D10.
+The macOS CI job replaces the required check on the macOS work machine under D10.
+CI does not verify terminal appearance or physical keyboard behavior.
 
 ## Step 5: Migrate the machines that use legacy links
 
@@ -255,7 +268,8 @@ The final commands use `./bootstrap.sh` or `.\bootstrap.ps1`.
 
 - [ ] Build and run fresh Ubuntu and Fedora containers from the promoted root.
 - [ ] Repeat bootstrap, verification, and reversible link checks.
-- [ ] Run the native macOS and Windows smoke checks with the promoted paths.
+- [ ] Run the temporary macOS CI job with the promoted paths.
+- [ ] Run the approved Windows smoke checks with the promoted paths.
 - [ ] Run the Ubuntu and Fedora desktop smoke checks.
 - [ ] Check that no active link still points to `<checkout>/mise/` or the deleted legacy configuration tree.
 - [ ] Check that no runtime code depends on `bin/`, `install/`, `lib/`, or the old root `.config/` tree.

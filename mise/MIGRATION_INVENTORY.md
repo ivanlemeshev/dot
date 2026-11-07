@@ -23,19 +23,25 @@ The cleanup manifest uses the selected decisions and the later live link audit.
 - D08 uses an explicit one-time import command for existing machine settings.
 - D09 retains an optional machine-specific Konsole font override.
 - The import preserves the legacy `KDE_TERMINAL_FONT` value.
+- D10 uses a temporary macOS GitHub Actions job as the macOS verification gate.
+- The macOS work machine stays unchanged.
+- D12 upgrades all system packages during bootstrap.
+- D13 retains `ub-mode` as an upstream skill with on-demand installation from a pinned commit.
 - The final layout promotes mise contents to root after legacy cleanup.
 
 ## Additional findings
 
 The legacy Ubuntu and Fedora bootstrap paths run a full system upgrade.
 The new bootstrap installs required packages without a full system upgrade.
-D12 must select the retained maintenance behavior.
+D12 selects full package upgrades during bootstrap.
+The upgrade adapter remains an implementation gap.
 
 The tracked `codex/` directory also contains a plugin marketplace and language learning plugins.
 The skills export includes this distribution tree in its scope review.
 
-The Claude `ub-mode` skill is outside the required `lem` namespace.
-The skills export needs a separate keep, rename, or remove decision.
+The Claude `ub-mode` copy comes from a third-party skill.
+D13 keeps its upstream name outside the personal `lem` namespace.
+The separate skills repository keeps the installation command.
 The Claude package contains tracked symlinks to Codex reference files.
 The export must preserve their contents without leaving links into this repository.
 
@@ -55,7 +61,7 @@ The Ubuntu desktop Caps Lock adapter remains an implementation gap under D07.
 | `.claude/skills/lem/skills/simplify/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
 | `.claude/skills/lem/skills/simplify/references` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
 | `.claude/skills/lem/skills/software-design-review/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/ub-mode/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
+| `.claude/skills/ub-mode/SKILL.md` | Third-party skill | Pinned upstream installation under D13 | Preserve until replacement installation and live link migration pass |
 | `.codex/skills/lem-pdf-summary/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
 | `.codex/skills/lem-pdf-summary/agents/openai.yaml` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
 | `.codex/skills/lem-pdf-summary/scripts/book_coverage.py` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
@@ -194,7 +200,7 @@ The Ubuntu desktop Caps Lock adapter remains an implementation gap under D07.
 | `install/fedora/racket.sh` | Active bootstrap step | None | Excluded by prior request; deletion waits for cleanup approval |
 | `install/fedora/tmux.sh` | Active bootstrap step | mise/tmux and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/tree-sitter.sh` | Active bootstrap step | mise/linux/tasks/configure/tree-sitter and the macOS native package | Replacement exists; final removal still needs cleanup approval |
-| `install/fedora/update.sh` | Active bootstrap step | Pending D12 | Full-system upgrades differ from the new bootstrap behavior |
+| `install/fedora/update.sh` | Active bootstrap step | Platform bootstrap upgrade adapters under D12 | Selected full package upgrades remain pending |
 | `install/fedora/vim.sh` | Active bootstrap step | mise/vim and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/worktrunk.sh` | Active bootstrap step | mise/linux/tasks/configure/worktrunk and the macOS native package | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/yt-dlp.sh` | Active bootstrap step | Mise Linux tool declaration and the macOS native package | Replacement exists; final removal still needs cleanup approval |
@@ -208,7 +214,7 @@ The Ubuntu desktop Caps Lock adapter remains an implementation gap under D07.
 | `install/macos/ghostty.sh` | Active bootstrap step | mise/ghostty and the platform package declarations | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/git.sh` | Active bootstrap step | mise/git/config and mise/linux/tasks/configure/git | Shared Git configuration exists; the selected D08 import command remains pending |
 | `install/macos/homebrew.sh` | Active bootstrap step | mise/bootstrap.sh | Covered by macOS bootstrap |
-| `install/macos/iterm2.sh` | Active bootstrap step | mise/macos/iterm2 and mise/macos/state.py | Covered; native macOS smoke check remains pending |
+| `install/macos/iterm2.sh` | Active bootstrap step | mise/macos/iterm2 and mise/macos/state.py | Covered; temporary macOS CI verification remains pending |
 | `install/macos/mise.sh` | Active bootstrap step | mise/bootstrap.sh and mise/config.toml | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/nerd-fonts.sh` | Active bootstrap step | mise/linux/tasks/configure/fonts and macOS font casks | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/nvim.sh` | Active bootstrap step | mise/nvim and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
@@ -217,7 +223,7 @@ The Ubuntu desktop Caps Lock adapter remains an implementation gap under D07.
 | `install/macos/racket.sh` | Active bootstrap step | None | Excluded by prior request; deletion waits for cleanup approval |
 | `install/macos/tmux.sh` | Active bootstrap step | mise/tmux and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/tree-sitter.sh` | Active bootstrap step | mise/linux/tasks/configure/tree-sitter and the macOS native package | Replacement exists; final removal still needs cleanup approval |
-| `install/macos/update.sh` | Standalone installer | Pending D12 | Full-system upgrades differ from the new bootstrap behavior |
+| `install/macos/update.sh` | Standalone installer | Platform bootstrap upgrade adapters under D12 | Selected full package upgrades remain pending |
 | `install/macos/vim.sh` | Active bootstrap step | mise/vim and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/vm.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/macos/worktrunk.sh` | Active bootstrap step | mise/linux/tasks/configure/worktrunk and the macOS native package | Replacement exists; final removal still needs cleanup approval |
@@ -242,7 +248,7 @@ The Ubuntu desktop Caps Lock adapter remains an implementation gap under D07.
 | `install/ubuntu/specity.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/ubuntu/tmux.sh` | Active bootstrap step | mise/tmux and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/ubuntu/tree-sitter.sh` | Active bootstrap step | mise/linux/tasks/configure/tree-sitter and the macOS native package | Replacement exists; final removal still needs cleanup approval |
-| `install/ubuntu/update.sh` | Active bootstrap step | Pending D12 | Full-system upgrades differ from the new bootstrap behavior |
+| `install/ubuntu/update.sh` | Active bootstrap step | Platform bootstrap upgrade adapters under D12 | Selected full package upgrades remain pending |
 | `install/ubuntu/vim.sh` | Active bootstrap step | mise/vim and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/ubuntu/vm.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/ubuntu/worktrunk.sh` | Active bootstrap step | mise/linux/tasks/configure/worktrunk and the macOS native package | Replacement exists; final removal still needs cleanup approval |
