@@ -243,14 +243,9 @@ Reload the terminal configuration or open a new terminal window.
 Run the repository checks where their dependencies are available:
 
 ```bash
-make test
-make editor-test
 make lint
-make container-install-test
 ```
 
-The container checks cover Ubuntu 26.04 and Fedora KDE.
-The editor checks require network access for the test plugins.
 Run native application checks on Ubuntu, Fedora KDE, macOS, and Windows.
 
 ## 7. Remove optional leftovers

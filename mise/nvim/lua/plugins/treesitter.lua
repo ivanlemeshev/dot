@@ -1,0 +1,87 @@
+local helpers = require("config.helpers")
+
+vim.pack.add({
+  {
+    src = "https://github.com/nvim-treesitter/nvim-treesitter",
+    name = "nvim-treesitter",
+    version = "main",
+  },
+}, {
+  load = true, -- Load immediately
+  confirm = false, -- Install without confirmation
+})
+
+require("nvim-treesitter").setup({
+  install_dir = vim.fn.stdpath("data") .. "/site",
+})
+
+local ensure_installed = {
+  "bash",
+  "c",
+  "c_sharp",
+  "cmake",
+  "cpp",
+  "css",
+  "csv",
+  "diff",
+  "dockerfile",
+  "fish",
+  "gitignore",
+  "go",
+  "gomod",
+  "gosum",
+  "gotmpl",
+  "gowork",
+  "graphql",
+  "helm",
+  "html",
+  "http",
+  "javascript",
+  "julia",
+  "json",
+  "lua",
+  "make",
+  "markdown",
+  "markdown_inline",
+  "php",
+  "powershell",
+  "python",
+  "regex",
+  "rust",
+  "sql",
+  "terraform",
+  "toml",
+  "typescript",
+  "tsx",
+  "vim",
+  "vimdoc",
+  "yaml",
+  "zig",
+}
+
+local already_installed = require("nvim-treesitter.config").get_installed("parsers")
+local parsers_to_install = vim
+  .iter(ensure_installed)
+  :filter(function(parser)
+    return not vim.tbl_contains(already_installed, parser)
+  end)
+  :totable()
+
+if #parsers_to_install > 0 and vim.env.MISE_NVIM_VERIFY ~= "1" then
+  local task = require("nvim-treesitter").install(parsers_to_install)
+  if vim.env.MISE_NVIM_INSTALL == "1" and not task:wait(600000) then
+    error("Tree-sitter parser installation fails or exceeds the time limit")
+  end
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = helpers.augroup("treesitter"),
+  callback = function(args)
+    -- Enable treesitter highlighting and disable regex syntax per buffer.
+    pcall(vim.treesitter.start, args.buf)
+    -- Enable treesitter-based indentation for this buffer.
+    vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
+return ensure_installed

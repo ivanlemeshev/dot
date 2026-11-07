@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#MISE description="Set the system time zone"
+
+set -euo pipefail
+
+timezone="${TIMEZONE:-}"
+if [[ -z "$timezone" ]]; then exit 0; fi
+zoneinfo_file="/usr/share/zoneinfo/$timezone"
+
+if [[ ! -f "$zoneinfo_file" ]]; then
+  printf 'Unknown time zone: %s\n' "$timezone" >&2
+  exit 1
+fi
+
+. /etc/os-release
+if [[ "$ID" == fedora && ! -e /.dockerenv && ! -e /run/.containerenv ]]; then
+  sudo timedatectl set-timezone "$timezone"
+else
+  sudo ln -snf "$zoneinfo_file" /etc/localtime
+  if [[ "$ID" != fedora ]]; then printf '%s\n' "$timezone" | sudo tee /etc/timezone >/dev/null; fi
+fi

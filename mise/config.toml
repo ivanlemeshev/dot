@@ -1,0 +1,36 @@
+min_version = "2026.11.1"
+
+[vars]
+user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=''))}}"
+
+[dotfiles]
+"~/.config/bat" = { source = "bat" }
+"~/.config/ripgrep" = { source = "ripgrep" }
+"~/.config/git/colors" = { source = "git/colors" }
+"~/.config/oh-my-posh/theme.omp.json" = { source = "oh-my-posh/theme.omp.json" }
+"~/.gitconfig" = { source = "git/config" }
+
+[env]
+BAT_THEME = "custom"
+BAT_CONFIG_DIR = "{{vars.user_home}}/.config/bat"
+RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/config"
+_.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin"]
+CLICOLOR = "1"
+GH_ACCESSIBLE_COLORS = "1"
+GH_COLOR_LABELS = false
+LESS = "-FRX"
+NO_COLOR = false
+
+[task_config]
+includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% elif os() == 'macos' %}macos/tasks{% else %}linux/tasks{% endif %}"]
+
+[tools]
+go = "1.27.2"
+golangci-lint = "2.14.0"
+julia = "1.13.1"
+node = "24.21.0"
+pnpm = "12.11.2"
+python = "3.15.0"
+rust = { version = "1.99.0", profile = "default" }
+uv = "0.13.0"
+zig = "0.17.0"

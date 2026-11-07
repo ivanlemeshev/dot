@@ -61,7 +61,6 @@ local lsp_config = {
           library = {
             vim.env.VIMRUNTIME,
             "${3rd}/busted/library",
-            "tests/vendor/plenary.nvim/lua",
           },
         },
         telemetry = { enable = false },

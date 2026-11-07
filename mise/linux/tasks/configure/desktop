@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="Configure the Linux desktop terminal and keyboard"
+
+set -euo pipefail
+. /etc/os-release
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+if [[ "$ID" == fedora ]]; then
+  python "$SCRIPT_DIR/../../../fedora/state.py" apply
+else
+  python "$SCRIPT_DIR/../../../ubuntu/keyboard.py" apply
+fi

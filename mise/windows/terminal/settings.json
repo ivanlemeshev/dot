@@ -1,0 +1,68 @@
+{
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "keybindings": [
+    {
+      "id": "unbound",
+      "keys": "ctrl+c"
+    },
+    {
+      "id": "unbound",
+      "keys": "ctrl+v"
+    }
+  ],
+  "profiles": {
+    "defaults": {
+      "colorScheme": "custom",
+      "font": {
+        "face": "JetBrainsMonoNL Nerd Font Mono"
+      }
+    }
+  },
+  "schemes": [
+    {
+      "background": "#1D1F21",
+      "black": "#1D1F21",
+      "blue": "#5F819D",
+      "brightBlack": "#5D666E",
+      "brightBlue": "#81A2BE",
+      "brightCyan": "#8ABEB7",
+      "brightGreen": "#B5BD68",
+      "brightPurple": "#B294BB",
+      "brightRed": "#CC6666",
+      "brightWhite": "#E6E8E6",
+      "brightYellow": "#F0C674",
+      "cursorColor": "#E6E8E6",
+      "cyan": "#5E8D87",
+      "foreground": "#E6E8E6",
+      "green": "#8C9440",
+      "name": "custom",
+      "purple": "#85678F",
+      "red": "#A54242",
+      "selectionBackground": "#81A2BE",
+      "white": "#A7ADB1",
+      "yellow": "#DE935F"
+    }
+  ],
+  "themes": [
+    {
+      "name": "custom",
+      "tab": {
+        "background": "#1D1F21FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#1D1F21FF",
+        "unfocusedBackground": "#A7ADB1FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
+      }
+    }
+  ]
+}

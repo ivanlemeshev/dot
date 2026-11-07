@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#MISE description="Check installed tool adapters"
+
+set -euo pipefail
+
+for tool in go golangci-lint julia lua node pnpm powershell python rust uv zig yt-dlp; do
+  mise where "$tool"
+done
+
+for command_name in ansible bat bwrap cc clang clang-format clang-tidy clangd cmake curl direnv fd ffmpeg fish fc-list fzf gcc gdb gh git ghostty htop jq less nvim pandoc pip3 pkg-config pwsh rg rustfmt shellcheck strace tmux tree tree-sitter unzip vim wget wt xxd yt-dlp grpcurl runic codex claude wl-copy xclip; do
+  command -v "$command_name"
+done
+
+for command_name in go golangci-lint julia lua node pnpm pwsh python rustc uv zig yt-dlp; do
+  mise which "$command_name"
+done
+
+go version
+golangci-lint version
+julia --startup-file=no --version
+lua -v
+node --version
+pnpm --version
+uv --version
+zig version
+yt-dlp --version
+python --version
+rustc --version
+tree-sitter --version
+fzf --version
+bat --version
+wt --version
+grpcurl -version
+oh-my-posh --version
+codex --version
+claude --version
+runic --help >/dev/null
+pwsh -NoProfile -Command "\$PSVersionTable.PSVersion.ToString()"
+fc-match --format '%{family}\n' 'JetBrainsMonoNL Nerd Font Mono' | grep -F 'JetBrainsMonoNL Nerd Font Mono'
+
+test -x "$HOME/.tmux/plugins/tpm/tpm"
+test -d "$HOME/.tmux/plugins/tmux-yank"
+
+. /etc/os-release
+if [[ "$ID" == fedora ]]; then
+  for command_name in konsole kreadconfig6 kwriteconfig6 dbus-send; do command -v "$command_name"; done
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  python "$SCRIPT_DIR/../../../fedora/state.py" verify
+else
+  command -v batcat
+  command -v fdfind
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+  python "$SCRIPT_DIR/../../../ubuntu/keyboard.py" verify
+fi

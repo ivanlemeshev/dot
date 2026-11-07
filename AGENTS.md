@@ -55,7 +55,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - Use the same custom palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
 - Maintain native terminal palette files directly.
 - Keep installer symlinks in sync with palette file paths.
-- Run `make test` to check terminal palette consistency.
+- Check terminal palette consistency in each terminal.
 
 ## Git
 

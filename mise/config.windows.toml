@@ -1,0 +1,42 @@
+[bootstrap.packages]
+"winget:Git.Git" = "latest"
+"winget:GitHub.cli" = "latest"
+"winget:Microsoft.PowerShell" = "latest"
+"winget:Microsoft.WindowsTerminal" = "latest"
+"winget:Microsoft.VisualStudioCode" = "latest"
+"winget:MSYS2.MSYS2" = "latest"
+"winget:LLVM.LLVM" = "latest"
+"winget:Kitware.CMake" = "latest"
+"winget:Neovim.Neovim" = "latest"
+"winget:Vim.Vim" = "latest"
+"winget:BurntSushi.ripgrep.MSVC" = "latest"
+"winget:sharkdp.bat" = "latest"
+"winget:sharkdp.fd" = "latest"
+"winget:junegunn.fzf" = "latest"
+"winget:tree-sitter.tree-sitter-cli" = "latest"
+"winget:marlocarlo.psmux" = "latest"
+"winget:max-sixty.worktrunk" = "latest"
+"winget:JanDeDobbeleer.OhMyPosh" = "latest"
+"winget:Gyan.FFmpeg" = "latest"
+"winget:yt-dlp.yt-dlp" = "latest"
+"winget:jqlang.jq" = "latest"
+"winget:jftuga.less" = "latest"
+"winget:Anthropic.ClaudeCode" = "latest"
+
+[dotfiles]
+"windows-windows-powershell-profile-ps1" = { source = "windows/powershell/profile.ps1", variants = [{ default = true, target = "{{env.DOTFILES_DOCUMENTS | default(value='~/Documents')}}/PowerShell/profile.ps1" }] }
+"windows-windows-powershell-profile-ps1-legacy" = { source = "windows/powershell/profile.ps1", variants = [{ default = true, target = "{{env.DOTFILES_DOCUMENTS | default(value='~/Documents')}}/WindowsPowerShell/profile.ps1" }] }
+"~/.local/bin/luarocks.cmd" = { source = "windows/luarocks.cmd" }
+"windows-nvim" = { source = "nvim", variants = [{ default = true, target = "{{env.LOCALAPPDATA | replace(from='\\\\', to='/')}}/nvim" }] }
+"~/_vimrc" = { source = "vim/.vimrc" }
+"~/.psmux.conf" = { source = "psmux/psmux.conf" }
+"~/.config/powershell/yt-dlp.ps1" = { source = "windows/powershell/yt-dlp.ps1" }
+"windows-windows-vscode-settings-json" = { source = "windows/vscode/settings.json", variants = [{ default = true, target = "{{env.APPDATA | replace(from='\\\\', to='/')}}/Code/User/settings.json" }] }
+"windows-windows-vscode-keybindings-json" = { source = "windows/vscode/keybindings.json", variants = [{ default = true, target = "{{env.APPDATA | replace(from='\\\\', to='/')}}/Code/User/keybindings.json" }] }
+
+[env]
+_.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin", "C:/msys64/ucrt64/bin", "C:/Program Files/Git/cmd", "C:/Program Files/LLVM/bin", "C:/Program Files/Neovim/bin", "{{env.LOCALAPPDATA | replace(from='\\\\', to='/')}}/Microsoft/WinGet/Links"]
+FZF_DEFAULT_OPTS = "--color=16,fg:15,bg:0,hl:11,fg+:0:strip,bg+:12,hl+:0:strip:underline,selected-fg:0:strip,selected-bg:12,selected-hl:0:strip:underline,query:15,ghost:7,disabled:7,info:7,border:7,prompt:3,pointer:0,marker:0,spinner:3,header:7,label:7,gutter:0 --border=sharp --layout=reverse --info=right --multi --highlight-line --no-bold"
+
+[task_config]
+shell = "pwsh -NoProfile -Command"

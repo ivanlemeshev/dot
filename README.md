@@ -1,7 +1,6 @@
 # Dotfiles
 
 [![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
-[![Test](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/test.yml)
 [![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
 
 ```text
@@ -52,28 +51,6 @@ notepad config.env
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\bin\bootstrap.ps1
 ```
 
-## Test installation
-
-Run `make test` for the library and terminal palette checks.
-Run `make editor-test` for the Vim and Neovim checks.
-The editor checks require Git, Vim, Neovim 0.12 or later, and network access.
-The runner downloads two pinned plugins into a temporary directory.
-CI runs both test suites on Ubuntu and macOS.
-
-```bash
-make container-install-test
-```
-
-The test uses Docker when it is available. The test uses Podman otherwise. The test checks Ubuntu 26.04 and Fedora with KDE Plasma.
-The test caches mise downloads and installed tools in per-platform volumes. Set `CONTAINER_INSTALL_CACHE=0` for a clean run.
-
-Use an interactive shell after the checks finish:
-
-```bash
-make container-install-shell PLATFORM=ubuntu
-make container-install-shell PLATFORM=fedora-kde
-```
-
 ## Post-install
 
 ```bash
@@ -104,7 +81,7 @@ PowerShell uses ANSI colors for PSReadLine syntax and prediction lists.
 Text roles use bright red, blue, and magenta.
 Text roles use normal green, yellow, and cyan where the contrast passes 4.4:1.
 The bat theme stores ANSI indices in its [native theme format](https://github.com/sharkdp/bat/blob/master/assets/themes/base16.tmTheme).
-Run `make test` to check palette consistency.
+Check palette consistency in each terminal.
 
 ## Tools
 
