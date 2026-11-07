@@ -18,7 +18,7 @@ Invoke-Checked $mise @('dot', 'status', '--missing')
 foreach ($tool in @('go', 'golangci-lint', 'julia', 'node', 'pnpm', 'python', 'rust', 'uv', 'zig')) {
     Invoke-Checked $mise @('where', $tool)
 }
-foreach ($command in @('git', 'gh', 'code', 'pwsh', 'nvim', 'vim', 'bat', 'rg', 'fd', 'fzf', 'tree-sitter', 'psmux', 'git-wt', 'oh-my-posh', 'ffmpeg', 'yt-dlp', 'jq', 'less', 'lua', 'luarocks', 'gcc', 'gdb', 'clang', 'clang-format', 'clang-tidy', 'clangd', 'cmake', 'grpcurl', 'runic', 'codex', 'claude')) {
+foreach ($command in @('git', 'gh', 'code', 'pwsh', 'nvim', 'bat', 'rg', 'fd', 'fzf', 'tree-sitter', 'psmux', 'git-wt', 'oh-my-posh', 'ffmpeg', 'yt-dlp', 'jq', 'less', 'lua', 'luarocks', 'gcc', 'gdb', 'clang', 'clang-format', 'clang-tidy', 'clangd', 'cmake', 'grpcurl', 'runic', 'codex', 'claude')) {
     if (-not (Get-Command $command -ErrorAction SilentlyContinue)) { throw "Required command is missing: $command" }
 }
 Invoke-Checked node @('--version')

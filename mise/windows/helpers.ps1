@@ -40,11 +40,6 @@ function Update-ProcessPath {
         (Join-Path $env:LOCALAPPDATA 'Programs/Microsoft VS Code/bin'),
         'C:\msys64\ucrt64\bin'
     )
-    foreach ($vimRoot in @((Join-Path $env:ProgramFiles 'Vim'), (Join-Path ${env:ProgramFiles(x86)} 'Vim'))) {
-        if (-not (Test-Path -LiteralPath $vimRoot)) { continue }
-        $vim = Get-ChildItem -LiteralPath $vimRoot -Directory | Sort-Object Name -Descending | Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'vim.exe') } | Select-Object -First 1
-        if ($null -ne $vim) { $paths += $vim.FullName }
-    }
     $paths += [Environment]::GetEnvironmentVariable('Path', 'Machine') -split ';'
     $paths += [Environment]::GetEnvironmentVariable('Path', 'User') -split ';'
     $paths += $env:PATH -split ';'

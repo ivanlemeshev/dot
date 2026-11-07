@@ -237,7 +237,7 @@ Visual Studio Build Tools supplies the Microsoft C++ compiler.
 The setup checks the required Neovim and Tree-sitter versions.
 It upgrades these packages when the installed versions are too old.
 
-The setup deploys PowerShell profiles, Neovim, Vim, PSMux, VS Code, bat, ripgrep, Git colors, and the Oh My Posh theme.
+The setup deploys PowerShell profiles, Neovim, PSMux, VS Code, bat, ripgrep, Git colors, and the Oh My Posh theme.
 It installs the VS Code theme, icon theme, spelling tools, and PowerShell extension.
 It installs Runic, grpcurl, Codex CLI, and Claude Code.
 It installs the JetBrains Mono Nerd Font and maps Caps Lock to Ctrl.

@@ -10,7 +10,6 @@ Update-ProcessPath
 Assert-EditorVersions -Upgrade
 Install-WindowsLua
 Install-WindowsCompiler
-New-Item -ItemType Directory -Path (Join-Path $HOME '.vim/undodir') -Force | Out-Null
 Set-LocalGitConfig
 Install-NerdFont
 Set-CapsLockMapping

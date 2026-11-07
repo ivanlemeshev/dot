@@ -7,7 +7,6 @@
 "winget:LLVM.LLVM" = "latest"
 "winget:Kitware.CMake" = "latest"
 "winget:Neovim.Neovim" = "latest"
-"winget:Vim.Vim" = "latest"
 "winget:BurntSushi.ripgrep.MSVC" = "latest"
 "winget:sharkdp.bat" = "latest"
 "winget:sharkdp.fd" = "latest"
@@ -27,7 +26,6 @@
 "windows-windows-powershell-profile-ps1-legacy" = { source = "windows/powershell/profile.ps1", variants = [{ default = true, target = "{{env.DOTFILES_DOCUMENTS | default(value='~/Documents')}}/WindowsPowerShell/profile.ps1" }] }
 "~/.local/bin/luarocks.cmd" = { source = "windows/luarocks.cmd" }
 "windows-nvim" = { source = "nvim", variants = [{ default = true, target = "{{env.LOCALAPPDATA | replace(from='\\\\', to='/')}}/nvim" }] }
-"~/_vimrc" = { source = "vim/.vimrc" }
 "~/.psmux.conf" = { source = "psmux/psmux.conf" }
 "~/.config/powershell/yt-dlp.ps1" = { source = "windows/powershell/yt-dlp.ps1" }
 "windows-windows-vscode-settings-json" = { source = "windows/vscode/settings.json", variants = [{ default = true, target = "{{env.APPDATA | replace(from='\\\\', to='/')}}/Code/User/settings.json" }] }

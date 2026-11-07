@@ -139,7 +139,9 @@ jobs:
           $ErrorActionPreference = 'Stop'
           . ./mise/windows/helpers.ps1
           if (-not (Test-Administrator)) { throw 'The runner requires administrator access.' }
-          Set-Content -LiteralPath (Join-Path $HOME '_vimrc') -Value 'personal-vim'
+          $batDirectory = Join-Path $HOME '.config/bat'
+          New-Item -ItemType Directory -Path $batDirectory -Force | Out-Null
+          Set-Content -LiteralPath (Join-Path $batDirectory 'config') -Value '--style=plain'
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object first.log
           if ($LASTEXITCODE -ne 0) { throw 'The first bootstrap fails.' }
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object repeat.log
@@ -155,7 +157,7 @@ jobs:
           Set-Location $env:RUNNER_TEMP
           Invoke-Checked $mise @('run', 'verify') *>&1 | Tee-Object (Join-Path $env:GITHUB_WORKSPACE 'verify.log')
           Invoke-Checked $mise @('run', 'unapply') *>&1 | Tee-Object (Join-Path $env:GITHUB_WORKSPACE 'restore.log')
-          if ((Get-Content -LiteralPath (Join-Path $HOME '_vimrc') -Raw).Trim() -ne 'personal-vim') { throw 'Vim restoration fails.' }
+          if ((Get-Content -LiteralPath (Join-Path $HOME '.config/bat/config') -Raw).Trim() -ne '--style=plain') { throw 'bat configuration restoration fails.' }
           Set-Location $env:GITHUB_WORKSPACE
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object reapply.log
           if ($LASTEXITCODE -ne 0) { throw 'Reapplication fails.' }
