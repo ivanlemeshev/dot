@@ -87,12 +87,14 @@ keyboard() {
 }
 
 read_preferences() {
-  local output
-  if output="$(defaults export com.googlecode.iterm2 - 2>/dev/null)"; then
-    printf '%s\n' "$output" | plutil -convert json -o - -
-  else
-    printf '{}\n'
-  fi
+  local load_prefs guid
+  load_prefs="$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder 2>/dev/null || true)"
+  guid="$(defaults read com.googlecode.iterm2 'Default Bookmark Guid' 2>/dev/null || true)"
+  jq -cn --arg load_prefs "$load_prefs" --arg guid "$guid" '
+    {
+      LoadPrefsFromCustomFolder: if $load_prefs == "" then null elif $load_prefs == "1" then true elif $load_prefs == "0" then false else error("Invalid iTerm2 preference value.") end,
+      "Default Bookmark Guid": if $guid == "" then null else $guid end
+    }'
 }
 
 preferences() {
