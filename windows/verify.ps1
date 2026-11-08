@@ -5,6 +5,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'terminal.ps1')
 Assert-Windows
 Update-ProcessPath
+$env:MISE_STATE_DIR = Join-Path $env:LOCALAPPDATA 'mise/state'
 Assert-WindowsMsys2
 Assert-EditorVersions
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'

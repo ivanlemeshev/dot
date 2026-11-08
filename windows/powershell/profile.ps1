@@ -1,4 +1,5 @@
 $env:HOME = $HOME
+$env:MISE_STATE_DIR = Join-Path $env:LOCALAPPDATA 'mise/state'
 $env:DOTFILES_DOCUMENTS = [Environment]::GetFolderPath('MyDocuments')
 if (-not $env:DOTFILES_DOCUMENTS) { $env:DOTFILES_DOCUMENTS = Join-Path $HOME 'Documents' }
 $env:BAT_CONFIG_DIR = Join-Path $HOME ".config/bat"

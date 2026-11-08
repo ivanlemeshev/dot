@@ -10,6 +10,7 @@ try {
     Assert-Windows
     $MiseRoot = $PSScriptRoot
     $env:MISE_CONFIG_DIR = $MiseRoot
+    $env:MISE_STATE_DIR = Join-Path $env:LOCALAPPDATA 'mise/state'
     Set-Location $MiseRoot
 
     if ($DryRun) {
