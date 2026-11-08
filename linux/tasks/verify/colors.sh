@@ -8,7 +8,7 @@ test "${CLICOLOR:-}" = 1
 test "${LESS:-}" = -FRX
 test "${NO_COLOR+x}" != x
 test "$(git config --get color.ui)" = auto
-test "$(git config --get color.diff.old)" = brightred
+test "$(git config --get color.diff.old)" = red
 test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${GH_COLOR_LABELS+x}" != x
 gh help environment | rg 'GH_ACCESSIBLE_COLORS'

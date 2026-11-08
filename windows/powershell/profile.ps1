@@ -9,29 +9,29 @@ $env:BAT_THEME = "custom"
 $env:RIPGREP_CONFIG_PATH = Join-Path $env:USERPROFILE ".config\ripgrep\config"
 
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
-    $selectionColor = "$([char]27)[30;104m"
+    $selectionColor = "$([char]27)[30;44m"
     $readLineColors = @{
-        ContinuationPrompt = [ConsoleColor]::Gray
-        Default = [ConsoleColor]::White
-        Comment = [ConsoleColor]::Gray
-        Keyword = [ConsoleColor]::DarkYellow
-        String = [ConsoleColor]::Yellow
+        ContinuationPrompt = [ConsoleColor]::DarkGray
+        Default = [ConsoleColor]::Gray
+        Comment = [ConsoleColor]::DarkGray
+        Keyword = [ConsoleColor]::DarkRed
+        String = [ConsoleColor]::DarkGreen
         Operator = [ConsoleColor]::DarkCyan
-        Variable = [ConsoleColor]::White
-        Command = [ConsoleColor]::DarkGreen
-        Parameter = [ConsoleColor]::Blue
-        Type = [ConsoleColor]::Blue
-        Number = [ConsoleColor]::Magenta
-        Member = [ConsoleColor]::White
-        Emphasis = [ConsoleColor]::Yellow
+        Variable = [ConsoleColor]::Gray
+        Command = [ConsoleColor]::DarkYellow
+        Parameter = [ConsoleColor]::Gray
+        Type = [ConsoleColor]::DarkBlue
+        Number = [ConsoleColor]::DarkMagenta
+        Member = [ConsoleColor]::DarkBlue
+        Emphasis = [ConsoleColor]::DarkYellow
         Error = [ConsoleColor]::Red
         Selection = $selectionColor
     }
     if ((Get-Module PSReadLine).Version -ge [version]'2.2.0') {
-        $readLineColors.InlinePrediction = [ConsoleColor]::Gray
+        $readLineColors.InlinePrediction = [ConsoleColor]::DarkGray
         $readLineColors.ListPrediction = [ConsoleColor]::DarkYellow
         $readLineColors.ListPredictionSelected = $selectionColor
-        $readLineColors.ListPredictionTooltip = [ConsoleColor]::Gray
+        $readLineColors.ListPredictionTooltip = [ConsoleColor]::DarkGray
     }
     Set-PSReadLineOption -Colors $readLineColors
 }
@@ -54,7 +54,7 @@ if (Test-Path "C:\msys64\ucrt64\bin") {
 
 if ($PSVersionTable.PSVersion.Major -ge 7) {
     if ($null -ne $PSStyle) {
-        $PSStyle.FileInfo.Directory = $PSStyle.Foreground.BrightBlue
+        $PSStyle.FileInfo.Directory = $PSStyle.Foreground.Blue
         $PSStyle.FileInfo.SymbolicLink = $PSStyle.Foreground.Cyan
         $PSStyle.FileInfo.Executable = $PSStyle.Foreground.Green
         foreach ($extension in @($PSStyle.FileInfo.Extension.Keys)) {
@@ -66,12 +66,12 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
             CustomTableHeaderLabel = $PSStyle.Foreground.White
             ErrorAccent = $PSStyle.Foreground.Cyan
             Error = $PSStyle.Foreground.BrightRed
-            Warning = $PSStyle.Foreground.Yellow
+            Warning = $PSStyle.Foreground.BrightYellow
             Verbose = $PSStyle.Foreground.Yellow
             Debug = $PSStyle.Foreground.Yellow
             FeedbackName = $PSStyle.Foreground.White
             FeedbackText = $PSStyle.Foreground.White
-            FeedbackAction = $PSStyle.Foreground.BrightWhite
+            FeedbackAction = $PSStyle.Foreground.Yellow
         }
         foreach ($formatColor in $formatColors.GetEnumerator()) {
             if ($null -ne $PSStyle.Formatting.PSObject.Properties[$formatColor.Key]) {

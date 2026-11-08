@@ -37,8 +37,8 @@
         {
           "foreground": "green",
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}lightRed{{ end }}",
-            "{{ if gt .Ahead 0 }}lightBlue{{ end }}",
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
+            "{{ if gt .Ahead 0 }}blue{{ end }}",
             "{{ if gt .Behind 0 }}yellow{{ end }}"
           ],
           "options": {
@@ -49,7 +49,7 @@
           "type": "git"
         },
         {
-          "foreground": "lightYellow",
+          "foreground": "yellow",
           "options": {
             "style": "roundrock",
             "threshold": 500

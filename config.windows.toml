@@ -33,7 +33,7 @@
 
 [env]
 _.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin", "C:/msys64/ucrt64/bin", "C:/Program Files/Git/cmd", "C:/Program Files/LLVM/bin", "C:/Program Files/Neovim/bin", "{{env.LOCALAPPDATA | replace(from='\\\\', to='/')}}/Microsoft/WinGet/Links"]
-FZF_DEFAULT_OPTS = "--color=16,fg:15,bg:0,hl:11,fg+:0:strip,bg+:12,hl+:0:strip:underline,selected-fg:0:strip,selected-bg:12,selected-hl:0:strip:underline,query:15,ghost:7,disabled:7,info:7,border:7,prompt:3,pointer:0,marker:0,spinner:3,header:7,label:7,gutter:0 --border=sharp --layout=reverse --info=right --multi --highlight-line --no-bold"
+FZF_DEFAULT_OPTS = "--color=16,fg:7,bg:0,hl:3,fg+:0:strip,bg+:4,hl+:0:strip:underline,selected-fg:0:strip,selected-bg:4,selected-hl:0:strip:underline,query:7,ghost:8,disabled:8,info:8,border:8,prompt:3,pointer:0,marker:0,spinner:3,header:8,label:8,gutter:0 --border=sharp --layout=reverse --info=right --multi --highlight-line --no-bold"
 
 [task_config]
 shell = "pwsh -NoProfile -Command"

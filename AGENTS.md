@@ -51,7 +51,8 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Color themes
 
-- Use terminal ANSI colors 0–15 in terminal applications.
+- Use terminal ANSI colors 0–15 in terminal applications. Prefer colors 0–7 for normal content. Use color 8 for comments and muted borders.
+- Use black text on blue for selection. Use blue for active borders. Keep status bars black with white text and yellow active labels.
 - Keep application color roles independent of terminal palette RGB values.
 - Use the same custom palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
 - Maintain native terminal palette files directly.

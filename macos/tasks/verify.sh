@@ -23,7 +23,7 @@ test "${BAT_THEME:-}" = custom
 test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${NO_COLOR+x}" != x
 test "${GH_COLOR_LABELS+x}" != x
-test "$(git config --get color.diff.old)" = brightred
+test "$(git config --get color.diff.old)" = red
 gh help environment | rg GH_ACCESSIBLE_COLORS
 bat --list-themes | rg '^custom$'
 fish --no-config -c "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""

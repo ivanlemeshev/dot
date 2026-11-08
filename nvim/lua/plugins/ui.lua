@@ -62,7 +62,7 @@ require("mini.hipatterns").setup({
     },
     warning = {
       pattern = "%f[%w]()WARNING()%f[%W]",
-      group = "MiniHipatternsFixme",
+      group = "MiniHipatternsWarning",
     },
   },
 })

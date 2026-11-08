@@ -50,7 +50,7 @@ if ($env:BAT_THEME -ne 'custom' -or $env:GH_ACCESSIBLE_COLORS -ne '1' -or (Test-
     throw 'The activated terminal color environment is invalid.'
 }
 if (@(& bat --list-themes) -notcontains 'custom') { throw 'The custom bat theme is missing.' }
-if ((& git config --get color.diff.old) -ne 'brightred') { throw 'Git does not load the shared color roles.' }
+if ((& git config --get color.diff.old) -ne 'red') { throw 'Git does not load the shared color roles.' }
 if (-not ((& gh help environment | Out-String).Contains('GH_ACCESSIBLE_COLORS'))) { throw 'GitHub CLI does not support accessible colors.' }
 if (-not $env:FZF_DEFAULT_OPTS.StartsWith('--color=16,')) { throw 'fzf does not use the ANSI palette.' }
 $map = (Get-Item 'HKLM:\System\CurrentControlSet\Control\Keyboard Layout').GetValue('Scancode Map', $null)

@@ -1,13 +1,13 @@
 # LS_COLORS for ls, fd, etc.
 
-set -l ls_foreground 39
+set -l ls_foreground 37
 set -l ls_error      91
 set -l ls_executable 32
-set -l ls_document   93
-set -l ls_directory  94
-set -l ls_special    95
+set -l ls_document   33
+set -l ls_directory  34
+set -l ls_special    35
 set -l ls_media      36
-set -l ls_backup     37
+set -l ls_backup     90
 
 # --- ANSI style helpers ---
 set -l n  "0"  # normal
