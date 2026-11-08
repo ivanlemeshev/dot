@@ -1,0 +1,161 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "blue",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "template": "{{ .CurrentDate | date .Format }}  ",
+          "type": "time"
+        },
+        {
+          "foreground": "default",
+          "style": "plain",
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<green>{{ .UserName }}@{{ end }}{{ .HostName }}</>  ",
+          "type": "session"
+        },
+        {
+          "foreground": "lightRed",
+          "style": "plain",
+          "template": "󱐋  ",
+          "type": "root"
+        },
+        {
+          "foreground": "default",
+          "options": {
+            "style": "folder"
+          },
+          "style": "plain",
+          "template": "{{ .Path }}  ",
+          "type": "path"
+        },
+        {
+          "foreground": "green",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
+            "{{ if gt .Ahead 0 }}blue{{ end }}",
+            "{{ if gt .Behind 0 }}yellow{{ end }}"
+          ],
+          "options": {
+            "branch_icon": ""
+          },
+          "style": "plain",
+          "template": "git({{ .HEAD }}){{ if .Working.Changed }}<yellow> {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}<green> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} [{{ .StashCount }}] {{ end }}  ",
+          "type": "git"
+        },
+        {
+          "foreground": "yellow",
+          "options": {
+            "style": "roundrock",
+            "threshold": 500
+          },
+          "style": "plain",
+          "template": "{{ .FormattedMs }}  ",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "green",
+          "foreground_templates": ["{{ if gt .Code 0 }}lightRed{{ end }}"],
+          "options": {
+            "always_enabled": false
+          },
+          "style": "plain",
+          "template": "{{ if gt .Code 0 }}exit({{ .Code }})  {{ end }}",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": " python {{ .Full }}{{ if .Venv }} (venv){{ end }}  ",
+          "type": "python"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if .Segments.Contains \"Python\" }}  {{ else }} {{ end }}node {{ .Full }}  ",
+          "type": "node"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") }}  {{ else }} {{ end }}rust {{ .Full }}  ",
+          "type": "rust"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") }}  {{ else }} {{ end }}julia {{ .Full }}  ",
+          "type": "julia"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") }}  {{ else }} {{ end }}go {{ .Full }}  ",
+          "type": "go"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") }}  {{ else }} {{ end }}zig {{ .Full }}  ",
+          "type": "zig"
+        },
+        {
+          "foreground": "cyan",
+          "options": {
+            "display_mode": "context"
+          },
+          "style": "plain",
+          "template": "{{ if or (.Segments.Contains \"Python\") (.Segments.Contains \"Node\") (.Segments.Contains \"Rust\") (.Segments.Contains \"Julia\") (.Segments.Contains \"Go\") (.Segments.Contains \"Zig\") }}  {{ else }} {{ end }}lua {{ .Full }}  ",
+          "type": "lua"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "default",
+          "style": "plain",
+          "template": "<green>$</>",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
+  "final_space": true,
+  "version": 4
+}

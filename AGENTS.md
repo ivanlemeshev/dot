@@ -16,7 +16,9 @@ Do not wrap text in Markdown files.
 
 - Read all applicable `AGENTS.md` files before each task.
 - For requests that may change files or system state, first inspect the relevant state.
-- For repository changes, inspect the worktree and create a task branch before editing.
+- For repository changes, inspect the worktree before editing.
+- If the current branch is `main`, create a task branch before editing.
+- If the current branch is a task or feature branch, use it unless the user requests a new branch.
 - Present a short analysis, plan, or set of options before making changes.
 - Make changes only after the user names or selects an action.
 - Treat questions and requests for analysis as read-only instructions.
@@ -41,21 +43,23 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 ## Dotfiles design
 
 - Evolve the existing setup in place. Keep one implementation.
+- Use the `.sh` extension for all Bash scripts.
 - Support Ubuntu 26.04, Fedora KDE Plasma, macOS, and Windows.
 - Start bootstrap with Bash or PowerShell and network access. Install Git when it is absent.
 - Deploy repository configuration through symlinks. Keep machine data in ignored local files. Do not generate managed configuration from machine data.
 - Install each required capability on every supported platform. Keep Caps Lock remapping in the core. Keep optional and desktop-specific behavior in platform extensions.
 - Use a native package when available. Verify every adapter installation.
-- Test Linux changes in containers. Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
+- Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
 
 ## Color themes
 
-- Use terminal ANSI colors 0–15 in terminal applications.
+- Use terminal ANSI colors 0–15 in terminal applications. Prefer colors 0–7 for normal content. Use color 8 for comments and muted borders.
+- Use black text on blue for selection. Use blue for active borders. Keep status bars black with white text and yellow active labels.
 - Keep application color roles independent of terminal palette RGB values.
 - Use the same custom palette in Windows Terminal, Ghostty, Konsole, iTerm2, and the VS Code terminal.
 - Maintain native terminal palette files directly.
 - Keep installer symlinks in sync with palette file paths.
-- Run `make test` to check terminal palette consistency.
+- Check terminal palette consistency in each terminal.
 
 ## Git
 
@@ -65,11 +69,3 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
 - After a squash merge, confirm the merge and preserve uncommitted work. Then switch to `main`, pull with `--ff-only`, and delete the merged local and remote branches.
 - Get explicit permission before you merge, force-push, delete branches outside merge cleanup, or discard uncommitted work.
-
-## Personal skills
-
-Keep Codex personal skill folders and names in the `lem-` namespace.
-
-Keep Claude personal skills in the `lem` plugin namespace.
-
-When you add, change, or remove a personal skill, update both packages.

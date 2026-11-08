@@ -23,17 +23,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y shellcheck
 
-      - name: Lint library scripts
-        run: shellcheck lib/*.sh
-
-      - name: Lint install scripts (Ubuntu)
-        run: shellcheck install/ubuntu/*.sh
-
-      - name: Lint install scripts (macOS)
-        run: shellcheck install/macos/*.sh
-
-      - name: Lint bin scripts
-        run: find bin -type f ! -name "*.ps1" -exec shellcheck {} +
-
-      - name: Lint editor test runner
-        run: shellcheck tests/run_editor_tests.sh
+      - name: Check Bash scripts
+        run: |
+          mapfile -t scripts < <(git ls-files --cached --others --exclude-standard | while IFS= read -r path; do
+            if [ -f "$path" ] && head -n 1 "$path" | grep -Eq '^#!/usr/bin/env bash|^#!/bin/bash'; then
+              printf '%s\n' "$path"
+            fi
+          done)
+          shellcheck "${scripts[@]}"

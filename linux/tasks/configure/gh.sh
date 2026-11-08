@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#MISE description="Set GitHub CLI defaults"
+
+set -euo pipefail
+
+if ! gh help environment | rg --quiet GH_ACCESSIBLE_COLORS; then
+  . /etc/os-release
+  if [[ "$ID" == fedora ]]; then
+    sudo dnf upgrade -y gh
+  else
+    sudo apt-get update
+    sudo apt-get install --yes --only-upgrade gh
+  fi
+fi
+
+gh config set editor vim
+gh config set pager less
+gh config set git_protocol ssh --host github.com
+gh help environment | rg GH_ACCESSIBLE_COLORS
+gh --version
