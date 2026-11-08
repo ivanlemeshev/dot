@@ -165,20 +165,13 @@ if [[ "$dry_run" == true ]]; then
   exit 0
 fi
 
-is_legacy_config() {
-  case "$1" in
-    */.config/mise|"$SCRIPT_DIR/mise") return 0 ;;
-    *) return 1 ;;
-  esac
-}
-
 replace_config=false
 if [[ -L "$MISE_CONFIG_LINK" ]]; then
   existing_config="$(readlink "$MISE_CONFIG_LINK")"
   if [[ "$existing_config" != /* ]]; then existing_config="$(dirname "$MISE_CONFIG_LINK")/$existing_config"; fi
   if [[ -d "$MISE_CONFIG_LINK" ]]; then existing_config="$(cd "$MISE_CONFIG_LINK" && pwd -P)"; fi
   if [[ "$existing_config" != "$SCRIPT_DIR" ]]; then
-    if [[ "$platform" == Darwin ]] || is_legacy_config "$existing_config"; then
+    if [[ "$platform" == Darwin ]]; then
       replace_config=true
     else
       printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
@@ -186,11 +179,7 @@ if [[ -L "$MISE_CONFIG_LINK" ]]; then
     fi
   fi
 elif [[ -e "$MISE_CONFIG_LINK" ]]; then
-  legacy_config=""
-  if [[ -L "$MISE_CONFIG_LINK/config.toml" ]]; then
-    legacy_config="$(dirname "$(readlink "$MISE_CONFIG_LINK/config.toml")")"
-  fi
-  if [[ "$platform" == Darwin ]] || is_legacy_config "$legacy_config"; then
+  if [[ "$platform" == Darwin ]]; then
     replace_config=true
   else
     printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
@@ -264,13 +253,11 @@ bash "$SCRIPT_DIR/git/preserve.sh"
 if [[ "$platform" == Darwin ]]; then
   "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
-  "$MISE_BIN" exec -- python "$SCRIPT_DIR/migration.py"
   "$MISE_BIN" run prepare
   "$MISE_BIN" dot apply --yes
 else
   "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
-  "$MISE_BIN" exec -- python "$SCRIPT_DIR/migration.py"
   "$MISE_BIN" exec -- python "$SCRIPT_DIR/linux/links.py" prepare
   "$MISE_BIN" dot apply --yes
 fi

@@ -72,7 +72,6 @@ try {
     Invoke-Checked $mise @('bootstrap', 'packages', 'upgrade', '--manager', 'winget', '--yes')
     Invoke-Checked $mise @('bootstrap', '--yes', '--only', 'packages')
     Invoke-Checked $mise @('install')
-    Invoke-Checked $mise @('exec', '--', 'python', (Join-Path $MiseRoot 'migration.py'))
     Backup-ConflictingDotfiles $mise
     Invoke-Checked $mise @('dot', 'apply', '--yes')
     Update-ProcessPath

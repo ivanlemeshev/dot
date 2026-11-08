@@ -64,15 +64,6 @@ def deploy(state):
     for name, source in LINKS.items():
         target = PROFILE / name
         record = next((entry for entry in state['links'] if entry['target'] == str(target)), None)
-        old_source = ROOT.parent / 'mise/fedora/konsole' / name
-        if record is not None and record['source'] == str(old_source):
-            if target.is_symlink() and target.resolve() in (old_source, source):
-                target.unlink()
-            elif target.exists() or target.is_symlink():
-                raise RuntimeError(f'The Konsole link changes after setup: {target}')
-            record['source'] = str(source)
-            save(state)
-            target.symlink_to(source)
         if target.is_symlink() and target.resolve() == source:
             continue
         if record is not None:

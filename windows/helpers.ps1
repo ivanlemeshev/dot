@@ -158,20 +158,6 @@ function Restore-DotfileBackups {
     Remove-Item -LiteralPath $statePath
 }
 
-function Remove-WindowsSkills {
-    $statePath = Join-Path $StateDirectory 'skills.json'
-    if (-not (Test-Path -LiteralPath $statePath)) { return }
-    foreach ($record in @((Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json))) {
-        $item = Get-Item -LiteralPath $record.target -Force -ErrorAction SilentlyContinue
-        if ($null -eq $item) { continue }
-        if ($item.LinkType -ne 'SymbolicLink' -or @($item.Target)[0] -ne $record.source) {
-            throw "The skill link changes after setup: $($record.target)"
-        }
-        Remove-Item -LiteralPath $record.target -Force
-    }
-    Remove-Item -LiteralPath $statePath
-}
-
 function Update-RequiredPackage {
     param([string]$Id)
     Invoke-Checked winget @('upgrade', '--id', $Id, '--exact', '--source', 'winget', '--silent', '--accept-package-agreements', '--accept-source-agreements', '--disable-interactivity')

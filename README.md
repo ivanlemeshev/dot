@@ -8,35 +8,12 @@ Clone the repository before setup.
 `miserc.toml` selects `config.linux.toml`, `config.macos.toml`, or `config.windows.toml` for the current platform.
 The Linux configuration selects Ubuntu or Fedora packages from `/etc/os-release`.
 The setup links `~/.config/mise` to this folder.
-Ubuntu and Fedora back up recognized legacy mise paths before replacement.
-They stop if the path contains unrelated configuration.
+Ubuntu and Fedora stop if that path contains a different configuration.
 macOS and Windows move an existing configuration to a backup before they create the link.
-
-## Migration from the old setup
-
-Run `./bootstrap.sh` on Ubuntu, Fedora, or macOS. Run `.\bootstrap.ps1` on Windows. Bootstrap backs up conflicting application configuration before mise applies the root configuration. It replaces recognized links into the old `.config/` tree and the former `mise/` directory. It also removes recognized legacy agent links. It preserves unrelated agent files.
-
-The old root installers and agent packages are removed. Pulling this change can leave old links broken until bootstrap completes. The macOS work machine stays unchanged until you update its checkout and run bootstrap. Keep an independent backup before that update. A backup symlink cannot restore source content that Git removes. Recover legacy source files from commit `b001cdd9f60a55ae9573d600a0b76252eac92a9d` in a separate checkout when you need the old setup.
-
-Bootstrap prints backup locations. Keep the repository and state records until restoration completes. Do not delete user data, caches, or unrelated agent directories as part of repository cleanup. See [the link audit](LIVE_LINK_AUDIT.md) for the recorded installations.
 
 ## Machine settings
 
-Copy `config.local.toml.example` to `config.local.toml` in this folder for a new machine.
-For an existing machine, use the explicit import command after Python is available:
-
-```sh
-python utilities.py import-settings --source config.env --dry-run
-python utilities.py import-settings --source config.env
-```
-
-The importer reads supported assignments without executing `config.env`.
-It preserves values that already exist in the local TOML file.
-It prints setting names without their private values.
-After bootstrap, `mise run import-settings --source /path/to/config.env` provides the same command.
-Edit the values before setup.
-Git ignores the local file.
-Docker excludes it from the build context.
+Copy `config.local.toml.example` to `config.local.toml` in the repository root. Edit the values before setup. Git ignores this file. Docker excludes it from the build context.
 
 `TIMEZONE` sets the Ubuntu, Fedora, or macOS time zone.
 `WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
@@ -77,7 +54,7 @@ It respects the Unix XDG directory variables.
 Run bootstrap to restore the Neovim configuration link after reset.
 The Git task changes only the repository user name and email.
 
-Skill installation stays outside bootstrap. The separate [skills repository](https://github.com/ivanlemeshev/skills) publishes the portable `lem-review` package for compatible agents. Release `v1.0.0` passes installation checks for Codex and Claude Code in temporary directories.
+Skill installation stays outside bootstrap. The separate [skills repository](https://github.com/ivanlemeshev/skills) publishes the portable `lem-review` package for compatible agents.
 
 Use GitHub CLI with `gh skill` support for explicit installation:
 
@@ -86,7 +63,7 @@ gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent codex --sco
 gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent claude-code --scope user
 ```
 
-Both commands install the same standard skill package. Use `$lem-review` in Codex or `/lem-review` in Claude Code. Bootstrap removes recognized legacy skill links. Install personal skills explicitly from the separate repository. The upstream `ub-mode` skill stays separate from the personal skills repository.
+Both commands install the same standard skill package. Use `$lem-review` in Codex or `/lem-review` in Claude Code. Install personal skills explicitly from the separate repository. The upstream `ub-mode` skill stays separate from the personal skills repository.
 
 OpenAI language plugins live in the separate [plugin repository](https://github.com/ivanlemeshev/openai-plugins). Install them explicitly outside bootstrap.
 
@@ -298,16 +275,3 @@ Windows Terminal, VS Code, Ghostty, Konsole, and iTerm2 use the shared custom pa
 Mise keeps `NO_COLOR` unset and enables accessible GitHub CLI colors.
 Ubuntu, Fedora, and macOS use tmux.
 Windows uses PSMux.
-
-## Temporary migration CI
-
-`.github/workflows/mise-migration.yml` verifies the migration on standard GitHub runners.
-A push to `feat/mise-ubuntu-dotfiles` starts the jobs.
-The jobs cover Ubuntu 26.04, Fedora 44 in Docker, Windows Server 2025, and macOS 26 on Apple Silicon.
-Each job runs bootstrap, verification, a repeat bootstrap, restoration, and reapplication.
-The Ubuntu native job also checks GNOME keyboard settings in a temporary D-Bus session.
-The Windows job uses the runner's existing MSYS2 runtime.
-The workflow uses read-only repository permissions.
-Logs use short artifact retention.
-The migration plan removes this temporary workflow after final root verification.
-CI does not prove terminal rendering or physical keyboard behavior.

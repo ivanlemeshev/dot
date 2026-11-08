@@ -1,74 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 import os
 from pathlib import Path
-import re
-import shlex
 import shutil
 import subprocess
-import tempfile
-import tomllib
 
 ROOT = Path(__file__).resolve().parent
-SETTING_NAMES = {
-    'TIMEZONE', 'WINDOWS_TIMEZONE', 'MACHINE_NAME', 'GIT_USER_NAME',
-    'GIT_USER_EMAIL', 'GIT_DEFAULT_BRANCH', 'KDE_TERMINAL_FONT',
-}
-
-
-def import_settings(args):
-    source = args.source.expanduser()
-    destination = args.output.expanduser()
-    if source.resolve() == destination.resolve():
-        raise ValueError('The source and destination must differ.')
-    if destination.is_symlink():
-        raise ValueError('The local settings file must not be a symlink.')
-    text = destination.read_text() if destination.exists() else ''
-    existing = tomllib.loads(text).get('env', {})
-    values = {}
-    for number, line in enumerate(source.read_text().splitlines(), 1):
-        if not line.strip() or line.lstrip().startswith('#'):
-            continue
-        match = re.fullmatch(r'\s*(?:export\s+)?([A-Z_][A-Z_0-9]*)\s*=(.*)', line)
-        if match is None:
-            raise ValueError(f'Unsupported assignment on line {number}.')
-        name, value = match.groups()
-        if name not in SETTING_NAMES:
-            raise ValueError(f'Unsupported setting on line {number}: {name}')
-        if any(character in value for character in ('$', '`', '\x00')):
-            raise ValueError(f'Shell expansion is not supported on line {number}.')
-        tokens = shlex.split(value, comments=True, posix=True)
-        if len(tokens) > 1:
-            raise ValueError(f'Quote the value on line {number}.')
-        values[name] = tokens[0] if tokens else ''
-    selected = {key: value for key, value in values.items() if key not in existing}
-    if not selected:
-        print('No new settings to import.')
-        return
-    for key in selected:
-        print(f'Import setting: {key}')
-    if args.dry_run:
-        return
-    additions = '\n'.join(f'{key} = {json.dumps(value, ensure_ascii=False)}' for key, value in selected.items())
-    header = re.search(r'^\[env\][ \t]*(?:#[^\n]*)?$', text, flags=re.MULTILINE)
-    if header:
-        result = text[:header.end()] + '\n' + additions + text[header.end():]
-    else:
-        result = text.rstrip() + '\n\n[env]\n' + additions + '\n'
-    if not result.endswith('\n'):
-        result += '\n'
-    tomllib.loads(result)
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix='.settings-', dir=destination.parent)
-    try:
-        with os.fdopen(descriptor, 'w', encoding='utf-8', newline='\n') as handle:
-            handle.write(result)
-        os.replace(temporary, destination)
-    finally:
-        Path(temporary).unlink(missing_ok=True)
-    print('Local settings import completes. Existing values stay unchanged.')
 
 
 def reset_nvim(args):
@@ -112,11 +50,6 @@ def set_git_user(args):
 def main():
     parser = argparse.ArgumentParser()
     commands = parser.add_subparsers(dest='command', required=True)
-    importer = commands.add_parser('import-settings')
-    importer.add_argument('--source', type=Path, default=ROOT / 'config.env')
-    importer.add_argument('--output', type=Path, default=ROOT / 'config.local.toml')
-    importer.add_argument('--dry-run', action='store_true')
-    importer.set_defaults(action=import_settings)
     reset = commands.add_parser('reset-nvim')
     reset.add_argument('--yes', action='store_true')
     reset.add_argument('--dry-run', action='store_true')

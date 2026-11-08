@@ -5,7 +5,6 @@ $ErrorActionPreference = 'Stop'
 Assert-Windows
 if (-not (Test-Administrator)) { throw 'Run Windows configuration removal from an elevated PowerShell.' }
 Invoke-Checked (Find-Mise) @('dot', 'unapply', '--yes')
-Remove-WindowsSkills
 Restore-DotfileBackups
 Restore-CapsLockMapping
 Restore-WindowsTerminalSettings
