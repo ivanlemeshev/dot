@@ -63,7 +63,7 @@
 done
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(mise activate zsh)"''' }
-"~/.bash_profile/activate" = { block = '''for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+"~/.bashrc/activate" = { block = '''for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
   if test -x "$brew_bin"; then eval "$("$brew_bin" shellenv)"; break; fi
 done
 export PATH="$HOME/.local/bin:$PATH"
