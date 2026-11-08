@@ -41,6 +41,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 ## Dotfiles design
 
 - Evolve the existing setup in place. Keep one implementation.
+- Use the `.sh` extension for all Bash scripts.
 - Support Ubuntu 26.04, Fedora KDE Plasma, macOS, and Windows.
 - Start bootstrap with Bash or PowerShell and network access. Install Git when it is absent.
 - Deploy repository configuration through symlinks. Keep machine data in ignored local files. Do not generate managed configuration from machine data.

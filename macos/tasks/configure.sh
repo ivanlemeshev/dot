@@ -11,7 +11,7 @@ if [[ "$(uname -s)" != Darwin ]]; then
 fi
 
 bash "$SCRIPT_DIR/../state.sh" versions
-bash "$MISE_ROOT/linux/tasks/configure/git"
+bash "$MISE_ROOT/linux/tasks/configure/git.sh"
 gh config set editor nvim
 gh config set pager less
 gh config set git_protocol ssh --host github.com
