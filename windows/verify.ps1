@@ -21,10 +21,10 @@ foreach ($tool in @('go', 'golangci-lint', 'julia', 'node', 'pnpm', 'python', 'r
 foreach ($command in @('git', 'gh', 'code', 'pwsh', 'nvim', 'bat', 'rg', 'fd', 'fzf', 'tree-sitter', 'psmux', 'git-wt', 'oh-my-posh', 'ffmpeg', 'yt-dlp', 'jq', 'less', 'lua', 'luarocks', 'gcc', 'gdb', 'clang', 'clang-format', 'clang-tidy', 'clangd', 'cmake', 'grpcurl', 'runic', 'codex', 'claude')) {
     if (-not (Get-Command $command -ErrorAction SilentlyContinue)) { throw "Required command is missing: $command" }
 }
-Invoke-Checked node @('--version')
-Invoke-Checked python @('--version')
-Invoke-Checked go @('version')
-Invoke-Checked rustc @('--version')
+Invoke-Checked $mise @('exec', '--', 'node', '--version')
+Invoke-Checked $mise @('exec', '--', 'python', '--version')
+Invoke-Checked $mise @('exec', '--', 'go', 'version')
+Invoke-Checked $mise @('exec', '--', 'rustc', '--version')
 Invoke-Checked lua @('-v')
 Invoke-Checked luarocks @('--version')
 Invoke-Checked gcc @('--version')
