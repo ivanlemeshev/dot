@@ -5,13 +5,10 @@ set -euo pipefail
 . /etc/os-release
 if [[ "$ID" == fedora ]]; then
   native_cli_ready() {
-    python - <<'PY'
-import re
-import subprocess
-version = subprocess.check_output(['/usr/bin/tree-sitter', '--version'], text=True)
-match = re.search(r'(\d+)\.(\d+)\.(\d+)', version)
-raise SystemExit(0 if match and tuple(map(int, match.groups())) >= (0, 26, 1) else 1)
-PY
+    local version
+    version="$(/usr/bin/tree-sitter --version)"
+    [[ "$version" =~ ([0-9]+)\.([0-9]+)\.([0-9]+) ]] || return 1
+    ((BASH_REMATCH[1] > 0 || BASH_REMATCH[2] > 26 || (BASH_REMATCH[2] == 26 && BASH_REMATCH[3] >= 1)))
   }
   if ! native_cli_ready; then sudo dnf upgrade -y tree-sitter-cli; fi
   if native_cli_ready; then

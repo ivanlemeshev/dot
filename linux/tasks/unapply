@@ -5,9 +5,9 @@ set -euo pipefail
 . /etc/os-release
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 if [[ "$ID" == fedora ]]; then
-  python "$SCRIPT_DIR/../../fedora/state.py" unapply
+  bash "$SCRIPT_DIR/../../fedora/state.sh" unapply
 else
-  python "$SCRIPT_DIR/../../ubuntu/keyboard.py" unapply
+  bash "$SCRIPT_DIR/../../ubuntu/keyboard.sh" unapply
 fi
 mise dot unapply --yes
-python "$SCRIPT_DIR/../../linux/links.py" restore
+bash "$SCRIPT_DIR/../../linux/links.sh" restore

@@ -45,10 +45,10 @@ test -d "$HOME/.tmux/plugins/tmux-yank"
 if [[ "$ID" == fedora ]]; then
   for command_name in konsole kreadconfig6 kwriteconfig6 dbus-send; do command -v "$command_name"; done
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-  python "$SCRIPT_DIR/../../../fedora/state.py" verify
+  bash "$SCRIPT_DIR/../../../fedora/state.sh" verify
 else
   command -v batcat
   command -v fdfind
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-  python "$SCRIPT_DIR/../../../ubuntu/keyboard.py" verify
+  bash "$SCRIPT_DIR/../../../ubuntu/keyboard.sh" verify
 fi

@@ -10,7 +10,7 @@ if [[ "$(uname -s)" != Darwin ]]; then
   exit 1
 fi
 
-python "$SCRIPT_DIR/../state.py" versions
+bash "$SCRIPT_DIR/../state.sh" versions
 bash "$MISE_ROOT/linux/tasks/configure/git"
 gh config set editor nvim
 gh config set pager less
@@ -29,19 +29,23 @@ if [[ ! -d "$HOME/.tmux/plugins/tpm/.git" ]]; then
 fi
 "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 julia -e 'using Pkg; Pkg.Apps.add("Runic")'
-python "$SCRIPT_DIR/../state.py" preferences
-python "$SCRIPT_DIR/../state.py" apply
+bash "$SCRIPT_DIR/../state.sh" preferences
+bash "$SCRIPT_DIR/../state.sh" apply
 agent="$HOME/Library/LaunchAgents/com.dotfiles.caps-lock.plist"
 plutil -lint "$agent"
 label="gui/$(id -u)/com.dotfiles.caps-lock"
-if ! launchctl print "$label" >/dev/null 2>&1; then launchctl bootstrap "gui/$(id -u)" "$agent"; fi
+if launchctl print "$label" >/dev/null 2>&1; then launchctl bootout "$label"; fi
+launchctl bootstrap "gui/$(id -u)" "$agent"
 
 if [[ -n "${TIMEZONE:-}" ]]; then
   current_timezone="$(sudo systemsetup -gettimezone)"
   if [[ "$current_timezone" != "Time Zone: $TIMEZONE" ]]; then sudo systemsetup -settimezone "$TIMEZONE"; fi
 fi
 if [[ -n "${MACHINE_NAME:-}" ]]; then
-  if [[ ! "$MACHINE_NAME" =~ ^[a-zA-Z0-9][a-zA-Z0-9-]*$ ]]; then printf 'MACHINE_NAME must contain letters, digits, or hyphens.\n' >&2; exit 1; fi
+  if [[ ! "$MACHINE_NAME" =~ ^[a-zA-Z0-9][a-zA-Z0-9-]*$ ]]; then
+    printf 'MACHINE_NAME must contain letters, digits, or hyphens.\n' >&2
+    exit 1
+  fi
   for name in ComputerName LocalHostName HostName; do
     current_name="$(scutil --get "$name" 2>/dev/null || true)"
     if [[ "$current_name" != "$MACHINE_NAME" ]]; then sudo scutil --set "$name" "$MACHINE_NAME"; fi

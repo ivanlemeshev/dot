@@ -18,7 +18,7 @@ runic --help >/dev/null
 codex --version
 claude --version
 tree-sitter --version
-python "$SCRIPT_DIR/../state.py" verify-versions
+bash "$SCRIPT_DIR/../state.sh" verify-versions
 test "${BAT_THEME:-}" = custom
 test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${NO_COLOR+x}" != x
@@ -35,7 +35,7 @@ test -d /Applications/Ghostty.app
 test -d /Applications/iTerm.app
 plutil -lint "$HOME/Library/LaunchAgents/com.dotfiles.caps-lock.plist"
 launchctl print "gui/$(id -u)/com.dotfiles.caps-lock" >/dev/null
-python "$SCRIPT_DIR/../state.py" verify
+bash "$SCRIPT_DIR/../state.sh" verify
 test "$(defaults read com.googlecode.iterm2 'Default Bookmark Guid')" = b2f196a0-9822-4f69-8ce9-73f2de6b4371
 test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = 0
 MISE_NVIM_VERIFY=1 nvim --headless -u NONE -l "$MISE_ROOT/nvim/bootstrap.lua"

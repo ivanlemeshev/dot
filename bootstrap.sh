@@ -258,7 +258,7 @@ if [[ "$platform" == Darwin ]]; then
 else
   "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
-  "$MISE_BIN" exec -- python "$SCRIPT_DIR/linux/links.py" prepare
+  bash "$SCRIPT_DIR/linux/links.sh" prepare
   "$MISE_BIN" dot apply --yes
 fi
 "$MISE_BIN" run configure
