@@ -123,7 +123,8 @@ function Backup-Dotfile {
     $item = Get-Item -LiteralPath $Target -Force -ErrorAction SilentlyContinue
     if ($null -eq $item) { return }
     $statePath = Join-Path $StateDirectory 'links.json'
-    $records = if (Test-Path -LiteralPath $statePath) { @(Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json) } else { @() }
+    $records = @()
+    if (Test-Path -LiteralPath $statePath) { $records = @((Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json)) }
     if (@($records | Where-Object target -eq $Target).Count) { throw "A previous backup exists for $Target. Review links.json before replacement." }
     $backup = "$Target.backup.$([Guid]::NewGuid().ToString('N'))"
     $records += [pscustomobject]@{ target = $Target; backup = $backup }
@@ -147,7 +148,7 @@ function Backup-ConflictingDotfiles {
 function Restore-DotfileBackups {
     $statePath = Join-Path $StateDirectory 'links.json'
     if (-not (Test-Path -LiteralPath $statePath)) { return }
-    foreach ($record in @(Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json)) {
+    foreach ($record in @((Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json))) {
         if ($null -eq (Get-Item -LiteralPath $record.backup -Force -ErrorAction SilentlyContinue)) { continue }
         if ($null -ne (Get-Item -LiteralPath $record.target -Force -ErrorAction SilentlyContinue)) {
             throw "The restore target exists: $($record.target)"
@@ -160,7 +161,7 @@ function Restore-DotfileBackups {
 function Remove-WindowsSkills {
     $statePath = Join-Path $StateDirectory 'skills.json'
     if (-not (Test-Path -LiteralPath $statePath)) { return }
-    foreach ($record in @(Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json)) {
+    foreach ($record in @((Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json))) {
         $item = Get-Item -LiteralPath $record.target -Force -ErrorAction SilentlyContinue
         if ($null -eq $item) { continue }
         if ($item.LinkType -ne 'SymbolicLink' -or @($item.Target)[0] -ne $record.source) {
