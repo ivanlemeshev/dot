@@ -13,7 +13,7 @@ macOS and Windows move an existing configuration to a backup before they create 
 
 ## Machine settings
 
-Copy `config.local.toml.example` to `config.local.toml` in the repository root. Edit the values before setup. Git ignores this file. Docker excludes it from the build context.
+Copy `config.local.toml.example` to `config.local.toml` in the repository root. Edit the values before setup. Git ignores this file.
 
 `TIMEZONE` sets the Ubuntu, Fedora, or macOS time zone.
 `WINDOWS_TIMEZONE` sets the Windows time zone with a Windows time zone ID.
@@ -97,16 +97,6 @@ This preview requires mise:
 ./bootstrap.sh --dry-run
 ```
 
-Run the Ubuntu setup in a container:
-
-```sh
-docker build --file Dockerfile --tag dot-mise-current .
-docker run --rm dot-mise-current ./bootstrap.sh --no-shell
-```
-
-Pass machine values with Docker environment variables.
-Set the container hostname with `--hostname`.
-
 ## Fedora KDE
 
 Run the shared Bash bootstrap on mutable Fedora KDE with Plasma 6:
@@ -146,16 +136,7 @@ Use `--no-shell` to stop after verification.
 Use `mise run unapply` to restore the KDE settings and Konsole files, then remove the shared Linux links.
 The task stops if later changes conflict with restoration.
 
-Build the Fedora container from the repository root:
-
-```sh
-docker build --file Dockerfile.fedora --tag dot-mise-fedora .
-docker run --rm dot-mise-fedora ./bootstrap.sh --no-shell
-```
-
-The container checks packages, tools, links, and KDE configuration files.
-It does not check keyboard input or Konsole rendering in a live Plasma session.
-Run that smoke check on the Fedora desktop.
+Check keyboard input and Konsole rendering on the Fedora desktop.
 
 ## macOS
 

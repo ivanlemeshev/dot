@@ -46,7 +46,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - Deploy repository configuration through symlinks. Keep machine data in ignored local files. Do not generate managed configuration from machine data.
 - Install each required capability on every supported platform. Keep Caps Lock remapping in the core. Keep optional and desktop-specific behavior in platform extensions.
 - Use a native package when available. Verify every adapter installation.
-- Test Linux changes in containers. Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
+- Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
 
 ## Color themes
 
