@@ -16,7 +16,9 @@ Do not wrap text in Markdown files.
 
 - Read all applicable `AGENTS.md` files before each task.
 - For requests that may change files or system state, first inspect the relevant state.
-- For repository changes, inspect the worktree and create a task branch before editing.
+- For repository changes, inspect the worktree before editing.
+- If the current branch is `main`, create a task branch before editing.
+- If the current branch is a task or feature branch, use it unless the user requests a new branch.
 - Present a short analysis, plan, or set of options before making changes.
 - Make changes only after the user names or selects an action.
 - Treat questions and requests for analysis as read-only instructions.
