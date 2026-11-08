@@ -88,5 +88,11 @@ try {
     }
     throw
 } finally {
-    Set-Location $originalLocation
+    try {
+        if (-not $DryRun -and (Get-Command Repair-MiseHistoryOwnership -ErrorAction SilentlyContinue) -and (Test-Administrator)) {
+            Repair-MiseHistoryOwnership
+        }
+    } finally {
+        Set-Location $originalLocation
+    }
 }

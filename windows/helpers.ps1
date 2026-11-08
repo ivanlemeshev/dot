@@ -74,6 +74,18 @@ function Save-StateText {
     [IO.File]::WriteAllText((Join-Path $StateDirectory $Name), $Value, [Text.UTF8Encoding]::new($false))
 }
 
+function Repair-MiseHistoryOwnership {
+    param([string]$StateRoot = $env:MISE_STATE_DIR)
+    if (-not $StateRoot) { $StateRoot = Join-Path $HOME '.local/state/mise' }
+    $history = Join-Path $StateRoot 'history'
+    if (-not (Test-Path -LiteralPath $history)) { return }
+    if ((Get-Item -LiteralPath $history -Force).LinkType) { throw 'Mise history must not be a directory link.' }
+    $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    # NOTE: Elevated mise creates owner-only history with administrator ownership.
+    Invoke-Checked icacls @($history, '/grant:r', "*$($sid):(OI)(CI)F", '/T', '/L', '/Q')
+    Invoke-Checked icacls @($history, '/setowner', "*$sid", '/T', '/L', '/Q')
+}
+
 function Set-LocalGitConfig {
     $localConfig = Join-Path $HOME '.config/git/config.local'
     New-Item -ItemType Directory -Path (Split-Path -Parent $localConfig) -Force | Out-Null
