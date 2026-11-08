@@ -41,7 +41,7 @@ function M.fzf()
   local copy = clipboard_cmd()
 
   fzf.setup({
-    defaults = { color_icons = false },
+    defaults = { color_icons = true },
     fzf_colors = false,
     hls = {
       normal = "FzfLuaNormal",

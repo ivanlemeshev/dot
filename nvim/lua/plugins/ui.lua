@@ -24,12 +24,21 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-require("nvim-web-devicons").setup({
-  color_icons = false,
-  override = {
-    default_icon = { icon = "", cterm_color = "7", name = "Default" },
-  },
-})
+local devicons = require("nvim-web-devicons")
+local theme = require("lem.theme")
+devicons.setup({ color_icons = true })
+local icons = vim.deepcopy(devicons.get_icons())
+local icon_colors = {}
+for _, icon in pairs(icons) do
+  local color = theme.icon_color(icon.color)
+  icon_colors[icon.name] = math.min(icon_colors[icon.name] or color, color)
+end
+for _, icon in pairs(icons) do
+  icon.cterm_color = tostring(icon_colors[icon.name])
+  icon.color = nil
+end
+devicons.set_icon(icons)
+devicons.set_default_icon("", nil, "7")
 
 require("fidget").setup({})
 

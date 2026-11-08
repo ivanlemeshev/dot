@@ -16,7 +16,11 @@ require("nvim-tree").setup({
     custom = { "^.git$" }, -- Hide .git directory
   },
   renderer = {
+    highlight_git = "name",
     icons = {
+      web_devicons = {
+        file = { enable = true, color = true },
+      },
       glyphs = {
         modified = "",
         git = {

@@ -385,6 +385,29 @@ M.lualine_theme = {
   },
 }
 
+function M.icon_color(color)
+  local red = tonumber(color:sub(2, 3), 16) / 255
+  local green = tonumber(color:sub(4, 5), 16) / 255
+  local blue = tonumber(color:sub(6, 7), 16) / 255
+  local maximum = math.max(red, green, blue)
+  local delta = maximum - math.min(red, green, blue)
+  if delta < 0.15 then
+    return ansi.white
+  end
+
+  -- NOTE: Hue preserves icon color families across terminal palettes.
+  local hue
+  if maximum == red then
+    hue = ((green - blue) / delta) % 6
+  elseif maximum == green then
+    hue = (blue - red) / delta + 2
+  else
+    hue = (red - green) / delta + 4
+  end
+  local colors = { ansi.red, ansi.yellow, ansi.green, ansi.cyan, ansi.blue, ansi.magenta }
+  return colors[math.floor(hue + 0.5) % 6 + 1]
+end
+
 function M.setup_inline_diagnostics()
   local prefix = "TinyInlineDiagnosticVirtualText"
   local inverse = "TinyInlineInvDiagnosticVirtualText"
@@ -805,16 +828,16 @@ function M.setup()
   )
 
   -- `NvimTreeExecFile` marks executable files, like `script.sh`.
-  hl("NvimTreeExecFile", { fg = M.ui.fg })
+  hl("NvimTreeExecFile", { fg = ansi.green })
 
   -- `NvimTreeImageFile` marks image files, like `icon.png`.
-  hl("NvimTreeImageFile", { fg = M.ui.fg })
+  hl("NvimTreeImageFile", { fg = ansi.cyan })
 
   -- `NvimTreeSpecialFile` marks special files, like help or config entries.
-  hl("NvimTreeSpecialFile", { fg = M.ui.fg })
+  hl("NvimTreeSpecialFile", { fg = ansi.yellow })
 
   -- `NvimTreeSymlink` marks symlink entries, like `link -> target`.
-  hl("NvimTreeSymlink", { fg = M.ui.fg, underline = true })
+  hl("NvimTreeSymlink", { fg = ansi.cyan, underline = true })
 
   -- `NvimTreeRootFolder` marks the project root folder.
   hl("NvimTreeRootFolder", { fg = M.ui.title_fg, bold = true })
@@ -1151,7 +1174,7 @@ function M.setup()
   hl("FzfLuaTabMarker", { fg = M.fzf.prompt })
 
   -- `FzfLuaDirIcon` is the directory icon shown in path-style pickers.
-  hl("FzfLuaDirIcon", { fg = M.fzf.header })
+  hl("FzfLuaDirIcon", { fg = M.ui.directory_fg })
 
   -- `FzfLuaDirPart` is the directory portion of a path, such as `src/` in a
   -- file path entry.
