@@ -65,7 +65,3 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
 - After a squash merge, confirm the merge and preserve uncommitted work. Then switch to `main`, pull with `--ff-only`, and delete the merged local and remote branches.
 - Get explicit permission before you merge, force-push, delete branches outside merge cleanup, or discard uncommitted work.
-
-## Personal skills
-
-Keep personal skills in the separate `ivanlemeshev/skills` repository. Use the portable Agent Skills format and the `lem-` namespace. Keep OpenAI plugins in the separate `ivanlemeshev/openai-plugins` repository. Install skills and plugins explicitly outside bootstrap.

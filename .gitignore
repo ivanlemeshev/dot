@@ -10,4 +10,3 @@ nvim.log
 tmp
 /config.local.toml
 /config.*.local.toml
-dist/
