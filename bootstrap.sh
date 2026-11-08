@@ -171,20 +171,10 @@ if [[ -L "$MISE_CONFIG_LINK" ]]; then
   if [[ "$existing_config" != /* ]]; then existing_config="$(dirname "$MISE_CONFIG_LINK")/$existing_config"; fi
   if [[ -d "$MISE_CONFIG_LINK" ]]; then existing_config="$(cd "$MISE_CONFIG_LINK" && pwd -P)"; fi
   if [[ "$existing_config" != "$SCRIPT_DIR" ]]; then
-    if [[ "$platform" == Darwin ]]; then
-      replace_config=true
-    else
-      printf 'Mise config link points to another directory: %s\n' "$MISE_CONFIG_LINK" >&2
-      exit 1
-    fi
+    replace_config=true
   fi
 elif [[ -e "$MISE_CONFIG_LINK" ]]; then
-  if [[ "$platform" == Darwin ]]; then
-    replace_config=true
-  else
-    printf 'Mise config directory already exists: %s\nMove it before setup.\n' "$MISE_CONFIG_LINK" >&2
-    exit 1
-  fi
+  replace_config=true
 fi
 
 run_as_root() {
@@ -225,6 +215,14 @@ elif [[ "$ID" == fedora ]]; then
   run_as_root dnf upgrade --refresh -y
   run_as_root dnf install -y ca-certificates curl git sudo dnf5-plugins
 else
+  # NOTE: Apt rejects duplicate sources with different signing-key settings.
+  for github_source in /etc/apt/sources.list.d/github-cli.list /etc/apt/sources.list.d/github-cli.sources; do
+    if [[ -f "$github_source" ]] && grep -Fq 'https://cli.github.com/packages' "$github_source"; then
+      source_backup="$github_source.backup.$(date +%Y%m%d%H%M%S).$$"
+      run_as_root mv "$github_source" "$source_backup"
+      printf 'Backup: %s\n' "$source_backup"
+    fi
+  done
   run_as_root apt-get update
   run_as_root env DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
   run_as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl git sudo
