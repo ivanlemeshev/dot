@@ -1,0 +1,11 @@
+**/.git
+**/.agents
+**/.codex
+**/.claude
+**/config.env
+**/config.local.toml
+**/config.*.local.toml
+**/backups
+**/.cache
+**/dist
+*.log

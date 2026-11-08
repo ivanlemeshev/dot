@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [feat/mise-ubuntu-dotfiles]
-    paths: ['mise/**', '.github/workflows/mise-migration.yml']
 
 permissions:
   contents: read
@@ -22,9 +21,9 @@ jobs:
       matrix:
         include:
           - platform: ubuntu
-            dockerfile: mise/Dockerfile
+            dockerfile: Dockerfile
           - platform: fedora
-            dockerfile: mise/Dockerfile.fedora
+            dockerfile: Dockerfile.fedora
     steps:
       - uses: actions/checkout@v6
       - name: Build the platform image
@@ -34,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           docker run --detach --name dot-migration dot-migration sleep infinity
-          docker exec dot-migration bash -c 'printf "personal-vim\n" > "$HOME/.vimrc"'
+          docker exec dot-migration bash -c 'mkdir -p "$HOME/.config/mise" "$HOME/.codex"; ln -s /opt/mise/.config/mise/config.toml "$HOME/.config/mise/config.toml"; ln -s /opt/mise/mise/nvim "$HOME/.config/nvim"; ln -s /opt/mise/.codex/skills "$HOME/.codex/skills"; printf "personal-vim\n" > "$HOME/.vimrc"'
           docker exec dot-migration ./bootstrap.sh --no-shell 2>&1 | tee first.log
           docker exec dot-migration ./bootstrap.sh --no-shell 2>&1 | tee repeat.log
           docker exec --workdir /tmp dot-migration bash -c 'export MISE_CONFIG_DIR="$HOME/.config/mise"; mise run verify' 2>&1 | tee verify.log
@@ -58,8 +57,8 @@ jobs:
           set -euo pipefail
           printf '%s\n' "$HOME/.local/bin" >> "$GITHUB_PATH"
           printf 'personal-vim\n' > "$HOME/.vimrc"
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee first.log
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee repeat.log
+          ./bootstrap.sh --no-shell 2>&1 | tee first.log
+          ./bootstrap.sh --no-shell 2>&1 | tee repeat.log
       - name: Check the GNOME adapter in a temporary session
         shell: bash
         run: |
@@ -68,10 +67,10 @@ jobs:
           dbus-run-session -- bash -euo pipefail <<'KEYBOARD' 2>&1 | tee keyboard.log
           export XDG_CURRENT_DESKTOP=ubuntu:GNOME
           gsettings set org.gnome.desktop.input-sources xkb-options "['compose:ralt']"
-          mise exec -- python mise/ubuntu/keyboard.py apply
-          mise exec -- python mise/ubuntu/keyboard.py verify
-          mise exec -- python mise/ubuntu/keyboard.py apply
-          mise exec -- python mise/ubuntu/keyboard.py unapply
+          mise exec -- python ubuntu/keyboard.py apply
+          mise exec -- python ubuntu/keyboard.py verify
+          mise exec -- python ubuntu/keyboard.py apply
+          mise exec -- python ubuntu/keyboard.py unapply
           test "$(gsettings get org.gnome.desktop.input-sources xkb-options)" = "['compose:ralt']"
           KEYBOARD
       - name: Check verification and restoration
@@ -83,7 +82,7 @@ jobs:
           mise run unapply 2>&1 | tee "$GITHUB_WORKSPACE/restore.log"
           test "$(cat "$HOME/.vimrc")" = personal-vim
           cd "$GITHUB_WORKSPACE"
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee reapply.log
+          ./bootstrap.sh --no-shell 2>&1 | tee reapply.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -109,8 +108,8 @@ jobs:
           uname -m
           launchctl print "gui/$(id -u)" > session.log
           printf 'personal-vim\n' > "$HOME/.vimrc"
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee first.log
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee repeat.log
+          ./bootstrap.sh --no-shell 2>&1 | tee first.log
+          ./bootstrap.sh --no-shell 2>&1 | tee repeat.log
       - name: Check verification and restoration
         shell: bash
         run: |
@@ -120,7 +119,7 @@ jobs:
           mise run unapply 2>&1 | tee "$GITHUB_WORKSPACE/restore.log"
           test "$(cat "$HOME/.vimrc")" = personal-vim
           cd "$GITHUB_WORKSPACE"
-          ./mise/bootstrap.sh --no-shell 2>&1 | tee reapply.log
+          ./bootstrap.sh --no-shell 2>&1 | tee reapply.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -137,20 +136,20 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          . ./mise/windows/helpers.ps1
+          . ./windows/helpers.ps1
           if (-not (Test-Administrator)) { throw 'The runner requires administrator access.' }
           $batDirectory = Join-Path $HOME '.config/bat'
           New-Item -ItemType Directory -Path $batDirectory -Force | Out-Null
           Set-Content -LiteralPath (Join-Path $batDirectory 'config') -Value '--style=plain'
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object first.log
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./bootstrap.ps1 -NoShell *>&1 | Tee-Object first.log
           if ($LASTEXITCODE -ne 0) { throw 'The first bootstrap fails.' }
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object repeat.log
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./bootstrap.ps1 -NoShell *>&1 | Tee-Object repeat.log
           if ($LASTEXITCODE -ne 0) { throw 'The repeat bootstrap fails.' }
       - name: Check verification and restoration
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          . ./mise/windows/helpers.ps1
+          . ./windows/helpers.ps1
           Update-ProcessPath
           $mise = Find-Mise
           $env:MISE_CONFIG_DIR = Join-Path $HOME '.config/mise'
@@ -159,7 +158,7 @@ jobs:
           Invoke-Checked $mise @('run', 'unapply') *>&1 | Tee-Object (Join-Path $env:GITHUB_WORKSPACE 'restore.log')
           if ((Get-Content -LiteralPath (Join-Path $HOME '.config/bat/config') -Raw).Trim() -ne '--style=plain') { throw 'bat configuration restoration fails.' }
           Set-Location $env:GITHUB_WORKSPACE
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./mise/bootstrap.ps1 -NoShell *>&1 | Tee-Object reapply.log
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./bootstrap.ps1 -NoShell *>&1 | Tee-Object reapply.log
           if ($LASTEXITCODE -ne 0) { throw 'Reapplication fails.' }
       - uses: actions/upload-artifact@v4
         if: always()

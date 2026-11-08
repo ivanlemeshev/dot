@@ -1,9 +1,15 @@
+$env:HOME = $HOME
+$env:DOTFILES_DOCUMENTS = [Environment]::GetFolderPath('MyDocuments')
+if (-not $env:DOTFILES_DOCUMENTS) { $env:DOTFILES_DOCUMENTS = Join-Path $HOME 'Documents' }
+$env:BAT_CONFIG_DIR = Join-Path $HOME ".config/bat"
+$env:PATH = "$(Join-Path $HOME '.local/bin');$(Join-Path $HOME '.julia/bin');$env:PATH"
+
 $env:BAT_THEME = "custom"
 $env:RIPGREP_CONFIG_PATH = Join-Path $env:USERPROFILE ".config\ripgrep\config"
 
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
     $selectionColor = "$([char]27)[30;104m"
-    Set-PSReadLineOption -Colors @{
+    $readLineColors = @{
         ContinuationPrompt = [ConsoleColor]::Gray
         Default = [ConsoleColor]::White
         Comment = [ConsoleColor]::Gray
@@ -19,11 +25,14 @@ if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
         Emphasis = [ConsoleColor]::Yellow
         Error = [ConsoleColor]::Red
         Selection = $selectionColor
-        InlinePrediction = [ConsoleColor]::Gray
-        ListPrediction = [ConsoleColor]::DarkYellow
-        ListPredictionSelected = $selectionColor
-        ListPredictionTooltip = [ConsoleColor]::Gray
     }
+    if ((Get-Module PSReadLine).Version -ge [version]'2.2.0') {
+        $readLineColors.InlinePrediction = [ConsoleColor]::Gray
+        $readLineColors.ListPrediction = [ConsoleColor]::DarkYellow
+        $readLineColors.ListPredictionSelected = $selectionColor
+        $readLineColors.ListPredictionTooltip = [ConsoleColor]::Gray
+    }
+    Set-PSReadLineOption -Colors $readLineColors
 }
 
 if ($Host.Name -eq "ConsoleHost" -and -not [Console]::IsOutputRedirected) {
@@ -73,5 +82,15 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
     $miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue
     if ($null -ne $miseProfileCommand) {
         (& $miseProfileCommand.Source activate pwsh) | Out-String | Invoke-Expression
+    }
+}
+
+if ($PSVersionTable.PSVersion.Major -ge 7 -and [Environment]::UserInteractive -and -not [Console]::IsOutputRedirected) {
+    $worktrunk = Get-Command git-wt -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -ne $worktrunk) {
+        (& $worktrunk.Source config shell init powershell --cmd git-wt) | Out-String | Invoke-Expression
+    }
+    if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+        oh-my-posh init pwsh --config (Join-Path $HOME '.config/oh-my-posh/theme.omp.json') | Out-String | Invoke-Expression
     }
 }

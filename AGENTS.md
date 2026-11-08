@@ -68,8 +68,4 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Personal skills
 
-Keep Codex personal skill folders and names in the `lem-` namespace.
-
-Keep Claude personal skills in the `lem` plugin namespace.
-
-When you add, change, or remove a personal skill, update both packages.
+Keep personal skills in the separate `ivanlemeshev/skills` repository. Use the portable Agent Skills format and the `lem-` namespace. Keep OpenAI plugins in the separate `ivanlemeshev/openai-plugins` repository. Install skills and plugins explicitly outside bootstrap.

@@ -1,3 +1,0 @@
-auto_env = true
-# NOTE: Windows canonical paths use an extended prefix.
-ignored_config_paths = ['''{{config_root | canonicalize | replace(from='\\', to='/') | replace(from='//?/UNC/', to='//') | replace(from='//?/', to='') | dirname}}/.config/mise''']
