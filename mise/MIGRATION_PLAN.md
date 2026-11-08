@@ -1,7 +1,7 @@
 # Migration and root replacement plan
 
 Status: implementation and verification in progress.
-The user selects D01 through D13.
+The user selects D01 through D14.
 The implementation follows these decisions.
 This file records the plan.
 It does not authorize deletion or machine changes.
@@ -27,8 +27,11 @@ Machine values and recovery records stay outside managed configuration.
 ## Working rules
 
 - Keep all work on `feat/mise-ubuntu-dotfiles`.
-- Do not create or switch branches.
+- Do not create or switch branches in dotfiles.
+- The user permits skills export on `main` in `/home/lem/code/github.com/ivanlemeshev/skills`.
 - Keep implementation changes inside `mise/` until the approved cleanup stage.
+- The user approves moving `codex/` to the separate `openai-plugins` repository.
+- The user permits removal and recreation of local agent directories during live migration.
 - The user approves `.github/workflows/mise-migration.yml` as the temporary CI exception.
 - Do not add, restore, or change repository tests.
 - Keep temporary verification scripts outside the repository.
@@ -52,11 +55,13 @@ Racket and Emacs remain excluded by request.
 The Fedora Docker bootstrap, verification, repeat run, and native KDE restoration checks pass.
 The Ubuntu container checks cover package selection and reversible shared links after the Fedora changes.
 Earlier Ubuntu installation checks cover the full bootstrap.
-The latest shared Linux changes still need the final full Ubuntu regression run before deletion.
-Windows checks cover script syntax, mocked elevation, temporary adapters, task execution, and link previews.
-The full Windows installation lacks a recorded successful run.
-macOS checks use syntax checks and temporary fixtures.
-The full macOS installation lacks a real-machine smoke check.
+The current source passes the temporary CI workflow on all four platforms.
+The verified commit is `58914c805ed753751e6931fc99d1b0e9aaf84903`.
+See [the successful migration run](https://github.com/ivanlemeshev/dot/actions/runs/42389144902).
+The jobs cover full bootstrap, repeat bootstrap, verification, restoration, and reapplication.
+Windows uses PowerShell 5.1 for bootstrap and PowerShell 7 for tasks.
+macOS uses the Apple Silicon runner.
+The macOS work machine stays unchanged.
 Container checks do not prove live Konsole rendering or physical keyboard behavior.
 
 The machine inspection still finds legacy links.
@@ -76,7 +81,7 @@ Record the selected result in this table before its dependent step starts.
 | --- | --- | --- | --- |
 | D01 | Which repository metadata remains at root during cleanup? | Keep the approved repository metadata at root during cleanup. | Selected by user |
 | D02 | What replaces `bin/reset-nvim` and `bin/set-git-repo-user`? | Keep both utilities as explicit mise tasks. | Selected by user |
-| D03 | Where do the Codex and Claude packages live before and after promotion? | Use `ivanlemeshev/skills` with tagged releases and on-demand installation. Dotfiles keeps installation commands. | Selected by user |
+| D03 | Where does the shared skill package live? | Keep only portable `lem-review` in `ivanlemeshev/skills`. Codex and Claude install the same standard package on demand. Dotfiles keeps installation commands. | Selected by user |
 | D04 | Do Copilot CLI and Specify CLI remain supported? | Remove Copilot CLI and Specify CLI support. | Selected by user |
 | D05 | Does VM tooling remain supported? | Remove VM tooling support. | Selected by user |
 | D06 | Does OpenSpec apply to every platform? | Remove OpenSpec installation and support from all platforms. | Selected by user |
@@ -86,7 +91,8 @@ Record the selected result in this table before its dependent step starts.
 | D10 | Who runs the platform checks? | Use temporary GitHub Actions jobs for Ubuntu, Fedora, Windows, and macOS. CI supplies the automated migration evidence. Keep the macOS work machine unchanged. Record desktop appearance and physical keyboard behavior as separate limitations. | Selected by user |
 | D11 | Is the documented two-stage root replacement the final layout? | Remove the legacy setup, then promote mise contents to root in the final layout change. | Confirmed by user |
 | D12 | What replaces the legacy full-system upgrade step? | Upgrade native packages during bootstrap. Limit Windows WinGet upgrades to packages declared in the mise setup. Keep full package upgrades on the other platforms. | Selected by user |
-| D13 | What happens to the Claude `ub-mode` skill during export? | Keep the upstream name. Install on demand from `unclebob/ub-mode` at a pinned commit. The separate skills repository keeps its installation command. | Selected by user |
+| D13 | What happens to the Claude `ub-mode` skill during export? | Keep the upstream name and pinned source. Keep third-party skill installation outside the personal skills repository. | Selected by user |
+| D14 | Where do the OpenAI language plugins live? | Move all nine plugin packages and their marketplace to `ivanlemeshev/openai-plugins`. Preserve their existing identities. | Selected by user |
 
 ## Step 1: Record the exact inventory
 
@@ -109,17 +115,19 @@ Completion condition: every legacy item has a recorded disposition.
 - [x] Keep Neovim reset separate from automatic bootstrap actions.
 - [x] Define exactly which Neovim paths a reset removes.
 - [x] Preserve repository-specific Git settings when the Git utility changes one value.
-- [ ] Prepare the selected skills export without deleting the current sources.
-- [ ] Create the separate repository only after its name and visibility have approval.
-- [ ] Publish and verify the selected release before removing the dotfiles skill sources.
-- [ ] Implement explicit on-demand Codex and Claude installation commands.
+- [x] Prepare the selected skills export without deleting the current sources.
+- [x] Create the separate repository only after its name and visibility have approval.
+- [x] Publish and verify the selected release before removing the dotfiles skill sources.
+- [x] Implement explicit on-demand Codex and Claude installation commands.
 - [x] Keep skill installation outside the default bootstrap.
-- [ ] Add an on-demand `ub-mode` installation command to the separate skills repository under D13.
-- [ ] Pin the upstream source to a specific commit.
-- [ ] Keep the upstream skill name and source separate from personal `lem` skills.
-- [ ] Preserve the current `ub-mode` copy until replacement installation and live link migration pass.
-- [ ] Preserve installed system skills and unrelated user skills.
-- [ ] Verify both personal skill packages when their contents change.
+- [x] Keep `ub-mode` and its installation instructions outside the personal skills repository under the revised D13 scope.
+- [x] Pin the upstream source to a specific commit.
+- [x] Keep the upstream skill name and source separate from personal `lem-` skills.
+- [x] Preserve the current `ub-mode` copy until replacement installation and live link migration pass.
+- [x] Preserve installed system skills and unrelated user skills.
+- [x] Verify installation of the shared skill package for Codex and Claude.
+- [x] Move the nine OpenAI plugin packages and marketplace to the separate repository under D14.
+- [ ] Commit and push the plugin repository, then verify remote installation before merging the source removal.
 - [x] Remove OpenSpec installation, verification, and documentation from all mise platform paths under D06.
 - [x] Keep Copilot CLI, Specify CLI, and VM tooling outside the retained capabilities under D04 and D05.
 - [x] Upgrade native packages during bootstrap under D12.
@@ -154,31 +162,31 @@ Completion condition: migration does not silently discard a machine value or use
 
 ## Step 4: Complete verification before live migration
 
-- [ ] Build fresh Ubuntu and Fedora images from the current source.
-- [ ] Run the full bootstrap and `mise run verify` in both images.
+- [x] Build fresh Ubuntu and Fedora images from the current source.
+- [x] Run the full bootstrap and `mise run verify` in both images.
 - [x] Run the full bootstrap again in each installed container.
 - [x] Check verification from a directory outside the repository.
 - [x] Check link removal and reapplication.
 - [x] Check restoration of seeded personal files and settings.
 - [ ] Check Fish, Vim, Neovim, tmux, fzf, and the terminal palette files.
-- [ ] Check PowerShell 5.1 bootstrap compatibility and PowerShell 7 runtime behavior.
+- [x] Check PowerShell 5.1 bootstrap compatibility and PowerShell 7 runtime behavior.
 - [ ] Check Windows elevation, paths with spaces, and redirected Documents paths.
 - [x] Prepare temporary GitHub Actions jobs for all four supported platforms during the approved automation stage.
 - [x] Use the standard runner labels in the CI matrix below.
 - [x] Use PowerShell for the Windows job.
-- [ ] Run bootstrap, verification, a second bootstrap, and link restoration checks in every job.
-- [ ] Check package upgrades during bootstrap in each platform job.
-- [ ] Seed temporary user configuration and verify restoration.
-- [ ] Run verification from outside the checkout.
+- [x] Run bootstrap, verification, a second bootstrap, and link restoration checks in every job.
+- [x] Check package upgrades during bootstrap in each platform job.
+- [x] Seed temporary user configuration and verify restoration.
+- [x] Run verification from outside the checkout.
 - [ ] Record missing desktop services as failures or explicit coverage limits.
 - [ ] Keep the production checks active in CI.
 - [ ] Save small job logs with the source commit, runner label, architecture, and OS version.
 - [ ] Use a branch-restricted push trigger and manual dispatch with read-only repository permissions.
-- [ ] Keep the push trigger restricted to `feat/mise-ubuntu-dotfiles`.
-- [ ] Set job timeouts within the GitHub-hosted six-hour limit.
+- [x] Keep the push trigger restricted to `feat/mise-ubuntu-dotfiles`.
+- [x] Set job timeouts within the GitHub-hosted six-hour limit.
 - [ ] Keep private machine settings and credentials out of logs and artifacts.
 - [ ] Remove the temporary workflow after the final successful run with the promoted root paths.
-- [ ] Keep bootstrap, package installation, link changes, and preference changes off the macOS work machine.
+- [x] Keep bootstrap, package installation, link changes, and preference changes off the macOS work machine.
 - [ ] Record terminal rendering and physical keyboard behavior as unverified by CI on every platform.
 - [ ] Record optional desktop checks separately when the user runs them.
 - [ ] Record the source commit, platform version, commands, outcomes, and remaining limitations.
@@ -344,8 +352,10 @@ Windows bootstrap no longer installs repository skills automatically.
 
 The temporary workflow uses `.github/workflows/mise-migration.yml` with user approval.
 It runs only on the current feature branch or through manual dispatch.
-The workflow has no recorded remote run until the user commits and pushes it.
-The skills export, machine link migration, deletion manifest, and root promotion remain pending.
+The workflow passes at commit `58914c805ed753751e6931fc99d1b0e9aaf84903`.
+The shared `lem-review` skill has local and remote installation evidence.
+The skills repository provides release `v1.0.0`.
+Machine link migration, the deletion manifest, and root promotion remain pending.
 
 Local verification passes for the current implementation batch.
 Ubuntu and Fedora each pass a full container bootstrap and a repeat run.
@@ -360,10 +370,41 @@ The Git utility preserves unrelated repository settings.
 PowerShell 5.1 syntax checks and mocked WinGet upgrade return-code checks pass.
 ShellCheck, Python syntax, TOML syntax, and workflow validation pass.
 Workflow validation explicitly recognizes the documented `ubuntu-26.04` runner label because the current Actionlint label list lacks it.
-Windows and macOS full bootstrap verification waits for the temporary remote jobs.
-The next checkpoint requires a user commit and push to start these jobs.
+Windows and macOS full bootstrap verification passes in the temporary remote jobs.
+CI does not verify terminal rendering or physical keyboard behavior.
 
 The user limits Windows WinGet upgrades to packages declared by mise.
 Bootstrap uses the built-in mise package upgrade command.
 The custom bulk WinGet upgrade and self-update recovery code are removed.
-The Windows CI job must verify this revised upgrade path.
+The Windows CI job verifies this revised upgrade path.
+
+## Skills export checkpoint
+
+The user creates the public `ivanlemeshev/skills` repository. The user permits work on its `main` branch. The checkout is `/home/lem/code/github.com/ivanlemeshev/skills`. The user keeps only the code review skill and selects one portable Agent Skills package. The repository contains no dotfiles migration text or third-party skill instructions.
+
+The repository provides [release `v1.0.0`](https://github.com/ivanlemeshev/skills/releases/tag/v1.0.0) with publication date 2026-11-07. The tag resolves to commit `ef47d5826aaec6870b3115ed4d50360fc84e0fd2`. Its package path is `skills/lem-review/`. The package contains `SKILL.md`, `LICENSE`, `references/review-method.md`, and `references/examples.md`. It has no separate Claude copy, plugin marketplace, or agent-specific invocation metadata.
+
+Remote installation passes for Codex and Claude Code with GitHub CLI. Each check uses a separate empty temporary directory and the `v1.0.0` tag:
+
+```sh
+gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent codex --dir TEMP_CODEX_DIRECTORY
+gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent claude-code --dir TEMP_CLAUDE_DIRECTORY
+```
+
+Both installed packages match byte for byte. Verification checks the standard metadata, source repository, pinned tag, package path, license, and relative reference files. The review instructions and reference contents match the legacy review skill. These checks cover release download and package contents. They do not run a behavioral review in either agent.
+
+The skill uses `$lem-review` in Codex and `/lem-review` in Claude Code. Invocation settings depend on the agent. The former Claude `lem` plugin namespace and Codex explicit-invocation metadata do not apply to this portable release.
+
+The PDF summary, simplification, and software design review skills are outside the selected release. The OpenAI language plugins have a separate locally verified export under D14. Their cleanup dispositions remain subject to the live link audit and deletion manifest. The upstream `ub-mode` source stays separate from the personal skills repository. Its recorded commit is `3da62bf3fcfd2034de41f30d920d2739e566171f`.
+
+The dotfiles source packages, installed system skills, unrelated user skills, and live skill links stay unchanged. Step 5 still requires the live link audit before legacy removal.
+
+## OpenAI plugin export checkpoint
+
+The user selects `/home/lem/code/github.com/ivanlemeshev/openai-plugins` as the separate plugin repository. The checkout uses `main`. It contains all nine language plugin packages under `plugins/` and the existing `.agents/plugins/marketplace.json`. The marketplace keeps its `lem-plugins` name. Plugin IDs, versions, prompts, and instruction bodies stay unchanged.
+
+Three skill descriptions need YAML quoting. The English Writing subtitle exceeds the supported length and now uses `Проверка английских текстов`. The old text-only Git attribute rule damages the PNG icons. Valid installed cache copies reproduce each damaged source icon after CRLF normalization. The export restores those original binary PNG bytes and marks `*.png` as binary.
+
+All nine plugin manifests pass the declared Agent Plugins 1.0.0 schema. Verification checks the skill frontmatter, package names, marketplace paths, icon paths, image dimensions, file sizes, and PNG chunk checksums. It also compares the copied instructions and retained metadata with the source. The new repository contains standalone documentation and a license in each plugin.
+
+The user authorizes this specific source move. The feature worktree removes the 28 tracked files under `codex/` after destination verification. The original checkout and account-installed plugins stay unchanged. The new repository still needs commit, push, and remote installation verification before the dotfiles removal merges. No account update or public directory submission runs.

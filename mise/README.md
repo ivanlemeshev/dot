@@ -70,11 +70,16 @@ It respects the Unix XDG directory variables.
 Run bootstrap to restore the Neovim configuration link after reset.
 The Git task changes only the repository user name and email.
 
-Skill installation stays outside bootstrap.
-The separate `ivanlemeshev/skills` repository supplies tagged personal skill releases and explicit installation commands.
-The upstream `ub-mode` skill keeps its name and uses a pinned commit for on-demand installation.
-Skill export and release verification remain pending.
-Existing skill sources stay in place until migration completes.
+Skill installation stays outside bootstrap. The separate [skills repository](https://github.com/ivanlemeshev/skills) publishes the portable `lem-review` package for compatible agents. Release `v1.0.0` passes installation checks for Codex and Claude Code in temporary directories.
+
+Use GitHub CLI with `gh skill` support for explicit installation:
+
+```sh
+gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent codex --scope user
+gh skill install ivanlemeshev/skills lem-review --pin v1.0.0 --agent claude-code --scope user
+```
+
+Both commands install the same standard skill package. Use `$lem-review` in Codex or `/lem-review` in Claude Code. Existing skill sources and live links stay in place until the live link audit and approved cleanup. The upstream `ub-mode` skill stays separate from the personal skills repository.
 
 ## Ubuntu
 

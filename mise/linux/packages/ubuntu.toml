@@ -49,6 +49,7 @@
 "apt:xclip" = "latest"
 "apt:xxd" = "latest"
 "apt:xz-utils" = "latest"
+"apt:zip" = "latest"
 "apt:zlib1g-dev" = "latest"
 "apt:zstd" = "latest"
 

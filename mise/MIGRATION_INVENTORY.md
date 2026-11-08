@@ -14,7 +14,7 @@ The cleanup manifest uses the selected decisions and the later live link audit.
 
 - D01 keeps the approved repository metadata at root.
 - D02 retains both utilities as explicit mise tasks.
-- D03 moves skill distribution to a separate repository with tagged releases and on-demand installation.
+- D03 keeps one portable `lem-review` package in a separate repository with tagged releases and on-demand installation.
 - D04 removes Copilot CLI and Specify CLI support.
 - D05 removes VM tooling support.
 - D06 removes OpenSpec support from all platforms.
@@ -28,25 +28,25 @@ The cleanup manifest uses the selected decisions and the later live link audit.
 - D12 upgrades native packages during bootstrap.
 - Windows WinGet upgrades apply only to packages declared in mise.
 - D13 retains `ub-mode` as an upstream skill with on-demand installation from a pinned commit.
+- D14 moves all nine OpenAI language plugins and their marketplace to `ivanlemeshev/openai-plugins`.
 - The final layout promotes mise contents to root after legacy cleanup.
 
 ## Additional findings
 
 The legacy Ubuntu and Fedora bootstrap paths run a full system upgrade.
-The new bootstrap installs required packages without a full system upgrade.
+The new bootstrap includes the selected native package upgrades.
 D12 selects full package upgrades on Unix platforms.
 Windows WinGet upgrades use the declared mise packages.
 Bootstrap contains native package upgrade steps.
-Remote Windows and macOS verification remains pending.
+The temporary migration CI workflow passes on all four platforms at commit `58914c805ed753751e6931fc99d1b0e9aaf84903`.
 
-The tracked `codex/` directory also contains a plugin marketplace and language learning plugins.
-The skills export includes this distribution tree in its scope review.
+The source inventory includes the `codex/` plugin marketplace and nine language plugins. The user moves this tree to `ivanlemeshev/openai-plugins` under D14. Local package verification passes. Commit, push, and remote installation verification remain pending.
 
 The Claude `ub-mode` copy comes from a third-party skill.
 D13 keeps its upstream name outside the personal `lem` namespace.
-The separate skills repository keeps the installation command.
+Third-party skill installation stays outside the personal skills repository.
 The Claude package contains tracked symlinks to Codex reference files.
-The export must preserve their contents without leaving links into this repository.
+The portable review release includes these reference contents as regular files. Remote installation passes for Codex and Claude Code with no links into dotfiles.
 
 The one-time import command exists under D08.
 Its verification covers existing local values and repeated imports.
@@ -58,27 +58,27 @@ WSL and containers use the host keyboard mapping.
 
 | Legacy path | Role | Replacement or destination | Disposition |
 | --- | --- | --- | --- |
-| `.claude/skills/lem/.claude-plugin/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/pdf-summary/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/pdf-summary/scripts/book_coverage.py` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/review/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/review/references` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/simplify/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/simplify/references` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.claude/skills/lem/skills/software-design-review/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
+| `.claude/skills/lem/.claude-plugin/plugin.json` | Skill package or skill reference | None; direct portable skill installation | Preserve until live link audit and cleanup approval |
+| `.claude/skills/lem/skills/pdf-summary/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.claude/skills/lem/skills/pdf-summary/scripts/book_coverage.py` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.claude/skills/lem/skills/review/SKILL.md` | Skill package or skill reference | `ivanlemeshev/skills@v1.0.0:skills/lem-review/SKILL.md` | Release installation passes; legacy removal waits for live link audit and cleanup approval |
+| `.claude/skills/lem/skills/review/references` | Skill package or skill reference | `ivanlemeshev/skills@v1.0.0:skills/lem-review/references` | Release installation passes; legacy removal waits for live link audit and cleanup approval |
+| `.claude/skills/lem/skills/simplify/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.claude/skills/lem/skills/simplify/references` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.claude/skills/lem/skills/software-design-review/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
 | `.claude/skills/ub-mode/SKILL.md` | Third-party skill | Pinned upstream installation under D13 | Preserve until replacement installation and live link migration pass |
-| `.codex/skills/lem-pdf-summary/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-pdf-summary/agents/openai.yaml` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-pdf-summary/scripts/book_coverage.py` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-review/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-review/agents/openai.yaml` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-review/references/examples.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-review/references/review-method.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-simplify/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-simplify/agents/openai.yaml` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-simplify/references/simplification-method.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-software-design-review/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `.codex/skills/lem-software-design-review/agents/openai.yaml` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
+| `.codex/skills/lem-pdf-summary/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-pdf-summary/agents/openai.yaml` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-pdf-summary/scripts/book_coverage.py` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-review/SKILL.md` | Skill package or skill reference | `ivanlemeshev/skills@v1.0.0:skills/lem-review/SKILL.md` | Release installation passes; legacy removal waits for live link audit and cleanup approval |
+| `.codex/skills/lem-review/agents/openai.yaml` | Skill package or skill reference | None; portable skill uses standard metadata | Preserve until live link audit and cleanup approval |
+| `.codex/skills/lem-review/references/examples.md` | Skill package or skill reference | `ivanlemeshev/skills@v1.0.0:skills/lem-review/references/examples.md` | Release installation passes; legacy removal waits for live link audit and cleanup approval |
+| `.codex/skills/lem-review/references/review-method.md` | Skill package or skill reference | `ivanlemeshev/skills@v1.0.0:skills/lem-review/references/review-method.md` | Release installation passes; legacy removal waits for live link audit and cleanup approval |
+| `.codex/skills/lem-simplify/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-simplify/agents/openai.yaml` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-simplify/references/simplification-method.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-software-design-review/SKILL.md` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
+| `.codex/skills/lem-software-design-review/agents/openai.yaml` | Skill package or skill reference | Outside the selected personal skills release | No export; preserve until cleanup disposition and live link audit pass |
 | `.config/bat/config` | Application configuration | mise/bat/config | Copied; legacy removal waits for live link migration |
 | `.config/bat/themes/custom.tmTheme` | Application configuration | mise/bat/themes/custom.tmTheme | Copied; legacy removal waits for live link migration |
 | `.config/emacs/init.el` | Legacy editor | None | Emacs stays excluded; deletion waits for cleanup approval |
@@ -148,34 +148,34 @@ WSL and containers use the host keyboard mapping.
 | `bin/bootstrap.ps1` | Legacy bootstrap entrypoint | mise/bootstrap.ps1 | Replaced; documentation and live installations still need migration |
 | `bin/reset-nvim` | Explicit utility task | Planned mise task | Explicit mise task exists under D02 |
 | `bin/set-git-repo-user` | Explicit utility task | Planned mise task | Explicit mise task exists under D02 |
-| `codex/.agents/plugins/marketplace.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-dictionary/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-dictionary/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-dictionary/skills/dictionary/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-errors/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-errors/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-errors/skills/error-coach/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-grammar/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-grammar/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-grammar/skills/grammar/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-teacher/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-teacher/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-teacher/skills/english-teacher/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-writing/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-writing/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/english-writing/skills/writing/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-dictionary/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-dictionary/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-dictionary/skills/dictionary/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-grammar/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-grammar/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-grammar/skills/grammar/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-teacher/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-teacher/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-teacher/skills/teacher/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-yki/assets/logo.png` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-yki/plugin.json` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
-| `codex/plugins/suomi-yki/skills/suomi-yki/SKILL.md` | Skill package or skill reference | Separate skills repository from D03 | Preserve until export, release, installation, and live link migration pass |
+| `codex/.agents/plugins/marketplace.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:.agents/plugins/marketplace.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-dictionary/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-dictionary/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-dictionary/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-dictionary/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-dictionary/skills/dictionary/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-dictionary/skills/dictionary/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-errors/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-errors/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-errors/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-errors/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-errors/skills/error-coach/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-errors/skills/error-coach/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-grammar/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-grammar/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-grammar/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-grammar/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-grammar/skills/grammar/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-grammar/skills/grammar/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-teacher/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-teacher/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-teacher/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-teacher/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-teacher/skills/english-teacher/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-teacher/skills/english-teacher/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-writing/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-writing/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-writing/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-writing/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/english-writing/skills/writing/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/english-writing/skills/writing/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-dictionary/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-dictionary/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-dictionary/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-dictionary/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-dictionary/skills/dictionary/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-dictionary/skills/dictionary/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-grammar/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-grammar/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-grammar/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-grammar/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-grammar/skills/grammar/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-grammar/skills/grammar/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-teacher/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-teacher/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-teacher/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-teacher/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-teacher/skills/teacher/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-teacher/skills/teacher/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-yki/assets/logo.png` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-yki/assets/logo.png` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-yki/plugin.json` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-yki/plugin.json` | Moved under D14; local checks pass; remote installation verification remains pending |
+| `codex/plugins/suomi-yki/skills/suomi-yki/SKILL.md` | Skill package or skill reference | `ivanlemeshev/openai-plugins:plugins/suomi-yki/skills/suomi-yki/SKILL.md` | Moved under D14; local checks pass; remote installation verification remains pending |
 | `config.env.example` | Legacy local setting example | mise/config.local.toml.example | The D08 import command replaces the legacy settings flow |
 | `docs/README.md` | Legacy application documentation | Reviewed documentation in the final layout | Review content and update paths before approved legacy removal |
 | `docs/ansi-colors-migration.md` | Legacy application documentation | Reviewed documentation in the final layout | Review content and update paths before approved legacy removal |
@@ -185,7 +185,7 @@ WSL and containers use the host keyboard mapping.
 | `docs/tmux.md` | Legacy application documentation | Reviewed documentation in the final layout | Review content and update paths before approved legacy removal |
 | `install/fedora/bat.sh` | Active bootstrap step | mise/bat and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/clean.sh` | Active bootstrap step | mise/linux/tasks/configure/cleanup | Replacement exists; final removal still needs cleanup approval |
-| `install/fedora/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; skill transfer and on-demand installer remain pending D03 |
+| `install/fedora/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; review skill release installation passes; live skill migration remains pending |
 | `install/fedora/dotfiles.sh` | Standalone installer | mise/config.linux.toml | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/emacs.sh` | Active bootstrap step | None | Excluded by prior request; deletion waits for cleanup approval |
 | `install/fedora/essentials.sh` | Active bootstrap step | mise/linux/packages and mise/config.macos.toml | Replacement exists; final removal still needs cleanup approval |
@@ -210,8 +210,8 @@ WSL and containers use the host keyboard mapping.
 | `install/fedora/worktrunk.sh` | Active bootstrap step | mise/linux/tasks/configure/worktrunk and the macOS native package | Replacement exists; final removal still needs cleanup approval |
 | `install/fedora/yt-dlp.sh` | Active bootstrap step | Mise Linux tool declaration and the macOS native package | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/bat.sh` | Active bootstrap step | mise/bat and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
-| `install/macos/claude-code.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; skill transfer and on-demand installer remain pending D03 |
-| `install/macos/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; skill transfer and on-demand installer remain pending D03 |
+| `install/macos/claude-code.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; review skill release installation passes; live skill migration remains pending |
+| `install/macos/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; review skill release installation passes; live skill migration remains pending |
 | `install/macos/copilot-cli.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/macos/essentials.sh` | Active bootstrap step | mise/linux/packages and mise/config.macos.toml | Replacement exists; final removal still needs cleanup approval |
 | `install/macos/fish.sh` | Active bootstrap step | mise/fish and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
@@ -233,9 +233,9 @@ WSL and containers use the host keyboard mapping.
 | `install/macos/vm.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/macos/worktrunk.sh` | Active bootstrap step | mise/linux/tasks/configure/worktrunk and the macOS native package | Replacement exists; final removal still needs cleanup approval |
 | `install/ubuntu/bat.sh` | Active bootstrap step | mise/bat and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
-| `install/ubuntu/claude-code.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; skill transfer and on-demand installer remain pending D03 |
+| `install/ubuntu/claude-code.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; review skill release installation passes; live skill migration remains pending |
 | `install/ubuntu/clean.sh` | Active bootstrap step | mise/linux/tasks/configure/cleanup | Replacement exists; final removal still needs cleanup approval |
-| `install/ubuntu/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; skill transfer and on-demand installer remain pending D03 |
+| `install/ubuntu/codex.sh` | Standalone installer | Mise platform installers and a separate skills repository | CLI installation exists; review skill release installation passes; live skill migration remains pending |
 | `install/ubuntu/copilot-cli.sh` | Standalone installer | None | Remove capability under D04 or D05; old script remains until cleanup |
 | `install/ubuntu/essentials.sh` | Active bootstrap step | mise/linux/packages and mise/config.macos.toml | Replacement exists; final removal still needs cleanup approval |
 | `install/ubuntu/fish.sh` | Active bootstrap step | mise/fish and the platform configure tasks | Replacement exists; final removal still needs cleanup approval |
@@ -290,7 +290,7 @@ The cleanup does not move or delete it.
 ## Remaining inventory gates
 
 - [ ] Record the remaining capability and settings decisions.
-- [ ] Confirm the separate skills repository name, ownership, and visibility before repository creation.
+- [x] Confirm the public `ivanlemeshev/skills` repository and verify portable review release `v1.0.0`.
 - [ ] Audit ignored local files by name without recording their private contents.
 - [ ] Refresh the live machine link audit before deletion.
 - [ ] Convert the proposed dispositions into an explicit approved deletion manifest.
