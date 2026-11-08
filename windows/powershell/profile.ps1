@@ -79,7 +79,7 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
         }
     }
 
-    $miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue
+    $miseProfileCommand = Get-Command mise -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($null -ne $miseProfileCommand) {
         (& $miseProfileCommand.Source activate pwsh) | Out-String | Invoke-Expression
     }
