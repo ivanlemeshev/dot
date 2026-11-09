@@ -43,6 +43,7 @@ function M.show()
     saved_window[name] = vim.api.nvim_get_option_value(name, { win = win })
     vim.api.nvim_set_option_value(name, value, { win = win })
   end
+  local saved_windows = { [win] = saved_window }
   local saved_global = {}
   local global_options = {
     laststatus = 0,
@@ -168,26 +169,52 @@ function M.show()
     group = group,
     callback = render,
   })
+  vim.api.nvim_create_autocmd("WinNew", {
+    group = group,
+    callback = function()
+      if vim.api.nvim_get_current_buf() == buf then
+        -- NOTE: A split inherits the welcome window options.
+        saved_windows[vim.api.nvim_get_current_win()] = vim.deepcopy(saved_window)
+      end
+    end,
+  })
   vim.api.nvim_create_autocmd("BufLeave", {
     group = group,
-    buffer = buf,
     callback = function()
-      if vim.api.nvim_win_is_valid(win) then
-        for name, value in pairs(saved_window) do
-          vim.api.nvim_set_option_value(name, value, { win = win })
+      local current_win = vim.api.nvim_get_current_win()
+      if vim.api.nvim_get_current_buf() ~= buf then
+        saved_windows[current_win] = {}
+        for name in pairs(window_options) do
+          saved_windows[current_win][name] =
+            vim.api.nvim_get_option_value(name, { win = current_win })
         end
+        return
+      end
+      if saved_windows[current_win] then
+        for name, value in pairs(saved_windows[current_win]) do
+          vim.api.nvim_set_option_value(name, value, { win = current_win })
+        end
+        saved_windows[current_win] = nil
       end
       for name, value in pairs(saved_global) do
         vim.api.nvim_set_option_value(name, value, { scope = "global" })
       end
     end,
   })
-  vim.api.nvim_create_autocmd("BufEnter", {
+  vim.api.nvim_create_autocmd("BufWinEnter", {
     group = group,
     buffer = buf,
     callback = function()
+      local current_win = vim.api.nvim_get_current_win()
+      if not saved_windows[current_win] then
+        saved_windows[current_win] = {}
+        for name in pairs(window_options) do
+          saved_windows[current_win][name] =
+            vim.api.nvim_get_option_value(name, { win = current_win })
+        end
+      end
       for name, value in pairs(window_options) do
-        vim.api.nvim_set_option_value(name, value, { win = win })
+        vim.api.nvim_set_option_value(name, value, { win = current_win })
       end
       for name, value in pairs(global_options) do
         vim.api.nvim_set_option_value(name, value, { scope = "global" })
