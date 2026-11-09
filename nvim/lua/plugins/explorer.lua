@@ -10,6 +10,7 @@ vim.pack.add({
 })
 
 require("nvim-tree").setup({
+  hijack_directories = { enable = false },
   filesystem_watchers = { enable = false },
   view = { width = 40 },
   filters = {

@@ -4,6 +4,15 @@
 
 local helpers = require("config.helpers")
 
+-- Start each session with an empty jump list in each window.
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = helpers.augroup("clear-startup-jumps"),
+  once = true,
+  callback = function()
+    vim.cmd("windo clearjumps")
+  end,
+})
+
 --- Check whether files changed outside Neovim.
 local reload_augroup = helpers.augroup("auto-reload")
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
