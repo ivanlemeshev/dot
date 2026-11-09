@@ -7,9 +7,6 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Do not save the jump list between sessions.
-vim.opt.shada = vim.o.shada:gsub("'%d+", "'0")
-
 -- Always show the sign column to prevent text shifting when signs appear.
 vim.opt.signcolumn = "yes:1"
 

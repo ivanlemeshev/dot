@@ -208,7 +208,7 @@ function M.show()
       end
     end,
   })
-  vim.api.nvim_create_autocmd("BufWinEnter", {
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     group = group,
     buffer = buf,
     callback = function()
