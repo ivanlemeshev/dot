@@ -12,20 +12,20 @@ if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
     $selectionColor = "$([char]27)[30;44m"
     $readLineColors = @{
         ContinuationPrompt = [ConsoleColor]::DarkGray
-        Default = [ConsoleColor]::Gray
-        Comment = [ConsoleColor]::DarkGray
-        Keyword = [ConsoleColor]::DarkRed
-        String = [ConsoleColor]::DarkGreen
-        Operator = [ConsoleColor]::DarkCyan
-        Variable = [ConsoleColor]::Gray
-        Command = [ConsoleColor]::DarkYellow
-        Parameter = [ConsoleColor]::Gray
-        Type = [ConsoleColor]::DarkBlue
-        Number = [ConsoleColor]::DarkMagenta
-        Member = [ConsoleColor]::DarkBlue
-        Emphasis = [ConsoleColor]::DarkYellow
-        Error = [ConsoleColor]::Red
-        Selection = $selectionColor
+        Default            = [ConsoleColor]::Gray
+        Comment            = [ConsoleColor]::DarkGray
+        Keyword            = [ConsoleColor]::DarkRed
+        String             = [ConsoleColor]::DarkGreen
+        Operator           = [ConsoleColor]::DarkCyan
+        Variable           = [ConsoleColor]::Gray
+        Command            = [ConsoleColor]::DarkYellow
+        Parameter          = [ConsoleColor]::Gray
+        Type               = [ConsoleColor]::DarkBlue
+        Number             = [ConsoleColor]::DarkMagenta
+        Member             = [ConsoleColor]::DarkBlue
+        Emphasis           = [ConsoleColor]::DarkYellow
+        Error              = [ConsoleColor]::Red
+        Selection          = $selectionColor
     }
     if ((Get-Module PSReadLine).Version -ge [version]'2.2.0') {
         $readLineColors.InlinePrediction = [ConsoleColor]::DarkGray
@@ -61,17 +61,17 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
             $PSStyle.FileInfo.Extension[$extension] = $PSStyle.Foreground.Yellow
         }
         $formatColors = @{
-            FormatAccent = $PSStyle.Foreground.White
-            TableHeader = $PSStyle.Foreground.White
+            FormatAccent           = $PSStyle.Foreground.White
+            TableHeader            = $PSStyle.Foreground.White
             CustomTableHeaderLabel = $PSStyle.Foreground.White
-            ErrorAccent = $PSStyle.Foreground.Cyan
-            Error = $PSStyle.Foreground.BrightRed
-            Warning = $PSStyle.Foreground.BrightYellow
-            Verbose = $PSStyle.Foreground.Yellow
-            Debug = $PSStyle.Foreground.Yellow
-            FeedbackName = $PSStyle.Foreground.White
-            FeedbackText = $PSStyle.Foreground.White
-            FeedbackAction = $PSStyle.Foreground.Yellow
+            ErrorAccent            = $PSStyle.Foreground.Cyan
+            Error                  = $PSStyle.Foreground.BrightRed
+            Warning                = $PSStyle.Foreground.BrightYellow
+            Verbose                = $PSStyle.Foreground.Yellow
+            Debug                  = $PSStyle.Foreground.Yellow
+            FeedbackName           = $PSStyle.Foreground.White
+            FeedbackText           = $PSStyle.Foreground.White
+            FeedbackAction         = $PSStyle.Foreground.Yellow
         }
         foreach ($formatColor in $formatColors.GetEnumerator()) {
             if ($null -ne $PSStyle.Formatting.PSObject.Properties[$formatColor.Key]) {

@@ -9,7 +9,7 @@ function Set-CapsLockMapping {
     if (-not (Test-Path -LiteralPath $statePath)) {
         $state = @{
             previous = if ($null -eq $current) { $null } else { [Convert]::ToBase64String($current) }
-            applied = [Convert]::ToBase64String($updated)
+            applied  = [Convert]::ToBase64String($updated)
         }
         Save-StateText 'keyboard.json' ($state | ConvertTo-Json)
     }
