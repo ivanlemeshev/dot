@@ -70,7 +70,14 @@ function M.show()
   local first_row = 1
 
   local function render()
-    if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_win_is_valid(win) then
+    if not vim.api.nvim_buf_is_valid(buf) then
+      return
+    end
+    local win = vim.api.nvim_get_current_win()
+    if vim.api.nvim_win_get_buf(win) ~= buf then
+      win = vim.fn.win_findbuf(buf)[1]
+    end
+    if not win then
       return
     end
     vim.api.nvim_set_hl(0, "WelcomeTitle", { ctermfg = 4, bold = true })
@@ -156,7 +163,7 @@ function M.show()
     group = group,
     buffer = buf,
     callback = function()
-      local row = vim.api.nvim_win_get_cursor(win)[1]
+      local row = vim.api.nvim_win_get_cursor(0)[1]
       local index = math.max(1, math.min(#entries, row - first_row + 1))
       if index ~= selected or row ~= first_row + index - 1 then
         selected = index
