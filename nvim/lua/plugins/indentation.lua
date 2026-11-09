@@ -22,7 +22,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "help",
     "mason",
     "NvimTree",
-    "welcome",
   },
   callback = function()
     vim.b.miniindentscope_disable = true
