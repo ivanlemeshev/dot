@@ -9,8 +9,7 @@ vim.pack.add({
   confirm = false, -- Install without confirmation
 })
 
-require("nvim-tree").setup({
-  hijack_directories = { enable = false },
+local options = {
   filesystem_watchers = { enable = false },
   view = { width = 40 },
   filters = {
@@ -48,7 +47,20 @@ require("nvim-tree").setup({
   update_focused_file = {
     enable = true, -- Update the focused file in the tree
   },
-})
+}
+
+if vim.v.vim_did_enter == 1 then
+  require("nvim-tree").setup(options)
+else
+  -- NOTE: The welcome screen handles directory arguments at startup.
+  vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("nvim-tree-startup", { clear = true }),
+    once = true,
+    callback = function()
+      require("nvim-tree").setup(options)
+    end,
+  })
+end
 
 -- Auto-refresh nvim-tree when Neovim gains focus
 local nvim_tree_augroup =
