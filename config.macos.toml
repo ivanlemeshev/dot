@@ -71,6 +71,8 @@ eval "$(mise activate bash --shims)"''' }
 
 [env]
 _.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin", "{{env.HOMEBREW_PREFIX | default(value='/opt/homebrew')}}/opt/llvm/bin"]
+CC = "/usr/bin/clang"
+CXX = "/usr/bin/clang++"
 
 [tools]
 powershell = "latest"
