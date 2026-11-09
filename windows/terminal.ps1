@@ -31,9 +31,9 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
     if ($null -eq $settings) {
         $settings = [pscustomobject]@{
             '$schema' = 'https://aka.ms/terminal-profiles-schema'
-            profiles = [pscustomobject]@{
+            profiles  = [pscustomobject]@{
                 defaults = [pscustomobject]@{}
-                list = @()
+                list     = @()
             }
         }
     }
@@ -107,8 +107,16 @@ function Set-WindowsTerminalSettings {
     $target = Join-Path $Directory 'settings.json'
     $statePath = Join-Path $StateDirectory 'terminal.json'
     $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
-    $original = if ($null -ne $item) { [IO.File]::ReadAllBytes($target) } else { $null }
-    $settings = if ($null -ne $original) { [Text.Encoding]::UTF8.GetString($original).TrimStart([char]0xfeff) | ConvertFrom-Json } else { $null }
+    $original = if ($null -ne $item) {
+        [IO.File]::ReadAllBytes($target)
+    } else {
+        $null
+    }
+    $settings = if ($null -ne $original) {
+        [Text.Encoding]::UTF8.GetString($original).TrimStart([char]0xfeff) | ConvertFrom-Json
+    } else {
+        $null
+    }
     $local = Join-Path $Directory 'settings.local.json'
     if ($null -ne $item -and ($item.LinkType -eq 'SymbolicLink' -or $settings.import) -and (Test-Path -LiteralPath $local)) {
         $settings = Get-Content -LiteralPath $local -Raw | ConvertFrom-Json
@@ -117,18 +125,30 @@ function Set-WindowsTerminalSettings {
     $settings = Merge-WindowsTerminalSettings $settings $shared
     $settings | Add-Member -Force -NotePropertyName theme -NotePropertyValue 'custom'
     $text = ($settings | ConvertTo-Json -Depth 100) + "`n"
-    if ($null -ne $original -and [Text.Encoding]::UTF8.GetString($original) -eq $text) { return }
+    if ($null -ne $original -and [Text.Encoding]::UTF8.GetString($original) -eq $text) {
+        return
+    }
     $state = if (Test-Path -LiteralPath $statePath) {
         Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
     } else {
         [pscustomobject]@{
-            target = $target
-            previous = if ($null -eq $original) { $null } else { [Convert]::ToBase64String($original) }
-            link = if ($null -ne $item -and $item.LinkType -eq 'SymbolicLink') { @($item.Target)[0] } else { $null }
-            applied = $null
+            target   = $target
+            previous = if ($null -eq $original) {
+                $null
+            } else {
+                [Convert]::ToBase64String($original)
+            }
+            link     = if ($null -ne $item -and $item.LinkType -eq 'SymbolicLink') {
+                @($item.Target)[0]
+            } else {
+                $null
+            }
+            applied  = $null
         }
     }
-    if ($null -ne $item -and $item.LinkType -eq 'SymbolicLink') { Remove-Item -LiteralPath $target -Force }
+    if ($null -ne $item -and $item.LinkType -eq 'SymbolicLink') {
+        Remove-Item -LiteralPath $target -Force
+    }
     New-Item -ItemType Directory -Path $Directory -Force | Out-Null
     [IO.File]::WriteAllText($target, $text, [Text.UTF8Encoding]::new($false))
     $state.applied = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
@@ -137,7 +157,9 @@ function Set-WindowsTerminalSettings {
 
 function Restore-WindowsTerminalSettings {
     $statePath = Join-Path $StateDirectory 'terminal.json'
-    if (-not (Test-Path -LiteralPath $statePath)) { return }
+    if (-not (Test-Path -LiteralPath $statePath)) {
+        return
+    }
     $state = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
     if ((Get-FileHash -LiteralPath $state.target -Algorithm SHA256).Hash -ne $state.applied) {
         throw 'Windows Terminal settings change after setup. Keep the current file and review terminal.json.'

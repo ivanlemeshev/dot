@@ -50,6 +50,19 @@ local ok, err = xpcall(function()
     assert(package:get_receipt():is_present(), "Missing tool receipt: " .. package_name)
   end
 
+  local powershell = vim.system({ "psfmt", "--preset", "otbs" }, {
+    stdin = "if ($true) {\nWrite-Host hello\n}\n",
+    text = true,
+  }):wait(3000)
+  assert(
+    powershell.code == 0,
+    "psfmt verification fails: " .. (powershell.stderr or "")
+  )
+  assert(
+    powershell.stdout:find("\n    Write-Host hello\n", 1, true),
+    "PowerShell indentation is invalid."
+  )
+
   local installed = require("nvim-treesitter.config").get_installed("parsers")
   for _, name in ipairs(require("plugins.treesitter")) do
     assert(vim.tbl_contains(installed, name), "Missing parser: " .. name)

@@ -31,6 +31,7 @@ helpers.load_on(
         lua = { "stylua" },
         markdown = { "prettier" },
         proto = { "buf" },
+        ps1 = { "psfmt" },
         python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
         rust = { "rustfmt" },
         sh = { "shfmt" },
@@ -40,6 +41,11 @@ helpers.load_on(
         yaml = { "yamlfmt" },
       },
       formatters = {
+        psfmt = {
+          command = "psfmt",
+          args = { "--preset", "otbs", "--stdin-filepath", "$FILENAME" },
+          stdin = true,
+        },
         clang_format = {
           args = { "--style=LLVM", "--assume-filename", "$FILENAME" },
         },

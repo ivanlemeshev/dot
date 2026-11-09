@@ -25,12 +25,13 @@ NO_COLOR = false
 includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% elif os() == 'macos' %}macos/tasks{% else %}linux/tasks{% endif %}"]
 
 [tools]
-go = "1.27.2"
-golangci-lint = "2.14.0"
-julia = "1.13.1"
-node = "24.21.0"
-pnpm = "12.11.2"
-python = "3.15.0"
-rust = { version = "1.99.0", profile = "default" }
-uv = "0.13.0"
+"cargo:psfmt" = "0.2.0"
+go = "1.27.3"
+golangci-lint = "2.15.0"
+julia = "1.13.3"
+node = "26.13.0"
+pnpm = "12.18.0"
+python = "3.15.2"
+rust = { version = "1.99.1", profile = "default" }
+uv = "0.13.7"
 zig = "0.17.0"

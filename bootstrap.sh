@@ -213,7 +213,7 @@ if [[ "$platform" == Darwin ]]; then
   fi
 elif [[ "$ID" == fedora ]]; then
   run_as_root dnf upgrade --refresh -y
-  run_as_root dnf install -y ca-certificates curl git sudo dnf5-plugins
+  run_as_root dnf install -y ca-certificates curl gawk git sudo dnf5-plugins
 else
   # NOTE: Apt rejects duplicate sources with different signing-key settings.
   for github_source in /etc/apt/sources.list.d/github-cli.list /etc/apt/sources.list.d/github-cli.sources; do

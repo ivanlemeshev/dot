@@ -18,7 +18,8 @@ function Install-NerdFont {
         foreach ($font in Get-ChildItem (Join-Path $temporary 'fonts') -Recurse -Filter '*.ttf') {
             $target = Join-Path $fontDirectory $font.Name
             Copy-Item -LiteralPath $font.FullName -Destination $target -Force
-            New-ItemProperty -LiteralPath $registryPath -Name "$($font.BaseName) (TrueType)" -PropertyType String -Value $target -Force | Out-Null
+            New-ItemProperty -LiteralPath $registryPath -Name "$($font.BaseName) (TrueType)" -PropertyType String -Value $target -Force |
+                Out-Null
         }
         if (-not (Test-Path -LiteralPath $regularFont)) { throw 'The configured Nerd Font is missing from the archive.' }
     } finally {

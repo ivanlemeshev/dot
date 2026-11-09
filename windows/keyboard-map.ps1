@@ -65,7 +65,7 @@ function Get-ScancodeMappings([byte[]]$value) {
             ))
     }
 
-    return ,$mappings
+    return , $mappings
 }
 
 function Get-CapsLockScancodeMap([byte[]]$currentValue) {
