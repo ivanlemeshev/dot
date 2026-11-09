@@ -1333,6 +1333,18 @@ function M.setup()
   -- `GitSignsAddCul` marks added text on the cursor line.
   hl("GitSignsAddCul", { fg = M.git.add })
 
+  -- `GitSignsStagedAdd` marks staged added text in the sign column.
+  hl("GitSignsStagedAdd", { fg = M.git.add })
+
+  -- `GitSignsStagedAddNr` marks staged added line numbers.
+  hl("GitSignsStagedAddNr", { fg = M.git.add })
+
+  -- `GitSignsStagedAddLn` marks staged added lines.
+  hl("GitSignsStagedAddLn", { fg = M.git.add })
+
+  -- `GitSignsStagedAddCul` marks staged added text on the cursor line.
+  hl("GitSignsStagedAddCul", { fg = M.git.add })
+
   -- `GitSignsChange` marks modified text in the sign column.
   hl("GitSignsChange", { fg = M.git.change })
 
@@ -1345,6 +1357,18 @@ function M.setup()
   -- `GitSignsChangeCul` marks modified text on the cursor line.
   hl("GitSignsChangeCul", { fg = M.git.change })
 
+  -- `GitSignsStagedChange` marks staged modified text in the sign column.
+  hl("GitSignsStagedChange", { fg = M.git.change })
+
+  -- `GitSignsStagedChangeNr` marks staged modified line numbers.
+  hl("GitSignsStagedChangeNr", { fg = M.git.change })
+
+  -- `GitSignsStagedChangeLn` marks staged modified lines.
+  hl("GitSignsStagedChangeLn", { fg = M.git.change })
+
+  -- `GitSignsStagedChangeCul` marks staged modified text on the cursor line.
+  hl("GitSignsStagedChangeCul", { fg = M.git.change })
+
   -- `GitSignsDelete` marks deleted text in the sign column.
   hl("GitSignsDelete", { fg = M.git.delete })
 
@@ -1356,6 +1380,24 @@ function M.setup()
 
   -- `GitSignsDeleteCul` marks deleted text on the cursor line.
   hl("GitSignsDeleteCul", { fg = M.git.delete })
+
+  -- `GitSignsStagedDelete` marks staged deleted text in the sign column.
+  hl("GitSignsStagedDelete", { fg = M.git.delete })
+
+  -- `GitSignsStagedDeleteNr` marks staged deleted line numbers.
+  hl("GitSignsStagedDeleteNr", { fg = M.git.delete })
+
+  -- `GitSignsStagedDeleteLn` marks staged deleted lines.
+  hl("GitSignsStagedDeleteLn", { fg = M.git.delete })
+
+  -- `GitSignsStagedDeleteCul` marks staged deleted text on the cursor line.
+  hl("GitSignsStagedDeleteCul", { fg = M.git.delete })
+
+  -- `GitSignsStagedTopdelete` marks staged deleted text above the first line.
+  hl("GitSignsStagedTopdelete", { fg = M.git.delete })
+
+  -- `GitSignsStagedChangedelete` marks staged changed and deleted text.
+  hl("GitSignsStagedChangedelete", { fg = M.git.change })
 
   -- `GitSignsCurrentLineBlame` shows blame text for the current line.
   hl("GitSignsCurrentLineBlame", { fg = M.git.blame })
