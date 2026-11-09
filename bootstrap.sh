@@ -232,6 +232,25 @@ if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | sh
 fi
 MISE_BIN="$(command -v mise)"
+if [[ "$platform" == Linux ]]; then
+  mise_version="$("$MISE_BIN" --version)"
+  if [[ ! "$mise_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+    printf 'Cannot read the installed mise version: %s\n' "$mise_version" >&2
+    exit 1
+  fi
+  if (( BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1) )); then
+    MISE_SELF_UPDATE_MINIMUM_RELEASE_AGE=0s "$MISE_BIN" self-update --yes
+    mise_version="$("$MISE_BIN" --version)"
+    if [[ ! "$mise_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+      printf 'Cannot read the updated mise version: %s\n' "$mise_version" >&2
+      exit 1
+    fi
+    if (( BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1) )); then
+      printf 'mise 2026.11.1 or later is required; found %s\n' "$mise_version" >&2
+      exit 1
+    fi
+  fi
+fi
 
 mkdir -p "$HOME/.config"
 if [[ "$replace_config" == true ]]; then
