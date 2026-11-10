@@ -6,7 +6,7 @@ include = ["{{config_source | dirname}}/linux/packages/{% set release = read_fil
 "~/.bashrc/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
 case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
 eval "$(mise activate bash)"''' }
-"~/.config/fish/conf.d/custom_theme.fish" = { source = "fish/conf.d/custom_theme.fish" }
+"~/.config/fish/conf.d/zz_custom_theme.fish" = { source = "fish/conf.d/zz_custom_theme.fish" }
 "~/.config/fish/conf.d/fzf_colors.fish" = { source = "fish/conf.d/fzf_colors.fish" }
 "~/.config/fish/conf.d/ls_colors.fish" = { source = "fish/conf.d/ls_colors.fish" }
 "~/.config/fish/config.fish" = { source = "fish/config.fish" }
