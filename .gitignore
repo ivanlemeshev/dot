@@ -10,3 +10,4 @@ nvim.log
 tmp
 /config.local.toml
 /config.*.local.toml
+/nvim/lua/config/local.lua

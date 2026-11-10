@@ -11,7 +11,32 @@ vim.pack.add({
   confirm = false,
 })
 
+local function is_under(path, dir)
+  return path == dir or vim.startswith(path, dir .. "/")
+end
+
+local function is_trusted_root(root)
+  for _, trusted in ipairs(vim.g.golangci_lint_trusted_roots or {}) do
+    local dir = vim.uv.fs_realpath(vim.fs.normalize(trusted))
+    if dir and is_under(root, dir) then
+      return true
+    end
+  end
+  return false
+end
+
+-- WARNING: A project binary and its config plugins run repository code. Use them only in trusted roots.
 local function golangci_cmd()
+  local bin_dir = vim.g.golangci_lint_trusted_bin_dir
+  bin_dir = bin_dir and vim.uv.fs_realpath(vim.fs.normalize(bin_dir))
+  local root = vim.fs.root(0, "go.mod")
+  root = root and vim.uv.fs_realpath(root)
+  if bin_dir and root and is_trusted_root(root) then
+    local bin = vim.uv.fs_realpath(root .. "/temp/bin/golangci-lint")
+    if bin and is_under(bin, bin_dir) and vim.fn.executable(bin) == 1 then
+      return bin
+    end
+  end
   return "golangci-lint"
 end
 
