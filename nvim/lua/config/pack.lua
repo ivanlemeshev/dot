@@ -17,6 +17,7 @@ local plugin_modules = {
   "plugins.treesitter",
   "plugins.http",
   "plugins.statusline",
+  "plugins.snacks",
 }
 
 for _, module in ipairs(plugin_modules) do
