@@ -36,6 +36,7 @@ helpers.load_on(
         rust = { "rustfmt" },
         sh = { "shfmt" },
         julia = { "runic" },
+        toml = { "tombi" },
         typescript = { "biome" },
         typescriptreact = { "biome" },
         yaml = { "yamlfmt" },

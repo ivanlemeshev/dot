@@ -40,6 +40,7 @@ local servers = {
   "pyright",
   "ruff",
   "terraformls",
+  "tombi",
   "ts_ls",
   "typos_lsp",
   "yamlls",
@@ -78,7 +79,8 @@ local tools = vim.iter({ servers, formatters, linters }):flatten():totable()
 
 require("mason-tool-installer").setup({
   ensure_installed = tools,
-  run_on_start = vim.env.MISE_NVIM_INSTALL ~= "1" and vim.env.MISE_NVIM_VERIFY ~= "1",
+  run_on_start = vim.env.MISE_NVIM_INSTALL ~= "1"
+    and vim.env.MISE_NVIM_VERIFY ~= "1",
 })
 
 return tools
