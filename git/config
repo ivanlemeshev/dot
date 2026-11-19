@@ -16,3 +16,6 @@
 [include]
 	path = ~/.config/git/colors
 	path = ~/.config/git/config.local
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
