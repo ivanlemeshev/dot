@@ -16,7 +16,7 @@ EXPECTED = {
     "cold-graphite": "191d22 c58f99 91b5a5 c4ba91 91afd0 b6a0c9 8dbfc5 bbc2cb 87919e e0adb6 acd1bf dfd5ac afccec d2bce5 abe0e5 edf1f5".split(),
     "deep-ocean": "121e28 c48e9b 8db8a9 c3ba94 8baed0 b1a0cd 83bec8 b8c8d1 8196a5 dfaab7 a8d5c2 dfd6ae a9cbed cdbce9 a1dce6 eaf3f7".split(),
     "violet-graphite": "201e28 c494a8 99b5a4 c5bd9c 98acd2 bca1d0 91bdc7 c1bfcd 908a9e e0b0c3 b6d2bf e0d8b8 b6c8ed d8bdeb afe0e8 f0eef7".split(),
-    "solarized-dark": "073642 dc322f 859900 b58900 268bd2 d33682 2aa198 eee8d5 002b36 cb4b16 586e75 657b83 839496 6c71c4 93a1a1 fdf6e3".split(),
+    "solarized-dark": "073642 e67e78 a6b73d d2aa43 6baedc dc85b1 57b7ad eee8d5 839496 f08e89 c0d35b e5c46a 91c8eb e69dc3 83d0c5 fdf6e3".split(),
     "gruvbox-material-dark": "282828 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 d4be98 928374 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 ddc7a1".split(),
     "everforest-dark": "2d353b e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 d3c6aa 859289 e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad e5dfc5".split(),
     "commodore-64": "000000 813338 56ac4d 553800 2e2c9b 8e3c97 75cec8 b2b2b2 4a4a4a c46c71 a9ff9f edf171 706deb 8e5029 7b7b7b ffffff".split(),
@@ -109,6 +109,29 @@ class PaletteTests(unittest.TestCase):
                     "selection-foreground": 0,
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
+
+    def test_solarized_color_visibility(self):
+        def luminance(color):
+            channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
+            linear = [
+                value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+                for value in channels
+            ]
+            return sum(
+                value * weight
+                for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
+            )
+
+        text = (ROOT / "palettes/solarized-dark/ghostty").read_text()
+        palette = re.findall(r"palette = \d+=#([0-9a-f]{6})", text)
+        levels = [luminance(color) for color in palette]
+        for index in range(1, 8):
+            with self.subTest(slot=index):
+                self.assertGreaterEqual(
+                    (levels[index] + 0.05) / (levels[0] + 0.05), 4.5
+                )
+                self.assertGreater(levels[index + 8], levels[index])
+        self.assertGreaterEqual((levels[8] + 0.05) / (levels[0] + 0.05), 4.0)
 
     @unittest.skipIf(os.name == "nt", "Unix links require a Unix host.")
     def test_switch_prepare_and_reverse_links(self):

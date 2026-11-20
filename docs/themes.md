@@ -20,7 +20,7 @@ mise run palette use warm-earth
 | `cold-graphite`         | Cool gray background                           |
 | `deep-ocean`            | Dark blue background                           |
 | `violet-graphite`       | Dark violet background                         |
-| `solarized-dark`        | Blue-green background                          |
+| `solarized-dark`        | Blue-green background with brighter accents    |
 | `gruvbox-material-dark` | Dark gray background with warm accents         |
 | `everforest-dark`       | Gray-green background                          |
 | `commodore-64`          | Black background with C64 colors in ANSI order |
