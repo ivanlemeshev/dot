@@ -38,8 +38,8 @@ vim.opt.relativenumber = false
 vim.opt.list = true
 
 vim.opt.listchars = {
-  tab = "▸ ",
   trail = "·",
+  tab = "› ",
   nbsp = "␣",
 }
 

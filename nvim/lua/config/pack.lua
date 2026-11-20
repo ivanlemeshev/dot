@@ -11,7 +11,6 @@ local plugin_modules = {
   "plugins.formatting",
   "plugins.linting",
   "plugins.editing",
-  "plugins.indentation",
   "plugins.diagnostics",
   "plugins.filetypes",
   "plugins.treesitter",
