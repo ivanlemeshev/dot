@@ -1,3 +1,4 @@
+import colorsys
 import configparser
 import hashlib
 import json
@@ -20,7 +21,7 @@ EXPECTED = {
     "gruvbox-material-dark": "282828 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 d4be98 928374 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 ddc7a1".split(),
     "everforest-dark": "2d353b e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 d3c6aa 859289 e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad e5dfc5".split(),
     "commodore-64": "000000 813338 56ac4d 553800 2e2c9b 8e3c97 75cec8 b2b2b2 4a4a4a c46c71 a9ff9f edf171 706deb 8e5029 7b7b7b ffffff".split(),
-    "ibm-cga": "000000 aa0000 00aa00 aa5500 0000aa aa00aa 00aaaa aaaaaa 555555 ff5555 55ff55 ffff55 5555ff ff55ff 55ffff ffffff".split(),
+    "ibm-sga-soft": "1c1c20 c27d7d 83ad83 b99a7a 8585c2 b583b5 7babab b8b8c0 808087 dc9a9a a4cba4 d0d093 a7a7de d0a3d0 9fcece e4e4e8".split(),
     "ibm-5151-green": "061009 5d9866 65a970 7bbd83 72ae7a 83bf8b 8bc997 a0d9a9 47744e 9bd4a3 a9e1b1 b9eabd aee5b5 c0efc6 ccf5d0 ddffe0".split(),
     "dec-vt220-amber": "140c04 bb772d c18b37 d3a148 c08b49 d0a056 dab05e e8bf75 8b5924 e5b36b ebc17a f3ce90 eec583 f4d59e f8dda9 ffe8bc".split(),
     "amiga-workbench": "10141c bb785b 759da0 d8a36a 5988bd a58aaa 80acbb c4cbd2 747d8a e4a185 a0c4ba f0c68b 93b8df d1b4d1 b2d6df eef0f2".split(),
@@ -33,6 +34,8 @@ EXPECTED = {
     "atari-st": "1d2026 c29596 98b29a c6b99a 92a9c9 b49fbc 8cb7bf c4c8ce 858e9b ddafb0 b3ccb1 dfd2b2 aec5e3 ceb9d6 a8d2da edf0f4".split(),
     "mac-system-7": "1b1b1d aaa0a2 a0aaa4 b0ada3 9fa8b1 aba3b0 a0adb0 c4c4c6 858588 c8bbbe bdc8c0 cdc8bc bdc6d0 c9bfce bdcbd0 f0f0f0".split(),
     "zx-spectrum": "191a20 bb8389 83ac8b b8ae80 8297c2 ac88b7 80abb8 b9bdc4 80848e dea4ab a4cdae dcd09f a3b7e2 cda8d9 a0ccd9 eef0f4".split(),
+    "everforest-dark-hard": "272e33 e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 e5dfc5 9da99c e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad f4f0da".split(),
+    "gruvbox-material-dark-hard": "1d2021 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 ddc7a1 a89984 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 f2e5bc".split(),
 }
 
 
@@ -110,7 +113,7 @@ class PaletteTests(unittest.TestCase):
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
 
-    def test_solarized_color_visibility(self):
+    def test_adjusted_palette_visibility(self):
         def luminance(color):
             channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
             linear = [
@@ -122,16 +125,41 @@ class PaletteTests(unittest.TestCase):
                 for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
             )
 
-        text = (ROOT / "palettes/solarized-dark/ghostty").read_text()
-        palette = re.findall(r"palette = \d+=#([0-9a-f]{6})", text)
-        levels = [luminance(color) for color in palette]
-        for index in range(1, 8):
-            with self.subTest(slot=index):
+        for name in (
+            "solarized-dark",
+            "ibm-sga-soft",
+            "everforest-dark-hard",
+            "gruvbox-material-dark-hard",
+        ):
+            text = (ROOT / "palettes" / name / "ghostty").read_text()
+            palette = re.findall(r"palette = \d+=#([0-9a-f]{6})", text)
+            levels = [luminance(color) for color in palette]
+            with self.subTest(palette=name):
+                for index in range(1, 8):
+                    with self.subTest(slot=index):
+                        self.assertGreaterEqual(
+                            (levels[index] + 0.05) / (levels[0] + 0.05), 4.5
+                        )
+                        self.assertGreater(levels[index + 8], levels[index])
                 self.assertGreaterEqual(
-                    (levels[index] + 0.05) / (levels[0] + 0.05), 4.5
+                    (levels[8] + 0.05) / (levels[0] + 0.05), 4.0
                 )
-                self.assertGreater(levels[index + 8], levels[index])
-        self.assertGreaterEqual((levels[8] + 0.05) / (levels[0] + 0.05), 4.0)
+                if name == "ibm-sga-soft":
+                    for color in palette[1:7] + palette[9:15]:
+                        channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
+                        self.assertLessEqual(colorsys.rgb_to_hls(*channels)[2], 0.55)
+                if name.endswith("-hard"):
+                    base = ROOT / "palettes" / name.removesuffix("-hard") / "ghostty"
+                    base_palette = re.findall(
+                        r"palette = \d+=#([0-9a-f]{6})", base.read_text()
+                    )
+                    base_levels = [luminance(color) for color in base_palette]
+                    self.assertLess(levels[0], base_levels[0])
+                    for index in range(1, 16):
+                        self.assertGreater(
+                            (levels[index] + 0.05) / (levels[0] + 0.05),
+                            (base_levels[index] + 0.05) / (base_levels[0] + 0.05),
+                        )
 
     @unittest.skipIf(os.name == "nt", "Unix links require a Unix host.")
     def test_switch_prepare_and_reverse_links(self):
@@ -178,6 +206,17 @@ class PaletteTests(unittest.TestCase):
         self.run_palette("use", success=False)
         self.run_palette("current", "charcoal-pastel", success=False)
         self.assertFalse(self.state.exists())
+
+    @unittest.skipIf(os.name == "nt", "Unix links require a Unix host.")
+    def test_select_after_palette_removal(self):
+        self.run_palette("prepare")
+        (self.state / "selection").write_text("removed-palette\n")
+        active = self.state / "active"
+        active.unlink()
+        active.symlink_to(ROOT / "palettes/removed-palette", target_is_directory=True)
+        self.run_palette("use", "ibm-sga-soft")
+        self.assertEqual(self.run_palette("current").strip(), "ibm-sga-soft")
+        self.assertEqual(active.resolve(), ROOT / "palettes/ibm-sga-soft")
 
     @unittest.skipIf(os.name == "nt", "Unix links require a Unix host.")
     def test_preserve_conflicting_file(self):

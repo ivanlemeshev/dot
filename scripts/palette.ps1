@@ -62,7 +62,12 @@ function Invoke-Palette {
         throw 'Only use accepts a palette name.'
     }
     $current = Get-PaletteName
-    $currentDirectory = Get-PaletteDirectory $current
+    try {
+        $currentDirectory = Get-PaletteDirectory $current
+    } catch {
+        if ($Command -ne 'use') { throw }
+        $currentDirectory = $null
+    }
     switch ($Command) {
         'list' {
             Get-ChildItem -LiteralPath (Split-Path -Parent $currentDirectory) -Directory |
@@ -96,7 +101,7 @@ function Invoke-Palette {
                     [IO.File]::WriteAllText($selection, "$selected`n", [Text.UTF8Encoding]::new($false))
                 }
             } catch {
-                if (-not $windows) { Set-UnixPalette $currentDirectory }
+                if (-not $windows -and $currentDirectory) { Set-UnixPalette $currentDirectory }
                 throw
             }
             if ($Command -eq 'use') {

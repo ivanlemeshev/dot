@@ -13,30 +13,32 @@ mise run palette use warm-earth
 
 `charcoal-pastel` is the default palette. An asterisk marks the selected palette in the list.
 
-| Palette                 | Appearance                                     |
-| ----------------------- | ---------------------------------------------- |
-| `charcoal-pastel`       | Charcoal background with soft accents          |
-| `warm-earth`            | Brown, olive, and cream tones                  |
-| `cold-graphite`         | Cool gray background                           |
-| `deep-ocean`            | Dark blue background                           |
-| `violet-graphite`       | Dark violet background                         |
-| `solarized-dark`        | Blue-green background with brighter accents    |
-| `gruvbox-material-dark` | Dark gray background with warm accents         |
-| `everforest-dark`       | Gray-green background                          |
-| `commodore-64`          | Black background with C64 colors in ANSI order |
-| `ibm-cga`               | Black background with strong primary colors    |
-| `ibm-5151-green`        | Green text on a dark green background          |
-| `dec-vt220-amber`       | Amber text on a dark brown background          |
-| `amiga-workbench`       | Blue-gray background with soft accents         |
-| `apple-ii`              | Dark background with bright accents            |
-| `nextstep`              | Charcoal background with gray accents          |
-| `risc-os`               | Gray background with soft accents              |
-| `sgi-irix`              | Dark blue background with cool accents         |
-| `ibm-3279`              | Dark green background with soft accents        |
-| `dec-vt340`             | Dark blue background with soft accents         |
-| `atari-st`              | Dark gray background with soft accents         |
-| `mac-system-7`          | Dark gray background with gray accents         |
-| `zx-spectrum`           | Dark background with subdued accents           |
+| Palette | Appearance |
+| --- | --- |
+| `charcoal-pastel` | Charcoal background with soft accents |
+| `warm-earth` | Brown, olive, and cream tones |
+| `cold-graphite` | Cool gray background |
+| `deep-ocean` | Dark blue background |
+| `violet-graphite` | Dark violet background |
+| `solarized-dark` | Blue-green background with brighter accents |
+| `gruvbox-material-dark` | Dark gray background with warm accents |
+| `gruvbox-material-dark-hard` | Darker background with brighter text and comments |
+| `everforest-dark` | Gray-green background |
+| `everforest-dark-hard` | Darker background with brighter text and comments |
+| `commodore-64` | Black background with C64 colors in ANSI order |
+| `ibm-sga-soft` | Charcoal background with soft CGA colors |
+| `ibm-5151-green` | Green text on a dark green background |
+| `dec-vt220-amber` | Amber text on a dark brown background |
+| `amiga-workbench` | Blue-gray background with soft accents |
+| `apple-ii` | Dark background with bright accents |
+| `nextstep` | Charcoal background with gray accents |
+| `risc-os` | Gray background with soft accents |
+| `sgi-irix` | Dark blue background with cool accents |
+| `ibm-3279` | Dark green background with soft accents |
+| `dec-vt340` | Dark blue background with soft accents |
+| `atari-st` | Dark gray background with soft accents |
+| `mac-system-7` | Dark gray background with gray accents |
+| `zx-spectrum` | Dark background with subdued accents |
 
 The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 
