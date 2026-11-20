@@ -34,7 +34,7 @@
     "terminal.ansiMagenta": "#A99AA3",
     "terminal.ansiCyan": "#93A6A2",
     "terminal.ansiWhite": "#B4ADA5",
-    "terminal.ansiBrightBlack": "#403329",
+    "terminal.ansiBrightBlack": "#80746A",
     "terminal.ansiBrightRed": "#C2A394",
     "terminal.ansiBrightGreen": "#B7BAA0",
     "terminal.ansiBrightYellow": "#D0B79A",
@@ -70,17 +70,17 @@
     "focusBorder": "#959BA0",
     "editorGroup.focusedEmptyBorder": "#959BA0",
     "panelTitle.activeBorder": "#959BA0",
-    "terminal.border": "#403329",
-    "editorGroup.border": "#403329",
-    "editorWidget.border": "#403329",
-    "editorHoverWidget.border": "#403329",
-    "widget.border": "#403329",
-    "sideBar.border": "#403329",
-    "panel.border": "#403329",
-    "input.border": "#403329",
-    "dropdown.border": "#403329",
-    "editorLineNumber.foreground": "#403329",
-    "editorWhitespace.foreground": "#403329",
+    "terminal.border": "#80746A",
+    "editorGroup.border": "#80746A",
+    "editorWidget.border": "#80746A",
+    "editorHoverWidget.border": "#80746A",
+    "widget.border": "#80746A",
+    "sideBar.border": "#80746A",
+    "panel.border": "#80746A",
+    "input.border": "#80746A",
+    "dropdown.border": "#80746A",
+    "editorLineNumber.foreground": "#80746A",
+    "editorWhitespace.foreground": "#80746A",
     "editorLineNumber.activeForeground": "#B5A18A",
     "editorWarning.foreground": "#D0B79A",
     "list.highlightForeground": "#B5A18A",
@@ -93,10 +93,10 @@
     "editorGutter.modifiedBackground": "#B5A18A",
     "sideBarTitle.foreground": "#B5A18A",
     "panelTitle.activeForeground": "#B5A18A",
-    "panelTitle.inactiveForeground": "#403329"
+    "panelTitle.inactiveForeground": "#80746A"
   },
   "editor.tokenColorCustomizations": {
-    "comments": "#403329",
+    "comments": "#80746A",
     "strings": "#9B9B87",
     "keywords": "#A38B7B",
     "numbers": "#A99AA3",
@@ -121,7 +121,7 @@
       "keyword": "#A38B7B",
       "string": "#9B9B87",
       "number": "#A99AA3",
-      "comment": "#403329"
+      "comment": "#80746A"
     }
   }
 }
