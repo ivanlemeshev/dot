@@ -39,6 +39,8 @@ To set machine options, copy [config.local.toml.example](config.local.toml.examp
 .\bootstrap.ps1
 ```
 
+For theme changes after setup, see [Color themes](docs/themes.md).
+
 ## Development
 
 [mise](https://mise.jdx.dev) pins the repository tools in `mise.toml`. The bootstrap configuration stays in `config.toml` and the platform files.

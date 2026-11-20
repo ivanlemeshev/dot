@@ -46,7 +46,7 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         $settings.profiles | Add-Member -Force -NotePropertyName defaults `
             -NotePropertyValue ([pscustomobject]@{})
     }
-    if ($null -eq $settings.profiles.defaults.font) {
+    if ($null -ne $sharedDefaults.font -and $null -eq $settings.profiles.defaults.font) {
         $settings.profiles.defaults | Add-Member -Force -NotePropertyName font `
             -NotePropertyValue ([pscustomobject]@{})
     }
@@ -103,7 +103,7 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
 }
 
 function Set-WindowsTerminalSettings {
-    param([string]$Directory, [string]$SharedSettingsPath)
+    param([string]$Directory, [string]$SharedSettingsPath, [switch]$ThemesOnly)
     $target = Join-Path $Directory 'settings.json'
     $statePath = Join-Path $StateDirectory 'terminal.json'
     $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
@@ -122,6 +122,15 @@ function Set-WindowsTerminalSettings {
         $settings = Get-Content -LiteralPath $local -Raw | ConvertFrom-Json
     }
     $shared = Get-Content -LiteralPath $SharedSettingsPath -Raw | ConvertFrom-Json
+    if ($ThemesOnly) {
+        $shared = [pscustomobject]@{
+            profiles = [pscustomobject]@{
+                defaults = [pscustomobject]@{ colorScheme = $shared.profiles.defaults.colorScheme }
+            }
+            schemes  = $shared.schemes
+            themes   = $shared.themes
+        }
+    }
     $settings = Merge-WindowsTerminalSettings $settings $shared
     $settings | Add-Member -Force -NotePropertyName theme -NotePropertyValue 'custom'
     $text = ($settings | ConvertTo-Json -Depth 100) + "`n"
