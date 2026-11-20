@@ -47,13 +47,9 @@ mise run palette use warm-earth
 | `alabaster-dark`             | Dark teal background with Alabaster Dark terminal colors  |
 | `alabaster-light`            | Near-white background with Alabaster terminal colors      |
 
-The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Restart the shell and open new editor sessions after a switch.
+The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 
 Ghostty, Konsole, and iTerm2 use links to the selected native palette files. Windows Terminal receives the selected palette and theme in its local settings. The script keeps its fonts, keybindings, and other settings. VS Code uses its default colors. The palette command does not change VS Code.
-
-The `min-*` palettes also select the minimal application style. Keywords, numbers, variables, and most interface text use the normal foreground. Strings use yellow, comments and constants use cyan, and definitions use red. Function calls use the normal foreground when the application can identify them. Neovim, Vim, bat, Fish, PowerShell, Oh My Posh, file listings, Git, ripgrep, and fzf use this style. Errors, changes, active labels, and selections keep distinct colors. Tmux and PSMux keep their neutral status bars and functional highlights. Other palettes select the standard style.
-
-Minimal application overrides stay under `styles/minimal/`. The standard style uses the existing application configuration. The palette command updates the local `style` link beside the selection file. The command builds the bat theme cache when the minimal theme is missing. VS Code keeps its defaults.
 
 ## Palette sources
 

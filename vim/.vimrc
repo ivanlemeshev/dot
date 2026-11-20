@@ -295,23 +295,3 @@ highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
 highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
 
 highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=4
-
-let s:palette_state = empty($DOTFILES_PALETTE_STATE) ? expand('~/.local/state/dotfiles-palette') : $DOTFILES_PALETTE_STATE
-let s:palette_selection = filereadable(s:palette_state . '/selection') ? get(readfile(s:palette_state . '/selection'), 0, '') : ''
-if s:palette_selection =~# '^min-'
-  for s:group in ['Character', 'Number', 'Float', 'Identifier', 'Statement', 'Conditional', 'Repeat', 'Operator', 'Keyword', 'Exception', 'PreProc', 'Include', 'Define', 'Macro', 'PreCondit', 'Type', 'StorageClass', 'Special', 'Tag', 'Delimiter', 'Directory', 'Title']
-    execute 'highlight ' . s:group . ' cterm=NONE ctermfg=7'
-  endfor
-  for s:group in ['Comment', 'SpecialComment', 'Constant', 'Boolean', 'SpecialChar']
-    execute 'highlight ' . s:group . ' cterm=NONE ctermfg=6'
-  endfor
-  highlight String cterm=NONE ctermfg=3
-  for s:group in ['Function', 'Label', 'Structure', 'Typedef']
-    execute 'highlight ' . s:group . ' cterm=NONE ctermfg=1'
-  endfor
-  highlight StatusModeInsert cterm=NONE ctermfg=3 ctermbg=0
-  highlight StatusModeVisual cterm=NONE ctermfg=3 ctermbg=0
-  highlight StatusModeReplace cterm=NONE ctermfg=3 ctermbg=0
-  highlight StatusModeCommand cterm=NONE ctermfg=3 ctermbg=0
-  highlight StatusModeTerminal cterm=NONE ctermfg=3 ctermbg=0
-endif

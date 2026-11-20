@@ -50,15 +50,8 @@ class PaletteTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="dot-palettes-")
         self.addCleanup(self.temporary.cleanup)
         self.directory = Path(self.temporary.name)
-        self.state = self.directory / ".local/state/dotfiles-palette"
-        self.env = dict(
-            os.environ,
-            DOTFILES_PALETTE_STATE=str(self.state),
-            BAT_CONFIG_DIR=str(ROOT / "bat"),
-            BAT_CACHE_PATH=str(self.directory / "bat-cache"),
-            BAT_CONFIG_PATH=str(self.state / "style/bat/config"),
-        )
-        self.env.pop("BAT_THEME", None)
+        self.state = self.directory / "state"
+        self.env = dict(os.environ, DOTFILES_PALETTE_STATE=str(self.state))
 
     def run_palette(self, *arguments, success=True):
         result = subprocess.run(
@@ -188,8 +181,7 @@ class PaletteTests(unittest.TestCase):
     def test_switch_prepare_and_reverse_links(self):
         before = {
             path: hashlib.sha256(path.read_bytes()).digest()
-            for directory in (ROOT / "palettes", ROOT / "styles")
-            for path in directory.rglob("*")
+            for path in (ROOT / "palettes").rglob("*")
             if path.is_file()
         }
         listing = self.run_palette("list")
@@ -205,12 +197,6 @@ class PaletteTests(unittest.TestCase):
         for name in EXPECTED:
             self.run_palette("use", name)
             self.assertEqual(self.run_palette("current").strip(), name)
-            expected_style = (
-                ROOT / "styles/minimal" if name.startswith("min-") else ROOT
-            )
-            self.assertEqual((self.state / "style").resolve(), expected_style)
-            self.assertTrue((self.state / "style/bat/config").is_file())
-            self.assertTrue((self.state / "style/ripgrep/config").is_file())
             self.assertEqual(
                 ghostty.read_bytes(),
                 (ROOT / "palettes" / name / "ghostty").read_bytes(),

@@ -32,6 +32,3 @@
 	HEAD = cyan
 [log]
 	graphColors = red,green,yellow,blue,magenta,cyan,white
-
-[include]
-	path = ~/.local/state/dotfiles-palette/style/git-minimal.conf

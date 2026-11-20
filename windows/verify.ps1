@@ -46,12 +46,10 @@ Invoke-Checked grpcurl @('-version')
 Invoke-Checked runic @('--help')
 Invoke-Checked codex @('--version')
 Invoke-Checked claude @('--version')
-if ((Test-Path Env:BAT_THEME) -or -not (Test-Path -LiteralPath $env:BAT_CONFIG_PATH) -or $env:GH_ACCESSIBLE_COLORS -ne '1' -or (Test-Path Env:NO_COLOR) -or (Test-Path Env:GH_COLOR_LABELS)) {
+if ($env:BAT_THEME -ne 'custom' -or $env:GH_ACCESSIBLE_COLORS -ne '1' -or (Test-Path Env:NO_COLOR) -or (Test-Path Env:GH_COLOR_LABELS)) {
     throw 'The activated terminal color environment is invalid.'
 }
-foreach ($theme in @('custom', 'custom-minimal')) {
-    if (@(& bat --list-themes) -notcontains $theme) { throw "The bat theme is missing: $theme" }
-}
+if (@(& bat --list-themes) -notcontains 'custom') { throw 'The custom bat theme is missing.' }
 if ((& git config --get color.diff.old) -ne 'red') { throw 'Git does not load the shared color roles.' }
 if (-not ((& gh help environment | Out-String).Contains('GH_ACCESSIBLE_COLORS'))) { throw 'GitHub CLI does not support accessible colors.' }
 if (-not $env:FZF_DEFAULT_OPTS.StartsWith('--color=16,')) { throw 'fzf does not use the ANSI palette.' }

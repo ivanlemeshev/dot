@@ -3,12 +3,6 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 local M = {}
 
-local palette_state = vim.env.DOTFILES_PALETTE_STATE
-  or (vim.fn.expand("~") .. "/.local/state/dotfiles-palette")
-local selection_ok, selection =
-  pcall(vim.fn.readfile, palette_state .. "/selection")
-M.minimal = selection_ok and (selection[1] or ""):match("^min%-") ~= nil
-
 local ansi = {
   black = 0,
   red = 1,
@@ -346,76 +340,6 @@ M.diagnostic = {
   ok = ansi.green,
 }
 
-if M.minimal then
-  for role in pairs(M.syntax) do
-    M.syntax[role] = ansi.white
-  end
-  for _, role in ipairs({
-    "comment",
-    "comment_special",
-    "comment_documentation",
-    "constant",
-    "constant_builtin",
-    "constant_macro",
-    "boolean",
-    "string_escape",
-    "character_special",
-    "string_special_symbol",
-  }) do
-    M.syntax[role] = ansi.cyan
-  end
-  for _, role in ipairs({
-    "string",
-    "string_documentation",
-    "string_regexp",
-    "string_special",
-    "string_special_path",
-    "string_special_url",
-  }) do
-    M.syntax[role] = ansi.yellow
-  end
-  for _, role in ipairs({
-    "function",
-    "function_builtin",
-    "function_macro",
-    "function_method",
-    "constructor",
-    "label",
-    "structure",
-    "typedef",
-    "type_definition",
-  }) do
-    M.syntax[role] = ansi.red
-  end
-  M.syntax.diff_plus = ansi.green
-  M.syntax.diff_minus = ansi.red
-  M.syntax.diff_delta = ansi.yellow
-  M.syntax.error = ansi.bright_red
-  M.syntax.comment_error = ansi.bright_red
-  M.syntax.comment_warning = ansi.bright_yellow
-  M.syntax.comment_todo = ansi.bright_yellow
-  M.syntax.comment_note = ansi.blue
-  M.syntax.todo = ansi.bright_yellow
-  M.syntax.text_todo = ansi.bright_yellow
-  M.syntax.text_warning = ansi.bright_yellow
-  for _, role in ipairs({ "directory_fg", "title_fg", "more_fg", "question_fg" }) do
-    M.ui[role] = ansi.white
-  end
-  M.fzf.prompt = ansi.white
-  M.fzf.spinner = ansi.white
-  for _, mode in ipairs({
-    "normal",
-    "insert",
-    "visual",
-    "replace",
-    "command",
-    "terminal",
-  }) do
-    M.statusline[mode .. "_fg"] = ansi.yellow
-  end
-  M.git.clean = ansi.white
-end
-
 -- lualine theme
 M.lualine_theme = {
   normal = {
@@ -463,9 +387,6 @@ M.lualine_theme = {
 }
 
 function M.icon_color(color)
-  if M.minimal then
-    return ansi.white
-  end
   local red = tonumber(color:sub(2, 3), 16) / 255
   local green = tonumber(color:sub(4, 5), 16) / 255
   local blue = tonumber(color:sub(6, 7), 16) / 255
@@ -1532,23 +1453,6 @@ function M.setup()
   hl("@tag.attribute", { fg = M.syntax.tag_attribute })
 
   hl("@tag.delimiter", { fg = M.syntax.tag_delimiter })
-  if M.minimal then
-    for _, group in ipairs({
-      "NvimTreeExecFile",
-      "NvimTreeImageFile",
-      "NvimTreeSpecialFile",
-      "NvimTreeSymlink",
-      "fzf2",
-    }) do
-      hl(group, { fg = ansi.white })
-    end
-    for _, kind in ipairs({ "function", "method" }) do
-      hl("@lsp.type." .. kind, { fg = ansi.white })
-      for _, modifier in ipairs({ "declaration", "definition" }) do
-        hl("@lsp.typemod." .. kind .. "." .. modifier, { fg = ansi.red })
-      end
-    end
-  end
 end
 
 return M
