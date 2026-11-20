@@ -25,7 +25,7 @@ mise run palette use warm-earth
 | `gruvbox-material-dark-hard` | Darker background with brighter text and comments |
 | `everforest-dark` | Gray-green background |
 | `everforest-dark-hard` | Darker background with brighter text and comments |
-| `commodore-64` | Black background with C64 colors in ANSI order |
+| `commodore-64-soft` | Charcoal background with soft C64 colors |
 | `ibm-sga-soft` | Charcoal background with soft CGA colors |
 | `ibm-5151-green` | Green text on a dark green background |
 | `dec-vt220-amber` | Amber text on a dark brown background |

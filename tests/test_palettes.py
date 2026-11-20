@@ -20,7 +20,7 @@ EXPECTED = {
     "solarized-dark": "073642 e67e78 a6b73d d2aa43 6baedc dc85b1 57b7ad eee8d5 839496 f08e89 c0d35b e5c46a 91c8eb e69dc3 83d0c5 fdf6e3".split(),
     "gruvbox-material-dark": "282828 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 d4be98 928374 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 ddc7a1".split(),
     "everforest-dark": "2d353b e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 d3c6aa 859289 e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad e5dfc5".split(),
-    "commodore-64": "000000 813338 56ac4d 553800 2e2c9b 8e3c97 75cec8 b2b2b2 4a4a4a c46c71 a9ff9f edf171 706deb 8e5029 7b7b7b ffffff".split(),
+    "commodore-64-soft": "1c1d24 b77d83 86ad80 b49a73 8a87c4 b185b9 82b7b2 b9b8bd 82818b d49ca2 a8c99f d5cf93 aaa6df c9a2cf a2cfca e4e2e8".split(),
     "ibm-sga-soft": "1c1c20 c27d7d 83ad83 b99a7a 8585c2 b583b5 7babab b8b8c0 808087 dc9a9a a4cba4 d0d093 a7a7de d0a3d0 9fcece e4e4e8".split(),
     "ibm-5151-green": "061009 5d9866 65a970 7bbd83 72ae7a 83bf8b 8bc997 a0d9a9 47744e 9bd4a3 a9e1b1 b9eabd aee5b5 c0efc6 ccf5d0 ddffe0".split(),
     "dec-vt220-amber": "140c04 bb772d c18b37 d3a148 c08b49 d0a056 dab05e e8bf75 8b5924 e5b36b ebc17a f3ce90 eec583 f4d59e f8dda9 ffe8bc".split(),
@@ -128,6 +128,7 @@ class PaletteTests(unittest.TestCase):
         for name in (
             "solarized-dark",
             "ibm-sga-soft",
+            "commodore-64-soft",
             "everforest-dark-hard",
             "gruvbox-material-dark-hard",
         ):
@@ -144,7 +145,7 @@ class PaletteTests(unittest.TestCase):
                 self.assertGreaterEqual(
                     (levels[8] + 0.05) / (levels[0] + 0.05), 4.0
                 )
-                if name == "ibm-sga-soft":
+                if name in ("ibm-sga-soft", "commodore-64-soft"):
                     for color in palette[1:7] + palette[9:15]:
                         channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
                         self.assertLessEqual(colorsys.rgb_to_hls(*channels)[2], 0.55)
