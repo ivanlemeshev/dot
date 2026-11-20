@@ -42,7 +42,7 @@ mise run palette use warm-earth
 
 The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 
-Ghostty, Konsole, and iTerm2 use links to the selected native palette files. Windows Terminal receives the selected palette and theme in its local settings. The script keeps its fonts, keybindings, and other settings. VS Code keeps its current colors.
+Ghostty, Konsole, and iTerm2 use links to the selected native palette files. Windows Terminal receives the selected palette and theme in its local settings. The script keeps its fonts, keybindings, and other settings. VS Code uses its default colors. The palette command does not change VS Code.
 
 ## Add a palette
 

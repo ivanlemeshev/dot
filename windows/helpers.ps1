@@ -221,5 +221,5 @@ function Assert-EditorVersions {
 }
 
 function Get-RequiredVSCodeExtensions {
-    return @('teabyii.ayu', 'JonathanHarty.gruvbox-material-icon-theme', 'streetsidesoftware.code-spell-checker', 'streetsidesoftware.code-spell-checker-russian', 'ms-vscode.PowerShell')
+    return @('JonathanHarty.gruvbox-material-icon-theme', 'streetsidesoftware.code-spell-checker', 'streetsidesoftware.code-spell-checker-russian', 'ms-vscode.PowerShell')
 }
