@@ -12,6 +12,13 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
+    "alabaster-dark": "0e1415 e25d56 73ca50 e9bf57 4a88e4 915caf 23acdd cecece 777777 f36868 88db3f f0bf7a 6f8fdb e987e9 4ac9e2 ffffff".split(),
+    "alabaster-light": "f7f7f7 aa3731 448c27 cb9000 325cc0 7a3e9d 0083b2 000000 777777 f05050 60cb00 ffbc5d 007acc e64ce6 00aacb 000000".split(),
+    "spacedust": "05242a ef5939 5ab0a0 ebc562 2daee0 f92672 66d9ef ecf0c1 6e5346 e86628 a6e22e fd971f 2daee0 f92672 70f0f0 f8f8f0".split(),
+    "min-gruvbox-dark": "221f1d ea6962 a9b665 d8a657 7daea3 d3869b 89b482 f9f5d7 7c6f64 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 f9f5d7".split(),
+    "min-gruvbox-light": "fbf1c7 c14a4a 6c782e b47109 45707a 945e80 4c7a5d 11110f 928374 c14a4a 6c782e b47109 45707a 945e80 4c7a5d 11110f".split(),
+    "min-kanagawa-dark": "181616 e46876 98bb6c e6c384 7e9cd8 957fb8 7aa89f eeeada 727169 e46876 98bb6c e6c384 7e9cd8 957fb8 7aa89f eeeada".split(),
+    "min-kanagawa-light": "f2ecbc c84053 6f894e 836f4a 4d699b 766b90 597b75 2e2e3d 8a8980 c84053 6f894e 836f4a 4d699b 766b90 597b75 2e2e3d".split(),
     "warm-earth": "1f1d1b a38b7b 9b9b87 b5a18a 959ba0 a99aa3 93a6a2 b4ada5 80746a c2a394 b7baa0 d0b79a b0b8c0 c5b1bd b1c6c1 ebe1d2".split(),
     "charcoal-pastel": "1d1f21 e07878 b4ca73 f3ca78 88b4d9 c29ccd 78c9c1 d3d6d4 999d9b ff9993 d3e78e ffe09a b1d0f2 deb6e8 a6e7db f6f6f3".split(),
     "cold-graphite": "191d22 c58f99 91b5a5 c4ba91 91afd0 b6a0c9 8dbfc5 bbc2cb 87919e e0adb6 acd1bf dfd5ac afccec d2bce5 abe0e5 edf1f5".split(),
@@ -78,6 +85,17 @@ class PaletteTests(unittest.TestCase):
                     [scheme[key][1:].lower() for key in windows_keys], expected
                 )
                 self.assertEqual(scheme["name"], "custom")
+                for role, index in {
+                    "background": 0,
+                    "foreground": 7,
+                    "cursorColor": 7,
+                    "selectionBackground": 4,
+                }.items():
+                    self.assertEqual(scheme[role].lower(), "#" + expected[index])
+                self.assertEqual(
+                    windows["themes"][0]["window"]["applicationTheme"],
+                    "light" if name.endswith("-light") else "dark",
+                )
                 self.assertEqual(
                     windows["themes"][0]["tabRow"]["background"].lower(),
                     "#" + expected[0] + "ff",

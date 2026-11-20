@@ -1,0 +1,49 @@
+{
+  "schemes": [
+    {
+      "background": "#181616",
+      "black": "#181616",
+      "blue": "#7E9CD8",
+      "brightBlack": "#727169",
+      "brightBlue": "#7E9CD8",
+      "brightCyan": "#7AA89F",
+      "brightGreen": "#98BB6C",
+      "brightPurple": "#957FB8",
+      "brightRed": "#E46876",
+      "brightWhite": "#EEEADA",
+      "brightYellow": "#E6C384",
+      "cursorColor": "#EEEADA",
+      "cyan": "#7AA89F",
+      "foreground": "#EEEADA",
+      "green": "#98BB6C",
+      "name": "custom",
+      "purple": "#957FB8",
+      "red": "#E46876",
+      "selectionBackground": "#7E9CD8",
+      "white": "#EEEADA",
+      "yellow": "#E6C384"
+    }
+  ],
+  "themes": [
+    {
+      "name": "custom",
+      "tab": {
+        "background": "#181616FF",
+        "iconStyle": "default",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#181616FF",
+        "unfocusedBackground": "#181616FF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
+        "useMica": false
+      }
+    }
+  ]
+}
