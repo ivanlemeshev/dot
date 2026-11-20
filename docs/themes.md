@@ -29,6 +29,14 @@ mise run palette use warm-earth
 | `dec-vt220-amber`       | Amber text on a dark brown background          |
 | `amiga-workbench`       | Blue-gray background with soft accents         |
 | `apple-ii`              | Dark background with bright accents            |
+| `nextstep`              | Charcoal background with gray accents          |
+| `risc-os`               | Gray background with soft accents              |
+| `sgi-irix`              | Dark blue background with cool accents         |
+| `ibm-3279`              | Dark green background with soft accents        |
+| `dec-vt340`             | Dark blue background with soft accents         |
+| `atari-st`              | Dark gray background with soft accents         |
+| `mac-system-7`          | Dark gray background with gray accents         |
+| `zx-spectrum`           | Dark background with subdued accents           |
 
 The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 

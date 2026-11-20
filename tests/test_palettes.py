@@ -25,6 +25,14 @@ EXPECTED = {
     "dec-vt220-amber": "140c04 bb772d c18b37 d3a148 c08b49 d0a056 dab05e e8bf75 8b5924 e5b36b ebc17a f3ce90 eec583 f4d59e f8dda9 ffe8bc".split(),
     "amiga-workbench": "10141c bb785b 759da0 d8a36a 5988bd a58aaa 80acbb c4cbd2 747d8a e4a185 a0c4ba f0c68b 93b8df d1b4d1 b2d6df eef0f2".split(),
     "apple-ii": "0b0b15 b86a72 69aa69 c9a35e 647dc0 ad76c3 70b3b8 c3c4cd 77758b de91a1 93cc91 e7cd88 9babeb d7a1eb a3d9df f3f0f9".split(),
+    "nextstep": "191b1e ad949b 96aaa0 b2ad9e 91a5b7 a79caf 95afb3 c0c3c7 818891 cbb0b7 b2c7b9 d0c9b7 aec3d5 c4b7ce b2ccd0 eef0f2".split(),
+    "risc-os": "20252a bf9294 95b19c c2b596 8faac4 b1a0bb 8eb5b8 c3c8c9 87929a d9acae b0cbb3 dcd0af acc6df cbbad5 abd0d2 edf1ef".split(),
+    "sgi-irix": "171e29 be929f 91b5aa beb79a 8baed0 b09fc8 87b9c4 bac6d1 8094a5 d9acb7 acd0c3 d9d2b4 a8c9e9 cbb9e2 a5d5df edf3f7".split(),
+    "ibm-3279": "10191a c78f91 8ab79a c5bb89 8b9fc1 b59bbd 83bec1 b9c9c6 78948f e0aaac a5d1b0 ded3a3 a7badd cfb5d8 9fd8d9 e5f0eb".split(),
+    "dec-vt340": "131b20 bb9294 8fb39a bdb795 90a9c2 af9db7 88b8bb bac6c8 809198 d6acae aaceb0 d7d0ae acc4dd c9b6d1 a4d2d4 eaf0ef".split(),
+    "atari-st": "1d2026 c29596 98b29a c6b99a 92a9c9 b49fbc 8cb7bf c4c8ce 858e9b ddafb0 b3ccb1 dfd2b2 aec5e3 ceb9d6 a8d2da edf0f4".split(),
+    "mac-system-7": "1b1b1d aaa0a2 a0aaa4 b0ada3 9fa8b1 aba3b0 a0adb0 c4c4c6 858588 c8bbbe bdc8c0 cdc8bc bdc6d0 c9bfce bdcbd0 f0f0f0".split(),
+    "zx-spectrum": "191a20 bb8389 83ac8b b8ae80 8297c2 ac88b7 80abb8 b9bdc4 80848e dea4ab a4cdae dcd09f a3b7e2 cda8d9 a0ccd9 eef0f4".split(),
 }
 
 
