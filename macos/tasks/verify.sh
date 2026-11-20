@@ -27,6 +27,8 @@ test "$(git config --get color.diff.old)" = red
 gh help environment | rg GH_ACCESSIBLE_COLORS
 bat --list-themes | rg '^custom$'
 fish --no-config -c "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""
+# NOTE: Fish expands these variables in its own process.
+# shellcheck disable=SC2016
 fish -l -c 'test "$fish_pager_color_selected_background" = "--background=blue"; and test "$fish_pager_color_selected_completion" = black'
 font="$HOME/Library/Fonts/JetBrainsMonoNLNerdFontMono-Regular.ttf"
 test -f "$font" || test -f /Library/Fonts/JetBrainsMonoNLNerdFontMono-Regular.ttf

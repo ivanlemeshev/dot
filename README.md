@@ -1,7 +1,6 @@
 # Dotfiles
 
-[![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
-[![CodeQL](https://github.com/ivanlemeshev/dot/workflows/CodeQL/badge.svg)](https://github.com/ivanlemeshev/dot/security/code-scanning)
+[![Format](https://github.com/ivanlemeshev/dot/actions/workflows/format.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/format.yml) [![Lint](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml/badge.svg)](https://github.com/ivanlemeshev/dot/actions/workflows/lint.yml)
 
 ```text
           _       _    __ _ _
@@ -41,3 +40,24 @@ Optional: copy [config.local.toml.example](config.local.toml.example) to `config
 ```
 
 Bootstrap upgrades packages, applies configuration, and verifies the setup. Windows requests administrator access. Restart Windows to apply Caps Lock → Ctrl.
+
+## Development
+
+[mise](https://mise.jdx.dev) pins the repository tools in `mise.toml`. The bootstrap configuration stays in `config.toml` and the platform files.
+
+Run these commands from the repository root. On Windows, install Git for its Bash command.
+
+```sh
+mise trust
+mise install
+mise run format
+mise run format:check
+mise run lint
+mise run check
+```
+
+`format` formats Bash, Lua, Markdown, YAML, JSON, and TOML files. `format:check` checks the same files without changes. `lint` runs ShellCheck, markdownlint, and Tombi. `check` runs both checks.
+
+The tasks use tracked files and new files that Git does not ignore. They exclude ignored machine files. Markdown keeps one paragraph per line. Lua uses the existing Neovim style.
+
+GitHub Actions runs `format:check` and `lint` in separate workflows on each push to `main` and each pull request. The workflows use the same tasks and tool versions as local checks.

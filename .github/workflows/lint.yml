@@ -2,32 +2,20 @@ name: Lint
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
 
 permissions:
   contents: read
 
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  shellcheck:
-    name: ShellCheck
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Install ShellCheck
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck
-
-      - name: Check Bash scripts
-        run: |
-          mapfile -t scripts < <(git ls-files --cached --others --exclude-standard | while IFS= read -r path; do
-            if [ -f "$path" ] && head -n 1 "$path" | grep -Eq '^#!/usr/bin/env bash|^#!/bin/bash'; then
-              printf '%s\n' "$path"
-            fi
-          done)
-          shellcheck "${scripts[@]}"
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+      - run: mise run lint

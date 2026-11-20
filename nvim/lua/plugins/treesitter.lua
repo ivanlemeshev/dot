@@ -59,7 +59,8 @@ local ensure_installed = {
   "zig",
 }
 
-local already_installed = require("nvim-treesitter.config").get_installed("parsers")
+local already_installed =
+  require("nvim-treesitter.config").get_installed("parsers")
 local parsers_to_install = vim
   .iter(ensure_installed)
   :filter(function(parser)

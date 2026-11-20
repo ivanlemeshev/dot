@@ -1,0 +1,30 @@
+[vars]
+checks_root = "{{config_source | dirname}}"
+
+[tools]
+node = "26.13.0"
+"npm:markdownlint-cli" = "0.50.0"
+"npm:prettier" = "3.9.10"
+shellcheck = "0.11.0"
+shfmt = "3.14.1"
+stylua = "2.6.0"
+tombi = "1.11.2"
+
+[tasks.format]
+description = "Format repository files"
+dir = "{{vars.checks_root}}"
+run = "bash scripts/check.sh format"
+
+[tasks."format:check"]
+description = "Check file formatting without changes"
+dir = "{{vars.checks_root}}"
+run = "bash scripts/check.sh format:check"
+
+[tasks.lint]
+description = "Check Bash, Markdown, and TOML files"
+dir = "{{vars.checks_root}}"
+run = "bash scripts/check.sh lint"
+
+[tasks.check]
+description = "Run format and lint checks"
+depends = ["format:check", "lint"]

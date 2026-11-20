@@ -1,4 +1,5 @@
-local config_dir = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
+local config_dir =
+  vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
 vim.opt.runtimepath:prepend(config_dir)
 
 local ok, err = xpcall(function()
@@ -18,7 +19,8 @@ local ok, err = xpcall(function()
       return complete
     end, 100) then
       local registry = require("mason-registry")
-      local mappings = require("mason-lspconfig").get_mappings().lspconfig_to_package
+      local mappings =
+        require("mason-lspconfig").get_mappings().lspconfig_to_package
       local pending = {}
       for _, name in ipairs(require("plugins.mason")) do
         local package_name = mappings[name] or name
@@ -42,18 +44,24 @@ local ok, err = xpcall(function()
   end
 
   local registry = require("mason-registry")
-  local mappings = require("mason-lspconfig").get_mappings().lspconfig_to_package
+  local mappings =
+    require("mason-lspconfig").get_mappings().lspconfig_to_package
   for _, name in ipairs(require("plugins.mason")) do
     local package_name = mappings[name] or name
     local package = registry.get_package(package_name)
     assert(package:is_installed(), "Missing tool: " .. package_name)
-    assert(package:get_receipt():is_present(), "Missing tool receipt: " .. package_name)
+    assert(
+      package:get_receipt():is_present(),
+      "Missing tool receipt: " .. package_name
+    )
   end
 
-  local powershell = vim.system({ "psfmt", "--preset", "otbs" }, {
-    stdin = "if ($true) {\nWrite-Host hello\n}\n",
-    text = true,
-  }):wait(3000)
+  local powershell = vim
+    .system({ "psfmt", "--preset", "otbs" }, {
+      stdin = "if ($true) {\nWrite-Host hello\n}\n",
+      text = true,
+    })
+    :wait(3000)
   assert(
     powershell.code == 0,
     "psfmt verification fails: " .. (powershell.stderr or "")
@@ -67,7 +75,10 @@ local ok, err = xpcall(function()
   for _, name in ipairs(require("plugins.treesitter")) do
     assert(vim.tbl_contains(installed, name), "Missing parser: " .. name)
     local loaded, load_error = vim.treesitter.language.add(name)
-    assert(loaded, "Cannot load parser: " .. name .. ": " .. tostring(load_error))
+    assert(
+      loaded,
+      "Cannot load parser: " .. name .. ": " .. tostring(load_error)
+    )
   end
 end, debug.traceback)
 

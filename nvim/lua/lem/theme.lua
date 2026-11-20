@@ -268,7 +268,8 @@ function M.fzf_colors()
     "label",
     "gutter",
   }) do
-    local attributes = (role == "hl+" or role == "selected-hl") and ":strip:underline"
+    local attributes = (role == "hl+" or role == "selected-hl")
+        and ":strip:underline"
       or (role == "fg+" or role == "selected-fg") and ":strip"
       or ""
     colors[#colors + 1] = role .. ":" .. palette[role] .. attributes
@@ -404,7 +405,8 @@ function M.icon_color(color)
   else
     hue = (red - green) / delta + 4
   end
-  local colors = { ansi.red, ansi.yellow, ansi.green, ansi.cyan, ansi.blue, ansi.magenta }
+  local colors =
+    { ansi.red, ansi.yellow, ansi.green, ansi.cyan, ansi.blue, ansi.magenta }
   return colors[math.floor(hue + 0.5) % 6 + 1]
 end
 

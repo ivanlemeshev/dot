@@ -119,7 +119,11 @@ case "$platform" in
       printf 'Run macOS setup as your regular user.\n' >&2
       exit 1
     fi
-    case "$(uname -m)" in arm64 | x86_64) ;; *) printf 'Unsupported architecture.\n' >&2; exit 1 ;; esac
+    case "$(uname -m)" in arm64 | x86_64) ;; *)
+      printf 'Unsupported architecture.\n' >&2
+      exit 1
+      ;;
+    esac
     for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
       if [[ -x "$brew_bin" ]]; then
         eval "$("$brew_bin" shellenv)"
@@ -129,27 +133,45 @@ case "$platform" in
     export PATH="$HOME/.local/bin:$PATH"
     ;;
   Linux)
-    if [[ ! -r /etc/os-release ]]; then printf 'Cannot read the Linux distribution.\n' >&2; exit 1; fi
+    if [[ ! -r /etc/os-release ]]; then
+      printf 'Cannot read the Linux distribution.\n' >&2
+      exit 1
+    fi
     . /etc/os-release
     case "${ID:-}" in
-      ubuntu) [[ "${VERSION_ID:-}" == 26.04 ]] || { printf 'Ubuntu 26.04 is required.\n' >&2; exit 1; } ;;
+      ubuntu) [[ "${VERSION_ID:-}" == 26.04 ]] || {
+        printf 'Ubuntu 26.04 is required.\n' >&2
+        exit 1
+      } ;;
       fedora)
-        if [[ ! "${VERSION_ID:-}" =~ ^[0-9]+$ ]] || (( VERSION_ID < 43 )); then
+        if [[ ! "${VERSION_ID:-}" =~ ^[0-9]+$ ]] || ((VERSION_ID < 43)); then
           printf 'Fedora 43 or later is required.\n' >&2
           exit 1
         fi
-        if [[ -e /run/ostree-booted ]]; then printf 'This setup requires mutable Fedora with DNF.\n' >&2; exit 1; fi
+        if [[ -e /run/ostree-booted ]]; then
+          printf 'This setup requires mutable Fedora with DNF.\n' >&2
+          exit 1
+        fi
         ;;
-      *) printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2; exit 1 ;;
+      *)
+        printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2
+        exit 1
+        ;;
     esac
     case "$(uname -m)" in
       x86_64) nvim_arch=x86_64 ;;
       aarch64) nvim_arch=arm64 ;;
-      *) printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2; exit 1 ;;
+      *)
+        printf 'Unsupported architecture: %s\n' "$(uname -m)" >&2
+        exit 1
+        ;;
     esac
     export PATH="$HOME/.local/bin:/opt/nvim-linux-$nvim_arch/bin:$PATH"
     ;;
-  *) printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2; exit 1 ;;
+  *)
+    printf 'This setup requires Ubuntu 26.04, Fedora KDE, or macOS.\n' >&2
+    exit 1
+    ;;
 esac
 
 export MISE_CONFIG_DIR="$SCRIPT_DIR"
@@ -192,7 +214,10 @@ if [[ "$platform" == Darwin ]]; then
   if ! command -v brew >/dev/null 2>&1; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-      if [[ -x "$brew_bin" ]]; then eval "$("$brew_bin" shellenv)"; break; fi
+      if [[ -x "$brew_bin" ]]; then
+        eval "$("$brew_bin" shellenv)"
+        break
+      fi
     done
   fi
   if ! xcode-select -p >/dev/null 2>&1; then
@@ -208,7 +233,7 @@ if [[ "$platform" == Darwin ]]; then
     printf 'Cannot read the installed mise version: %s\n' "$mise_version" >&2
     exit 1
   fi
-  if (( BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1) )); then
+  if ((BASH_REMATCH[1] < 2026 || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] < 11) || (BASH_REMATCH[1] == 2026 && BASH_REMATCH[2] == 11 && BASH_REMATCH[3] < 1))); then
     brew upgrade mise
   fi
 elif [[ "$ID" == fedora ]]; then

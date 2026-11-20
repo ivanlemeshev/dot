@@ -2,7 +2,7 @@
 
 ## Simplified Technical English
 
-Use ASD-STE100 in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
+Use ASD-STE100 Simplified Technical English in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
 
 ## Line endings
 
@@ -10,20 +10,27 @@ Use LF line endings for all repository text files.
 
 ## Markdown
 
-Do not wrap text in Markdown files.
+Keep each Markdown prose paragraph on one source line. Preserve structural line breaks in lists, tables, and code blocks.
+
+Format Markdown tables with aligned columns, consistent cell padding, and a header separator row.
 
 ## User-directed changes
 
 - Read all applicable `AGENTS.md` files before each task.
 - For requests that may change files or system state, first inspect the relevant state.
 - For repository changes, inspect the worktree before editing.
-- If the current branch is `main`, create a task branch before editing.
-- If the current branch is a task or feature branch, use it unless the user requests a new branch.
 - Present a short analysis, plan, or set of options before making changes.
 - Make changes only after the user names or selects an action.
 - Treat questions and requests for analysis as read-only instructions.
 - Keep approval within the stated action and scope.
-- Review the final diff against :the applicable instructions before finishing.
+- Update `README.md` when you change a command, a flag, or a `mise` task.
+- Review the final diff against the applicable instructions before finishing.
+
+## Required checks
+
+- After edits, run `mise run format`. Then run `mise run check`.
+- When the work is complete and the required checks pass, run `git diff HEAD`. Also inspect untracked files from `git status --short`.
+- Include one commit title that covers all changes in the final response.
 
 ## Comments
 
@@ -63,9 +70,5 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Git
 
-- Create a branch for changes. Keep `main` for merged work.
-- Check the diff before each commit. Stage only task files. Use a clear commit message.
-- Push branches and create pull requests when the user asks. Permission applies to the current task.
+- Use `git` and `gh` only for read-only operations. Apply this rule to aliases, scripts, and `gh api` requests.
 - For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
-- After a squash merge, confirm the merge and preserve uncommitted work. Then switch to `main`, pull with `--ff-only`, and delete the merged local and remote branches.
-- Get explicit permission before you merge, force-push, delete branches outside merge cleanup, or discard uncommitted work.
