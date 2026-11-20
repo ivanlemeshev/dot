@@ -91,6 +91,7 @@ if command -q oh-my-posh
 end
 
 # Aliases
+alias ls 'ls -al'
 
 # Use bat alias for batcat if it exists (e.g., on Debian-based systems)
 if command -v batcat > /dev/null
