@@ -17,7 +17,7 @@ EXPECTED = {
     "cold-graphite": "191d22 c58f99 91b5a5 c4ba91 91afd0 b6a0c9 8dbfc5 bbc2cb 87919e e0adb6 acd1bf dfd5ac afccec d2bce5 abe0e5 edf1f5".split(),
     "deep-ocean": "121e28 c48e9b 8db8a9 c3ba94 8baed0 b1a0cd 83bec8 b8c8d1 8196a5 dfaab7 a8d5c2 dfd6ae a9cbed cdbce9 a1dce6 eaf3f7".split(),
     "violet-graphite": "201e28 c494a8 99b5a4 c5bd9c 98acd2 bca1d0 91bdc7 c1bfcd 908a9e e0b0c3 b6d2bf e0d8b8 b6c8ed d8bdeb afe0e8 f0eef7".split(),
-    "solarized-dark": "073642 e67e78 a6b73d d2aa43 6baedc dc85b1 57b7ad eee8d5 839496 f08e89 c0d35b e5c46a 91c8eb e69dc3 83d0c5 fdf6e3".split(),
+    "solarized-dark-soft": "073642 e67e78 a6b73d d2aa43 6baedc dc85b1 57b7ad eee8d5 839496 f08e89 c0d35b e5c46a 91c8eb e69dc3 83d0c5 fdf6e3".split(),
     "gruvbox-material-dark": "282828 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 d4be98 928374 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 ddc7a1".split(),
     "everforest-dark": "2d353b e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 d3c6aa 859289 e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad e5dfc5".split(),
     "commodore-64-soft": "1c1d24 b77d83 86ad80 b49a73 8a87c4 b185b9 82b7b2 b9b8bd 82818b d49ca2 a8c99f d5cf93 aaa6df c9a2cf a2cfca e4e2e8".split(),
@@ -126,7 +126,7 @@ class PaletteTests(unittest.TestCase):
             )
 
         for name in (
-            "solarized-dark",
+            "solarized-dark-soft",
             "ibm-sga-soft",
             "commodore-64-soft",
             "everforest-dark-hard",
