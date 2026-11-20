@@ -103,7 +103,10 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
 }
 
 function Set-WindowsTerminalSettings {
-    param([string]$Directory, [string]$SharedSettingsPath, [switch]$ThemesOnly)
+    param([string]$Directory, [string]$SharedSettingsPath, [switch]$ThemesOnly, [string]$PaletteName)
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) 'scripts/palette.ps1')
+    if (-not $PaletteName) { $PaletteName = Get-PaletteName }
+    $palette = Get-Content -LiteralPath (Join-Path (Get-PaletteDirectory $PaletteName) 'windows-terminal.json') -Raw | ConvertFrom-Json
     $target = Join-Path $Directory 'settings.json'
     $statePath = Join-Path $StateDirectory 'terminal.json'
     $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
@@ -122,6 +125,8 @@ function Set-WindowsTerminalSettings {
         $settings = Get-Content -LiteralPath $local -Raw | ConvertFrom-Json
     }
     $shared = Get-Content -LiteralPath $SharedSettingsPath -Raw | ConvertFrom-Json
+    $shared | Add-Member -Force -NotePropertyName schemes -NotePropertyValue $palette.schemes
+    $shared | Add-Member -Force -NotePropertyName themes -NotePropertyValue $palette.themes
     if ($ThemesOnly) {
         $shared = [pscustomobject]@{
             profiles = [pscustomobject]@{

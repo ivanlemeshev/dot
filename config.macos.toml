@@ -48,7 +48,7 @@
 "brew-cask:iterm2" = "latest"
 
 [dotfiles]
-"~/.config/ghostty" = { source = "ghostty" }
+"~/.config/ghostty" = { source = "{{vars.user_home}}/.local/state/dotfiles-palette/ghostty" }
 "~/.config/fish/conf.d/zz_custom_theme.fish" = { source = "fish/conf.d/zz_custom_theme.fish" }
 "~/.config/fish/conf.d/fzf_colors.fish" = { source = "fish/conf.d/fzf_colors.fish" }
 "~/.config/fish/conf.d/ls_colors.fish" = { source = "fish/conf.d/ls_colors.fish" }
@@ -56,7 +56,7 @@
 "~/.config/nvim" = { source = "nvim" }
 "~/.vimrc" = { source = "vim/.vimrc" }
 "~/.tmux.conf" = { source = "tmux/.tmux.conf" }
-"~/Library/Application Support/iTerm2/DynamicProfiles/custom.json" = { source = "macos/iterm2/custom.json" }
+"~/Library/Application Support/iTerm2/DynamicProfiles/custom.json" = { source = "{{vars.user_home}}/.local/state/dotfiles-palette/active/iterm2.json" }
 "~/Library/LaunchAgents/com.dotfiles.caps-lock.plist" = { source = "macos/com.dotfiles.caps-lock.plist" }
 "~/.zshrc/activate" = { block = '''for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
   if test -x "$brew_bin"; then eval "$("$brew_bin" shellenv)"; break; fi

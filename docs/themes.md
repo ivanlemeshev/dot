@@ -1,20 +1,27 @@
 # Color themes
 
-## Windows
+## Select a palette
 
-Run this command from the repository root in PowerShell:
+Run these commands after bootstrap:
 
-```powershell
-.\windows\update-themes.ps1
+```sh
+mise run palette list
+mise run palette current
+mise run palette use charcoal-pastel
+mise run palette use warm-earth
 ```
 
-The script updates the custom Windows Terminal palette and theme and selects them for all profiles. It keeps fonts, keybindings, and other settings. It needs no administrator access. Bootstrap applies the same themes with the full terminal settings.
+`charcoal-pastel` is the default palette with a charcoal background and soft accent colors. `warm-earth` uses brown, olive, and cream tones. An asterisk marks the selected palette in the list.
 
-VS Code and the other linked theme files use repository changes when you reload or restart the application.
+The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 
-## Ubuntu, Fedora KDE, and macOS
+Ghostty, Konsole, and iTerm2 use links to the selected native palette files. Windows Terminal receives the selected palette and theme in its local settings. The script keeps its fonts, keybindings, and other settings. VS Code keeps its current colors.
 
-Ghostty, Konsole, and iTerm2 use linked theme files after setup. Reload or restart the terminal after a theme change. No theme update script is necessary.
+## Add a palette
+
+Copy a directory under `palettes/` and edit its four native palette files. Use a name that starts with a lowercase letter and contains only lowercase letters, digits, or hyphens. Keep all 16 ANSI colors consistent across the four files. Keep the `custom` scheme names and the iTerm2 profile identifier.
+
+Run `mise run test:palettes` to check the included palettes and the switcher.
 
 ## Bat cache
 

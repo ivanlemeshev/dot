@@ -28,3 +28,8 @@ run = "bash scripts/check.sh lint"
 [tasks.check]
 description = "Run format and lint checks"
 depends = ["format:check", "lint"]
+
+[tasks."test:palettes"]
+description = "Check native palettes and palette selection"
+dir = "{{vars.checks_root}}"
+run = "python -m unittest discover -s tests -v"

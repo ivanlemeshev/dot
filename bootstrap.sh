@@ -276,11 +276,13 @@ bash "$SCRIPT_DIR/git/preserve.sh"
 if [[ "$platform" == Darwin ]]; then
   "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
+  "$MISE_BIN" exec -- pwsh -NoProfile -File "$SCRIPT_DIR/scripts/palette.ps1" prepare
   "$MISE_BIN" run prepare
   "$MISE_BIN" dot apply --yes
 else
   "$MISE_BIN" bootstrap --yes --only packages
   "$MISE_BIN" install
+  "$MISE_BIN" exec -- pwsh -NoProfile -File "$SCRIPT_DIR/scripts/palette.ps1" prepare
   bash "$SCRIPT_DIR/linux/links.sh" prepare
   "$MISE_BIN" dot apply --yes
 fi

@@ -2,6 +2,7 @@ min_version = "2026.11.1"
 
 [vars]
 user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=''))}}"
+dotfiles_root = "{{config_source | dirname}}"
 
 [dotfiles]
 "~/.config/bat" = { source = "bat" }
@@ -23,6 +24,10 @@ NO_COLOR = false
 
 [task_config]
 includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% elif os() == 'macos' %}macos/tasks{% else %}linux/tasks{% endif %}"]
+
+[tasks.palette]
+description = "List or select a local terminal palette"
+run = "pwsh -NoProfile -File '{{vars.dotfiles_root}}/scripts/palette.ps1'"
 
 [tools]
 "cargo:psfmt" = "0.2.0"
