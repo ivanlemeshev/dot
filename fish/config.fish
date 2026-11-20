@@ -14,9 +14,6 @@ end
 
 set -gx EDITOR nvim
 
-set -x BAT_THEME custom
-set -gx RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/config
-
 set -x XDG_CONFIG_HOME $HOME/.config
 
 set -gx fish_term24bit 1

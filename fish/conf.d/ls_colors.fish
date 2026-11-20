@@ -9,10 +9,23 @@ set -l ls_special 35
 set -l ls_media 36
 set -l ls_backup 90
 
+if test "$DOTFILES_COLOR_STYLE" = minimal
+    set ls_executable $ls_foreground
+    set ls_document $ls_foreground
+    set ls_directory $ls_foreground
+    set ls_special $ls_foreground
+    set ls_media $ls_foreground
+end
+
 # ANSI style helpers
 set -l n 0 # normal
 set -l b 1 # bold
 set -l it 3 # italic
+
+if test "$DOTFILES_COLOR_STYLE" = minimal
+    set b 0
+    set it 0
+end
 
 # Core file types
 # rs = reset, mh = multiple hard links, no = normal, fi = regular file,

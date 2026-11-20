@@ -36,3 +36,13 @@ set -gx fish_pager_color_selected_background --background=blue
 set -gx fish_pager_color_selected_completion black
 set -gx fish_pager_color_selected_description black
 set -gx fish_pager_color_selected_prefix black
+
+if test "$DOTFILES_COLOR_STYLE" = minimal
+    for role in command keyword option param redirection end operator valid_path cwd user host host_remote
+        set -gx fish_color_$role white
+    end
+    set -gx fish_color_quote yellow
+    set -gx fish_color_escape cyan
+    set -gx fish_color_comment cyan
+    set -gx fish_pager_color_prefix white
+end

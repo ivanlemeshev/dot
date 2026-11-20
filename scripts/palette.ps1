@@ -35,17 +35,41 @@ function Get-PaletteDirectory([string]$PaletteName) {
     return $directory
 }
 
-function Set-PaletteLink([string]$Path, [string]$Target) {
+function Set-PaletteLink([string]$Path, [string]$Target, [string]$LinkType = 'SymbolicLink') {
     $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
     if ($null -ne $item) {
-        if ($item.LinkType -ne 'SymbolicLink') {
+        if ($item.LinkType -notin @('SymbolicLink', 'Junction')) {
             throw "The palette link path contains another file: $Path"
         }
         if (@($item.Target)[0] -eq $Target) { return }
         Remove-Item -LiteralPath $Path -Force
     }
     New-Item -ItemType Directory -Path (Split-Path -Parent $Path) -Force | Out-Null
-    New-Item -ItemType SymbolicLink -Path $Path -Target $Target | Out-Null
+    New-Item -ItemType $LinkType -Path $Path -Target $Target | Out-Null
+}
+
+function Get-PaletteStyle([string]$PaletteName) {
+    if ($PaletteName.StartsWith('min-')) { return 'minimal' }
+    return 'standard'
+}
+
+function Set-PaletteStyle([string]$PaletteName) {
+    $root = Split-Path -Parent $PSScriptRoot
+    $style = Get-PaletteStyle $PaletteName
+    $linkType = if ([Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT) { 'Junction' } else { 'SymbolicLink' }
+    $target = if ($style -eq 'minimal') { Join-Path $root 'styles/minimal' } else { $root }
+    Set-PaletteLink (Join-Path (Get-PaletteStateDirectory) 'style') $target $linkType
+}
+
+function Update-BatStyle {
+    $bat = Get-Command bat, batcat -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -eq $bat) { return }
+    $themes = @(& $bat.Source --list-themes)
+    if ($LASTEXITCODE -ne 0) { throw 'The bat theme list is unavailable.' }
+    if ($themes -notcontains 'custom-minimal') {
+        & $bat.Source cache --build
+        if ($LASTEXITCODE -ne 0) { throw 'The bat theme cache build fails.' }
+    }
 }
 
 function Set-UnixPalette([string]$Directory) {
@@ -84,6 +108,8 @@ function Invoke-Palette {
             $state = Get-PaletteStateDirectory
             New-Item -ItemType Directory -Path $state -Force | Out-Null
             try {
+                Set-PaletteStyle $selected
+                if ($Command -eq 'use') { Update-BatStyle }
                 if ($windows) {
                     if ($Command -eq 'use') {
                         $root = Split-Path -Parent $PSScriptRoot
@@ -101,11 +127,14 @@ function Invoke-Palette {
                     [IO.File]::WriteAllText($selection, "$selected`n", [Text.UTF8Encoding]::new($false))
                 }
             } catch {
-                if (-not $windows -and $currentDirectory) { Set-UnixPalette $currentDirectory }
+                if ($currentDirectory) {
+                    Set-PaletteStyle $current
+                    if (-not $windows) { Set-UnixPalette $currentDirectory }
+                }
                 throw
             }
             if ($Command -eq 'use') {
-                Write-Output "Palette: $selected. Reload or restart the terminal."
+                Write-Output "Palette: $selected. Style: $(Get-PaletteStyle $selected). Restart shells and editors to apply the style."
             }
         }
     }

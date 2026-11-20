@@ -3,7 +3,8 @@
 
 set -euo pipefail
 
-test "${BAT_THEME:-}" = custom
+test "${BAT_THEME+x}" != x
+test -f "${BAT_CONFIG_PATH:-}"
 test "${CLICOLOR:-}" = 1
 test "${LESS:-}" = -FRX
 test "${NO_COLOR+x}" != x
@@ -13,6 +14,7 @@ test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${GH_COLOR_LABELS+x}" != x
 gh help environment | rg 'GH_ACCESSIBLE_COLORS'
 bat --list-themes | rg '^custom$'
+bat --list-themes | rg '^custom-minimal$'
 fish --no-config --command "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""
 # NOTE: Fish expands these variables in its own process.
 # shellcheck disable=SC2016

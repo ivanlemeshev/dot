@@ -3,6 +3,8 @@ min_version = "2026.11.1"
 [vars]
 user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=''))}}"
 dotfiles_root = "{{config_source | dirname}}"
+palette_state = "{{get_env(name='DOTFILES_PALETTE_STATE', default=vars.user_home ~ '/.local/state/dotfiles-palette')}}"
+color_style = "{% set selection = vars.palette_state ~ '/selection' %}{% if selection is file %}{% set name = read_file(path=selection) | trim %}{% if name | truncate(length=4, end='') == 'min-' %}minimal{% else %}standard{% endif %}{% else %}standard{% endif %}"
 
 [dotfiles]
 "~/.config/bat" = { source = "bat" }
@@ -12,9 +14,11 @@ dotfiles_root = "{{config_source | dirname}}"
 "~/.gitconfig" = { source = "git/config" }
 
 [env]
-BAT_THEME = "custom"
+BAT_THEME = false
+BAT_CONFIG_PATH = "{{vars.palette_state}}/style/bat/config"
+DOTFILES_COLOR_STYLE = "{{vars.color_style}}"
 BAT_CONFIG_DIR = "{{vars.user_home}}/.config/bat"
-RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/config"
+RIPGREP_CONFIG_PATH = "{{vars.palette_state}}/style/ripgrep/config"
 _.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin"]
 CLICOLOR = "1"
 GH_ACCESSIBLE_COLORS = "1"
