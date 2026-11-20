@@ -11,7 +11,24 @@ mise run palette use charcoal-pastel
 mise run palette use warm-earth
 ```
 
-`charcoal-pastel` is the default palette with a charcoal background and soft accent colors. `warm-earth` uses brown, olive, and cream tones. An asterisk marks the selected palette in the list.
+`charcoal-pastel` is the default palette. An asterisk marks the selected palette in the list.
+
+| Palette                 | Appearance                                     |
+| ----------------------- | ---------------------------------------------- |
+| `charcoal-pastel`       | Charcoal background with soft accents          |
+| `warm-earth`            | Brown, olive, and cream tones                  |
+| `cold-graphite`         | Cool gray background                           |
+| `deep-ocean`            | Dark blue background                           |
+| `violet-graphite`       | Dark violet background                         |
+| `solarized-dark`        | Blue-green background                          |
+| `gruvbox-material-dark` | Dark gray background with warm accents         |
+| `everforest-dark`       | Gray-green background                          |
+| `commodore-64`          | Black background with C64 colors in ANSI order |
+| `ibm-cga`               | Black background with strong primary colors    |
+| `ibm-5151-green`        | Green text on a dark green background          |
+| `dec-vt220-amber`       | Amber text on a dark brown background          |
+| `amiga-workbench`       | Blue-gray background with soft accents         |
+| `apple-ii`              | Dark background with bright accents            |
 
 The selection stays in `~/.local/state/dotfiles-palette/selection`. Bootstrap keeps this selection. Switching palettes does not change repository files. Reload or restart the terminal after a switch.
 

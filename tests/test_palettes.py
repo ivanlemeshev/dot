@@ -13,6 +13,18 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
     "warm-earth": "1f1d1b a38b7b 9b9b87 b5a18a 959ba0 a99aa3 93a6a2 b4ada5 80746a c2a394 b7baa0 d0b79a b0b8c0 c5b1bd b1c6c1 ebe1d2".split(),
     "charcoal-pastel": "1d1f21 e07878 b4ca73 f3ca78 88b4d9 c29ccd 78c9c1 d3d6d4 999d9b ff9993 d3e78e ffe09a b1d0f2 deb6e8 a6e7db f6f6f3".split(),
+    "cold-graphite": "191d22 c58f99 91b5a5 c4ba91 91afd0 b6a0c9 8dbfc5 bbc2cb 87919e e0adb6 acd1bf dfd5ac afccec d2bce5 abe0e5 edf1f5".split(),
+    "deep-ocean": "121e28 c48e9b 8db8a9 c3ba94 8baed0 b1a0cd 83bec8 b8c8d1 8196a5 dfaab7 a8d5c2 dfd6ae a9cbed cdbce9 a1dce6 eaf3f7".split(),
+    "violet-graphite": "201e28 c494a8 99b5a4 c5bd9c 98acd2 bca1d0 91bdc7 c1bfcd 908a9e e0b0c3 b6d2bf e0d8b8 b6c8ed d8bdeb afe0e8 f0eef7".split(),
+    "solarized-dark": "073642 dc322f 859900 b58900 268bd2 d33682 2aa198 eee8d5 002b36 cb4b16 586e75 657b83 839496 6c71c4 93a1a1 fdf6e3".split(),
+    "gruvbox-material-dark": "282828 ea6962 a9b665 d8a657 7daea3 d3869b 89b482 d4be98 928374 e78a4e b8bb80 e2bd85 9dc5b9 e0a5b7 a9caa1 ddc7a1".split(),
+    "everforest-dark": "2d353b e67e80 a7c080 dbbc7f 7fbbb3 d699b6 83c092 d3c6aa 859289 e69875 b5ca95 e5cb9b 9dcfc6 e3b2ca a2d0ad e5dfc5".split(),
+    "commodore-64": "000000 813338 56ac4d 553800 2e2c9b 8e3c97 75cec8 b2b2b2 4a4a4a c46c71 a9ff9f edf171 706deb 8e5029 7b7b7b ffffff".split(),
+    "ibm-cga": "000000 aa0000 00aa00 aa5500 0000aa aa00aa 00aaaa aaaaaa 555555 ff5555 55ff55 ffff55 5555ff ff55ff 55ffff ffffff".split(),
+    "ibm-5151-green": "061009 5d9866 65a970 7bbd83 72ae7a 83bf8b 8bc997 a0d9a9 47744e 9bd4a3 a9e1b1 b9eabd aee5b5 c0efc6 ccf5d0 ddffe0".split(),
+    "dec-vt220-amber": "140c04 bb772d c18b37 d3a148 c08b49 d0a056 dab05e e8bf75 8b5924 e5b36b ebc17a f3ce90 eec583 f4d59e f8dda9 ffe8bc".split(),
+    "amiga-workbench": "10141c bb785b 759da0 d8a36a 5988bd a58aaa 80acbb c4cbd2 747d8a e4a185 a0c4ba f0c68b 93b8df d1b4d1 b2d6df eef0f2".split(),
+    "apple-ii": "0b0b15 b86a72 69aa69 c9a35e 647dc0 ad76c3 70b3b8 c3c4cd 77758b de91a1 93cc91 e7cd88 9babeb d7a1eb a3d9df f3f0f9".split(),
 }
 
 
@@ -97,14 +109,16 @@ class PaletteTests(unittest.TestCase):
             for path in (ROOT / "palettes").rglob("*")
             if path.is_file()
         }
-        self.assertIn("* charcoal-pastel", self.run_palette("list"))
+        listing = self.run_palette("list")
+        self.assertIn("* charcoal-pastel", listing)
+        self.assertEqual({line[2:] for line in listing.splitlines()}, set(EXPECTED))
         self.assertFalse(self.state.exists())
         self.run_palette("prepare")
         ghostty = self.state / "ghostty/themes/custom"
         self.assertEqual(
             ghostty.read_bytes(), (ROOT / "palettes/charcoal-pastel/ghostty").read_bytes()
         )
-        for name in ("charcoal-pastel", "warm-earth"):
+        for name in EXPECTED:
             self.run_palette("use", name)
             self.assertEqual(self.run_palette("current").strip(), name)
             self.assertEqual(
@@ -238,7 +252,7 @@ New-Item -ItemType Directory -Path $terminal | Out-Null
 $path = Join-Path $terminal 'settings.json'
 $original = '{"profiles":{"defaults":{"font":{"face":"local font"}},"list":[{"name":"shell","colorScheme":"other"}]},"keybindings":[{"keys":"ctrl+x","id":"copy"}],"schemes":[{"name":"other","black":"#000000"}]}'
 [IO.File]::WriteAllText($path, $original)
-foreach ($name in @('charcoal-pastel', 'warm-earth')) {
+foreach ($name in (Get-ChildItem -LiteralPath (Join-Path $root 'palettes') -Directory).Name) {
     Set-WindowsTerminalSettings $terminal (Join-Path $root 'windows/terminal/settings.json') -ThemesOnly -PaletteName $name
     $settings = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
     if ($settings.profiles.defaults.font.face -ne 'local font') { throw 'Font changes.' }
