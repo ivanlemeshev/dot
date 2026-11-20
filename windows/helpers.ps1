@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$MiseRoot = Split-Path -Parent $PSScriptRoot
+$script:MiseRoot = Split-Path -Parent $PSScriptRoot
 $StateDirectory = Join-Path $HOME '.local/state/dotfiles-windows'
 
 function Invoke-Checked {
@@ -99,7 +99,7 @@ function Set-LocalGitConfig {
         if (-not [string]::IsNullOrWhiteSpace($values[$key])) {
             Invoke-Checked git @('config', '--file', $localConfig, '--replace-all', $key, $values[$key])
         } else {
-            $existing = & git config --file $localConfig --get $key
+            $null = & git config --file $localConfig --get $key
             if ($LASTEXITCODE -eq 0) {
                 continue
             }
@@ -149,7 +149,7 @@ function Backup-Dotfile {
     if (Test-Path -LiteralPath $statePath) {
         $records = @((Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json))
     }
-    if (@($records | Where-Object target -eq $Target).Count) {
+    if (@($records | Where-Object target -EQ $Target).Count) {
         throw "A previous backup exists for $Target. Review links.json before replacement."
     }
     $backup = "$Target.backup.$([Guid]::NewGuid().ToString('N'))"
@@ -166,10 +166,10 @@ function Backup-ConflictingDotfiles {
         throw 'The dotfile status command fails.'
     }
     $status = ($json -join "`n") | ConvertFrom-Json
-    if (@($status.files | Where-Object state -eq source_missing).Count) {
+    if (@($status.files | Where-Object state -EQ source_missing).Count) {
         throw 'A dotfile source is missing.'
     }
-    foreach ($entry in $status.files | Where-Object state -eq differs) {
+    foreach ($entry in $status.files | Where-Object state -EQ differs) {
         if ($entry.mode -ne 'symlink') {
             throw "Unexpected dotfile mode: $($entry.mode)"
         }

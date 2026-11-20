@@ -77,7 +77,7 @@ if command -q oh-my-posh
     end
 end
 
-if command -v batcat > /dev/null
+if command -v batcat >/dev/null
     alias bat="batcat"
 end
 

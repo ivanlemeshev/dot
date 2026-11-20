@@ -18,4 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
+      - run: sudo apt-get update && sudo apt-get install -y fish
+      - run: mise run setup:checks
       - run: mise run lint
+      - run: mise run test:palettes

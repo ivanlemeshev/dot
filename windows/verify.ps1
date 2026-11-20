@@ -62,7 +62,7 @@ if ($null -eq $terminalDirectory) { throw 'Windows Terminal is missing.' }
 $terminal = Get-Content (Join-Path $terminalDirectory 'settings.json') -Raw | ConvertFrom-Json
 . (Join-Path $MiseRoot 'scripts/palette.ps1')
 $shared = Get-Content (Join-Path (Get-PaletteDirectory (Get-PaletteName)) 'windows-terminal.json') -Raw | ConvertFrom-Json
-$scheme = @($terminal.schemes | Where-Object name -eq 'custom')
+$scheme = @($terminal.schemes | Where-Object name -EQ 'custom')
 if ($scheme.Count -ne 1) { throw 'The custom Windows Terminal palette is missing or duplicated.' }
 foreach ($property in $shared.schemes[0].PSObject.Properties) {
     if ($scheme[0].PSObject.Properties[$property.Name].Value -ne $property.Value) { throw "Windows Terminal palette differs: $($property.Name)" }

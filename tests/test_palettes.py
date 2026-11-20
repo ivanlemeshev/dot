@@ -3,12 +3,11 @@ import configparser
 import hashlib
 import json
 import os
-from pathlib import Path
 import re
 import subprocess
 import tempfile
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
@@ -160,9 +159,7 @@ class PaletteTests(unittest.TestCase):
                             (levels[index] + 0.05) / (levels[0] + 0.05), 4.5
                         )
                         self.assertGreater(levels[index + 8], levels[index])
-                self.assertGreaterEqual(
-                    (levels[8] + 0.05) / (levels[0] + 0.05), 4.0
-                )
+                self.assertGreaterEqual((levels[8] + 0.05) / (levels[0] + 0.05), 4.0)
                 if name in ("ibm-sga-soft", "commodore-64-soft"):
                     for color in palette[1:7] + palette[9:15]:
                         channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
@@ -194,7 +191,8 @@ class PaletteTests(unittest.TestCase):
         self.run_palette("prepare")
         ghostty = self.state / "ghostty/themes/custom"
         self.assertEqual(
-            ghostty.read_bytes(), (ROOT / "palettes/charcoal-pastel/ghostty").read_bytes()
+            ghostty.read_bytes(),
+            (ROOT / "palettes/charcoal-pastel/ghostty").read_bytes(),
         )
         for name in EXPECTED:
             self.run_palette("use", name)
@@ -286,7 +284,8 @@ class PaletteTests(unittest.TestCase):
             (ROOT / "palettes/charcoal-pastel/ghostty").read_bytes(),
         )
         self.assertEqual(
-            iterm.read_bytes(), (ROOT / "palettes/charcoal-pastel/iterm2.json").read_bytes()
+            iterm.read_bytes(),
+            (ROOT / "palettes/charcoal-pastel/iterm2.json").read_bytes(),
         )
         mise("unapply")
         self.assertFalse(ghostty.is_symlink())

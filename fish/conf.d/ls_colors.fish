@@ -1,18 +1,18 @@
 # NOTE: ls and other LS_COLORS clients share these colors.
 
 set -l ls_foreground 37
-set -l ls_error      91
+set -l ls_error 91
 set -l ls_executable 32
-set -l ls_document   33
-set -l ls_directory  34
-set -l ls_special    35
-set -l ls_media      36
-set -l ls_backup     90
+set -l ls_document 33
+set -l ls_directory 34
+set -l ls_special 35
+set -l ls_media 36
+set -l ls_backup 90
 
 # ANSI style helpers
-set -l n  "0"  # normal
-set -l b  "1"  # bold
-set -l it "3"  # italic
+set -l n 0 # normal
+set -l b 1 # bold
+set -l it 3 # italic
 
 # Core file types
 # rs = reset, mh = multiple hard links, no = normal, fi = regular file,

@@ -1,3 +1,6 @@
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingInvokeExpression', '', Justification = 'Shell tools supply initialization code for this process.')]
+param()
+
 $env:HOME = $HOME
 $env:MISE_STATE_DIR = Join-Path $env:LOCALAPPDATA 'mise/state'
 $env:DOTFILES_DOCUMENTS = [Environment]::GetFolderPath('MyDocuments')
