@@ -1,18 +1,14 @@
 # Agents instructions
 
-## Simplified Technical English
+## Text style
 
-Use ASD-STE100 Simplified Technical English in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
+- Use ASD-STE100 Simplified Technical English in code comments and all repository text, including Markdown files. Write one idea per sentence. Use the simple present tense. Use the active voice.
+- Keep each Markdown prose paragraph on one source line. Preserve structural line breaks in lists, tables, and code blocks.
+- Format Markdown tables with aligned columns, consistent cell padding, and a header separator row.
 
 ## Line endings
 
 Use LF line endings for all repository text files.
-
-## Markdown
-
-Keep each Markdown prose paragraph on one source line. Preserve structural line breaks in lists, tables, and code blocks.
-
-Format Markdown tables with aligned columns, consistent cell padding, and a header separator row.
 
 ## Documentation scope
 
@@ -25,35 +21,23 @@ Format Markdown tables with aligned columns, consistent cell padding, and a head
 ## User-directed changes
 
 - Read all applicable `AGENTS.md` files before each task.
-- For requests that may change files or system state, first inspect the relevant state.
-- For repository changes, inspect the worktree before editing.
+- Before changes, inspect the affected files or system state. Check `git status --short` for repository changes.
 - Present a short analysis, plan, or set of options before making changes.
 - Make changes only after the user names or selects an action.
 - Treat questions and requests for analysis as read-only instructions.
 - Keep approval within the stated action and scope.
-- Update `README.md` when you change a command, a flag, or a `mise` task.
-- Review the final diff against the applicable instructions before finishing.
 
 ## Required checks
 
 - After edits, run `mise run format`. Then run `mise run check`.
-- When the work is complete and the required checks pass, run `git diff HEAD`. Also inspect untracked files from `git status --short`.
+- After checks pass, review `git diff HEAD` against these instructions. Inspect untracked files from `git status --short`.
 - Include one commit title that covers all changes in the final response.
 
 ## Comments
 
-Use one short line to explain a reason, risk, or constraint that the code does not make clear.
-
-Do not repeat the name of the function in a comment above it. Do not explain why something is absent.
-
-### Markers
-
-For new marker comments, use only these uppercase labels with a colon. Leave existing markers unchanged.
-
-- `TODO:` work to do later.
-- `FIXME:` a known defect that remains unfixed.
-- `NOTE:` a reason or risk in the code below.
-- `WARNING:` what breaks if someone changes the code below.
+- Use one short line to explain a reason, risk, or constraint that the code does not make clear.
+- Do not repeat the name of the function in a comment above it. Do not explain why something is absent.
+- For new marker comments, use only `TODO:`, `FIXME:`, `NOTE:`, or `WARNING:`. Leave existing markers unchanged.
 
 ## Dotfiles design
 
@@ -64,7 +48,8 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 - Deploy repository configuration through symlinks. Keep machine data in ignored local files. Do not generate managed configuration from machine data.
 - Install each required capability on every supported platform. Keep Caps Lock remapping in the core. Keep optional and desktop-specific behavior in platform extensions.
 - Use a native package when available. Verify every adapter installation.
-- Run a real-machine smoke check on each affected platform. Verify bootstrap idempotence and reversible link changes.
+- For bootstrap or package changes, run a real-machine smoke check on each affected platform. Verify bootstrap idempotence.
+- For link changes, verify that you can apply and reverse the links on each affected platform.
 
 ## Color themes
 
@@ -78,5 +63,7 @@ For new marker comments, use only these uppercase labels with a colon. Leave exi
 
 ## Git
 
-- Use `git` and `gh` only for read-only operations. Apply this rule to aliases, scripts, and `gh api` requests.
-- For pull requests, use [the template](.github/pull_request_template.md). Keep descriptions brief. Remove sections that do not apply.
+- Use `git` and `gh` only for read-only operations.
+- Do not run Git or GitHub write operations through aliases, scripts, subprocesses, API requests, or other tools.
+- Do not edit `.git` files directly to bypass this rule.
+- The user manages `main` as the only branch for future work. Do not create, switch, rename, or delete branches.
