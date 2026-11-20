@@ -1,4 +1,2 @@
-# Disable SC1091: Not following sourced files.
-# We disable this because our project uses dynamic paths ($PROJECT_ROOT)
-# that ShellCheck cannot resolve statically.
+# NOTE: ShellCheck cannot resolve source paths that contain variables.
 disable=SC1091

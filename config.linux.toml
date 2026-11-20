@@ -62,7 +62,7 @@ description = "Verify mise tools and linked configuration"
 depends = ["verify:packages", "verify:tools", "verify:files", "verify:colors", "verify:nvim"]
 
 [tasks."verify:packages"]
-description = "Show installed Ubuntu packages"
+description = "Show missing native packages"
 run = "mise bootstrap packages status --missing"
 
 [tasks."verify:files"]

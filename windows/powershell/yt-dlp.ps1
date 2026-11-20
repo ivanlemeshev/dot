@@ -1,6 +1,4 @@
-# yt-dlp helpers
-
-# Extract audio as MP3 with the best quality.
+# Extract MP3 audio at the highest quality setting.
 function yd-mp3 {
     yt-dlp --verbose `
         --extract-audio `
@@ -10,7 +8,7 @@ function yd-mp3 {
         @args
 }
 
-# Extract audio as M4A with the best quality.
+# Extract M4A audio at the highest quality setting.
 function yd-m4a {
     yt-dlp --verbose `
         --extract-audio `
@@ -22,7 +20,7 @@ function yd-m4a {
         @args
 }
 
-# Extract audio as MP3 and split chapters.
+# Extract MP3 audio into one file per chapter.
 function yd-mp3c {
     yt-dlp --verbose `
         --extract-audio `
@@ -57,7 +55,7 @@ function yd-video-gq {
         @args
 }
 
-# Download video at the best quality.
+# Download video at the highest available quality.
 function yd-video-bq {
     yt-dlp `
         -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b' `
@@ -89,7 +87,7 @@ function yd-playlist-gq {
         @args
 }
 
-# Download a playlist at the best quality.
+# Download a playlist at the highest available quality.
 function yd-playlist-bq {
     yt-dlp `
         -f 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b' `

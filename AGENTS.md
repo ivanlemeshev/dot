@@ -14,6 +14,14 @@ Keep each Markdown prose paragraph on one source line. Preserve structural line 
 
 Format Markdown tables with aligned columns, consistent cell padding, and a header separator row.
 
+## Documentation scope
+
+- Document only information that the user needs to install, use, or maintain the setup.
+- Keep the README brief. Put tool-specific details in the relevant guide.
+- Update existing text when behavior changes. Add a paragraph only when existing text cannot cover the change.
+- Do not add a summary of implementation work to documentation.
+- Use short, natural sentences. Do not split related actions into repetitive sentences.
+
 ## User-directed changes
 
 - Read all applicable `AGENTS.md` files before each task.

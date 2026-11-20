@@ -4,21 +4,19 @@
 
 local helpers = require("config.helpers")
 
---- Check whether files changed outside Neovim.
 local reload_augroup = helpers.augroup("auto-reload")
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   group = reload_augroup,
   pattern = "*",
   callback = function()
-    -- NOTE: Skip checktime while you type a command or use the q: window.
-    -- checktime gives an error there.
+    -- NOTE: checktime fails in Command-line mode and the command-line window.
     if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
       vim.cmd("checktime")
     end
   end,
 })
 
---- Hide listchars while making a visual selection.
+-- NOTE: Whitespace markers can obscure selected text.
 local visual_list_augroup = helpers.augroup("visual-list-toggle")
 vim.api.nvim_create_autocmd("ModeChanged", {
   group = visual_list_augroup,
@@ -42,13 +40,11 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
---- Force Unix line endings before writing files.
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   command = [[set ff=unix]],
 })
 
---- Trim trailing whitespace before writing files.
 local trim_augroup = helpers.augroup("trim-whitespace")
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = trim_augroup,

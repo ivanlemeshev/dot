@@ -7,8 +7,8 @@ vim.pack.add({
     version = "v2.1.0",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 helpers.load_on(

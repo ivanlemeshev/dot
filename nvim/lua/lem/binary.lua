@@ -8,7 +8,7 @@ local M = {}
 
 ---@type LemBinaryExtensionMap
 local binary_extensions = {
-  ["7z"] = true, -- Use brackets because "7z" is not a valid Lua identifier
+  ["7z"] = true,
   a = true,
   bin = true,
   bmp = true,
@@ -41,7 +41,6 @@ local binary_extensions = {
   zip = true,
 }
 
---- Read the first chunk of a file as raw bytes
 ---@param path string File path
 ---@param size number Number of bytes to read
 ---@return string? data File contents, or nil if the file cannot be read
@@ -56,7 +55,6 @@ local function read_file_chunk(path, size)
   return data
 end
 
---- Check whether a file extension is known to be binary
 ---@param path string File path
 ---@return boolean
 local function is_known_binary_extension(path)
@@ -64,7 +62,6 @@ local function is_known_binary_extension(path)
   return extension ~= "" and binary_extensions[extension] == true
 end
 
---- Check whether the start of a file contains a NUL byte
 ---@param path string File path
 ---@return boolean
 local function has_nul_byte(path)
@@ -72,7 +69,6 @@ local function has_nul_byte(path)
   return chunk ~= nil and chunk:find("\0", 1, true) ~= nil
 end
 
---- Decide whether a file should be opened as a binary buffer
 ---@param path string File path
 ---@return boolean
 local function should_open_as_binary(path)
@@ -83,7 +79,7 @@ local function should_open_as_binary(path)
   return is_known_binary_extension(path) or has_nul_byte(path)
 end
 
---- Replace the current buffer contents with a read-only hex dump
+-- NOTE: Binary buffers stay read-only to prevent accidental changes.
 ---@param buf number Buffer handle
 local function open_buffer_as_hex(buf)
   vim.bo[buf].swapfile = false
@@ -102,7 +98,6 @@ local function open_buffer_as_hex(buf)
   vim.bo[buf].modified = false
 end
 
---- Setup binary file detection and hex buffer rendering
 function M.setup()
   local group = vim.api.nvim_create_augroup("binary-buffers", { clear = true })
 

@@ -1,10 +1,10 @@
 # Documentation
 
-Quick reference guides for tools and keybindings.
+These guides list tool commands and keybindings.
 
 ## Guides
 
-- **[Fish Shell](fish.md)** - Fish shell keybindings and commands
-- **[FZF](fzf.md)** - Fuzzy finder keybindings
-- **[Tmux](tmux.md)** - Terminal multiplexer commands and keybindings
-- **[Neovim](neovim.md)** - Comprehensive Neovim reference with all keybindings, commands, and tips
+- [Fish](fish.md) - Shell commands and keybindings.
+- [FZF](fzf.md) - Search keybindings.
+- [Tmux](tmux.md) - Session commands and keybindings.
+- [Neovim](neovim.md) - Editor commands and keybindings.

@@ -108,7 +108,7 @@ helpers.load_on(
   function()
     local lint = require("lint")
 
-    -- Disable MD013 (line-length) warnings for Markdown files.
+    -- NOTE: Markdown paragraphs stay on one source line.
     lint.linters.markdownlint.args = {
       "--stdin",
       "--disable",

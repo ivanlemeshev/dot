@@ -12,11 +12,10 @@ vim.pack.add({
     version = "v3.9.1",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
--- Disable mini.indentscope for certain filetypes
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "help",
@@ -28,14 +27,12 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Disable mini.indentscope for terminal buffers
 vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     vim.b.miniindentscope_disable = true
   end,
 })
 
--- Initialize mini.indentscope when a buffer is read or a new file is created
 helpers.load_on(
   { "BufReadPost", "BufNewFile" },
   "pack-mini-indentscope",

@@ -7,8 +7,8 @@ vim.pack.add({
     version = "v2.31.0",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 require("snacks").setup({

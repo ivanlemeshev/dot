@@ -15,8 +15,8 @@ vim.pack.add({
     version = "v2.3.0",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 require("mason").setup({

@@ -16,7 +16,7 @@ Personal dotfiles for Ubuntu 26.04, Fedora KDE, macOS, and Windows x64. Mise man
 
 <!-- prettier-ignore -->
 > [!WARNING]
-> Review code before running. Use at your own risk.
+> The bootstrap script changes system settings. Review the code before you run it.
 
 ## Setup
 
@@ -25,7 +25,7 @@ git clone https://github.com/ivanlemeshev/dot.git
 cd dot
 ```
 
-Optional: copy [config.local.toml.example](config.local.toml.example) to `config.local.toml` and edit your machine settings before setup. Git ignores this file.
+To set machine options, copy [config.local.toml.example](config.local.toml.example) to `config.local.toml`. Edit the file before setup. Git ignores this file.
 
 **Ubuntu, Fedora KDE, and macOS:**
 
@@ -39,13 +39,11 @@ Optional: copy [config.local.toml.example](config.local.toml.example) to `config
 .\bootstrap.ps1
 ```
 
-Bootstrap upgrades packages, applies configuration, and verifies the setup. Windows requests administrator access. Restart Windows to apply Caps Lock → Ctrl.
-
 ## Development
 
 [mise](https://mise.jdx.dev) pins the repository tools in `mise.toml`. The bootstrap configuration stays in `config.toml` and the platform files.
 
-Run these commands from the repository root. On Windows, install Git for its Bash command.
+Run these commands from the repository root. On Windows, install Git to supply Bash.
 
 ```sh
 mise trust
@@ -58,6 +56,6 @@ mise run check
 
 `format` formats Bash, Lua, Markdown, YAML, JSON, and TOML files. `format:check` checks the same files without changes. `lint` runs ShellCheck, markdownlint, and Tombi. `check` runs both checks.
 
-The tasks use tracked files and new files that Git does not ignore. They exclude ignored machine files. Markdown keeps one paragraph per line. Lua uses the existing Neovim style.
+The tasks check tracked files and new files that Git does not ignore. They skip ignored machine files. Each Markdown paragraph stays on one source line. Lua uses the Neovim style in `nvim/.stylua.toml`.
 
 GitHub Actions runs `format:check` and `lint` in separate workflows on each push to `main` and each pull request. The workflows use the same tasks and tool versions as local checks.

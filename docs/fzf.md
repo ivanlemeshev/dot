@@ -4,7 +4,7 @@
 
 _(Default)_ means fzf or the fzf.fish plugin provides the binding. _(Custom)_ means this setup adds or changes the binding.
 
-### Fuzzy Search
+### Search
 
 - `Ctrl+Alt+f` - Search for a file in the current directory. _(Default)_
 - `Ctrl+Alt+l` - Search commits in the Git log. _(Default)_

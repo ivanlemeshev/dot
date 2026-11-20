@@ -7,8 +7,8 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 require("nvim-treesitter").setup({
@@ -78,9 +78,7 @@ end
 vim.api.nvim_create_autocmd("FileType", {
   group = helpers.augroup("treesitter"),
   callback = function(args)
-    -- Enable treesitter highlighting and disable regex syntax per buffer.
     pcall(vim.treesitter.start, args.buf)
-    -- Enable treesitter-based indentation for this buffer.
     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
 })

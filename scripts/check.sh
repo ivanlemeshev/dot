@@ -18,7 +18,7 @@ markdown_files=()
 prettier_files=()
 toml_files=()
 
-# NOTE: Git excludes machine files and includes new repository files.
+# NOTE: Git keeps ignored machine files outside the checks.
 git rev-parse --show-toplevel >/dev/null
 while IFS= read -r -d '' path; do
   [[ -f "$path" ]] || continue

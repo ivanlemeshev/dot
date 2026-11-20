@@ -1,4 +1,4 @@
-# --- Syntax highlighting ---
+# Syntax highlighting
 set -gx fish_color_normal         white
 set -gx fish_color_command        yellow
 set -gx fish_color_keyword        red
@@ -15,11 +15,11 @@ set -gx fish_color_autosuggestion brblack
 set -gx fish_color_valid_path     blue --underline
 set -gx fish_color_cancel         brred
 
-# --- Selection & search ---
+# Selection and search
 set -gx fish_color_selection    black --background=blue
 set -gx fish_color_search_match black --background=blue
 
-# --- Prompt ---
+# Prompt
 set -gx fish_color_cwd         blue
 set -gx fish_color_cwd_root    brred
 set -gx fish_color_user        green
@@ -27,7 +27,7 @@ set -gx fish_color_host        cyan
 set -gx fish_color_host_remote yellow
 set -gx fish_color_status      brred
 
-# --- Pager (completions) ---
+# Pager (completions)
 set -gx fish_pager_color_progress            brblack
 set -gx fish_pager_color_prefix              yellow
 set -gx fish_pager_color_completion          normal

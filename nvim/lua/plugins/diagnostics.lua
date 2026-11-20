@@ -7,10 +7,11 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = false, -- Load after colorscheme
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
+-- NOTE: The theme must load before the diagnostic plugin.
 helpers.load_on(
   "VimEnter",
   "pack-diagnostics",
