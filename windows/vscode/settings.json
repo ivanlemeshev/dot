@@ -6,7 +6,11 @@
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "all",
-  "editor.rulers": [80, 100, 120],
+  "editor.rulers": [
+    80,
+    100,
+    120
+  ],
   "editor.wordWrap": "on",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
@@ -17,6 +21,6 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 4
   },
-  "workbench.iconTheme": "gruvbox-material-icon-theme",
-  "cSpell.language": "en,ru-RU"
+  "cSpell.language": "en,ru-RU",
+  "workbench.colorTheme": "Dark Modern"
 }
