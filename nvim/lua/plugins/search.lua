@@ -5,8 +5,8 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = false, -- Load on first picker use
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 local helpers = require("config.helpers")
@@ -17,13 +17,13 @@ local function clipboard_cmd()
   if vim.fn.has("mac") == 1 then
     return "pbcopy"
   elseif vim.fn.executable("wl-copy") == 1 then
-    return "wl-copy" -- Wayland
+    return "wl-copy"
   elseif vim.fn.executable("xclip") == 1 then
     return "xclip -selection clipboard"
   elseif vim.fn.executable("xsel") == 1 then
     return "xsel --clipboard --input"
   elseif vim.fn.has("wsl") == 1 then
-    return "clip.exe" -- WSL → Windows clipboard
+    return "clip.exe"
   else
     return nil
   end
@@ -103,7 +103,7 @@ function M.fzf()
       ["--multi"] = true,
     },
     winopts = {
-      fullscreen = true, -- Let's try it
+      fullscreen = true,
       border = "single",
       height = 0.90,
       width = 0.95,

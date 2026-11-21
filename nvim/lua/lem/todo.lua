@@ -19,7 +19,9 @@ function M.update_progress()
   local buffer = vim.api.nvim_get_current_buf()
   local row = vim.api.nvim_win_get_cursor(0)[1] - 1
   local function state_at(index)
-    return task_state(vim.api.nvim_buf_get_lines(buffer, index, index + 1, false)[1] or "")
+    return task_state(
+      vim.api.nvim_buf_get_lines(buffer, index, index + 1, false)[1] or ""
+    )
   end
 
   if not state_at(row) then
@@ -35,14 +37,20 @@ function M.update_progress()
   end
 
   local complete = 0
-  for _, line in ipairs(vim.api.nvim_buf_get_lines(buffer, first, last + 1, false)) do
+  for _, line in
+    ipairs(vim.api.nvim_buf_get_lines(buffer, first, last + 1, false))
+  do
     if task_state(line) ~= " " then
       complete = complete + 1
     end
   end
 
   local total = last - first + 1
-  local label = ("  %d/%d (%d%%)"):format(complete, total, math.floor(complete / total * 100 + 0.5))
+  local label = ("  %d/%d (%d%%)"):format(
+    complete,
+    total,
+    math.floor(complete / total * 100 + 0.5)
+  )
   vim.api.nvim_buf_set_extmark(buffer, namespace, row, 0, {
     virt_text = { { label, "Comment" } },
     virt_text_pos = "eol",
@@ -70,10 +78,13 @@ end
 
 function M.setup()
   local group = vim.api.nvim_create_augroup("lem-todo", { clear = true })
-  vim.api.nvim_create_autocmd({ "CursorMoved", "BufEnter", "TextChanged", "ModeChanged" }, {
-    group = group,
-    callback = M.update_progress,
-  })
+  vim.api.nvim_create_autocmd(
+    { "CursorMoved", "BufEnter", "TextChanged", "ModeChanged" },
+    {
+      group = group,
+      callback = M.update_progress,
+    }
+  )
   vim.api.nvim_create_autocmd("BufLeave", {
     group = group,
     callback = function(args)
@@ -84,8 +95,18 @@ function M.setup()
     M.toggle(opts.line1, opts.line2)
   end, { range = true, desc = "Toggle task checkboxes" })
 
-  vim.keymap.set("n", "<leader>x", "<cmd>TodoToggle<CR>", { desc = "Toggle task checkbox" })
-  vim.keymap.set("x", "<leader>x", ":TodoToggle<CR>", { desc = "Toggle task checkboxes" })
+  vim.keymap.set(
+    "n",
+    "<leader>x",
+    "<cmd>TodoToggle<CR>",
+    { desc = "Toggle task checkbox" }
+  )
+  vim.keymap.set(
+    "x",
+    "<leader>x",
+    ":TodoToggle<CR>",
+    { desc = "Toggle task checkboxes" }
+  )
   M.update_progress()
 end
 

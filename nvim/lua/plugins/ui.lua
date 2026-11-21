@@ -20,8 +20,8 @@ vim.pack.add({
     version = "v0.17.0",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 local devicons = require("nvim-web-devicons")

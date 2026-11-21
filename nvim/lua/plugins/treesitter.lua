@@ -7,8 +7,8 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 require("nvim-treesitter").setup({
@@ -59,7 +59,8 @@ local ensure_installed = {
   "zig",
 }
 
-local already_installed = require("nvim-treesitter.config").get_installed("parsers")
+local already_installed =
+  require("nvim-treesitter.config").get_installed("parsers")
 local parsers_to_install = vim
   .iter(ensure_installed)
   :filter(function(parser)
@@ -77,9 +78,7 @@ end
 vim.api.nvim_create_autocmd("FileType", {
   group = helpers.augroup("treesitter"),
   callback = function(args)
-    -- Enable treesitter highlighting and disable regex syntax per buffer.
     pcall(vim.treesitter.start, args.buf)
-    -- Enable treesitter-based indentation for this buffer.
     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
 })

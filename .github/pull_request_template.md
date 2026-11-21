@@ -4,12 +4,12 @@
 
 ## Changes
 
-<!-- List the main changes. For a behavior change, explain what happens before and after the change. -->
+<!-- List the main changes. Describe the old and new behavior. -->
 
 ## Checks
 
-<!-- List the checks and their results. State which platforms were checked. If a check was not run, give the reason. -->
+<!-- List the checks and their results. Name the platforms you check. Give the reason for each check you skip. -->
 
 ## User action
 
-<!-- State any required setup or migration steps. Remove this section if no action is needed. -->
+<!-- List required setup or migration steps. Remove this section if the user has no required steps. -->

@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 . "$ROOT/../unix/state.sh"
 STATE="$HOME/.local/state/dotfiles-fedora"
 PROFILE="$HOME/.local/share/konsole"
+PALETTE_STATE="${DOTFILES_PALETTE_STATE:-$HOME/.local/state/dotfiles-palette}"
 UNSET=__DOTFILES_UNSET__
 
 load() { state_load "$STATE/state.json" '{"links":[],"preferences":[]}'; }
@@ -48,18 +49,23 @@ deploy() {
   mkdir -p "$PROFILE"
   for name in dot.profile custom.colorscheme; do
     source="$ROOT/konsole/$name"
+    if [[ "$name" == custom.colorscheme ]]; then source="$PALETTE_STATE/active/konsole.colorscheme"; fi
     target="$PROFILE/$name"
     record="$(jq -c --arg target "$target" '.links[] | select(.target == $target)' <<<"$state")"
-    if [[ -L "$target" && "$(canonical_path "$target")" == "$source" ]]; then continue; fi
+    if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then continue; fi
     if [[ -n "$record" ]]; then
       backup="$(jq -r '.backup // empty' <<<"$record")"
-      if [[ -e "$target" || -L "$target" ]]; then
+      if [[ -L "$target" && "$(readlink "$target")" == "$(jq -r '.source' <<<"$record")" ]]; then
+        rm "$target"
+      elif [[ -e "$target" || -L "$target" ]]; then
         if [[ -z "$backup" || -e "$backup" || -L "$backup" ]]; then
           printf 'The Konsole link changes after setup: %s\n' "$target" >&2
           return 1
         fi
         mv "$target" "$backup"
       fi
+      state="$(jq --arg target "$target" --arg source "$source" '.links |= map(if .target == $target then .source = $source else . end)' <<<"$state")"
+      save
       ln -s "$source" "$target"
       continue
     fi
@@ -137,10 +143,12 @@ check_preference() {
 }
 
 verify() {
-  local name target font
+  local name target font source
   for name in dot.profile custom.colorscheme; do
     target="$PROFILE/$name"
-    if [[ ! -L "$target" || "$(canonical_path "$target")" != "$ROOT/konsole/$name" ]]; then
+    source="$ROOT/konsole/$name"
+    if [[ "$name" == custom.colorscheme ]]; then source="$PALETTE_STATE/active/konsole.colorscheme"; fi
+    if [[ ! -L "$target" || "$(readlink "$target")" != "$source" || ! -f "$target" ]]; then
       printf 'The Konsole link is missing or differs: %s\n' "$target" >&2
       return 1
     fi
@@ -176,7 +184,7 @@ unapply() {
   done < <(jq -c '.preferences[]' <<<"$state")
   while IFS= read -r record; do
     target="$(jq -r '.target' <<<"$record")"
-    if [[ -L "$target" && "$(canonical_path "$target")" == "$(jq -r '.source' <<<"$record")" ]]; then
+    if [[ -L "$target" && "$(readlink "$target")" == "$(jq -r '.source' <<<"$record")" ]]; then
       rm "$target"
     elif [[ -e "$target" || -L "$target" ]]; then
       printf 'The Konsole link changes after setup: %s\n' "$target" >&2

@@ -22,8 +22,8 @@ vim.pack.add({
     version = "v6.0.2",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 helpers.load_on({ "BufReadPost", "BufNewFile" }, "pack-editing", {

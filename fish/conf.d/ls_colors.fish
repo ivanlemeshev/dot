@@ -1,24 +1,24 @@
-# LS_COLORS for ls, fd, etc.
+# NOTE: ls and other LS_COLORS clients share these colors.
 
 set -l ls_foreground 37
-set -l ls_error      91
+set -l ls_error 91
 set -l ls_executable 32
-set -l ls_document   33
-set -l ls_directory  34
-set -l ls_special    35
-set -l ls_media      36
-set -l ls_backup     90
+set -l ls_document 33
+set -l ls_directory 34
+set -l ls_special 35
+set -l ls_media 36
+set -l ls_backup 90
 
-# --- ANSI style helpers ---
-set -l n  "0"  # normal
-set -l b  "1"  # bold
-set -l it "3"  # italic
+# ANSI style helpers
+set -l n 0 # normal
+set -l b 1 # bold
+set -l it 3 # italic
 
-# --- Core file types ---
-# rs = reset, mh = multi-hardlink, no = normal, fi = regular file,
+# Core file types
+# rs = reset, mh = multiple hard links, no = normal, fi = regular file,
 # di = directory, ln = symlink, or = orphan symlink, mi = missing target,
 # ex = executable, pi = named pipe, so = socket, do = door,
-# bd = block device, cd = char device, su = setuid, sg = setgid,
+# bd = block device, cd = character device, su = setuid, sg = setgid,
 # ca = capability, st = sticky, ow = other-writable, tw = sticky+ow
 set -l ls \
     "rs=0" \
@@ -42,11 +42,11 @@ set -l ls \
     "ow=$b;$ls_executable" \
     "tw=$it;30;104"
 
-# --- Plain text ---
+# Plain text
 set -a ls \
     "*.txt=$n;$ls_foreground"
 
-# --- Source code ---
+# Source code
 set -a ls \
     "*.a=$b;$ls_executable" \
     "*.c=$n;$ls_executable" \
@@ -185,7 +185,7 @@ set -a ls \
     "*.applescript=$n;$ls_executable" \
     "*.bash_profile=$n;$ls_executable"
 
-# --- Data / markup / config ---
+# Data / markup / config
 set -a ls \
     "*.1=$n;$ls_document" \
     "*.md=$n;$ls_document" \
@@ -221,7 +221,7 @@ set -a ls \
     "*shadow=$n;$ls_document" \
     "*Dockerfile=$n;$ls_document"
 
-# --- Images / media (static) ---
+# Images / media (static)
 set -a ls \
     "*.ai=$n;$ls_media" \
     "*.ma=$n;$ls_media" \
@@ -336,7 +336,7 @@ set -a ls \
     "*.blend=$n;$ls_media" \
     "*.alembic=$n;$ls_media"
 
-# --- Video ---
+# Video
 set -a ls \
     "*.rm=$b;$ls_media" \
     "*.avi=$b;$ls_media" \
@@ -354,7 +354,7 @@ set -a ls \
     "*.mpeg=$b;$ls_media" \
     "*.webm=$b;$ls_media"
 
-# --- Archives / packages ---
+# Archives / packages
 set -a ls \
     "*.z=$n;$ls_document" \
     "*.7z=$n;$ls_document" \
@@ -380,7 +380,7 @@ set -a ls \
     "*.zst=$n;$ls_document" \
     "*.tbz2=$n;$ls_document"
 
-# --- Disk images ---
+# Disk images
 set -a ls \
     "*.bin=$b;$ls_document" \
     "*.dmg=$b;$ls_document" \
@@ -389,7 +389,7 @@ set -a ls \
     "*.vcd=$b;$ls_document" \
     "*.toast=$b;$ls_document"
 
-# --- Documents ---
+# Documents
 set -a ls \
     "*.ps=$b;$ls_directory" \
     "*.doc=$b;$ls_directory" \
@@ -411,7 +411,7 @@ set -a ls \
     "*.pptx=$b;$ls_directory" \
     "*.xlsx=$b;$ls_directory"
 
-# --- CI/CD config ---
+# CI/CD config
 set -a ls \
     "*.cirrus.yml=$n;$ls_directory" \
     "*.gitlab-ci.yml=$n;$ls_directory" \
@@ -419,7 +419,7 @@ set -a ls \
     "*appveyor.yml=$n;$ls_directory" \
     "*azure-pipelines.yml=$n;$ls_directory"
 
-# --- Build / config tooling ---
+# Build / config tooling
 set -a ls \
     "*.mk=$it;$ls_executable" \
     "*.dox=$it;$ls_executable" \
@@ -459,7 +459,7 @@ set -a ls \
     "*pyproject.toml=$it;$ls_executable" \
     "*requirements.txt=$it;$ls_executable"
 
-# --- Notable docs ---
+# Notable docs
 set -a ls \
     "*FAQ=$b;$ls_document" \
     "*LEGACY=$b;$ls_document" \
@@ -484,7 +484,7 @@ set -a ls \
     "*CODE_OF_CONDUCT.md=$b;$ls_document" \
     "*CODE_OF_CONDUCT.txt=$b;$ls_document"
 
-# --- Licenses ---
+# Licenses
 set -a ls \
     "*COPYING=$it;$ls_foreground" \
     "*COPYRIGHT=$it;$ls_foreground" \
@@ -493,13 +493,13 @@ set -a ls \
     "*LICENSE-MIT=$it;$ls_foreground" \
     "*LICENSE-APACHE=$it;$ls_foreground"
 
-# --- TODO files ---
+# TODO files
 set -a ls \
     "*TODO=$n;$ls_executable" \
     "*TODO.md=$n;$ls_executable" \
     "*TODO.txt=$n;$ls_executable"
 
-# --- Build artifacts / caches ---
+# Build artifacts / caches
 set -a ls \
     "*~=$it;$ls_backup" \
     "*.aux=$it;$ls_backup" \
@@ -549,9 +549,12 @@ set -a ls \
     "*package-lock.json=$it;$ls_backup" \
     "*Icon\r=$it;$ls_backup"
 
+if test "$DOTFILES_HIGHLIGHT_MODE" = min
+    set ls no=37 fi=0 di=34 'ln=3;37' or=91 'mi=30;101' ex=37 'su=30;101' 'sg=30;103' 'ca=30;101' 'st=30;104' 'tw=30;104'
+end
 set -x LS_COLORS (string join ":" $ls)
 
-# macOS BSD ls ignores LS_COLORS, so prefer GNU ls when it is installed.
+# NOTE: BSD ls ignores LS_COLORS on macOS.
 if test (uname) = Darwin; and command -sq gls
     set -gx __fish_ls_command gls
     set -gx __fish_ls_color_opt --color=auto

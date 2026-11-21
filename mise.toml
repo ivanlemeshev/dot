@@ -1,0 +1,47 @@
+[vars]
+checks_root = "{{config_source | dirname}}"
+
+[tasks."checks:run"]
+hide = true
+dir = "{{vars.checks_root}}"
+run = "bash scripts/check.sh"
+
+[tasks."checks:run".tools]
+actionlint = "1.7.12"
+"aqua:Kampfkarren/selene" = "0.32.0"
+"aqua:google/yamlfmt" = "0.21.0"
+"cargo:psfmt" = "0.2.0"
+powershell = "7.6.9"
+python = "3.15.2"
+ruff = "0.17.4"
+node = "26.13.0"
+"npm:markdownlint-cli" = "0.50.0"
+"npm:prettier" = "3.9.10"
+shellcheck = "0.11.0"
+shfmt = "3.14.1"
+stylua = "2.6.0"
+tombi = "1.11.2"
+
+[tasks.format]
+description = "Format repository files"
+depends = ["checks:run format"]
+
+[tasks."format:check"]
+description = "Check file formatting without changes"
+depends = ["checks:run format:check"]
+
+[tasks.lint]
+description = "Run repository linters and syntax checks"
+depends = ["checks:run lint"]
+
+[tasks.check]
+description = "Run formatting, lint, and palette tests"
+depends = ["format:check", "lint", "test:palettes"]
+
+[tasks."test:palettes"]
+description = "Check palettes, palette selection, and repository validators"
+depends = ["checks:run test:palettes"]
+
+[tasks."setup:checks"]
+description = "Install the PowerShell analysis module"
+depends = ["checks:run setup"]

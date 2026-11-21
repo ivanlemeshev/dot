@@ -46,7 +46,7 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         $settings.profiles | Add-Member -Force -NotePropertyName defaults `
             -NotePropertyValue ([pscustomobject]@{})
     }
-    if ($null -eq $settings.profiles.defaults.font) {
+    if ($null -ne $sharedDefaults.font -and $null -eq $settings.profiles.defaults.font) {
         $settings.profiles.defaults | Add-Member -Force -NotePropertyName font `
             -NotePropertyValue ([pscustomobject]@{})
     }
@@ -68,8 +68,8 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
         }
     }
 
-    foreach ($profile in $settings.profiles.list) {
-        $profile | Add-Member -Force -NotePropertyName colorScheme `
+    foreach ($terminalProfile in $settings.profiles.list) {
+        $terminalProfile | Add-Member -Force -NotePropertyName colorScheme `
             -NotePropertyValue $sharedDefaults.colorScheme
     }
 
@@ -103,7 +103,11 @@ function Merge-WindowsTerminalSettings($settings, $shared) {
 }
 
 function Set-WindowsTerminalSettings {
-    param([string]$Directory, [string]$SharedSettingsPath)
+    param([string]$Directory, [string]$SharedSettingsPath, [switch]$ThemesOnly, [string]$PaletteName)
+    . (Join-Path (Split-Path -Parent $PSScriptRoot) 'scripts/palette.ps1')
+    if (-not $PaletteName) { $PaletteName = Get-PaletteName }
+    $palette = Get-Content -LiteralPath (Join-Path (Get-PaletteDirectory $PaletteName) 'windows-terminal.json') -Raw |
+        ConvertFrom-Json
     $target = Join-Path $Directory 'settings.json'
     $statePath = Join-Path $StateDirectory 'terminal.json'
     $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
@@ -118,18 +122,39 @@ function Set-WindowsTerminalSettings {
         $null
     }
     $local = Join-Path $Directory 'settings.local.json'
-    if ($null -ne $item -and ($item.LinkType -eq 'SymbolicLink' -or $settings.import) -and (Test-Path -LiteralPath $local)) {
+    if (-not $ThemesOnly -and $null -ne $item -and ($item.LinkType -eq 'SymbolicLink' -or $settings.import) -and (Test-Path -LiteralPath $local)) {
         $settings = Get-Content -LiteralPath $local -Raw | ConvertFrom-Json
     }
     $shared = Get-Content -LiteralPath $SharedSettingsPath -Raw | ConvertFrom-Json
+    $shared | Add-Member -Force -NotePropertyName schemes -NotePropertyValue $palette.schemes
+    $shared | Add-Member -Force -NotePropertyName themes -NotePropertyValue $palette.themes
+    if ($ThemesOnly) {
+        $shared = [pscustomobject]@{
+            profiles = [pscustomobject]@{
+                defaults = [pscustomobject]@{ colorScheme = $shared.profiles.defaults.colorScheme }
+            }
+            schemes  = $shared.schemes
+            themes   = $shared.themes
+        }
+    }
     $settings = Merge-WindowsTerminalSettings $settings $shared
     $settings | Add-Member -Force -NotePropertyName theme -NotePropertyValue 'custom'
     $text = ($settings | ConvertTo-Json -Depth 100) + "`n"
     if ($null -ne $original -and [Text.Encoding]::UTF8.GetString($original) -eq $text) {
         return
     }
+    $updateRestoreHash = $true
     $state = if (Test-Path -LiteralPath $statePath) {
-        Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
+        $saved = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
+        if ($saved.target -ne $target) {
+            throw 'The Windows Terminal settings path changes after setup. Review terminal.json.'
+        }
+        $updateRestoreHash = $null -ne $item -and $item.LinkType -ne 'SymbolicLink' -and
+        (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash -eq $saved.applied
+        if (-not $ThemesOnly -and -not $updateRestoreHash) {
+            throw 'Windows Terminal settings change after setup. Keep the current file and review terminal.json.'
+        }
+        $saved
     } else {
         [pscustomobject]@{
             target   = $target
@@ -151,8 +176,11 @@ function Set-WindowsTerminalSettings {
     }
     New-Item -ItemType Directory -Path $Directory -Force | Out-Null
     [IO.File]::WriteAllText($target, $text, [Text.UTF8Encoding]::new($false))
-    $state.applied = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
-    Save-StateText 'terminal.json' ($state | ConvertTo-Json -Depth 10)
+    # NOTE: Keep the previous hash so restore can detect local changes.
+    if ($updateRestoreHash) {
+        $state.applied = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        Save-StateText 'terminal.json' ($state | ConvertTo-Json -Depth 10)
+    }
 }
 
 function Restore-WindowsTerminalSettings {

@@ -32,8 +32,8 @@ vim.pack.add({
     version = "main",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 helpers.load_on({ "InsertEnter", "CmdlineEnter" }, "pack-cmp", {
@@ -144,14 +144,13 @@ helpers.load_on({ "InsertEnter", "CmdlineEnter" }, "pack-cmp", {
     },
   })
 
-  -- Hide completion documentation in Markdown buffers.
   cmp.setup.filetype({ "markdown" }, {
     window = {
       documentation = cmp.config.disable,
     },
   })
 
-  -- Command line completion (only on Tab, never auto-triggers)
+  -- NOTE: Tab starts command completion.
   cmp.setup.cmdline(":", {
     completion = { autocomplete = false },
     mapping = cmp.mapping.preset.cmdline(),

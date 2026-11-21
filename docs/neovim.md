@@ -46,9 +46,9 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 - `yy` - Copy the current line. _(Default)_
 - `p` - Paste after the cursor. _(Default)_
 - `P` - Paste before the cursor. _(Default)_
-- `d{motion}` - Delete text covered by a motion. For example, `dw` deletes to the next word. _(Default)_
-- `c{motion}` - Change text covered by a motion. _(Default)_
-- `y{motion}` - Copy text covered by a motion. _(Default)_
+- `d{motion}` - Delete text in the motion range. For example, `dw` deletes to the next word. _(Default)_
+- `c{motion}` - Change text in the motion range. _(Default)_
+- `y{motion}` - Copy text in the motion range. _(Default)_
 - `di{object}` - Delete inside a text object. For example, `diw` deletes the word under the cursor. _(Default)_
 - `da{object}` - Delete around a text object. For example, `daw` deletes the word and its following space. _(Default)_
 - `u` - Undo the last change. _(Default)_
@@ -71,7 +71,7 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 - `ySS{replacement}` in Normal mode - Add a pair around the current line and place it on separate indented lines. _(Custom)_
 - `S{replacement}` in Visual mode - Add a pair around the selection. Linewise selections go on separate indented lines. _(Custom)_
 - `gS{replacement}` in Visual mode - Add a pair around the selection. Linewise selections go on separate lines without automatic indentation. _(Custom)_
-- `<C-g>s`, `<C-g>S`, or `<C-s>` in Insert mode - Insert a pair and place the cursor inside it. `<C-s>` can be captured by terminal flow control. _(Custom)_
+- `<C-g>s`, `<C-g>S`, or `<C-s>` in Insert mode - Insert a pair and place the cursor inside it. Terminal flow control can capture `<C-s>`. _(Custom)_
 
 ### Autocompletion
 
@@ -81,7 +81,7 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 - `<C-y>` in insert mode - Confirm the selected completion item. _(Default)_
 - `<Down>` in insert mode - Select the next completion item. _(Default)_
 - `<Up>` in insert mode - Select the previous completion item. _(Default)_
-- `<Tab>` in insert mode - Accept the highlighted completion. The first item is highlighted when the menu opens. Use the existing Tab action when the menu is closed. _(Custom)_
+- `<Tab>` in insert mode - Accept the selected completion. Use the first item if no item is selected. Use the existing Tab action when the menu is closed. _(Custom)_
 - `<Enter>` in insert mode - Accept a completion when the menu is open. Insert a newline otherwise. _(Custom)_
 
 ### CSV
@@ -125,15 +125,15 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 
 ### LSP
 
-- `gd` - LSP definition. _(Default)_
-- `gD` - LSP declaration. _(Default)_
-- `grr` - LSP references. _(Default)_
-- `gri` - LSP implementation. _(Default)_
-- `grt` - LSP type definition. _(Default)_
-- `gO` - LSP document symbols. _(Default)_
-- `grn` - Rename symbol. _(Default)_
-- `gra` - Code action. _(Default)_
-- `K` - Hover documentation. _(Default)_
+- `gd` - Find definitions with FZF. _(Custom)_
+- `gD` - Find declarations with FZF. _(Custom)_
+- `grr` - Find references with FZF. _(Custom)_
+- `gri` - Find implementations with FZF. _(Custom)_
+- `grt` - Find type definitions with FZF. _(Custom)_
+- `gO` - Find symbols in the current document with FZF. _(Custom)_
+- `grn` - Rename a symbol. _(Custom)_
+- `gra` - Select a code action. _(Custom)_
+- `K` - Show hover documentation. _(Custom)_
 
 ### Commands
 
@@ -189,12 +189,12 @@ _(Default)_ means Neovim provides the mapping. _(Custom)_ means this setup or on
 ## FZF bindings
 
 - `<leader>ff` - Find files by name. _(Custom)_
-- `<leader>fb` - Open buffers. _(Custom)_
-- `<leader>fg` - Project text. _(Custom)_
+- `<leader>fb` - Select an open buffer. _(Custom)_
+- `<leader>fg` - Search text in the project. _(Custom)_
 - `<leader>fd` - Find workspace diagnostics. _(Custom)_
-- `<leader>fh` - Help tags. _(Custom)_
-- `<leader>fo` - Recent files. _(Custom)_
-- `<leader>fw` - Word under cursor. _(Custom)_
-- `<leader>fc` - Command history. _(Custom)_
-- `<leader>fs` - Search history. _(Custom)_
-- `<leader>fr` - Resume. _(Custom)_
+- `<leader>fh` - Search help tags. _(Custom)_
+- `<leader>fo` - Find recent files. _(Custom)_
+- `<leader>fw` - Search for the word under the cursor. _(Custom)_
+- `<leader>fc` - Search command history. _(Custom)_
+- `<leader>fs` - Find a previous search. _(Custom)_
+- `<leader>fr` - Open the last search again. _(Custom)_

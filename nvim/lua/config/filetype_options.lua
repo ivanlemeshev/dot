@@ -36,7 +36,6 @@ local indent_by_filetype = {
   zig = { expandtab = true, width = 4 },
 }
 
---- Apply indentation settings for the buffer filetype.
 ---@param buf number Buffer handle
 local function apply_indent_options(buf)
   local config = indent_by_filetype[vim.bo[buf].filetype]
