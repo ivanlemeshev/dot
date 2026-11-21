@@ -138,6 +138,23 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
     }
 }
 
+function codex {
+    $codexCommand = Get-Command codex -CommandType Application, ExternalScript -ErrorAction SilentlyContinue |
+        Select-Object -First 1
+    if (-not $codexCommand) {
+        Write-Error 'Codex was not found on PATH.'
+        return
+    }
+
+    $previousColor = $env:FORCE_COLOR
+    try {
+        $env:FORCE_COLOR = '1'
+        & $codexCommand.Path @args
+    } finally {
+        $env:FORCE_COLOR = $previousColor
+    }
+}
+
 if ($PSVersionTable.PSVersion.Major -ge 7 -and [Environment]::UserInteractive -and -not [Console]::IsOutputRedirected) {
     $worktrunk = Get-Command git-wt -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($null -ne $worktrunk) {

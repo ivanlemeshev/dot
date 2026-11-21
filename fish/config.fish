@@ -69,6 +69,12 @@ if command -q mise
     mise activate fish | source
 end
 
+if command -q codex
+    function codex --wraps codex
+        FORCE_COLOR=1 command codex $argv
+    end
+end
+
 if command -q wt
     wt config shell init fish | source
 end
