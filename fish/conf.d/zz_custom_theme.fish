@@ -36,3 +36,10 @@ set -gx fish_pager_color_selected_background --background=blue
 set -gx fish_pager_color_selected_completion black
 set -gx fish_pager_color_selected_description black
 set -gx fish_pager_color_selected_prefix black
+
+if test "$DOTFILES_HIGHLIGHT_MODE" = min
+    for role in command keyword option redirection end operator escape user host host_remote
+        set -gx "fish_color_$role" white
+    end
+    set -gx fish_pager_color_prefix white
+end

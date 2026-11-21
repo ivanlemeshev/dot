@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('list', 'current', 'use', 'prepare')]
+    [ValidateSet('list', 'current', 'use', 'prepare', 'mode')]
     [string]$Action = 'list',
     [string]$Name
 )
@@ -56,10 +56,49 @@ function Set-UnixPalette([string]$Directory) {
     Set-PaletteLink (Join-Path $state 'active') $Directory
 }
 
+function Initialize-MinimalBatTheme {
+    if (-not $env:BAT_CONFIG_DIR -or
+        -not (Test-Path -LiteralPath (Join-Path $env:BAT_CONFIG_DIR 'themes/custom-min.tmTheme'))) { return }
+    $bat = Get-Command -Name bat, batcat -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -eq $bat) { return }
+    $themes = @(& $bat.Source --list-themes)
+    if ($themes -cnotcontains 'custom-min') {
+        & $bat.Source cache --build | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw 'Cannot build the bat theme cache.' }
+    }
+}
+
 function Invoke-Palette {
     param([string]$Command, [string]$PaletteName)
+    if ($Command -eq 'mode') {
+        $state = Get-PaletteStateDirectory
+        $modePath = Join-Path $state 'mode'
+        if (-not $PaletteName) {
+            if ((Test-Path -LiteralPath $modePath -PathType Leaf) -and
+                ([IO.File]::ReadAllText($modePath)).Trim() -ceq 'min') {
+                return 'min'
+            }
+            return 'full'
+        }
+        if ($PaletteName -cnotin @('full', 'min')) {
+            throw 'Highlighting mode must be full or min.'
+        }
+        if ($PaletteName -eq 'min') { Initialize-MinimalBatTheme }
+        New-Item -ItemType Directory -Path $state -Force | Out-Null
+        if (-not (Test-Path -LiteralPath $modePath -PathType Leaf) -or
+            [IO.File]::ReadAllText($modePath) -cne "$PaletteName`n") {
+            $temporary = "$modePath.$([Guid]::NewGuid().ToString('N'))"
+            try {
+                [IO.File]::WriteAllText($temporary, "$PaletteName`n", [Text.UTF8Encoding]::new($false))
+                [IO.File]::Move($temporary, $modePath, $true)
+            } finally {
+                [IO.File]::Delete($temporary)
+            }
+        }
+        return "Highlighting: $PaletteName. Restart your shell and apps."
+    }
     if ($Command -ne 'use' -and $PaletteName) {
-        throw 'Only use accepts a palette name.'
+        throw 'Only use and mode accept a name.'
     }
     $current = Get-PaletteName
     try {

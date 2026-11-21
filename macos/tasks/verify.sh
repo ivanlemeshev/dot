@@ -19,13 +19,18 @@ codex --version
 claude --version
 tree-sitter --version
 bash "$SCRIPT_DIR/../state.sh" verify-versions
-test "${BAT_THEME:-}" = custom
+case "${DOTFILES_HIGHLIGHT_MODE:-full}" in
+  min) test "${BAT_THEME:-}" = custom-min ;;
+  *) test "${BAT_THEME:-}" = custom ;;
+esac
 test "${GH_ACCESSIBLE_COLORS:-}" = 1
 test "${NO_COLOR+x}" != x
 test "${GH_COLOR_LABELS+x}" != x
 test "$(git config --get color.diff.old)" = red
 gh help environment | rg GH_ACCESSIBLE_COLORS
-bat --list-themes | rg '^custom$'
+themes="$(bat --list-themes)"
+rg '^custom$' <<<"$themes"
+rg '^custom-min$' <<<"$themes"
 fish --no-config -c "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""
 # NOTE: Fish expands these variables in its own process.
 # shellcheck disable=SC2016

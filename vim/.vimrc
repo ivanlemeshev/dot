@@ -294,4 +294,23 @@ highlight Underlined cterm=underline ctermfg=4 ctermbg=NONE
 highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
 highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
 
+let s:highlight_mode = getenv('DOTFILES_HIGHLIGHT_MODE')
+if s:highlight_mode is v:null
+  let s:palette_state = getenv('DOTFILES_PALETTE_STATE')
+  if empty(s:palette_state)
+    let s:palette_state = expand('~/.local/state/dotfiles-palette')
+  endif
+  let s:mode_file = s:palette_state . '/mode'
+  if filereadable(s:mode_file)
+    let s:highlight_mode = trim(get(readfile(s:mode_file, '', 1), 0, ''))
+  endif
+endif
+if s:highlight_mode ==# 'min'
+  for s:group in ['Constant', 'Number', 'Boolean', 'Float', 'Statement', 'Conditional', 'Repeat', 'Label', 'Operator', 'Keyword', 'Exception', 'PreProc', 'Include', 'Define', 'Macro', 'PreCondit', 'Type', 'StorageClass', 'Special', 'SpecialChar', 'Tag']
+    execute 'highlight' s:group 'ctermfg=7'
+  endfor
+  highlight Structure ctermfg=3
+  highlight Typedef ctermfg=3
+endif
+
 highlight netrwMarkFile cterm=NONE ctermfg=0 ctermbg=4

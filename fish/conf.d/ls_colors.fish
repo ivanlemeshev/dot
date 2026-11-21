@@ -549,6 +549,9 @@ set -a ls \
     "*package-lock.json=$it;$ls_backup" \
     "*Icon\r=$it;$ls_backup"
 
+if test "$DOTFILES_HIGHLIGHT_MODE" = min
+    set ls no=37 fi=0 di=34 'ln=3;37' or=91 'mi=30;101' ex=37 'su=30;101' 'sg=30;103' 'ca=30;101' 'st=30;104' 'tw=30;104'
+end
 set -x LS_COLORS (string join ":" $ls)
 
 # NOTE: BSD ls ignores LS_COLORS on macOS.

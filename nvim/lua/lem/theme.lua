@@ -3,6 +3,20 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 local M = {}
 
+local function minimal_highlighting()
+  local mode = vim.env.DOTFILES_HIGHLIGHT_MODE
+  if mode then
+    return mode == "min"
+  end
+  local directory = vim.env.DOTFILES_PALETTE_STATE
+    or vim.fn.expand("~/.local/state/dotfiles-palette")
+  local path = directory .. "/mode"
+  return vim.fn.filereadable(path) == 1
+    and vim.trim(vim.fn.readfile(path, "", 1)[1] or "") == "min"
+end
+
+local minimal = minimal_highlighting()
+
 local ansi = {
   black = 0,
   red = 1,
@@ -217,6 +231,33 @@ M.syntax = {
   tag_delimiter = ansi.green,
 }
 
+if minimal then
+  local definitions = {
+    ["function"] = true,
+    function_method = true,
+    constructor = true,
+    structure = true,
+    typedef = true,
+    type_definition = true,
+  }
+  for role in pairs(M.syntax) do
+    if definitions[role] then
+      M.syntax[role] = ansi.yellow
+    elseif role:match("^string") or role == "character" then
+      M.syntax[role] = ansi.green
+    elseif
+      not role:match("^comment")
+      and not role:match("^markup_")
+      and not role:match("^text_")
+      and not role:match("^diff_")
+      and role ~= "todo"
+      and role ~= "error"
+    then
+      M.syntax[role] = ansi.white
+    end
+  end
+end
+
 -- Fzf
 M.fzf = {
   fg = ansi.white,
@@ -230,13 +271,13 @@ M.fzf = {
   query = ansi.white,
   ghost = ansi.bright_black,
   disabled = ansi.bright_black,
-  prompt = ansi.yellow,
+  prompt = minimal and ansi.white or ansi.yellow,
   pointer = ansi.black,
   marker = ansi.black,
   ["selected-fg"] = ansi.black,
   ["selected-bg"] = ansi.blue,
   ["selected-hl"] = ansi.black,
-  spinner = ansi.yellow,
+  spinner = minimal and ansi.bright_black or ansi.yellow,
   header = ansi.bright_black,
   label = ansi.bright_black,
   gutter = ansi.black,
@@ -387,6 +428,9 @@ M.lualine_theme = {
 }
 
 function M.icon_color(color)
+  if minimal then
+    return ansi.white
+  end
   local red = tonumber(color:sub(2, 3), 16) / 255
   local green = tonumber(color:sub(4, 5), 16) / 255
   local blue = tonumber(color:sub(6, 7), 16) / 255

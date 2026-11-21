@@ -220,6 +220,25 @@ class PaletteTests(unittest.TestCase):
         self.run_palette("current", "charcoal-pastel", success=False)
         self.assertFalse(self.state.exists())
 
+    def test_highlighting_mode(self):
+        self.env.pop("BAT_CONFIG_DIR", None)
+        self.assertEqual(self.run_palette("mode").strip(), "full")
+        self.run_palette("mode", "unknown", success=False)
+        self.assertFalse(self.state.exists())
+        self.run_palette("mode", "min")
+        if os.name != "nt":
+            for name in ("charcoal-pastel", "alabaster-light"):
+                self.run_palette("use", name)
+                self.assertEqual(self.run_palette("current").strip(), name)
+                self.assertEqual(self.run_palette("mode").strip(), "min")
+                self.assertEqual(
+                    (self.state / "active" / "ghostty").read_bytes(),
+                    (ROOT / "palettes" / name / "ghostty").read_bytes(),
+                )
+        self.assertEqual(self.run_palette("mode").strip(), "min")
+        self.run_palette("mode", "full")
+        self.assertEqual(self.run_palette("mode").strip(), "full")
+
     @unittest.skipIf(os.name == "nt", "Unix links require a Unix host.")
     def test_select_after_palette_removal(self):
         self.run_palette("prepare")

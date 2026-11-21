@@ -6,6 +6,9 @@
       "segments": [
         {
           "foreground": "blue",
+          "foreground_templates": [
+            "{{ if eq .Env.DOTFILES_HIGHLIGHT_MODE \"min\" }}default{{ end }}"
+          ],
           "options": {
             "time_format": "15:04:05"
           },
@@ -30,6 +33,9 @@
           "options": {
             "style": "folder"
           },
+          "foreground_templates": [
+            "{{ if eq .Env.DOTFILES_HIGHLIGHT_MODE \"min\" }}blue{{ end }}"
+          ],
           "style": "plain",
           "template": "{{ .Path }}  ",
           "type": "path"
@@ -39,7 +45,8 @@
           "foreground_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
             "{{ if gt .Ahead 0 }}blue{{ end }}",
-            "{{ if gt .Behind 0 }}yellow{{ end }}"
+            "{{ if gt .Behind 0 }}yellow{{ end }}",
+            "{{ if eq .Env.DOTFILES_HIGHLIGHT_MODE \"min\" }}default{{ end }}"
           ],
           "options": {
             "branch_icon": ""
@@ -50,6 +57,9 @@
         },
         {
           "foreground": "yellow",
+          "foreground_templates": [
+            "{{ if eq .Env.DOTFILES_HIGHLIGHT_MODE \"min\" }}default{{ end }}"
+          ],
           "options": {
             "style": "roundrock",
             "threshold": 500

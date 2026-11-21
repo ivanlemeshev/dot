@@ -16,6 +16,10 @@ set -gx EDITOR nvim
 
 set -x BAT_THEME custom
 set -gx RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/config
+if test "$DOTFILES_HIGHLIGHT_MODE" = min
+    set -x BAT_THEME custom-min
+    set -gx RIPGREP_CONFIG_PATH $HOME/.config/ripgrep/config-min
+end
 
 set -x XDG_CONFIG_HOME $HOME/.config
 

@@ -10,6 +10,15 @@ $env:PATH = "$(Join-Path $HOME '.local/bin');$(Join-Path $HOME '.julia/bin');$en
 
 $env:BAT_THEME = "custom"
 $env:RIPGREP_CONFIG_PATH = Join-Path $env:USERPROFILE ".config\ripgrep\config"
+$paletteState = if ($env:DOTFILES_PALETTE_STATE) { $env:DOTFILES_PALETTE_STATE } else { Join-Path $HOME '.local/state/dotfiles-palette' }
+$modePath = Join-Path $paletteState 'mode'
+$env:DOTFILES_HIGHLIGHT_MODE = 'full'
+$minimalHighlight = (Test-Path -LiteralPath $modePath -PathType Leaf) -and ([IO.File]::ReadAllText($modePath)).Trim() -ceq 'min'
+if ($minimalHighlight) {
+    $env:DOTFILES_HIGHLIGHT_MODE = 'min'
+    $env:BAT_THEME = 'custom-min'
+    $env:RIPGREP_CONFIG_PATH = Join-Path $env:USERPROFILE '.config/ripgrep/config-min'
+}
 
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
     $selectionColor = "$([char]27)[30;44m"
@@ -36,6 +45,11 @@ if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
         $readLineColors.ListPredictionSelected = $selectionColor
         $readLineColors.ListPredictionTooltip = [ConsoleColor]::DarkGray
     }
+    if ($minimalHighlight) {
+        foreach ($role in @('Keyword', 'Operator', 'Command', 'Type', 'Number', 'Member')) {
+            $readLineColors[$role] = [ConsoleColor]::Gray
+        }
+    }
     Set-PSReadLineOption -Colors $readLineColors
 }
 
@@ -60,8 +74,14 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
         $PSStyle.FileInfo.Directory = $PSStyle.Foreground.Blue
         $PSStyle.FileInfo.SymbolicLink = $PSStyle.Foreground.Cyan
         $PSStyle.FileInfo.Executable = $PSStyle.Foreground.Green
+        $extensionColor = $PSStyle.Foreground.Yellow
+        if ($minimalHighlight) {
+            $PSStyle.FileInfo.SymbolicLink = $PSStyle.Foreground.White
+            $PSStyle.FileInfo.Executable = $PSStyle.Foreground.White
+            $extensionColor = $PSStyle.Foreground.White
+        }
         foreach ($extension in @($PSStyle.FileInfo.Extension.Keys)) {
-            $PSStyle.FileInfo.Extension[$extension] = $PSStyle.Foreground.Yellow
+            $PSStyle.FileInfo.Extension[$extension] = $extensionColor
         }
         $formatColors = @{
             FormatAccent           = $PSStyle.Foreground.White
