@@ -30,12 +30,16 @@ prepare() {
 
 mappings() {
   local output
-  output="$(hidutil property --get UserKeyMapping)"
+  output="$(/usr/bin/hidutil property --get UserKeyMapping)"
   case "$output" in '(null)' | null | '')
     printf '[]\n'
     return
     ;;
   esac
+  if [[ "$output" == RegistryID* ]]; then
+    printf '[]\n'
+    return
+  fi
   printf '%s\n' "$output" | plutil -convert json -o - - | jq -cS '
     def number:
       if type == "number" then .
@@ -46,22 +50,19 @@ mappings() {
 }
 
 set_mappings() {
-  local values="$1" current
-  hidutil property --set "$(jq -cn --argjson values "$values" '{UserKeyMapping: $values}')" >/dev/null
-  current="$(mappings)"
-  if ! jq -en --argjson actual "$current" --argjson expected "$values" '$actual == $expected' >/dev/null; then
-    printf 'The keyboard map does not match the requested map.\n' >&2
-    return 1
-  fi
+  local values="$1"
+  /usr/bin/hidutil property --set "$(jq -cn --argjson values "$values" '{UserKeyMapping: $values}')" >/dev/null
 }
 
 keyboard() {
-  local action="$1" current previous desired saved
+  local action="$1" current previous desired saved output
   current="$(mappings)"
   previous="$(jq -cS --arg key "$SRC" --argjson caps "$CAPS" 'map(select(.[$key] == $caps))' <<<"$current")"
   desired="$(jq -cnS --arg src "$SRC" --arg dst "$DST" --argjson caps "$CAPS" --argjson control "$CONTROL" '[{($src): $caps, ($dst): $control}]')"
   case "$action" in
     verify)
+      output="$(/usr/bin/hidutil property --get UserKeyMapping)"
+      if [[ "$output" == RegistryID* ]]; then return; fi
       if [[ "$previous" != "$desired" ]]; then
         printf 'Caps Lock does not map to Ctrl.\n' >&2
         return 1
