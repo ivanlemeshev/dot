@@ -4,10 +4,10 @@
       "Guid": "b2f196a0-9822-4f69-8ce9-73f2de6b4371",
       "Name": "custom",
       "Ansi 0 Color": {
-        "Blue Component": 0.1843137254901961,
+        "Blue Component": 0.9372549019607843,
         "Color Space": "sRGB",
-        "Green Component": 0.14901960784313725,
-        "Red Component": 0.1607843137254902
+        "Green Component": 0.9450980392156862,
+        "Red Component": 0.9607843137254902
       },
       "Ansi 1 Color": {
         "Blue Component": 0.3137254901960784,
@@ -94,10 +94,10 @@
         "Red Component": 0.13725490196078433
       },
       "Ansi 15 Color": {
-        "Blue Component": 0.9372549019607843,
+        "Blue Component": 0.1843137254901961,
         "Color Space": "sRGB",
-        "Green Component": 0.9450980392156862,
-        "Red Component": 0.9607843137254902
+        "Green Component": 0.14901960784313725,
+        "Red Component": 0.1607843137254902
       },
       "Background Color": {
         "Blue Component": 0.9372549019607843,

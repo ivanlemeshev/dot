@@ -8,10 +8,10 @@ Color=245,241,239
 Color=245,241,239
 
 [Color0]
-Color=41,38,47
+Color=245,241,239
 
 [Color0Faint]
-Color=41,38,47
+Color=245,241,239
 
 [Color0Intense]
 Color=104,97,109
@@ -77,7 +77,7 @@ Color=81,76,86
 Color=81,76,86
 
 [Color7Intense]
-Color=245,241,239
+Color=41,38,47
 
 [Foreground]
 Color=81,76,86
