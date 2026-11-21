@@ -108,12 +108,20 @@ helpers.load_on(
   function()
     local lint = require("lint")
 
-    -- NOTE: Markdown paragraphs stay on one source line.
-    lint.linters.markdownlint.args = {
-      "--stdin",
-      "--disable",
-      "MD013",
-    }
+    local markdownlint = lint.linters.markdownlint
+    lint.linters.markdownlint = function()
+      local root = vim.fs.root(0, {
+        ".markdownlint.jsonc",
+        ".markdownlint.json",
+        ".markdownlint.yaml",
+        ".markdownlint.yml",
+        ".markdownlintrc",
+      })
+      return vim.tbl_extend("force", markdownlint, {
+        cwd = root,
+        args = root and { "--stdin" } or { "--stdin", "--disable", "MD013" },
+      })
+    end
 
     lint.linters.golangcilint_custom = golangci_linter()
     local linters_by_ft = {
