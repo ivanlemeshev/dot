@@ -33,7 +33,7 @@
 
 [env]
 _.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin", "C:/msys64/ucrt64/bin", "C:/Program Files/Git/cmd", "C:/Program Files/LLVM/bin", "C:/Program Files/Neovim/bin", "{{env.LOCALAPPDATA | replace(from='\\\\', to='/')}}/Microsoft/WinGet/Links"]
-FZF_DEFAULT_OPTS = "--color=16,fg:-1,bg:-1,hl:3,fg+:-1:strip:reverse,bg+:-1,hl+:-1:strip:reverse:underline,selected-fg:-1:strip:reverse,selected-bg:-1,selected-hl:-1:strip:reverse:underline,query:-1,ghost:8,disabled:8,info:8,border:8,prompt:{{'-1' if vars.highlight_mode == 'min' else '3'}},pointer:4,marker:4,spinner:{{'8' if vars.highlight_mode == 'min' else '3'}},header:8,label:8,gutter:-1 --border=sharp --layout=reverse --info=right --multi --highlight-line --no-bold"
+FZF_DEFAULT_OPTS = "{% set colors = vars.selection_colors | split(pat=' ') %}--color=16,fg:-1,bg:-1,hl:3,fg+:{{colors[0]}}:strip,bg+:{{colors[1]}},hl+:{{colors[0]}}:strip:underline,selected-fg:{{colors[0]}}:strip,selected-bg:{{colors[1]}},selected-hl:{{colors[0]}}:strip:underline,query:-1,ghost:8,disabled:8,info:8,border:8,prompt:{{'-1' if vars.highlight_mode == 'min' else '3'}},pointer:4,marker:4,spinner:{{'8' if vars.highlight_mode == 'min' else '3'}},header:8,label:8,gutter:-1 --border=sharp --layout=reverse --info=right --multi --highlight-line --no-bold"
 
 [task_config]
 shell = "pwsh -NoProfile -Command"

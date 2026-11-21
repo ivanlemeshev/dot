@@ -45,6 +45,17 @@ EXPECTED = {
 }
 
 
+def luminance(color):
+    channels = [value / 255 for value in bytes.fromhex(color)]
+    linear = [
+        value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+        for value in channels
+    ]
+    return sum(
+        value * weight for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
+    )
+
+
 class PaletteTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="dot-palettes-")
@@ -135,18 +146,22 @@ class PaletteTests(unittest.TestCase):
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
 
-    def test_adjusted_palette_visibility(self):
-        def luminance(color):
-            channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
-            linear = [
-                value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
-                for value in channels
-            ]
-            return sum(
-                value * weight
-                for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
-            )
+    def test_editor_selection_contrast(self):
+        overrides = {}
+        for line in (ROOT / "palettes/selection-colors.txt").read_text().splitlines():
+            name, fg, bg = line.split(" ")
+            self.assertIn(name, EXPECTED)
+            self.assertNotIn(name, overrides)
+            self.assertIn(fg, {"0", "15"})
+            self.assertIn(bg, {"7", "8"})
+            overrides[name] = (int(fg), int(bg))
+        for name, colors in EXPECTED.items():
+            with self.subTest(palette=name):
+                fg, bg = overrides.get(name, (0, 8))
+                low, high = sorted((luminance(colors[fg]), luminance(colors[bg])))
+                self.assertGreaterEqual((high + 0.05) / (low + 0.05), 4.5)
 
+    def test_adjusted_palette_visibility(self):
         for name in (
             "solarized-dark-soft",
             "ibm-sga-soft",

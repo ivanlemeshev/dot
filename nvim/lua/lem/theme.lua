@@ -3,14 +3,15 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 local M = {}
 
+local palette_state = vim.env.DOTFILES_PALETTE_STATE
+  or vim.fn.expand("~/.local/state/dotfiles-palette")
+
 local function minimal_highlighting()
   local mode = vim.env.DOTFILES_HIGHLIGHT_MODE
   if mode then
     return mode == "min"
   end
-  local directory = vim.env.DOTFILES_PALETTE_STATE
-    or vim.fn.expand("~/.local/state/dotfiles-palette")
-  local path = directory .. "/mode"
+  local path = palette_state .. "/mode"
   return vim.fn.filereadable(path) == 1
     and vim.trim(vim.fn.readfile(path, "", 1)[1] or "") == "min"
 end
@@ -35,6 +36,27 @@ local ansi = {
   bright_cyan = 14,
   bright_white = 15,
 }
+
+local function selection_colors()
+  local path = palette_state .. "/selection"
+  if vim.fn.filereadable(path) == 1 then
+    local name = vim.trim(vim.fn.readfile(path, "", 1)[1] or "")
+    local source = vim.fn.resolve(debug.getinfo(1, "S").source:sub(2))
+    local root = vim.fn.fnamemodify(source, ":h:h:h:h")
+    local colors = root .. "/palettes/selection-colors.txt"
+    if vim.fn.filereadable(colors) == 1 then
+      for _, line in ipairs(vim.fn.readfile(colors)) do
+        local palette, fg, bg = line:match("^(%S+) (%d+) (%d+)$")
+        if palette == name then
+          return tonumber(fg), tonumber(bg)
+        end
+      end
+    end
+  end
+  return ansi.black, ansi.bright_black
+end
+
+local selection_fg, selection_bg = selection_colors()
 
 -- UI
 M.ui = {
@@ -255,12 +277,12 @@ function M.fzf_colors()
     "bg:-1",
     "query:-1",
     "gutter:-1",
-    "fg+:-1:strip:reverse",
-    "bg+:-1",
-    "hl+:-1:strip:reverse:underline",
-    "selected-fg:-1:strip:reverse",
-    "selected-bg:-1",
-    "selected-hl:-1:strip:reverse:underline",
+    "fg+:" .. selection_fg .. ":strip",
+    "bg+:" .. selection_bg,
+    "hl+:" .. selection_fg .. ":strip:underline",
+    "selected-fg:" .. selection_fg .. ":strip",
+    "selected-bg:" .. selection_bg,
+    "selected-hl:" .. selection_fg .. ":strip:underline",
     "prompt:" .. (M.fzf.prompt or -1),
   }
   local palette = M.fzf
@@ -335,7 +357,11 @@ M.diagnostic = {
 -- lualine theme
 M.lualine_theme = {
   normal = {
-    a = { bg = M.statusline.section_fg, fg = M.statusline.section_bg },
+    a = {
+      bg = M.statusline.section_bg,
+      fg = M.statusline.section_fg,
+      gui = "underline",
+    },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
@@ -467,11 +493,17 @@ function M.setup()
   hl("DiffTextAdd", { fg = ansi.black, bg = ansi.green })
 
   hl("PmenuMatch", { fg = ansi.yellow, underline = true })
-  hl("PmenuMatchSel", { reverse = true, nocombine = true, underline = true })
+  hl(
+    "PmenuMatchSel",
+    { fg = selection_fg, bg = selection_bg, nocombine = true, underline = true }
+  )
   hl("PmenuKind", { fg = ansi.bright_black })
   hl("PmenuExtra", { fg = ansi.bright_black })
-  hl("PmenuKindSel", { reverse = true, nocombine = true })
-  hl("PmenuExtraSel", { reverse = true, nocombine = true })
+  hl("PmenuKindSel", { fg = selection_fg, bg = selection_bg, nocombine = true })
+  hl(
+    "PmenuExtraSel",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
   hl("FloatFooter", { fg = ansi.bright_black })
   hl("Conceal", { fg = ansi.white })
   hl("CursorLineSign", {})
@@ -526,15 +558,15 @@ function M.setup()
   hl("LspReferenceRead", { underline = true })
   hl("LspReferenceWrite", { underline = true })
 
-  hl("Visual", { reverse = true, nocombine = true })
+  hl("Visual", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
-  hl("VisualNOS", { reverse = true, nocombine = true })
+  hl("VisualNOS", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
   hl("Pmenu", {})
 
   hl("PmenuBorder", { fg = M.ui.float_border_fg })
 
-  hl("PmenuSel", { reverse = true, nocombine = true })
+  hl("PmenuSel", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
   hl("PmenuSbar", {})
 
@@ -554,7 +586,7 @@ function M.setup()
 
   hl(
     "TabLineSel",
-    { fg = M.ui.tabline_fill_bg, bg = M.ui.statusline_fg, bold = true }
+    { fg = M.ui.statusline_fg, bg = M.ui.tabline_fill_bg, underline = true }
   )
 
   hl("TabLineFill", { bg = M.ui.tabline_fill_bg })
@@ -587,7 +619,7 @@ function M.setup()
 
   hl("MatchParen", { fg = ansi.black, bg = M.ui.matchparen_bg })
 
-  hl("QuickFixLine", { reverse = true, nocombine = true })
+  hl("QuickFixLine", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
   hl("EndOfBuffer", { fg = M.ui.end_of_buffer_fg })
 
@@ -664,7 +696,10 @@ function M.setup()
 
   hl("NvimTreeCursorColumn", {})
 
-  hl("NvimTreeCursorLine", { reverse = true, nocombine = true })
+  hl(
+    "NvimTreeCursorLine",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
 
   hl("NvimTreeCursorLineNr", { fg = M.ui.cursor_line_nr })
 
@@ -852,7 +887,10 @@ function M.setup()
 
   hl("FzfLuaPreviewTitle", { fg = M.fzf_lua.title_fg, bold = true })
 
-  hl("FzfLuaCursorLine", { reverse = true, nocombine = true })
+  hl(
+    "FzfLuaCursorLine",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
 
   hl(
     "FzfLuaSearch",
@@ -919,7 +957,10 @@ function M.setup()
 
   hl("FzfLuaFzfNormal", {})
 
-  hl("FzfLuaFzfCursorLine", { reverse = true, nocombine = true })
+  hl(
+    "FzfLuaFzfCursorLine",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
 
   hl("FzfLuaFzfMatch", { fg = M.fzf.hl })
 

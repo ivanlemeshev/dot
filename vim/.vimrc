@@ -198,6 +198,26 @@ augroup RemoveTrailingSpaces
   autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 
+let s:palette_state = getenv('DOTFILES_PALETTE_STATE')
+if empty(s:palette_state)
+  let s:palette_state = expand('~/.local/state/dotfiles-palette')
+endif
+let s:selection_fg = '0'
+let s:selection_bg = '8'
+let s:selection_path = s:palette_state . '/selection'
+let s:palette_root = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+let s:colors_path = s:palette_root . '/palettes/selection-colors.txt'
+if filereadable(s:selection_path) && filereadable(s:colors_path)
+  let s:palette = trim(get(readfile(s:selection_path, '', 1), 0, ''))
+  for s:line in readfile(s:colors_path)
+    let s:entry = split(s:line)
+    if len(s:entry) == 3 && s:entry[0] ==# s:palette
+      let [s:selection_fg, s:selection_bg] = s:entry[1:2]
+      break
+    endif
+  endfor
+endif
+
 " NOTE: Numeric colors use the terminal ANSI palette.
 highlight Normal cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight NonText cterm=NONE ctermfg=8 ctermbg=NONE
@@ -206,7 +226,9 @@ highlight SpecialKey cterm=NONE ctermfg=8 ctermbg=NONE
 highlight Whitespace cterm=NONE ctermfg=8 ctermbg=NONE
 highlight Conceal cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight Ignore cterm=NONE ctermfg=NONE ctermbg=NONE
-highlight ToolbarButton cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
+for s:group in ['ToolbarButton', 'Visual', 'VisualNOS', 'QuickFixLine', 'PmenuSel', 'WildMenu']
+  execute 'highlight' s:group 'cterm=nocombine' 'ctermfg=' . s:selection_fg 'ctermbg=' . s:selection_bg
+endfor
 highlight LineNr cterm=NONE ctermfg=8 ctermbg=NONE
 highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight CursorLineNr cterm=NONE ctermfg=3 ctermbg=NONE
@@ -216,23 +238,18 @@ highlight SignColumn cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
 highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=NONE
 highlight Folded cterm=NONE ctermfg=NONE ctermbg=NONE
-highlight Visual cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
-highlight VisualNOS cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
 highlight Search cterm=reverse ctermfg=NONE ctermbg=NONE
 highlight CurSearch cterm=reverse,underline ctermfg=NONE ctermbg=NONE
 highlight IncSearch cterm=reverse,underline ctermfg=NONE ctermbg=NONE
 highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
-highlight QuickFixLine cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
 highlight Pmenu cterm=NONE ctermfg=NONE ctermbg=NONE
-highlight PmenuSel cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
 highlight PmenuSbar cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight PmenuThumb cterm=NONE ctermfg=NONE ctermbg=8
-highlight WildMenu cterm=reverse,nocombine ctermfg=NONE ctermbg=NONE
 highlight StatusLine cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineNC cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineTerm cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineTermNC cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusModeNormal cterm=NONE ctermfg=0 ctermbg=15
+highlight StatusModeNormal cterm=underline ctermfg=15 ctermbg=0
 highlight StatusModeInsert cterm=NONE ctermfg=2 ctermbg=0
 highlight StatusModeVisual cterm=NONE ctermfg=5 ctermbg=0
 highlight StatusModeReplace cterm=NONE ctermfg=1 ctermbg=0
@@ -242,7 +259,7 @@ highlight StatusModeB cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusModeC cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusInactive cterm=NONE ctermfg=15 ctermbg=0
 highlight TabLine cterm=NONE ctermfg=8 ctermbg=0
-highlight TabLineSel cterm=NONE ctermfg=0 ctermbg=15
+highlight TabLineSel cterm=underline ctermfg=15 ctermbg=0
 highlight TabLineFill cterm=NONE ctermfg=8 ctermbg=0
 highlight Title cterm=NONE ctermfg=3 ctermbg=NONE
 highlight Directory cterm=NONE ctermfg=4 ctermbg=NONE
@@ -296,10 +313,6 @@ highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
 
 let s:highlight_mode = getenv('DOTFILES_HIGHLIGHT_MODE')
 if s:highlight_mode is v:null
-  let s:palette_state = getenv('DOTFILES_PALETTE_STATE')
-  if empty(s:palette_state)
-    let s:palette_state = expand('~/.local/state/dotfiles-palette')
-  endif
   let s:mode_file = s:palette_state . '/mode'
   if filereadable(s:mode_file)
     let s:highlight_mode = trim(get(readfile(s:mode_file, '', 1), 0, ''))
