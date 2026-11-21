@@ -49,7 +49,7 @@ if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
     }
     $env:DOTFILES_SELECTION_FG = $selectionFg
     $env:DOTFILES_SELECTION_BG = $selectionBg
-    $env:DOTFILES_STATUS_FG = if (($statusFallback -split ',') -contains '3') { 'brightwhite' } else { 'yellow' }
+    $env:DOTFILES_STATUS_FG = if (($statusFallback -split ',') -contains '3') { 'default' } else { 'yellow' }
     $selectionColor = "$([char]27)[0;38;5;$selectionFg;48;5;${selectionBg}m"
     $readLineColors = @{
         ContinuationPrompt = [ConsoleColor]::DarkGray

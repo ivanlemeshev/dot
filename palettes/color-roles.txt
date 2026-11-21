@@ -4,12 +4,12 @@ amiga-workbench 0 7 8
 apple-ii 0 7 8
 commodore-64-soft 0 7 8
 dec-vt220-amber 15 8 8
-emberline-light 15 8 1,2,3,4,5,6,8,9,11
+emberline-light 15 8 -
 everforest-dark 0 7 8
 gruvbox-material-dark 0 7 8
 ibm-5151-green 15 8 8
 ibm-sga-soft 0 7 8
-quiet-signal-light 15 8 1,2,3,4,5,6,8,9,11
+quiet-signal-light 15 8 -
 solarized-dark-soft 0 7 8
 spacedust 15 8 5,8
 warm-earth 0 7 8

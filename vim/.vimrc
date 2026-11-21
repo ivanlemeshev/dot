@@ -247,22 +247,22 @@ highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
 highlight Pmenu cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight PmenuSbar cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight PmenuThumb cterm=NONE ctermfg=NONE ctermbg=8
-highlight StatusLine cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusLineNC cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusLineTerm cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusLineTermNC cterm=NONE ctermfg=15 ctermbg=0
-execute 'highlight StatusModeNormal cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '3') >= 0 ? '15' : '3')
-execute 'highlight StatusModeInsert cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '2') >= 0 ? '15' : '2')
-execute 'highlight StatusModeVisual cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '5') >= 0 ? '15' : '5')
-execute 'highlight StatusModeReplace cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '1') >= 0 ? '15' : '1')
-execute 'highlight StatusModeCommand cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '6') >= 0 ? '15' : '6')
-execute 'highlight StatusModeTerminal cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '4') >= 0 ? '15' : '4')
-highlight StatusModeB cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusModeC cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusInactive cterm=NONE ctermfg=15 ctermbg=0
-execute 'highlight TabLine cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '8') >= 0 ? '15' : '8')
-execute 'highlight TabLineSel cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '3') >= 0 ? '15' : '3')
-execute 'highlight TabLineFill cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '8') >= 0 ? '15' : '8')
+highlight StatusLine cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineNC cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineTerm cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineTermNC cterm=NONE ctermfg=NONE ctermbg=NONE
+execute 'highlight StatusModeNormal cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '3') >= 0 ? 'NONE' : '3')
+execute 'highlight StatusModeInsert cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '2') >= 0 ? 'NONE' : '2')
+execute 'highlight StatusModeVisual cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '5') >= 0 ? 'NONE' : '5')
+execute 'highlight StatusModeReplace cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '1') >= 0 ? 'NONE' : '1')
+execute 'highlight StatusModeCommand cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '6') >= 0 ? 'NONE' : '6')
+execute 'highlight StatusModeTerminal cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '4') >= 0 ? 'NONE' : '4')
+highlight StatusModeB cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusModeC cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusInactive cterm=NONE ctermfg=NONE ctermbg=NONE
+execute 'highlight TabLine cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '8') >= 0 ? 'NONE' : '8')
+execute 'highlight TabLineSel cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '3') >= 0 ? 'NONE' : '3')
+execute 'highlight TabLineFill cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '8') >= 0 ? 'NONE' : '8')
 highlight Title cterm=NONE ctermfg=3 ctermbg=NONE
 highlight Directory cterm=NONE ctermfg=4 ctermbg=NONE
 highlight ErrorMsg cterm=NONE ctermfg=9 ctermbg=NONE

@@ -178,13 +178,16 @@ class PaletteTests(unittest.TestCase):
                     return (high + 0.05) / (low + 0.05)
 
                 self.assertGreaterEqual(contrast(fg, bg), 4.5)
-                self.assertGreaterEqual(contrast(15, 0), 4.5)
+                terminal_bg = (
+                    15 if name in ("quiet-signal-light", "emberline-light") else 0
+                )
+                self.assertGreaterEqual(contrast(7, terminal_bg), 4.5)
                 self.assertEqual(
                     fallback,
                     {
                         index
                         for index in (1, 2, 3, 4, 5, 6, 8, 9, 11)
-                        if contrast(index, 0) < 4.5
+                        if contrast(index, terminal_bg) < 4.5
                     },
                 )
 

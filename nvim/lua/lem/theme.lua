@@ -63,7 +63,7 @@ local selection_fg, selection_bg, status_fallback = palette_roles()
 
 function M.status_color(color)
   if vim.tbl_contains(status_fallback, tostring(color)) then
-    return ansi.bright_white
+    return "None"
   end
   return color
 end
@@ -86,20 +86,12 @@ M.ui = {
   pmenu_thumb_bg = ansi.white,
   question_fg = ansi.blue,
   split_fg = ansi.bright_black,
-  statusline_bg = ansi.black,
-  statusline_fg = ansi.bright_white,
-  statusline_nc_bg = ansi.black,
-  statusline_nc_fg = ansi.bright_white,
   special_key = ansi.bright_black,
-  tabline_bg = ansi.black,
-  tabline_fill_bg = ansi.black,
   tabline_fg = M.status_color(ansi.bright_black),
   title_fg = ansi.yellow,
   warning_fg = ansi.bright_yellow,
-  winbar_bg = ansi.black,
   winbar_fg = ansi.white,
-  winbar_nc_bg = ansi.black,
-  winbar_nc_fg = ansi.bright_black,
+  winbar_nc_fg = M.status_color(ansi.bright_black),
   whitespace = ansi.bright_black,
 }
 
@@ -319,20 +311,14 @@ M.fzf_lua = {
 
 -- StatusLine
 M.statusline = {
-  insert_bg = ansi.black,
   insert_fg = M.status_color(ansi.green),
-  visual_bg = ansi.black,
   visual_fg = M.status_color(ansi.magenta),
-  replace_bg = ansi.black,
   replace_fg = M.status_color(ansi.red),
-  command_bg = ansi.black,
   command_fg = M.status_color(ansi.cyan),
-  terminal_bg = ansi.black,
   terminal_fg = M.status_color(ansi.blue),
-  section_bg = ansi.black,
-  section_fg = ansi.bright_white,
-  inactive_bg = ansi.black,
-  inactive_fg = ansi.bright_white,
+  section_bg = "None",
+  section_fg = "None",
+  inactive_fg = "None",
 }
 
 -- Git
@@ -367,40 +353,40 @@ M.lualine_theme = {
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   insert = {
-    a = { bg = M.statusline.insert_bg, fg = M.statusline.insert_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.insert_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   visual = {
-    a = { bg = M.statusline.visual_bg, fg = M.statusline.visual_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.visual_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   replace = {
-    a = { bg = M.statusline.replace_bg, fg = M.statusline.replace_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.replace_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   command = {
-    a = { bg = M.statusline.command_bg, fg = M.statusline.command_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.command_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   terminal = {
-    a = { bg = M.statusline.terminal_bg, fg = M.statusline.terminal_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.terminal_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   inactive = {
-    a = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    b = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    c = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    z = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    b = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    c = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    z = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
   },
 }
 
@@ -578,26 +564,23 @@ function M.setup()
 
   hl("FloatTitle", { fg = M.ui.float_title_fg, bold = true })
 
-  hl("StatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
+  hl("StatusLine", {})
 
-  hl("StatusLineNC", { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg })
+  hl("StatusLineNC", {})
 
-  hl("TabLine", { fg = M.ui.tabline_fg, bg = M.ui.tabline_bg })
+  hl("TabLine", { fg = M.ui.tabline_fg })
 
-  hl(
-    "TabLineSel",
-    { fg = M.status_color(ansi.yellow), bg = M.ui.tabline_fill_bg }
-  )
+  hl("TabLineSel", { fg = M.status_color(ansi.yellow) })
 
-  hl("TabLineFill", { bg = M.ui.tabline_fill_bg })
+  hl("TabLineFill", {})
 
   hl("VertSplit", { fg = M.ui.split_fg })
 
   hl("WinSeparator", { fg = M.ui.split_fg })
 
-  hl("WinBar", { fg = M.ui.winbar_fg, bg = M.ui.winbar_bg })
+  hl("WinBar", { fg = M.ui.winbar_fg })
 
-  hl("WinBarNC", { fg = M.ui.winbar_nc_fg, bg = M.ui.winbar_nc_bg })
+  hl("WinBarNC", { fg = M.ui.winbar_nc_fg })
 
   hl("Directory", { fg = M.ui.directory_fg })
 
@@ -703,12 +686,9 @@ function M.setup()
 
   hl("NvimTreeCursorLineNr", { fg = M.ui.cursor_line_nr })
 
-  hl("NvimTreeStatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
+  hl("NvimTreeStatusLine", {})
 
-  hl(
-    "NvimTreeStatusLineNC",
-    { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg }
-  )
+  hl("NvimTreeStatusLineNC", {})
 
   hl("NvimTreeExecFile", { fg = ansi.green })
 
@@ -869,9 +849,9 @@ function M.setup()
 
   -- FzfLua
 
-  hl("fzf1", { fg = M.status_color(ansi.yellow), bg = M.ui.statusline_bg })
-  hl("fzf2", { fg = M.status_color(ansi.magenta), bg = M.ui.statusline_bg })
-  hl("fzf3", { fg = ansi.bright_white, bg = M.ui.statusline_bg })
+  hl("fzf1", { fg = M.status_color(ansi.yellow) })
+  hl("fzf2", { fg = M.status_color(ansi.magenta) })
+  hl("fzf3", {})
 
   hl("FzfLuaNormal", {})
 

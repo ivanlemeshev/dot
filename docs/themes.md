@@ -12,7 +12,7 @@ mise run palette use charcoal-pastel
 
 An asterisk marks the current palette in the list. If your selected palette is gone, select the default, `charcoal-pastel`. Reload or restart the terminal after a switch.
 
-The palette applies to Ghostty, Konsole, iTerm2, and Windows Terminal. Neovim, Vim, and fzf use the terminal defaults for normal text. VS Code uses its default colors.
+The palette applies to Ghostty, Konsole, iTerm2, and Windows Terminal. Neovim, Vim, and fzf use the terminal defaults for normal text. The status bars in Neovim, Vim, tmux, and Psmux use the terminal background. VS Code uses its default colors.
 
 On Windows, a palette change keeps your shortcuts, font, and other settings outside the palette. The unapply task protects local edits from replacement by the original backup.
 
@@ -28,7 +28,7 @@ Start a new shell and restart open editors to load the mode. Start a new tmux or
 
 Copy a directory under `palettes/` and edit its four native palette files. Use a name that starts with a lowercase letter and contains only lowercase letters, digits, or hyphens. Keep all 16 ANSI colors consistent across the four files. Keep the `custom` scheme names and the iTerm2 profile identifier.
 
-Add the palette and its ANSI colors to `EXPECTED` in `tests/test_palettes.py`. For palette-specific colors, add the palette name, selection foreground and background indices, and comma-separated status indices that need a fallback to `palettes/color-roles.txt`. Use `-` when all status colors are readable. Run `mise run test:palettes`.
+Add the palette and its ANSI colors to `EXPECTED` in `tests/test_palettes.py`. For palette-specific colors, add the palette name, selection foreground and background indices, and comma-separated status indices that need the default foreground for contrast against the terminal background to `palettes/color-roles.txt`. Use `-` when all status colors are readable. Run `mise run test:palettes`.
 
 ## Bat cache
 

@@ -40,7 +40,7 @@ set -gx DOTFILES_SELECTION_FG $selection_fg
 set -gx DOTFILES_SELECTION_BG $selection_bg
 set -gx DOTFILES_STATUS_FG yellow
 if contains -- 3 (string split ',' -- $status_fallback)
-    set -gx DOTFILES_STATUS_FG brightwhite
+    set -gx DOTFILES_STATUS_FG default
 end
 set -l colors "16,fg:-1,bg:-1,hl:-1:strip:underline,fg+:$selection_fg:strip,bg+:$selection_bg,hl+:$selection_fg:strip:underline,selected-fg:$selection_fg:strip,selected-bg:$selection_bg,selected-hl:$selection_fg:strip:underline,query:-1,ghost:8,disabled:8,info:8,border:8,prompt:-1,pointer:$selection_fg,marker:$selection_fg,spinner:-1,header:8,label:8,gutter:-1"
 

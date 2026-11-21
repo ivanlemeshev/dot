@@ -19,7 +19,7 @@ git_min_colors = "'color.branch.upstream=brightblack' 'color.decorate.remoteBran
 DOTFILES_HIGHLIGHT_MODE = "{{vars.highlight_mode}}"
 DOTFILES_SELECTION_FG = "{{(vars.palette_roles | split(pat=' '))[0]}}"
 DOTFILES_SELECTION_BG = "{{(vars.palette_roles | split(pat=' '))[1]}}"
-DOTFILES_STATUS_FG = "{% set roles = vars.palette_roles | split(pat=' ') %}{% if '3' in (roles[2] | split(pat=',')) %}brightwhite{% else %}yellow{% endif %}"
+DOTFILES_STATUS_FG = "{% set roles = vars.palette_roles | split(pat=' ') %}{% if '3' in (roles[2] | split(pat=',')) %}default{% else %}yellow{% endif %}"
 BAT_THEME = "{{'custom-min' if vars.highlight_mode == 'min' else 'custom'}}"
 BAT_CONFIG_DIR = "{{vars.user_home}}/.config/bat"
 RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/{{'config-min' if vars.highlight_mode == 'min' else 'config'}}"
