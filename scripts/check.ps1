@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('setup', 'format', 'format:check', 'lint')]
+    [ValidateSet('setup', 'syntax', 'lint')]
     [string]$Mode,
     [Parameter(ValueFromRemainingArguments)]
     [string[]]$Paths
@@ -15,10 +15,9 @@ if ($Mode -eq 'setup') {
     Import-Module PSScriptAnalyzer -RequiredVersion $moduleVersion
     exit
 }
-Import-Module PSScriptAnalyzer -RequiredVersion $moduleVersion
-$formatSettings = Import-PowerShellDataFile (Join-Path (Get-Module PSScriptAnalyzer).ModuleBase 'Settings/CodeFormattingOTBS.psd1')
-# NOTE: Command casing depends on the host platform and installed modules.
-$formatSettings.IncludeRules = [string[]]@($formatSettings.IncludeRules | Where-Object { $_ -ne 'PSUseCorrectCasing' })
+if ($Mode -eq 'lint') {
+    Import-Module PSScriptAnalyzer -RequiredVersion $moduleVersion
+}
 $lintSettings = @{
     IncludeRules = [string[]]@(
         'PSAvoidAssignmentToAutomaticVariable'
@@ -48,17 +47,6 @@ foreach ($path in $Paths) {
             Write-Output $path
             $issues | Format-Table RuleName, Line, Message -AutoSize | Out-Host
             $failed = $true
-        }
-    } else {
-        $formatted = (Invoke-Formatter -ScriptDefinition $source -Settings $formatSettings).Replace("`r`n", "`n").TrimEnd("`n") + "`n"
-        if ($formatted -cne $source) {
-            if ($Mode -eq 'format') {
-                [IO.File]::WriteAllText((Join-Path (Get-Location) $path), $formatted, [Text.UTF8Encoding]::new($false))
-                Write-Output "Formatted $path"
-            } else {
-                Write-Output "Formatting differs: $path"
-                $failed = $true
-            }
         }
     }
 }

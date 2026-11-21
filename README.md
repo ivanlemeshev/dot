@@ -56,7 +56,7 @@ mise run lint
 mise run check
 ```
 
-`format` formats Bash, Fish, PowerShell, Python, Lua, Markdown, YAML, JSON, TOML, and XML property lists. It also sets LF line endings and a final newline in other text files. `format:check` checks formatting without changes. `lint` runs ShellCheck, Fish syntax checks, PSScriptAnalyzer, Ruff, Selene, markdownlint, Tombi, Actionlint, and structured-file validation. `check` runs formatting checks, lint, and the test suite.
+`format` formats Bash, Fish, PowerShell, Python, Lua, Markdown, YAML, JSON, TOML, and XML property lists. PowerShell uses psfmt and YAML uses yamlfmt, as in Neovim. The task also sets LF line endings and a final newline in other text files. `format:check` checks formatting without changes. `lint` runs ShellCheck, Fish syntax checks, PSScriptAnalyzer, Ruff, Selene, markdownlint, Tombi, Actionlint, and structured-file validation. `setup:checks` installs PSScriptAnalyzer for lint. `check` runs formatting checks, lint, and the test suite.
 
 The tasks check tracked files and new files that Git does not ignore. They skip ignored machine files. Each Markdown paragraph stays on one source line. Lua uses the Neovim style in `nvim/.stylua.toml`. JSON validation rejects duplicate keys. INI files and Git configuration files receive syntax checks. Vimscript, CMD, tmux, Psmux, and extensionless application settings receive line-ending checks; review their syntax with the native application.
 

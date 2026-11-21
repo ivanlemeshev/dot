@@ -23,6 +23,7 @@ fish_files=()
 python_files=()
 powershell_files=()
 workflow_files=()
+yaml_files=()
 
 # NOTE: Git keeps ignored machine files outside the checks.
 git rev-parse --show-toplevel >/dev/null
@@ -39,10 +40,11 @@ while IFS= read -r -d '' path; do
       prettier_files+=("$path")
       ;;
     .github/workflows/*.yml | .github/workflows/*.yaml)
-      prettier_files+=("$path")
       workflow_files+=("$path")
+      yaml_files+=("$path")
       ;;
-    *.json | *.yml | *.yaml) prettier_files+=("$path") ;;
+    *.json) prettier_files+=("$path") ;;
+    *.yml | *.yaml) yaml_files+=("$path") ;;
     *.toml | *.toml.example) toml_files+=("$path") ;;
   esac
 done < <(git ls-files --cached --others --exclude-standard -z)
@@ -51,27 +53,35 @@ case "$mode" in
   format | format:check)
     prettier_mode=--write
     shfmt_mode=-w
+    psfmt_mode=--write
     stylua_args=(--verify)
     tombi_args=(--offline)
+    yamlfmt_args=(-formatter retain_line_breaks=true -formatter indent=2)
+    fish_mode=--write
+    ruff_fix_mode=--fix-only
+    ruff_format_args=()
     if [[ "$mode" == format:check ]]; then
       prettier_mode=--check
       shfmt_mode=-d
+      psfmt_mode=--check
       stylua_args+=(--check)
       tombi_args+=(--check)
+      yamlfmt_args+=(-lint)
+      fish_mode=--check
+      ruff_fix_mode=--diff
+      ruff_format_args+=(--check)
     fi
     prettier "$prettier_mode" "${prettier_files[@]}"
     shfmt "$shfmt_mode" -i 2 -ci "${bash_files[@]}"
     stylua --config-path nvim/.stylua.toml "${stylua_args[@]}" "${lua_files[@]}"
     tombi format "${tombi_args[@]}" "${toml_files[@]}"
-    fish_mode=--write
-    ruff_args=()
-    if [[ "$mode" == format:check ]]; then
-      fish_mode=--check
-      ruff_args+=(--check)
-    fi
+    yamlfmt "${yamlfmt_args[@]}" "${yaml_files[@]}"
     fish_indent "$fish_mode" "${fish_files[@]}"
-    ruff format "${ruff_args[@]}" "${python_files[@]}"
-    pwsh -NoProfile -File scripts/check.ps1 "$mode" "${powershell_files[@]}"
+    ruff check "$ruff_fix_mode" "${python_files[@]}"
+    ruff format "${ruff_format_args[@]}" "${python_files[@]}"
+    ruff check "$ruff_fix_mode" --select I001 "${python_files[@]}"
+    pwsh -NoProfile -File scripts/check.ps1 syntax "${powershell_files[@]}"
+    psfmt --preset otbs "$psfmt_mode" "${powershell_files[@]}"
     python scripts/check_data.py "$mode"
     ;;
   lint)

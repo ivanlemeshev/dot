@@ -106,7 +106,8 @@ function Set-WindowsTerminalSettings {
     param([string]$Directory, [string]$SharedSettingsPath, [switch]$ThemesOnly, [string]$PaletteName)
     . (Join-Path (Split-Path -Parent $PSScriptRoot) 'scripts/palette.ps1')
     if (-not $PaletteName) { $PaletteName = Get-PaletteName }
-    $palette = Get-Content -LiteralPath (Join-Path (Get-PaletteDirectory $PaletteName) 'windows-terminal.json') -Raw | ConvertFrom-Json
+    $palette = Get-Content -LiteralPath (Join-Path (Get-PaletteDirectory $PaletteName) 'windows-terminal.json') -Raw |
+        ConvertFrom-Json
     $target = Join-Path $Directory 'settings.json'
     $statePath = Join-Path $StateDirectory 'terminal.json'
     $item = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
