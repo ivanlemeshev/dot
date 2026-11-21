@@ -16,8 +16,8 @@ set -gx fish_color_valid_path blue --underline
 set -gx fish_color_cancel brred
 
 # Selection and search
-set -gx fish_color_selection black --background=blue
-set -gx fish_color_search_match black --background=blue
+set -gx fish_color_selection normal --reverse
+set -gx fish_color_search_match normal --reverse
 
 # Prompt
 set -gx fish_color_cwd blue
@@ -32,10 +32,10 @@ set -gx fish_pager_color_progress brblack
 set -gx fish_pager_color_prefix yellow
 set -gx fish_pager_color_completion normal
 set -gx fish_pager_color_description brblack
-set -gx fish_pager_color_selected_background --background=blue
-set -gx fish_pager_color_selected_completion black
-set -gx fish_pager_color_selected_description black
-set -gx fish_pager_color_selected_prefix black
+set -gx fish_pager_color_selected_background --background=normal
+set -gx fish_pager_color_selected_completion normal --reverse
+set -gx fish_pager_color_selected_description normal --reverse
+set -gx fish_pager_color_selected_prefix normal --reverse
 
 if test "$DOTFILES_HIGHLIGHT_MODE" = min
     for role in keyword option redirection end operator escape user host

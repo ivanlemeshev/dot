@@ -2,7 +2,7 @@
   "schemes": [
     {
       "background": "#F5F1EF",
-      "black": "#F5F1EF",
+      "black": "#29262F",
       "blue": "#355C8F",
       "brightBlack": "#68616D",
       "brightBlue": "#325E97",
@@ -10,7 +10,7 @@
       "brightGreen": "#2D704E",
       "brightPurple": "#754795",
       "brightRed": "#A13C52",
-      "brightWhite": "#29262F",
+      "brightWhite": "#F5F1EF",
       "brightYellow": "#86600A",
       "cursorColor": "#514C56",
       "cyan": "#286B7A",

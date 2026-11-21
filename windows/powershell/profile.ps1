@@ -21,7 +21,7 @@ if ($minimalHighlight) {
 }
 
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
-    $selectionColor = "$([char]27)[30;44m"
+    $selectionColor = "$([char]27)[0;7m"
     $readLineColors = @{
         ContinuationPrompt = [ConsoleColor]::DarkGray
         Default            = [ConsoleColor]::Gray

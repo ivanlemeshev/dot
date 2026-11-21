@@ -12,7 +12,7 @@ mise run palette use charcoal-pastel
 
 An asterisk marks the current palette in the list. If your selected palette is gone, select the default, `charcoal-pastel`. Reload or restart the terminal after a switch.
 
-The palette applies to Ghostty, Konsole, iTerm2, and Windows Terminal. VS Code uses its default colors.
+The palette applies to Ghostty, Konsole, iTerm2, and Windows Terminal. Neovim, Vim, and fzf use the terminal defaults for normal text. VS Code uses its default colors.
 
 On Windows, a palette change keeps your shortcuts, font, and other settings outside the palette. The unapply task protects local edits from replacement by the original backup.
 

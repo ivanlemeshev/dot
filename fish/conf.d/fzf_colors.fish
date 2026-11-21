@@ -22,9 +22,9 @@ set -l prompt_color 3
 set -l spinner_color 3
 if test -f "$palette_state/mode"; and string match -q min (string trim <"$palette_state/mode")
     set -gx DOTFILES_HIGHLIGHT_MODE min
-    set prompt_color 7
+    set prompt_color -1
     set spinner_color 8
 end
-set -l colors "16,fg:7,bg:0,hl:3,fg+:0:strip,bg+:4,hl+:0:strip:underline,selected-fg:0:strip,selected-bg:4,selected-hl:0:strip:underline,query:7,ghost:8,disabled:8,info:8,border:8,prompt:$prompt_color,pointer:0,marker:0,spinner:$spinner_color,header:8,label:8,gutter:0"
+set -l colors "16,fg:-1,bg:-1,hl:3,fg+:-1:strip:reverse,bg+:-1,hl+:-1:strip:reverse:underline,selected-fg:-1:strip:reverse,selected-bg:-1,selected-hl:-1:strip:reverse:underline,query:-1,ghost:8,disabled:8,info:8,border:8,prompt:$prompt_color,pointer:4,marker:4,spinner:$spinner_color,header:8,label:8,gutter:-1"
 
 set -x FZF_DEFAULT_OPTS (string join -- " " "--color=$colors" $ui)

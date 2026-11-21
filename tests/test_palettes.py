@@ -14,9 +14,9 @@ EXPECTED = {
     "alabaster-dark": "0e1415 e25d56 73ca50 e9bf57 4a88e4 915caf 23acdd cecece 777777 f36868 88db3f f0bf7a 6f8fdb e987e9 4ac9e2 ffffff".split(),
     "alabaster-light": "f7f7f7 aa3731 448c27 cb9000 325cc0 7a3e9d 0083b2 000000 777777 f05050 60cb00 ffbc5d 007acc e64ce6 00aacb 000000".split(),
     "quiet-signal-dark": "211f27 cf8e96 91b9a4 c8b27f 91afd0 b7a0c9 84bac4 c9c3cb 948d9b e1a7af acd0b9 dec99c aec5e1 ccb5dc a4d2d9 f0eaf0".split(),
-    "quiet-signal-light": "f5f1ef 9c3f50 326c51 84640f 355c8f 764c91 286b7a 514c56 68616d a13c52 2d704e 86600a 325e97 754795 236c7c 29262f".split(),
+    "quiet-signal-light": "29262f 9c3f50 326c51 84640f 355c8f 764c91 286b7a 514c56 68616d a13c52 2d704e 86600a 325e97 754795 236c7c f5f1ef".split(),
     "emberline-dark": "171514 df8275 9fbe80 dfbb69 8eb4d9 c49bd8 80c3bf ded5cc a99b94 f49b8d bce29a f2d389 a8cef3 ddb4ed 9ce4dc fff6ed".split(),
-    "emberline-light": "fcfaf7 9c352a 35651f 795600 285c90 723a83 176b6a 403934 6a5e58 a83125 2c681a 795300 205d96 713587 006d68 211d1b".split(),
+    "emberline-light": "211d1b 9c352a 35651f 795600 285c90 723a83 176b6a 403934 6a5e58 a83125 2c681a 795300 205d96 713587 006d68 fcfaf7".split(),
     "spacedust": "05242a ef5939 5ab0a0 ebc562 2daee0 f92672 66d9ef ecf0c1 6e5346 e86628 a6e22e fd971f 2daee0 f92672 70f0f0 f8f8f0".split(),
     "warm-earth": "1f1d1b a38b7b 9b9b87 b5a18a 959ba0 a99aa3 93a6a2 b4ada5 80746a c2a394 b7baa0 d0b79a b0b8c0 c5b1bd b1c6c1 ebe1d2".split(),
     "charcoal-pastel": "1d1f21 e07878 b4ca73 f3ca78 88b4d9 c29ccd 78c9c1 d3d6d4 999d9b ff9993 d3e78e ffe09a b1d0f2 deb6e8 a6e7db f6f6f3".split(),
@@ -74,6 +74,9 @@ class PaletteTests(unittest.TestCase):
         for name, expected in EXPECTED.items():
             with self.subTest(palette=name):
                 directory = ROOT / "palettes" / name
+                background = (
+                    15 if name in ("quiet-signal-light", "emberline-light") else 0
+                )
                 ghostty = (directory / "ghostty").read_text()
                 self.assertEqual(
                     re.findall(r"palette = \d+=#([0-9a-f]{6})", ghostty), expected
@@ -85,7 +88,7 @@ class PaletteTests(unittest.TestCase):
                 )
                 self.assertEqual(scheme["name"], "custom")
                 for role, index in {
-                    "background": 0,
+                    "background": background,
                     "foreground": 7,
                     "cursorColor": 7,
                     "selectionBackground": 4,
@@ -97,7 +100,7 @@ class PaletteTests(unittest.TestCase):
                 )
                 self.assertEqual(
                     windows["themes"][0]["tabRow"]["background"].lower(),
-                    "#" + expected[0] + "ff",
+                    "#" + expected[background] + "ff",
                 )
                 konsole = configparser.ConfigParser()
                 konsole.read(directory / "konsole.colorscheme")
@@ -105,28 +108,30 @@ class PaletteTests(unittest.TestCase):
                     0
                 ]
                 self.assertEqual(iterm["Guid"], "b2f196a0-9822-4f69-8ce9-73f2de6b4371")
+
+                def iterm_color(key):
+                    return bytes(
+                        round(iterm[key][channel + " Component"] * 255)
+                        for channel in ("Red", "Green", "Blue")
+                    ).hex()
+
+                def konsole_color(section):
+                    return bytes(map(int, konsole[section]["Color"].split(","))).hex()
+
                 for i, value in enumerate(expected):
-                    rgb = tuple(int(value[j : j + 2], 16) for j in (0, 2, 4))
                     section = f"Color{i}" if i < 8 else f"Color{i - 8}Intense"
-                    self.assertEqual(
-                        tuple(map(int, konsole[section]["Color"].split(","))), rgb
-                    )
-                    self.assertEqual(
-                        tuple(
-                            round(
-                                iterm[f"Ansi {i} Color"][channel + " Component"] * 255
-                            )
-                            for channel in ("Red", "Green", "Blue")
-                        ),
-                        rgb,
-                    )
+                    self.assertEqual(konsole_color(section), value)
+                    self.assertEqual(iterm_color(f"Ansi {i} Color"), value)
+                for role, index in {"Background": background, "Foreground": 7}.items():
+                    self.assertEqual(konsole_color(role), expected[index])
+                    self.assertEqual(iterm_color(f"{role} Color"), expected[index])
                 for role, index in {
-                    "background": 0,
+                    "background": background,
                     "foreground": 7,
                     "cursor-color": 7,
-                    "cursor-text": 0,
+                    "cursor-text": background,
                     "selection-background": 4,
-                    "selection-foreground": 0,
+                    "selection-foreground": background,
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
 
