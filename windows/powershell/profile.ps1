@@ -46,7 +46,7 @@ if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
         $readLineColors.ListPredictionTooltip = [ConsoleColor]::DarkGray
     }
     if ($minimalHighlight) {
-        foreach ($role in @('Keyword', 'Operator', 'Command', 'Type', 'Number', 'Member')) {
+        foreach ($role in @('Keyword', 'Operator', 'Type', 'Number', 'Member')) {
             $readLineColors[$role] = [ConsoleColor]::Gray
         }
     }

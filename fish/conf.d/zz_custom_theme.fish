@@ -38,7 +38,7 @@ set -gx fish_pager_color_selected_description black
 set -gx fish_pager_color_selected_prefix black
 
 if test "$DOTFILES_HIGHLIGHT_MODE" = min
-    for role in command keyword option redirection end operator escape user host host_remote
+    for role in keyword option redirection end operator escape user host
         set -gx "fish_color_$role" white
     end
     set -gx fish_pager_color_prefix white

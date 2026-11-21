@@ -45,8 +45,7 @@
           "foreground_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}yellow{{ end }}",
             "{{ if gt .Ahead 0 }}blue{{ end }}",
-            "{{ if gt .Behind 0 }}yellow{{ end }}",
-            "{{ if eq .Env.DOTFILES_HIGHLIGHT_MODE \"min\" }}default{{ end }}"
+            "{{ if gt .Behind 0 }}yellow{{ end }}"
           ],
           "options": {
             "branch_icon": ""
