@@ -54,7 +54,7 @@ Use LF line endings for all repository text files.
 ## Color themes
 
 - Use terminal ANSI colors 0–15 in terminal applications. Prefer colors 0–7 for normal content. Use color 8 for comments and muted borders.
-- Use a solid neutral fill with readable text for editor and picker selections. Use blue for active borders and markers. Use black and white for status bars. Underline the active label with the bar colors.
+- Use a solid neutral fill with readable text for selections. Use blue for active borders. Keep one background across each status bar. Use a readable text color for the active label.
 - Keep application color roles independent of terminal palette RGB values.
 - Use the same custom palette in Windows Terminal, Ghostty, Konsole, and iTerm2.
 - Use default colors in VS Code, including its integrated terminal.

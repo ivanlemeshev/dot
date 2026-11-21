@@ -41,7 +41,8 @@ for name, severity in pairs({
   diagnostic_colors[name] = function()
     local count = vim.diagnostic.count(0)[severity] or 0
     return {
-      fg = count > 0 and theme.diagnostic[name] or theme.statusline.inactive_fg,
+      fg = count > 0 and theme.status_color(theme.diagnostic[name])
+        or theme.statusline.inactive_fg,
       bg = theme.statusline.section_bg,
     }
   end

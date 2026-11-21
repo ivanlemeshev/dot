@@ -204,15 +204,17 @@ if empty(s:palette_state)
 endif
 let s:selection_fg = '0'
 let s:selection_bg = '8'
+let s:status_fallback = []
 let s:selection_path = s:palette_state . '/selection'
 let s:palette_root = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
-let s:colors_path = s:palette_root . '/palettes/selection-colors.txt'
+let s:colors_path = s:palette_root . '/palettes/color-roles.txt'
 if filereadable(s:selection_path) && filereadable(s:colors_path)
   let s:palette = trim(get(readfile(s:selection_path, '', 1), 0, ''))
   for s:line in readfile(s:colors_path)
     let s:entry = split(s:line)
-    if len(s:entry) == 3 && s:entry[0] ==# s:palette
+    if len(s:entry) == 4 && s:entry[0] ==# s:palette
       let [s:selection_fg, s:selection_bg] = s:entry[1:2]
+      let s:status_fallback = split(s:entry[3], ',')
       break
     endif
   endfor
@@ -249,18 +251,18 @@ highlight StatusLine cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineNC cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineTerm cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusLineTermNC cterm=NONE ctermfg=15 ctermbg=0
-highlight StatusModeNormal cterm=underline ctermfg=15 ctermbg=0
-highlight StatusModeInsert cterm=NONE ctermfg=2 ctermbg=0
-highlight StatusModeVisual cterm=NONE ctermfg=5 ctermbg=0
-highlight StatusModeReplace cterm=NONE ctermfg=1 ctermbg=0
-highlight StatusModeCommand cterm=NONE ctermfg=6 ctermbg=0
-highlight StatusModeTerminal cterm=NONE ctermfg=4 ctermbg=0
+execute 'highlight StatusModeNormal cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '3') >= 0 ? '15' : '3')
+execute 'highlight StatusModeInsert cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '2') >= 0 ? '15' : '2')
+execute 'highlight StatusModeVisual cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '5') >= 0 ? '15' : '5')
+execute 'highlight StatusModeReplace cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '1') >= 0 ? '15' : '1')
+execute 'highlight StatusModeCommand cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '6') >= 0 ? '15' : '6')
+execute 'highlight StatusModeTerminal cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '4') >= 0 ? '15' : '4')
 highlight StatusModeB cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusModeC cterm=NONE ctermfg=15 ctermbg=0
 highlight StatusInactive cterm=NONE ctermfg=15 ctermbg=0
-highlight TabLine cterm=NONE ctermfg=8 ctermbg=0
-highlight TabLineSel cterm=underline ctermfg=15 ctermbg=0
-highlight TabLineFill cterm=NONE ctermfg=8 ctermbg=0
+execute 'highlight TabLine cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '8') >= 0 ? '15' : '8')
+execute 'highlight TabLineSel cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '3') >= 0 ? '15' : '3')
+execute 'highlight TabLineFill cterm=NONE ctermbg=0 ctermfg=' . (index(s:status_fallback, '8') >= 0 ? '15' : '8')
 highlight Title cterm=NONE ctermfg=3 ctermbg=NONE
 highlight Directory cterm=NONE ctermfg=4 ctermbg=NONE
 highlight ErrorMsg cterm=NONE ctermfg=9 ctermbg=NONE

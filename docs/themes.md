@@ -28,7 +28,7 @@ Start a new shell and restart open editors to load the mode. Start a new tmux or
 
 Copy a directory under `palettes/` and edit its four native palette files. Use a name that starts with a lowercase letter and contains only lowercase letters, digits, or hyphens. Keep all 16 ANSI colors consistent across the four files. Keep the `custom` scheme names and the iTerm2 profile identifier.
 
-Add the palette and its ANSI colors to `EXPECTED` in `tests/test_palettes.py`. If the selection needs other colors, add its name, foreground index, and background index to `palettes/selection-colors.txt`. Run `mise run test:palettes`.
+Add the palette and its ANSI colors to `EXPECTED` in `tests/test_palettes.py`. For palette-specific colors, add the palette name, selection foreground and background indices, and comma-separated status indices that need a fallback to `palettes/color-roles.txt`. Use `-` when all status colors are readable. Run `mise run test:palettes`.
 
 ## Bat cache
 

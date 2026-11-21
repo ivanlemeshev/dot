@@ -37,26 +37,36 @@ local ansi = {
   bright_white = 15,
 }
 
-local function selection_colors()
+local function palette_roles()
   local path = palette_state .. "/selection"
   if vim.fn.filereadable(path) == 1 then
     local name = vim.trim(vim.fn.readfile(path, "", 1)[1] or "")
     local source = vim.fn.resolve(debug.getinfo(1, "S").source:sub(2))
     local root = vim.fn.fnamemodify(source, ":h:h:h:h")
-    local colors = root .. "/palettes/selection-colors.txt"
+    local colors = root .. "/palettes/color-roles.txt"
     if vim.fn.filereadable(colors) == 1 then
       for _, line in ipairs(vim.fn.readfile(colors)) do
-        local palette, fg, bg = line:match("^(%S+) (%d+) (%d+)$")
+        local palette, fg, bg, fallback =
+          line:match("^(%S+) (%d+) (%d+) (%S+)$")
         if palette == name then
-          return tonumber(fg), tonumber(bg)
+          return tonumber(fg),
+            tonumber(bg),
+            vim.split(fallback, ",", { plain = true })
         end
       end
     end
   end
-  return ansi.black, ansi.bright_black
+  return ansi.black, ansi.bright_black, {}
 end
 
-local selection_fg, selection_bg = selection_colors()
+local selection_fg, selection_bg, status_fallback = palette_roles()
+
+function M.status_color(color)
+  if vim.tbl_contains(status_fallback, tostring(color)) then
+    return ansi.bright_white
+  end
+  return color
+end
 
 -- UI
 M.ui = {
@@ -83,7 +93,7 @@ M.ui = {
   special_key = ansi.bright_black,
   tabline_bg = ansi.black,
   tabline_fill_bg = ansi.black,
-  tabline_fg = ansi.bright_black,
+  tabline_fg = M.status_color(ansi.bright_black),
   title_fg = ansi.yellow,
   warning_fg = ansi.bright_yellow,
   winbar_bg = ansi.black,
@@ -257,15 +267,12 @@ end
 
 -- Fzf
 M.fzf = {
-  hl = ansi.yellow,
   info = ansi.bright_black,
   border = ansi.bright_black,
   ghost = ansi.bright_black,
   disabled = ansi.bright_black,
-  prompt = not minimal and ansi.yellow or nil,
-  pointer = ansi.blue,
-  marker = ansi.blue,
-  spinner = minimal and ansi.bright_black or ansi.yellow,
+  pointer = selection_fg,
+  marker = selection_fg,
   header = ansi.bright_black,
   label = ansi.bright_black,
 }
@@ -283,18 +290,18 @@ function M.fzf_colors()
     "selected-fg:" .. selection_fg .. ":strip",
     "selected-bg:" .. selection_bg,
     "selected-hl:" .. selection_fg .. ":strip:underline",
-    "prompt:" .. (M.fzf.prompt or -1),
+    "prompt:-1",
+    "spinner:-1",
+    "hl:-1:strip:underline",
   }
   local palette = M.fzf
   for _, role in ipairs({
-    "hl",
     "ghost",
     "disabled",
     "info",
     "border",
     "pointer",
     "marker",
-    "spinner",
     "header",
     "label",
   }) do
@@ -307,24 +314,21 @@ end
 -- FzfLua
 M.fzf_lua = {
   border_fg = M.fzf.border,
-  title_fg = M.fzf.hl,
   preview_border_fg = M.fzf.border,
-  search_fg = ansi.black,
-  search_bg = M.fzf.hl,
 }
 
 -- StatusLine
 M.statusline = {
   insert_bg = ansi.black,
-  insert_fg = ansi.green,
+  insert_fg = M.status_color(ansi.green),
   visual_bg = ansi.black,
-  visual_fg = ansi.magenta,
+  visual_fg = M.status_color(ansi.magenta),
   replace_bg = ansi.black,
-  replace_fg = ansi.red,
+  replace_fg = M.status_color(ansi.red),
   command_bg = ansi.black,
-  command_fg = ansi.cyan,
+  command_fg = M.status_color(ansi.cyan),
   terminal_bg = ansi.black,
-  terminal_fg = ansi.blue,
+  terminal_fg = M.status_color(ansi.blue),
   section_bg = ansi.black,
   section_fg = ansi.bright_white,
   inactive_bg = ansi.black,
@@ -357,11 +361,7 @@ M.diagnostic = {
 -- lualine theme
 M.lualine_theme = {
   normal = {
-    a = {
-      bg = M.statusline.section_bg,
-      fg = M.statusline.section_fg,
-      gui = "underline",
-    },
+    a = { bg = M.statusline.section_bg, fg = M.status_color(ansi.yellow) },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
@@ -586,7 +586,7 @@ function M.setup()
 
   hl(
     "TabLineSel",
-    { fg = M.ui.statusline_fg, bg = M.ui.tabline_fill_bg, underline = true }
+    { fg = M.status_color(ansi.yellow), bg = M.ui.tabline_fill_bg }
   )
 
   hl("TabLineFill", { bg = M.ui.tabline_fill_bg })
@@ -869,15 +869,15 @@ function M.setup()
 
   -- FzfLua
 
-  hl("fzf1", { fg = M.fzf.hl, bg = M.ui.statusline_bg })
-  hl("fzf2", { fg = ansi.magenta, bg = M.ui.statusline_bg })
+  hl("fzf1", { fg = M.status_color(ansi.yellow), bg = M.ui.statusline_bg })
+  hl("fzf2", { fg = M.status_color(ansi.magenta), bg = M.ui.statusline_bg })
   hl("fzf3", { fg = ansi.bright_white, bg = M.ui.statusline_bg })
 
   hl("FzfLuaNormal", {})
 
   hl("FzfLuaBorder", { fg = M.fzf_lua.border_fg })
 
-  hl("FzfLuaTitle", { fg = M.fzf_lua.title_fg, bold = true })
+  hl("FzfLuaTitle", { bold = true })
 
   hl("FzfLuaBackdrop", {})
 
@@ -885,37 +885,34 @@ function M.setup()
 
   hl("FzfLuaPreviewBorder", { fg = M.fzf_lua.preview_border_fg })
 
-  hl("FzfLuaPreviewTitle", { fg = M.fzf_lua.title_fg, bold = true })
+  hl("FzfLuaPreviewTitle", { bold = true })
 
   hl(
     "FzfLuaCursorLine",
     { fg = selection_fg, bg = selection_bg, nocombine = true }
   )
 
-  hl(
-    "FzfLuaSearch",
-    { fg = M.fzf_lua.search_fg, bg = M.fzf_lua.search_bg, bold = true }
-  )
+  hl("FzfLuaSearch", { fg = selection_fg, bg = selection_bg, underline = true })
 
   hl("FzfLuaTitleFlags", { fg = M.fzf.header, bold = true })
 
-  hl("FzfLuaCursor", { fg = ansi.black, bg = M.fzf.hl })
+  hl("FzfLuaCursor", { reverse = true })
 
   hl("FzfLuaCursorLineNr", { fg = M.ui.cursor_line_nr })
 
   hl("FzfLuaScrollBorderEmpty", { fg = M.fzf.border })
 
-  hl("FzfLuaScrollBorderFull", { fg = M.fzf.hl })
+  hl("FzfLuaScrollBorderFull", {})
 
   hl("FzfLuaScrollFloatEmpty", { fg = M.fzf.border })
 
-  hl("FzfLuaScrollFloatFull", { fg = M.fzf.hl })
+  hl("FzfLuaScrollFloatFull", {})
 
   hl("FzfLuaHelpNormal", {})
 
   hl("FzfLuaHelpBorder", { fg = M.fzf.border })
 
-  hl("FzfLuaHeaderBind", { fg = M.fzf.prompt, bold = true })
+  hl("FzfLuaHeaderBind", { bold = true })
 
   hl("FzfLuaHeaderText", { fg = M.fzf.header })
 
@@ -925,7 +922,7 @@ function M.setup()
 
   hl("FzfLuaBufName", {})
 
-  hl("FzfLuaBufId", { fg = M.fzf.prompt })
+  hl("FzfLuaBufId", {})
 
   hl("FzfLuaBufNr", { fg = M.fzf.border })
 
@@ -937,7 +934,7 @@ function M.setup()
 
   hl("FzfLuaTabTitle", { fg = M.fzf.info, bold = true })
 
-  hl("FzfLuaTabMarker", { fg = M.fzf.prompt })
+  hl("FzfLuaTabMarker", {})
 
   hl("FzfLuaDirIcon", { fg = M.ui.directory_fg })
 
@@ -945,11 +942,11 @@ function M.setup()
 
   hl("FzfLuaFilePart", {})
 
-  hl("FzfLuaLivePrompt", { fg = M.fzf.prompt, bold = true })
+  hl("FzfLuaLivePrompt", { bold = true })
 
-  hl("FzfLuaLiveSym", { fg = M.fzf.hl, bold = true })
+  hl("FzfLuaLiveSym", { bold = true })
 
-  hl("FzfLuaCmdEx", { fg = M.fzf.prompt })
+  hl("FzfLuaCmdEx", {})
 
   hl("FzfLuaCmdBuf", { fg = M.fzf.info })
 
@@ -962,7 +959,7 @@ function M.setup()
     { fg = selection_fg, bg = selection_bg, nocombine = true }
   )
 
-  hl("FzfLuaFzfMatch", { fg = M.fzf.hl })
+  hl("FzfLuaFzfMatch", {})
 
   hl("FzfLuaFzfBorder", { fg = M.fzf.border })
 
@@ -980,7 +977,7 @@ function M.setup()
 
   hl("FzfLuaFzfMarker", { fg = M.fzf.marker })
 
-  hl("FzfLuaFzfSpinner", { fg = M.fzf.spinner })
+  hl("FzfLuaFzfSpinner", {})
 
   -- Diagnostics
 

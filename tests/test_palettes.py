@@ -56,6 +56,17 @@ def luminance(color):
     )
 
 
+def color_roles():
+    roles = {}
+    for line in (ROOT / "palettes/color-roles.txt").read_text().splitlines():
+        name, foreground, background, fallback = line.split(" ")
+        if name in roles:
+            raise ValueError(f"Duplicate palette roles for {name}.")
+        muted = set() if fallback == "-" else set(map(int, fallback.split(",")))
+        roles[name] = int(foreground), int(background), muted
+    return roles
+
+
 class PaletteTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="dot-palettes-")
@@ -82,9 +93,11 @@ class PaletteTests(unittest.TestCase):
 
     def test_native_palettes(self):
         windows_keys = "black red green yellow blue purple cyan white brightBlack brightRed brightGreen brightYellow brightBlue brightPurple brightCyan brightWhite".split()
+        roles = color_roles()
         for name, expected in EXPECTED.items():
             with self.subTest(palette=name):
                 directory = ROOT / "palettes" / name
+                selection_fg, selection_bg, _ = roles.get(name, (0, 8, set()))
                 background = (
                     15 if name in ("quiet-signal-light", "emberline-light") else 0
                 )
@@ -102,7 +115,7 @@ class PaletteTests(unittest.TestCase):
                     "background": background,
                     "foreground": 7,
                     "cursorColor": 7,
-                    "selectionBackground": 4,
+                    "selectionBackground": selection_bg,
                 }.items():
                     self.assertEqual(scheme[role].lower(), "#" + expected[index])
                 self.assertEqual(
@@ -136,30 +149,44 @@ class PaletteTests(unittest.TestCase):
                 for role, index in {"Background": background, "Foreground": 7}.items():
                     self.assertEqual(konsole_color(role), expected[index])
                     self.assertEqual(iterm_color(f"{role} Color"), expected[index])
+                self.assertEqual(
+                    iterm_color("Selected Text Color"), expected[selection_fg]
+                )
+                self.assertEqual(iterm_color("Selection Color"), expected[selection_bg])
                 for role, index in {
                     "background": background,
                     "foreground": 7,
                     "cursor-color": 7,
                     "cursor-text": background,
-                    "selection-background": 4,
-                    "selection-foreground": background,
+                    "selection-background": selection_bg,
+                    "selection-foreground": selection_fg,
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
 
-    def test_editor_selection_contrast(self):
-        overrides = {}
-        for line in (ROOT / "palettes/selection-colors.txt").read_text().splitlines():
-            name, fg, bg = line.split(" ")
-            self.assertIn(name, EXPECTED)
-            self.assertNotIn(name, overrides)
-            self.assertIn(fg, {"0", "15"})
-            self.assertIn(bg, {"7", "8"})
-            overrides[name] = (int(fg), int(bg))
+    def test_selection_and_status_contrast(self):
+        overrides = color_roles()
+        self.assertLessEqual(overrides.keys(), EXPECTED.keys())
         for name, colors in EXPECTED.items():
             with self.subTest(palette=name):
-                fg, bg = overrides.get(name, (0, 8))
-                low, high = sorted((luminance(colors[fg]), luminance(colors[bg])))
-                self.assertGreaterEqual((high + 0.05) / (low + 0.05), 4.5)
+                fg, bg, fallback = overrides.get(name, (0, 8, set()))
+                self.assertIn(fg, {0, 15})
+                self.assertIn(bg, {7, 8})
+                levels = [luminance(color) for color in colors]
+
+                def contrast(first, second):
+                    low, high = sorted((levels[first], levels[second]))
+                    return (high + 0.05) / (low + 0.05)
+
+                self.assertGreaterEqual(contrast(fg, bg), 4.5)
+                self.assertGreaterEqual(contrast(15, 0), 4.5)
+                self.assertEqual(
+                    fallback,
+                    {
+                        index
+                        for index in (1, 2, 3, 4, 5, 6, 8, 9, 11)
+                        if contrast(index, 0) < 4.5
+                    },
+                )
 
     def test_adjusted_palette_visibility(self):
         for name in (

@@ -21,7 +21,36 @@ if ($minimalHighlight) {
 }
 
 if (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue) {
-    $selectionColor = "$([char]27)[0;7m"
+    $selectionFg = 0
+    $selectionBg = 8
+    $statusFallback = '-'
+    $profileItem = Get-Item -LiteralPath $PSCommandPath
+    $profileSource = $profileItem
+    if ($profileItem.Target) {
+        $profileTarget = [string]@($profileItem.Target)[0]
+        if (-not [IO.Path]::IsPathRooted($profileTarget)) {
+            $profileTarget = Join-Path $profileItem.DirectoryName $profileTarget
+        }
+        $profileSource = Get-Item -LiteralPath $profileTarget
+    }
+    $rolesPath = Join-Path $profileSource.Directory.Parent.Parent.FullName 'palettes/color-roles.txt'
+    $selectionPath = Join-Path $paletteState 'selection'
+    if ((Test-Path -LiteralPath $rolesPath) -and (Test-Path -LiteralPath $selectionPath)) {
+        $paletteName = ([IO.File]::ReadAllText($selectionPath)).Trim()
+        foreach ($role in Get-Content -LiteralPath $rolesPath) {
+            $name, $fg, $bg, $fallback = $role -split ' '
+            if ($name -ceq $paletteName) {
+                $selectionFg = $fg
+                $selectionBg = $bg
+                $statusFallback = $fallback
+                break
+            }
+        }
+    }
+    $env:DOTFILES_SELECTION_FG = $selectionFg
+    $env:DOTFILES_SELECTION_BG = $selectionBg
+    $env:DOTFILES_STATUS_FG = if (($statusFallback -split ',') -contains '3') { 'brightwhite' } else { 'yellow' }
+    $selectionColor = "$([char]27)[0;38;5;$selectionFg;48;5;${selectionBg}m"
     $readLineColors = @{
         ContinuationPrompt = [ConsoleColor]::DarkGray
         Default            = [ConsoleColor]::Gray
