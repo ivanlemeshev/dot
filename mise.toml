@@ -1,7 +1,12 @@
 [vars]
 checks_root = "{{config_source | dirname}}"
 
-[tools]
+[tasks."checks:run"]
+hide = true
+dir = "{{vars.checks_root}}"
+run = "bash scripts/check.sh"
+
+[tasks."checks:run".tools]
 actionlint = "1.7.12"
 "aqua:Kampfkarren/selene" = "0.32.0"
 powershell = "7.6.9"
@@ -17,18 +22,15 @@ tombi = "1.11.2"
 
 [tasks.format]
 description = "Format repository files"
-dir = "{{vars.checks_root}}"
-run = "bash scripts/check.sh format"
+depends = ["checks:run format"]
 
 [tasks."format:check"]
 description = "Check file formatting without changes"
-dir = "{{vars.checks_root}}"
-run = "bash scripts/check.sh format:check"
+depends = ["checks:run format:check"]
 
 [tasks.lint]
 description = "Run repository linters and syntax checks"
-dir = "{{vars.checks_root}}"
-run = "bash scripts/check.sh lint"
+depends = ["checks:run lint"]
 
 [tasks.check]
 description = "Run formatting, lint, and palette tests"
@@ -36,10 +38,8 @@ depends = ["format:check", "lint", "test:palettes"]
 
 [tasks."test:palettes"]
 description = "Check palettes, palette selection, and repository validators"
-dir = "{{vars.checks_root}}"
-run = "python -m unittest discover -s tests -v"
+depends = ["checks:run test:palettes"]
 
 [tasks."setup:checks"]
 description = "Install the PowerShell analysis module"
-dir = "{{vars.checks_root}}"
-run = "pwsh -NoProfile -File scripts/check.ps1 setup"
+depends = ["checks:run setup"]

@@ -5,9 +5,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 mode="${1:-}"
 case "$mode" in
+  setup) exec pwsh -NoProfile -File scripts/check.ps1 setup ;;
+  test:palettes) exec python -m unittest discover -s tests -v ;;
   format | format:check | lint) ;;
   *)
-    printf 'Usage: bash %s {format|format:check|lint}\n' "${0##*/}" >&2
+    printf 'Usage: bash %s {setup|test:palettes|format|format:check|lint}\n' "${0##*/}" >&2
     exit 2
     ;;
 esac

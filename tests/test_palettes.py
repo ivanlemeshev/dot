@@ -352,6 +352,29 @@ foreach ($name in (Get-ChildItem -LiteralPath (Join-Path $root 'palettes') -Dire
     Set-WindowsTerminalSettings $terminal (Join-Path $root 'windows/terminal/settings.json') -ThemesOnly -PaletteName $name
     if ((Get-FileHash $path).Hash -ne $hash) { throw 'Repeated application changes settings.' }
 }
+$managed = [IO.File]::ReadAllBytes($path)
+$statePath = Join-Path $StateDirectory 'terminal.json'
+$stateHash = (Get-FileHash $statePath).Hash
+$settings.keybindings += @{ keys = 'ctrl+shift+k'; id = 'copy' }
+[IO.File]::WriteAllText($path, ($settings | ConvertTo-Json -Depth 100))
+foreach ($name in @('charcoal-pastel', 'ibm-sga-soft')) {
+    Set-WindowsTerminalSettings $terminal (Join-Path $root 'windows/terminal/settings.json') -ThemesOnly -PaletteName $name
+    $settings = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+    if ($settings.keybindings.keys -notcontains 'ctrl+shift+k') { throw 'The palette switch removes the local shortcut.' }
+    $expected = Get-Content (Join-Path $root "palettes/$name/windows-terminal.json") -Raw | ConvertFrom-Json
+    $scheme = $settings.schemes | Where-Object name -eq 'custom'
+    if ($scheme.background -ne $expected.schemes[0].background) { throw 'The palette switch does not apply the new colors.' }
+    if ((Get-FileHash $statePath).Hash -ne $stateHash) { throw 'The palette switch changes the restore record.' }
+}
+try {
+    Restore-WindowsTerminalSettings
+    throw 'Restore accepts edited settings.'
+} catch {
+    if ($_.Exception.Message -notlike 'Windows Terminal settings change after setup.*') { throw }
+}
+$settings = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+if ($settings.keybindings.keys -notcontains 'ctrl+shift+k') { throw 'Restore removes the local shortcut.' }
+[IO.File]::WriteAllBytes($path, $managed)
 Restore-WindowsTerminalSettings
 if ([IO.File]::ReadAllText($path) -cne $original) { throw 'Restoration differs.' }
 """)

@@ -121,7 +121,7 @@ function Set-WindowsTerminalSettings {
         $null
     }
     $local = Join-Path $Directory 'settings.local.json'
-    if ($null -ne $item -and ($item.LinkType -eq 'SymbolicLink' -or $settings.import) -and (Test-Path -LiteralPath $local)) {
+    if (-not $ThemesOnly -and $null -ne $item -and ($item.LinkType -eq 'SymbolicLink' -or $settings.import) -and (Test-Path -LiteralPath $local)) {
         $settings = Get-Content -LiteralPath $local -Raw | ConvertFrom-Json
     }
     $shared = Get-Content -LiteralPath $SharedSettingsPath -Raw | ConvertFrom-Json
@@ -142,8 +142,18 @@ function Set-WindowsTerminalSettings {
     if ($null -ne $original -and [Text.Encoding]::UTF8.GetString($original) -eq $text) {
         return
     }
+    $updateRestoreHash = $true
     $state = if (Test-Path -LiteralPath $statePath) {
-        Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
+        $saved = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
+        if ($saved.target -ne $target) {
+            throw 'The Windows Terminal settings path changes after setup. Review terminal.json.'
+        }
+        $updateRestoreHash = $null -ne $item -and $item.LinkType -ne 'SymbolicLink' -and
+        (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash -eq $saved.applied
+        if (-not $ThemesOnly -and -not $updateRestoreHash) {
+            throw 'Windows Terminal settings change after setup. Keep the current file and review terminal.json.'
+        }
+        $saved
     } else {
         [pscustomobject]@{
             target   = $target
@@ -165,8 +175,11 @@ function Set-WindowsTerminalSettings {
     }
     New-Item -ItemType Directory -Path $Directory -Force | Out-Null
     [IO.File]::WriteAllText($target, $text, [Text.UTF8Encoding]::new($false))
-    $state.applied = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
-    Save-StateText 'terminal.json' ($state | ConvertTo-Json -Depth 10)
+    # NOTE: Keep the previous hash so restore can detect local changes.
+    if ($updateRestoreHash) {
+        $state.applied = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        Save-StateText 'terminal.json' ($state | ConvertTo-Json -Depth 10)
+    }
 }
 
 function Restore-WindowsTerminalSettings {

@@ -14,6 +14,8 @@ An asterisk marks the current palette in the list. If your selected palette is g
 
 The palette applies to Ghostty, Konsole, iTerm2, and Windows Terminal. VS Code uses its default colors.
 
+On Windows, a palette change keeps your shortcuts, font, and other settings outside the palette. The unapply task protects local edits from replacement by the original backup.
+
 ## Add a palette
 
 Copy a directory under `palettes/` and edit its four native palette files. Use a name that starts with a lowercase letter and contains only lowercase letters, digits, or hyphens. Keep all 16 ANSI colors consistent across the four files. Keep the `custom` scheme names and the iTerm2 profile identifier.

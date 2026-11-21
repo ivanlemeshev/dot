@@ -43,13 +43,12 @@ For theme changes after setup, see [Color themes](docs/themes.md).
 
 ## Development
 
-[mise](https://mise.jdx.dev) pins the repository tools in `mise.toml`. The bootstrap configuration stays in `config.toml` and the platform files.
+[mise](https://mise.jdx.dev) installs the pinned check tools when you run a check task.
 
 Install Fish from the native package manager. Run these commands from the repository root. On Windows, use WSL for the complete check suite.
 
 ```sh
 mise trust
-mise install
 mise run setup:checks
 mise run format
 mise run format:check
