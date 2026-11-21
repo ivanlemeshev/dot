@@ -2,7 +2,7 @@
 include = ["{{config_source | dirname}}/linux/packages/{% set release = read_file(path='/etc/os-release') %}{% if 'ID=fedora' in release or 'ID=\"fedora\"' in release %}fedora{% else %}ubuntu{% endif %}.toml"]
 
 [dotfiles]
-"~/.config/ghostty" = { source = "{{vars.user_home}}/.local/state/dotfiles-palette/ghostty" }
+"~/.config/ghostty" = { source = "~/.local/state/dotfiles-palette/ghostty" }
 "~/.bashrc/activate" = { block = '''export PATH="$HOME/.local/bin:$PATH"
 case "$(uname -m)" in x86_64) export PATH="/opt/nvim-linux-x86_64/bin:$PATH" ;; aarch64) export PATH="/opt/nvim-linux-arm64/bin:$PATH" ;; esac
 eval "$(mise activate bash)"''' }
