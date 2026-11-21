@@ -1,0 +1,7 @@
+globals:
+  vim:
+    any: true
+  io.stderr.write:
+    method: true
+    args:
+      - type: "..."

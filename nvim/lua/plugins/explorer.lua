@@ -5,15 +5,15 @@ vim.pack.add({
     version = "v1.17.0",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 require("nvim-tree").setup({
   filesystem_watchers = { enable = false },
   view = { width = 40 },
   filters = {
-    custom = { "^.git$" }, -- Hide .git directory
+    custom = { "^.git$" },
   },
   renderer = {
     highlight_git = "name",
@@ -35,21 +35,20 @@ require("nvim-tree").setup({
       },
     },
   },
-  git = { ignore = false }, -- Show git-ignored files
+  git = { ignore = false },
   actions = {
     open_file = {
-      quit_on_open = false, -- Don't close nvim-tree when opening a file
+      quit_on_open = false,
     },
   },
   diagnostics = {
-    enable = true, -- Show diagnostics
+    enable = true,
   },
   update_focused_file = {
-    enable = true, -- Update the focused file in the tree
+    enable = true,
   },
 })
 
--- Auto-refresh nvim-tree when Neovim gains focus
 local nvim_tree_augroup =
   vim.api.nvim_create_augroup("nvim-tree-refresh", { clear = true })
 vim.api.nvim_create_autocmd("FocusGained", {

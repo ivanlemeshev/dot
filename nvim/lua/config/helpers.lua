@@ -4,14 +4,12 @@
 
 local M = {}
 
---- Create a clear augroup.
 ---@param name string Augroup name
----@return integer group Augroup id
+---@return integer group Augroup ID
 function M.augroup(name)
   return vim.api.nvim_create_augroup(name, { clear = true })
 end
 
---- Define a keymap with common defaults.
 ---@param mode string|string[] Mode or modes
 ---@param lhs string Left-hand side
 ---@param rhs string|function Right-hand side
@@ -30,7 +28,6 @@ function M.map(mode, lhs, rhs, desc, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
---- Define a normal-mode keymap.
 ---@param lhs string Left-hand side
 ---@param rhs string|function Right-hand side
 ---@param desc? string Keymap description
@@ -39,7 +36,6 @@ function M.nmap(lhs, rhs, desc, opts)
   M.map("n", lhs, rhs, desc, opts)
 end
 
---- Define a visual-mode keymap.
 ---@param lhs string Left-hand side
 ---@param rhs string|function Right-hand side
 ---@param desc? string Keymap description
@@ -48,7 +44,6 @@ function M.vmap(lhs, rhs, desc, opts)
   M.map("v", lhs, rhs, desc, opts)
 end
 
---- Define a terminal-mode keymap.
 ---@param lhs string Left-hand side
 ---@param rhs string|function Right-hand side
 ---@param desc? string Keymap description
@@ -57,7 +52,6 @@ function M.tmap(lhs, rhs, desc, opts)
   M.map("t", lhs, rhs, desc, opts)
 end
 
---- Load one or more optional packages with :packadd.
 ---@param names string|string[] Package name or names
 function M.packadd(names)
   if type(names) == "string" then
@@ -69,7 +63,6 @@ function M.packadd(names)
   end
 end
 
---- Load optional packages once when an event fires, then run setup code.
 ---@param events string|string[] Autocmd event or events
 ---@param group_name string Augroup name
 ---@param plugins string|string[] Optional package name or names

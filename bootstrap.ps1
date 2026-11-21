@@ -72,6 +72,7 @@ try {
     Invoke-Checked $mise @('bootstrap', 'packages', 'upgrade', '--manager', 'winget', '--yes')
     Invoke-Checked $mise @('bootstrap', '--yes', '--only', 'packages')
     Invoke-Checked $mise @('install')
+    Invoke-Checked pwsh @('-NoProfile', '-File', (Join-Path $MiseRoot 'scripts/palette.ps1'), 'prepare')
     Backup-ConflictingDotfiles $mise
     Invoke-Checked $mise @('dot', 'apply', '--yes')
     Update-ProcessPath

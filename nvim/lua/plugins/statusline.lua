@@ -5,8 +5,8 @@ vim.pack.add({
     version = "master",
   },
 }, {
-  load = true, -- Load immediately
-  confirm = false, -- Install without confirmation
+  load = true,
+  confirm = false,
 })
 
 local mode = {
@@ -19,7 +19,8 @@ local mode = {
 local filename = {
   "filename",
   file_status = true,
-  path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+  -- NOTE: Relative paths distinguish files with the same name.
+  path = 1,
 }
 
 local theme = require("lem.theme")

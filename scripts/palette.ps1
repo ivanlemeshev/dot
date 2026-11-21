@@ -1,0 +1,155 @@
+[CmdletBinding()]
+param(
+    [ValidateSet('list', 'current', 'use', 'prepare', 'mode')]
+    [string]$Action = 'list',
+    [string]$Name
+)
+
+$ErrorActionPreference = 'Stop'
+
+function Get-PaletteStateDirectory {
+    if ($env:DOTFILES_PALETTE_STATE) {
+        return [IO.Path]::GetFullPath($env:DOTFILES_PALETTE_STATE)
+    }
+    return Join-Path $HOME '.local/state/dotfiles-palette'
+}
+
+function Get-PaletteName {
+    $selection = Join-Path (Get-PaletteStateDirectory) 'selection'
+    if (Test-Path -LiteralPath $selection) {
+        return ([IO.File]::ReadAllText($selection)).Trim()
+    }
+    return 'charcoal-pastel'
+}
+
+function Get-PaletteDirectory([string]$PaletteName) {
+    if ($PaletteName -cnotmatch '^[a-z][a-z0-9-]*$') {
+        throw "Invalid palette name: $PaletteName"
+    }
+    $directory = Join-Path (Split-Path -Parent $PSScriptRoot) "palettes/$PaletteName"
+    foreach ($file in @('ghostty', 'konsole.colorscheme', 'iterm2.json', 'windows-terminal.json')) {
+        if (-not (Test-Path -LiteralPath (Join-Path $directory $file) -PathType Leaf)) {
+            throw "Palette is missing or incomplete: $PaletteName"
+        }
+    }
+    return $directory
+}
+
+function Set-PaletteLink([string]$Path, [string]$Target) {
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+    if ($null -ne $item) {
+        if ($item.LinkType -ne 'SymbolicLink') {
+            throw "The palette link path contains another file: $Path"
+        }
+        if (@($item.Target)[0] -eq $Target) { return }
+        Remove-Item -LiteralPath $Path -Force
+    }
+    New-Item -ItemType Directory -Path (Split-Path -Parent $Path) -Force | Out-Null
+    New-Item -ItemType SymbolicLink -Path $Path -Target $Target | Out-Null
+}
+
+function Set-UnixPalette([string]$Directory) {
+    $state = Get-PaletteStateDirectory
+    $root = Split-Path -Parent $PSScriptRoot
+    Set-PaletteLink (Join-Path $state 'ghostty/config') (Join-Path $root 'ghostty/config')
+    Set-PaletteLink (Join-Path $state 'ghostty/themes/custom') (Join-Path $state 'active/ghostty')
+    Set-PaletteLink (Join-Path $state 'active') $Directory
+}
+
+function Initialize-MinimalBatTheme {
+    if (-not $env:BAT_CONFIG_DIR -or
+        -not (Test-Path -LiteralPath (Join-Path $env:BAT_CONFIG_DIR 'themes/custom-min.tmTheme'))) { return }
+    $bat = Get-Command -Name bat, batcat -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -eq $bat) { return }
+    $themes = @(& $bat.Source --list-themes)
+    if ($themes -cnotcontains 'custom-min') {
+        & $bat.Source cache --build | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw 'Cannot build the bat theme cache.' }
+    }
+}
+
+function Invoke-Palette {
+    param([string]$Command, [string]$PaletteName)
+    if ($Command -eq 'mode') {
+        $state = Get-PaletteStateDirectory
+        $modePath = Join-Path $state 'mode'
+        if (-not $PaletteName) {
+            if ((Test-Path -LiteralPath $modePath -PathType Leaf) -and
+                ([IO.File]::ReadAllText($modePath)).Trim() -ceq 'min') {
+                return 'min'
+            }
+            return 'full'
+        }
+        if ($PaletteName -cnotin @('full', 'min')) {
+            throw 'Highlighting mode must be full or min.'
+        }
+        if ($PaletteName -eq 'min') { Initialize-MinimalBatTheme }
+        New-Item -ItemType Directory -Path $state -Force | Out-Null
+        if (-not (Test-Path -LiteralPath $modePath -PathType Leaf) -or
+            [IO.File]::ReadAllText($modePath) -cne "$PaletteName`n") {
+            $temporary = "$modePath.$([Guid]::NewGuid().ToString('N'))"
+            try {
+                [IO.File]::WriteAllText($temporary, "$PaletteName`n", [Text.UTF8Encoding]::new($false))
+                [IO.File]::Move($temporary, $modePath, $true)
+            } finally {
+                [IO.File]::Delete($temporary)
+            }
+        }
+        return "Highlighting: $PaletteName. Restart your shell and apps."
+    }
+    if ($Command -ne 'use' -and $PaletteName) {
+        throw 'Only use and mode accept a name.'
+    }
+    $current = Get-PaletteName
+    try {
+        $currentDirectory = Get-PaletteDirectory $current
+    } catch {
+        if ($Command -ne 'use') { throw }
+        $currentDirectory = $null
+    }
+    switch ($Command) {
+        'list' {
+            Get-ChildItem -LiteralPath (Split-Path -Parent $currentDirectory) -Directory |
+                Sort-Object Name | ForEach-Object {
+                    $marker = if ($_.Name -eq $current) { '*' } else { ' ' }
+                    "$marker $($_.Name)"
+                }
+        }
+        'current' { $current }
+        { $_ -in 'use', 'prepare' } {
+            $selected = if ($Command -eq 'prepare') { $current } else { $PaletteName }
+            $directory = Get-PaletteDirectory $selected
+            $windows = [Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT
+            $state = Get-PaletteStateDirectory
+            New-Item -ItemType Directory -Path $state -Force | Out-Null
+            try {
+                if ($windows) {
+                    if ($Command -eq 'use') {
+                        $root = Split-Path -Parent $PSScriptRoot
+                        . (Join-Path $root 'windows/helpers.ps1')
+                        . (Join-Path $root 'windows/terminal.ps1')
+                        $terminal = Get-WindowsTerminalSettingsDirectory
+                        if ($null -eq $terminal) { throw 'Windows Terminal settings directory is unavailable.' }
+                        Set-WindowsTerminalSettings $terminal (Join-Path $root 'windows/terminal/settings.json') -ThemesOnly -PaletteName $selected
+                    }
+                } else {
+                    Set-UnixPalette $directory
+                }
+                $selection = Join-Path $state 'selection'
+                if (-not (Test-Path -LiteralPath $selection) -or [IO.File]::ReadAllText($selection) -cne "$selected`n") {
+                    [IO.File]::WriteAllText($selection, "$selected`n", [Text.UTF8Encoding]::new($false))
+                }
+            } catch {
+                if (-not $windows -and $currentDirectory) { Set-UnixPalette $currentDirectory }
+                throw
+            }
+            if ($Command -eq 'use') {
+                Write-Output "Palette: $selected. Reload or restart the terminal."
+            }
+        }
+    }
+}
+
+if ($MyInvocation.InvocationName -ne '.') {
+    Invoke-Palette $Action $Name
+}

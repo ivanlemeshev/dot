@@ -4,7 +4,6 @@
 
 local large_file_max_size = 50 * 1024 * 1024
 
---- Return file size in bytes.
 ---@param path string File path
 ---@return number? size File size, or nil if unavailable
 local function file_size(path)
@@ -16,7 +15,6 @@ local function file_size(path)
   return size
 end
 
---- Check whether the file should use large-file mode.
 ---@param path string File path
 ---@return boolean
 local function is_large_file(path)
@@ -28,7 +26,7 @@ local function is_large_file(path)
   return size ~= nil and size >= large_file_max_size
 end
 
---- Disable expensive buffer features for large files.
+-- NOTE: Large files stay read-only to limit editor work.
 ---@param buf number Buffer handle
 local function apply_large_file_mode(buf)
   vim.b[buf].large_file = true
@@ -52,7 +50,6 @@ local function apply_large_file_mode(buf)
   end
 end
 
---- Stop syntax, diagnostics, and Tree-sitter for a large file buffer.
 ---@param buf number Buffer handle
 local function stop_large_file_features(buf)
   vim.bo[buf].syntax = "off"

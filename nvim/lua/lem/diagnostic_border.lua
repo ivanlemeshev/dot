@@ -43,7 +43,7 @@ function M.setup()
   end
   configured = true
 
-  -- NOTE: The plugin has no full-frame option for its virtual text.
+  -- NOTE: Custom virtual text supplies the full diagnostic frame.
   local virtual_text = require("tiny-inline-diagnostic.virtual_text")
   local single = virtual_text.from_diagnostic
   local multiple = virtual_text.from_diagnostics

@@ -2,6 +2,10 @@ min_version = "2026.11.1"
 
 [vars]
 user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=''))}}"
+dotfiles_root = "{{config_source | dirname}}"
+palette_state = "{{get_env(name='DOTFILES_PALETTE_STATE', default=vars.user_home ~ '/.local/state/dotfiles-palette')}}"
+highlight_mode = "{% set path = vars.palette_state ~ '/mode' %}{% if path is file and read_file(path=path) | trim == 'min' %}min{% else %}full{% endif %}"
+git_min_colors = "'color.branch.upstream=brightblack' 'color.decorate.remoteBranch=brightblack' 'color.decorate.stash=brightblack' 'color.grep.filename=white'"
 
 [dotfiles]
 "~/.config/bat" = { source = "bat" }
@@ -11,9 +15,11 @@ user_home = "{{get_env(name='USERPROFILE', default=get_env(name='HOME', default=
 "~/.gitconfig" = { source = "git/config" }
 
 [env]
-BAT_THEME = "custom"
+DOTFILES_HIGHLIGHT_MODE = "{{vars.highlight_mode}}"
+BAT_THEME = "{{'custom-min' if vars.highlight_mode == 'min' else 'custom'}}"
 BAT_CONFIG_DIR = "{{vars.user_home}}/.config/bat"
-RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/config"
+RIPGREP_CONFIG_PATH = "{{vars.user_home}}/.config/ripgrep/{{'config-min' if vars.highlight_mode == 'min' else 'config'}}"
+GIT_CONFIG_PARAMETERS = "{% set previous = get_env(name='GIT_CONFIG_PARAMETERS', default='') | replace(from=\"'color.status.branch=brightblack' \" ~ vars.git_min_colors, to='') | replace(from=vars.git_min_colors, to='') | trim %}{% if vars.highlight_mode == 'min' %}{{(previous ~ ' ' ~ vars.git_min_colors) | trim}}{% else %}{{previous}}{% endif %}"
 _.path = ["{{vars.user_home}}/.local/bin", "{{vars.user_home}}/.julia/bin"]
 CLICOLOR = "1"
 GH_ACCESSIBLE_COLORS = "1"
@@ -23,6 +29,10 @@ NO_COLOR = false
 
 [task_config]
 includes = ["{{config_source | dirname}}/{% if os() == 'windows' %}windows/tasks{% elif os() == 'macos' %}macos/tasks{% else %}linux/tasks{% endif %}"]
+
+[tasks.palette]
+description = "Select a terminal palette or highlighting mode"
+run = "pwsh -NoProfile -File '{{vars.dotfiles_root}}/scripts/palette.ps1'"
 
 [tools]
 "cargo:psfmt" = "0.2.0"

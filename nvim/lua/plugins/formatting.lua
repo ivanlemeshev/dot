@@ -7,8 +7,8 @@ vim.pack.add({
     version = "v9.1.0",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 helpers.load_on(
@@ -58,9 +58,6 @@ helpers.load_on(
           command = "yamlfmt",
           args = { "-formatter", "retain_line_breaks=true", "indent=2", "-" },
         },
-        -- To get the formatting appropriate for Google's Style guide,
-        -- use shfmt -i 2 -ci.
-        -- https://google.github.io/styleguide/shellguide.html
         shfmt = {
           inherit = false,
           command = "shfmt",

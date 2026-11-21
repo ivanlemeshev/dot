@@ -7,8 +7,8 @@ vim.pack.add({
     version = "v1.3.0",
   },
 }, {
-  load = false, -- Don't load immediately
-  confirm = false, -- Install without confirmation
+  load = false,
+  confirm = false,
 })
 
 local configured = false

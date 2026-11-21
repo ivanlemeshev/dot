@@ -1,0 +1,5 @@
+std = "lua51+vim"
+
+[lints]
+# NOTE: Neovim plugin APIs require mixed tables.
+mixed_table = "allow"
