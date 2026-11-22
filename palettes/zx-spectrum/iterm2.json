@@ -136,10 +136,10 @@
         "Red Component": 0.09803921568627451
       },
       "Selection Color": {
-        "Blue Component": 0.7607843137254902,
+        "Blue Component": 0.5568627450980392,
         "Color Space": "sRGB",
-        "Green Component": 0.592156862745098,
-        "Red Component": 0.5098039215686274
+        "Green Component": 0.5176470588235295,
+        "Red Component": 0.5019607843137255
       },
       "Blinking Cursor": false
     }

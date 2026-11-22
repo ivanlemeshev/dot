@@ -130,16 +130,16 @@
         "Red Component": 0.9686274509803922
       },
       "Selected Text Color": {
-        "Blue Component": 0.9686274509803922,
+        "Blue Component": 0.0,
         "Color Space": "sRGB",
-        "Green Component": 0.9686274509803922,
-        "Red Component": 0.9686274509803922
+        "Green Component": 0.0,
+        "Red Component": 0.0
       },
       "Selection Color": {
-        "Blue Component": 0.7529411764705882,
+        "Blue Component": 0.4666666666666667,
         "Color Space": "sRGB",
-        "Green Component": 0.3607843137254902,
-        "Red Component": 0.19607843137254902
+        "Green Component": 0.4666666666666667,
+        "Red Component": 0.4666666666666667
       },
       "Blinking Cursor": false
     }

@@ -34,7 +34,7 @@ rg '^custom-min$' <<<"$themes"
 fish --no-config -c "source ~/.config/fish/conf.d/fzf_colors.fish; string match --quiet -- '*--color=16,*' \"\$FZF_DEFAULT_OPTS\""
 # NOTE: Fish expands these variables in its own process.
 # shellcheck disable=SC2016
-fish -l -c 'test "$fish_pager_color_selected_background" = "--background=blue"; and test "$fish_pager_color_selected_completion" = black'
+fish -l -c 'contains -- "$fish_pager_color_selected_background" --background=brblack --background=white; and contains -- "$fish_pager_color_selected_completion" black brwhite; and test "$fish_color_selection[1]" = "$fish_pager_color_selected_completion"; and test "$fish_color_selection[2]" = "$fish_pager_color_selected_background"'
 font="$HOME/Library/Fonts/JetBrainsMonoNLNerdFontMono-Regular.ttf"
 test -f "$font" || test -f /Library/Fonts/JetBrainsMonoNLNerdFontMono-Regular.ttf
 test -x "$HOME/.tmux/plugins/tpm/tpm"

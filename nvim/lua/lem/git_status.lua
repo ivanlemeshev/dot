@@ -7,7 +7,10 @@ function M.color()
   local directory = path ~= "" and path or vim.uv.cwd()
   local root = directory and vim.fs.root(directory, ".git")
   if not root then
-    return { fg = theme.git.ignored, bg = theme.statusline.section_bg }
+    return {
+      fg = theme.status_color(theme.git.ignored),
+      bg = theme.statusline.section_bg,
+    }
   end
 
   local entry = cache[root] or { state = "ignored" }
@@ -55,7 +58,10 @@ function M.color()
       end)
     end)
   end
-  return { fg = theme.git[entry.state], bg = theme.statusline.section_bg }
+  return {
+    fg = theme.status_color(theme.git[entry.state]),
+    bg = theme.statusline.section_bg,
+  }
 end
 
 return M

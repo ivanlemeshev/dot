@@ -13,6 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
     "alabaster-dark": "0e1415 e25d56 73ca50 e9bf57 4a88e4 915caf 23acdd cecece 777777 f36868 88db3f f0bf7a 6f8fdb e987e9 4ac9e2 ffffff".split(),
     "alabaster-light": "f7f7f7 aa3731 448c27 cb9000 325cc0 7a3e9d 0083b2 000000 777777 f05050 60cb00 ffbc5d 007acc e64ce6 00aacb 000000".split(),
+    "quiet-signal-dark": "211f27 cf8e96 91b9a4 c8b27f 91afd0 b7a0c9 84bac4 c9c3cb 948d9b e1a7af acd0b9 dec99c aec5e1 ccb5dc a4d2d9 f0eaf0".split(),
+    "quiet-signal-light": "29262f 9c3f50 326c51 84640f 355c8f 764c91 286b7a 514c56 68616d a13c52 2d704e 86600a 325e97 754795 236c7c f5f1ef".split(),
+    "emberline-dark": "171514 df8275 9fbe80 dfbb69 8eb4d9 c49bd8 80c3bf ded5cc a99b94 f49b8d bce29a f2d389 a8cef3 ddb4ed 9ce4dc fff6ed".split(),
+    "emberline-light": "211d1b 9c352a 35651f 795600 285c90 723a83 176b6a 403934 6a5e58 a83125 2c681a 795300 205d96 713587 006d68 fcfaf7".split(),
     "spacedust": "05242a ef5939 5ab0a0 ebc562 2daee0 f92672 66d9ef ecf0c1 6e5346 e86628 a6e22e fd971f 2daee0 f92672 70f0f0 f8f8f0".split(),
     "warm-earth": "1f1d1b a38b7b 9b9b87 b5a18a 959ba0 a99aa3 93a6a2 b4ada5 80746a c2a394 b7baa0 d0b79a b0b8c0 c5b1bd b1c6c1 ebe1d2".split(),
     "charcoal-pastel": "1d1f21 e07878 b4ca73 f3ca78 88b4d9 c29ccd 78c9c1 d3d6d4 999d9b ff9993 d3e78e ffe09a b1d0f2 deb6e8 a6e7db f6f6f3".split(),
@@ -41,6 +45,28 @@ EXPECTED = {
 }
 
 
+def luminance(color):
+    channels = [value / 255 for value in bytes.fromhex(color)]
+    linear = [
+        value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+        for value in channels
+    ]
+    return sum(
+        value * weight for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
+    )
+
+
+def color_roles():
+    roles = {}
+    for line in (ROOT / "palettes/color-roles.txt").read_text().splitlines():
+        name, foreground, background, fallback = line.split(" ")
+        if name in roles:
+            raise ValueError(f"Duplicate palette roles for {name}.")
+        muted = set() if fallback == "-" else set(map(int, fallback.split(",")))
+        roles[name] = int(foreground), int(background), muted
+    return roles
+
+
 class PaletteTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="dot-palettes-")
@@ -67,9 +93,14 @@ class PaletteTests(unittest.TestCase):
 
     def test_native_palettes(self):
         windows_keys = "black red green yellow blue purple cyan white brightBlack brightRed brightGreen brightYellow brightBlue brightPurple brightCyan brightWhite".split()
+        roles = color_roles()
         for name, expected in EXPECTED.items():
             with self.subTest(palette=name):
                 directory = ROOT / "palettes" / name
+                selection_fg, selection_bg, _ = roles.get(name, (0, 8, set()))
+                background = (
+                    15 if name in ("quiet-signal-light", "emberline-light") else 0
+                )
                 ghostty = (directory / "ghostty").read_text()
                 self.assertEqual(
                     re.findall(r"palette = \d+=#([0-9a-f]{6})", ghostty), expected
@@ -81,10 +112,10 @@ class PaletteTests(unittest.TestCase):
                 )
                 self.assertEqual(scheme["name"], "custom")
                 for role, index in {
-                    "background": 0,
+                    "background": background,
                     "foreground": 7,
                     "cursorColor": 7,
-                    "selectionBackground": 4,
+                    "selectionBackground": selection_bg,
                 }.items():
                     self.assertEqual(scheme[role].lower(), "#" + expected[index])
                 self.assertEqual(
@@ -93,7 +124,7 @@ class PaletteTests(unittest.TestCase):
                 )
                 self.assertEqual(
                     windows["themes"][0]["tabRow"]["background"].lower(),
-                    "#" + expected[0] + "ff",
+                    "#" + expected[background] + "ff",
                 )
                 konsole = configparser.ConfigParser()
                 konsole.read(directory / "konsole.colorscheme")
@@ -101,43 +132,66 @@ class PaletteTests(unittest.TestCase):
                     0
                 ]
                 self.assertEqual(iterm["Guid"], "b2f196a0-9822-4f69-8ce9-73f2de6b4371")
+
+                def iterm_color(key):
+                    return bytes(
+                        round(iterm[key][channel + " Component"] * 255)
+                        for channel in ("Red", "Green", "Blue")
+                    ).hex()
+
+                def konsole_color(section):
+                    return bytes(map(int, konsole[section]["Color"].split(","))).hex()
+
                 for i, value in enumerate(expected):
-                    rgb = tuple(int(value[j : j + 2], 16) for j in (0, 2, 4))
                     section = f"Color{i}" if i < 8 else f"Color{i - 8}Intense"
-                    self.assertEqual(
-                        tuple(map(int, konsole[section]["Color"].split(","))), rgb
-                    )
-                    self.assertEqual(
-                        tuple(
-                            round(
-                                iterm[f"Ansi {i} Color"][channel + " Component"] * 255
-                            )
-                            for channel in ("Red", "Green", "Blue")
-                        ),
-                        rgb,
-                    )
+                    self.assertEqual(konsole_color(section), value)
+                    self.assertEqual(iterm_color(f"Ansi {i} Color"), value)
+                for role, index in {"Background": background, "Foreground": 7}.items():
+                    self.assertEqual(konsole_color(role), expected[index])
+                    self.assertEqual(iterm_color(f"{role} Color"), expected[index])
+                self.assertEqual(
+                    iterm_color("Selected Text Color"), expected[selection_fg]
+                )
+                self.assertEqual(iterm_color("Selection Color"), expected[selection_bg])
                 for role, index in {
-                    "background": 0,
+                    "background": background,
                     "foreground": 7,
                     "cursor-color": 7,
-                    "cursor-text": 0,
-                    "selection-background": 4,
-                    "selection-foreground": 0,
+                    "cursor-text": background,
+                    "selection-background": selection_bg,
+                    "selection-foreground": selection_fg,
                 }.items():
                     self.assertIn(f"{role} = #{expected[index]}\n", ghostty)
 
-    def test_adjusted_palette_visibility(self):
-        def luminance(color):
-            channels = [int(color[i : i + 2], 16) / 255 for i in (0, 2, 4)]
-            linear = [
-                value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
-                for value in channels
-            ]
-            return sum(
-                value * weight
-                for value, weight in zip(linear, (0.2126, 0.7152, 0.0722))
-            )
+    def test_selection_and_status_contrast(self):
+        overrides = color_roles()
+        self.assertLessEqual(overrides.keys(), EXPECTED.keys())
+        for name, colors in EXPECTED.items():
+            with self.subTest(palette=name):
+                fg, bg, fallback = overrides.get(name, (0, 8, set()))
+                self.assertIn(fg, {0, 15})
+                self.assertIn(bg, {7, 8})
+                levels = [luminance(color) for color in colors]
 
+                def contrast(first, second):
+                    low, high = sorted((levels[first], levels[second]))
+                    return (high + 0.05) / (low + 0.05)
+
+                self.assertGreaterEqual(contrast(fg, bg), 4.5)
+                terminal_bg = (
+                    15 if name in ("quiet-signal-light", "emberline-light") else 0
+                )
+                self.assertGreaterEqual(contrast(7, terminal_bg), 4.5)
+                self.assertEqual(
+                    fallback,
+                    {
+                        index
+                        for index in (1, 2, 3, 4, 5, 6, 8, 9, 11)
+                        if contrast(index, terminal_bg) < 4.5
+                    },
+                )
+
+    def test_adjusted_palette_visibility(self):
         for name in (
             "solarized-dark-soft",
             "ibm-sga-soft",

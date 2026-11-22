@@ -3,14 +3,15 @@
 --- MIT License Copyright (c) 2026 Ivan Lemeshev
 local M = {}
 
+local palette_state = vim.env.DOTFILES_PALETTE_STATE
+  or vim.fn.expand("~/.local/state/dotfiles-palette")
+
 local function minimal_highlighting()
   local mode = vim.env.DOTFILES_HIGHLIGHT_MODE
   if mode then
     return mode == "min"
   end
-  local directory = vim.env.DOTFILES_PALETTE_STATE
-    or vim.fn.expand("~/.local/state/dotfiles-palette")
-  local path = directory .. "/mode"
+  local path = palette_state .. "/mode"
   return vim.fn.filereadable(path) == 1
     and vim.trim(vim.fn.readfile(path, "", 1)[1] or "") == "min"
 end
@@ -36,63 +37,61 @@ local ansi = {
   bright_white = 15,
 }
 
+local function palette_roles()
+  local path = palette_state .. "/selection"
+  if vim.fn.filereadable(path) == 1 then
+    local name = vim.trim(vim.fn.readfile(path, "", 1)[1] or "")
+    local source = vim.fn.resolve(debug.getinfo(1, "S").source:sub(2))
+    local root = vim.fn.fnamemodify(source, ":h:h:h:h")
+    local colors = root .. "/palettes/color-roles.txt"
+    if vim.fn.filereadable(colors) == 1 then
+      for _, line in ipairs(vim.fn.readfile(colors)) do
+        local palette, fg, bg, fallback =
+          line:match("^(%S+) (%d+) (%d+) (%S+)$")
+        if palette == name then
+          return tonumber(fg),
+            tonumber(bg),
+            vim.split(fallback, ",", { plain = true })
+        end
+      end
+    end
+  end
+  return ansi.black, ansi.bright_black, {}
+end
+
+local selection_fg, selection_bg, status_fallback = palette_roles()
+
+function M.status_color(color)
+  if vim.tbl_contains(status_fallback, tostring(color)) then
+    return "None"
+  end
+  return color
+end
+
 -- UI
 M.ui = {
-  bg = ansi.black,
-  color_column = ansi.black,
   cursor = ansi.white,
-  cursor_column = ansi.black,
   cursor_line_nr = ansi.yellow,
-  cur_search_bg = ansi.cyan,
-  cur_search_fg = ansi.black,
   directory_fg = ansi.blue,
   end_of_buffer_fg = ansi.bright_black,
   error_fg = ansi.bright_red,
-  float_bg = ansi.black,
   float_border_fg = ansi.bright_black,
-  float_fg = ansi.white,
   float_title_fg = ansi.white,
-  folded_bg = ansi.black,
-  folded_fg = ansi.white,
   fg = ansi.white,
-  inc_search_bg = ansi.cyan,
-  inc_search_fg = ansi.black,
   line_nr = ansi.bright_black,
   matchparen_bg = ansi.cyan,
-  mode_fg = ansi.white,
   non_text = ansi.bright_black,
   more_fg = ansi.yellow,
-  msg_area_fg = ansi.white,
   msg_separator_fg = ansi.bright_black,
-  pmenu_bg = ansi.black,
-  pmenu_fg = ansi.white,
-  pmenu_sel_bg = ansi.blue,
-  pmenu_sel_fg = ansi.black,
-  pmenu_sbar_bg = ansi.black,
   pmenu_thumb_bg = ansi.white,
   question_fg = ansi.blue,
-  quickfix_line_bg = ansi.blue,
-  search_bg = ansi.yellow,
-  search_fg = ansi.black,
-  selection_bg = ansi.blue,
-  selection_fg = ansi.black,
   split_fg = ansi.bright_black,
-  statusline_bg = ansi.black,
-  statusline_fg = ansi.white,
-  statusline_nc_bg = ansi.black,
-  statusline_nc_fg = ansi.bright_black,
   special_key = ansi.bright_black,
-  tabline_bg = ansi.black,
-  tabline_fill_bg = ansi.black,
-  tabline_fg = ansi.bright_black,
-  tabline_sel_bg = ansi.black,
-  tabline_sel_fg = ansi.yellow,
+  tabline_fg = M.status_color(ansi.bright_black),
   title_fg = ansi.yellow,
   warning_fg = ansi.bright_yellow,
-  winbar_bg = ansi.black,
   winbar_fg = ansi.white,
-  winbar_nc_bg = ansi.black,
-  winbar_nc_fg = ansi.bright_black,
+  winbar_nc_fg = M.status_color(ansi.bright_black),
   whitespace = ansi.bright_black,
 }
 
@@ -260,60 +259,45 @@ end
 
 -- Fzf
 M.fzf = {
-  fg = ansi.white,
-  bg = ansi.black,
-  hl = ansi.yellow,
-  ["fg+"] = ansi.black,
-  ["bg+"] = ansi.blue,
-  ["hl+"] = ansi.black,
   info = ansi.bright_black,
   border = ansi.bright_black,
-  query = ansi.white,
   ghost = ansi.bright_black,
   disabled = ansi.bright_black,
-  prompt = minimal and ansi.white or ansi.yellow,
-  pointer = ansi.black,
-  marker = ansi.black,
-  ["selected-fg"] = ansi.black,
-  ["selected-bg"] = ansi.blue,
-  ["selected-hl"] = ansi.black,
-  spinner = minimal and ansi.bright_black or ansi.yellow,
+  pointer = selection_fg,
+  marker = selection_fg,
   header = ansi.bright_black,
   label = ansi.bright_black,
-  gutter = ansi.black,
 }
 
 function M.fzf_colors()
-  local colors = { "16" }
+  local colors = {
+    "16",
+    "fg:-1",
+    "bg:-1",
+    "query:-1",
+    "gutter:-1",
+    "fg+:" .. selection_fg .. ":strip",
+    "bg+:" .. selection_bg,
+    "hl+:" .. selection_fg .. ":strip:underline",
+    "selected-fg:" .. selection_fg .. ":strip",
+    "selected-bg:" .. selection_bg,
+    "selected-hl:" .. selection_fg .. ":strip:underline",
+    "prompt:-1",
+    "spinner:-1",
+    "hl:-1:strip:underline",
+  }
   local palette = M.fzf
   for _, role in ipairs({
-    "fg",
-    "bg",
-    "hl",
-    "fg+",
-    "bg+",
-    "hl+",
-    "selected-fg",
-    "selected-bg",
-    "selected-hl",
-    "query",
     "ghost",
     "disabled",
     "info",
     "border",
-    "prompt",
     "pointer",
     "marker",
-    "spinner",
     "header",
     "label",
-    "gutter",
   }) do
-    local attributes = (role == "hl+" or role == "selected-hl")
-        and ":strip:underline"
-      or (role == "fg+" or role == "selected-fg") and ":strip"
-      or ""
-    colors[#colors + 1] = role .. ":" .. palette[role] .. attributes
+    colors[#colors + 1] = role .. ":" .. palette[role]
   end
 
   return table.concat(colors, ",")
@@ -321,41 +305,20 @@ end
 
 -- FzfLua
 M.fzf_lua = {
-  normal_fg = M.fzf.fg,
-  normal_bg = M.fzf.bg,
   border_fg = M.fzf.border,
-  border_bg = M.fzf.bg,
-  title_fg = M.fzf.hl,
-  title_bg = M.fzf.bg,
-  preview_fg = M.fzf.fg,
-  preview_bg = M.fzf.bg,
   preview_border_fg = M.fzf.border,
-  preview_border_bg = M.fzf.bg,
-  search_fg = M.fzf.bg,
-  search_bg = M.fzf.hl,
-  cursorline_fg = M.fzf["fg+"],
-  cursorline_bg = M.fzf["bg+"],
-  backdrop_bg = M.fzf.bg,
 }
 
 -- StatusLine
 M.statusline = {
-  normal_bg = ansi.black,
-  normal_fg = ansi.yellow,
-  insert_bg = ansi.black,
-  insert_fg = ansi.green,
-  visual_bg = ansi.black,
-  visual_fg = ansi.magenta,
-  replace_bg = ansi.black,
-  replace_fg = ansi.red,
-  command_bg = ansi.black,
-  command_fg = ansi.cyan,
-  terminal_bg = ansi.black,
-  terminal_fg = ansi.blue,
-  section_bg = ansi.black,
-  section_fg = ansi.white,
-  inactive_bg = ansi.black,
-  inactive_fg = ansi.bright_black,
+  insert_fg = M.status_color(ansi.green),
+  visual_fg = M.status_color(ansi.magenta),
+  replace_fg = M.status_color(ansi.red),
+  command_fg = M.status_color(ansi.cyan),
+  terminal_fg = M.status_color(ansi.blue),
+  section_bg = "None",
+  section_fg = "None",
+  inactive_fg = "None",
 }
 
 -- Git
@@ -384,46 +347,46 @@ M.diagnostic = {
 -- lualine theme
 M.lualine_theme = {
   normal = {
-    a = { bg = M.statusline.normal_bg, fg = M.statusline.normal_fg },
+    a = { bg = M.statusline.section_bg, fg = M.status_color(ansi.yellow) },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   insert = {
-    a = { bg = M.statusline.insert_bg, fg = M.statusline.insert_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.insert_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   visual = {
-    a = { bg = M.statusline.visual_bg, fg = M.statusline.visual_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.visual_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   replace = {
-    a = { bg = M.statusline.replace_bg, fg = M.statusline.replace_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.replace_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   command = {
-    a = { bg = M.statusline.command_bg, fg = M.statusline.command_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.command_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   terminal = {
-    a = { bg = M.statusline.terminal_bg, fg = M.statusline.terminal_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.terminal_fg },
     b = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     c = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
     z = { bg = M.statusline.section_bg, fg = M.statusline.section_fg },
   },
   inactive = {
-    a = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    b = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    c = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
-    z = { bg = M.statusline.inactive_bg, fg = M.statusline.inactive_fg },
+    a = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    b = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    c = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
+    z = { bg = M.statusline.section_bg, fg = M.statusline.inactive_fg },
   },
 }
 
@@ -464,29 +427,21 @@ function M.setup_inline_diagnostics()
     Hint = M.diagnostic.hint,
   }
 
-  vim.api.nvim_set_hl(0, prefix .. "Bg", { ctermbg = ansi.black })
+  vim.api.nvim_set_hl(0, prefix .. "Bg", {})
   for _, suffix in ipairs({ "", "NoBg" }) do
-    vim.api.nvim_set_hl(0, prefix .. "Arrow" .. suffix, {
-      ctermfg = ansi.white,
-      ctermbg = ansi.black,
-    })
+    vim.api.nvim_set_hl(0, prefix .. "Arrow" .. suffix, {})
   end
 
   for name, color in pairs(severities) do
     for _, suffix in ipairs({ "", "CursorLine", "NoBg" }) do
       vim.api.nvim_set_hl(0, prefix .. name .. suffix, {
         ctermfg = color,
-        ctermbg = ansi.black,
       })
-      vim.api.nvim_set_hl(0, inverse .. name .. suffix, {
-        ctermfg = ansi.white,
-        ctermbg = ansi.black,
-      })
+      vim.api.nvim_set_hl(0, inverse .. name .. suffix, {})
     end
     for other in pairs(severities) do
       vim.api.nvim_set_hl(0, prefix .. name .. "Mix" .. other, {
         ctermfg = color,
-        ctermbg = ansi.black,
       })
     end
   end
@@ -517,22 +472,25 @@ function M.setup()
     vim.api.nvim_set_hl(0, group, opts)
   end
 
-  hl("DiffAdd", { fg = ansi.green, bg = ansi.black })
-  hl("DiffChange", { fg = ansi.yellow, bg = ansi.black })
-  hl("DiffDelete", { fg = ansi.red, bg = ansi.black })
+  hl("DiffAdd", { fg = ansi.green })
+  hl("DiffChange", { fg = ansi.yellow })
+  hl("DiffDelete", { fg = ansi.red })
   hl("DiffText", { fg = ansi.black, bg = ansi.yellow })
   hl("DiffTextAdd", { fg = ansi.black, bg = ansi.green })
 
   hl("PmenuMatch", { fg = ansi.yellow, underline = true })
   hl(
     "PmenuMatchSel",
-    { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg, underline = true }
+    { fg = selection_fg, bg = selection_bg, nocombine = true, underline = true }
   )
   hl("PmenuKind", { fg = ansi.bright_black })
   hl("PmenuExtra", { fg = ansi.bright_black })
-  hl("PmenuKindSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
-  hl("PmenuExtraSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
-  hl("FloatFooter", { fg = ansi.bright_black, bg = ansi.black })
+  hl("PmenuKindSel", { fg = selection_fg, bg = selection_bg, nocombine = true })
+  hl(
+    "PmenuExtraSel",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
+  hl("FloatFooter", { fg = ansi.bright_black })
   hl("Conceal", { fg = ansi.white })
   hl("CursorLineSign", {})
   hl("CursorLineFold", {})
@@ -553,87 +511,76 @@ function M.setup()
 
   -- Neovim UI
 
-  hl("Normal", { fg = M.ui.fg, bg = M.ui.bg })
+  -- NOTE: Terminal defaults apply to normal text.
+  hl("Normal", {})
 
-  hl("NormalNC", { fg = M.ui.fg, bg = M.ui.bg })
+  hl("NormalNC", {})
 
-  hl("Cursor", { fg = M.ui.bg, bg = M.ui.cursor })
+  hl("Cursor", { fg = ansi.black, bg = M.ui.cursor })
 
   hl("CursorLine", {})
 
-  hl("CursorColumn", { bg = M.ui.cursor_column })
+  hl("CursorColumn", {})
 
   hl("CursorLineNr", { fg = M.ui.cursor_line_nr, bold = true })
 
-  hl("ColorColumn", { bg = M.ui.color_column })
+  hl("ColorColumn", {})
 
   hl("LineNr", { fg = M.ui.line_nr })
 
-  hl("SignColumn", { fg = M.ui.fg, bg = M.ui.bg })
+  hl("SignColumn", {})
 
-  hl("FoldColumn", { fg = M.ui.non_text, bg = M.ui.bg })
+  hl("FoldColumn", { fg = M.ui.non_text })
 
-  hl("Folded", { fg = M.ui.folded_fg, bg = M.ui.folded_bg })
+  hl("Folded", {})
 
-  hl("Search", { fg = M.ui.search_fg, bg = M.ui.search_bg, bold = true })
+  hl("Search", { reverse = true })
 
-  hl(
-    "CurSearch",
-    { fg = M.ui.cur_search_fg, bg = M.ui.cur_search_bg, bold = true }
-  )
+  hl("CurSearch", { reverse = true, underline = true })
 
-  hl(
-    "IncSearch",
-    { fg = M.ui.inc_search_fg, bg = M.ui.inc_search_bg, bold = true }
-  )
+  hl("IncSearch", { reverse = true, underline = true })
 
   hl("LspReferenceText", { underline = true })
   hl("LspReferenceRead", { underline = true })
   hl("LspReferenceWrite", { underline = true })
 
-  hl("Visual", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
+  hl("Visual", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
-  hl("VisualNOS", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
+  hl("VisualNOS", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
-  hl("Pmenu", { fg = M.ui.pmenu_fg, bg = M.ui.pmenu_bg })
+  hl("Pmenu", {})
 
-  hl("PmenuBorder", { fg = M.ui.float_border_fg, bg = M.ui.pmenu_bg })
+  hl("PmenuBorder", { fg = M.ui.float_border_fg })
 
-  hl("PmenuSel", { fg = M.ui.pmenu_sel_fg, bg = M.ui.pmenu_sel_bg })
+  hl("PmenuSel", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
-  hl("PmenuSbar", { bg = M.ui.pmenu_sbar_bg })
+  hl("PmenuSbar", {})
 
   hl("PmenuThumb", { bg = M.ui.pmenu_thumb_bg })
 
-  hl("NormalFloat", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("NormalFloat", {})
 
-  hl("FloatBorder", { fg = M.ui.float_border_fg, bg = M.ui.float_bg })
+  hl("FloatBorder", { fg = M.ui.float_border_fg })
 
-  hl(
-    "FloatTitle",
-    { fg = M.ui.float_title_fg, bg = M.ui.float_bg, bold = true }
-  )
+  hl("FloatTitle", { fg = M.ui.float_title_fg, bold = true })
 
-  hl("StatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
+  hl("StatusLine", {})
 
-  hl("StatusLineNC", { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg })
+  hl("StatusLineNC", {})
 
-  hl("TabLine", { fg = M.ui.tabline_fg, bg = M.ui.tabline_bg })
+  hl("TabLine", { fg = M.ui.tabline_fg })
 
-  hl(
-    "TabLineSel",
-    { fg = M.ui.tabline_sel_fg, bg = M.ui.tabline_sel_bg, bold = true }
-  )
+  hl("TabLineSel", { fg = M.status_color(ansi.yellow) })
 
-  hl("TabLineFill", { bg = M.ui.tabline_fill_bg })
+  hl("TabLineFill", {})
 
-  hl("VertSplit", { fg = M.ui.split_fg, bg = M.ui.bg })
+  hl("VertSplit", { fg = M.ui.split_fg })
 
-  hl("WinSeparator", { fg = M.ui.split_fg, bg = M.ui.bg })
+  hl("WinSeparator", { fg = M.ui.split_fg })
 
-  hl("WinBar", { fg = M.ui.winbar_fg, bg = M.ui.winbar_bg })
+  hl("WinBar", { fg = M.ui.winbar_fg })
 
-  hl("WinBarNC", { fg = M.ui.winbar_nc_fg, bg = M.ui.winbar_nc_bg })
+  hl("WinBarNC", { fg = M.ui.winbar_nc_fg })
 
   hl("Directory", { fg = M.ui.directory_fg })
 
@@ -645,17 +592,17 @@ function M.setup()
 
   hl("ErrorMsg", { fg = M.ui.error_fg, bold = true })
 
-  hl("ModeMsg", { fg = M.ui.mode_fg })
+  hl("ModeMsg", {})
 
   hl("MoreMsg", { fg = M.ui.more_fg, bold = true })
 
-  hl("MsgArea", { fg = M.ui.msg_area_fg, bg = M.ui.bg })
+  hl("MsgArea", {})
 
-  hl("MsgSeparator", { fg = M.ui.msg_separator_fg, bg = M.ui.bg })
+  hl("MsgSeparator", { fg = M.ui.msg_separator_fg })
 
   hl("MatchParen", { fg = ansi.black, bg = M.ui.matchparen_bg })
 
-  hl("QuickFixLine", { fg = ansi.black, bg = M.ui.quickfix_line_bg })
+  hl("QuickFixLine", { fg = selection_fg, bg = selection_bg, nocombine = true })
 
   hl("EndOfBuffer", { fg = M.ui.end_of_buffer_fg })
 
@@ -667,42 +614,42 @@ function M.setup()
 
   -- Mason
 
-  hl("MasonBackdrop", { bg = M.ui.bg })
+  hl("MasonBackdrop", {})
 
-  hl("MasonNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("MasonNormal", {})
 
-  hl("MasonHeader", { fg = M.ui.title_fg, bg = M.ui.float_bg, bold = true })
+  hl("MasonHeader", { fg = M.ui.title_fg, bold = true })
 
-  hl(
-    "MasonHeaderSecondary",
-    { fg = M.ui.question_fg, bg = M.ui.float_bg, bold = true }
-  )
+  hl("MasonHeaderSecondary", { fg = M.ui.question_fg, bold = true })
 
   hl("MasonHighlight", { fg = M.ui.directory_fg })
 
-  hl("MasonHighlightBlock", { fg = M.ui.bg, bg = M.ui.directory_fg })
+  hl("MasonHighlightBlock", { fg = ansi.black, bg = M.ui.directory_fg })
 
   hl(
     "MasonHighlightBlockBold",
-    { fg = M.ui.bg, bg = M.ui.directory_fg, bold = true }
+    { fg = ansi.black, bg = M.ui.directory_fg, bold = true }
   )
 
   hl("MasonHighlightSecondary", { fg = M.ui.title_fg })
 
-  hl("MasonHighlightBlockSecondary", { fg = M.ui.bg, bg = M.ui.title_fg })
+  hl("MasonHighlightBlockSecondary", { fg = ansi.black, bg = M.ui.title_fg })
 
   hl(
     "MasonHighlightBlockBoldSecondary",
-    { fg = M.ui.bg, bg = M.ui.title_fg, bold = true }
+    { fg = ansi.black, bg = M.ui.title_fg, bold = true }
   )
 
   hl("MasonLink", { fg = M.ui.directory_fg, underline = true })
 
   hl("MasonMuted", { fg = M.ui.non_text })
 
-  hl("MasonMutedBlock", { fg = M.ui.bg, bg = M.ui.non_text })
+  hl("MasonMutedBlock", { fg = ansi.black, bg = M.ui.non_text })
 
-  hl("MasonMutedBlockBold", { fg = M.ui.bg, bg = M.ui.non_text, bold = true })
+  hl(
+    "MasonMutedBlockBold",
+    { fg = ansi.black, bg = M.ui.non_text, bold = true }
+  )
 
   hl("MasonError", { fg = M.ui.error_fg, bold = true })
 
@@ -712,39 +659,36 @@ function M.setup()
 
   -- NvimTree
 
-  hl("NvimTreeNormal", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("NvimTreeNormal", {})
 
-  hl("NvimTreeNormalFloat", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("NvimTreeNormalFloat", {})
 
-  hl(
-    "NvimTreeNormalFloatBorder",
-    { fg = M.ui.float_border_fg, bg = M.ui.float_bg }
-  )
+  hl("NvimTreeNormalFloatBorder", { fg = M.ui.float_border_fg })
 
-  hl("NvimTreeNormalNC", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("NvimTreeNormalNC", {})
 
   hl("NvimTreeLineNr", { fg = M.ui.line_nr })
 
-  hl("NvimTreeWinSeparator", { fg = M.ui.split_fg, bg = M.ui.bg })
+  hl("NvimTreeWinSeparator", { fg = M.ui.split_fg })
 
   hl("NvimTreeEndOfBuffer", { fg = M.ui.end_of_buffer_fg })
 
-  hl("NvimTreePopup", { fg = M.ui.float_fg, bg = M.ui.float_bg })
+  hl("NvimTreePopup", {})
 
-  hl("NvimTreeSignColumn", { fg = M.ui.fg, bg = M.ui.bg })
+  hl("NvimTreeSignColumn", {})
 
-  hl("NvimTreeCursorColumn", { bg = M.ui.cursor_column })
+  hl("NvimTreeCursorColumn", {})
 
-  hl("NvimTreeCursorLine", { fg = M.ui.selection_fg, bg = M.ui.selection_bg })
+  hl(
+    "NvimTreeCursorLine",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
 
   hl("NvimTreeCursorLineNr", { fg = M.ui.cursor_line_nr })
 
-  hl("NvimTreeStatusLine", { fg = M.ui.statusline_fg, bg = M.ui.statusline_bg })
+  hl("NvimTreeStatusLine", {})
 
-  hl(
-    "NvimTreeStatusLineNC",
-    { fg = M.ui.statusline_nc_fg, bg = M.ui.statusline_nc_bg }
-  )
+  hl("NvimTreeStatusLineNC", {})
 
   hl("NvimTreeExecFile", { fg = ansi.green })
 
@@ -780,11 +724,14 @@ function M.setup()
 
   hl("NvimTreeIndentMarker", { fg = M.ui.non_text })
 
-  hl("NvimTreeWindowPicker", { fg = M.ui.bg, bg = M.ui.title_fg, bold = true })
+  hl(
+    "NvimTreeWindowPicker",
+    { fg = ansi.black, bg = M.ui.title_fg, bold = true }
+  )
 
   hl("NvimTreeLiveFilterPrefix", { fg = M.ui.title_fg })
 
-  hl("NvimTreeLiveFilterValue", { fg = M.ui.mode_fg })
+  hl("NvimTreeLiveFilterValue", {})
 
   hl("NvimTreeCutHL", { fg = M.ui.error_fg, bold = true })
 
@@ -902,75 +849,60 @@ function M.setup()
 
   -- FzfLua
 
-  hl("fzf1", { fg = M.fzf.hl, bg = M.ui.statusline_bg })
-  hl("fzf2", { fg = ansi.magenta, bg = M.ui.statusline_bg })
-  hl("fzf3", { fg = M.fzf.fg, bg = M.ui.statusline_bg })
+  hl("fzf1", { fg = M.status_color(ansi.yellow) })
+  hl("fzf2", { fg = M.status_color(ansi.magenta) })
+  hl("fzf3", {})
 
-  hl("FzfLuaNormal", { fg = M.fzf_lua.normal_fg, bg = M.fzf_lua.normal_bg })
+  hl("FzfLuaNormal", {})
 
-  hl("FzfLuaBorder", { fg = M.fzf_lua.border_fg, bg = M.fzf_lua.border_bg })
+  hl("FzfLuaBorder", { fg = M.fzf_lua.border_fg })
 
-  hl(
-    "FzfLuaTitle",
-    { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.title_bg, bold = true }
-  )
+  hl("FzfLuaTitle", { bold = true })
 
-  hl("FzfLuaBackdrop", { bg = M.fzf_lua.backdrop_bg })
+  hl("FzfLuaBackdrop", {})
 
-  hl(
-    "FzfLuaPreviewNormal",
-    { fg = M.fzf_lua.preview_fg, bg = M.fzf_lua.preview_bg }
-  )
+  hl("FzfLuaPreviewNormal", {})
 
-  hl(
-    "FzfLuaPreviewBorder",
-    { fg = M.fzf_lua.preview_border_fg, bg = M.fzf_lua.preview_border_bg }
-  )
+  hl("FzfLuaPreviewBorder", { fg = M.fzf_lua.preview_border_fg })
 
-  hl(
-    "FzfLuaPreviewTitle",
-    { fg = M.fzf_lua.title_fg, bg = M.fzf_lua.preview_bg, bold = true }
-  )
+  hl("FzfLuaPreviewTitle", { bold = true })
 
   hl(
     "FzfLuaCursorLine",
-    { fg = M.fzf_lua.cursorline_fg, bg = M.fzf_lua.cursorline_bg }
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
   )
 
-  hl(
-    "FzfLuaSearch",
-    { fg = M.fzf_lua.search_fg, bg = M.fzf_lua.search_bg, bold = true }
-  )
+  hl("FzfLuaSearch", { fg = selection_fg, bg = selection_bg, underline = true })
 
-  hl("FzfLuaTitleFlags", { fg = M.fzf.header, bg = M.fzf.bg, bold = true })
+  hl("FzfLuaTitleFlags", { fg = M.fzf.header, bold = true })
 
-  hl("FzfLuaCursor", { fg = M.fzf.bg, bg = M.fzf.hl })
+  hl("FzfLuaCursor", { reverse = true })
 
-  hl("FzfLuaCursorLineNr", { fg = M.ui.cursor_line_nr, bg = M.fzf.bg })
+  hl("FzfLuaCursorLineNr", { fg = M.ui.cursor_line_nr })
 
-  hl("FzfLuaScrollBorderEmpty", { fg = M.fzf.border, bg = M.fzf.bg })
+  hl("FzfLuaScrollBorderEmpty", { fg = M.fzf.border })
 
-  hl("FzfLuaScrollBorderFull", { fg = M.fzf.hl, bg = M.fzf.bg })
+  hl("FzfLuaScrollBorderFull", {})
 
-  hl("FzfLuaScrollFloatEmpty", { fg = M.fzf.border, bg = M.fzf.bg })
+  hl("FzfLuaScrollFloatEmpty", { fg = M.fzf.border })
 
-  hl("FzfLuaScrollFloatFull", { fg = M.fzf.hl, bg = M.fzf.bg })
+  hl("FzfLuaScrollFloatFull", {})
 
-  hl("FzfLuaHelpNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
+  hl("FzfLuaHelpNormal", {})
 
-  hl("FzfLuaHelpBorder", { fg = M.fzf.border, bg = M.fzf.bg })
+  hl("FzfLuaHelpBorder", { fg = M.fzf.border })
 
-  hl("FzfLuaHeaderBind", { fg = M.fzf.prompt, bg = M.fzf.bg, bold = true })
+  hl("FzfLuaHeaderBind", { bold = true })
 
-  hl("FzfLuaHeaderText", { fg = M.fzf.header, bg = M.fzf.bg })
+  hl("FzfLuaHeaderText", { fg = M.fzf.header })
 
   hl("FzfLuaPathColNr", { fg = M.fzf.info })
 
   hl("FzfLuaPathLineNr", { fg = M.fzf.info })
 
-  hl("FzfLuaBufName", { fg = M.fzf.fg })
+  hl("FzfLuaBufName", {})
 
-  hl("FzfLuaBufId", { fg = M.fzf.prompt })
+  hl("FzfLuaBufId", {})
 
   hl("FzfLuaBufNr", { fg = M.fzf.border })
 
@@ -982,47 +914,50 @@ function M.setup()
 
   hl("FzfLuaTabTitle", { fg = M.fzf.info, bold = true })
 
-  hl("FzfLuaTabMarker", { fg = M.fzf.prompt })
+  hl("FzfLuaTabMarker", {})
 
   hl("FzfLuaDirIcon", { fg = M.ui.directory_fg })
 
-  hl("FzfLuaDirPart", { fg = M.fzf.fg })
+  hl("FzfLuaDirPart", {})
 
-  hl("FzfLuaFilePart", { fg = M.fzf.fg })
+  hl("FzfLuaFilePart", {})
 
-  hl("FzfLuaLivePrompt", { fg = M.fzf.prompt, bold = true })
+  hl("FzfLuaLivePrompt", { bold = true })
 
-  hl("FzfLuaLiveSym", { fg = M.fzf.hl, bold = true })
+  hl("FzfLuaLiveSym", { bold = true })
 
-  hl("FzfLuaCmdEx", { fg = M.fzf.prompt })
+  hl("FzfLuaCmdEx", {})
 
   hl("FzfLuaCmdBuf", { fg = M.fzf.info })
 
   hl("FzfLuaCmdGlobal", { fg = M.fzf.header })
 
-  hl("FzfLuaFzfNormal", { fg = M.fzf.fg, bg = M.fzf.bg })
+  hl("FzfLuaFzfNormal", {})
 
-  hl("FzfLuaFzfCursorLine", { fg = M.fzf["fg+"], bg = M.fzf["bg+"] })
+  hl(
+    "FzfLuaFzfCursorLine",
+    { fg = selection_fg, bg = selection_bg, nocombine = true }
+  )
 
-  hl("FzfLuaFzfMatch", { fg = M.fzf.hl })
+  hl("FzfLuaFzfMatch", {})
 
-  hl("FzfLuaFzfBorder", { fg = M.fzf.border, bg = M.fzf.bg })
+  hl("FzfLuaFzfBorder", { fg = M.fzf.border })
 
   hl("FzfLuaFzfScrollbar", { fg = M.fzf.border })
 
   hl("FzfLuaFzfSeparator", { fg = M.fzf.border })
 
-  hl("FzfLuaFzfGutter", { fg = M.fzf.fg, bg = M.fzf.gutter })
+  hl("FzfLuaFzfGutter", {})
 
-  hl("FzfLuaFzfHeader", { fg = M.fzf.header, bg = M.fzf.bg, bold = true })
+  hl("FzfLuaFzfHeader", { fg = M.fzf.header, bold = true })
 
   hl("FzfLuaFzfInfo", { fg = M.fzf.info })
 
-  hl("FzfLuaFzfPointer", { fg = M.fzf.pointer, bg = M.fzf["bg+"] })
+  hl("FzfLuaFzfPointer", { fg = M.fzf.pointer })
 
-  hl("FzfLuaFzfMarker", { fg = M.fzf.marker, bg = M.fzf["selected-bg"] })
+  hl("FzfLuaFzfMarker", { fg = M.fzf.marker })
 
-  hl("FzfLuaFzfSpinner", { fg = M.fzf.spinner })
+  hl("FzfLuaFzfSpinner", {})
 
   -- Diagnostics
 
@@ -1056,15 +991,15 @@ function M.setup()
 
   hl("DiagnosticUnderlineOk", { sp = M.diagnostic.ok, undercurl = true })
 
-  hl("DiagnosticFloatingError", { fg = M.diagnostic.error, bg = M.ui.float_bg })
+  hl("DiagnosticFloatingError", { fg = M.diagnostic.error })
 
-  hl("DiagnosticFloatingWarn", { fg = M.diagnostic.warn, bg = M.ui.float_bg })
+  hl("DiagnosticFloatingWarn", { fg = M.diagnostic.warn })
 
-  hl("DiagnosticFloatingInfo", { fg = M.diagnostic.info, bg = M.ui.float_bg })
+  hl("DiagnosticFloatingInfo", { fg = M.diagnostic.info })
 
-  hl("DiagnosticFloatingHint", { fg = M.diagnostic.hint, bg = M.ui.float_bg })
+  hl("DiagnosticFloatingHint", { fg = M.diagnostic.hint })
 
-  hl("DiagnosticFloatingOk", { fg = M.diagnostic.ok, bg = M.ui.float_bg })
+  hl("DiagnosticFloatingOk", { fg = M.diagnostic.ok })
 
   hl("DiagnosticSignError", { fg = M.diagnostic.error })
 
@@ -1138,21 +1073,21 @@ function M.setup()
 
   hl("GitSignsNoEOLPreview", { fg = M.git.change })
 
-  hl("GitSignsAddInline", { fg = M.git.add, bg = M.ui.bg })
+  hl("GitSignsAddInline", { fg = M.git.add })
 
-  hl("GitSignsChangeInline", { fg = M.git.change, bg = M.ui.bg })
+  hl("GitSignsChangeInline", { fg = M.git.change })
 
-  hl("GitSignsDeleteInline", { fg = M.git.delete, bg = M.ui.bg })
+  hl("GitSignsDeleteInline", { fg = M.git.delete })
 
-  hl("GitSignsAddLnInline", { fg = M.git.add, bg = M.ui.bg })
+  hl("GitSignsAddLnInline", { fg = M.git.add })
 
-  hl("GitSignsChangeLnInline", { fg = M.git.change, bg = M.ui.bg })
+  hl("GitSignsChangeLnInline", { fg = M.git.change })
 
-  hl("GitSignsDeleteLnInline", { fg = M.git.delete, bg = M.ui.bg })
+  hl("GitSignsDeleteLnInline", { fg = M.git.delete })
 
   -- Completion
 
-  hl("CmpItemAbbr", { fg = M.ui.fg })
+  hl("CmpItemAbbr", {})
 
   hl("CmpItemAbbrDeprecated", { fg = M.ui.non_text, strikethrough = true })
 

@@ -198,62 +198,81 @@ augroup RemoveTrailingSpaces
   autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 
+let s:palette_state = getenv('DOTFILES_PALETTE_STATE')
+if empty(s:palette_state)
+  let s:palette_state = expand('~/.local/state/dotfiles-palette')
+endif
+let s:selection_fg = '0'
+let s:selection_bg = '8'
+let s:status_fallback = []
+let s:selection_path = s:palette_state . '/selection'
+let s:palette_root = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+let s:colors_path = s:palette_root . '/palettes/color-roles.txt'
+if filereadable(s:selection_path) && filereadable(s:colors_path)
+  let s:palette = trim(get(readfile(s:selection_path, '', 1), 0, ''))
+  for s:line in readfile(s:colors_path)
+    let s:entry = split(s:line)
+    if len(s:entry) == 4 && s:entry[0] ==# s:palette
+      let [s:selection_fg, s:selection_bg] = s:entry[1:2]
+      let s:status_fallback = split(s:entry[3], ',')
+      break
+    endif
+  endfor
+endif
+
 " NOTE: Numeric colors use the terminal ANSI palette.
-highlight Normal cterm=NONE ctermfg=7 ctermbg=0
+highlight Normal cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight NonText cterm=NONE ctermfg=8 ctermbg=NONE
 highlight EndOfBuffer cterm=NONE ctermfg=8 ctermbg=NONE
 highlight SpecialKey cterm=NONE ctermfg=8 ctermbg=NONE
 highlight Whitespace cterm=NONE ctermfg=8 ctermbg=NONE
-highlight Conceal cterm=NONE ctermfg=7 ctermbg=0
-highlight Ignore cterm=NONE ctermfg=7 ctermbg=0
-highlight ToolbarButton cterm=NONE ctermfg=0 ctermbg=4
+highlight Conceal cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight Ignore cterm=NONE ctermfg=NONE ctermbg=NONE
+for s:group in ['ToolbarButton', 'Visual', 'VisualNOS', 'QuickFixLine', 'PmenuSel', 'WildMenu']
+  execute 'highlight' s:group 'cterm=nocombine' 'ctermfg=' . s:selection_fg 'ctermbg=' . s:selection_bg
+endfor
 highlight LineNr cterm=NONE ctermfg=8 ctermbg=NONE
 highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight CursorLineNr cterm=NONE ctermfg=3 ctermbg=NONE
-highlight CursorColumn cterm=NONE ctermfg=7 ctermbg=0
-highlight ColorColumn cterm=NONE ctermfg=7 ctermbg=0
-highlight SignColumn cterm=NONE ctermfg=7 ctermbg=0
-highlight VertSplit cterm=NONE ctermfg=8 ctermbg=0
-highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=0
-highlight Folded cterm=NONE ctermfg=7 ctermbg=0
-highlight Visual cterm=NONE ctermfg=0 ctermbg=4
-highlight VisualNOS cterm=NONE ctermfg=0 ctermbg=4
-highlight Search cterm=NONE ctermfg=0 ctermbg=3
-highlight CurSearch cterm=NONE ctermfg=0 ctermbg=6
-highlight IncSearch cterm=NONE ctermfg=0 ctermbg=6
+highlight CursorColumn cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight ColorColumn cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight SignColumn cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight VertSplit cterm=NONE ctermfg=8 ctermbg=NONE
+highlight FoldColumn cterm=NONE ctermfg=8 ctermbg=NONE
+highlight Folded cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight Search cterm=reverse ctermfg=NONE ctermbg=NONE
+highlight CurSearch cterm=reverse,underline ctermfg=NONE ctermbg=NONE
+highlight IncSearch cterm=reverse,underline ctermfg=NONE ctermbg=NONE
 highlight MatchParen cterm=NONE ctermfg=0 ctermbg=6
-highlight QuickFixLine cterm=NONE ctermfg=0 ctermbg=4
-highlight Pmenu cterm=NONE ctermfg=7 ctermbg=0
-highlight PmenuSel cterm=NONE ctermfg=0 ctermbg=4
-highlight PmenuSbar cterm=NONE ctermfg=0 ctermbg=0
-highlight PmenuThumb cterm=NONE ctermfg=7 ctermbg=0
-highlight WildMenu cterm=NONE ctermfg=0 ctermbg=4
-highlight StatusLine cterm=NONE ctermfg=7 ctermbg=0
-highlight StatusLineNC cterm=NONE ctermfg=8 ctermbg=0
-highlight StatusLineTerm cterm=NONE ctermfg=7 ctermbg=0
-highlight StatusLineTermNC cterm=NONE ctermfg=8 ctermbg=0
-highlight StatusModeNormal cterm=NONE ctermfg=3 ctermbg=0
-highlight StatusModeInsert cterm=NONE ctermfg=2 ctermbg=0
-highlight StatusModeVisual cterm=NONE ctermfg=5 ctermbg=0
-highlight StatusModeReplace cterm=NONE ctermfg=1 ctermbg=0
-highlight StatusModeCommand cterm=NONE ctermfg=6 ctermbg=0
-highlight StatusModeTerminal cterm=NONE ctermfg=4 ctermbg=0
-highlight StatusModeB cterm=NONE ctermfg=7 ctermbg=0
-highlight StatusModeC cterm=NONE ctermfg=7 ctermbg=0
-highlight StatusInactive cterm=NONE ctermfg=8 ctermbg=0
-highlight TabLine cterm=NONE ctermfg=8 ctermbg=0
-highlight TabLineSel cterm=NONE ctermfg=3 ctermbg=0
-highlight TabLineFill cterm=NONE ctermfg=8 ctermbg=0
+highlight Pmenu cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight PmenuSbar cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight PmenuThumb cterm=NONE ctermfg=NONE ctermbg=8
+highlight StatusLine cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineNC cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineTerm cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusLineTermNC cterm=NONE ctermfg=NONE ctermbg=NONE
+execute 'highlight StatusModeNormal cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '3') >= 0 ? 'NONE' : '3')
+execute 'highlight StatusModeInsert cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '2') >= 0 ? 'NONE' : '2')
+execute 'highlight StatusModeVisual cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '5') >= 0 ? 'NONE' : '5')
+execute 'highlight StatusModeReplace cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '1') >= 0 ? 'NONE' : '1')
+execute 'highlight StatusModeCommand cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '6') >= 0 ? 'NONE' : '6')
+execute 'highlight StatusModeTerminal cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '4') >= 0 ? 'NONE' : '4')
+highlight StatusModeB cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusModeC cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight StatusInactive cterm=NONE ctermfg=NONE ctermbg=NONE
+execute 'highlight TabLine cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '8') >= 0 ? 'NONE' : '8')
+execute 'highlight TabLineSel cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '3') >= 0 ? 'NONE' : '3')
+execute 'highlight TabLineFill cterm=NONE ctermbg=NONE ctermfg=' . (index(s:status_fallback, '8') >= 0 ? 'NONE' : '8')
 highlight Title cterm=NONE ctermfg=3 ctermbg=NONE
 highlight Directory cterm=NONE ctermfg=4 ctermbg=NONE
-highlight ErrorMsg cterm=NONE ctermfg=9 ctermbg=0
-highlight WarningMsg cterm=NONE ctermfg=11 ctermbg=0
-highlight ModeMsg cterm=NONE ctermfg=7 ctermbg=0
-highlight MoreMsg cterm=NONE ctermfg=3 ctermbg=0
-highlight Question cterm=NONE ctermfg=4 ctermbg=0
-highlight DiffAdd cterm=NONE ctermfg=2 ctermbg=0
-highlight DiffChange cterm=NONE ctermfg=3 ctermbg=0
-highlight DiffDelete cterm=NONE ctermfg=1 ctermbg=0
+highlight ErrorMsg cterm=NONE ctermfg=9 ctermbg=NONE
+highlight WarningMsg cterm=NONE ctermfg=11 ctermbg=NONE
+highlight ModeMsg cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight MoreMsg cterm=NONE ctermfg=3 ctermbg=NONE
+highlight Question cterm=NONE ctermfg=4 ctermbg=NONE
+highlight DiffAdd cterm=NONE ctermfg=2 ctermbg=NONE
+highlight DiffChange cterm=NONE ctermfg=3 ctermbg=NONE
+highlight DiffDelete cterm=NONE ctermfg=1 ctermbg=NONE
 highlight DiffText cterm=NONE ctermfg=0 ctermbg=3
 highlight SpellBad cterm=undercurl ctermfg=NONE ctermbg=NONE
 highlight SpellCap cterm=undercurl ctermfg=NONE ctermbg=NONE
@@ -266,7 +285,7 @@ highlight Character cterm=NONE ctermfg=2 ctermbg=NONE
 highlight Number cterm=NONE ctermfg=5 ctermbg=NONE
 highlight Boolean cterm=NONE ctermfg=5 ctermbg=NONE
 highlight Float cterm=NONE ctermfg=5 ctermbg=NONE
-highlight Identifier cterm=NONE ctermfg=7 ctermbg=NONE
+highlight Identifier cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight Function cterm=NONE ctermfg=3 ctermbg=NONE
 highlight Statement cterm=NONE ctermfg=1 ctermbg=NONE
 highlight Conditional cterm=NONE ctermfg=1 ctermbg=NONE
@@ -287,19 +306,15 @@ highlight Typedef cterm=NONE ctermfg=4 ctermbg=NONE
 highlight Special cterm=NONE ctermfg=3 ctermbg=NONE
 highlight SpecialChar cterm=NONE ctermfg=6 ctermbg=NONE
 highlight Tag cterm=NONE ctermfg=2 ctermbg=NONE
-highlight Delimiter cterm=NONE ctermfg=7 ctermbg=NONE
+highlight Delimiter cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight SpecialComment cterm=NONE ctermfg=8 ctermbg=NONE
-highlight Debug cterm=NONE ctermfg=7 ctermbg=NONE
+highlight Debug cterm=NONE ctermfg=NONE ctermbg=NONE
 highlight Underlined cterm=underline ctermfg=4 ctermbg=NONE
 highlight Error cterm=NONE ctermfg=9 ctermbg=NONE
 highlight Todo cterm=NONE ctermfg=11 ctermbg=NONE
 
 let s:highlight_mode = getenv('DOTFILES_HIGHLIGHT_MODE')
 if s:highlight_mode is v:null
-  let s:palette_state = getenv('DOTFILES_PALETTE_STATE')
-  if empty(s:palette_state)
-    let s:palette_state = expand('~/.local/state/dotfiles-palette')
-  endif
   let s:mode_file = s:palette_state . '/mode'
   if filereadable(s:mode_file)
     let s:highlight_mode = trim(get(readfile(s:mode_file, '', 1), 0, ''))
@@ -307,7 +322,7 @@ if s:highlight_mode is v:null
 endif
 if s:highlight_mode ==# 'min'
   for s:group in ['Constant', 'Number', 'Boolean', 'Float', 'Statement', 'Conditional', 'Repeat', 'Label', 'Operator', 'Keyword', 'Exception', 'PreProc', 'Include', 'Define', 'Macro', 'PreCondit', 'Type', 'StorageClass', 'Special', 'SpecialChar', 'Tag']
-    execute 'highlight' s:group 'ctermfg=7'
+    execute 'highlight' s:group 'ctermfg=NONE'
   endfor
   highlight Structure ctermfg=3
   highlight Typedef ctermfg=3
